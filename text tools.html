@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Analysis Tools | Toolvala</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8f9fa;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        /* Tools Grid */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        /* Tool Card */
+        .tool-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border: 1px solid #e9ecef;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(58, 134, 255, 0.15);
+            border-color: #3a86ff;
+        }
+        
+        .tool-card-header {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+        
+        .tool-icon {
+            width: 50px;
+            height: 50px;
+            background: #3a86ff;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+            color: white;
+        }
+        
+        .tool-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            line-height: 1.4;
+            color: #1d3557;
+        }
+        
+        .tool-card-body {
+            padding: 20px;
+            flex-grow: 1;
+        }
+        
+        .tool-description {
+            color: #6c757d;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .tool-features {
+            list-style: none;
+            margin-top: 15px;
+        }
+        
+        .tool-features li {
+            padding: 5px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+        
+        .tool-features li i {
+            color: #06d6a0;
+            font-size: 0.8rem;
+        }
+        
+        .tool-card-footer {
+            padding: 15px 20px;
+            background: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .tool-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .tool-tag {
+            background: #e9ecef;
+            color: #6c757d;
+            padding: 4px 10px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .tool-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .tool-btn {
+            padding: 8px 16px;
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .tool-btn:hover {
+            background: #3a86ff;
+            color: white;
+            border-color: #3a86ff;
+        }
+        
+        .tool-btn.primary {
+            background: #3a86ff;
+            color: white;
+            border-color: #3a86ff;
+        }
+        
+        .tool-btn.primary:hover {
+            background: #1d3557;
+        }
+        
+        /* Simple Footer with Email */
+        .email-footer {
+            text-align: center;
+            padding: 25px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-top: 20px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .email-footer p {
+            color: #6c757d;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+        
+        .email-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #3a86ff;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+        
+        .email-link:hover {
+            background: #1d3557;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(58, 134, 255, 0.3);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .tools-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 20px;
+            }
+            
+            .tool-card-footer {
+                flex-direction: column;
+                gap: 15px;
+                align-items: stretch;
+            }
+            
+            .tool-actions {
+                justify-content: center;
+            }
+            
+            .tool-tags {
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            body {
+                padding: 15px;
+            }
+            
+            .tool-card-header {
+                padding: 15px;
+            }
+            
+            .tool-card-body {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Tools Grid -->
+        <div class="tools-grid">
+            <!-- Tool 1: Word Counter -->
+            <div class="tool-card">
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-font"></i>
+                    </div>
+                    <div>
+                        <h3 class="tool-title">Word Counter</h3>
+                    </div>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Count total words, unique words, and average word length in any text. Perfect for writers, students, and content creators.</p>
+                    <ul class="tool-features">
+                        <li><i class="fas fa-check"></i> Total word count</li>
+                        <li><i class="fas fa-check"></i> Unique word count</li>
+                        <li><i class="fas fa-check"></i> Average word length</li>
+                    </ul>
+                </div>
+                <div class="tool-card-footer">
+                    <div class="tool-tags">
+                        <span class="tool-tag">Writing</span>
+                        <span class="tool-tag">Analysis</span>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="tool-btn primary"><i class="fas fa-play"></i> Use</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tool 2: Character Counter -->
+            <div class="tool-card">
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-text-width"></i>
+                    </div>
+                    <div>
+                        <h3 class="tool-title">Character Counter</h3>
+                    </div>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Count characters with and without spaces. Track character limits for social media, forms, and documents.</p>
+                    <ul class="tool-features">
+                        <li><i class="fas fa-check"></i> Characters with spaces</li>
+                        <li><i class="fas fa-check"></i> Characters without spaces</li>
+                        <li><i class="fas fa-check"></i> Social media limits</li>
+                    </ul>
+                </div>
+                <div class="tool-card-footer">
+                    <div class="tool-tags">
+                        <span class="tool-tag">Social Media</span>
+                        <span class="tool-tag">SEO</span>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="tool-btn primary"><i class="fas fa-play"></i> Use</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tool 3: Sentence Counter -->
+            <div class="tool-card">
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-paragraph"></i>
+                    </div>
+                    <div>
+                        <h3 class="tool-title">Sentence Counter</h3>
+                    </div>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Count sentences and analyze sentence structure. Calculate average sentence length for better readability.</p>
+                    <ul class="tool-features">
+                        <li><i class="fas fa-check"></i> Total sentences</li>
+                        <li><i class="fas fa-check"></i> Average sentence length</li>
+                        <li><i class="fas fa-check"></i> Sentence complexity</li>
+                    </ul>
+                </div>
+                <div class="tool-card-footer">
+                    <div class="tool-tags">
+                        <span class="tool-tag">Writing</span>
+                        <span class="tool-tag">Readability</span>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="tool-btn primary"><i class="fas fa-play"></i> Use</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tool 4: Paragraph Length Calculator -->
+            <div class="tool-card">
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-align-left"></i>
+                    </div>
+                    <div>
+                        <h3 class="tool-title">Paragraph Length Calculator</h3>
+                    </div>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Analyze paragraph structure. Calculate average paragraphs, sentences per paragraph, and optimal length.</p>
+                    <ul class="tool-features">
+                        <li><i class="fas fa-check"></i> Paragraph count</li>
+                        <li><i class="fas fa-check"></i> Average paragraph length</li>
+                        <li><i class="fas fa-check"></i> Sentences per paragraph</li>
+                    </ul>
+                </div>
+                <div class="tool-card-footer">
+                    <div class="tool-tags">
+                        <span class="tool-tag">Structure</span>
+                        <span class="tool-tag">Analysis</span>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="tool-btn primary"><i class="fas fa-play"></i> Use</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tool 5: Reading Time Calculator -->
+            <div class="tool-card">
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-book-reader"></i>
+                    </div>
+                    <div>
+                        <h3 class="tool-title">Reading Time Calculator</h3>
+                    </div>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Calculate estimated reading time for any text. Adjust for different reading speeds (slow, average, fast).</p>
+                    <ul class="tool-features">
+                        <li><i class="fas fa-check"></i> Estimated reading time</li>
+                        <li><i class="fas fa-check"></i> Adjustable reading speed</li>
+                        <li><i class="fas fa-check"></i> Multiple time formats</li>
+                    </ul>
+                </div>
+                <div class="tool-card-footer">
+                    <div class="tool-tags">
+                        <span class="tool-tag">Blogging</span>
+                        <span class="tool-tag">Content</span>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="tool-btn primary"><i class="fas fa-play"></i> Use</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tool 6: Speaking Time Calculator -->
+            <div class="tool-card">
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-microphone-alt"></i>
+                    </div>
+                    <div>
+                        <h3 class="tool-title">Speaking Time Calculator</h3>
+                    </div>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Calculate estimated speaking time for speeches, presentations, and scripts. Adjust for speaking pace.</p>
+                    <ul class="tool-features">
+                        <li><i class="fas fa-check"></i> Speech timing</li>
+                        <li><i class="fas fa-check"></i> Adjustable pace</li>
+                        <li><i class="fas fa-check"></i> Pause calculation</li>
+                    </ul>
+                </div>
+                <div class="tool-card-footer">
+                    <div class="tool-tags">
+                        <span class="tool-tag">Speech</span>
+                        <span class="tool-tag">Presentation</span>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="tool-btn primary"><i class="fas fa-play"></i> Use</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tool 7: Ideal Title Length Calculator -->
+            <div class="tool-card">
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-heading"></i>
+                    </div>
+                    <div>
+                        <h3 class="tool-title">Ideal Title Length Calculator</h3>
+                    </div>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Check if your title length is optimal for SEO and readability. Get recommendations for different platforms.</p>
+                    <ul class="tool-features">
+                        <li><i class="fas fa-check"></i> SEO recommendations</li>
+                        <li><i class="fas fa-check"></i> Platform-specific limits</li>
+                        <li><i class="fas fa-check"></i> Character count tracking</li>
+                    </ul>
+                </div>
+                <div class="tool-card-footer">
+                    <div class="tool-tags">
+                        <span class="tool-tag">SEO</span>
+                        <span class="tool-tag">Titles</span>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="tool-btn primary"><i class="fas fa-play"></i> Use</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tool 8: Title Case Calculator -->
+            <div class="tool-card">
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-text-height"></i>
+                    </div>
+                    <div>
+                        <h3 class="tool-title">Title Case Calculator</h3>
+                    </div>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Convert text to proper title case according to different style guides (APA, MLA, Chicago, AP).</p>
+                    <ul class="tool-features">
+                        <li><i class="fas fa-check"></i> Multiple style guides</li>
+                        <li><i class="fas fa-check"></i> Custom word exceptions</li>
+                        <li><i class="fas fa-check"></i> Instant conversion</li>
+                    </ul>
+                </div>
+                <div class="tool-card-footer">
+                    <div class="tool-tags">
+                        <span class="tool-tag">Formatting</span>
+                        <span class="tool-tag">Style</span>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="tool-btn primary"><i class="fas fa-play"></i> Use</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tool 9: Keyword Density Calculator -->
+            <div class="tool-card">
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div>
+                        <h3 class="tool-title">Keyword Density Calculator</h3>
+                    </div>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Calculate keyword density and frequency. Analyze optimal keyword usage for SEO content.</p>
+                    <ul class="tool-features">
+                        <li><i class="fas fa-check"></i> Keyword frequency</li>
+                        <li><i class="fas fa-check"></i> Density percentage</li>
+                        <li><i class="fas fa-check"></i> SEO recommendations</li>
+                    </ul>
+                </div>
+                <div class="tool-card-footer">
+                    <div class="tool-tags">
+                        <span class="tool-tag">SEO</span>
+                        <span class="tool-tag">Keywords</span>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="tool-btn primary"><i class="fas fa-play"></i> Use</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tool 10: Keyword Frequency Calculator -->
+            <div class="tool-card">
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <div>
+                        <h3 class="tool-title">Keyword Frequency Calculator</h3>
+                    </div>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Analyze keyword frequency and distribution. Find most used words and phrases in your text.</p>
+                    <ul class="tool-features">
+                        <li><i class="fas fa-check"></i> Word frequency list</li>
+                        <li><i class="fas fa-check"></i> Phrase analysis</li>
+                        <li><i class="fas fa-check"></i> Visual distribution</li>
+                    </ul>
+                </div>
+                <div class="tool-card-footer">
+                    <div class="tool-tags">
+                        <span class="tool-tag">Analysis</span>
+                        <span class="tool-tag">Content</span>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="tool-btn primary"><i class="fas fa-play"></i> Use</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tool 11: Vowel–Consonant Counter -->
+            <div class="tool-card">
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-language"></i>
+                    </div>
+                    <div>
+                        <h3 class="tool-title">Vowel–Consonant Counter</h3>
+                    </div>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Count vowels and consonants in text. Analyze vowel-consonant ratio for linguistic analysis.</p>
+                    <ul class="tool-features">
+                        <li><i class="fas fa-check"></i> Vowel count</li>
+                        <li><i class="fas fa-check"></i> Consonant count</li>
+                        <li><i class="fas fa-check"></i> Ratio calculation</li>
+                    </ul>
+                </div>
+                <div class="tool-card-footer">
+                    <div class="tool-tags">
+                        <span class="tool-tag">Linguistics</span>
+                        <span class="tool-tag">Analysis</span>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="tool-btn primary"><i class="fas fa-play"></i> Use</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tool 12: Duplicate Words Remover -->
+            <div class="tool-card">
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-backspace"></i>
+                    </div>
+                    <div>
+                        <h3 class="tool-title">Duplicate Words Remover</h3>
+                    </div>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Remove duplicate words and phrases from text. Clean up repetitive content for better readability.</p>
+                    <ul class="tool-features">
+                        <li><i class="fas fa-check"></i> Remove duplicates</li>
+                        <li><i class="fas fa-check"></i> Case-sensitive option</li>
+                        <li><i class="fas fa-check"></i> Preserve formatting</li>
+                    </ul>
+                </div>
+                <div class="tool-card-footer">
+                    <div class="tool-tags">
+                        <span class="tool-tag">Editing</span>
+                        <span class="tool-tag">Cleanup</span>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="tool-btn primary"><i class="fas fa-play"></i> Use</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tool 13: Emoji Remover -->
+            <div class="tool-card">
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-smile"></i>
+                    </div>
+                    <div>
+                        <h3 class="tool-title">Emoji Remover</h3>
+                    </div>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Remove all emojis from text. Clean up social media text, comments, or any emoji-filled content.</p>
+                    <ul class="tool-features">
+                        <li><i class="fas fa-check"></i> Remove all emojis</li>
+                        <li><i class="fas fa-check"></i> Preserve text formatting</li>
+                        <li><i class="fas fa-check"></i> Batch processing</li>
+                    </ul>
+                </div>
+                <div class="tool-card-footer">
+                    <div class="tool-tags">
+                        <span class="tool-tag">Cleanup</span>
+                        <span class="tool-tag">Social Media</span>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="tool-btn primary"><i class="fas fa-play"></i> Use</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tool 14: Extra Spaces Remover -->
+            <div class="tool-card">
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-compress-alt"></i>
+                    </div>
+                    <div>
+                        <h3 class="tool-title">Extra Spaces Remover</h3>
+                    </div>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Remove extra spaces, tabs, and line breaks. Clean up messy text formatting with one click.</p>
+                    <ul class="tool-features">
+                        <li><i class="fas fa-check"></i> Remove multiple spaces</li>
+                        <li><i class="fas fa-check"></i> Clean tabs and line breaks</li>
+                        <li><i class="fas fa-check"></i> Trim text edges</li>
+                    </ul>
+                </div>
+                <div class="tool-card-footer">
+                    <div class="tool-tags">
+                        <span class="tool-tag">Formatting</span>
+                        <span class="tool-tag">Cleanup</span>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="tool-btn primary"><i class="fas fa-play"></i> Use</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tool 15: Text Complexity Calculator -->
+            <div class="tool-card">
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div>
+                        <h3 class="tool-title">Text Complexity Calculator</h3>
+                    </div>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Analyze text complexity using readability scores (Flesch-Kincaid, Gunning Fog, SMOG).</p>
+                    <ul class="tool-features">
+                        <li><i class="fas fa-check"></i> Multiple readability scores</li>
+                        <li><i class="fas fa-check"></i> Grade level estimation</li>
+                        <li><i class="fas fa-check"></i> Complexity analysis</li>
+                    </ul>
+                </div>
+                <div class="tool-card-footer">
+                    <div class="tool-tags">
+                        <span class="tool-tag">Readability</span>
+                        <span class="tool-tag">Analysis</span>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="tool-btn primary"><i class="fas fa-play"></i> Use</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tool 16: SEO Score Calculator (simple) -->
+            <div class="tool-card">
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div>
+                        <h3 class="tool-title">SEO Score Calculator</h3>
+                    </div>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Calculate basic SEO score based on keyword usage, headings, meta elements, and content structure.</p>
+                    <ul class="tool-features">
+                        <li><i class="fas fa-check"></i> Basic SEO analysis</li>
+                        <li><i class="fas fa-check"></i> Keyword optimization</li>
+                        <li><i class="fas fa-check"></i> Improvement suggestions</li>
+                    </ul>
+                </div>
+                <div class="tool-card-footer">
+                    <div class="tool-tags">
+                        <span class="tool-tag">SEO</span>
+                        <span class="tool-tag">Optimization</span>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="tool-btn primary"><i class="fas fa-play"></i> Use</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tool 17: Writing Quality Score Calculator -->
+            <div class="tool-card">
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-edit"></i>
+                    </div>
+                    <div>
+                        <h3 class="tool-title">Writing Quality Score</h3>
+                    </div>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Evaluate writing quality based on vocabulary, sentence structure, readability, and grammar indicators.</p>
+                    <ul class="tool-features">
+                        <li><i class="fas fa-check"></i> Vocabulary analysis</li>
+                        <li><i class="fas fa-check"></i> Sentence structure</li>
+                        <li><i class="fas fa-check"></i> Quality score (1-10)</li>
+                    </ul>
+                </div>
+                <div class="tool-card-footer">
+                    <div class="tool-tags">
+                        <span class="tool-tag">Quality</span>
+                        <span class="tool-tag">Writing</span>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="tool-btn primary"><i class="fas fa-play"></i> Use</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tool 18: Heading vs Paragraph Ratio Calculator -->
+            <div class="tool-card">
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <div>
+                        <h3 class="tool-title">Heading vs Paragraph Ratio</h3>
+                    </div>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Calculate optimal heading to paragraph ratio for better content structure and SEO performance.</p>
+                    <ul class="tool-features">
+                        <li><i class="fas fa-check"></i> Heading count</li>
+                        <li><i class="fas fa-check"></i> Paragraph count</li>
+                        <li><i class="fas fa-check"></i> Optimal ratio analysis</li>
+                    </ul>
+                </div>
+                <div class="tool-card-footer">
+                    <div class="tool-tags">
+                        <span class="tool-tag">Structure</span>
+                        <span class="tool-tag">SEO</span>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="tool-btn primary"><i class="fas fa-play"></i> Use</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tool 19: Text to Number Counter -->
+            <div class="tool-card">
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-sort-numeric-up"></i>
+                    </div>
+                    <div>
+                        <h3 class="tool-title">Text to Number Counter</h3>
+                    </div>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Convert written numbers in text to actual numbers. Count numerical values mentioned in text content.</p>
+                    <ul class="tool-features">
+                        <li><i class="fas fa-check"></i> Convert text to numbers</li>
+                        <li><i class="fas fa-check"></i> Sum of all numbers</li>
+                        <li><i class="fas fa-check"></i> Number frequency</li>
+                    </ul>
+                </div>
+                <div class="tool-card-footer">
+                    <div class="tool-tags">
+                        <span class="tool-tag">Numbers</span>
+                        <span class="tool-tag">Conversion</span>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="tool-btn primary"><i class="fas fa-play"></i> Use</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tool 20: Line Counter -->
+            <div class="tool-card">
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div>
+                        <h3 class="tool-title">Line Counter</h3>
+                    </div>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Count lines in text, code, or documents. Useful for writers, programmers, and document analysis.</p>
+                    <ul class="tool-features">
+                        <li><i class="fas fa-check"></i> Total lines</li>
+                        <li><i class="fas fa-check"></i> Non-empty lines</li>
+                        <li><i class="fas fa-check"></i> Average line length</li>
+                    </ul>
+                </div>
+                <div class="tool-card-footer">
+                    <div class="tool-tags">
+                        <span class="tool-tag">Programming</span>
+                        <span class="tool-tag">Document</span>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="tool-btn primary"><i class="fas fa-play"></i> Use</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Simple Email Footer -->
+        <div class="email-footer">
+            <p>Need help or want to suggest a new tool? Contact us:</p>
+            <a href="mailto:toolvala@gmail.com" class="email-link">
+                <i class="fas fa-envelope"></i> toolvala@gmail.com
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Simple button functionality
+        document.querySelectorAll('.tool-btn.primary').forEach(button => {
+            button.addEventListener('click', function() {
+                const toolCard = this.closest('.tool-card');
+                const toolName = toolCard.querySelector('.tool-title').textContent;
+                
+                // Show loading state
+                const originalText = this.innerHTML;
+                this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Opening...';
+                this.disabled = true;
+                
+                // Simulate tool opening
+                setTimeout(() => {
+                    alert(`Opening: ${toolName}\n\nFor Toolvala, this would open the actual tool interface.`);
+                    this.innerHTML = originalText;
+                    this.disabled = false;
+                }, 800);
+            });
+        });
+    </script>
+</body>
+</html>
