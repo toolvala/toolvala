@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time & Productivity Tools | Toolvala</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8f9fa;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        /* Tools Grid */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        /* Tool Card */
+        .tool-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border: 1px solid #e9ecef;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(58, 134, 255, 0.15);
+            border-color: #3a86ff;
+        }
+        
+        .tool-card-header {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+        
+        .tool-icon {
+            width: 50px;
+            height: 50px;
+            background: #3a86ff;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+            color: white;
+        }
+        
+        .tool-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            line-height: 1.4;
+            color: #1d3557;
+        }
+        
+        .tool-card-body {
+            padding: 20px;
+            flex-grow: 1;
+        }
+        
+        .tool-description {
+            color: #6c757d;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .tool-features {
+            list-style: none;
+            margin-top: 15px;
+        }
+        
+        .tool-features li {
+            padding: 5px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+        
+        .tool-features li i {
+            color: #06d6a0;
+            font-size: 0.8rem;
+        }
+        
+        .tool-card-footer {
+            padding: 15px 20px;
+            background: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .tool-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .tool-tag {
+            background: #e9ecef;
+            color: #6c757d;
+            padding: 4px 10px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .tool-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .tool-btn {
+            padding: 8px 16px;
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .tool-btn:hover {
+            background: #3a86ff;
+            color: white;
+            border-color: #3a86ff;
+        }
+        
+        .tool-btn.primary {
+            background: #3a86ff;
+            color: white;
+            border-color: #3a86ff;
+        }
+        
+        .tool-btn.primary:hover {
+            background: #1d3557;
+        }
+        
+        /* Simple Footer with Email */
+        .email-footer {
+            text-align: center;
+            padding: 25px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-top: 20px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .email-footer p {
+            color: #6c757d;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+        
+        .email-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #3a86ff;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+        
+        .email-link:hover {
+            background: #1d3557;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(58, 134, 255, 0.3);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .tools-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 20px;
+            }
+            
+            .tool-card-footer {
+                flex-direction: column;
+                gap: 15px;
+                align-items: stretch;
+            }
+            
+            .tool-actions {
+                justify-content: center;
+            }
+            
+            .tool-tags {
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            body {
+                padding: 15px;
+            }
+            
+            .tool-card-header {
+                padding: 15px;
+            }
+            
+            .tool-card-body {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Tools Grid -->
+        <div class="tools-grid">
+            <!-- Tool 1: Hours to Minutes Calculator -->
+            <div class="tool-card">
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div>
+                        <h3 class="tool-title">Hours to Minutes Calculator</h3>
+                    </div>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Convert hours to minutes instantly. Perfect for time tracking, scheduling, and project planning.</p>
+                    <ul class="tool-features">
+                        <li><i class="fas fa-check"></i> Decimal hours to minutes</li>
+                        <li><i class="fas fa-check"></i> Multiple hours conversion</li>
+                        <li><i class="fas fa-check"></i> Real-time calculation</li>
+                    </ul>
+                </div>
+                <div class="tool-card-footer">
+                    <div class="tool-tags">
+                        <span class="tool-tag">Time</span>
+                        <span class="tool-tag">Conversion</span>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="tool-btn primary"><i class="fas fa-play"></i> Use</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tool 2: Minutes to Hours Calculator -->
+            <div class="tool-card">
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-hourglass-half"></i>
+                    </div>
+                    <div>
+                        <h3 class="tool-title">Minutes to Hours Calculator</h3>
+                    </div>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Convert minutes to hours and decimal hours. Useful for timesheets, billing, and time management.</p>
+                    <ul class="tool-features">
+                        <li><i class="fas fa-check"></i> Minutes to decimal hours</li>
+                        <li><i class="fas fa-check"></i> Batch conversion</li>
+                        <li><i class="fas fa-check"></i> HH:MM format output</li>
+                    </ul>
+                </div>
+                <div class="tool-card-footer">
+                    <div class="tool-tags">
+                        <span class="tool-tag">Time</span>
+                        <span class="tool-tag">Billing</span>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="tool-btn primary"><i class="fas fa-play"></i> Use</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tool 3: Seconds to Hours/Minutes Calculator -->
+            <div class="tool-card">
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-stopwatch"></i>
+                    </div>
+                    <div>
+                        <h3 class="tool-title">Seconds to Hours/Minutes</h3>
+                    </div>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Convert seconds to hours, minutes, and seconds. Great for video editing, sports timing, and calculations.</p>
+                    <ul class="tool-features">
+                        <li><i class="fas fa-check"></i> Seconds to HH:MM:SS</li>
+                        <li><i class="fas fa-check"></i> Multiple unit output</li>
+                        <li><i class="fas fa-check"></i> Large number support</li>
+                    </ul>
+                </div>
+                <div class="tool-card-footer">
+                    <div class="tool-tags">
+                        <span class="tool-tag">Time</span>
+                        <span class="tool-tag">Video</span>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="tool-btn primary"><i class="fas fa-play"></i> Use</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tool 4: Time Difference Calculator -->
+            <div class="tool-card">
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div>
+                        <h3 class="tool-title">Time Difference Calculator</h3>
+                    </div>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Calculate the difference between two times or dates. Perfect for scheduling, meetings, and travel planning.</p>
+                    <ul class="tool-features">
+                        <li><i class="fas fa-check"></i> Time span calculation</li>
+                        <li><i class="fas fa-check"></i> Multiple time formats</li>
+                        <li><i class="fas fa-check"></i> Working hours option</li>
+                    </ul>
+                </div>
+                <div class="tool-card-footer">
+                    <div class="tool-tags">
+                        <span class="tool-tag">Planning</span>
+                        <span class="tool-tag">Scheduling</span>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="tool-btn primary"><i class="fas fa-play"></i> Use</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tool 5: Age Calculator -->
+            <div class="tool-card">
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-birthday-cake"></i>
+                    </div>
+                    <div>
+                        <h3 class="tool-title">Age Calculator</h3>
+                    </div>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Calculate exact age in years, months, days, and even weeks. Find upcoming birthdays and milestones.</p>
+                    <ul class="tool-features">
+                        <li><i class="fas fa-check"></i> Exact age calculation</li>
+                        <li><i class="fas fa-check"></i> Next birthday countdown</li>
+                        <li><i class="fas fa-check"></i> Milestone tracking</li>
+                    </ul>
+                </div>
+                <div class="tool-card-footer">
+                    <div class="tool-tags">
+                        <span class="tool-tag">Birthday</span>
+                        <span class="tool-tag">Personal</span>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="tool-btn primary"><i class="fas fa-play"></i> Use</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tool 6: Birthday Countdown Calculator -->
+            <div class="tool-card">
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div>
+                        <h3 class="tool-title">Birthday Countdown</h3>
+                    </div>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Countdown to birthdays, anniversaries, or special events. See days, hours, and minutes remaining.</p>
+                    <ul class="tool-features">
+                        <li><i class="fas fa-check"></i> Days until event</li>
+                        <li><i class="fas fa-check"></i> Hour/minute countdown</li>
+                        <li><i class="fas fa-check"></i> Multiple events tracking</li>
+                    </ul>
+                </div>
+                <div class="tool-card-footer">
+                    <div class="tool-tags">
+                        <span class="tool-tag">Events</span>
+                        <span class="tool-tag">Countdown</span>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="tool-btn primary"><i class="fas fa-play"></i> Use</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tool 7: Sleep Cycle Calculator -->
+            <div class="tool-card">
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-bed"></i>
+                    </div>
+                    <div>
+                        <h3 class="tool-title">Sleep Cycle Calculator</h3>
+                    </div>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Calculate optimal sleep times based on sleep cycles. Wake up refreshed by timing your sleep right.</p>
+                    <ul class="tool-features">
+                        <li><i class="fas fa-check"></i> 90-minute sleep cycles</li>
+                        <li><i class="fas fa-check"></i> Wake-up time suggestions</li>
+                        <li><i class="fas fa-check"></i> Bedtime calculator</li>
+                    </ul>
+                </div>
+                <div class="tool-card-footer">
+                    <div class="tool-tags">
+                        <span class="tool-tag">Health</span>
+                        <span class="tool-tag">Sleep</span>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="tool-btn primary"><i class="fas fa-play"></i> Use</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tool 8: Work Hours Calculator -->
+            <div class="tool-card">
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <div>
+                        <h3 class="tool-title">Work Hours Calculator</h3>
+                    </div>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Calculate total work hours, overtime, and weekly totals. Perfect for freelancers and employees.</p>
+                    <ul class="tool-features">
+                        <li><i class="fas fa-check"></i> Weekly hour tracking</li>
+                        <li><i class="fas fa-check"></i> Overtime calculation</li>
+                        <li><i class="fas fa-check"></i> Break time deduction</li>
+                    </ul>
+                </div>
+                <div class="tool-card-footer">
+                    <div class="tool-tags">
+                        <span class="tool-tag">Work</span>
+                        <span class="tool-tag">Freelance</span>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="tool-btn primary"><i class="fas fa-play"></i> Use</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tool 9: Break Time Calculator -->
+            <div class="tool-card">
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-coffee"></i>
+                    </div>
+                    <div>
+                        <h3 class="tool-title">Break Time Calculator</h3>
+                    </div>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Calculate optimal break schedules for productivity. Follow Pomodoro or custom break patterns.</p>
+                    <ul class="tool-features">
+                        <li><i class="fas fa-check"></i> Pomodoro timing</li>
+                        <li><i class="fas fa-check"></i> Custom break intervals</li>
+                        <li><i class="fas fa-check"></i> Total break time</li>
+                    </ul>
+                </div>
+                <div class="tool-card-footer">
+                    <div class="tool-tags">
+                        <span class="tool-tag">Productivity</span>
+                        <span class="tool-tag">Focus</span>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="tool-btn primary"><i class="fas fa-play"></i> Use</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tool 10: Decimal to Time Calculator -->
+            <div class="tool-card">
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <div>
+                        <h3 class="tool-title">Decimal to Time Calculator</h3>
+                    </div>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Convert decimal hours (1.5) to time format (1:30). Essential for timesheets and billing calculations.</p>
+                    <ul class="tool-features">
+                        <li><i class="fas fa-check"></i> Decimal to HH:MM</li>
+                        <li><i class="fas fa-check"></i> Batch conversion</li>
+                        <li><i class="fas fa-check"></i> Timesheet friendly</li>
+                    </ul>
+                </div>
+                <div class="tool-card-footer">
+                    <div class="tool-tags">
+                        <span class="tool-tag">Conversion</span>
+                        <span class="tool-tag">Business</span>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="tool-btn primary"><i class="fas fa-play"></i> Use</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tool 11: Time in Hours Only Calculator -->
+            <div class="tool-card">
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div>
+                        <h3 class="tool-title">Time in Hours Only</h3>
+                    </div>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Convert time duration to hours only (decimal format). Useful for payroll, billing, and time tracking.</p>
+                    <ul class="tool-features">
+                        <li><i class="fas fa-check"></i> HH:MM to decimal hours</li>
+                        <li><i class="fas fa-check"></i> Multiple time entries</li>
+                        <li><i class="fas fa-check"></i> Payroll calculation</li>
+                    </ul>
+                </div>
+                <div class="tool-card-footer">
+                    <div class="tool-tags">
+                        <span class="tool-tag">Payroll</span>
+                        <span class="tool-tag">Business</span>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="tool-btn primary"><i class="fas fa-play"></i> Use</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tool 12: Date Difference in Weeks Calculator -->
+            <div class="tool-card">
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-calendar-week"></i>
+                    </div>
+                    <div>
+                        <h3 class="tool-title">Date Difference in Weeks</h3>
+                    </div>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Calculate the number of weeks between two dates. Perfect for project planning and pregnancy tracking.</p>
+                    <ul class="tool-features">
+                        <li><i class="fas fa-check"></i> Exact week calculation</li>
+                        <li><i class="fas fa-check"></i> Partial weeks included</li>
+                        <li><i class="fas fa-check"></i> Project timeline</li>
+                    </ul>
+                </div>
+                <div class="tool-card-footer">
+                    <div class="tool-tags">
+                        <span class="tool-tag">Planning</span>
+                        <span class="tool-tag">Projects</span>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="tool-btn primary"><i class="fas fa-play"></i> Use</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tool 13: Date Difference in Months Calculator -->
+            <div class="tool-card">
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-calendar"></i>
+                    </div>
+                    <div>
+                        <h3 class="tool-title">Date Difference in Months</h3>
+                    </div>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Calculate months between dates with precision. Great for contracts, subscriptions, and financial planning.</p>
+                    <ul class="tool-features">
+                        <li><i class="fas fa-check"></i> Exact month calculation</li>
+                        <li><i class="fas fa-check"></i> Partial months</li>
+                        <li><i class="fas fa-check"></i> Leap year adjustment</li>
+                    </ul>
+                </div>
+                <div class="tool-card-footer">
+                    <div class="tool-tags">
+                        <span class="tool-tag">Finance</span>
+                        <span class="tool-tag">Contracts</span>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="tool-btn primary"><i class="fas fa-play"></i> Use</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tool 14: Meeting Duration Calculator -->
+            <div class="tool-card">
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div>
+                        <h3 class="tool-title">Meeting Duration Calculator</h3>
+                    </div>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Calculate total meeting time with multiple participants. Plan efficient meetings and track time spent.</p>
+                    <ul class="tool-features">
+                        <li><i class="fas fa-check"></i> Multiple meeting slots</li>
+                        <li><i class="fas fa-check"></i> Participant time tracking</li>
+                        <li><i class="fas fa-check"></i> Efficiency analysis</li>
+                    </ul>
+                </div>
+                <div class="tool-card-footer">
+                    <div class="tool-tags">
+                        <span class="tool-tag">Business</span>
+                        <span class="tool-tag">Meetings</span>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="tool-btn primary"><i class="fas fa-play"></i> Use</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tool 15: Overtime Calculator -->
+            <div class="tool-card">
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <div>
+                        <h3 class="tool-title">Overtime Calculator</h3>
+                    </div>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Calculate overtime pay with different rates (1.5x, 2x). Perfect for payroll and salary calculations.</p>
+                    <ul class="tool-features">
+                        <li><i class="fas fa-check"></i> Multiple overtime rates</li>
+                        <li><i class="fas fa-check"></i> Weekly/monthly totals</li>
+                        <li><i class="fas fa-check"></i> Tax calculations</li>
+                    </ul>
+                </div>
+                <div class="tool-card-footer">
+                    <div class="tool-tags">
+                        <span class="tool-tag">Payroll</span>
+                        <span class="tool-tag">Salary</span>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="tool-btn primary"><i class="fas fa-play"></i> Use</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tool 16: Task Time Split Calculator -->
+            <div class="tool-card">
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <div>
+                        <h3 class="tool-title">Task Time Split Calculator</h3>
+                    </div>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Split total time among multiple tasks proportionally. Perfect for project management and time allocation.</p>
+                    <ul class="tool-features">
+                        <li><i class="fas fa-check"></i> Proportional splitting</li>
+                        <li><i class="fas fa-check"></i> Multiple tasks</li>
+                        <li><i class="fas fa-check"></i> Priority weighting</li>
+                    </ul>
+                </div>
+                <div class="tool-card-footer">
+                    <div class="tool-tags">
+                        <span class="tool-tag">Project</span>
+                        <span class="tool-tag">Management</span>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="tool-btn primary"><i class="fas fa-play"></i> Use</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tool 17: Year/Month/Day Counter -->
+            <div class="tool-card">
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-calendar-day"></i>
+                    </div>
+                    <div>
+                        <h3 class="tool-title">Year/Month/Day Counter</h3>
+                    </div>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Count years, months, and days between dates. Great for age calculation, project duration, and milestones.</p>
+                    <ul class="tool-features">
+                        <li><i class="fas fa-check"></i> Precise Y/M/D calculation</li>
+                        <li><i class="fas fa-check"></i> Leap year adjustment</li>
+                        <li><i class="fas fa-check"></i> Multiple date ranges</li>
+                    </ul>
+                </div>
+                <div class="tool-card-footer">
+                    <div class="tool-tags">
+                        <span class="tool-tag">Duration</span>
+                        <span class="tool-tag">Tracking</span>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="tool-btn primary"><i class="fas fa-play"></i> Use</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tool 18: Daily Routine Split Calculator -->
+            <div class="tool-card">
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div>
+                        <h3 class="tool-title">Daily Routine Split</h3>
+                    </div>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Plan your daily routine by splitting 24 hours among different activities. Optimize your daily schedule.</p>
+                    <ul class="tool-features">
+                        <li><i class="fas fa-check"></i> 24-hour split</li>
+                        <li><i class="fas fa-check"></i> Activity time allocation</li>
+                        <li><i class="fas fa-check"></i> Visual schedule</li>
+                    </ul>
+                </div>
+                <div class="tool-card-footer">
+                    <div class="tool-tags">
+                        <span class="tool-tag">Routine</span>
+                        <span class="tool-tag">Schedule</span>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="tool-btn primary"><i class="fas fa-play"></i> Use</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tool 19: Pomodoro Timer Calculator -->
+            <div class="tool-card">
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-hourglass-start"></i>
+                    </div>
+                    <div>
+                        <h3 class="tool-title">Pomodoro Timer Calculator</h3>
+                    </div>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Calculate optimal Pomodoro sessions for your workday. 25-minute focus sessions with 5-minute breaks.</p>
+                    <ul class="tool-features">
+                        <li><i class="fas fa-check"></i> Standard Pomodoro timing</li>
+                        <li><i class="fas fa-check"></i> Custom session lengths</li>
+                        <li><i class="fas fa-check"></i> Long break scheduling</li>
+                    </ul>
+                </div>
+                <div class="tool-card-footer">
+                    <div class="tool-tags">
+                        <span class="tool-tag">Productivity</span>
+                        <span class="tool-tag">Focus</span>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="tool-btn primary"><i class="fas fa-play"></i> Use</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tool 20: Focus Time Calculator -->
+            <div class="tool-card">
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div>
+                        <h3 class="tool-title">Focus Time Calculator</h3>
+                    </div>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Calculate optimal focus periods based on your productivity patterns. Maximize deep work sessions.</p>
+                    <ul class="tool-features">
+                        <li><i class="fas fa-check"></i> Personalized focus periods</li>
+                        <li><i class="fas fa-check"></i> Energy level tracking</li>
+                        <li><i class="fas fa-check"></i> Break optimization</li>
+                    </ul>
+                </div>
+                <div class="tool-card-footer">
+                    <div class="tool-tags">
+                        <span class="tool-tag">Focus</span>
+                        <span class="tool-tag">Productivity</span>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="tool-btn primary"><i class="fas fa-play"></i> Use</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tool 21: Weekly Study Time Calculator -->
+            <div class="tool-card">
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div>
+                        <h3 class="tool-title">Weekly Study Time</h3>
+                    </div>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Calculate and plan weekly study time. Distribute study hours across subjects and days effectively.</p>
+                    <ul class="tool-features">
+                        <li><i class="fas fa-check"></i> Subject time allocation</li>
+                        <li><i class="fas fa-check"></i> Weekly schedule planning</li>
+                        <li><i class="fas fa-check"></i> Progress tracking</li>
+                    </ul>
+                </div>
+                <div class="tool-card-footer">
+                    <div class="tool-tags">
+                        <span class="tool-tag">Study</span>
+                        <span class="tool-tag">Students</span>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="tool-btn primary"><i class="fas fa-play"></i> Use</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tool 22: Digital Clock Seconds Calculator -->
+            <div class="tool-card">
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-digital-tachograph"></i>
+                    </div>
+                    <div>
+                        <h3 class="tool-title">Digital Clock Seconds</h3>
+                    </div>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Convert digital clock time (HH:MM:SS) to total seconds. Useful for programming, timing, and calculations.</p>
+                    <ul class="tool-features">
+                        <li><i class="fas fa-check"></i> HH:MM:SS to seconds</li>
+                        <li><i class="fas fa-check"></i> Multiple time entries</li>
+                        <li><i class="fas fa-check"></i> Programming friendly</li>
+                    </ul>
+                </div>
+                <div class="tool-card-footer">
+                    <div class="tool-tags">
+                        <span class="tool-tag">Programming</span>
+                        <span class="tool-tag">Technical</span>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="tool-btn primary"><i class="fas fa-play"></i> Use</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tool 23: Reading Time Calculator -->
+            <div class="tool-card">
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-book-reader"></i>
+                    </div>
+                    <div>
+                        <h3 class="tool-title">Reading Time Calculator</h3>
+                    </div>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Calculate estimated reading time for articles, books, and documents. Adjust for different reading speeds.</p>
+                    <ul class="tool-features">
+                        <li><i class="fas fa-check"></i> Words per minute calculation</li>
+                        <li><i class="fas fa-check"></i> Adjustable reading speed</li>
+                        <li><i class="fas fa-check"></i> Book chapter timing</li>
+                    </ul>
+                </div>
+                <div class="tool-card-footer">
+                    <div class="tool-tags">
+                        <span class="tool-tag">Reading</span>
+                        <span class="tool-tag">Content</span>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="tool-btn primary"><i class="fas fa-play"></i> Use</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tool 24: Cooking Time Multiplier -->
+            <div class="tool-card">
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <div>
+                        <h3 class="tool-title">Cooking Time Multiplier</h3>
+                    </div>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Adjust cooking times when scaling recipes up or down. Perfect for batch cooking and meal prep.</p>
+                    <ul class="tool-features">
+                        <li><i class="fas fa-check"></i> Recipe scaling calculator</li>
+                        <li><i class="fas fa-check"></i> Ingredient proportion adjustment</li>
+                        <li><i class="fas fa-check"></i> Cooking time estimation</li>
+                    </ul>
+                </div>
+                <div class="tool-card-footer">
+                    <div class="tool-tags">
+                        <span class="tool-tag">Cooking</span>
+                        <span class="tool-tag">Recipes</span>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="tool-btn primary"><i class="fas fa-play"></i> Use</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Simple Email Footer -->
+        <div class="email-footer">
+            <p>Need help or want to suggest a new tool? Contact us:</p>
+            <a href="mailto:toolvala@gmail.com" class="email-link">
+                <i class="fas fa-envelope"></i> toolvala@gmail.com
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Simple button functionality
+        document.querySelectorAll('.tool-btn.primary').forEach(button => {
+            button.addEventListener('click', function() {
+                const toolCard = this.closest('.tool-card');
+                const toolName = toolCard.querySelector('.tool-title').textContent;
+                
+                // Show loading state
+                const originalText = this.innerHTML;
+                this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Opening...';
+                this.disabled = true;
+                
+                // Simulate tool opening
+                setTimeout(() => {
+                    alert(`Opening: ${toolName}\n\nThis tool helps you calculate and manage time effectively.`);
+                    this.innerHTML = originalText;
+                    this.disabled = false;
+                }, 800);
+            });
+        });
+    </script>
+</body>
+</html>
