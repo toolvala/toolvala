@@ -1,1 +1,692 @@
-                    
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TextAnalysis Toolkit | Professional Text Analysis Utilities</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #3b82f6;
+            --primary-purple: #8b5cf6;
+            --accent-green: #10b981;
+            --accent-pink: #ec4899;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #64748b;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .hero-section {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+        
+        .hero-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-purple));
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            letter-spacing: 0.5px;
+        }
+        
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--dark), var(--primary-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+        
+        .hero-description {
+            color: var(--gray);
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 100px;
+        }
+        
+        /* Card Style Variations */
+        
+        /* Card Style 1: Solid Color */
+        .card-style-1 {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            border-left: 5px solid var(--primary-blue);
+            transition: all 0.3s ease;
+        }
+        
+        /* Card Style 2: Gradient Background */
+        .card-style-2 {
+            background: linear-gradient(135deg, #ffffff, #f0f9ff);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        /* Card Style 3: Floating Card */
+        .card-style-3 {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .card-style-3::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-blue), var(--primary-purple));
+        }
+        
+        /* Card Style 4: Minimal */
+        .card-style-4 {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        
+        .card-style-4:hover {
+            border-color: var(--primary-blue);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.1);
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-8px);
+        }
+        
+        .tool-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .tool-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: white;
+            flex-shrink: 0;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tool-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--dark);
+            line-height: 1.3;
+        }
+        
+        .tool-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-purple));
+            color: white;
+            padding: 12px 28px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 15px;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
+        }
+        
+        .tool-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+            background: linear-gradient(135deg, var(--primary-purple), var(--primary-blue));
+        }
+        
+        /* Footer Styles */
+        footer {
+            background: linear-gradient(135deg, var(--dark), #0f172a);
+            color: white;
+            border-radius: 24px;
+            padding: 70px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .footer-wave {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z' fill='%23f0f9ff'%3E%3C/path%3E%3C/svg%3E");
+            opacity: 0.05;
+        }
+        
+        .footer-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .footer-title {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #ffffff, #93c5fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+        
+        .footer-description {
+            color: #cbd5e1;
+            max-width: 600px;
+            margin: 0 auto 50px;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+        
+        .contact-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .email-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 25px 35px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+            max-width: 500px;
+            width: 100%;
+        }
+        
+        .email-card:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        .email-icon-wrapper {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-purple));
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+        }
+        
+        .email-info {
+            text-align: left;
+            flex: 1;
+        }
+        
+        .email-label {
+            font-size: 0.9rem;
+            color: #94a3b8;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .email-address {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            letter-spacing: 0.5px;
+        }
+        
+        .footer-note {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1100px) {
+            .tools-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.2rem;
+            }
+            
+            .tools-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 20px;
+            }
+            
+            footer {
+                padding: 50px 20px;
+                border-radius: 20px;
+            }
+            
+            .footer-title {
+                font-size: 1.8rem;
+            }
+            
+            .email-card {
+                flex-direction: column;
+                text-align: center;
+                padding: 20px;
+            }
+            
+            .email-info {
+                text-align: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tool-card {
+                padding: 25px;
+            }
+            
+            .hero-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hero-section">
+            <div class="hero-badge">Professional Text Analysis Toolkit</div>
+            <h1 class="hero-title">Analyze, Optimize & Perfect Your Text</h1>
+            <p class="hero-description">20+ powerful text analysis tools for writers, editors, SEO specialists, and content creators. Get instant insights into your text composition.</p>
+        </div>
+        
+        <div class="tools-grid">
+            <!-- Word Counter -->
+            <div class="tool-card card-style-1">
+                <div class="tool-header">
+                    <div class="tool-icon" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">
+                        <i class="fas fa-font"></i>
+                    </div>
+                    <div class="tool-name">Word Counter</div>
+                </div>
+                <a href="#" class="tool-btn">
+                    <i class="fas fa-external-link-alt"></i> Open Tool
+                </a>
+            </div>
+            
+            <!-- Character Counter -->
+            <div class="tool-card card-style-2">
+                <div class="tool-header">
+                    <div class="tool-icon" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
+                        <i class="fas fa-text-width"></i>
+                    </div>
+                    <div class="tool-name">Character Counter</div>
+                </div>
+                <a href="#" class="tool-btn">
+                    <i class="fas fa-external-link-alt"></i> Open Tool
+                </a>
+            </div>
+            
+            <!-- Sentence Counter -->
+            <div class="tool-card card-style-3">
+                <div class="tool-header">
+                    <div class="tool-icon" style="background: linear-gradient(135deg, #10b981, #059669);">
+                        <i class="fas fa-sentence"></i>
+                    </div>
+                    <div class="tool-name">Sentence Counter</div>
+                </div>
+                <a href="#" class="tool-btn">
+                    <i class="fas fa-external-link-alt"></i> Open Tool
+                </a>
+            </div>
+            
+            <!-- Paragraph Length Calculator -->
+            <div class="tool-card card-style-4">
+                <div class="tool-header">
+                    <div class="tool-icon" style="background: linear-gradient(135deg, #ec4899, #db2777);">
+                        <i class="fas fa-paragraph"></i>
+                    </div>
+                    <div class="tool-name">Paragraph Length Calculator</div>
+                </div>
+                <a href="#" class="tool-btn">
+                    <i class="fas fa-external-link-alt"></i> Open Tool
+                </a>
+            </div>
+            
+            <!-- Reading Time Calculator -->
+            <div class="tool-card card-style-1">
+                <div class="tool-header">
+                    <div class="tool-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                        <i class="fas fa-book-reader"></i>
+                    </div>
+                    <div class="tool-name">Reading Time Calculator</div>
+                </div>
+                <a href="#" class="tool-btn">
+                    <i class="fas fa-external-link-alt"></i> Open Tool
+                </a>
+            </div>
+            
+            <!-- Speaking Time Calculator -->
+            <div class="tool-card card-style-2">
+                <div class="tool-header">
+                    <div class="tool-icon" style="background: linear-gradient(135deg, #06b6d4, #0891b2);">
+                        <i class="fas fa-microphone-alt"></i>
+                    </div>
+                    <div class="tool-name">Speaking Time Calculator</div>
+                </div>
+                <a href="#" class="tool-btn">
+                    <i class="fas fa-external-link-alt"></i> Open Tool
+                </a>
+            </div>
+            
+            <!-- Ideal Title Length Calculator -->
+            <div class="tool-card card-style-3">
+                <div class="tool-header">
+                    <div class="tool-icon" style="background: linear-gradient(135deg, #84cc16, #65a30d);">
+                        <i class="fas fa-heading"></i>
+                    </div>
+                    <div class="tool-name">Ideal Title Length Calculator</div>
+                </div>
+                <a href="#" class="tool-btn">
+                    <i class="fas fa-external-link-alt"></i> Open Tool
+                </a>
+            </div>
+            
+            <!-- Title Case Calculator -->
+            <div class="tool-card card-style-4">
+                <div class="tool-header">
+                    <div class="tool-icon" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
+                        <i class="fas fa-text-case"></i>
+                    </div>
+                    <div class="tool-name">Title Case Calculator</div>
+                </div>
+                <a href="#" class="tool-btn">
+                    <i class="fas fa-external-link-alt"></i> Open Tool
+                </a>
+            </div>
+            
+            <!-- Keyword Density Calculator -->
+            <div class="tool-card card-style-1">
+                <div class="tool-header">
+                    <div class="tool-icon" style="background: linear-gradient(135deg, #ef4444, #dc2626);">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div class="tool-name">Keyword Density Calculator</div>
+                </div>
+                <a href="#" class="tool-btn">
+                    <i class="fas fa-external-link-alt"></i> Open Tool
+                </a>
+            </div>
+            
+            <!-- Keyword Frequency Calculator -->
+            <div class="tool-card card-style-2">
+                <div class="tool-header">
+                    <div class="tool-icon" style="background: linear-gradient(135deg, #14b8a6, #0d9488);">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <div class="tool-name">Keyword Frequency Calculator</div>
+                </div>
+                <a href="#" class="tool-btn">
+                    <i class="fas fa-external-link-alt"></i> Open Tool
+                </a>
+            </div>
+            
+            <!-- Vowel–Consonant Counter -->
+            <div class="tool-card card-style-3">
+                <div class="tool-header">
+                    <div class="tool-icon" style="background: linear-gradient(135deg, #f97316, #ea580c);">
+                        <i class="fas fa-language"></i>
+                    </div>
+                    <div class="tool-name">Vowel–Consonant Counter</div>
+                </div>
+                <a href="#" class="tool-btn">
+                    <i class="fas fa-external-link-alt"></i> Open Tool
+                </a>
+            </div>
+            
+            <!-- Duplicate Words Remover -->
+            <div class="tool-card card-style-4">
+                <div class="tool-header">
+                    <div class="tool-icon" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
+                        <i class="fas fa-copy"></i>
+                    </div>
+                    <div class="tool-name">Duplicate Words Remover</div>
+                </div>
+                <a href="#" class="tool-btn">
+                    <i class="fas fa-external-link-alt"></i> Open Tool
+                </a>
+            </div>
+            
+            <!-- Emoji Remover -->
+            <div class="tool-card card-style-1">
+                <div class="tool-header">
+                    <div class="tool-icon" style="background: linear-gradient(135deg, #ec4899, #db2777);">
+                        <i class="fas fa-smile"></i>
+                    </div>
+                    <div class="tool-name">Emoji Remover</div>
+                </div>
+                <a href="#" class="tool-btn">
+                    <i class="fas fa-external-link-alt"></i> Open Tool
+                </a>
+            </div>
+            
+            <!-- Extra Spaces Remover -->
+            <div class="tool-card card-style-2">
+                <div class="tool-header">
+                    <div class="tool-icon" style="background: linear-gradient(135deg, #10b981, #059669);">
+                        <i class="fas fa-expand-arrows-alt"></i>
+                    </div>
+                    <div class="tool-name">Extra Spaces Remover</div>
+                </div>
+                <a href="#" class="tool-btn">
+                    <i class="fas fa-external-link-alt"></i> Open Tool
+                </a>
+            </div>
+            
+            <!-- Text Complexity Calculator -->
+            <div class="tool-card card-style-3">
+                <div class="tool-header">
+                    <div class="tool-icon" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div class="tool-name">Text Complexity Calculator</div>
+                </div>
+                <a href="#" class="tool-btn">
+                    <i class="fas fa-external-link-alt"></i> Open Tool
+                </a>
+            </div>
+            
+            <!-- SEO Score Calculator (simple) -->
+            <div class="tool-card card-style-4">
+                <div class="tool-header">
+                    <div class="tool-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="tool-name">SEO Score Calculator</div>
+                </div>
+                <a href="#" class="tool-btn">
+                    <i class="fas fa-external-link-alt"></i> Open Tool
+                </a>
+            </div>
+            
+            <!-- Writing Quality Score Calculator -->
+            <div class="tool-card card-style-1">
+                <div class="tool-header">
+                    <div class="tool-icon" style="background: linear-gradient(135deg, #84cc16, #65a30d);">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="tool-name">Writing Quality Score Calculator</div>
+                </div>
+                <a href="#" class="tool-btn">
+                    <i class="fas fa-external-link-alt"></i> Open Tool
+                </a>
+            </div>
+            
+            <!-- Heading vs Paragraph Ratio Calculator -->
+            <div class="tool-card card-style-2">
+                <div class="tool-header">
+                    <div class="tool-icon" style="background: linear-gradient(135deg, #06b6d4, #0891b2);">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <div class="tool-name">Heading vs Paragraph Ratio Calculator</div>
+                </div>
+                <a href="#" class="tool-btn">
+                    <i class="fas fa-external-link-alt"></i> Open Tool
+                </a>
+            </div>
+            
+            <!-- Text to Number Counter -->
+            <div class="tool-card card-style-3">
+                <div class="tool-header">
+                    <div class="tool-icon" style="background: linear-gradient(135deg, #ef4444, #dc2626);">
+                        <i class="fas fa-hashtag"></i>
+                    </div>
+                    <div class="tool-name">Text to Number Counter</div>
+                </div>
+                <a href="#" class="tool-btn">
+                    <i class="fas fa-external-link-alt"></i> Open Tool
+                </a>
+            </div>
+            
+            <!-- Line Counter -->
+            <div class="tool-card card-style-4">
+                <div class="tool-header">
+                    <div class="tool-icon" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
+                        <i class="fas fa-stream"></i>
+                    </div>
+                    <div class="tool-name">Line Counter</div>
+                </div>
+                <a href="#" class="tool-btn">
+                    <i class="fas fa-external-link-alt"></i> Open Tool
+                </a>
+            </div>
+        </div>
+        
+        <footer>
+            <div class="footer-wave"></div>
+            <div class="footer-content">
+                <h2 class="footer-title">Need Help or Have Questions?</h2>
+                <p class="footer-description">Our team is here to assist you with any questions about our text analysis tools. Whether you need technical support, have feature suggestions, or want to provide feedback, we're ready to help.</p>
+                
+                <div class="contact-section">
+                    <div class="email-card">
+                        <div class="email-icon-wrapper">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="email-info">
+                            <div class="email-label">Contact Us Via Email</div>
+                            <div class="email-address">toolvala@gmail.com</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="footer-note">
+                    <p>© 2023 TextAnalysis Toolkit. All rights reserved. | Professional Text Analysis Solutions</p>
+                    <p style="margin-top: 10px; font-size: 0.85rem;">Response time: Within 24 hours | Support available Monday-Friday, 9AM-6PM</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+    <script>
+        // Add subtle animation to cards on load
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.tool-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 50);
+            });
+            
+            // Email card hover animation
+            const emailCard = document.querySelector('.email-card');
+            emailCard.addEventListener('mouseenter', function() {
+                this.querySelector('.email-icon-wrapper').style.transform = 'rotate(15deg) scale(1.1)';
+            });
+            
+            emailCard.addEventListener('mouseleave', function() {
+                this.querySelector('.email-icon-wrapper').style.transform = 'rotate(0) scale(1)';
+            });
+            
+            // Add click event to all tool buttons
+            const toolButtons = document.querySelectorAll('.tool-btn');
+            toolButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const toolName = this.closest('.tool-card').querySelector('.tool-name').textContent;
+                    alert(`Opening "${toolName}" tool. This would navigate to the actual tool page.`);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
