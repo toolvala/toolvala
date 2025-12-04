@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hours & Minutes Adder | Time Duration Calculator</title>
+    <meta name="description" content="Add multiple time durations easily. Calculate total hours and minutes for work schedules, projects, billing, and more.">
+    <meta name="keywords" content="time adder, hours minutes calculator, time duration calculator, add time, work hours calculator">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #2196f3, #9c27b0);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            color: #1a237e;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #546e7a;
+            font-size: 1.1rem;
+        }
+        
+        /* Tool Card */
+        .tool-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        /* Time Entry Form */
+        .entry-form {
+            margin-bottom: 20px;
+        }
+        
+        .time-entry {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            align-items: center;
+        }
+        
+        .time-input-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+        }
+        
+        .time-input {
+            width: 100px;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            text-align: center;
+        }
+        
+        .time-input:focus {
+            outline: none;
+            border-color: #2196f3;
+        }
+        
+        .time-label {
+            font-weight: 600;
+            color: #546e7a;
+            min-width: 60px;
+        }
+        
+        .remove-btn {
+            background: #f44336;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .remove-btn:hover {
+            background: #d32f2f;
+            transform: scale(1.1);
+        }
+        
+        /* Controls */
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: #2196f3;
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+        
+        .btn-success {
+            background: #4caf50;
+            color: white;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        /* Results */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .result-box {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .result-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2196f3;
+            margin-bottom: 5px;
+        }
+        
+        .result-label {
+            color: #546e7a;
+            font-size: 0.9rem;
+        }
+        
+        .total-time-display {
+            background: linear-gradient(135deg, #2196f3, #9c27b0);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .total-time-value {
+            font-size: 3rem;
+            font-weight: 800;
+            margin: 10px 0;
+        }
+        
+        .total-time-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        /* Time Format Controls */
+        .format-control {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .format-options {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .format-option {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        /* Examples */
+        .examples-section {
+            margin-top: 20px;
+        }
+        
+        .examples-title {
+            margin-bottom: 10px;
+            color: #1a237e;
+        }
+        
+        .example-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .example-btn {
+            padding: 8px 15px;
+            background: #f0f4f8;
+            border: 1px solid #d1d9e6;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+        
+        .example-btn:hover {
+            background: #e3f2fd;
+            transform: translateY(-2px);
+        }
+        
+        /* History */
+        .history-section {
+            margin-top: 30px;
+        }
+        
+        .history-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .history-list {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 10px;
+            background: white;
+        }
+        
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .history-item:last-child {
+            border-bottom: none;
+        }
+        
+        /* SEO Content */
+        .seo-content {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-top: 30px;
+        }
+        
+        .seo-content h2 {
+            color: #1a237e;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .seo-content h3 {
+            color: #3949ab;
+            margin: 20px 0 10px;
+        }
+        
+        .seo-content p {
+            margin-bottom: 15px;
+            color: #455a64;
+        }
+        
+        .seo-content ul, .seo-content ol {
+            margin: 15px 0 15px 20px;
+            color: #455a64;
+        }
+        
+        .highlight-box {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #546e7a;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .time-entry {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .time-input-group {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .controls {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .format-control {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .results-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .total-time-value {
+                font-size: 2.5rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .time-input {
+                width: 80px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div>
+                    <h1>Hours & Minutes Adder</h1>
+                    <div class="subtitle">Add multiple time durations easily - Perfect for work schedules, projects, and billing</div>
+                </div>
+            </div>
+        </header>
+        
+        <div class="tool-card">
+            <div class="entry-form" id="timeEntries">
+                <!-- Time entries will be added here dynamically -->
+                <div class="time-entry" data-id="1">
+                    <div class="time-input-group">
+                        <span class="time-label">Hours:</span>
+                        <input type="number" min="0" class="time-input" id="hours1" placeholder="0" value="2">
+                        <span class="time-label">Minutes:</span>
+                        <input type="number" min="0" max="59" class="time-input" id="minutes1" placeholder="0" value="30">
+                    </div>
+                    <button class="remove-btn" onclick="removeTimeEntry(1)">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <button class="btn btn-primary" id="addEntryBtn">
+                    <i class="fas fa-plus-circle"></i> Add Time Entry
+                </button>
+                <button class="btn btn-success" id="calculateBtn">
+                    <i class="fas fa-calculator"></i> Calculate Total
+                </button>
+                <button class="btn btn-secondary" id="clearBtn">
+                    <i class="fas fa-trash"></i> Clear All
+                </button>
+            </div>
+            
+            <div class="examples-section">
+                <h3 class="examples-title">Quick Examples:</h3>
+                <div class="example-buttons">
+                    <button class="example-btn" onclick="loadExample('workWeek')">Work Week (9-5, Mon-Fri)</button>
+                    <button class="example-btn" onclick="loadExample('projectTasks')">Project Tasks</button>
+                    <button class="example-btn" onclick="loadExample('meetings')">Weekly Meetings</button>
+                    <button class="example-btn" onclick="loadExample('studySessions')">Study Sessions</button>
+                </div>
+            </div>
+            
+            <div class="format-control">
+                <div>
+                    <strong>Output Format:</strong>
+                </div>
+                <div class="format-options">
+                    <label class="format-option">
+                        <input type="radio" name="format" value="decimal" checked onchange="changeFormat('decimal')">
+                        Decimal Hours (e.g., 3.5 hours)
+                    </label>
+                    <label class="format-option">
+                        <input type="radio" name="format" value="hoursMinutes" onchange="changeFormat('hoursMinutes')">
+                        Hours & Minutes (e.g., 3 hours 30 min)
+                    </label>
+                </div>
+            </div>
+            
+            <div class="results-grid">
+                <div class="result-box">
+                    <div class="result-value" id="totalHours">0</div>
+                    <div class="result-label">Total Hours</div>
+                </div>
+                
+                <div class="result-box">
+                    <div class="result-value" id="totalMinutes">0</div>
+                    <div class="result-label">Total Minutes</div>
+                </div>
+                
+                <div class="result-box">
+                    <div class="result-value" id="entryCount">1</div>
+                    <div class="result-label">Time Entries</div>
+                </div>
+                
+                <div class="result-box">
+                    <div class="result-value" id="averageTime">0</div>
+                    <div class="result-label">Average Time</div>
+                </div>
+            </div>
+            
+            <div class="total-time-display">
+                <div class="total-time-label">Total Time Duration</div>
+                <div class="total-time-value" id="totalTimeDisplay">0 hours 0 minutes</div>
+                <div style="margin-top: 10px; font-size: 0.9rem; opacity: 0.8;">
+                    <span id="totalTimeDetails">0 hours and 0 minutes</span>
+                </div>
+            </div>
+            
+            <div class="history-section">
+                <div class="history-title">
+                    <h3>Calculation History</h3>
+                    <button class="btn-secondary btn" style="padding: 8px 15px; font-size: 0.9rem;" onclick="clearHistory()">
+                        <i class="fas fa-trash"></i> Clear History
+                    </button>
+                </div>
+                <div class="history-list" id="historyList">
+                    <!-- History items will be added here -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="seo-content">
+            <h2>Why Calculate Time Durations Accurately?</h2>
+            
+            <p>Whether you're tracking work hours, planning projects, or calculating study time, adding time durations accurately is essential for productivity and proper billing. Our Hours & Minutes Adder makes this process simple and error-free.</p>
+            
+            <div class="highlight-box">
+                <h3>Common Time Calculation Errors</h3>
+                <p>Manual time addition often leads to these mistakes:</p>
+                <ul>
+                    <li><strong>Minute overflow:</strong> Forgetting that 60 minutes equals 1 hour (e.g., 2h 45min + 1h 30min = 4h 15min, not 3h 75min)</li>
+                    <li><strong>Decimal confusion:</strong> Mixing decimal hours (1.5) with hours-minutes (1:30) incorrectly</li>
+                    <li><strong>Carry-over errors:</strong> Miscalculating when minutes exceed 60 during addition</li>
+                    <li><strong>Multiple entry mistakes:</strong> Losing track when adding many time periods together</li>
+                </ul>
+            </div>
+            
+            <h3>How Our Time Adder Solves These Problems</h3>
+            <ol>
+                <li><strong>Automatic minute conversion:</strong> Automatically converts 60+ minutes to hours</li>
+                <li><strong>Multiple formats:</strong> Displays results in both hours-minutes and decimal formats</li>
+                <li><strong>Unlimited entries:</strong> Add as many time periods as needed</li>
+                <li><strong>History tracking:</strong> Keep record of your calculations for reference</li>
+                <li><strong>Quick examples:</strong> Pre-loaded examples for common scenarios</li>
+            </ol>
+            
+            <h3>Practical Applications</h3>
+            <p>This tool is perfect for:</p>
+            <ul>
+                <li><strong>Freelancers & Consultants:</strong> Track billable hours across multiple clients and projects</li>
+                <li><strong>Project Managers:</strong> Calculate total time spent on project tasks and milestones</li>
+                <li><strong>Students:</strong> Plan study schedules and track learning time</li>
+                <li><strong>Employees:</strong> Calculate weekly work hours, including overtime</li>
+                <li><strong>Fitness Enthusiasts:</strong> Track workout durations and progress</li>
+                <li><strong>Event Planners:</strong> Schedule events and calculate total duration</li>
+            </ul>
+            
+            <h3>Time Format Examples</h3>
+            <p>Understanding different time formats:</p>
+            <ul>
+                <li><strong>Hours & Minutes:</strong> 3 hours 45 minutes = 3.75 hours (decimal)</li>
+                <li><strong>Decimal to Minutes:</strong> 2.5 hours = 2 hours 30 minutes</li>
+                <li><strong>Minutes Only:</strong> 90 minutes = 1 hour 30 minutes</li>
+                <li><strong>Mixed Addition:</strong> 1h 20min + 0.75h + 45min = 2 hours 50 minutes</li>
+            </ul>
+            
+            <div class="highlight-box">
+                <h3>Pro Tips for Time Tracking</h3>
+                <p>For maximum efficiency:</p>
+                <ul>
+                    <li><strong>Track as you go:</strong> Record time immediately after tasks to avoid forgetting</li>
+                    <li><strong>Use consistent units:</strong> Stick to either minutes or hours-minutes format</li>
+                    <li><strong>Round appropriately:</strong> For billing, consider rounding to nearest 15-minute increment</li>
+                    <li><strong>Batch similar tasks:</strong> Group similar activities to minimize context switching</li>
+                    <li><strong>Review weekly:</strong> Analyze your time distribution weekly for optimization</li>
+                </ul>
+            </div>
+            
+            <h3>Frequently Asked Questions</h3>
+            
+            <p><strong>Q: How do I add time with minutes exceeding 60?</strong><br>
+            A: Our calculator automatically converts minutes to hours. For example, 2h 70min becomes 3h 10min automatically.</p>
+            
+            <p><strong>Q: Can I use decimal hours instead of hours-minutes?</strong><br>
+            A: Yes! Simply enter decimal values in the hours field (e.g., 1.5 for 1 hour 30 minutes).</p>
+            
+            <p><strong>Q: How many time entries can I add?</strong><br>
+            A: There's no limit! Add as many entries as you need for your calculation.</p>
+            
+            <p><strong>Q: Can I save my calculations?</strong><br>
+            A: The calculator maintains a session history. For permanent records, note down the results or take a screenshot.</p>
+            
+            <p><strong>Q: Is this tool suitable for payroll calculations?</strong><br>
+            A: While it provides accurate time totals, always verify with your payroll system requirements for official records.</p>
+        </div>
+        
+        <footer>
+            
+        </footer>
+    </div>
+    
+    <script>
+        // Global variables
+        let entryCounter = 1;
+        let calculationHistory = [];
+        let currentFormat = 'hoursMinutes';
+        
+        // DOM Elements
+        const timeEntries = document.getElementById('timeEntries');
+        const addEntryBtn = document.getElementById('addEntryBtn');
+        const calculateBtn = document.getElementById('calculateBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        
+        // Results Elements
+        const totalHours = document.getElementById('totalHours');
+        const totalMinutes = document.getElementById('totalMinutes');
+        const entryCount = document.getElementById('entryCount');
+        const averageTime = document.getElementById('averageTime');
+        const totalTimeDisplay = document.getElementById('totalTimeDisplay');
+        const totalTimeDetails = document.getElementById('totalTimeDetails');
+        const historyList = document.getElementById('historyList');
+        
+        // Initialize
+        function init() {
+            setupEventListeners();
+            updateEntryCount();
+            calculateTotal();
+            loadHistoryFromStorage();
+            renderHistory();
+        }
+        
+        // Setup event listeners
+        function setupEventListeners() {
+            addEntryBtn.addEventListener('click', addTimeEntry);
+            calculateBtn.addEventListener('click', calculateTotal);
+            clearBtn.addEventListener('click', clearAll);
+            
+            // Real-time calculation on input change
+            timeEntries.addEventListener('input', function(e) {
+                if (e.target.classList.contains('time-input')) {
+                    calculateTotal();
+                }
+            });
+            
+            // Keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.key === 'Enter') {
+                    e.preventDefault();
+                    calculateTotal();
+                }
+                if (e.ctrlKey && e.key === 'n') {
+                    e.preventDefault();
+                    addTimeEntry();
+                }
+                if (e.ctrlKey && e.key === 'l') {
+                    e.preventDefault();
+                    clearAll();
+                }
+            });
+        }
+        
+        // Add a new time entry
+        function addTimeEntry() {
+            entryCounter++;
+            
+            const newEntry = document.createElement('div');
+            newEntry.className = 'time-entry';
+            newEntry.setAttribute('data-id', entryCounter);
+            newEntry.innerHTML = `
+                <div class="time-input-group">
+                    <span class="time-label">Hours:</span>
+                    <input type="number" min="0" class="time-input" id="hours${entryCounter}" placeholder="0" value="0">
+                    <span class="time-label">Minutes:</span>
+                    <input type="number" min="0" max="59" class="time-input" id="minutes${entryCounter}" placeholder="0" value="0">
+                </div>
+                <button class="remove-btn" onclick="removeTimeEntry(${entryCounter})">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            
+            timeEntries.appendChild(newEntry);
+            updateEntryCount();
+            
+            // Focus the new hours input
+            document.getElementById(`hours${entryCounter}`).focus();
+            
+            showNotification('New time entry added!', 'success');
+        }
+        
+        // Remove a time entry
+        function removeTimeEntry(id) {
+            const entry = document.querySelector(`.time-entry[data-id="${id}"]`);
+            
+            // Don't remove if only one entry remains
+            const entries = document.querySelectorAll('.time-entry');
+            if (entries.length <= 1) {
+                showNotification('Cannot remove the last time entry!', 'error');
+                return;
+            }
+            
+            if (entry) {
+                entry.remove();
+                updateEntryCount();
+                calculateTotal();
+                showNotification('Time entry removed!', 'success');
+            }
+        }
+        
+        // Update entry count display
+        function updateEntryCount() {
+            const entries = document.querySelectorAll('.time-entry').length;
+            entryCount.textContent = entries;
+        }
+        
+        // Calculate total time
+        function calculateTotal() {
+            const entries = document.querySelectorAll('.time-entry');
+            let totalMinutesValue = 0;
+            let entryTimes = [];
+            
+            // Calculate total minutes from all entries
+            entries.forEach(entry => {
+                const id = entry.getAttribute('data-id');
+                const hoursInput = document.getElementById(`hours${id}`);
+                const minutesInput = document.getElementById(`minutes${id}`);
+                
+                // Get values, default to 0 if empty
+                const hours = parseFloat(hoursInput.value) || 0;
+                const minutes = parseFloat(minutesInput.value) || 0;
+                
+                // Add to total
+                totalMinutesValue += (hours * 60) + minutes;
+                
+                // Store for average calculation
+                entryTimes.push((hours * 60) + minutes);
+            });
+            
+            // Calculate hours and minutes
+            const totalHoursValue = Math.floor(totalMinutesValue / 60);
+            const remainingMinutes = totalMinutesValue % 60;
+            const decimalHours = (totalMinutesValue / 60).toFixed(2);
+            
+            // Update display based on format
+            if (currentFormat === 'decimal') {
+                totalHours.textContent = decimalHours;
+                totalTimeDisplay.textContent = `${decimalHours} hours`;
+                totalTimeDetails.textContent = `${totalHoursValue} hours and ${remainingMinutes} minutes`;
+            } else {
+                totalHours.textContent = totalHoursValue;
+                totalTimeDisplay.textContent = `${totalHoursValue} hours ${remainingMinutes} minutes`;
+                totalTimeDetails.textContent = `${decimalHours} decimal hours`;
+            }
+            
+            // Update other displays
+            totalMinutes.textContent = totalMinutesValue;
+            
+            // Calculate and display average
+            if (entryTimes.length > 0) {
+                const averageMinutes = totalMinutesValue / entryTimes.length;
+                const avgHours = Math.floor(averageMinutes / 60);
+                const avgMinutes = Math.round(averageMinutes % 60);
+                
+                if (currentFormat === 'decimal') {
+                    averageTime.textContent = (averageMinutes / 60).toFixed(2);
+                } else {
+                    averageTime.textContent = `${avgHours}h ${avgMinutes}m`;
+                }
+            } else {
+                averageTime.textContent = '0';
+            }
+            
+            // Add to history if we have valid time
+            if (totalMinutesValue > 0) {
+                addToHistory(totalHoursValue, remainingMinutes, decimalHours, entries.length);
+            }
+        }
+        
+        // Add calculation to history
+        function addToHistory(hours, minutes, decimalHours, entryCount) {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const dateString = now.toLocaleDateString();
+            
+            const historyEntry = {
+                id: Date.now(),
+                timestamp: `${dateString} ${timeString}`,
+                hours: hours,
+                minutes: minutes,
+                decimalHours: decimalHours,
+                entries: entryCount,
+                format: currentFormat
+            };
+            
+            calculationHistory.unshift(historyEntry);
+            
+            // Keep only last 10 entries
+            if (calculationHistory.length > 10) {
+                calculationHistory = calculationHistory.slice(0, 10);
+            }
+            
+            // Save to localStorage
+            saveHistoryToStorage();
+            
+            // Update display
+            renderHistory();
+        }
+        
+        // Render history list
+        function renderHistory() {
+            if (calculationHistory.length === 0) {
+                historyList.innerHTML = '<div style="text-align: center; color: #999; padding: 20px;">No calculation history yet</div>';
+                return;
+            }
+            
+            let historyHTML = '';
+            
+            calculationHistory.forEach(entry => {
+                let displayText;
+                
+                if (entry.format === 'decimal') {
+                    displayText = `${entry.decimalHours} hours`;
+                } else {
+                    displayText = `${entry.hours}h ${entry.minutes}m`;
+                }
+                
+                historyHTML += `
+                    <div class="history-item">
+                        <div>
+                            <strong>${displayText}</strong>
+                            <div style="font-size: 0.8rem; color: #666;">${entry.entries} entries</div>
+                        </div>
+                        <div style="font-size: 0.8rem; color: #999;">${entry.timestamp}</div>
+                    </div>
+                `;
+            });
+            
+            historyList.innerHTML = historyHTML;
+        }
+        
+        // Save history to localStorage
+        function saveHistoryToStorage() {
+            try {
+                localStorage.setItem('timeAdderHistory', JSON.stringify(calculationHistory));
+            } catch (e) {
+                console.log('Could not save history to localStorage');
+            }
+        }
+        
+        // Load history from localStorage
+        function loadHistoryFromStorage() {
+            try {
+                const savedHistory = localStorage.getItem('timeAdderHistory');
+                if (savedHistory) {
+                    calculationHistory = JSON.parse(savedHistory);
+                }
+            } catch (e) {
+                console.log('Could not load history from localStorage');
+            }
+        }
+        
+        // Clear history
+        function clearHistory() {
+            calculationHistory = [];
+            saveHistoryToStorage();
+            renderHistory();
+            showNotification('History cleared!', 'success');
+        }
+        
+        // Clear all entries
+        function clearAll() {
+            // Reset all inputs to 0
+            const hourInputs = document.querySelectorAll('.time-input[type="number"]');
+            hourInputs.forEach(input => {
+                if (input.id.includes('hours')) {
+                    input.value = '0';
+                } else {
+                    input.value = '0';
+                }
+            });
+            
+            // Keep only one entry
+            const entries = document.querySelectorAll('.time-entry');
+            for (let i = 1; i < entries.length; i++) {
+                entries[i].remove();
+            }
+            
+            // Reset counter
+            entryCounter = 1;
+            
+            updateEntryCount();
+            calculateTotal();
+            showNotification('All entries cleared!', 'success');
+        }
+        
+        // Change output format
+        function changeFormat(format) {
+            currentFormat = format;
+            calculateTotal(); // Recalculate to update display
+        }
+        
+        // Load example data
+        function loadExample(exampleType) {
+            clearAll();
+            
+            let exampleData = [];
+            
+            switch(exampleType) {
+                case 'workWeek':
+                    exampleData = [
+                        {hours: 8, minutes: 0},
+                        {hours: 8, minutes: 0},
+                        {hours: 8, minutes: 0},
+                        {hours: 8, minutes: 0},
+                        {hours: 6, minutes: 30}
+                    ];
+                    break;
+                    
+                case 'projectTasks':
+                    exampleData = [
+                        {hours: 2, minutes: 15},
+                        {hours: 1, minutes: 45},
+                        {hours: 0, minutes: 30},
+                        {hours: 3, minutes: 0},
+                        {hours: 1, minutes: 20}
+                    ];
+                    break;
+                    
+                case 'meetings':
+                    exampleData = [
+                        {hours: 0, minutes: 45},
+                        {hours: 1, minutes: 30},
+                        {hours: 0, minutes: 30},
+                        {hours: 2, minutes: 0},
+                        {hours: 0, minutes: 15}
+                    ];
+                    break;
+                    
+                case 'studySessions':
+                    exampleData = [
+                        {hours: 1, minutes: 30},
+                        {hours: 2, minutes: 0},
+                        {hours: 1, minutes: 0},
+                        {hours: 0, minutes: 45},
+                        {hours: 1, minutes: 15}
+                    ];
+                    break;
+            }
+            
+            // Clear existing entries first
+            const entries = document.querySelectorAll('.time-entry');
+            entries.forEach(entry => {
+                const id = entry.getAttribute('data-id');
+                document.getElementById(`hours${id}`).value = '0';
+                document.getElementById(`minutes${id}`).value = '0';
+            });
+            
+            // Add more entries if needed
+            while (document.querySelectorAll('.time-entry').length < exampleData.length) {
+                addTimeEntry();
+            }
+            
+            // Fill with example data
+            exampleData.forEach((data, index) => {
+                const entryIndex = index + 1;
+                const hoursInput = document.getElementById(`hours${entryIndex}`);
+                const minutesInput = document.getElementById(`minutes${entryIndex}`);
+                
+                if (hoursInput && minutesInput) {
+                    hoursInput.value = data.hours;
+                    minutesInput.value = data.minutes;
+                }
+            });
+            
+            calculateTotal();
+            showNotification(`Loaded ${exampleType.replace(/([A-Z])/g, ' $1')} example!`, 'success');
+        }
+        
+        // Show notification
+        function showNotification(message, type) {
+            // Remove existing notification
+            const existing = document.querySelector('.notification');
+            if (existing) existing.remove();
+            
+            // Create notification
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.innerHTML = `
+                <div style="
+                    position: fixed;
+                    bottom: 20px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: ${type === 'success' ? '#4caf50' : type === 'error' ? '#f44336' : '#2196f3'};
+                    color: white;
+                    padding: 12px 24px;
+                    border-radius: 8px;
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                    z-index: 1000;
+                    font-weight: 600;
+                    animation: slideUp 0.3s ease;
+                ">
+                    ${message}
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Add animation
+            if (!document.querySelector('#notification-animation')) {
+                const style = document.createElement('style');
+                style.id = 'notification-animation';
+                style.textContent = `
+                    @keyframes slideUp {
+                        from { transform: translateX(-50%) translateY(100px); opacity: 0; }
+                        to { transform: translateX(-50%) translateY(0); opacity: 1; }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+        
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</body>
+</html>
