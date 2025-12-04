@@ -1,0 +1,1460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roman Numeral Converter | Roman ↔ Arabic Numbers</title>
+    <meta name="description" content="Convert between Roman numerals and Arabic numbers. Learn Roman numeral rules and history. Perfect for students, historians, and developers.">
+    <meta name="keywords" content="roman numeral converter, roman to arabic, arabic to roman, roman numbers, ancient numerals">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #2196f3, #9c27b0);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            color: #1a237e;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #546e7a;
+            font-size: 1.1rem;
+        }
+        
+        /* Tool Card */
+        .tool-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        /* Converter Sections */
+        .converter-sections {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        @media (min-width: 768px) {
+            .converter-sections {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        .converter-section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+        }
+        
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #1a237e;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .section-icon {
+            background: #2196f3;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Input Groups */
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        .input-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #455a64;
+        }
+        
+        .input-wrapper {
+            position: relative;
+        }
+        
+        .input-field {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 18px;
+            transition: all 0.3s;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .input-field:focus {
+            outline: none;
+            border-color: #2196f3;
+            box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+        }
+        
+        .roman-input {
+            font-size: 24px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        /* Controls */
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            justify-content: center;
+            min-width: 140px;
+        }
+        
+        .btn-primary {
+            background: #2196f3;
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+        
+        .btn-success {
+            background: #4caf50;
+            color: white;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        /* Results */
+        .results-display {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            border: 2px solid #e0e0e0;
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .result-title {
+            color: #546e7a;
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+        
+        .result-value {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: #2196f3;
+            margin-bottom: 5px;
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .result-details {
+            color: #455a64;
+            font-size: 1.1rem;
+            margin-top: 15px;
+        }
+        
+        /* Roman Numeral Breakdown */
+        .breakdown-section {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px dashed #e0e0e0;
+        }
+        
+        .breakdown-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1a237e;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .breakdown-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+        }
+        
+        .breakdown-item {
+            background: white;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .breakdown-symbol {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2196f3;
+            margin-bottom: 5px;
+        }
+        
+        .breakdown-value {
+            font-size: 0.9rem;
+            color: #455a64;
+        }
+        
+        /* Examples */
+        .examples-section {
+            margin-top: 30px;
+        }
+        
+        .examples-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1a237e;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .examples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px;
+        }
+        
+        .example-card {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            border: 1px solid #d1d9e6;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+        
+        .example-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-color: #2196f3;
+        }
+        
+        .example-roman {
+            font-weight: 700;
+            color: #2196f3;
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+        }
+        
+        .example-arabic {
+            color: #455a64;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        /* History */
+        .history-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .history-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .history-list {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 10px;
+            background: white;
+        }
+        
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px;
+            border-bottom: 1px solid #f0f0f0;
+            align-items: center;
+        }
+        
+        .history-item:last-child {
+            border-bottom: none;
+        }
+        
+        .history-direction {
+            font-weight: 600;
+            color: #1a237e;
+            font-size: 0.9rem;
+        }
+        
+        .history-values {
+            display: flex;
+            gap: 15px;
+            text-align: right;
+        }
+        
+        /* Roman Numerals Table */
+        .numerals-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .numerals-table th {
+            background: #2196f3;
+            color: white;
+            padding: 15px;
+            text-align: left;
+        }
+        
+        .numerals-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .numerals-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        /* SEO Content */
+        .seo-content {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-top: 30px;
+        }
+        
+        .seo-content h2 {
+            color: #1a237e;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .seo-content h3 {
+            color: #3949ab;
+            margin: 20px 0 10px;
+        }
+        
+        .seo-content p {
+            margin-bottom: 15px;
+            color: #455a64;
+        }
+        
+        .seo-content ul, .seo-content ol {
+            margin: 15px 0 15px 20px;
+            color: #455a64;
+        }
+        
+        .highlight-box {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .warning-box {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #546e7a;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .converter-sections {
+                grid-template-columns: 1fr;
+            }
+            
+            .controls {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+            
+            .result-value {
+                font-size: 2.2rem;
+            }
+            
+            .examples-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .breakdown-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .examples-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .breakdown-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .history-values {
+                flex-direction: column;
+                gap: 5px;
+                text-align: right;
+            }
+            
+            .input-field {
+                font-size: 16px;
+                padding: 12px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-history"></i>
+                </div>
+                <div>
+                    <h1>Roman Numeral Converter</h1>
+                    <div class="subtitle">Convert between Roman and Arabic numerals with detailed breakdowns</div>
+                </div>
+            </div>
+        </header>
+        
+        <div class="tool-card">
+            <div class="converter-sections">
+                <!-- Arabic to Roman Section -->
+                <div class="converter-section">
+                    <div class="section-title">
+                        <div class="section-icon">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                        <h2>Arabic to Roman</h2>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">Arabic Number (1-3999)</label>
+                        <div class="input-wrapper">
+                            <input type="number" min="1" max="3999" class="input-field" id="arabicInput" 
+                                   placeholder="Enter a number" value="2023">
+                        </div>
+                        <div style="font-size: 0.85rem; color: #666; margin-top: 5px;">
+                            Only numbers 1-3999 are supported in standard Roman numerals
+                        </div>
+                    </div>
+                    
+                    <div class="controls">
+                        <button class="btn btn-primary" id="arabicToRomanBtn">
+                            <i class="fas fa-exchange-alt"></i> Convert to Roman
+                        </button>
+                        <button class="btn btn-secondary" id="clearArabicBtn">
+                            <i class="fas fa-trash"></i> Clear
+                        </button>
+                    </div>
+                    
+                    <div class="results-display">
+                        <div class="result-title">Roman Numeral</div>
+                        <div class="result-value" id="romanResult">MMXXIII</div>
+                        <div class="result-details" id="romanDetails">Two thousand twenty-three</div>
+                    </div>
+                    
+                    <div class="breakdown-section">
+                        <div class="breakdown-title">
+                            <i class="fas fa-calculator"></i>
+                            Numeral Breakdown
+                        </div>
+                        <div class="breakdown-grid" id="romanBreakdown">
+                            <!-- Breakdown items will be added dynamically -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Roman to Arabic Section -->
+                <div class="converter-section">
+                    <div class="section-title">
+                        <div class="section-icon">
+                            <i class="fas fa-arrow-left"></i>
+                        </div>
+                        <h2>Roman to Arabic</h2>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">Roman Numeral</label>
+                        <div class="input-wrapper">
+                            <input type="text" class="input-field roman-input" id="romanInput" 
+                                   placeholder="e.g., MMXXIII" value="MMXXIII" maxlength="15">
+                        </div>
+                        <div style="font-size: 0.85rem; color: #666; margin-top: 5px;">
+                            Use letters: I, V, X, L, C, D, M (uppercase or lowercase)
+                        </div>
+                    </div>
+                    
+                    <div class="controls">
+                        <button class="btn btn-primary" id="romanToArabicBtn">
+                            <i class="fas fa-exchange-alt"></i> Convert to Arabic
+                        </button>
+                        <button class="btn btn-secondary" id="clearRomanBtn">
+                            <i class="fas fa-trash"></i> Clear
+                        </button>
+                    </div>
+                    
+                    <div class="results-display">
+                        <div class="result-title">Arabic Number</div>
+                        <div class="result-value" id="arabicResult">2023</div>
+                        <div class="result-details" id="arabicDetails">MMXXIII = 1000+1000+10+10+1+1+1</div>
+                    </div>
+                    
+                    <div class="breakdown-section">
+                        <div class="breakdown-title">
+                            <i class="fas fa-list-ol"></i>
+                            Step-by-Step Calculation
+                        </div>
+                        <div id="arabicBreakdown">
+                            <!-- Step-by-step calculation will be added here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="examples-section">
+                <h3 class="examples-title">
+                    <i class="fas fa-star"></i>
+                    Common Roman Numerals
+                </h3>
+                <div class="examples-grid" id="examplesGrid">
+                    <!-- Examples will be added dynamically -->
+                </div>
+            </div>
+            
+            <div style="margin-top: 30px;">
+                <h3>Roman Numerals Reference Table</h3>
+                <table class="numerals-table">
+                    <thead>
+                        <tr>
+                            <th>Roman Numeral</th>
+                            <th>Arabic Value</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody id="numeralsTable">
+                        <!-- Table rows will be added dynamically -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="history-section">
+                <div class="history-title">
+                    <h3>Conversion History</h3>
+                    <button class="btn-secondary btn" style="padding: 8px 15px; font-size: 0.9rem;" onclick="clearHistory()">
+                        <i class="fas fa-trash"></i> Clear History
+                    </button>
+                </div>
+                <div class="history-list" id="historyList">
+                    <!-- History items will be added here -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="seo-content">
+            <h2>Understanding Roman Numerals: History and Rules</h2>
+            
+            <p>Roman numerals are a numeral system originating in ancient Rome, using combinations of letters from the Latin alphabet (I, V, X, L, C, D, M) to represent numbers. They were used throughout the Roman Empire and remain in use today in certain contexts like clock faces, book chapters, and movie credits.</p>
+            
+            <div class="highlight-box">
+                <h3>Basic Roman Numeral Rules</h3>
+                <ul>
+                    <li><strong>Additive Principle:</strong> When a smaller numeral follows a larger numeral, you add them (VI = 5 + 1 = 6)</li>
+                    <li><strong>Subtractive Principle:</strong> When a smaller numeral precedes a larger numeral, you subtract it (IV = 5 - 1 = 4)</li>
+                    <li><strong>No More Than Three:</strong> The same numeral cannot be repeated more than three times in a row (III = 3, but IIII is invalid for 4)</li>
+                    <li><strong>Order Matters:</strong> Only I, X, and C can be used subtractively, and only before the next two higher numerals</li>
+                    <li><strong>No Zero:</strong> The Roman numeral system has no symbol for zero</li>
+                </ul>
+            </div>
+            
+            <h3>How Our Converter Works</h3>
+            <ol>
+                <li><strong>Arabic to Roman:</strong> Uses subtractive notation algorithm to create valid Roman numerals</li>
+                <li><strong>Roman to Arabic:</strong> Validates Roman numeral syntax and calculates value using proper rules</li>
+                <li><strong>Validation:</strong> Checks for invalid patterns like "IIII", "VV", "IC" which violate Roman numeral rules</li>
+                <li><strong>Breakdown Display:</strong> Shows step-by-step calculation for educational purposes</li>
+                <li><strong>Range Limitation:</strong> Standard Roman numerals are limited to 1-3999 (no symbol for 5000)</li>
+            </ol>
+            
+            <h3>Roman Numeral Values and Rules</h3>
+            <div class="code-block">
+Basic Symbols:
+I = 1, V = 5, X = 10, L = 50, C = 100, D = 500, M = 1000
+
+Subtractive Combinations:
+IV = 4 (5-1), IX = 9 (10-1), XL = 40 (50-10), XC = 90 (100-10)
+CD = 400 (500-100), CM = 900 (1000-100)
+
+Valid Patterns:
+I before V or X: IV(4), IX(9)
+X before L or C: XL(40), XC(90)
+C before D or M: CD(400), CM(900)
+
+Invalid Patterns:
+IIII (should be IV), VV (should be X), XXXX (should be XL)
+IC (should be XCIX), XD (should be CDXC), VM (should be CMXCV)
+            </div>
+            
+            <h3>Step-by-Step Conversion Examples</h3>
+            
+            <p><strong>Example 1: 1994 to Roman</strong></p>
+            <div class="code-block">
+1994 = 1000 + 900 + 90 + 4
+1000 = M
+900 = CM (1000-100)
+90 = XC (100-10)
+4 = IV (5-1)
+Result: MCMXCIV
+
+Step-by-step:
+1994 - 1000 = 994 → M
+994 - 900 = 94 → CM
+94 - 90 = 4 → XC
+4 - 4 = 0 → IV
+Final: M + CM + XC + IV = MCMXCIV
+            </div>
+            
+            <p><strong>Example 2: MMXXIII to Arabic</strong></p>
+            <div class="code-block">
+M = 1000, M = 1000, X = 10, X = 10, I = 1, I = 1, I = 1
+Since all numerals are in descending order (largest to smallest), add them:
+1000 + 1000 + 10 + 10 + 1 + 1 + 1 = 2023
+            </div>
+            
+            <p><strong>Example 3: XLVII to Arabic</strong></p>
+            <div class="code-block">
+XL = 40 (50-10), V = 5, II = 2
+Since XL is subtractive (smaller before larger), calculate:
+40 + 5 + 2 = 47
+            </div>
+            
+            <div class="warning-box">
+                <h3>Common Mistakes to Avoid</h3>
+                <ul>
+                    <li><strong>Incorrect Subtractive Notation:</strong> Using "IIII" instead of "IV" for 4</li>
+                    <li><strong>Invalid Order:</strong> Placing V before L (VL for 45) - correct is XLV</li>
+                    <li><strong>Too Many Repeats:</strong> Using "XXXX" instead of "XL" for 40</li>
+                    <li><strong>Modern Usage:</strong> Some clocks use "IIII" for 4, but this is non-standard</li>
+                    <li><strong>Case Sensitivity:</strong> Our converter accepts uppercase or lowercase, but traditionally they're uppercase</li>
+                </ul>
+            </div>
+            
+            <h3>Practical Applications Today</h3>
+            <p>Roman numerals are still used in various contexts:</p>
+            <ul>
+                <li><strong>Clock and Watch Faces:</strong> Traditional analog clocks often use Roman numerals</li>
+                <li><strong>Book Chapters and Volume Numbers:</strong> Many books use Roman numerals for prefaces and chapters</li>
+                <li><strong>Movie Copyright Dates:</strong> Film production years often appear in Roman numerals in credits</li>
+                <li><strong>Monarchs and Popes:</strong> Royal and papal names use Roman numerals (Elizabeth II, Pope John Paul II)</li>
+                <li><strong>Building Cornerstones:</strong> Construction dates on buildings often use Roman numerals</li>
+                <li><strong>Sports Events:</strong> Super Bowl and Olympic Games use Roman numerals (Super Bowl LVII)</li>
+                <li><strong>Outline Numbering:</strong> Legal documents and academic papers sometimes use Roman numerals</li>
+            </ul>
+            
+            <h3>Historical Context</h3>
+            <p>Roman numerals originated around the 8th-9th century BC and were used throughout the Roman Empire. They remained the primary way of writing numbers in Europe until the 14th century when they were gradually replaced by Hindu-Arabic numerals. The system has no zero and no place value, making arithmetic operations more difficult compared to the decimal system.</p>
+            
+            <div class="highlight-box">
+                <h3>Fun Facts About Roman Numerals</h3>
+                <ul>
+                    <li>The largest number that can be represented in standard Roman numerals is 3,999 (MMMCMXCIX)</li>
+                    <li>Romans sometimes used a vinculum (bar) over a numeral to multiply it by 1,000 (V̅ = 5,000)</li>
+                    <li>On some clock faces, 4 is represented as "IIII" instead of "IV" for aesthetic symmetry with "VIII"</li>
+                    <li>The year 2023 in Roman numerals is MMXXIII - the same pattern as 1023 (MXXIII) but with an extra M</li>
+                    <li>Roman numerals are used in chemistry to denote the oxidation state of elements</li>
+                    <li>In music theory, Roman numerals are used to represent chords in harmonic analysis</li>
+                </ul>
+            </div>
+            
+            <h3>Frequently Asked Questions</h3>
+            
+            <p><strong>Q: Why is there no zero in Roman numerals?</strong><br>
+            A: The Roman numeral system was developed for counting and commerce, not advanced mathematics. The concept of zero as a number came later from Indian mathematicians.</p>
+            
+            <p><strong>Q: What is the largest number that can be written in Roman numerals?</strong><br>
+            A: Using standard notation, 3,999 (MMMCMXCIX). With extensions like vinculum (bar over numerals), larger numbers can be represented.</p>
+            
+            <p><strong>Q: Why do some clocks use "IIII" instead of "IV" for 4?</strong><br>
+            A: There are several theories: symmetry with "VIII" on the opposite side, tradition from early clockmakers, or to avoid confusion with "VI" when viewed upside down.</p>
+            
+            <p><strong>Q: Are lowercase Roman numerals acceptable?</strong><br>
+            A: While traditionally uppercase, lowercase (i, v, x, etc.) is often used in modern contexts like outlines and page numbers. Our converter accepts both.</p>
+            
+            <p><strong>Q: How do I write years like 2024 in Roman numerals?</strong><br>
+            A: 2024 = MMXXIV (1000+1000+10+10+4). The "4" uses subtractive notation (IV) rather than additive (IIII).</p>
+            
+            <p><strong>Q: Can Roman numerals represent fractions?</strong><br>
+            A: Yes, Romans used fractions like S for 1/2 (semis), • for 1/12 (uncia), and other symbols, but these are rarely used today.</p>
+        </div>
+        
+        <footer>
+            <div>© 2023 Roman Numeral Converter | All rights reserved</div>
+            <div style="margin-top: 10px;">Contact: toolvala@gmail.com | Works 100% in your browser</div>
+        </footer>
+    </div>
+    
+    <script>
+        // Global variables
+        let conversionHistory = [];
+        let commonNumerals = [
+            { roman: 'I', arabic: 1 },
+            { roman: 'IV', arabic: 4 },
+            { roman: 'V', arabic: 5 },
+            { roman: 'IX', arabic: 9 },
+            { roman: 'X', arabic: 10 },
+            { roman: 'XL', arabic: 40 },
+            { roman: 'L', arabic: 50 },
+            { roman: 'XC', arabic: 90 },
+            { roman: 'C', arabic: 100 },
+            { roman: 'CD', arabic: 400 },
+            { roman: 'D', arabic: 500 },
+            { roman: 'CM', arabic: 900 },
+            { roman: 'M', arabic: 1000 },
+            { roman: 'MM', arabic: 2000 },
+            { roman: 'MMM', arabic: 3000 }
+        ];
+        
+        let examples = [
+            { roman: 'I', arabic: 1, desc: 'Smallest Roman numeral' },
+            { roman: 'IV', arabic: 4, desc: 'Subtractive notation example' },
+            { roman: 'IX', arabic: 9, desc: 'Another subtractive example' },
+            { roman: 'XII', arabic: 12, desc: 'Simple addition' },
+            { roman: 'XL', arabic: 40, desc: '50-10' },
+            { roman: 'LXXVIII', arabic: 78, desc: '50+10+10+5+1+1+1' },
+            { roman: 'XC', arabic: 90, desc: '100-10' },
+            { roman: 'C', arabic: 100, desc: 'Century' },
+            { roman: 'CD', arabic: 400, desc: '500-100' },
+            { roman: 'DCCC', arabic: 800, desc: '500+100+100+100' },
+            { roman: 'CM', arabic: 900, desc: '1000-100' },
+            { roman: 'M', arabic: 1000, desc: 'Millennium' },
+            { roman: 'MCMXC', arabic: 1990, desc: '1000+900+90' },
+            { roman: 'MM', arabic: 2000, desc: 'Two thousand' },
+            { roman: 'MMXXIII', arabic: 2023, desc: 'Current year' },
+            { roman: 'MMMCMXCIX', arabic: 3999, desc: 'Maximum standard Roman numeral' }
+        ];
+        
+        // Roman numeral values
+        const romanValues = {
+            'I': 1,
+            'V': 5,
+            'X': 10,
+            'L': 50,
+            'C': 100,
+            'D': 500,
+            'M': 1000
+        };
+        
+        // Conversion pairs for Arabic to Roman
+        const conversionPairs = [
+            { value: 1000, numeral: 'M' },
+            { value: 900, numeral: 'CM' },
+            { value: 500, numeral: 'D' },
+            { value: 400, numeral: 'CD' },
+            { value: 100, numeral: 'C' },
+            { value: 90, numeral: 'XC' },
+            { value: 50, numeral: 'L' },
+            { value: 40, numeral: 'XL' },
+            { value: 10, numeral: 'X' },
+            { value: 9, numeral: 'IX' },
+            { value: 5, numeral: 'V' },
+            { value: 4, numeral: 'IV' },
+            { value: 1, numeral: 'I' }
+        ];
+        
+        // DOM Elements
+        const arabicInput = document.getElementById('arabicInput');
+        const romanInput = document.getElementById('romanInput');
+        
+        const arabicToRomanBtn = document.getElementById('arabicToRomanBtn');
+        const romanToArabicBtn = document.getElementById('romanToArabicBtn');
+        const clearArabicBtn = document.getElementById('clearArabicBtn');
+        const clearRomanBtn = document.getElementById('clearRomanBtn');
+        
+        // Results Elements
+        const romanResult = document.getElementById('romanResult');
+        const romanDetails = document.getElementById('romanDetails');
+        const romanBreakdown = document.getElementById('romanBreakdown');
+        
+        const arabicResult = document.getElementById('arabicResult');
+        const arabicDetails = document.getElementById('arabicDetails');
+        const arabicBreakdown = document.getElementById('arabicBreakdown');
+        
+        // History and Examples
+        const historyList = document.getElementById('historyList');
+        const examplesGrid = document.getElementById('examplesGrid');
+        const numeralsTable = document.getElementById('numeralsTable');
+        
+        // Initialize
+        function init() {
+            setupEventListeners();
+            loadHistoryFromStorage();
+            renderHistory();
+            renderExamples();
+            renderNumeralsTable();
+            
+            // Perform initial conversions
+            arabicToRoman();
+            romanToArabic();
+        }
+        
+        // Setup event listeners
+        function setupEventListeners() {
+            arabicToRomanBtn.addEventListener('click', arabicToRoman);
+            romanToArabicBtn.addEventListener('click', romanToArabic);
+            clearArabicBtn.addEventListener('click', clearArabic);
+            clearRomanBtn.addEventListener('click', clearRoman);
+            
+            // Real-time conversion on input change
+            arabicInput.addEventListener('input', arabicToRoman);
+            romanInput.addEventListener('input', romanToArabic);
+            
+            // Keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.key === '1') {
+                    e.preventDefault();
+                    arabicToRoman();
+                }
+                if (e.ctrlKey && e.key === '2') {
+                    e.preventDefault();
+                    romanToArabic();
+                }
+                if (e.ctrlKey && e.key === 'l') {
+                    e.preventDefault();
+                    clearAll();
+                }
+            });
+        }
+        
+        // Convert Arabic to Roman
+        function arabicToRoman() {
+            let num = parseInt(arabicInput.value);
+            
+            // Validate input
+            if (isNaN(num) || num < 1 || num > 3999) {
+                if (arabicInput.value.trim() !== '') {
+                    showNotification('Please enter a number between 1 and 3999', 'error');
+                }
+                romanResult.textContent = '---';
+                romanDetails.textContent = 'Enter a valid number (1-3999)';
+                romanBreakdown.innerHTML = '';
+                return;
+            }
+            
+            // Convert to Roman numeral
+            let result = '';
+            let remaining = num;
+            let breakdown = [];
+            
+            for (let pair of conversionPairs) {
+                while (remaining >= pair.value) {
+                    result += pair.numeral;
+                    breakdown.push({ numeral: pair.numeral, value: pair.value });
+                    remaining -= pair.value;
+                }
+            }
+            
+            // Update display
+            romanResult.textContent = result;
+            romanDetails.textContent = numberToWords(num);
+            
+            // Update breakdown display
+            renderRomanBreakdown(breakdown);
+            
+            // Also update Roman input for consistency
+            romanInput.value = result;
+            
+            // Add to history
+            addToHistory('arabicToRoman', num.toString(), result);
+        }
+        
+        // Convert Roman to Arabic
+        function romanToArabic() {
+            let roman = romanInput.value.trim().toUpperCase();
+            
+            // Validate input
+            if (!isValidRoman(roman)) {
+                if (roman !== '') {
+                    showNotification('Invalid Roman numeral! Check the rules.', 'error');
+                }
+                arabicResult.textContent = '---';
+                arabicDetails.textContent = 'Enter a valid Roman numeral';
+                arabicBreakdown.innerHTML = '';
+                return;
+            }
+            
+            // Convert to Arabic
+            let total = 0;
+            let steps = [];
+            let prevValue = 0;
+            
+            for (let i = 0; i < roman.length; i++) {
+                let currentChar = roman[i];
+                let currentValue = romanValues[currentChar];
+                
+                if (i > 0) {
+                    let prevChar = roman[i-1];
+                    prevValue = romanValues[prevChar];
+                    
+                    // Check for subtractive notation
+                    if (currentValue > prevValue) {
+                        // This is a subtractive pair (like IV or IX)
+                        // We already added prevValue in the previous iteration, so we need to:
+                        // 1. Remove the previous addition
+                        // 2. Add the correct value (currentValue - prevValue)
+                        total = total - prevValue + (currentValue - prevValue);
+                        steps[steps.length - 1] = {
+                            text: `${prevChar}${currentChar} = ${currentValue} - ${prevValue} = ${currentValue - prevValue}`,
+                            value: currentValue - prevValue
+                        };
+                    } else {
+                        // Normal addition
+                        total += currentValue;
+                        steps.push({
+                            text: `${currentChar} = ${currentValue}`,
+                            value: currentValue
+                        });
+                    }
+                } else {
+                    // First character
+                    total += currentValue;
+                    steps.push({
+                        text: `${currentChar} = ${currentValue}`,
+                        value: currentValue
+                    });
+                }
+            }
+            
+            // Update display
+            arabicResult.textContent = total;
+            arabicDetails.textContent = `${roman} = ${steps.map(s => s.value).join('+')}`;
+            
+            // Update breakdown display
+            renderArabicBreakdown(steps, total);
+            
+            // Also update Arabic input for consistency
+            arabicInput.value = total;
+            
+            // Add to history
+            addToHistory('romanToArabic', roman, total.toString());
+        }
+        
+        // Render Roman breakdown
+        function renderRomanBreakdown(breakdown) {
+            if (breakdown.length === 0) {
+                romanBreakdown.innerHTML = '<div style="text-align: center; color: #999; padding: 20px;">No breakdown available</div>';
+                return;
+            }
+            
+            let breakdownHTML = '';
+            
+            // Group identical consecutive numerals
+            let grouped = [];
+            for (let item of breakdown) {
+                if (grouped.length > 0 && grouped[grouped.length-1].numeral === item.numeral) {
+                    grouped[grouped.length-1].count++;
+                    grouped[grouped.length-1].totalValue += item.value;
+                } else {
+                    grouped.push({
+                        numeral: item.numeral,
+                        value: item.value,
+                        count: 1,
+                        totalValue: item.value
+                    });
+                }
+            }
+            
+            // Create breakdown items
+            grouped.forEach(item => {
+                let displayNumeral = item.count > 1 ? `${item.numeral} (x${item.count})` : item.numeral;
+                breakdownHTML += `
+                    <div class="breakdown-item">
+                        <div class="breakdown-symbol">${displayNumeral}</div>
+                        <div class="breakdown-value">${item.totalValue}</div>
+                    </div>
+                `;
+            });
+            
+            romanBreakdown.innerHTML = breakdownHTML;
+        }
+        
+        // Render Arabic breakdown
+        function renderArabicBreakdown(steps, total) {
+            if (steps.length === 0) {
+                arabicBreakdown.innerHTML = '<div style="text-align: center; color: #999; padding: 10px;">No calculation steps</div>';
+                return;
+            }
+            
+            let breakdownHTML = '<div style="display: flex; flex-direction: column; gap: 8px;">';
+            
+            steps.forEach((step, index) => {
+                breakdownHTML += `
+                    <div style="display: flex; justify-content: space-between; padding: 8px; background: white; border-radius: 6px; border: 1px solid #e0e0e0;">
+                        <span>${step.text}</span>
+                        <span style="font-weight: 600; color: #2196f3;">Step ${index + 1}</span>
+                    </div>
+                `;
+            });
+            
+            breakdownHTML += `
+                <div style="display: flex; justify-content: space-between; padding: 12px; background: #e3f2fd; border-radius: 6px; border: 1px solid #2196f3; margin-top: 10px; font-weight: 600;">
+                    <span>Total</span>
+                    <span style="color: #2196f3;">${total}</span>
+                </div>
+            </div>`;
+            
+            arabicBreakdown.innerHTML = breakdownHTML;
+        }
+        
+        // Validate Roman numeral
+        function isValidRoman(roman) {
+            if (!roman) return false;
+            
+            // Convert to uppercase and remove spaces
+            roman = roman.toUpperCase().replace(/\s+/g, '');
+            
+            // Check for invalid characters
+            if (!/^[IVXLCDM]+$/i.test(roman)) {
+                return false;
+            }
+            
+            // Check for invalid patterns
+            const invalidPatterns = [
+                /IIII/, /VV/, /XXXX/, /LL/, /CCCC/, /DD/, /MMMMM/,
+                /IL/, /IC/, /ID/, /IM/, /VX/, /VL/, /VC/, /VD/, /VM/,
+                /XD/, /XM/, /LC/, /LD/, /LM/, /DM/
+            ];
+            
+            for (let pattern of invalidPatterns) {
+                if (pattern.test(roman)) {
+                    return false;
+                }
+            }
+            
+            // Additional validation: check numeral order
+            // This is a simplified check - a full validator would be more complex
+            const numerals = roman.split('');
+            for (let i = 0; i < numerals.length - 1; i++) {
+                const current = romanValues[numerals[i]];
+                const next = romanValues[numerals[i + 1]];
+                
+                // A numeral can only be subtracted from the next two higher numerals
+                if (current < next) {
+                    // Check valid subtractive combinations
+                    const validSubtractions = {
+                        'I': ['V', 'X'],
+                        'X': ['L', 'C'],
+                        'C': ['D', 'M']
+                    };
+                    
+                    if (!validSubtractions[numerals[i]] || !validSubtractions[numerals[i]].includes(numerals[i + 1])) {
+                        return false;
+                    }
+                    
+                    // Check that we don't have multiple subtractive numerals in a row
+                    if (i > 0 && romanValues[numerals[i - 1]] < current) {
+                        return false;
+                    }
+                }
+            }
+            
+            return true;
+        }
+        
+        // Convert number to words (simplified)
+        function numberToWords(num) {
+            if (num === 0) return 'Zero';
+            
+            const ones = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
+            const teens = ['ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
+            const tens = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+            const thousands = ['', 'thousand', 'million', 'billion'];
+            
+            if (num < 10) return ones[num].charAt(0).toUpperCase() + ones[num].slice(1);
+            if (num < 20) return teens[num - 10].charAt(0).toUpperCase() + teens[num - 10].slice(1);
+            if (num < 100) {
+                const ten = Math.floor(num / 10);
+                const one = num % 10;
+                return (tens[ten].charAt(0).toUpperCase() + tens[ten].slice(1) + 
+                       (one > 0 ? '-' + ones[one] : ''));
+            }
+            if (num < 1000) {
+                const hundred = Math.floor(num / 100);
+                const remainder = num % 100;
+                return ones[hundred].charAt(0).toUpperCase() + ones[hundred].slice(1) + ' hundred' + 
+                       (remainder > 0 ? ' ' + numberToWords(remainder).toLowerCase() : '');
+            }
+            if (num < 1000000) {
+                const thousand = Math.floor(num / 1000);
+                const remainder = num % 1000;
+                return numberToWords(thousand) + ' thousand' + 
+                       (remainder > 0 ? ' ' + numberToWords(remainder).toLowerCase() : '');
+            }
+            
+            return 'Large number';
+        }
+        
+        // Add conversion to history
+        function addToHistory(type, input, output) {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const dateString = now.toLocaleDateString();
+            
+            const historyEntry = {
+                id: Date.now(),
+                timestamp: `${dateString} ${timeString}`,
+                type: type,
+                input: input,
+                output: output
+            };
+            
+            conversionHistory.unshift(historyEntry);
+            
+            // Keep only last 10 entries
+            if (conversionHistory.length > 10) {
+                conversionHistory = conversionHistory.slice(0, 10);
+            }
+            
+            // Save to localStorage
+            saveHistoryToStorage();
+            
+            // Update display
+            renderHistory();
+        }
+        
+        // Render history list
+        function renderHistory() {
+            if (conversionHistory.length === 0) {
+                historyList.innerHTML = '<div style="text-align: center; color: #999; padding: 20px;">No conversion history yet</div>';
+                return;
+            }
+            
+            let historyHTML = '';
+            
+            conversionHistory.forEach(entry => {
+                let direction, inputDisplay, outputDisplay;
+                
+                if (entry.type === 'arabicToRoman') {
+                    direction = 'Arabic → Roman';
+                    inputDisplay = entry.input;
+                    outputDisplay = entry.output;
+                } else {
+                    direction = 'Roman → Arabic';
+                    inputDisplay = entry.output;
+                    outputDisplay = entry.input;
+                }
+                
+                historyHTML += `
+                    <div class="history-item">
+                        <div>
+                            <div class="history-direction">${direction}</div>
+                            <div style="font-size: 0.8rem; color: #666;">${entry.timestamp}</div>
+                        </div>
+                        <div class="history-values">
+                            <div>
+                                <div style="font-weight: 600;">${inputDisplay}</div>
+                                <div style="font-size: 0.9rem; color: #2196f3;">→ ${outputDisplay}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            historyList.innerHTML = historyHTML;
+        }
+        
+        // Render examples
+        function renderExamples() {
+            let examplesHTML = '';
+            
+            examples.forEach(example => {
+                examplesHTML += `
+                    <div class="example-card" onclick="loadExample('${example.roman}', ${example.arabic})">
+                        <div class="example-roman">${example.roman}</div>
+                        <div class="example-arabic">${example.arabic}</div>
+                        <div style="font-size: 0.8rem; color: #666; margin-top: 5px;">${example.desc}</div>
+                    </div>
+                `;
+            });
+            
+            examplesGrid.innerHTML = examplesHTML;
+        }
+        
+        // Render numerals table
+        function renderNumeralsTable() {
+            let tableHTML = '';
+            
+            Object.entries(romanValues).forEach(([numeral, value]) => {
+                let description = '';
+                switch(numeral) {
+                    case 'I': description = 'One (unus)'; break;
+                    case 'V': description = 'Five (quinque)'; break;
+                    case 'X': description = 'Ten (decem)'; break;
+                    case 'L': description = 'Fifty (quinquaginta)'; break;
+                    case 'C': description = 'One hundred (centum)'; break;
+                    case 'D': description = 'Five hundred (quingenti)'; break;
+                    case 'M': description = 'One thousand (mille)'; break;
+                }
+                
+                tableHTML += `
+                    <tr>
+                        <td style="font-weight: 600; font-size: 1.2rem;">${numeral}</td>
+                        <td>${value}</td>
+                        <td>${description}</td>
+                    </tr>
+                `;
+            });
+            
+            // Add combined numerals
+            const combinedNumerals = [
+                { roman: 'IV', value: 4, desc: 'Four (quattuor)' },
+                { roman: 'IX', value: 9, desc: 'Nine (novem)' },
+                { roman: 'XL', value: 40, desc: 'Forty (quadraginta)' },
+                { roman: 'XC', value: 90, desc: 'Ninety (nonaginta)' },
+                { roman: 'CD', value: 400, desc: 'Four hundred (quadringenti)' },
+                { roman: 'CM', value: 900, desc: 'Nine hundred (nongenti)' }
+            ];
+            
+            combinedNumerals.forEach(item => {
+                tableHTML += `
+                    <tr>
+                        <td style="font-weight: 600; font-size: 1.2rem;">${item.roman}</td>
+                        <td>${item.value}</td>
+                        <td>${item.desc} (subtractive notation)</td>
+                    </tr>
+                `;
+            });
+            
+            numeralsTable.innerHTML = tableHTML;
+        }
+        
+        // Load example
+        function loadExample(roman, arabic) {
+            arabicInput.value = arabic;
+            romanInput.value = roman;
+            
+            // Trigger conversions
+            arabicToRoman();
+            romanToArabic();
+            
+            showNotification(`Loaded example: ${roman} = ${arabic}`, 'success');
+        }
+        
+        // Clear Arabic input
+        function clearArabic() {
+            arabicInput.value = '';
+            arabicToRoman();
+            showNotification('Arabic input cleared!', 'success');
+        }
+        
+        // Clear Roman input
+        function clearRoman() {
+            romanInput.value = '';
+            romanToArabic();
+            showNotification('Roman input cleared!', 'success');
+        }
+        
+        // Clear all inputs
+        function clearAll() {
+            clearArabic();
+            clearRoman();
+        }
+        
+        // Clear history
+        function clearHistory() {
+            conversionHistory = [];
+            saveHistoryToStorage();
+            renderHistory();
+            showNotification('History cleared!', 'success');
+        }
+        
+        // Save history to localStorage
+        function saveHistoryToStorage() {
+            try {
+                localStorage.setItem('romanNumeralHistory', JSON.stringify(conversionHistory));
+            } catch (e) {
+                console.log('Could not save history to localStorage');
+            }
+        }
+        
+        // Load history from localStorage
+        function loadHistoryFromStorage() {
+            try {
+                const savedHistory = localStorage.getItem('romanNumeralHistory');
+                if (savedHistory) {
+                    conversionHistory = JSON.parse(savedHistory);
+                }
+            } catch (e) {
+                console.log('Could not load history from localStorage');
+            }
+        }
+        
+        // Show notification
+        function showNotification(message, type) {
+            // Remove existing notification
+            const existing = document.querySelector('.notification');
+            if (existing) existing.remove();
+            
+            // Create notification
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.innerHTML = `
+                <div style="
+                    position: fixed;
+                    bottom: 20px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: ${type === 'success' ? '#4caf50' : type === 'error' ? '#f44336' : '#2196f3'};
+                    color: white;
+                    padding: 12px 24px;
+                    border-radius: 8px;
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                    z-index: 1000;
+                    font-weight: 600;
+                    animation: slideUp 0.3s ease;
+                ">
+                    ${message}
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Add animation
+            if (!document.querySelector('#notification-animation')) {
+                const style = document.createElement('style');
+                style.id = 'notification-animation';
+                style.textContent = `
+                    @keyframes slideUp {
+                        from { transform: translateX(-50%) translateY(100px); opacity: 0; }
+                        to { transform: translateX(-50%) translateY(0); opacity: 1; }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+        
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</body>
+</html>
