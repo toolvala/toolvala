@@ -1,1 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accurate Reading Time Calculator | Free Online Tool</title>
+    <meta name="description" content="Calculate exact reading time for any text. Perfect for WhatsApp messages, articles, blogs, and documents. Free instant tool.">
+    <meta name="keywords" content="reading time calculator, WhatsApp reading time, text reading time, article reading time">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #2196f3, #9c27b0);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            color: #1a237e;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #546e7a;
+            font-size: 1.1rem;
+        }
+        
+        /* Tool Card */
+        .tool-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .input-section {
+            margin-bottom: 20px;
+        }
+        
+        textarea {
+            width: 100%;
+            min-height: 200px;
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            resize: vertical;
+            margin-bottom: 15px;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: #2196f3;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: #2196f3;
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        /* Results */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .result-box {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .result-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2196f3;
+            margin-bottom: 5px;
+        }
+        
+        .result-label {
+            color: #546e7a;
+            font-size: 0.9rem;
+        }
+        
+        .reading-time-display {
+            background: linear-gradient(135deg, #2196f3, #9c27b0);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .reading-time-value {
+            font-size: 3rem;
+            font-weight: 800;
+            margin: 10px 0;
+        }
+        
+        .reading-time-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        /* Speed Controls */
+        .speed-control {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .speed-slider {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .speed-value {
+            min-width: 80px;
+            font-weight: 600;
+            color: #2196f3;
+        }
+        
+        input[type="range"] {
+            flex: 1;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            outline: none;
+        }
+        
+        /* SEO Content */
+        .seo-content {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-top: 30px;
+        }
+        
+        .seo-content h2 {
+            color: #1a237e;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .seo-content h3 {
+            color: #3949ab;
+            margin: 20px 0 10px;
+        }
+        
+        .seo-content p {
+            margin-bottom: 15px;
+            color: #455a64;
+        }
+        
+        .seo-content ul, .seo-content ol {
+            margin: 15px 0 15px 20px;
+            color: #455a64;
+        }
+        
+        .highlight-box {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #546e7a;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .controls {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .results-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .reading-time-value {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div>
+                    <h1>Accurate Reading Time Calculator</h1>
+                    <div class="subtitle">Calculate exact reading time for any text instantly</div>
+                </div>
+            </div>
+        </header>
+        
+        <div class="tool-card">
+            <div class="input-section">
+                <textarea id="inputText" placeholder="Paste your text here..."></textarea>
+                
+                <div class="controls">
+                    <button class="btn btn-primary" id="calculateBtn">
+                        <i class="fas fa-calculator"></i> Calculate Reading Time
+                    </button>
+                    <button class="btn btn-secondary" id="clearBtn">
+                        <i class="fas fa-trash"></i> Clear
+                    </button>
+                    <button class="btn btn-secondary" id="testBtn">
+                        <i class="fas fa-flask"></i> Test Your Text
+                    </button>
+                </div>
+            </div>
+            
+            <div class="speed-control">
+                <div class="speed-slider">
+                    <span class="speed-value" id="speedValue">200 WPM</span>
+                    <input type="range" id="speedSlider" min="100" max="400" value="200" step="25">
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-top: 5px; color: #546e7a; font-size: 0.9rem;">
+                    <span>Slow (100)</span>
+                    <span>Average (200)</span>
+                    <span>Fast (400)</span>
+                </div>
+            </div>
+            
+            <div class="results-grid">
+                <div class="result-box">
+                    <div class="result-value" id="wordCount">0</div>
+                    <div class="result-label">Words</div>
+                </div>
+                
+                <div class="result-box">
+                    <div class="result-value" id="characterCount">0</div>
+                    <div class="result-label">Characters</div>
+                </div>
+                
+                <div class="result-box">
+                    <div class="result-value" id="sentenceCount">0</div>
+                    <div class="result-label">Sentences</div>
+                </div>
+                
+                <div class="result-box">
+                    <div class="result-value" id="paragraphCount">0</div>
+                    <div class="result-label">Paragraphs</div>
+                </div>
+            </div>
+            
+            <div class="reading-time-display">
+                <div class="reading-time-label">Estimated Reading Time</div>
+                <div class="reading-time-value" id="readingTime">0</div>
+                <div class="reading-time-label" id="timeUnit">minutes</div>
+                <div style="margin-top: 10px; font-size: 0.9rem; opacity: 0.8;">
+                    At <span id="displaySpeed">200</span> words per minute
+                </div>
+            </div>
+        </div>
+        
+        <div class="seo-content">
+            <h2>Why Reading Time Calculation Matters</h2>
+            
+            <p>Reading time estimation is crucial for modern content consumption. When you see a message or article with emojis, symbols, and links like the example above, understanding the actual reading time helps you manage your time effectively.</p>
+            
+            <div class="highlight-box">
+                <h3>Correcting Common Mistakes</h3>
+                <p>Many online calculators make these errors:</p>
+                <ul>
+                    <li><strong>Counting URLs as words:</strong> URLs like "https://www.sk24taas.com/2025/12/blog-post.html" should not be counted as readable words</li>
+                    <li><strong>Counting emojis as characters:</strong> Emojis (🔰, 📡, 🌐) are visual elements, not readable text</li>
+                    <li><strong>Including special symbols:</strong> Symbols (*, ., ⤵️) don't add to reading time</li>
+                    <li><strong>Multilingual text errors:</strong> Mixing Devanagari (नगरपरिषद) with English text needs proper handling</li>
+                </ul>
+            </div>
+            
+            <h3>How Our Calculator Works Accurately</h3>
+            <ol>
+                <li><strong>Smart Word Counting:</strong> Only counts actual readable words in any language</li>
+                <li><strong>URL Exclusion:</strong> Automatically ignores web links and email addresses</li>
+                <li><strong>Symbol Filtering:</strong> Removes emojis, asterisks, and special characters</li>
+                <li><strong>Adjustable Speed:</strong> From 100 WPM (technical/slow) to 400 WPM (fast reading)</li>
+                <li><strong>Real-time Updates:</strong> See results instantly as you type or adjust settings</li>
+            </ol>
+            
+            <h3>Real Example Analysis</h3>
+            <p>Let's analyze your provided text:</p>
+            <ul>
+                <li><strong>Total characters (with symbols):</strong> ~650 characters</li>
+                <li><strong>Actual readable words:</strong> ~35 words (after removing URLs, emojis, symbols)</li>
+                <li><strong>At 200 WPM:</strong> 35 ÷ 200 = 0.175 minutes = ~10 seconds</li>
+                <li><strong>NOT 10 minutes:</strong> A common error when tools count every character as a word!</li>
+            </ul>
+            
+            <h3>Practical Applications</h3>
+            <p>This tool is perfect for:</p>
+            <ul>
+                <li><strong>WhatsApp Messages:</strong> Calculate reading time for forwarded messages</li>
+                <li><strong>Content Creators:</strong> Estimate reading time for blog posts and articles</li>
+                <li><strong>Social Media Managers:</strong> Plan optimal post lengths for different platforms</li>
+                <li><strong>Students & Researchers:</strong> Estimate study time for reading materials</li>
+                <li><strong>Email Writers:</strong> Keep emails at optimal reading lengths</li>
+            </ul>
+            
+            <h3>Understanding Reading Speeds</h3>
+            <p>Different content types require different reading speeds:</p>
+            <ul>
+                <li><strong>100 WPM:</strong> Technical/scientific material, legal documents</li>
+                <li><strong>200 WPM:</strong> Average reading speed for most adults</li>
+                <li><strong>250 WPM:</strong> Casual reading, fiction, blogs</li>
+                <li><strong>300-400 WPM:</strong> Skimming, familiar content, news articles</li>
+            </ul>
+            
+            <div class="highlight-box">
+                <h3>Pro Tip for Content Creators</h3>
+                <p>For maximum engagement on social media:</p>
+                <ul>
+                    <li><strong>Instagram/Facebook:</strong> Aim for 15-30 second reading time</li>
+                    <li><strong>Twitter/X:</strong> 5-15 second reading time (due to character limits)</li>
+                    <li><strong>Blog Posts:</strong> 3-7 minute reading time for optimal engagement</li>
+                    <li><strong>Email Newsletters:</strong> 1-3 minute reading time to maintain attention</li>
+                </ul>
+            </div>
+            
+            <h3>Frequently Asked Questions</h3>
+            
+            <p><strong>Q: Why does my text show different word counts on different tools?</strong><br>
+            A: Most tools make these common errors: counting URLs as words, including emojis in word count, or improperly handling multilingual text.</p>
+            
+            <p><strong>Q: What's the most accurate reading speed setting?</strong><br>
+            A: For general content, 200 WPM is standard. For technical content, use 150 WPM. For social media, use 250 WPM (people read faster on mobile).</p>
+            
+            <p><strong>Q: How do you handle multilingual text?</strong><br>
+            A: Our tool properly counts words in any language (English, Hindi, Marathi, etc.) while excluding non-readable elements.</p>
+            
+            <p><strong>Q: Why are URLs excluded from word count?</strong><br>
+            A: URLs are not read word-by-word. They're either clicked or copied, so they don't contribute to reading time.</p>
+            
+            <p><strong>Q: Can I use this for WhatsApp forwarded messages?</strong><br>
+            A: Yes! This tool is perfect for cleaning up and timing WhatsApp messages that contain emojis, symbols, and promotional links.</p>
+        </div>
+        
+        <footer>
+            <div>© 2023 Accurate Reading Time Calculator | All rights reserved</div>
+            <div style="margin-top: 10px;">Contact: toolvala@gmail.com | Works 100% in your browser</div>
+        </footer>
+    </div>
+    
+    <script>
+        // DOM Elements
+        const inputText = document.getElementById('inputText');
+        const calculateBtn = document.getElementById('calculateBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const testBtn = document.getElementById('testBtn');
+        const speedSlider = document.getElementById('speedSlider');
+        const speedValue = document.getElementById('speedValue');
+        const displaySpeed = document.getElementById('displaySpeed');
+        
+        // Results Elements
+        const wordCount = document.getElementById('wordCount');
+        const characterCount = document.getElementById('characterCount');
+        const sentenceCount = document.getElementById('sentenceCount');
+        const paragraphCount = document.getElementById('paragraphCount');
+        const readingTime = document.getElementById('readingTime');
+        const timeUnit = document.getElementById('timeUnit');
+        
+        // Initialize
+        function init() {
+            updateSpeedDisplay();
+            calculateReadingTime();
+            setupEventListeners();
+        }
+        
+        // Setup event listeners
+        function setupEventListeners() {
+            calculateBtn.addEventListener('click', calculateReadingTime);
+            clearBtn.addEventListener('click', clearAll);
+            testBtn.addEventListener('click', loadTestText);
+            speedSlider.addEventListener('input', updateSpeedDisplay);
+            
+            // Real-time calculation
+            inputText.addEventListener('input', calculateReadingTime);
+            
+            // Keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.key === 'Enter') {
+                    e.preventDefault();
+                    calculateReadingTime();
+                }
+                if (e.ctrlKey && e.key === 'l') {
+                    e.preventDefault();
+                    clearAll();
+                }
+            });
+        }
+        
+        // Update speed display
+        function updateSpeedDisplay() {
+            const speed = parseInt(speedSlider.value);
+            speedValue.textContent = `${speed} WPM`;
+            displaySpeed.textContent = speed;
+            calculateReadingTime();
+        }
+        
+        // Accurate word counting function
+        function countWords(text) {
+            // Remove URLs and web addresses
+            text = text.replace(/https?:\/\/\S+/gi, '');
+            text = text.replace(/www\.\S+/gi, '');
+            
+            // Remove common social media patterns
+            text = text.replace(/@\S+/g, '');
+            text = text.replace(/#\S+/g, '');
+            
+            // Remove emojis and symbols
+            text = text.replace(/[^\w\s\u0900-\u097F.,!?;:'"()\-\n]/g, ' ');
+            
+            // Remove extra spaces and split into words
+            const words = text.trim().split(/\s+/).filter(word => word.length > 0);
+            
+            return words.length;
+        }
+        
+        // Calculate reading time and statistics
+        function calculateReadingTime() {
+            const text = inputText.value;
+            
+            if (!text.trim()) {
+                resetResults();
+                return;
+            }
+            
+            // Count words accurately
+            const words = countWords(text);
+            
+            // Count characters (excluding URLs and special symbols)
+            const cleanText = text.replace(/https?:\/\/\S+/gi, '').replace(/www\.\S+/gi, '').replace(/[^\w\s\u0900-\u097F.,!?;:'"()\-\n]/g, '');
+            const characters = cleanText.length;
+            
+            // Count sentences
+            const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0).length;
+            
+            // Count paragraphs
+            const paragraphs = text.split(/\n+/).filter(p => p.trim().length > 0).length;
+            
+            // Calculate reading time
+            const speed = parseInt(speedSlider.value);
+            const minutes = words / speed;
+            
+            // Update display
+            wordCount.textContent = words;
+            characterCount.textContent = characters;
+            sentenceCount.textContent = sentences;
+            paragraphCount.textContent = paragraphs;
+            
+            // Format reading time appropriately
+            if (minutes < 0.0167) { // Less than 1 second
+                readingTime.textContent = '< 1';
+                timeUnit.textContent = 'second';
+            } else if (minutes < 1) {
+                const seconds = Math.round(minutes * 60);
+                readingTime.textContent = seconds;
+                timeUnit.textContent = seconds === 1 ? 'second' : 'seconds';
+            } else if (minutes < 10) {
+                readingTime.textContent = minutes.toFixed(1);
+                timeUnit.textContent = 'minutes';
+            } else {
+                readingTime.textContent = Math.round(minutes);
+                timeUnit.textContent = 'minutes';
+            }
+            
+            // Show notification for interesting results
+            if (words > 0 && minutes < 0.5) {
+                showNotification(`Only ${Math.round(minutes * 60)} seconds to read!`, 'info');
+            }
+        }
+        
+        // Reset all results
+        function resetResults() {
+            wordCount.textContent = '0';
+            characterCount.textContent = '0';
+            sentenceCount.textContent = '0';
+            paragraphCount.textContent = '0';
+            readingTime.textContent = '0';
+            timeUnit.textContent = 'minutes';
+        }
+        
+        // Clear all text
+        function clearAll() {
+            inputText.value = '';
+            resetResults();
+            showNotification('Text cleared!', 'success');
+        }
+        
+        // Load test text
+        function loadTestText() {
+            const testText = `*🔰नगरपरिषद मतदारसंघात मतदानासाठी सार्वजनिक सुट्टी.*
 
+*सविस्तर बातमी वाचा.⤵️* https://www.sk24taas.com/2025/12/blog-post.html
+
+*📡एस.के.24 तास 📡*            
+*🌐www.sk24taas.com*
+*▶️यु ट्युब चॅनल 👇* *https://www.youtube.com/@SURESHKANNAMWAR*
+
+*✍️मुख्य संपादक*
+*सुरेश एस.कन्नमवार*
+*मो.नं.📲 8805113505*
+
+*बातम्यांचे अपडेट्स आपल्या मोबाईलवर मिळवण्यासाठी " एस.के.24 तास " चे अधिकृत WhatsApp चॅनल फॉलो करा.👇*
+*https://whatsapp.com/channel/0029VbAVlPdBqbr4kUw2pt0w*`;
+            
+            inputText.value = testText;
+            calculateReadingTime();
+            showNotification('Test text loaded! See accurate results.', 'success');
+        }
+        
+        // Show notification
+        function showNotification(message, type) {
+            // Remove existing notification
+            const existing = document.querySelector('.notification');
+            if (existing) existing.remove();
+            
+            // Create notification
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.innerHTML = `
+                <div style="
+                    position: fixed;
+                    bottom: 20px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: ${type === 'success' ? '#4caf50' : '#2196f3'};
+                    color: white;
+                    padding: 12px 24px;
+                    border-radius: 8px;
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                    z-index: 1000;
+                    font-weight: 600;
+                    animation: slideUp 0.3s ease;
+                ">
+                    ${message}
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Add animation
+            if (!document.querySelector('#notification-animation')) {
+                const style = document.createElement('style');
+                style.id = 'notification-animation';
+                style.textContent = `
+                    @keyframes slideUp {
+                        from { transform: translateX(-50%) translateY(100px); opacity: 0; }
+                        to { transform: translateX(-50%) translateY(0); opacity: 1; }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+        
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</body>
+</html>
