@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEX to RGBA Converter | Color Code Conversion Tool</title>
+    <meta name="description" content="Convert HEX color codes to RGBA with transparency and vice versa. Perfect for web design, CSS, and graphic design projects.">
+    <meta name="keywords" content="HEX to RGBA, RGBA to HEX, color converter, transparency converter, alpha channel, CSS colors">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #2196f3, #9c27b0);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            color: #1a237e;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #546e7a;
+            font-size: 1.1rem;
+        }
+        
+        /* Tool Card */
+        .tool-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        /* Converter Sections */
+        .converter-sections {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        @media (min-width: 768px) {
+            .converter-sections {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        .converter-section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+        }
+        
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #1a237e;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .section-icon {
+            background: #2196f3;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Input Groups */
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        .input-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #455a64;
+        }
+        
+        .input-wrapper {
+            position: relative;
+            display: flex;
+        }
+        
+        .hex-input-wrapper {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .hex-prefix {
+            font-weight: 600;
+            color: #546e7a;
+            font-size: 1.2rem;
+        }
+        
+        .input-field {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+            font-family: monospace;
+            font-weight: 600;
+        }
+        
+        .hex-input {
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        
+        .input-field:focus {
+            outline: none;
+            border-color: #2196f3;
+            box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+        }
+        
+        .input-unit {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #546e7a;
+            font-weight: 600;
+        }
+        
+        .rgba-inputs {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+        
+        .alpha-input-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .alpha-slider {
+            flex: 1;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            outline: none;
+        }
+        
+        /* Color Preview */
+        .color-preview {
+            width: 100%;
+            height: 120px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 3px solid #e0e0e0;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .checkerboard-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(45deg, #ddd 25%, transparent 25%),
+                linear-gradient(-45deg, #ddd 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, #ddd 75%),
+                linear-gradient(-45deg, transparent 75%, #ddd 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+            z-index: 1;
+        }
+        
+        .color-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+        }
+        
+        /* Controls */
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            justify-content: center;
+            min-width: 140px;
+        }
+        
+        .btn-primary {
+            background: #2196f3;
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+        
+        .btn-success {
+            background: #4caf50;
+            color: white;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        /* Results */
+        .results-display {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            margin-top: 20px;
+        }
+        
+        .result-title {
+            color: #546e7a;
+            font-size: 1rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .result-value {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #2196f3;
+            font-family: monospace;
+            word-break: break-all;
+            padding: 12px;
+            background: #f5f5f5;
+            border-radius: 8px;
+            border-left: 4px solid #2196f3;
+        }
+        
+        /* Color Picker */
+        .color-picker-section {
+            margin-top: 30px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            text-align: center;
+        }
+        
+        .color-picker-title {
+            margin-bottom: 20px;
+            color: #1a237e;
+        }
+        
+        .color-picker-input {
+            width: 80px;
+            height: 80px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            background: transparent;
+        }
+        
+        .color-picker-wrapper {
+            display: inline-block;
+            position: relative;
+        }
+        
+        .color-picker-label {
+            display: block;
+            margin-top: 10px;
+            font-weight: 600;
+            color: #455a64;
+        }
+        
+        /* Examples */
+        .examples-section {
+            margin-top: 30px;
+        }
+        
+        .examples-title {
+            margin-bottom: 15px;
+            color: #1a237e;
+        }
+        
+        .examples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .example-card {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            border: 1px solid #d1d9e6;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+        
+        .example-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .example-color {
+            width: 100%;
+            height: 60px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            border: 2px solid #e0e0e0;
+        }
+        
+        .example-hex {
+            font-weight: 700;
+            color: #2196f3;
+            font-family: monospace;
+            font-size: 1.1rem;
+        }
+        
+        .example-rgba {
+            color: #455a64;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            font-family: monospace;
+        }
+        
+        /* Conversion History */
+        .history-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .history-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .history-list {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 10px;
+            background: white;
+        }
+        
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px;
+            border-bottom: 1px solid #f0f0f0;
+            align-items: center;
+        }
+        
+        .history-item:last-child {
+            border-bottom: none;
+        }
+        
+        .history-color {
+            width: 30px;
+            height: 30px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        
+        .history-values {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+        
+        /* SEO Content */
+        .seo-content {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-top: 30px;
+        }
+        
+        .seo-content h2 {
+            color: #1a237e;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .seo-content h3 {
+            color: #3949ab;
+            margin: 20px 0 10px;
+        }
+        
+        .seo-content p {
+            margin-bottom: 15px;
+            color: #455a64;
+        }
+        
+        .seo-content ul, .seo-content ol {
+            margin: 15px 0 15px 20px;
+            color: #455a64;
+        }
+        
+        .highlight-box {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #546e7a;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .converter-sections {
+                grid-template-columns: 1fr;
+            }
+            
+            .rgba-inputs {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .controls {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+            
+            .examples-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .examples-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .rgba-inputs {
+                grid-template-columns: 1fr;
+            }
+            
+            .hex-input-wrapper {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-palette"></i>
+                </div>
+                <div>
+                    <h1>HEX to RGBA Converter</h1>
+                    <div class="subtitle">Convert color codes with transparency between HEX and RGBA formats</div>
+                </div>
+            </div>
+        </header>
+        
+        <div class="tool-card">
+            <div class="converter-sections">
+                <!-- HEX to RGBA Section -->
+                <div class="converter-section">
+                    <div class="section-title">
+                        <div class="section-icon">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                        <h2>HEX to RGBA</h2>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">HEX Color Code (with optional alpha)</label>
+                        <div class="hex-input-wrapper">
+                            <span class="hex-prefix">#</span>
+                            <input type="text" class="input-field hex-input" id="hexInput" 
+                                   placeholder="FF5733 or FF5733CC" value="FF5733" maxlength="8">
+                        </div>
+                        <div style="font-size: 0.85rem; color: #666; margin-top: 5px;">
+                            Formats: 3-digit (#RGB), 4-digit (#RGBA), 6-digit (#RRGGBB), 8-digit (#RRGGBBAA)
+                        </div>
+                    </div>
+                    
+                    <div class="color-preview">
+                        <div class="checkerboard-bg"></div>
+                        <div class="color-fill" id="hexColorPreview"></div>
+                    </div>
+                    
+                    <div class="controls">
+                        <button class="btn btn-primary" id="hexToRgbaBtn">
+                            <i class="fas fa-exchange-alt"></i> Convert to RGBA
+                        </button>
+                        <button class="btn btn-secondary" id="clearHexBtn">
+                            <i class="fas fa-trash"></i> Clear
+                        </button>
+                    </div>
+                    
+                    <div class="results-display">
+                        <div class="result-title">RGBA Color Code</div>
+                        <div class="result-value" id="rgbaResult">rgba(255, 87, 51, 1)</div>
+                        <div style="margin-top: 15px;">
+                            <div class="result-title">RGBA Components</div>
+                            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 10px;">
+                                <div>
+                                    <div style="font-size: 0.9rem; color: #666;">Red</div>
+                                    <div style="font-weight: 600; font-family: monospace;" id="redValue">255</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.9rem; color: #666;">Green</div>
+                                    <div style="font-weight: 600; font-family: monospace;" id="greenValue">87</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.9rem; color: #666;">Blue</div>
+                                    <div style="font-weight: 600; font-family: monospace;" id="blueValue">51</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.9rem; color: #666;">Alpha</div>
+                                    <div style="font-weight: 600; font-family: monospace;" id="alphaValue">1.0</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- RGBA to HEX Section -->
+                <div class="converter-section">
+                    <div class="section-title">
+                        <div class="section-icon">
+                            <i class="fas fa-arrow-left"></i>
+                        </div>
+                        <h2>RGBA to HEX</h2>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">RGBA Components</label>
+                        <div class="rgba-inputs">
+                            <div>
+                                <label class="input-label">Red (0-255)</label>
+                                <input type="number" min="0" max="255" class="input-field" id="redInput" placeholder="0" value="255">
+                            </div>
+                            <div>
+                                <label class="input-label">Green (0-255)</label>
+                                <input type="number" min="0" max="255" class="input-field" id="greenInput" placeholder="0" value="87">
+                            </div>
+                            <div>
+                                <label class="input-label">Blue (0-255)</label>
+                                <input type="number" min="0" max="255" class="input-field" id="blueInput" placeholder="0" value="51">
+                            </div>
+                            <div>
+                                <label class="input-label">Alpha (0-1)</label>
+                                <div class="alpha-input-wrapper">
+                                    <input type="number" min="0" max="1" step="0.01" class="input-field" id="alphaInput" placeholder="1.0" value="1.0">
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-top: 10px;">
+                            <label class="input-label">Alpha Slider</label>
+                            <input type="range" min="0" max="100" value="100" class="alpha-slider" id="alphaSlider">
+                        </div>
+                    </div>
+                    
+                    <div class="color-preview">
+                        <div class="checkerboard-bg"></div>
+                        <div class="color-fill" id="rgbaColorPreview"></div>
+                    </div>
+                    
+                    <div class="controls">
+                        <button class="btn btn-primary" id="rgbaToHexBtn">
+                            <i class="fas fa-exchange-alt"></i> Convert to HEX
+                        </button>
+                        <button class="btn btn-secondary" id="clearRgbaBtn">
+                            <i class="fas fa-trash"></i> Clear
+                        </button>
+                    </div>
+                    
+                    <div class="results-display">
+                        <div class="result-title">HEX Color Code (with alpha)</div>
+                        <div class="result-value" id="hexResult">#FF5733FF</div>
+                        <div style="margin-top: 15px;">
+                            <div class="result-title">HEX Variations</div>
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 10px;">
+                                <div>
+                                    <div style="font-size: 0.9rem; color: #666;">6-digit HEX</div>
+                                    <div style="font-weight: 600; font-family: monospace;" id="hex6Result">#FF5733</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.9rem; color: #666;">8-digit HEX (with alpha)</div>
+                                    <div style="font-weight: 600; font-family: monospace;" id="hex8Result">#FF5733FF</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Color Picker -->
+            <div class="color-picker-section">
+                <h3 class="color-picker-title">Visual Color Picker</h3>
+                <div class="color-picker-wrapper">
+                    <input type="color" class="color-picker-input" id="colorPicker" value="#FF5733">
+                    <div class="color-picker-label">Click to pick a color</div>
+                </div>
+                <div style="margin-top: 15px; font-size: 0.9rem; color: #666;">
+                    Note: The color picker doesn't support alpha transparency. Use the alpha slider above for transparency.
+                </div>
+            </div>
+            
+            <div class="examples-section">
+                <h3 class="examples-title">Common Color Examples</h3>
+                <div class="examples-grid" id="examplesGrid">
+                    <!-- Example cards will be added dynamically -->
+                </div>
+            </div>
+            
+            <div class="history-section">
+                <div class="history-title">
+                    <h3>Conversion History</h3>
+                    <button class="btn-secondary btn" style="padding: 8px 15px; font-size: 0.9rem;" onclick="clearHistory()">
+                        <i class="fas fa-trash"></i> Clear History
+                    </button>
+                </div>
+                <div class="history-list" id="historyList">
+                    <!-- History items will be added here -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="seo-content">
+            <h2>Understanding HEX and RGBA Color Formats</h2>
+            
+            <p>HEX (hexadecimal) and RGBA (Red, Green, Blue, Alpha) are two common color formats used in web design, graphic design, and digital applications. Understanding how to convert between them is essential for modern design workflows.</p>
+            
+            <div class="highlight-box">
+                <h3>Key Differences Between HEX and RGBA</h3>
+                <ul>
+                    <li><strong>HEX Format:</strong> Uses hexadecimal notation (#RRGGBB or #RRGGBBAA). Values range from 00 to FF for each component.</li>
+                    <li><strong>RGBA Format:</strong> Uses decimal notation (rgba(255, 255, 255, 1.0)). Red, Green, Blue range from 0-255, Alpha from 0.0 to 1.0.</li>
+                    <li><strong>Transparency Support:</strong> Both support alpha channels (transparency) but use different notations.</li>
+                    <li><strong>Readability:</strong> RGBA is more human-readable for adjusting individual color components.</li>
+                    <li><strong>Browser Support:</strong> Both are widely supported in all modern browsers.</li>
+                </ul>
+            </div>
+            
+            <h3>How Our Converter Works</h3>
+            <ol>
+                <li><strong>HEX to RGBA:</strong> Converts each pair of hex digits to decimal (0-255) and calculates alpha from hex alpha channel.</li>
+                <li><strong>RGBA to HEX:</strong> Converts each decimal component to two hex digits and adds alpha hex digits if needed.</li>
+                <li><strong>Alpha Conversion:</strong> Handles transparency conversion between hex (00-FF) and decimal (0.0-1.0) formats.</li>
+                <li><strong>Format Detection:</strong> Automatically detects 3-digit, 4-digit, 6-digit, and 8-digit HEX codes.</li>
+                <li><strong>Real-time Preview:</strong> Shows color preview with checkerboard background to visualize transparency.</li>
+            </ol>
+            
+            <h3>HEX Color Format Examples</h3>
+            <div class="code-block">
+#FFF           → White (3-digit HEX)<br>
+#FFFA          → White with 66.7% opacity (4-digit HEX)<br>
+#FF5733        → Orange-Red (6-digit HEX)<br>
+#FF573380      → Orange-Red with 50% opacity (8-digit HEX)<br>
+#000           → Black (3-digit HEX)<br>
+#0000          → Transparent (4-digit HEX)<br>
+#2196F3        → Material Blue (6-digit HEX)<br>
+#2196F3CC      → Material Blue with 80% opacity (8-digit HEX)
+            </div>
+            
+            <h3>RGBA Color Format Examples</h3>
+            <div class="code-block">
+rgba(255, 255, 255, 1.0)    → White<br>
+rgba(255, 255, 255, 0.5)    → White with 50% opacity<br>
+rgba(255, 87, 51, 1.0)      → Orange-Red<br>
+rgba(255, 87, 51, 0.8)      → Orange-Red with 80% opacity<br>
+rgba(0, 0, 0, 1.0)          → Black<br>
+rgba(0, 0, 0, 0.0)          → Transparent<br>
+rgba(33, 150, 243, 1.0)     → Material Blue<br>
+rgba(33, 150, 243, 0.6)     → Material Blue with 60% opacity
+            </div>
+            
+            <h3>Practical Applications</h3>
+            <p>This tool is essential for:</p>
+            <ul>
+                <li><strong>Web Designers & Developers:</strong> Convert between HEX and RGBA for CSS, SVG, and HTML styling</li>
+                <li><strong>UI/UX Designers:</strong> Create color systems with consistent transparency across design tools</li>
+                <li><strong>Graphic Designers:</strong> Prepare assets with proper transparency for web and print</li>
+                <li><strong>Frontend Developers:</strong> Implement design systems with accurate color conversions</li>
+                <li><strong>Content Creators:</strong> Ensure brand color consistency across digital platforms</li>
+                <li><strong>Accessibility Design:</strong> Calculate contrast ratios with transparency considered</li>
+            </ul>
+            
+            <h3>Conversion Formulas</h3>
+            <p>The mathematical conversions are straightforward but crucial to understand:</p>
+            <ul>
+                <li><strong>Hex to Decimal:</strong> Each hex digit pair converts to decimal (e.g., FF = 255, 80 = 128)</li>
+                <li><strong>Decimal to Hex:</strong> Divide by 16, use quotient and remainder as hex digits (e.g., 255 = FF)</li>
+                <li><strong>Alpha Conversion:</strong> Hex alpha (00-FF) = Decimal alpha (0.0-1.0) × 255</li>
+                <li><strong>3-digit HEX:</strong> #RGB expands to #RRGGBB (e.g., #F53 = #FF5533)</li>
+                <li><strong>4-digit HEX:</strong> #RGBA expands to #RRGGBBAA (e.g., #F538 = #FF553388)</li>
+            </ul>
+            
+            <div class="highlight-box">
+                <h3>Pro Tips for Color Conversion</h3>
+                <p>For professional and accurate color work:</p>
+                <ul>
+                    <li><strong>Always include alpha:</strong> Modern design systems should account for transparency</li>
+                    <li><strong>Use 8-digit HEX:</strong> For maximum compatibility, use 8-digit HEX with alpha channel</li>
+                    <li><strong>Check browser support:</strong> 8-digit HEX (#RRGGBBAA) is supported in all modern browsers</li>
+                    <li><strong>Maintain consistency:</strong> Stick to one format within a project for easier maintenance</li>
+                    <li><strong>Test transparency effects:</strong> Always preview colors over different backgrounds</li>
+                    <li><strong>Document color values:</strong> Keep a record of both HEX and RGBA values for reference</li>
+                </ul>
+            </div>
+            
+            <h3>Frequently Asked Questions</h3>
+            
+            <p><strong>Q: What's the difference between RGB and RGBA?</strong><br>
+            A: RGB doesn't support transparency, while RGBA includes an alpha channel for opacity control (0.0 = transparent, 1.0 = opaque).</p>
+            
+            <p><strong>Q: How do I convert 3-digit HEX to RGBA?</strong><br>
+            A: Each digit is duplicated (e.g., #F53 becomes #FF5533, then converted to rgba(255, 85, 51, 1.0)).</p>
+            
+            <p><strong>Q: What does the alpha value mean in RGBA?</strong><br>
+            A: Alpha represents opacity: 0.0 = completely transparent, 0.5 = 50% opaque, 1.0 = completely opaque.</p>
+            
+            <p><strong>Q: Can I use 8-digit HEX codes in CSS?</strong><br>
+            A: Yes! 8-digit HEX (#RRGGBBAA) is supported in all modern browsers since 2017.</p>
+            
+            <p><strong>Q: How do I convert percentage opacity to HEX alpha?</strong><br>
+            A: Multiply percentage by 255, then convert to hex (e.g., 50% → 0.5 × 255 = 127.5 ≈ 80 in hex).</p>
+            
+            <p><strong>Q: Which format should I use for web design?</strong><br>
+            A: RGBA is often easier for adjusting transparency, while HEX is more concise. Many developers use HEX for solid colors and RGBA for transparent ones.</p>
+        </div>
+        
+        <footer>
+            
+        </footer>
+    </div>
+    
+    <script>
+        // Global variables
+        let conversionHistory = [];
+        let colorExamples = [
+            { name: "Material Red", hex: "#F44336", rgba: "rgba(244, 67, 54, 1)" },
+            { name: "Material Pink", hex: "#E91E63", rgba: "rgba(233, 30, 99, 1)" },
+            { name: "Material Purple", hex: "#9C27B0", rgba: "rgba(156, 39, 176, 1)" },
+            { name: "Material Blue", hex: "#2196F3", rgba: "rgba(33, 150, 243, 1)" },
+            { name: "Material Green", hex: "#4CAF50", rgba: "rgba(76, 175, 80, 1)" },
+            { name: "Material Yellow", hex: "#FFEB3B", rgba: "rgba(255, 235, 59, 1)" },
+            { name: "Material Orange", hex: "#FF9800", rgba: "rgba(255, 152, 0, 1)" },
+            { name: "Material Gray", hex: "#9E9E9E", rgba: "rgba(158, 158, 158, 1)" },
+            { name: "Semi-transparent Blue", hex: "#2196F380", rgba: "rgba(33, 150, 243, 0.5)" },
+            { name: "Semi-transparent Red", hex: "#F44336CC", rgba: "rgba(244, 67, 54, 0.8)" },
+            { name: "Semi-transparent Green", hex: "#4CAF50AA", rgba: "rgba(76, 175, 80, 0.67)" },
+            { name: "Semi-transparent Black", hex: "#00000080", rgba: "rgba(0, 0, 0, 0.5)" }
+        ];
+        
+        // DOM Elements
+        const hexInput = document.getElementById('hexInput');
+        const redInput = document.getElementById('redInput');
+        const greenInput = document.getElementById('greenInput');
+        const blueInput = document.getElementById('blueInput');
+        const alphaInput = document.getElementById('alphaInput');
+        const alphaSlider = document.getElementById('alphaSlider');
+        const colorPicker = document.getElementById('colorPicker');
+        
+        const hexToRgbaBtn = document.getElementById('hexToRgbaBtn');
+        const rgbaToHexBtn = document.getElementById('rgbaToHexBtn');
+        const clearHexBtn = document.getElementById('clearHexBtn');
+        const clearRgbaBtn = document.getElementById('clearRgbaBtn');
+        
+        // Results Elements
+        const rgbaResult = document.getElementById('rgbaResult');
+        const redValue = document.getElementById('redValue');
+        const greenValue = document.getElementById('greenValue');
+        const blueValue = document.getElementById('blueValue');
+        const alphaValue = document.getElementById('alphaValue');
+        
+        const hexResult = document.getElementById('hexResult');
+        const hex6Result = document.getElementById('hex6Result');
+        const hex8Result = document.getElementById('hex8Result');
+        
+        // Preview Elements
+        const hexColorPreview = document.getElementById('hexColorPreview');
+        const rgbaColorPreview = document.getElementById('rgbaColorPreview');
+        
+        // History and Examples
+        const historyList = document.getElementById('historyList');
+        const examplesGrid = document.getElementById('examplesGrid');
+        
+        // Initialize
+        function init() {
+            setupEventListeners();
+            loadHistoryFromStorage();
+            renderHistory();
+            renderExamples();
+            
+            // Perform initial conversions
+            hexToRgba();
+            rgbaToHex();
+            updateColorPickerFromHex();
+        }
+        
+        // Setup event listeners
+        function setupEventListeners() {
+            hexToRgbaBtn.addEventListener('click', hexToRgba);
+            rgbaToHexBtn.addEventListener('click', rgbaToHex);
+            clearHexBtn.addEventListener('click', clearHex);
+            clearRgbaBtn.addEventListener('click', clearRgba);
+            
+            // Real-time conversion on input change
+            hexInput.addEventListener('input', function() {
+                hexToRgba();
+                updateColorPickerFromHex();
+            });
+            
+            redInput.addEventListener('input', rgbaToHex);
+            greenInput.addEventListener('input', rgbaToHex);
+            blueInput.addEventListener('input', rgbaToHex);
+            alphaInput.addEventListener('input', function() {
+                // Update slider to match input
+                const alpha = parseFloat(alphaInput.value) || 0;
+                alphaSlider.value = Math.round(alpha * 100);
+                rgbaToHex();
+            });
+            
+            // Alpha slider
+            alphaSlider.addEventListener('input', function() {
+                const alphaValue = alphaSlider.value / 100;
+                alphaInput.value = alphaValue.toFixed(2);
+                rgbaToHex();
+            });
+            
+            // Color picker
+            colorPicker.addEventListener('input', function() {
+                updateHexFromColorPicker();
+            });
+            
+            // Keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.key === '1') {
+                    e.preventDefault();
+                    hexToRgba();
+                }
+                if (e.ctrlKey && e.key === '2') {
+                    e.preventDefault();
+                    rgbaToHex();
+                }
+                if (e.ctrlKey && e.key === 'l') {
+                    e.preventDefault();
+                    clearAll();
+                }
+            });
+        }
+        
+        // Convert HEX to RGBA
+        function hexToRgba() {
+            let hex = hexInput.value.trim().toUpperCase();
+            
+            // Remove # if present
+            hex = hex.replace(/^#/, '');
+            
+            // Validate hex format
+            if (!/^([0-9A-F]{3}|[0-9A-F]{4}|[0-9A-F]{6}|[0-9A-F]{8})$/.test(hex)) {
+                showNotification('Invalid HEX format! Use 3, 4, 6, or 8 hex digits.', 'error');
+                return;
+            }
+            
+            let r, g, b, a = 1.0;
+            
+            // Parse hex based on length
+            if (hex.length === 3 || hex.length === 4) {
+                // 3 or 4 digit hex (each digit duplicated)
+                r = parseInt(hex.charAt(0) + hex.charAt(0), 16);
+                g = parseInt(hex.charAt(1) + hex.charAt(1), 16);
+                b = parseInt(hex.charAt(2) + hex.charAt(2), 16);
+                
+                if (hex.length === 4) {
+                    // 4-digit hex includes alpha
+                    a = parseInt(hex.charAt(3) + hex.charAt(3), 16) / 255;
+                }
+            } else if (hex.length === 6 || hex.length === 8) {
+                // 6 or 8 digit hex
+                r = parseInt(hex.substring(0, 2), 16);
+                g = parseInt(hex.substring(2, 4), 16);
+                b = parseInt(hex.substring(4, 6), 16);
+                
+                if (hex.length === 8) {
+                    // 8-digit hex includes alpha
+                    a = parseInt(hex.substring(6, 8), 16) / 255;
+                }
+            }
+            
+            // Update RGBA inputs
+            redInput.value = r;
+            greenInput.value = g;
+            blueInput.value = b;
+            alphaInput.value = a.toFixed(2);
+            alphaSlider.value = Math.round(a * 100);
+            
+            // Update results display
+            rgbaResult.textContent = `rgba(${r}, ${g}, ${b}, ${a.toFixed(2)})`;
+            redValue.textContent = r;
+            greenValue.textContent = g;
+            blueValue.textContent = b;
+            alphaValue.textContent = a.toFixed(2);
+            
+            // Update color preview
+            hexColorPreview.style.backgroundColor = `rgba(${r}, ${g}, ${b}, ${a})`;
+            
+            // Add to history
+            addToHistory('hexToRgba', `#${hex}`, `rgba(${r}, ${g}, ${b}, ${a.toFixed(2)})`);
+        }
+        
+        // Convert RGBA to HEX
+        function rgbaToHex() {
+            const r = parseInt(redInput.value) || 0;
+            const g = parseInt(greenInput.value) || 0;
+            const b = parseInt(blueInput.value) || 0;
+            let a = parseFloat(alphaInput.value) || 0;
+            
+            // Validate ranges
+            if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255 || a < 0 || a > 1) {
+                showNotification('Please enter valid RGBA values: R,G,B (0-255), A (0.0-1.0)', 'error');
+                return;
+            }
+            
+            // Convert to hex
+            const rHex = r.toString(16).padStart(2, '0').toUpperCase();
+            const gHex = g.toString(16).padStart(2, '0').toUpperCase();
+            const bHex = b.toString(16).padStart(2, '0').toUpperCase();
+            const aHex = Math.round(a * 255).toString(16).padStart(2, '0').toUpperCase();
+            
+            // Update results display
+            hexResult.textContent = `#${rHex}${gHex}${bHex}${aHex}`;
+            hex6Result.textContent = `#${rHex}${gHex}${bHex}`;
+            hex8Result.textContent = `#${rHex}${gHex}${bHex}${aHex}`;
+            
+            // Update HEX input
+            hexInput.value = `${rHex}${gHex}${bHex}${aHex}`;
+            
+            // Update color preview
+            rgbaColorPreview.style.backgroundColor = `rgba(${r}, ${g}, ${b}, ${a})`;
+            
+            // Add to history
+            addToHistory('rgbaToHex', `rgba(${r}, ${g}, ${b}, ${a.toFixed(2)})`, `#${rHex}${gHex}${bHex}${aHex}`);
+        }
+        
+        // Update color picker from HEX input
+        function updateColorPickerFromHex() {
+            let hex = hexInput.value.trim().toUpperCase();
+            hex = hex.replace(/^#/, '');
+            
+            // Only update if we have a valid 6-digit hex (color picker doesn't support alpha)
+            if (/^[0-9A-F]{6}$/.test(hex) || /^[0-9A-F]{3}$/.test(hex)) {
+                // Expand 3-digit hex to 6-digit
+                if (hex.length === 3) {
+                    hex = hex.charAt(0) + hex.charAt(0) + 
+                          hex.charAt(1) + hex.charAt(1) + 
+                          hex.charAt(2) + hex.charAt(2);
+                }
+                
+                colorPicker.value = `#${hex}`;
+            }
+        }
+        
+        // Update HEX from color picker
+        function updateHexFromColorPicker() {
+            const color = colorPicker.value;
+            const hex = color.substring(1).toUpperCase();
+            
+            // Get current alpha from HEX input
+            let currentHex = hexInput.value.trim().toUpperCase().replace(/^#/, '');
+            let alphaHex = 'FF'; // Default to fully opaque
+            
+            // Extract alpha from current HEX if available
+            if (currentHex.length === 4) {
+                // 4-digit HEX (RGBA)
+                alphaHex = currentHex.charAt(3) + currentHex.charAt(3);
+            } else if (currentHex.length === 8) {
+                // 8-digit HEX (RRGGBBAA)
+                alphaHex = currentHex.substring(6, 8);
+            }
+            
+            // Update HEX input with new color and preserve alpha
+            hexInput.value = hex + alphaHex;
+            
+            // Trigger conversion
+            hexToRgba();
+        }
+        
+        // Add conversion to history
+        function addToHistory(type, input, output) {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const dateString = now.toLocaleDateString();
+            
+            // Extract color from input for preview
+            let color = '#000000';
+            if (type === 'hexToRgba') {
+                color = input;
+            } else {
+                // Extract from rgba string
+                const rgbaMatch = input.match(/rgba\((\d+),\s*(\d+),\s*(\d+),\s*([\d.]+)\)/);
+                if (rgbaMatch) {
+                    const r = parseInt(rgbaMatch[1]);
+                    const g = parseInt(rgbaMatch[2]);
+                    const b = parseInt(rgbaMatch[3]);
+                    color = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+                }
+            }
+            
+            const historyEntry = {
+                id: Date.now(),
+                timestamp: `${dateString} ${timeString}`,
+                type: type,
+                input: input,
+                output: output,
+                color: color
+            };
+            
+            conversionHistory.unshift(historyEntry);
+            
+            // Keep only last 10 entries
+            if (conversionHistory.length > 10) {
+                conversionHistory = conversionHistory.slice(0, 10);
+            }
+            
+            // Save to localStorage
+            saveHistoryToStorage();
+            
+            // Update display
+            renderHistory();
+        }
+        
+        // Render history list
+        function renderHistory() {
+            if (conversionHistory.length === 0) {
+                historyList.innerHTML = '<div style="text-align: center; color: #999; padding: 20px;">No conversion history yet</div>';
+                return;
+            }
+            
+            let historyHTML = '';
+            
+            conversionHistory.forEach(entry => {
+                let direction, inputDisplay, outputDisplay;
+                
+                if (entry.type === 'hexToRgba') {
+                    direction = 'HEX → RGBA';
+                    inputDisplay = entry.input;
+                    outputDisplay = entry.output;
+                } else {
+                    direction = 'RGBA → HEX';
+                    inputDisplay = entry.input;
+                    outputDisplay = entry.output;
+                }
+                
+                historyHTML += `
+                    <div class="history-item">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <div class="history-color" style="background-color: ${entry.color};"></div>
+                            <div>
+                                <div class="history-direction">${direction}</div>
+                                <div style="font-size: 0.8rem; color: #666;">${entry.timestamp}</div>
+                            </div>
+                        </div>
+                        <div class="history-values">
+                            <div style="font-family: monospace; font-size: 0.9rem; font-weight: 600;">${inputDisplay}</div>
+                            <div style="font-family: monospace; font-size: 0.8rem; color: #2196f3;">→ ${outputDisplay}</div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            historyList.innerHTML = historyHTML;
+        }
+        
+        // Render example cards
+        function renderExamples() {
+            let examplesHTML = '';
+            
+            colorExamples.forEach(example => {
+                // Extract color from HEX for background
+                let bgColor = example.hex;
+                
+                examplesHTML += `
+                    <div class="example-card" onclick="loadExample('${example.hex}')">
+                        <div class="example-color" style="background-color: ${bgColor};"></div>
+                        <div class="example-hex">${example.hex}</div>
+                        <div class="example-rgba">${example.rgba}</div>
+                        <div style="font-size: 0.85rem; color: #666; margin-top: 5px;">${example.name}</div>
+                    </div>
+                `;
+            });
+            
+            examplesGrid.innerHTML = examplesHTML;
+        }
+        
+        // Load example
+        function loadExample(hex) {
+            // Remove # if present
+            let cleanHex = hex.replace(/^#/, '');
+            hexInput.value = cleanHex;
+            
+            // Trigger conversion
+            hexToRgba();
+            
+            showNotification(`Loaded example: ${hex}`, 'success');
+        }
+        
+        // Clear HEX input
+        function clearHex() {
+            hexInput.value = '';
+            hexToRgba();
+            showNotification('HEX input cleared!', 'success');
+        }
+        
+        // Clear RGBA inputs
+        function clearRgba() {
+            redInput.value = '';
+            greenInput.value = '';
+            blueInput.value = '';
+            alphaInput.value = '';
+            alphaSlider.value = 100;
+            rgbaToHex();
+            showNotification('RGBA inputs cleared!', 'success');
+        }
+        
+        // Clear all inputs
+        function clearAll() {
+            clearHex();
+            clearRgba();
+        }
+        
+        // Clear history
+        function clearHistory() {
+            conversionHistory = [];
+            saveHistoryToStorage();
+            renderHistory();
+            showNotification('History cleared!', 'success');
+        }
+        
+        // Save history to localStorage
+        function saveHistoryToStorage() {
+            try {
+                localStorage.setItem('hexRgbaHistory', JSON.stringify(conversionHistory));
+            } catch (e) {
+                console.log('Could not save history to localStorage');
+            }
+        }
+        
+        // Load history from localStorage
+        function loadHistoryFromStorage() {
+            try {
+                const savedHistory = localStorage.getItem('hexRgbaHistory');
+                if (savedHistory) {
+                    conversionHistory = JSON.parse(savedHistory);
+                }
+            } catch (e) {
+                console.log('Could not load history from localStorage');
+            }
+        }
+        
+        // Show notification
+        function showNotification(message, type) {
+            // Remove existing notification
+            const existing = document.querySelector('.notification');
+            if (existing) existing.remove();
+            
+            // Create notification
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.innerHTML = `
+                <div style="
+                    position: fixed;
+                    bottom: 20px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: ${type === 'success' ? '#4caf50' : type === 'error' ? '#f44336' : '#2196f3'};
+                    color: white;
+                    padding: 12px 24px;
+                    border-radius: 8px;
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                    z-index: 1000;
+                    font-weight: 600;
+                    animation: slideUp 0.3s ease;
+                ">
+                    ${message}
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Add animation
+            if (!document.querySelector('#notification-animation')) {
+                const style = document.createElement('style');
+                style.id = 'notification-animation';
+                style.textContent = `
+                    @keyframes slideUp {
+                        from { transform: translateX(-50%) translateY(100px); opacity: 0; }
+                        to { transform: translateX(-50%) translateY(0); opacity: 1; }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+        
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</body>
+</html>
