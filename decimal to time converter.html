@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decimal to Time Converter | Free Online Tool</title>
+    <meta name="description" content="Convert decimal hours to time format (HH:MM:SS) and vice versa. Perfect for payroll, billing, project tracking, and time calculations.">
+    <meta name="keywords" content="decimal to time converter, time to decimal, decimal hours, hours to decimal, payroll calculator">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #2196f3, #9c27b0);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            color: #1a237e;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #546e7a;
+            font-size: 1.1rem;
+        }
+        
+        /* Tool Card */
+        .tool-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        /* Converter Sections */
+        .converter-sections {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        @media (min-width: 768px) {
+            .converter-sections {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        .converter-section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+        }
+        
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #1a237e;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .section-icon {
+            background: #2196f3;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Input Groups */
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        .input-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #455a64;
+        }
+        
+        .input-wrapper {
+            position: relative;
+            display: flex;
+        }
+        
+        .input-field {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        .input-field:focus {
+            outline: none;
+            border-color: #2196f3;
+            box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+        }
+        
+        .input-unit {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #546e7a;
+            font-weight: 600;
+        }
+        
+        .time-inputs {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+        
+        /* Controls */
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            justify-content: center;
+            min-width: 140px;
+        }
+        
+        .btn-primary {
+            background: #2196f3;
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+        
+        .btn-success {
+            background: #4caf50;
+            color: white;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        /* Results */
+        .results-display {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            border: 2px solid #e0e0e0;
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .result-title {
+            color: #546e7a;
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+        
+        .result-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #2196f3;
+            margin-bottom: 5px;
+        }
+        
+        .result-details {
+            color: #455a64;
+            font-size: 1.1rem;
+            margin-top: 15px;
+        }
+        
+        /* Conversion History */
+        .history-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .history-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .history-list {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 10px;
+            background: white;
+        }
+        
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .history-item:last-child {
+            border-bottom: none;
+        }
+        
+        .history-direction {
+            font-weight: 600;
+            color: #1a237e;
+        }
+        
+        .history-values {
+            display: flex;
+            gap: 15px;
+        }
+        
+        /* Quick Examples */
+        .examples-section {
+            margin-top: 30px;
+        }
+        
+        .examples-title {
+            margin-bottom: 15px;
+            color: #1a237e;
+        }
+        
+        .examples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+        }
+        
+        .example-card {
+            background: #f0f4f8;
+            border-radius: 8px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            border: 1px solid #d1d9e6;
+        }
+        
+        .example-card:hover {
+            background: #e3f2fd;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .example-decimal {
+            font-weight: 700;
+            color: #2196f3;
+            font-size: 1.2rem;
+        }
+        
+        .example-time {
+            color: #455a64;
+            font-size: 1rem;
+            margin-top: 5px;
+        }
+        
+        /* Common Conversions Table */
+        .conversions-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .conversions-table th {
+            background: #2196f3;
+            color: white;
+            padding: 15px;
+            text-align: left;
+        }
+        
+        .conversions-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .conversions-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        /* SEO Content */
+        .seo-content {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-top: 30px;
+        }
+        
+        .seo-content h2 {
+            color: #1a237e;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .seo-content h3 {
+            color: #3949ab;
+            margin: 20px 0 10px;
+        }
+        
+        .seo-content p {
+            margin-bottom: 15px;
+            color: #455a64;
+        }
+        
+        .seo-content ul, .seo-content ol {
+            margin: 15px 0 15px 20px;
+            color: #455a64;
+        }
+        
+        .highlight-box {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #546e7a;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .converter-sections {
+                grid-template-columns: 1fr;
+            }
+            
+            .time-inputs {
+                grid-template-columns: 1fr;
+            }
+            
+            .controls {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+            
+            .result-value {
+                font-size: 2rem;
+            }
+            
+            .examples-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .examples-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .history-values {
+                flex-direction: column;
+                gap: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-exchange-alt"></i>
+                </div>
+                <div>
+                    <h1>Decimal to Time Converter</h1>
+                    <div class="subtitle">Convert between decimal hours and time format (HH:MM:SS) instantly</div>
+                </div>
+            </div>
+        </header>
+        
+        <div class="tool-card">
+            <div class="converter-sections">
+                <!-- Decimal to Time Section -->
+                <div class="converter-section">
+                    <div class="section-title">
+                        <div class="section-icon">
+                            <i class="fas fa-calculator"></i>
+                        </div>
+                        <h2>Decimal to Time</h2>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">Enter Decimal Hours</label>
+                        <div class="input-wrapper">
+                            <input type="number" step="0.01" class="input-field" id="decimalInput" placeholder="e.g., 7.5" value="7.5">
+                            <span class="input-unit">hours</span>
+                        </div>
+                    </div>
+                    
+                    <div class="controls">
+                        <button class="btn btn-primary" id="decimalToTimeBtn">
+                            <i class="fas fa-arrow-right"></i> Convert to Time
+                        </button>
+                        <button class="btn btn-secondary" id="clearDecimalBtn">
+                            <i class="fas fa-trash"></i> Clear
+                        </button>
+                    </div>
+                    
+                    <div class="results-display">
+                        <div class="result-title">Time Format</div>
+                        <div class="result-value" id="timeResult">7:30:00</div>
+                        <div class="result-details" id="timeDetails">7 hours, 30 minutes, 0 seconds</div>
+                    </div>
+                </div>
+                
+                <!-- Time to Decimal Section -->
+                <div class="converter-section">
+                    <div class="section-title">
+                        <div class="section-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h2>Time to Decimal</h2>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">Enter Time (HH:MM:SS)</label>
+                        <div class="time-inputs">
+                            <div>
+                                <label class="input-label">Hours</label>
+                                <input type="number" min="0" class="input-field" id="hoursInput" placeholder="0" value="7">
+                            </div>
+                            <div>
+                                <label class="input-label">Minutes</label>
+                                <input type="number" min="0" max="59" class="input-field" id="minutesInput" placeholder="0" value="30">
+                            </div>
+                            <div>
+                                <label class="input-label">Seconds</label>
+                                <input type="number" min="0" max="59" class="input-field" id="secondsInput" placeholder="0" value="0">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="controls">
+                        <button class="btn btn-primary" id="timeToDecimalBtn">
+                            <i class="fas fa-arrow-right"></i> Convert to Decimal
+                        </button>
+                        <button class="btn btn-secondary" id="clearTimeBtn">
+                            <i class="fas fa-trash"></i> Clear
+                        </button>
+                    </div>
+                    
+                    <div class="results-display">
+                        <div class="result-title">Decimal Hours</div>
+                        <div class="result-value" id="decimalResult">7.5</div>
+                        <div class="result-details" id="decimalDetails">7 hours and 30 minutes</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="history-section">
+                <div class="history-title">
+                    <h3>Conversion History</h3>
+                    <button class="btn-secondary btn" style="padding: 8px 15px; font-size: 0.9rem;" onclick="clearHistory()">
+                        <i class="fas fa-trash"></i> Clear History
+                    </button>
+                </div>
+                <div class="history-list" id="historyList">
+                    <!-- History items will be added here -->
+                </div>
+            </div>
+            
+            <div class="examples-section">
+                <h3 class="examples-title">Common Decimal-Time Conversions</h3>
+                <div class="examples-grid" id="examplesGrid">
+                    <!-- Example cards will be added dynamically -->
+                </div>
+            </div>
+            
+            <div style="margin-top: 30px;">
+                <h3>Common Conversions Reference</h3>
+                <table class="conversions-table">
+                    <thead>
+                        <tr>
+                            <th>Decimal Hours</th>
+                            <th>Time (HH:MM)</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody id="conversionsTable">
+                        <!-- Table rows will be added dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="seo-content">
+            <h2>Why Convert Between Decimal and Time Formats?</h2>
+            
+            <p>Decimal time (e.g., 7.5 hours) and time format (e.g., 7:30:00) are used in different contexts. Knowing how to convert between them is essential for accurate calculations in business, payroll, project management, and daily life.</p>
+            
+            <div class="highlight-box">
+                <h3>Key Differences Between Formats</h3>
+                <ul>
+                    <li><strong>Decimal Hours:</strong> Used in payroll systems, billing, and scientific calculations (e.g., 1.75 hours = 1 hour 45 minutes)</li>
+                    <li><strong>Time Format (HH:MM:SS):</strong> Used in time tracking, scheduling, and everyday time representation</li>
+                    <li><strong>Common Errors:</strong> Misinterpreting 0.5 as 50 minutes instead of 30 minutes, or miscalculating seconds conversion</li>
+                    <li><strong>Industry Standards:</strong> Different industries use different formats - know which one you need!</li>
+                </ul>
+            </div>
+            
+            <h3>How Our Converter Works</h3>
+            <ol>
+                <li><strong>Decimal to Time:</strong> Separates the whole number as hours, multiplies the decimal part by 60 for minutes, and repeats for seconds if needed</li>
+                <li><strong>Time to Decimal:</strong> Converts minutes to decimal by dividing by 60, seconds by dividing by 3600, and sums all parts</li>
+                <li><strong>Precision Control:</strong> Choose rounding to 2, 3, or 4 decimal places as needed for your application</li>
+                <li><strong>Bidirectional Conversion:</strong> Convert in both directions instantly with real-time updates</li>
+                <li><strong>History Tracking:</strong> Keep a record of your conversions for reference or documentation</li>
+            </ol>
+            
+            <h3>Practical Applications</h3>
+            <p>This tool is essential for:</p>
+            <ul>
+                <li><strong>Payroll Processing:</strong> Convert employee timesheets from time format to decimal for accurate wage calculation</li>
+                <li><strong>Project Management:</strong> Estimate project durations and convert between time formats for reporting</li>
+                <li><strong>Freelancers & Consultants:</strong> Bill clients using decimal hours while tracking time in HH:MM format</li>
+                <li><strong>Scientific Research:</strong> Convert experimental time measurements between formats</li>
+                <li><strong>Sports & Fitness:</strong> Convert race times, workout durations, and pacing calculations</li>
+                <li><strong>Cooking & Baking:</strong> Convert recipe times when scaling up or down</li>
+            </ul>
+            
+            <h3>Understanding the Math</h3>
+            <p>The conversion formulas are simple but crucial to understand:</p>
+            <ul>
+                <li><strong>Decimal to Hours:Minutes:</strong> Minutes = Decimal part × 60</li>
+                <li><strong>Example:</strong> 3.75 hours = 3 hours + (0.75 × 60) = 3 hours 45 minutes</li>
+                <li><strong>Hours:Minutes to Decimal:</strong> Decimal = Hours + (Minutes ÷ 60)</li>
+                <li><strong>Example:</strong> 2 hours 15 minutes = 2 + (15 ÷ 60) = 2.25 hours</li>
+                <li><strong>Including Seconds:</strong> Add seconds by dividing by 3600 (60 × 60)</li>
+            </ul>
+            
+            <div class="highlight-box">
+                <h3>Pro Tips for Accurate Conversions</h3>
+                <p>For professional and accurate results:</p>
+                <ul>
+                    <li><strong>Payroll Rounding:</strong> Many companies round to the nearest 15 minutes (0.25 hours)</li>
+                    <li><strong>Precision Needs:</strong> Scientific work may require 4 decimal places, while payroll often uses 2</li>
+                    <li><strong>Check Your Units:</strong> Ensure you're not mixing hours with minutes in decimal format</li>
+                    <li><strong>Use Consistent Format:</strong> Stick to one format within a single calculation or document</li>
+                    <li><strong>Automate When Possible:</strong> Use tools like this to avoid manual calculation errors</li>
+                </ul>
+            </div>
+            
+            <h3>Frequently Asked Questions</h3>
+            
+            <p><strong>Q: How do I convert 1.5 hours to time format?</strong><br>
+            A: 1.5 hours = 1 hour + (0.5 × 60) minutes = 1 hour 30 minutes = 01:30:00</p>
+            
+            <p><strong>Q: What decimal represents 45 minutes?</strong><br>
+            A: 45 minutes ÷ 60 = 0.75 hours. So 45 minutes = 0.75 in decimal hours.</p>
+            
+            <p><strong>Q: How do I handle seconds in conversions?</strong><br>
+            A: Seconds are converted by dividing by 3600. Example: 30 seconds = 30 ÷ 3600 = 0.00833 hours.</p>
+            
+            <p><strong>Q: Why do payroll systems use decimal hours?</strong><br>
+            A: Decimal hours are easier to multiply by hourly rates. 7.5 hours × $20/hour = $150 is simpler than 7:30 × $20.</p>
+            
+            <p><strong>Q: Can I convert negative time values?</strong><br>
+            A: Yes, the converter handles negative values for time differences or deficits.</p>
+            
+            <p><strong>Q: How accurate should I be for payroll calculations?</strong><br>
+            A: Most payroll systems round to the nearest 6 minutes (0.1 hours) or 15 minutes (0.25 hours). Check your company's policy.</p>
+        </div>
+        
+        <footer>
+            <div>© 2023 Decimal to Time Converter | All rights reserved</div>
+            <div style="margin-top: 10px;">Contact: toolvala@gmail.com | Works 100% in your browser</div>
+        </footer>
+    </div>
+    
+    <script>
+        // Global variables
+        let conversionHistory = [];
+        let commonConversions = [
+            { decimal: 0.25, time: "0:15:00", desc: "15 minutes" },
+            { decimal: 0.5, time: "0:30:00", desc: "30 minutes" },
+            { decimal: 0.75, time: "0:45:00", desc: "45 minutes" },
+            { decimal: 1.0, time: "1:00:00", desc: "1 hour" },
+            { decimal: 1.25, time: "1:15:00", desc: "1 hour 15 min" },
+            { decimal: 1.5, time: "1:30:00", desc: "1.5 hours" },
+            { decimal: 1.75, time: "1:45:00", desc: "1 hour 45 min" },
+            { decimal: 2.0, time: "2:00:00", desc: "2 hours" },
+            { decimal: 2.5, time: "2:30:00", desc: "2.5 hours" },
+            { decimal: 3.0, time: "3:00:00", desc: "3 hours" },
+            { decimal: 3.5, time: "3:30:00", desc: "3.5 hours" },
+            { decimal: 4.0, time: "4:00:00", desc: "4 hours" },
+            { decimal: 4.5, time: "4:30:00", desc: "4.5 hours" },
+            { decimal: 5.0, time: "5:00:00", desc: "5 hours" },
+            { decimal: 6.0, time: "6:00:00", desc: "6 hours" },
+            { decimal: 7.0, time: "7:00:00", desc: "7 hours" },
+            { decimal: 7.5, time: "7:30:00", desc: "7.5 hours" },
+            { decimal: 8.0, time: "8:00:00", desc: "8 hours" },
+            { decimal: 8.5, time: "8:30:00", desc: "8.5 hours" },
+            { decimal: 9.0, time: "9:00:00", desc: "9 hours" },
+            { decimal: 10.0, time: "10:00:00", desc: "10 hours" }
+        ];
+        
+        // DOM Elements
+        const decimalInput = document.getElementById('decimalInput');
+        const hoursInput = document.getElementById('hoursInput');
+        const minutesInput = document.getElementById('minutesInput');
+        const secondsInput = document.getElementById('secondsInput');
+        const decimalToTimeBtn = document.getElementById('decimalToTimeBtn');
+        const timeToDecimalBtn = document.getElementById('timeToDecimalBtn');
+        const clearDecimalBtn = document.getElementById('clearDecimalBtn');
+        const clearTimeBtn = document.getElementById('clearTimeBtn');
+        
+        // Results Elements
+        const timeResult = document.getElementById('timeResult');
+        const timeDetails = document.getElementById('timeDetails');
+        const decimalResult = document.getElementById('decimalResult');
+        const decimalDetails = document.getElementById('decimalDetails');
+        const historyList = document.getElementById('historyList');
+        const examplesGrid = document.getElementById('examplesGrid');
+        const conversionsTable = document.getElementById('conversionsTable');
+        
+        // Initialize
+        function init() {
+            setupEventListeners();
+            loadHistoryFromStorage();
+            renderHistory();
+            renderExamples();
+            renderConversionsTable();
+            
+            // Perform initial conversions
+            decimalToTime();
+            timeToDecimal();
+        }
+        
+        // Setup event listeners
+        function setupEventListeners() {
+            decimalToTimeBtn.addEventListener('click', decimalToTime);
+            timeToDecimalBtn.addEventListener('click', timeToDecimal);
+            clearDecimalBtn.addEventListener('click', clearDecimal);
+            clearTimeBtn.addEventListener('click', clearTime);
+            
+            // Real-time conversion on input change
+            decimalInput.addEventListener('input', decimalToTime);
+            hoursInput.addEventListener('input', timeToDecimal);
+            minutesInput.addEventListener('input', timeToDecimal);
+            secondsInput.addEventListener('input', timeToDecimal);
+            
+            // Keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.key === '1') {
+                    e.preventDefault();
+                    decimalToTime();
+                }
+                if (e.ctrlKey && e.key === '2') {
+                    e.preventDefault();
+                    timeToDecimal();
+                }
+                if (e.ctrlKey && e.key === 'l') {
+                    e.preventDefault();
+                    clearAll();
+                }
+            });
+        }
+        
+        // Convert decimal to time
+        function decimalToTime() {
+            const decimalValue = parseFloat(decimalInput.value) || 0;
+            
+            // Calculate hours, minutes, and seconds
+            const totalSeconds = Math.abs(decimalValue) * 3600;
+            const hours = Math.floor(totalSeconds / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
+            const seconds = Math.floor(totalSeconds % 60);
+            
+            // Format time string
+            const sign = decimalValue < 0 ? "-" : "";
+            const timeStr = `${sign}${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            // Format details string
+            let detailsStr = `${Math.abs(hours)} hour${Math.abs(hours) !== 1 ? 's' : ''}`;
+            if (minutes > 0 || seconds > 0) {
+                detailsStr += `, ${minutes} minute${minutes !== 1 ? 's' : ''}`;
+            }
+            if (seconds > 0) {
+                detailsStr += `, ${seconds} second${seconds !== 1 ? 's' : ''}`;
+            }
+            if (decimalValue < 0) {
+                detailsStr = `-${detailsStr}`;
+            }
+            
+            // Update display
+            timeResult.textContent = timeStr;
+            timeDetails.textContent = detailsStr;
+            
+            // Add to history
+            addToHistory('decimalToTime', decimalValue, timeStr, detailsStr);
+        }
+        
+        // Convert time to decimal
+        function timeToDecimal() {
+            const hours = parseFloat(hoursInput.value) || 0;
+            const minutes = parseFloat(minutesInput.value) || 0;
+            const seconds = parseFloat(secondsInput.value) || 0;
+            
+            // Calculate decimal hours
+            const decimalValue = hours + (minutes / 60) + (seconds / 3600);
+            
+            // Format decimal string (rounded to 4 decimal places)
+            const decimalStr = decimalValue.toFixed(4);
+            
+            // Format details string
+            let detailsStr = `${Math.abs(hours)} hour${Math.abs(hours) !== 1 ? 's' : ''}`;
+            if (minutes > 0) {
+                detailsStr += ` and ${minutes} minute${minutes !== 1 ? 's' : ''}`;
+            }
+            if (seconds > 0 && minutes === 0) {
+                detailsStr += ` and ${seconds} second${seconds !== 1 ? 's' : ''}`;
+            }
+            
+            // Update display
+            decimalResult.textContent = decimalStr;
+            decimalDetails.textContent = detailsStr;
+            
+            // Add to history
+            const timeStr = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            addToHistory('timeToDecimal', timeStr, decimalStr, detailsStr);
+        }
+        
+        // Add conversion to history
+        function addToHistory(type, input, output, details) {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const dateString = now.toLocaleDateString();
+            
+            const historyEntry = {
+                id: Date.now(),
+                timestamp: `${dateString} ${timeString}`,
+                type: type,
+                input: input,
+                output: output,
+                details: details
+            };
+            
+            conversionHistory.unshift(historyEntry);
+            
+            // Keep only last 10 entries
+            if (conversionHistory.length > 10) {
+                conversionHistory = conversionHistory.slice(0, 10);
+            }
+            
+            // Save to localStorage
+            saveHistoryToStorage();
+            
+            // Update display
+            renderHistory();
+        }
+        
+        // Render history list
+        function renderHistory() {
+            if (conversionHistory.length === 0) {
+                historyList.innerHTML = '<div style="text-align: center; color: #999; padding: 20px;">No conversion history yet</div>';
+                return;
+            }
+            
+            let historyHTML = '';
+            
+            conversionHistory.forEach(entry => {
+                let direction, inputDisplay, outputDisplay;
+                
+                if (entry.type === 'decimalToTime') {
+                    direction = 'Decimal → Time';
+                    inputDisplay = `${entry.input} hours`;
+                    outputDisplay = entry.output;
+                } else {
+                    direction = 'Time → Decimal';
+                    inputDisplay = entry.input;
+                    outputDisplay = `${entry.output} hours`;
+                }
+                
+                historyHTML += `
+                    <div class="history-item">
+                        <div>
+                            <div class="history-direction">${direction}</div>
+                            <div style="font-size: 0.9rem; color: #666;">${entry.timestamp}</div>
+                        </div>
+                        <div class="history-values">
+                            <div style="text-align: right;">
+                                <div style="font-weight: 600;">${inputDisplay}</div>
+                                <div style="font-size: 0.9rem; color: #2196f3;">→ ${outputDisplay}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            historyList.innerHTML = historyHTML;
+        }
+        
+        // Render example cards
+        function renderExamples() {
+            let examplesHTML = '';
+            
+            // Select 8 common examples to display
+            const displayExamples = commonConversions.filter(conv => 
+                conv.decimal <= 8.5 && conv.decimal % 0.5 === 0
+            ).slice(0, 8);
+            
+            displayExamples.forEach(example => {
+                examplesHTML += `
+                    <div class="example-card" onclick="loadExample(${example.decimal})">
+                        <div class="example-decimal">${example.decimal} hours</div>
+                        <div class="example-time">${example.time}</div>
+                    </div>
+                `;
+            });
+            
+            examplesGrid.innerHTML = examplesHTML;
+        }
+        
+        // Render conversions table
+        function renderConversionsTable() {
+            let tableHTML = '';
+            
+            commonConversions.forEach(conv => {
+                if (conv.decimal <= 8.5) {
+                    tableHTML += `
+                        <tr>
+                            <td>${conv.decimal}</td>
+                            <td>${conv.time.split(':').slice(0, 2).join(':')}</td>
+                            <td>${conv.desc}</td>
+                        </tr>
+                    `;
+                }
+            });
+            
+            conversionsTable.innerHTML = tableHTML;
+        }
+        
+        // Load example into decimal input
+        function loadExample(decimalValue) {
+            decimalInput.value = decimalValue;
+            decimalToTime();
+            
+            // Also update the time inputs
+            const totalSeconds = decimalValue * 3600;
+            const hours = Math.floor(totalSeconds / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
+            const seconds = Math.floor(totalSeconds % 60);
+            
+            hoursInput.value = hours;
+            minutesInput.value = minutes;
+            secondsInput.value = seconds;
+            
+            timeToDecimal();
+            
+            showNotification(`Loaded example: ${decimalValue} hours`, 'success');
+        }
+        
+        // Clear decimal input
+        function clearDecimal() {
+            decimalInput.value = '';
+            decimalToTime();
+            showNotification('Decimal input cleared!', 'success');
+        }
+        
+        // Clear time inputs
+        function clearTime() {
+            hoursInput.value = '';
+            minutesInput.value = '';
+            secondsInput.value = '';
+            timeToDecimal();
+            showNotification('Time inputs cleared!', 'success');
+        }
+        
+        // Clear all inputs
+        function clearAll() {
+            clearDecimal();
+            clearTime();
+        }
+        
+        // Clear history
+        function clearHistory() {
+            conversionHistory = [];
+            saveHistoryToStorage();
+            renderHistory();
+            showNotification('History cleared!', 'success');
+        }
+        
+        // Save history to localStorage
+        function saveHistoryToStorage() {
+            try {
+                localStorage.setItem('decimalTimeHistory', JSON.stringify(conversionHistory));
+            } catch (e) {
+                console.log('Could not save history to localStorage');
+            }
+        }
+        
+        // Load history from localStorage
+        function loadHistoryFromStorage() {
+            try {
+                const savedHistory = localStorage.getItem('decimalTimeHistory');
+                if (savedHistory) {
+                    conversionHistory = JSON.parse(savedHistory);
+                }
+            } catch (e) {
+                console.log('Could not load history from localStorage');
+            }
+        }
+        
+        // Show notification
+        function showNotification(message, type) {
+            // Remove existing notification
+            const existing = document.querySelector('.notification');
+            if (existing) existing.remove();
+            
+            // Create notification
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.innerHTML = `
+                <div style="
+                    position: fixed;
+                    bottom: 20px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: ${type === 'success' ? '#4caf50' : type === 'error' ? '#f44336' : '#2196f3'};
+                    color: white;
+                    padding: 12px 24px;
+                    border-radius: 8px;
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                    z-index: 1000;
+                    font-weight: 600;
+                    animation: slideUp 0.3s ease;
+                ">
+                    ${message}
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Add animation
+            if (!document.querySelector('#notification-animation')) {
+                const style = document.createElement('style');
+                style.id = 'notification-animation';
+                style.textContent = `
+                    @keyframes slideUp {
+                        from { transform: translateX(-50%) translateY(100px); opacity: 0; }
+                        to { transform: translateX(-50%) translateY(0); opacity: 1; }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+        
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</body>
+</html>
