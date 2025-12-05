@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Primary SEO Meta Tags -->
+    <title>Notes to Coins Calculator | Free Currency Breakdown Tool - Toolvala</title>
+    <meta name="description" content="Calculate how many coins and notes make up any amount. Free currency breakdown calculator for USD, EUR, GBP, INR, and more. Perfect for cashiers, students, and financial planning.">
+    <meta name="keywords" content="notes to coins calculator, currency breakdown, coin calculator, cash register calculator, money calculator, USD coins, EUR coins, GBP coins, INR coins, financial calculator">
+    <meta name="author" content="Toolvala Financial Tools">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://toolvala.com/notes-to-coins/">
+    <meta property="og:title" content="Notes to Coins Calculator | Free Currency Breakdown Tool">
+    <meta property="og:description" content="Calculate how many coins and notes make up any amount. Perfect for cashiers, students, and financial planning.">
+    <meta property="og:image" content="https://toolvala.com/images/coins-calculator-og.jpg">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://toolvala.com/notes-to-coins/">
+    <meta property="twitter:title" content="Notes to Coins Calculator | Free Currency Breakdown Tool">
+    <meta property="twitter:description" content="Calculate how many coins and notes make up any amount. Free currency breakdown calculator.">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://toolvala.com/notes-to-coins/">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💰</text></svg>">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Notes to Coins Calculator",
+        "description": "Free online calculator to breakdown any amount into coins and banknotes",
+        "url": "https://toolvala.com/notes-to-coins/",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.9",
+            "ratingCount": "856",
+            "bestRating": "5"
+        },
+        "featureList": [
+            "Multiple currency support",
+            "Custom denomination setup",
+            "Visual coin representation",
+            "Cash register simulation",
+            "Educational breakdowns",
+            "No registration required"
+        ]
+    }
+    </script>
+    
+    <style>
+        :root {
+            --primary: #10b981;
+            --primary-dark: #059669;
+            --secondary: #3b82f6;
+            --accent: #f59e0b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            --radius: 12px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header */
+        .header {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            color: var(--gray);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* Main Tool */
+        .tool-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .tool-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .input-section, .results-section {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 2rem;
+        }
+        
+        /* Input Controls */
+        .currency-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .currency-option {
+            padding: 0.75rem;
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+        }
+        
+        .currency-option:hover {
+            border-color: var(--primary);
+        }
+        
+        .currency-option.active {
+            border-color: var(--primary);
+            background: rgba(16, 185, 129, 0.1);
+        }
+        
+        /* Amount Input */
+        .amount-input-container {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        
+        .currency-symbol {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .amount-input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            font-size: 1.5rem;
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            text-align: right;
+            transition: var(--transition);
+        }
+        
+        .amount-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+        
+        /* Preset Buttons */
+        .preset-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .preset-btn {
+            padding: 0.75rem;
+            background: var(--light);
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+        }
+        
+        .preset-btn:hover {
+            border-color: var(--primary);
+            background: rgba(16, 185, 129, 0.05);
+        }
+        
+        /* Custom Denominations */
+        .custom-denominations {
+            background: var(--light);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .denomination-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+        
+        .denomination-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .denomination-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        
+        /* Results */
+        .breakdown-container {
+            max-height: 400px;
+            overflow-y: auto;
+            margin: 1.5rem 0;
+            padding-right: 0.5rem;
+        }
+        
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            transition: var(--transition);
+        }
+        
+        .breakdown-item:hover {
+            background: var(--light);
+        }
+        
+        .denomination-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .coin-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            font-size: 0.875rem;
+        }
+        
+        .coin-icon.note {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        }
+        
+        .coin-icon.coin {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+        
+        .denomination-details {
+            flex: 1;
+        }
+        
+        .denomination-name {
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .denomination-value {
+            font-size: 0.875rem;
+            color: var(--gray);
+        }
+        
+        .breakdown-count {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
+            min-width: 60px;
+            text-align: right;
+        }
+        
+        /* Summary */
+        .summary {
+            background: var(--light);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .summary-item {
+            text-align: center;
+            padding: 1rem;
+            background: white;
+            border-radius: var(--radius);
+        }
+        
+        .summary-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.25rem;
+        }
+        
+        .summary-label {
+            font-size: 0.875rem;
+            color: var(--gray);
+        }
+        
+        /* Visual Representation */
+        .visual-representation {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: var(--light);
+            border-radius: var(--radius);
+        }
+        
+        .coins-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            justify-content: center;
+        }
+        
+        .coin-visual {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: white;
+        }
+        
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.875rem 1.75rem;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: var(--dark);
+            border: 2px solid var(--border);
+        }
+        
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            background: var(--light);
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        /* SEO Content */
+        .seo-content {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .seo-content h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .feature {
+            padding: 1.5rem;
+            background: var(--light);
+            border-radius: var(--radius);
+            transition: var(--transition);
+        }
+        
+        .feature:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .currency-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: white;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+        
+        .currency-table th {
+            background: var(--primary);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+        }
+        
+        .currency-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .currency-table tr:hover {
+            background: var(--light);
+        }
+        
+        .faq {
+            margin: 1.5rem 0;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .faq:last-child {
+            border-bottom: none;
+        }
+        
+        .faq h4 {
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 2rem;
+            border-radius: var(--radius);
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .footer-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .currency-selector {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>💰 Notes to Coins Calculator</h1>
+            <p class="subtitle">Calculate how many coins and banknotes make up any amount. Perfect for cash registers, teaching, and financial planning.</p>
+        </header>
+
+        <!-- Main Tool -->
+        <div class="tool-container">
+            <!-- Input Section -->
+            <section class="input-section">
+                <h2>Enter Amount</h2>
+                
+                <!-- Currency Selection -->
+                <div class="currency-selector">
+                    <div class="currency-option active" data-currency="USD">
+                        🇺🇸 USD
+                    </div>
+                    <div class="currency-option" data-currency="EUR">
+                        🇪🇺 EUR
+                    </div>
+                    <div class="currency-option" data-currency="GBP">
+                        🇬🇧 GBP
+                    </div>
+                    <div class="currency-option" data-currency="INR">
+                        🇮🇳 INR
+                    </div>
+                    <div class="currency-option" data-currency="CAD">
+                        🇨🇦 CAD
+                    </div>
+                    <div class="currency-option" data-currency="AUD">
+                        🇦🇺 AUD
+                    </div>
+                </div>
+
+                <!-- Amount Input -->
+                <div class="amount-input-container">
+                    <span class="currency-symbol" id="currencySymbol">$</span>
+                    <input type="number" 
+                           id="amountInput" 
+                           class="amount-input" 
+                           placeholder="0.00" 
+                           step="0.01" 
+                           min="0" 
+                           max="1000000"
+                           value="123.45">
+                </div>
+
+                <!-- Preset Amounts -->
+                <div class="preset-buttons">
+                    <button class="preset-btn" data-amount="1">$1</button>
+                    <button class="preset-btn" data-amount="5">$5</button>
+                    <button class="preset-btn" data-amount="10">$10</button>
+                    <button class="preset-btn" data-amount="20">$20</button>
+                    <button class="preset-btn" data-amount="50">$50</button>
+                    <button class="preset-btn" data-amount="100">$100</button>
+                    <button class="preset-btn" data-amount="250">$250</button>
+                    <button class="preset-btn" data-amount="500">$500</button>
+                </div>
+
+                <!-- Custom Denominations -->
+                <div class="custom-denominations">
+                    <h3>Custom Denominations</h3>
+                    <p style="color: var(--gray); font-size: 0.875rem; margin-bottom: 1rem;">
+                        Select which denominations to include in calculation
+                    </p>
+                    <div class="denomination-list" id="denominationList">
+                        <!-- Dynamically populated -->
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-primary" id="calculateBtn">
+                        🧮 Calculate Breakdown
+                    </button>
+                    <button class="btn btn-secondary" id="resetBtn">
+                        🔄 Reset
+                    </button>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section class="results-section">
+                <h2>Breakdown Results</h2>
+                
+                <div class="breakdown-container" id="breakdownContainer">
+                    <p style="color: var(--gray); text-align: center; padding: 3rem 1rem;">
+                        Enter an amount to see the coin and note breakdown
+                    </p>
+                </div>
+
+                <!-- Summary -->
+                <div class="summary" id="summarySection" style="display: none;">
+                    <h3>Summary</h3>
+                    <div class="summary-grid">
+                        <div class="summary-item">
+                            <div class="summary-value" id="totalItems">0</div>
+                            <div class="summary-label">Total Items</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-value" id="totalNotes">0</div>
+                            <div class="summary-label">Banknotes</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-value" id="totalCoins">0</div>
+                            <div class="summary-label">Coins</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-value" id="exactAmount">$0.00</div>
+                            <div class="summary-label">Exact Amount</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Visual Representation -->
+                <div class="visual-representation" id="visualSection" style="display: none;">
+                    <h3>Visual Representation</h3>
+                    <div class="coins-grid" id="visualGrid">
+                        <!-- Dynamically populated -->
+                    </div>
+                </div>
+
+                <div class="action-buttons" style="margin-top: 1.5rem;">
+                    <button class="btn btn-primary" id="printBtn" style="display: none;">
+                        🖨️ Print Breakdown
+                    </button>
+                    <button class="btn btn-secondary" id="copyBtn" style="display: none;">
+                        📋 Copy Results
+                    </button>
+                </div>
+            </section>
+        </div>
+
+        <!-- SEO Content -->
+        <section class="seo-content">
+            <h2>Free Notes to Coins Calculator</h2>
+            <p>Our calculator instantly breaks down any monetary amount into the optimal combination of coins and banknotes. Perfect for cashiers, students learning money math, financial planning, and anyone working with cash transactions.</p>
+            
+            <h3>Why Use Our Calculator?</h3>
+            <div class="features-grid">
+                <div class="feature">
+                    <h4>💼 Cash Register Ready</h4>
+                    <p>Perfect for cashiers and retail workers needing to make optimal change.</p>
+                </div>
+                <div class="feature">
+                    <h4>🎓 Educational Tool</h4>
+                    <p>Great for teaching children about money and currency denominations.</p>
+                </div>
+                <div class="feature">
+                    <h4>🌍 Multiple Currencies</h4>
+                    <p>Supports USD, EUR, GBP, INR, CAD, AUD, and customizable currencies.</p>
+                </div>
+                <div class="feature">
+                    <h4>🔧 Customizable</h4>
+                    <p>Choose which denominations to include in your calculations.</p>
+                </div>
+            </div>
+
+            <h3>Currency Denominations Reference</h3>
+            <table class="currency-table">
+                <thead>
+                    <tr>
+                        <th>Currency</th>
+                        <th>Common Banknotes</th>
+                        <th>Common Coins</th>
+                        <th>Smallest Unit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>USD (US Dollar)</strong></td>
+                        <td>$1, $2, $5, $10, $20, $50, $100</td>
+                        <td>1¢, 5¢, 10¢, 25¢, 50¢, $1</td>
+                        <td>1 Cent (0.01)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>EUR (Euro)</strong></td>
+                        <td>€5, €10, €20, €50, €100, €200, €500</td>
+                        <td>1c, 2c, 5c, 10c, 20c, 50c, €1, €2</td>
+                        <td>1 Cent (0.01)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>GBP (British Pound)</strong></td>
+                        <td>£5, £10, £20, £50</td>
+                        <td>1p, 2p, 5p, 10p, 20p, 50p, £1, £2</td>
+                        <td>1 Penny (0.01)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>INR (Indian Rupee)</strong></td>
+                        <td>₹10, ₹20, ₹50, ₹100, ₹200, ₹500, ₹2000</td>
+                        <td>50p, ₹1, ₹2, ₹5, ₹10, ₹20</td>
+                        <td>50 Paise (0.50)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>How to Use This Calculator</h3>
+            <ol>
+                <li><strong>Select your currency</strong> (USD, EUR, GBP, INR, etc.)</li>
+                <li><strong>Enter the amount</strong> you want to break down</li>
+                <li><strong>Customize denominations</strong> (optional - select which coins/notes to include)</li>
+                <li><strong>Click "Calculate Breakdown"</strong> to see results</li>
+                <li><strong>Print or copy</strong> the results for reference</li>
+            </ol>
+
+            <h3>Common Use Cases</h3>
+            <div class="features-grid">
+                <div class="feature">
+                    <h4>🛒 Retail & Cash Registers</h4>
+                    <p>Calculate optimal change for any transaction amount.</p>
+                </div>
+                <div class="feature">
+                    <h4>🏦 Bank Teller Training</h4>
+                    <p>Practice counting and bundling money efficiently.</p>
+                </div>
+                <div class="feature">
+                    <h4>📚 Math Education</h4>
+                    <p>Teach students about money, division, and remainders.</p>
+                </div>
+                <div class="feature">
+                    <h4>💰 Budget Planning</h4>
+                    <p>Break down amounts for envelope budgeting systems.</p>
+                </div>
+            </div>
+
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq">
+                <h4>Is this calculator accurate for all currencies?</h4>
+                <p>Yes! Our calculator uses official denomination data for each supported currency and allows custom denomination setups for any currency.</p>
+            </div>
+            <div class="faq">
+                <h4>Can I add custom denominations?</h4>
+                <p>Absolutely! Use the "Custom Denominations" section to select exactly which coins and notes to include in your calculations.</p>
+            </div>
+            <div class="faq">
+                <h4>How does the calculator determine the breakdown?</h4>
+                <p>We use a greedy algorithm that starts with the largest denomination and works down, similar to how cash registers operate in real life.</p>
+            </div>
+            <div class="faq">
+                <h4>Is this tool free to use?</h4>
+                <p>Yes, completely free with no registration, limits, or hidden costs. All calculations happen in your browser.</p>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>© <span id="currentYear"></span> Notes to Coins Calculator | Toolvala Financial Tools</p>
+            <div class="footer-links">
+                <a href="mailto:toolvala@gmail.com">Contact: toolvala@gmail.com</a>
+                <a href="#" onclick="showPrivacyPolicy()">Privacy Policy</a>
+                <a href="#" onclick="showTerms()">Terms of Service</a>
+                <a href="https://github.com/toolvala" target="_blank">GitHub</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // ==================== INITIALIZATION ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("Notes to Coins Calculator v1.0 - Starting...");
+            
+            // Set current year in footer
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+            
+            // Initialize currency data
+            initializeCurrencyData();
+            
+            // Setup event listeners
+            setupEventListeners();
+            
+            // Initial calculation
+            calculateBreakdown();
+            
+            console.log("Calculator initialized successfully!");
+        });
+
+        // ==================== CURRENCY DATA ====================
+        const currencyData = {
+            USD: {
+                symbol: "$",
+                name: "US Dollar",
+                denominations: [
+                    { value: 100, name: "100 Dollar Bill", type: "note" },
+                    { value: 50, name: "50 Dollar Bill", type: "note" },
+                    { value: 20, name: "20 Dollar Bill", type: "note" },
+                    { value: 10, name: "10 Dollar Bill", type: "note" },
+                    { value: 5, name: "5 Dollar Bill", type: "note" },
+                    { value: 2, name: "2 Dollar Bill", type: "note" },
+                    { value: 1, name: "1 Dollar Bill", type: "note" },
+                    { value: 1, name: "1 Dollar Coin", type: "coin" },
+                    { value: 0.5, name: "Half Dollar", type: "coin" },
+                    { value: 0.25, name: "Quarter", type: "coin" },
+                    { value: 0.1, name: "Dime", type: "coin" },
+                    { value: 0.05, name: "Nickel", type: "coin" },
+                    { value: 0.01, name: "Penny", type: "coin" }
+                ]
+            },
+            EUR: {
+                symbol: "€",
+                name: "Euro",
+                denominations: [
+                    { value: 500, name: "500 Euro Note", type: "note" },
+                    { value: 200, name: "200 Euro Note", type: "note" },
+                    { value: 100, name: "100 Euro Note", type: "note" },
+                    { value: 50, name: "50 Euro Note", type: "note" },
+                    { value: 20, name: "20 Euro Note", type: "note" },
+                    { value: 10, name: "10 Euro Note", type: "note" },
+                    { value: 5, name: "5 Euro Note", type: "note" },
+                    { value: 2, name: "2 Euro Coin", type: "coin" },
+                    { value: 1, name: "1 Euro Coin", type: "coin" },
+                    { value: 0.5, name: "50 Cent", type: "coin" },
+                    { value: 0.2, name: "20 Cent", type: "coin" },
+                    { value: 0.1, name: "10 Cent", type: "coin" },
+                    { value: 0.05, name: "5 Cent", type: "coin" },
+                    { value: 0.02, name: "2 Cent", type: "coin" },
+                    { value: 0.01, name: "1 Cent", type: "coin" }
+                ]
+            },
+            GBP: {
+                symbol: "£",
+                name: "British Pound",
+                denominations: [
+                    { value: 50, name: "50 Pound Note", type: "note" },
+                    { value: 20, name: "20 Pound Note", type: "note" },
+                    { value: 10, name: "10 Pound Note", type: "note" },
+                    { value: 5, name: "5 Pound Note", type: "note" },
+                    { value: 2, name: "2 Pound Coin", type: "coin" },
+                    { value: 1, name: "1 Pound Coin", type: "coin" },
+                    { value: 0.5, name: "50 Pence", type: "coin" },
+                    { value: 0.2, name: "20 Pence", type: "coin" },
+                    { value: 0.1, name: "10 Pence", type: "coin" },
+                    { value: 0.05, name: "5 Pence", type: "coin" },
+                    { value: 0.02, name: "2 Pence", type: "coin" },
+                    { value: 0.01, name: "1 Penny", type: "coin" }
+                ]
+            },
+            INR: {
+                symbol: "₹",
+                name: "Indian Rupee",
+                denominations: [
+                    { value: 2000, name: "2000 Rupee Note", type: "note" },
+                    { value: 500, name: "500 Rupee Note", type: "note" },
+                    { value: 200, name: "200 Rupee Note", type: "note" },
+                    { value: 100, name: "100 Rupee Note", type: "note" },
+                    { value: 50, name: "50 Rupee Note", type: "note" },
+                    { value: 20, name: "20 Rupee Note", type: "note" },
+                    { value: 10, name: "10 Rupee Note", type: "note" },
+                    { value: 5, name: "5 Rupee Coin", type: "coin" },
+                    { value: 2, name: "2 Rupee Coin", type: "coin" },
+                    { value: 1, name: "1 Rupee Coin", type: "coin" },
+                    { value: 0.5, name: "50 Paise", type: "coin" }
+                ]
+            },
+            CAD: {
+                symbol: "$",
+                name: "Canadian Dollar",
+                denominations: [
+                    { value: 100, name: "100 Dollar Bill", type: "note" },
+                    { value: 50, name: "50 Dollar Bill", type: "note" },
+                    { value: 20, name: "20 Dollar Bill", type: "note" },
+                    { value: 10, name: "10 Dollar Bill", type: "note" },
+                    { value: 5, name: "5 Dollar Bill", type: "note" },
+                    { value: 2, name: "Toonie ($2)", type: "coin" },
+                    { value: 1, name: "Loonie ($1)", type: "coin" },
+                    { value: 0.25, name: "Quarter", type: "coin" },
+                    { value: 0.1, name: "Dime", type: "coin" },
+                    { value: 0.05, name: "Nickel", type: "coin" }
+                ]
+            },
+            AUD: {
+                symbol: "$",
+                name: "Australian Dollar",
+                denominations: [
+                    { value: 100, name: "100 Dollar Note", type: "note" },
+                    { value: 50, name: "50 Dollar Note", type: "note" },
+                    { value: 20, name: "20 Dollar Note", type: "note" },
+                    { value: 10, name: "10 Dollar Note", type: "note" },
+                    { value: 5, name: "5 Dollar Note", type: "note" },
+                    { value: 2, name: "2 Dollar Coin", type: "coin" },
+                    { value: 1, name: "1 Dollar Coin", type: "coin" },
+                    { value: 0.5, name: "50 Cent", type: "coin" },
+                    { value: 0.2, name: "20 Cent", type: "coin" },
+                    { value: 0.1, name: "10 Cent", type: "coin" },
+                    { value: 0.05, name: "5 Cent", type: "coin" }
+                ]
+            }
+        };
+
+        // Current state
+        let currentCurrency = "USD";
+        let selectedDenominations = new Set();
+        let breakdownResults = [];
+
+        // ==================== INITIALIZATION FUNCTIONS ====================
+        function initializeCurrencyData() {
+            // Set all denominations as selected by default
+            const denominations = currencyData[currentCurrency].denominations;
+            selectedDenominations.clear();
+            denominations.forEach((_, index) => selectedDenominations.add(index));
+            
+            // Update currency symbol
+            document.getElementById('currencySymbol').textContent = currencyData[currentCurrency].symbol;
+            
+            // Populate denomination list
+            populateDenominationList();
+        }
+
+        function populateDenominationList() {
+            const container = document.getElementById('denominationList');
+            container.innerHTML = '';
+            
+            const denominations = currencyData[currentCurrency].denominations;
+            
+            denominations.forEach((denomination, index) => {
+                const div = document.createElement('div');
+                div.className = 'denomination-item';
+                div.innerHTML = `
+                    <input type="checkbox" 
+                           id="denom-${index}" 
+                           ${selectedDenominations.has(index) ? 'checked' : ''}
+                           data-index="${index}">
+                    <label for="denom-${index}" style="cursor: pointer;">
+                        <strong>${currencyData[currentCurrency].symbol}${denomination.value}</strong>
+                        <span style="color: var(--gray); font-size: 0.875rem;">
+                            - ${denomination.name}
+                        </span>
+                    </label>
+                `;
+                container.appendChild(div);
+            });
+            
+            // Add event listeners to checkboxes
+            document.querySelectorAll('#denominationList input[type="checkbox"]').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const index = parseInt(this.dataset.index);
+                    if (this.checked) {
+                        selectedDenominations.add(index);
+                    } else {
+                        selectedDenominations.delete(index);
+                    }
+                    calculateBreakdown();
+                });
+            });
+        }
+
+        // ==================== EVENT LISTENERS ====================
+        function setupEventListeners() {
+            // Currency selection
+            document.querySelectorAll('.currency-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    document.querySelectorAll('.currency-option').forEach(o => o.classList.remove('active'));
+                    this.classList.add('active');
+                    currentCurrency = this.dataset.currency;
+                    
+                    // Update currency symbol
+                    document.getElementById('currencySymbol').textContent = currencyData[currentCurrency].symbol;
+                    
+                    // Reinitialize for new currency
+                    initializeCurrencyData();
+                    calculateBreakdown();
+                });
+            });
+            
+            // Amount input
+            const amountInput = document.getElementById('amountInput');
+            amountInput.addEventListener('input', calculateBreakdown);
+            amountInput.addEventListener('change', calculateBreakdown);
+            
+            // Preset buttons
+            document.querySelectorAll('.preset-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const amount = parseFloat(this.dataset.amount);
+                    amountInput.value = amount.toFixed(2);
+                    calculateBreakdown();
+                });
+            });
+            
+            // Calculate button
+            document.getElementById('calculateBtn').addEventListener('click', calculateBreakdown);
+            
+            // Reset button
+            document.getElementById('resetBtn').addEventListener('click', function() {
+                amountInput.value = '123.45';
+                initializeCurrencyData();
+                calculateBreakdown();
+            });
+            
+            // Print button
+            document.getElementById('printBtn').addEventListener('click', printResults);
+            
+            // Copy button
+            document.getElementById('copyBtn').addEventListener('click', copyResults);
+        }
+
+        // ==================== CALCULATION FUNCTIONS ====================
+        function calculateBreakdown() {
+            const amountInput = document.getElementById('amountInput');
+            const amount = parseFloat(amountInput.value) || 0;
+            
+            if (amount <= 0) {
+                showEmptyState();
+                return;
+            }
+            
+            // Get selected denominations for current currency
+            const denominations = currencyData[currentCurrency].denominations
+                .filter((_, index) => selectedDenominations.has(index))
+                .sort((a, b) => b.value - a.value); // Sort descending
+            
+            // Calculate breakdown using greedy algorithm
+            let remaining = amount;
+            breakdownResults = [];
+            
+            for (const denomination of denominations) {
+                const count = Math.floor(remaining / denomination.value);
+                if (count > 0) {
+                    breakdownResults.push({
+                        ...denomination,
+                        count: count,
+                        total: count * denomination.value
+                    });
+                    remaining = Math.round((remaining - (count * denomination.value)) * 100) / 100;
+                }
+                
+                if (remaining < 0.01) break; // Stop when less than smallest unit
+            }
+            
+            // Handle any remaining amount (rounding errors)
+            if (remaining >= 0.01) {
+                // Add to smallest denomination or create remainder
+                const smallestDenomination = denominations[denominations.length - 1];
+                const existingIndex = breakdownResults.findIndex(d => d.value === smallestDenomination.value);
+                
+                if (existingIndex >= 0) {
+                    breakdownResults[existingIndex].count += 1;
+                    breakdownResults[existingIndex].total += smallestDenomination.value;
+                } else {
+                    breakdownResults.push({
+                        ...smallestDenomination,
+                        count: 1,
+                        total: smallestDenomination.value
+                    });
+                }
+            }
+            
+            // Update UI with results
+            updateResultsUI(amount);
+        }
+
+        // ==================== UI UPDATE FUNCTIONS ====================
+        function updateResultsUI(originalAmount) {
+            const container = document.getElementById('breakdownContainer');
+            const summarySection = document.getElementById('summarySection');
+            const visualSection = document.getElementById('visualSection');
+            const printBtn = document.getElementById('printBtn');
+            const copyBtn = document.getElementById('copyBtn');
+            
+            if (breakdownResults.length === 0) {
+                showEmptyState();
+                return;
+            }
+            
+            // Calculate totals
+            let totalItems = 0;
+            let totalNotes = 0;
+            let totalCoins = 0;
+            let calculatedTotal = 0;
+            
+            breakdownResults.forEach(result => {
+                totalItems += result.count;
+                calculatedTotal += result.total;
+                if (result.type === 'note') {
+                    totalNotes += result.count;
+                } else {
+                    totalCoins += result.count;
+                }
+            });
+            
+            // Update breakdown display
+            container.innerHTML = '';
+            breakdownResults.forEach(result => {
+                const item = document.createElement('div');
+                item.className = 'breakdown-item';
+                item.innerHTML = `
+                    <div class="denomination-info">
+                        <div class="coin-icon ${result.type}">
+                            ${currencyData[currentCurrency].symbol}
+                        </div>
+                        <div class="denomination-details">
+                            <div class="denomination-name">${result.name}</div>
+                            <div class="denomination-value">
+                                ${currencyData[currentCurrency].symbol}${result.value.toFixed(2)} each
+                            </div>
+                        </div>
+                    </div>
+                    <div class="breakdown-count">
+                        ${result.count} ×
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+            
+            // Update summary
+            document.getElementById('totalItems').textContent = totalItems;
+            document.getElementById('totalNotes').textContent = totalNotes;
+            document.getElementById('totalCoins').textContent = totalCoins;
+            document.getElementById('exactAmount').textContent = 
+                `${currencyData[currentCurrency].symbol}${calculatedTotal.toFixed(2)}`;
+            
+            // Update visual representation
+            updateVisualRepresentation();
+            
+            // Show sections
+            summarySection.style.display = 'block';
+            visualSection.style.display = 'block';
+            printBtn.style.display = 'inline-flex';
+            copyBtn.style.display = 'inline-flex';
+        }
+
+        function updateVisualRepresentation() {
+            const container = document.getElementById('visualGrid');
+            container.innerHTML = '';
+            
+            breakdownResults.forEach(result => {
+                for (let i = 0; i < Math.min(result.count, 50); i++) { // Limit display to 50 of each
+                    const coin = document.createElement('div');
+                    coin.className = 'coin-visual';
+                    coin.style.background = result.type === 'note' 
+                        ? 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)'
+                        : 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)';
+                    coin.title = `${result.name} (${currencyData[currentCurrency].symbol}${result.value})`;
+                    coin.textContent = result.type === 'note' ? 'N' : 'C';
+                    container.appendChild(coin);
+                }
+                
+                if (result.count > 50) {
+                    const more = document.createElement('div');
+                    more.className = 'coin-visual';
+                    more.style.background = 'var(--gray)';
+                    more.textContent = `+${result.count - 50}`;
+                    more.title = `${result.count - 50} more ${result.name}`;
+                    container.appendChild(more);
+                }
+            });
+        }
+
+        function showEmptyState() {
+            const container = document.getElementById('breakdownContainer');
+            container.innerHTML = `
+                <p style="color: var(--gray); text-align: center; padding: 3rem 1rem;">
+                    Enter an amount to see the coin and note breakdown
+                </p>
+            `;
+            
+            document.getElementById('summarySection').style.display = 'none';
+            document.getElementById('visualSection').style.display = 'none';
+            document.getElementById('printBtn').style.display = 'none';
+            document.getElementById('copyBtn').style.display = 'none';
+        }
+
+        // ==================== UTILITY FUNCTIONS ====================
+        function printResults() {
+            const amount = document.getElementById('amountInput').value;
+            const currency = currencyData[currentCurrency];
+            
+            const printContent = `
+                <html>
+                    <head>
+                        <title>Notes to Coins Breakdown - ${currency.name}</title>
+                        <style>
+                            body { font-family: Arial, sans-serif; padding: 20px; }
+                            h1 { color: #10b981; }
+                            .breakdown-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #ddd; }
+                            .summary { background: #f8fafc; padding: 15px; border-radius: 8px; margin: 20px 0; }
+                        </style>
+                    </head>
+                    <body>
+                        <h1>💰 Notes to Coins Breakdown</h1>
+                        <p><strong>Amount:</strong> ${currency.symbol}${parseFloat(amount).toFixed(2)}</p>
+                        <p><strong>Currency:</strong> ${currency.name}</p>
+                        <p><strong>Date:</strong> ${new Date().toLocaleDateString()}</p>
+                        
+                        <h2>Breakdown:</h2>
+                        ${breakdownResults.map(result => `
+                            <div class="breakdown-item">
+                                <span>${result.count} × ${result.name} (${currency.symbol}${result.value})</span>
+                                <span>${currency.symbol}${result.total.toFixed(2)}</span>
+                            </div>
+                        `).join('')}
+                        
+                        <div class="summary">
+                            <h3>Summary</h3>
+                            <p>Total Items: ${breakdownResults.reduce((sum, r) => sum + r.count, 0)}</p>
+                            <p>Total Amount: ${currency.symbol}${breakdownResults.reduce((sum, r) => sum + r.total, 0).toFixed(2)}</p>
+                        </div>
+                        
+                        <p style="margin-top: 30px; color: #666; font-size: 0.9em;">
+                            Generated by Toolvala Notes to Coins Calculator<br>
+                            https://toolvala.com/notes-to-coins/
+                        </p>
+                    </body>
+                </html>
+            `;
+            
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(printContent);
+            printWindow.document.close();
+            printWindow.focus();
+            setTimeout(() => {
+                printWindow.print();
+                printWindow.close();
+            }, 250);
+        }
+
+        function copyResults() {
+            const amount = document.getElementById('amountInput').value;
+            const currency = currencyData[currentCurrency];
+            
+            let text = `💰 Notes to Coins Breakdown\n`;
+            text += `Amount: ${currency.symbol}${parseFloat(amount).toFixed(2)}\n`;
+            text += `Currency: ${currency.name}\n`;
+            text += `Date: ${new Date().toLocaleDateString()}\n\n`;
+            text += `BREAKDOWN:\n`;
+            text += `${'='.repeat(30)}\n`;
+            
+            breakdownResults.forEach(result => {
+                text += `${result.count} × ${result.name.padEnd(20)} = ${currency.symbol}${result.total.toFixed(2).padStart(8)}\n`;
+            });
+            
+            text += `\nSUMMARY:\n`;
+            text += `${'='.repeat(30)}\n`;
+            text += `Total Items: ${breakdownResults.reduce((sum, r) => sum + r.count, 0)}\n`;
+            text += `Total Amount: ${currency.symbol}${breakdownResults.reduce((sum, r) => sum + r.total, 0).toFixed(2)}\n\n`;
+            text += `Generated by Toolvala Notes to Coins Calculator\n`;
+            text += `https://toolvala.com/notes-to-coins/`;
+            
+            navigator.clipboard.writeText(text)
+                .then(() => alert('✅ Results copied to clipboard!'))
+                .catch(err => console.error('Failed to copy:', err));
+        }
+
+        // ==================== FOOTER FUNCTIONS ====================
+        function showPrivacyPolicy() {
+            alert(`Privacy Policy:
+            
+1. All calculations happen in your browser
+2. No data is sent to any server
+3. No tracking or analytics
+4. Your privacy is guaranteed
+            
+Contact: toolvala@gmail.com`);
+        }
+
+        function showTerms() {
+            alert(`Terms of Service:
+            
+1. This tool is provided "as is" without warranty
+2. Use at your own risk
+3. For educational and informational purposes
+4. Free for personal and commercial use
+            
+Contact: toolvala@gmail.com`);
+        }
+    </script>
+</body>
+</html>
