@@ -1,1 +1,1310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON to SQL Converter | Free Online Tool for Developers</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Convert JSON to SQL INSERT statements instantly. Free online tool for developers. Supports batch inserts, type inference, and multiple SQL formats.">
+    <meta name="keywords" content="JSON to SQL, SQL generator, database, insert statements, online tool, developer tools">
+    <meta name="author" content="JSON to SQL Converter">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="JSON to SQL Converter | Free Online Tool">
+    <meta property="og:description" content="Convert JSON to SQL INSERT statements instantly. Free online tool for developers.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yourdomain.com/json-to-sql">
+    <meta property="og:image" content="https://yourdomain.com/json-to-sql-og.jpg">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="JSON to SQL Converter | Free Online Tool">
+    <meta name="twitter:description" content="Convert JSON to SQL INSERT statements instantly. Free online tool for developers.">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "JSON to SQL Converter",
+        "description": "Convert JSON to SQL INSERT statements instantly. Free online tool for developers.",
+        "url": "https://yourdomain.com/json-to-sql",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "featureList": [
+            "JSON to SQL conversion",
+            "Batch processing",
+            "Type inference",
+            "CREATE TABLE generation"
+        ]
+    }
+    </script>
+    
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #3b82f6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 1px 3px rgba(0,0,0,0.1);
+            --radius: 8px;
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+        }
+        
+        /* Main Content */
+        .converter {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: var(--light);
+            border-radius: var(--radius);
+        }
+        
+        .input-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .input-group input,
+        .input-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        .input-group input:focus,
+        .input-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+        
+        .option input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        
+        /* Editor Section */
+        .editor-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .editor-section {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .editor-panel {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+        
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: var(--light);
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .editor-header h3 {
+            font-size: 1.1rem;
+            color: var(--dark);
+        }
+        
+        .editor-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        textarea, pre {
+            flex: 1;
+            padding: 1rem;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            border: none;
+            resize: vertical;
+            min-height: 300px;
+            background: white;
+            color: var(--dark);
+        }
+        
+        textarea {
+            outline: none;
+        }
+        
+        textarea:focus {
+            outline: 2px solid var(--primary);
+            outline-offset: -2px;
+        }
+        
+        .sql-output {
+            white-space: pre-wrap;
+            word-break: break-all;
+            overflow-y: auto;
+            background: #0f172a;
+            color: #e2e8f0;
+        }
+        
+        .editor-footer {
+            padding: 0.75rem 1rem;
+            background: var(--light);
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.875rem;
+            color: var(--gray);
+        }
+        
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+        
+        .btn {
+            padding: 0.875rem 1.75rem;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.2);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: var(--dark);
+            border: 2px solid var(--border);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--light);
+            border-color: var(--primary);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        /* Examples */
+        .examples {
+            margin: 1rem 0;
+        }
+        
+        .example-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+        
+        .example-btn {
+            padding: 0.5rem 1rem;
+            background: var(--light);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            color: var(--dark);
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: var(--transition);
+        }
+        
+        .example-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        /* SEO Content */
+        .seo-content {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .seo-content h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+        
+        .seo-content h3 {
+            color: var(--dark);
+            margin: 1.5rem 0 1rem;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .feature {
+            padding: 1.5rem;
+            background: var(--light);
+            border-radius: var(--radius);
+        }
+        
+        .feature h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .faq {
+            margin: 1.5rem 0;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .faq:last-child {
+            border-bottom: none;
+        }
+        
+        .faq h3 {
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            text-align: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+        
+        .footer-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        /* Error Message */
+        .error-message {
+            padding: 1rem;
+            background: #fee2e2;
+            color: #991b1b;
+            border-radius: var(--radius);
+            margin: 1rem 0;
+            border-left: 4px solid var(--danger);
+        }
+        
+        /* Syntax Highlighting */
+        .sql-keyword {
+            color: #f87171;
+            font-weight: bold;
+        }
+        
+        .sql-string {
+            color: #34d399;
+        }
+        
+        .sql-number {
+            color: #60a5fa;
+        }
+        
+        .sql-comment {
+            color: #94a3b8;
+            font-style: italic;
+        }
+        
+        /* Loading Animation */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .loading {
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        
+        /* Tooltip */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+        }
+        
+        .tooltip .tooltip-text {
+            visibility: hidden;
+            width: 200px;
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            border-radius: var(--radius);
+            padding: 0.5rem;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.875rem;
+        }
+        
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .controls {
+                flex-direction: column;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <h1>JSON to SQL Converter</h1>
+            <p class="subtitle">Transform your JSON data into SQL INSERT statements instantly. Free online tool for developers.</p>
+        </div>
+    </header>
 
+    <!-- Main Converter -->
+    <main class="container">
+        <section class="converter">
+            <!-- Examples -->
+            <div class="examples">
+                <label>Quick Examples:</label>
+                <div class="example-buttons">
+                    <button class="example-btn" data-example="basic">Basic Array</button>
+                    <button class="example-btn" data-example="nested">Nested Objects</button>
+                    <button class="example-btn" data-example="complex">Complex Data</button>
+                    <button class="example-btn" data-example="api">API Response</button>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="controls">
+                <div class="input-group">
+                    <label for="tableName">Table Name:</label>
+                    <input type="text" id="tableName" value="users" placeholder="e.g., users, products, orders">
+                </div>
+                
+                <div class="input-group">
+                    <label for="sqlDialect">SQL Dialect:</label>
+                    <select id="sqlDialect">
+                        <option value="standard">Standard SQL</option>
+                        <option value="mysql">MySQL</option>
+                        <option value="postgresql">PostgreSQL</option>
+                        <option value="sqlserver">SQL Server</option>
+                        <option value="sqlite">SQLite</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Options -->
+            <div class="options-grid">
+                <label class="option">
+                    <input type="checkbox" id="generateCreateTable" checked>
+                    <span>Generate CREATE TABLE</span>
+                </label>
+                <label class="option">
+                    <input type="checkbox" id="batchInserts" checked>
+                    <span>Batch INSERT statements</span>
+                </label>
+                <label class="option">
+                    <input type="checkbox" id="inferTypes" checked>
+                    <span>Infer data types</span>
+                </label>
+                <label class="option">
+                    <input type="checkbox" id="includeComments" checked>
+                    <span>Include comments</span>
+                </label>
+                <label class="option">
+                    <input type="checkbox" id="escapeKeywords">
+                    <span>Escape reserved keywords</span>
+                </label>
+                <label class="option">
+                    <input type="checkbox" id="formatOutput" checked>
+                    <span>Format SQL output</span>
+                </label>
+            </div>
+
+            <!-- Editor Section -->
+            <div class="editor-section">
+                <!-- JSON Input -->
+                <div class="editor-panel">
+                    <div class="editor-header">
+                        <h3>JSON Input</h3>
+                        <div class="editor-actions">
+                            <button class="btn-secondary" id="formatJson">
+                                <span>🔧</span> Format
+                            </button>
+                            <button class="btn-secondary" id="clearJson">
+                                <span>🗑️</span> Clear
+                            </button>
+                        </div>
+                    </div>
+                    <textarea id="jsonInput" placeholder='Paste your JSON here...' spellcheck="false">[
+  {
+    "id": 1,
+    "name": "John Doe",
+    "email": "john@example.com",
+    "age": 30,
+    "active": true,
+    "created_at": "2024-01-20T10:30:00Z",
+    "tags": ["customer", "vip"],
+    "metadata": {
+      "source": "web",
+      "campaign": "winter2024"
+    }
+  },
+  {
+    "id": 2,
+    "name": "Jane Smith",
+    "email": "jane@example.com",
+    "age": 25,
+    "active": false,
+    "created_at": "2024-01-19T14:20:00Z",
+    "tags": ["customer"],
+    "metadata": {
+      "source": "mobile",
+      "campaign": "referral"
+    }
+  }
+]</textarea>
+                    <div class="editor-footer">
+                        <span id="charCount">0 characters</span>
+                        <span id="jsonStatus">✓ Valid JSON</span>
+                    </div>
+                </div>
+
+                <!-- SQL Output -->
+                <div class="editor-panel">
+                    <div class="editor-header">
+                        <h3>SQL Output</h3>
+                        <div class="editor-actions">
+                            <button class="btn-secondary" id="copySql">
+                                <span>📋</span> Copy
+                            </button>
+                            <button class="btn-secondary" id="downloadSql">
+                                <span>⬇️</span> Download
+                            </button>
+                        </div>
+                    </div>
+                    <pre id="sqlOutput" class="sql-output">// SQL will appear here...</pre>
+                    <div class="editor-footer">
+                        <div id="sqlStats">
+                            <span id="rowCount">Rows: 0</span>
+                            <span id="columnCount">Columns: 0</span>
+                            <span id="sqlSize">Size: 0 bytes</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Error Message -->
+            <div id="errorMessage" class="error-message" style="display: none;"></div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button class="btn btn-primary" id="generateSql">
+                    <span>🚀</span> Generate SQL
+                </button>
+                <button class="btn btn-secondary" id="clearAll">
+                    <span>🗑️</span> Clear All
+                </button>
+            </div>
+        </section>
+
+        <!-- SEO Content -->
+        <section class="seo-content">
+            <h2>Free JSON to SQL Converter</h2>
+            <p>Convert JSON data to SQL INSERT statements instantly with our free online tool. Perfect for developers working with databases, APIs, and data migration projects.</p>
+            
+            <h3>Key Features</h3>
+            <div class="features">
+                <div class="feature">
+                    <h4>⚡ Instant Conversion</h4>
+                    <p>Convert JSON to SQL in milliseconds with our optimized JavaScript engine.</p>
+                </div>
+                <div class="feature">
+                    <h4>🛡️ Data Security</h4>
+                    <p>All processing happens in your browser. Your data never leaves your computer.</p>
+                </div>
+                <div class="feature">
+                    <h4>🔧 Advanced Options</h4>
+                    <p>Batch inserts, type inference, CREATE TABLE generation, and multiple SQL dialects.</p>
+                </div>
+                <div class="feature">
+                    <h4>🎯 Smart Formatting</h4>
+                    <p>Automatically formats JSON input and beautifies SQL output for readability.</p>
+                </div>
+            </div>
+
+            <h3>How to Use</h3>
+            <ol>
+                <li><strong>Paste your JSON</strong> data in the input box (array of objects or single object)</li>
+                <li><strong>Enter a table name</strong> for your SQL INSERT statements</li>
+                <li><strong>Configure options</strong> like batch inserts, data type inference, etc.</li>
+                <li><strong>Click "Generate SQL"</strong> to convert your JSON to SQL</li>
+                <li><strong>Copy or download</strong> the generated SQL for your database</li>
+            </ol>
+
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq">
+                <h3>Is this tool free?</h3>
+                <p>Yes, completely free with no limitations, registration, or hidden costs.</p>
+            </div>
+            <div class="faq">
+                <h3>Does it support nested JSON objects?</h3>
+                <p>Yes! Nested objects are converted to JSON data type in SQL (or TEXT for older databases).</p>
+            </div>
+            <div class="faq">
+                <h3>What SQL dialects are supported?</h3>
+                <p>We support Standard SQL, MySQL, PostgreSQL, SQL Server, and SQLite with appropriate syntax variations.</p>
+            </div>
+            <div class="faq">
+                <h3>Can I use this for production data?</h3>
+                <p>Yes, but always test the generated SQL in a safe environment first. The tool processes data locally in your browser.</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            "footer-links">
+               
+                <a href="https://github.com/sureshburla/json-to-sql" target="_blank">GitHub</a>
+                <a href="mailto:toolvala@gmail.com">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Current year for footer
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // DOM Elements
+        const jsonInput = document.getElementById('jsonInput');
+        const sqlOutput = document.getElementById('sqlOutput');
+        const tableNameInput = document.getElementById('tableName');
+        const sqlDialect = document.getElementById('sqlDialect');
+        const charCount = document.getElementById('charCount');
+        const jsonStatus = document.getElementById('jsonStatus');
+        const errorMessage = document.getElementById('errorMessage');
+        const rowCount = document.getElementById('rowCount');
+        const columnCount = document.getElementById('columnCount');
+        const sqlSize = document.getElementById('sqlSize');
+
+        // Options
+        const generateCreateTable = document.getElementById('generateCreateTable');
+        const batchInserts = document.getElementById('batchInserts');
+        const inferTypes = document.getElementById('inferTypes');
+        const includeComments = document.getElementById('includeComments');
+        const escapeKeywords = document.getElementById('escapeKeywords');
+        const formatOutput = document.getElementById('formatOutput');
+
+        // Buttons
+        const generateSqlBtn = document.getElementById('generateSql');
+        const formatJsonBtn = document.getElementById('formatJson');
+        const clearJsonBtn = document.getElementById('clearJson');
+        const copySqlBtn = document.getElementById('copySql');
+        const downloadSqlBtn = document.getElementById('downloadSql');
+        const clearAllBtn = document.getElementById('clearAll');
+        const exampleBtns = document.querySelectorAll('.example-btn');
+
+        // Example JSON data
+        const examples = {
+            basic: `[
+  {"id": 1, "name": "John Doe", "email": "john@example.com", "active": true},
+  {"id": 2, "name": "Jane Smith", "email": "jane@example.com", "active": false},
+  {"id": 3, "name": "Bob Johnson", "email": "bob@example.com", "active": true}
+]`,
+            
+            nested: `[
+  {
+    "user_id": 101,
+    "username": "alice123",
+    "profile": {
+      "first_name": "Alice",
+      "last_name": "Wonderland",
+      "age": 28,
+      "address": {
+        "street": "123 Main St",
+        "city": "New York",
+        "country": "USA"
+      }
+    },
+    "preferences": {
+      "theme": "dark",
+      "notifications": true,
+      "language": "en"
+    }
+  }
+]`,
+            
+            complex: `[
+  {
+    "product_id": "PROD-001",
+    "name": "Gaming Laptop",
+    "category": "Electronics",
+    "price": 1299.99,
+    "currency": "USD",
+    "in_stock": true,
+    "stock_quantity": 45,
+    "specifications": {
+      "processor": "Intel i7-12700H",
+      "ram": "16GB DDR5",
+      "storage": "1TB NVMe SSD",
+      "gpu": "RTX 4060 8GB"
+    },
+    "tags": ["gaming", "laptop", "electronics", "new"],
+    "ratings": [4.5, 4.8, 4.7, 5.0, 4.6],
+    "release_date": "2024-01-15",
+    "warranty_months": 24
+  }
+]`,
+            
+            api: `{
+  "status": "success",
+  "data": {
+    "users": [
+      {
+        "id": 1,
+        "name": "John",
+        "email": "john@api.com",
+        "created_at": "2024-01-20T10:30:00.000Z",
+        "updated_at": "2024-01-20T10:30:00.000Z"
+      },
+      {
+        "id": 2,
+        "name": "Sarah",
+        "email": "sarah@api.com",
+        "created_at": "2024-01-19T14:20:00.000Z",
+        "updated_at": "2024-01-20T09:15:00.000Z"
+      }
+    ],
+    "pagination": {
+      "total": 2,
+      "page": 1,
+      "per_page": 10,
+      "total_pages": 1
+    }
+  }
+}`
+        };
+
+        // Initialize
+        updateCharCount();
+        validateJSON();
+
+        // Event Listeners
+        jsonInput.addEventListener('input', () => {
+            updateCharCount();
+            validateJSON();
+        });
+
+        generateSqlBtn.addEventListener('click', generateSQL);
+        formatJsonBtn.addEventListener('click', formatJSON);
+        clearJsonBtn.addEventListener('click', () => {
+            jsonInput.value = '';
+            updateCharCount();
+            validateJSON();
+        });
+        copySqlBtn.addEventListener('click', copySQLToClipboard);
+        downloadSqlBtn.addEventListener('click', downloadSQL);
+        clearAllBtn.addEventListener('click', clearAll);
+
+        // Example buttons
+        exampleBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const example = btn.dataset.example;
+                jsonInput.value = examples[example];
+                updateCharCount();
+                validateJSON();
+            });
+        });
+
+        // Functions
+        function updateCharCount() {
+            const count = jsonInput.value.length;
+            charCount.textContent = `${count.toLocaleString()} characters`;
+        }
+
+        function validateJSON() {
+            try {
+                if (jsonInput.value.trim() === '') {
+                    jsonStatus.textContent = 'Empty';
+                    jsonStatus.style.color = 'var(--gray)';
+                    return false;
+                }
+                JSON.parse(jsonInput.value);
+                jsonStatus.textContent = '✓ Valid JSON';
+                jsonStatus.style.color = 'var(--success)';
+                return true;
+            } catch (error) {
+                jsonStatus.textContent = '✗ Invalid JSON';
+                jsonStatus.style.color = 'var(--danger)';
+                return false;
+            }
+        }
+
+        function formatJSON() {
+            try {
+                const parsed = JSON.parse(jsonInput.value);
+                jsonInput.value = JSON.stringify(parsed, null, 2);
+                validateJSON();
+            } catch (error) {
+                showError('Cannot format: Invalid JSON');
+            }
+        }
+
+        function showError(message) {
+            errorMessage.textContent = `Error: ${message}`;
+            errorMessage.style.display = 'block';
+            setTimeout(() => {
+                errorMessage.style.display = 'none';
+            }, 5000);
+        }
+
+        function showSuccess(message) {
+            // Could use toast notification
+            alert(message);
+        }
+
+        // SQL Generator Class
+        class SQLGenerator {
+            constructor(options = {}) {
+                this.dialect = options.dialect || 'standard';
+                this.generateCreateTable = options.generateCreateTable !== false;
+                this.batchInserts = options.batchInserts !== false;
+                this.inferTypes = options.inferTypes !== false;
+                this.includeComments = options.includeComments !== false;
+                this.escapeKeywords = options.escapeKeywords || false;
+                this.formatOutput = options.formatOutput !== false;
+            }
+
+            generate(jsonData, tableName) {
+                try {
+                    const data = typeof jsonData === 'string' ? JSON.parse(jsonData) : jsonData;
+                    const rows = Array.isArray(data) ? data : [data];
+                    const columns = this.extractColumns(rows);
+                    
+                    let sql = '';
+                    
+                    // Add comments if requested
+                    if (this.includeComments) {
+                        sql += this.generateComments(tableName, rows.length, columns.length);
+                    }
+                    
+                    // Generate CREATE TABLE if requested
+                    if (this.generateCreateTable) {
+                        sql += this.generateCreateTableSQL(tableName, columns);
+                        sql += '\n\n';
+                    }
+                    
+                    // Generate INSERT statements
+                    if (this.batchInserts && rows.length > 1) {
+                        sql += this.generateBatchInsert(tableName, rows, columns);
+                    } else {
+                        sql += rows.map((row, index) => 
+                            this.generateSingleInsert(tableName, row, columns, index)
+                        ).join(';\n') + ';';
+                    }
+                    
+                    // Format output if requested
+                    if (this.formatOutput) {
+                        sql = this.formatSQL(sql);
+                    }
+                    
+                    return {
+                        sql,
+                        rows: rows.length,
+                        columns: columns.length,
+                        columnNames: columns.map(c => c.name),
+                        tableName
+                    };
+                } catch (error) {
+                    throw new Error(`SQL generation failed: ${error.message}`);
+                }
+            }
+
+            extractColumns(rows) {
+                const columnMap = new Map();
+                
+                rows.forEach(row => {
+                    Object.keys(row).forEach(key => {
+                        if (!columnMap.has(key)) {
+                            columnMap.set(key, {
+                                name: key,
+                                type: 'VARCHAR(255)',
+                                nullable: true,
+                                values: []
+                            });
+                        }
+                        
+                        const column = columnMap.get(key);
+                        column.values.push(row[key]);
+                        
+                        // Update nullability
+                        if (row[key] !== null && row[key] !== undefined) {
+                            column.nullable = false;
+                        }
+                        
+                        // Infer type
+                        if (this.inferTypes) {
+                            column.type = this.inferType(column.values);
+                        }
+                    });
+                });
+                
+                return Array.from(columnMap.values());
+            }
+
+            inferType(values) {
+                const nonNullValues = values.filter(v => v !== null && v !== undefined);
+                if (nonNullValues.length === 0) return 'VARCHAR(255)';
+                
+                const sample = nonNullValues[0];
+                
+                // Check for boolean
+                if (typeof sample === 'boolean') {
+                    return this.dialect === 'mysql' ? 'BOOLEAN' : 'BIT';
+                }
+                
+                // Check for number
+                if (typeof sample === 'number') {
+                    const allNumbers = nonNullValues.every(v => typeof v === 'number');
+                    const allIntegers = allNumbers && nonNullValues.every(v => Number.isInteger(v));
+                    
+                    if (allIntegers) {
+                        const maxVal = Math.max(...nonNullValues.map(Math.abs));
+                        if (maxVal < 128) return 'TINYINT';
+                        if (maxVal < 32768) return 'SMALLINT';
+                        if (maxVal < 2147483648) return 'INT';
+                        return 'BIGINT';
+                    } else {
+                        return 'DECIMAL(10,2)';
+                    }
+                }
+                
+                // Check for date/time
+                if (typeof sample === 'string' && !isNaN(Date.parse(sample))) {
+                    if (sample.includes('T')) {
+                        return this.dialect === 'mysql' ? 'DATETIME' : 'TIMESTAMP';
+                    } else {
+                        return 'DATE';
+                    }
+                }
+                
+                // Check for array or object
+                if (typeof sample === 'object') {
+                    return this.dialect === 'postgresql' ? 'JSONB' : 'TEXT';
+                }
+                
+                // Default to string
+                const maxLength = Math.max(...nonNullValues.map(v => String(v).length));
+                if (maxLength <= 255) return 'VARCHAR(255)';
+                if (maxLength <= 65535) return 'TEXT';
+                return 'LONGTEXT';
+            }
+
+            generateComments(tableName, rowCount, columnCount) {
+                const timestamp = new Date().toISOString();
+                return `-- SQL generated by JSON to SQL Converter
+-- Table: ${tableName}
+-- Rows: ${rowCount}
+-- Columns: ${columnCount}
+-- Generated: ${timestamp}
+-- Dialect: ${this.dialect.toUpperCase()}
+\n`;
+            }
+
+            generateCreateTableSQL(tableName, columns) {
+                const escapedTableName = this.escapeIdentifier(tableName);
+                const columnDefs = columns.map(col => {
+                    const escapedName = this.escapeIdentifier(col.name);
+                    const nullability = col.nullable ? 'NULL' : 'NOT NULL';
+                    return `    ${escapedName} ${col.type} ${nullability}`;
+                });
+                
+                return `CREATE TABLE ${escapedTableName} (\n${columnDefs.join(',\n')}\n);`;
+            }
+
+            generateSingleInsert(tableName, row, columns, index) {
+                const escapedTableName = this.escapeIdentifier(tableName);
+                const columnNames = columns.map(col => this.escapeIdentifier(col.name));
+                const values = columns.map(col => this.formatValue(row[col.name], col.type));
+                
+                return `INSERT INTO ${escapedTableName} (${columnNames.join(', ')}) VALUES (${values.join(', ')});`;
+            }
+
+            generateBatchInsert(tableName, rows, columns) {
+                const escapedTableName = this.escapeIdentifier(tableName);
+                const columnNames = columns.map(col => this.escapeIdentifier(col.name));
+                
+                const valueRows = rows.map(row => 
+                    `(${columns.map(col => this.formatValue(row[col.name], col.type)).join(', ')})`
+                );
+                
+                return `INSERT INTO ${escapedTableName} (${columnNames.join(', ')}) VALUES\n${valueRows.join(',\n')};`;
+            }
+
+            escapeIdentifier(identifier) {
+                if (!this.escapeKeywords) {
+                    return identifier;
+                }
+                
+                const reservedKeywords = {
+                    standard: ['SELECT', 'INSERT', 'UPDATE', 'DELETE', 'FROM', 'WHERE', 'TABLE', 'CREATE', 'DROP'],
+                    mysql: ['SELECT', 'INSERT', 'UPDATE', 'DELETE', 'FROM', 'WHERE', 'TABLE'],
+                    postgresql: ['SELECT', 'INSERT', 'UPDATE', 'DELETE', 'FROM', 'WHERE'],
+                    sqlserver: ['SELECT', 'INSERT', 'UPDATE', 'DELETE', 'FROM', 'WHERE'],
+                    sqlite: ['SELECT', 'INSERT', 'UPDATE', 'DELETE', 'FROM', 'WHERE']
+                };
+                
+                const keywords = reservedKeywords[this.dialect] || reservedKeywords.standard;
+                const shouldEscape = keywords.includes(identifier.toUpperCase());
+                
+                switch (this.dialect) {
+                    case 'mysql':
+                        return shouldEscape ? `\`${identifier}\`` : identifier;
+                    case 'postgresql':
+                    case 'sqlserver':
+                        return `"${identifier}"`;
+                    default:
+                        return identifier;
+                }
+            }
+
+            formatValue(value, type) {
+                if (value === null || value === undefined) {
+                    return 'NULL';
+                }
+                
+                // Handle numbers
+                if (typeof value === 'number') {
+                    return value;
+                }
+                
+                // Handle booleans
+                if (typeof value === 'boolean') {
+                    switch (this.dialect) {
+                        case 'mysql':
+                            return value ? 'TRUE' : 'FALSE';
+                        case 'postgresql':
+                            return value ? 'TRUE' : 'FALSE';
+                        case 'sqlserver':
+                            return value ? '1' : '0';
+                        default:
+                            return value ? '1' : '0';
+                    }
+                }
+                
+                // Handle dates
+                if (type.includes('DATE') || type.includes('TIME')) {
+                    const date = new Date(value);
+                    if (isNaN(date.getTime())) {
+                        return 'NULL';
+                    }
+                    
+                    switch (this.dialect) {
+                        case 'mysql':
+                            return `'${date.toISOString().slice(0, 19).replace('T', ' ')}'`;
+                        case 'postgresql':
+                            return `'${date.toISOString()}'::timestamp`;
+                        case 'sqlserver':
+                            return `'${date.toISOString().slice(0, 19).replace('T', ' ')}'`;
+                        default:
+                            return `'${date.toISOString().slice(0, 19).replace('T', ' ')}'`;
+                    }
+                }
+                
+                // Handle arrays and objects
+                if (typeof value === 'object') {
+                    const jsonString = JSON.stringify(value);
+                    switch (this.dialect) {
+                        case 'postgresql':
+                            return `'${jsonString.replace(/'/g, "''")}'::jsonb`;
+                        default:
+                            return `'${jsonString.replace(/'/g, "''")}'`;
+                    }
+                }
+                
+                // Handle strings (escape single quotes)
+                return `'${String(value).replace(/'/g, "''")}'`;
+            }
+
+            formatSQL(sql) {
+                // Simple SQL formatter
+                return sql
+                    .replace(/(CREATE TABLE|INSERT INTO|VALUES)/g, '\n$1')
+                    .replace(/;/g, ';\n')
+                    .replace(/,(\s*)\)/g, '\n)')
+                    .replace(/\(/g, '(\n  ')
+                    .replace(/\)/g, '\n)')
+                    .replace(/\n\s*\n/g, '\n')
+                    .trim();
+            }
+        }
+
+        function generateSQL() {
+            if (!validateJSON()) {
+                showError('Please enter valid JSON first');
+                return;
+            }
+            
+            try {
+                generateSqlBtn.disabled = true;
+                generateSqlBtn.innerHTML = '<span class="loading">⏳</span> Generating...';
+                
+                const options = {
+                    dialect: sqlDialect.value,
+                    generateCreateTable: generateCreateTable.checked,
+                    batchInserts: batchInserts.checked,
+                    inferTypes: inferTypes.checked,
+                    includeComments: includeComments.checked,
+                    escapeKeywords: escapeKeywords.checked,
+                    formatOutput: formatOutput.checked
+                };
+                
+                const generator = new SQLGenerator(options);
+                const result = generator.generate(jsonInput.value, tableNameInput.value || 'my_table');
+                
+                // Apply syntax highlighting
+                const highlightedSQL = highlightSQL(result.sql);
+                sqlOutput.innerHTML = highlightedSQL;
+                
+                // Update stats
+                rowCount.textContent = `Rows: ${result.rows}`;
+                columnCount.textContent = `Columns: ${result.columns}`;
+                sqlSize.textContent = `Size: ${new Blob([result.sql]).size} bytes`;
+                
+            } catch (error) {
+                showError(error.message);
+                sqlOutput.textContent = '// Error generating SQL';
+            } finally {
+                generateSqlBtn.disabled = false;
+                generateSqlBtn.innerHTML = '<span>🚀</span> Generate SQL';
+            }
+        }
+
+        function highlightSQL(sql) {
+            return sql
+                .replace(/(CREATE TABLE|INSERT INTO|VALUES|SELECT|FROM|WHERE|AND|OR|NOT|NULL|TRUE|FALSE|INT|VARCHAR|TEXT|BOOLEAN|DATETIME|DECIMAL|JSON|BIGINT)/gi, '<span class="sql-keyword">$1</span>')
+                .replace(/'([^']*)'/g, '<span class="sql-string">\'$1\'</span>')
+                .replace(/\b(\d+\.?\d*)\b/g, '<span class="sql-number">$1</span>')
+                .replace(/--.*$/gm, '<span class="sql-comment">$&</span>');
+        }
+
+        async function copySQLToClipboard() {
+            try {
+                const sqlText = sqlOutput.textContent;
+                if (!sqlText || sqlText === '// SQL will appear here...') {
+                    showError('No SQL to copy');
+                    return;
+                }
+                
+                await navigator.clipboard.writeText(sqlText);
+                showSuccess('SQL copied to clipboard!');
+            } catch (error) {
+                showError('Failed to copy: ' + error.message);
+            }
+        }
+
+        function downloadSQL() {
+            const sqlText = sqlOutput.textContent;
+            if (!sqlText || sqlText === '// SQL will appear here...') {
+                showError('No SQL to download');
+                return;
+            }
+            
+            const tableName = tableNameInput.value || 'my_table';
+            const timestamp = new Date().toISOString().slice(0, 19).replace(/[:]/g, '-');
+            const filename = `${tableName}_${timestamp}.sql`;
+            
+            const blob = new Blob([sqlText], { type: 'text/sql' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function clearAll() {
+            if (confirm('Clear all inputs and outputs?')) {
+                jsonInput.value = '';
+                sqlOutput.textContent = '// SQL will appear here...';
+                tableNameInput.value = 'users';
+                updateCharCount();
+                validateJSON();
+                
+                rowCount.textContent = 'Rows: 0';
+                columnCount.textContent = 'Columns: 0';
+                sqlSize.textContent = 'Size: 0 bytes';
+            }
+        }
+
+        // Helper functions for footer links
+        function showPrivacyPolicy() {
+            alert('Privacy Policy: This tool processes data locally in your browser. No data is sent to any server. We do not collect, store, or share any of your data.');
+        }
+
+        function showTerms() {
+            alert('Terms of Service: This tool is provided "as is" without warranty. Use at your own risk. The developers are not responsible for any data loss or issues arising from using this tool.');
+        }
+
+        // Auto-generate on page load
+        setTimeout(() => {
+            generateSQL();
+        }, 1000);
+    </script>
+</body>
+</html>
