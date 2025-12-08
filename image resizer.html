@@ -379,6 +379,7 @@
             overflow: hidden;
             margin-bottom: 1rem;
             border: 1px solid var(--border-color);
+            position: relative;
         }
 
         .image-container img {
@@ -418,6 +419,7 @@
             border: 1px solid var(--border-color);
             border-radius: 8px;
             background: white;
+            padding: 0.5rem;
         }
 
         .batch-item {
@@ -695,6 +697,34 @@
             font-weight: 600;
             margin-left: 0.5rem;
         }
+
+        .empty-message {
+            color: var(--gray-color);
+            text-align: center;
+            padding: 2rem;
+            font-style: italic;
+        }
+
+        .image-placeholder {
+            color: var(--gray-color);
+            font-size: 0.9rem;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .dimension-display {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .size-display {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
     </style>
 </head>
 <body>
@@ -723,7 +753,7 @@
                             <div class="upload-icon">📷</div>
                             <div class="upload-text">Click or drag & drop images here</div>
                             <div class="upload-subtext">Supports JPG, PNG, GIF, WebP (Max 10MB)</div>
-                            <input type="file" id="fileInput" class="file-input" accept="image/*" multiple>
+                            <input type="file" id="fileInput" class="file-input" accept="image/*">
                         </div>
 
                         <div class="form-group">
@@ -746,13 +776,8 @@
                                     </div>
                                 </div>
                                 
-                                <button id="linkDimensions" class="size-link" aria-label="Link dimensions to maintain aspect ratio">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M8 3v3a2 2 0 0 1-2 2H3"/>
-                                        <path d="M21 8h-3a2 2 0 0 1-2-2V3"/>
-                                        <path d="M3 16h3a2 2 0 0 1 2 2v3"/>
-                                        <path d="M16 21v-3a2 2 0 0 1 2-2h3"/>
-                                    </svg>
+                                <button id="linkDimensions" class="size-link linked" aria-label="Link dimensions to maintain aspect ratio" title="Link dimensions">
+                                    🔗
                                 </button>
                                 
                                 <div class="form-group">
@@ -789,12 +814,12 @@
                         <!-- Preset Controls -->
                         <div id="presetControls" class="tab-content" style="display: none;">
                             <div class="preset-grid">
-                                <button class="preset-btn" data-width="1920" data-height="1080">HD (1920x1080)</button>
-                                <button class="preset-btn" data-width="1280" data-height="720">HD Ready (1280x720)</button>
-                                <button class="preset-btn" data-width="1024" data-height="768">Tablet (1024x768)</button>
-                                <button class="preset-btn" data-width="800" data-height="600">Web (800x600)</button>
-                                <button class="preset-btn" data-width="640" data-height="480">Mobile (640x480)</button>
-                                <button class="preset-btn" data-width="150" data-height="150">Thumbnail (150x150)</button>
+                                <button class="preset-btn" data-width="1920" data-height="1080">HD (1920×1080)</button>
+                                <button class="preset-btn" data-width="1280" data-height="720">HD Ready (1280×720)</button>
+                                <button class="preset-btn" data-width="1024" data-height="768">Tablet (1024×768)</button>
+                                <button class="preset-btn" data-width="800" data-height="600">Web (800×600)</button>
+                                <button class="preset-btn" data-width="640" data-height="480">Mobile (640×480)</button>
+                                <button class="preset-btn" data-width="150" data-height="150">Thumbnail (150×150)</button>
                                 <button class="preset-btn" data-width="1200" data-height="628">Facebook Post</button>
                                 <button class="preset-btn" data-width="1080" data-height="1080">Instagram Square</button>
                             </div>
@@ -829,19 +854,10 @@
 
                         <div class="btn-group">
                             <button id="resizeBtn" class="btn btn-primary" tabindex="0" disabled>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                                    <polyline points="7 10 12 15 17 10"/>
-                                    <line x1="12" y1="15" x2="12" y2="3"/>
-                                </svg>
-                                Resize Image
+                                📐 Resize Image
                             </button>
                             <button id="resetBtn" class="btn btn-secondary" tabindex="0">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
-                                    <path d="M3 3v5h5"/>
-                                </svg>
-                                Reset Settings
+                                🔄 Reset Settings
                             </button>
                         </div>
                     </div>
@@ -858,22 +874,16 @@
                         <div class="batch-container">
                             <h3 class="section-title" style="font-size: 1.2rem;">Batch Queue</h3>
                             <div id="batchQueue" class="batch-list">
-                                <!-- Batch items will be added here -->
-                                <div class="batch-empty">No images added yet</div>
+                                <div class="empty-message">No images added yet</div>
                             </div>
                         </div>
 
                         <div class="btn-group">
                             <button id="processBatchBtn" class="btn btn-primary" tabindex="0" disabled>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                                    <polyline points="17 10 12 15 7 10"/>
-                                    <line x1="12" y1="15" x2="12" y2="3"/>
-                                </svg>
-                                Process All Images
+                                ⚡ Process All Images
                             </button>
                             <button id="clearBatchBtn" class="btn btn-secondary" tabindex="0">
-                                Clear Queue
+                                🗑️ Clear Queue
                             </button>
                         </div>
                     </div>
@@ -892,64 +902,66 @@
                         <div class="preview-box">
                             <h3>Original Image</h3>
                             <div class="image-container" id="originalContainer">
-                                <div class="upload-placeholder">No image selected</div>
+                                <div class="image-placeholder">No image selected</div>
                                 <canvas id="originalCanvas" style="display: none;"></canvas>
                                 <img id="originalImage" alt="Original image preview" style="display: none;">
                             </div>
                             <div class="image-info">
-                                <span id="originalDimensions">-</span>
-                                <span id="originalSize">-</span>
-                                <span id="originalFormat">-</span>
+                                <div class="dimension-display">
+                                    <span>Dimensions:</span>
+                                    <span id="originalDimensions" class="size-display">-</span>
+                                </div>
+                                <div class="dimension-display">
+                                    <span>Size:</span>
+                                    <span id="originalSize" class="size-display">-</span>
+                                </div>
+                                <div class="dimension-display">
+                                    <span>Format:</span>
+                                    <span id="originalFormat" class="size-display">-</span>
+                                </div>
                             </div>
                         </div>
 
                         <div class="preview-box">
                             <h3>Resized Image</h3>
                             <div class="image-container" id="resizedContainer">
-                                <div class="upload-placeholder">Resized image will appear here</div>
+                                <div class="image-placeholder">Resized image will appear here</div>
                                 <canvas id="resizedCanvas" style="display: none;"></canvas>
                                 <img id="resizedImage" alt="Resized image preview" style="display: none;">
                             </div>
                             <div class="image-info">
-                                <span id="resizedDimensions">-</span>
-                                <span id="resizedSize">-</span>
-                                <span id="resizedFormat">-</span>
+                                <div class="dimension-display">
+                                    <span>Dimensions:</span>
+                                    <span id="resizedDimensions" class="size-display">-</span>
+                                </div>
+                                <div class="dimension-display">
+                                    <span>Size:</span>
+                                    <span id="resizedSize" class="size-display">-</span>
+                                </div>
+                                <div class="dimension-display">
+                                    <span>Format:</span>
+                                    <span id="resizedFormat" class="size-display">-</span>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="action-buttons">
                         <button id="downloadBtn" class="btn btn-primary" tabindex="0" disabled>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                                <polyline points="7 10 12 15 17 10"/>
-                                <line x1="12" y1="15" x2="12" y2="3"/>
-                            </svg>
-                            Download Image
+                            ⬇️ Download Image
                         </button>
                         <button id="copyBtn" class="btn btn-secondary" tabindex="0" disabled>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                            </svg>
-                            Copy to Clipboard
+                            📋 Copy to Clipboard
                         </button>
                         <button id="shareBtn" class="btn btn-secondary" tabindex="0" disabled>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="18" cy="5" r="3"></circle>
-                                <circle cx="6" cy="12" r="3"></circle>
-                                <circle cx="18" cy="19" r="3"></circle>
-                                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
-                                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
-                            </svg>
-                            Share Image
+                            🔗 Share Image
                         </button>
                     </div>
 
                     <div class="batch-container" id="batchResults" style="display: none;">
                         <h3 class="section-title" style="font-size: 1.2rem;">Batch Results</h3>
                         <div id="batchResultsList" class="batch-list">
-                            <!-- Batch results will be added here -->
+                            <div class="empty-message">No batch results yet</div>
                         </div>
                     </div>
                 </section>
@@ -1055,17 +1067,14 @@
         // Application State
         const state = {
             originalImage: null,
-            resizedImage: null,
-            originalCanvas: null,
             resizedCanvas: null,
-            originalContext: null,
-            resizedContext: null,
             originalDimensions: { width: 0, height: 0 },
             aspectRatio: 1,
             isLinked: true,
             batchImages: [],
             batchResults: [],
-            currentFormat: 'original'
+            currentFormat: 'original',
+            originalFile: null
         };
 
         // DOM Elements
@@ -1143,6 +1152,7 @@
         function init() {
             setupEventListeners();
             updateQualityDisplay();
+            setupResizeMethodControls();
             
             // Set initial focus
             elements.uploadArea.focus();
@@ -1297,14 +1307,15 @@
                     // Store original image
                     state.originalImage = img;
                     state.originalDimensions = {
-                        width: img.width,
-                        height: img.height
+                        width: img.naturalWidth || img.width,
+                        height: img.naturalHeight || img.height
                     };
-                    state.aspectRatio = img.width / img.height;
+                    state.aspectRatio = state.originalDimensions.width / state.originalDimensions.height;
+                    state.originalFile = file;
                     
                     // Update UI
                     updateOriginalPreview(img, file);
-                    updateDimensionInputs(img.width, img.height);
+                    updateDimensionInputs(state.originalDimensions.width, state.originalDimensions.height);
                     enableResizeButton();
                     
                     showProcessing(false);
@@ -1335,15 +1346,13 @@
             elements.originalContainer.appendChild(displayImg);
             
             // Update info
-            elements.originalDimensions.textContent = `${img.width} × ${img.height} px`;
+            elements.originalDimensions.textContent = `${state.originalDimensions.width} × ${state.originalDimensions.height}`;
             elements.originalSize.textContent = formatFileSize(file.size);
-            elements.originalFormat.textContent = file.type.split('/')[1].toUpperCase();
             
-            // Show format badge
-            const formatBadge = document.createElement('span');
-            formatBadge.className = 'format-badge';
-            formatBadge.textContent = file.type.split('/')[1].toUpperCase();
-            elements.originalDimensions.appendChild(formatBadge);
+            // Get file extension
+            const fileName = file.name;
+            const extension = fileName.split('.').pop().toUpperCase();
+            elements.originalFormat.textContent = extension;
         }
 
         // Update dimension inputs
@@ -1354,6 +1363,11 @@
             // Update percentage to 100%
             elements.percentageInput.value = 100;
             elements.percentageSlider.value = 100;
+        }
+
+        // Setup resize method controls
+        function setupResizeMethodControls() {
+            handleResizeMethodChange();
         }
 
         // Handle resize method change
@@ -1384,7 +1398,7 @@
             const width = parseInt(elements.widthInput.value);
             if (isNaN(width) || width < 1) return;
             
-            if (state.isLinked && elements.maintainAspect.checked) {
+            if (state.isLinked && elements.maintainAspect.checked && state.aspectRatio) {
                 const newHeight = Math.round(width / state.aspectRatio);
                 elements.heightInput.value = newHeight;
             }
@@ -1395,7 +1409,7 @@
             const height = parseInt(elements.heightInput.value);
             if (isNaN(height) || height < 1) return;
             
-            if (state.isLinked && elements.maintainAspect.checked) {
+            if (state.isLinked && elements.maintainAspect.checked && state.aspectRatio) {
                 const newWidth = Math.round(height * state.aspectRatio);
                 elements.widthInput.value = newWidth;
             }
@@ -1408,8 +1422,10 @@
             
             if (state.isLinked) {
                 elements.linkDimensions.setAttribute('aria-label', 'Dimensions linked - maintain aspect ratio');
+                elements.linkDimensions.textContent = '🔗';
             } else {
                 elements.linkDimensions.setAttribute('aria-label', 'Dimensions unlinked');
+                elements.linkDimensions.textContent = '🔓';
             }
         }
 
@@ -1420,7 +1436,7 @@
             
             elements.percentageSlider.value = percentage;
             
-            if (state.originalImage) {
+            if (state.originalImage && state.originalDimensions.width) {
                 const newWidth = Math.round(state.originalDimensions.width * percentage / 100);
                 const newHeight = Math.round(state.originalDimensions.height * percentage / 100);
                 
@@ -1457,7 +1473,7 @@
             elements.qualityValue.textContent = `${quality}%`;
         }
 
-        // Resize image
+        // Resize image - FIXED VERSION
         function resizeImage() {
             if (!state.originalImage) {
                 showToast('Please upload an image first', 'error');
@@ -1467,8 +1483,8 @@
             showProcessing(true);
             
             // Get target dimensions
-            const targetWidth = parseInt(elements.widthInput.value);
-            const targetHeight = parseInt(elements.heightInput.value);
+            let targetWidth = parseInt(elements.widthInput.value);
+            let targetHeight = parseInt(elements.heightInput.value);
             
             if (isNaN(targetWidth) || isNaN(targetHeight) || targetWidth < 1 || targetHeight < 1) {
                 showProcessing(false);
@@ -1476,15 +1492,30 @@
                 return;
             }
             
+            // Maintain aspect ratio if checked
+            if (elements.maintainAspect.checked && state.aspectRatio) {
+                // Calculate which dimension to use as base
+                const widthBasedHeight = Math.round(targetWidth / state.aspectRatio);
+                const heightBasedWidth = Math.round(targetHeight * state.aspectRatio);
+                
+                // Use the dimension that doesn't exceed original if we want to maintain quality
+                // For now, use width as base
+                targetHeight = widthBasedHeight;
+                elements.heightInput.value = targetHeight;
+            }
+            
             // Create canvas for resized image
             const canvas = document.createElement('canvas');
             canvas.width = targetWidth;
             canvas.height = targetHeight;
-            const ctx = canvas.getContext('2d');
+            const ctx = canvas.getContext('2d', { alpha: true });
             
             // Set image smoothing
             ctx.imageSmoothingEnabled = true;
             ctx.imageSmoothingQuality = 'high';
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, targetWidth, targetHeight);
             
             // Draw resized image
             ctx.drawImage(state.originalImage, 0, 0, targetWidth, targetHeight);
@@ -1499,34 +1530,66 @@
             showToast('Image resized successfully');
         }
 
-        // Update resized preview
+        // Update resized preview - FIXED VERSION
         function updateResizedPreview(canvas) {
             // Clear previous content
             elements.resizedContainer.innerHTML = '';
             
+            // Create data URL with correct format and quality
+            const format = elements.outputFormat.value;
+            const quality = parseInt(elements.qualitySlider.value) / 100;
+            
+            let mimeType;
+            let extension;
+            
+            switch(format) {
+                case 'jpeg':
+                    mimeType = 'image/jpeg';
+                    extension = 'JPG';
+                    break;
+                case 'png':
+                    mimeType = 'image/png';
+                    extension = 'PNG';
+                    break;
+                case 'webp':
+                    mimeType = 'image/webp';
+                    extension = 'WEBP';
+                    break;
+                default:
+                    // Use original format
+                    if (state.originalFile) {
+                        const originalExt = state.originalFile.name.split('.').pop().toUpperCase();
+                        extension = originalExt;
+                        mimeType = state.originalFile.type;
+                    } else {
+                        mimeType = 'image/jpeg';
+                        extension = 'JPG';
+                    }
+            }
+            
+            // Create data URL
+            const dataUrl = canvas.toDataURL(mimeType, quality);
+            
             // Create and display image
             const displayImg = document.createElement('img');
-            displayImg.src = canvas.toDataURL();
+            displayImg.src = dataUrl;
             displayImg.alt = 'Resized image';
             elements.resizedContainer.appendChild(displayImg);
             
+            // Calculate file size from data URL
+            const base64Length = dataUrl.length - (dataUrl.indexOf(',') + 1);
+            const padding = dataUrl.endsWith('==') ? 2 : dataUrl.endsWith('=') ? 1 : 0;
+            const fileSize = Math.round((base64Length * 3) / 4 - padding);
+            
             // Update info
-            elements.resizedDimensions.textContent = `${canvas.width} × ${canvas.height} px`;
+            elements.resizedDimensions.textContent = `${canvas.width} × ${canvas.height}`;
+            elements.resizedSize.textContent = formatFileSize(fileSize);
+            elements.resizedFormat.textContent = extension;
             
-            // Calculate file size
-            const dataUrl = canvas.toDataURL();
-            const size = Math.round((dataUrl.length - 'data:image/png;base64,'.length) * 3 / 4);
-            elements.resizedSize.textContent = formatFileSize(size);
-            
-            // Get format
-            const format = elements.outputFormat.value;
-            elements.resizedFormat.textContent = format.toUpperCase();
-            
-            // Show format badge
-            const formatBadge = document.createElement('span');
-            formatBadge.className = 'format-badge';
-            formatBadge.textContent = format.toUpperCase();
-            elements.resizedDimensions.appendChild(formatBadge);
+            // Store data URL for download
+            state.resizedDataUrl = dataUrl;
+            state.resizedMimeType = mimeType;
+            state.resizedExtension = extension;
             
             // Enable download and copy buttons
             elements.downloadBtn.disabled = false;
@@ -1536,44 +1599,14 @@
 
         // Download image
         function downloadImage() {
-            if (!state.resizedCanvas) {
+            if (!state.resizedCanvas || !state.resizedDataUrl) {
                 showToast('No resized image available', 'error');
                 return;
             }
             
-            const format = elements.outputFormat.value;
-            const quality = parseInt(elements.qualitySlider.value) / 100;
-            
-            // Determine MIME type
-            let mimeType;
-            let extension;
-            
-            switch(format) {
-                case 'jpeg':
-                    mimeType = 'image/jpeg';
-                    extension = 'jpg';
-                    break;
-                case 'png':
-                    mimeType = 'image/png';
-                    extension = 'png';
-                    break;
-                case 'webp':
-                    mimeType = 'image/webp';
-                    extension = 'webp';
-                    break;
-                default:
-                    // Use original format or default to JPEG
-                    mimeType = 'image/jpeg';
-                    extension = 'jpg';
-            }
-            
-            // Create data URL
-            const dataUrl = state.resizedCanvas.toDataURL(mimeType, quality);
-            
-            // Create download link
             const link = document.createElement('a');
-            link.download = `resized-image.${extension}`;
-            link.href = dataUrl;
+            link.download = `resized-image.${state.resizedExtension.toLowerCase()}`;
+            link.href = state.resizedDataUrl;
             link.click();
             
             showToast('Image downloaded successfully');
@@ -1587,17 +1620,20 @@
             }
             
             try {
-                const blob = await new Promise(resolve => {
-                    state.resizedCanvas.toBlob(resolve);
-                });
-                
-                await navigator.clipboard.write([
-                    new ClipboardItem({
-                        [blob.type]: blob
-                    })
-                ]);
-                
-                showToast('Image copied to clipboard');
+                // Convert canvas to blob
+                state.resizedCanvas.toBlob(async (blob) => {
+                    try {
+                        await navigator.clipboard.write([
+                            new ClipboardItem({
+                                [blob.type]: blob
+                            })
+                        ]);
+                        showToast('Image copied to clipboard');
+                    } catch (err) {
+                        console.error('Failed to copy image:', err);
+                        showToast('Failed to copy image. Try downloading instead.', 'error');
+                    }
+                }, state.resizedMimeType, 0.9);
             } catch (err) {
                 console.error('Failed to copy image:', err);
                 showToast('Failed to copy image', 'error');
@@ -1611,28 +1647,36 @@
                 return;
             }
             
-            if (!navigator.share) {
+            if (!navigator.share || !navigator.canShare) {
                 showToast('Web Share API not supported in your browser', 'error');
                 return;
             }
             
             try {
-                const blob = await new Promise(resolve => {
-                    state.resizedCanvas.toBlob(resolve);
-                });
-                
-                const file = new File([blob], 'resized-image.png', { type: blob.type });
-                
-                await navigator.share({
-                    files: [file],
-                    title: 'Resized Image',
-                    text: 'Check out this resized image!'
-                });
+                // Convert canvas to blob
+                state.resizedCanvas.toBlob(async (blob) => {
+                    try {
+                        const file = new File([blob], 'resized-image.png', { type: blob.type });
+                        
+                        if (navigator.canShare({ files: [file] })) {
+                            await navigator.share({
+                                files: [file],
+                                title: 'Resized Image',
+                                text: 'Check out this resized image!'
+                            });
+                        } else {
+                            showToast('Sharing files is not supported', 'error');
+                        }
+                    } catch (err) {
+                        if (err.name !== 'AbortError') {
+                            console.error('Failed to share image:', err);
+                            showToast('Failed to share image', 'error');
+                        }
+                    }
+                }, state.resizedMimeType, 0.9);
             } catch (err) {
-                if (err.name !== 'AbortError') {
-                    console.error('Failed to share image:', err);
-                    showToast('Failed to share image', 'error');
-                }
+                console.error('Failed to share image:', err);
+                showToast('Failed to share image', 'error');
             }
         }
 
@@ -1647,8 +1691,8 @@
                         image: img,
                         name: file.name,
                         size: file.size,
-                        width: img.width,
-                        height: img.height
+                        width: img.naturalWidth || img.width,
+                        height: img.naturalHeight || img.height
                     });
                     
                     updateBatchUI();
@@ -1664,44 +1708,50 @@
             elements.batchQueue.innerHTML = '';
             
             if (state.batchImages.length === 0) {
-                elements.batchQueue.innerHTML = '<div class="batch-empty">No images added yet</div>';
+                elements.batchQueue.innerHTML = '<div class="empty-message">No images added yet</div>';
                 elements.processBatchBtn.disabled = true;
                 return;
             }
             
             state.batchImages.forEach((item, index) => {
-                const li = document.createElement('div');
-                li.className = 'batch-item';
-                li.innerHTML = `
+                const batchItem = document.createElement('div');
+                batchItem.className = 'batch-item';
+                batchItem.innerHTML = `
                     <div class="batch-info">
                         <img src="${item.image.src}" alt="${item.name}" class="batch-thumb">
                         <div>
-                            <div>${item.name}</div>
+                            <div style="font-weight: 500;">${item.name}</div>
                             <div style="font-size: 0.875rem; color: var(--gray-color);">
                                 ${item.width}×${item.height} • ${formatFileSize(item.size)}
                             </div>
                         </div>
                     </div>
                     <div class="batch-actions">
-                        <button class="batch-btn" onclick="removeFromBatch(${index})" aria-label="Remove image">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <line x1="18" y1="6" x2="6" y2="18"></line>
-                                <line x1="6" y1="6" x2="18" y2="18"></line>
-                            </svg>
+                        <button class="batch-btn remove-batch-btn" data-index="${index}" aria-label="Remove image" title="Remove">
+                            ❌
                         </button>
                     </div>
                 `;
-                elements.batchQueue.appendChild(li);
+                elements.batchQueue.appendChild(batchItem);
+            });
+            
+            // Add event listeners to remove buttons
+            document.querySelectorAll('.remove-batch-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const index = parseInt(e.target.closest('.remove-batch-btn').dataset.index);
+                    removeFromBatch(index);
+                });
             });
             
             elements.processBatchBtn.disabled = false;
         }
 
-        // Remove from batch (global function for onclick)
-        window.removeFromBatch = function(index) {
+        // Remove from batch
+        function removeFromBatch(index) {
             state.batchImages.splice(index, 1);
             updateBatchUI();
-        };
+            showToast('Image removed from batch');
+        }
 
         // Process batch
         async function processBatch() {
@@ -1717,8 +1767,8 @@
             state.batchResults = [];
             
             // Get resize settings
-            const targetWidth = parseInt(elements.widthInput.value);
-            const targetHeight = parseInt(elements.heightInput.value);
+            let targetWidth = parseInt(elements.widthInput.value);
+            let targetHeight = parseInt(elements.heightInput.value);
             const quality = parseInt(elements.qualitySlider.value) / 100;
             const format = elements.outputFormat.value;
             
@@ -1727,10 +1777,19 @@
                 const item = state.batchImages[i];
                 
                 try {
+                    // Calculate dimensions with aspect ratio
+                    let finalWidth = targetWidth;
+                    let finalHeight = targetHeight;
+                    
+                    if (elements.maintainAspect.checked) {
+                        const aspectRatio = item.width / item.height;
+                        finalHeight = Math.round(targetWidth / aspectRatio);
+                    }
+                    
                     // Create canvas for resized image
                     const canvas = document.createElement('canvas');
-                    canvas.width = targetWidth;
-                    canvas.height = targetHeight;
+                    canvas.width = finalWidth;
+                    canvas.height = finalHeight;
                     const ctx = canvas.getContext('2d');
                     
                     // Set image smoothing
@@ -1738,7 +1797,7 @@
                     ctx.imageSmoothingQuality = 'high';
                     
                     // Draw resized image
-                    ctx.drawImage(item.image, 0, 0, targetWidth, targetHeight);
+                    ctx.drawImage(item.image, 0, 0, finalWidth, finalHeight);
                     
                     // Determine MIME type
                     let mimeType;
@@ -1766,14 +1825,21 @@
                     // Create data URL
                     const dataUrl = canvas.toDataURL(mimeType, quality);
                     
+                    // Calculate size
+                    const base64Length = dataUrl.length - (dataUrl.indexOf(',') + 1);
+                    const padding = dataUrl.endsWith('==') ? 2 : dataUrl.endsWith('=') ? 1 : 0;
+                    const fileSize = Math.round((base64Length * 3) / 4 - padding);
+                    
                     // Store result
                     state.batchResults.push({
                         name: item.name,
                         originalSize: item.size,
-                        resizedSize: dataUrl.length - 'data:image/png;base64,'.length,
+                        resizedSize: fileSize,
                         dataUrl: dataUrl,
                         extension: extension,
-                        mimeType: mimeType
+                        mimeType: mimeType,
+                        width: finalWidth,
+                        height: finalHeight
                     });
                     
                     // Add to results list
@@ -1783,22 +1849,18 @@
                         <div class="batch-info">
                             <img src="${dataUrl}" alt="${item.name}" class="batch-thumb">
                             <div>
-                                <div>${item.name}</div>
+                                <div style="font-weight: 500;">${item.name}</div>
                                 <div style="font-size: 0.875rem; color: var(--gray-color);">
-                                    ${targetWidth}×${targetHeight} • ${formatFileSize(dataUrl.length)}
+                                    ${finalWidth}×${finalHeight} • ${formatFileSize(fileSize)}
                                     <span style="color: var(--success-color); margin-left: 0.5rem;">
-                                        ${Math.round((1 - dataUrl.length / item.size) * 100)}% smaller
+                                        ${Math.round((1 - fileSize / item.size) * 100)}% smaller
                                     </span>
                                 </div>
                             </div>
                         </div>
                         <div class="batch-actions">
-                            <button class="batch-btn" onclick="downloadBatchResult(${i})" aria-label="Download resized image">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                                    <polyline points="7 10 12 15 17 10"/>
-                                    <line x1="12" y1="15" x2="12" y2="3"/>
-                                </svg>
+                            <button class="batch-btn download-batch-btn" data-index="${i}" aria-label="Download resized image" title="Download">
+                                ⬇️
                             </button>
                         </div>
                     `;
@@ -1806,16 +1868,36 @@
                     
                 } catch (error) {
                     console.error('Error processing image:', error);
-                    showToast(`Error processing ${item.name}`, 'error');
+                    
+                    // Add error item
+                    const errorItem = document.createElement('div');
+                    errorItem.className = 'batch-item';
+                    errorItem.innerHTML = `
+                        <div class="batch-info">
+                            <div style="color: var(--danger-color);">❌ ${item.name}</div>
+                            <div style="font-size: 0.875rem; color: var(--gray-color);">
+                                Failed to process image
+                            </div>
+                        </div>
+                    `;
+                    elements.batchResultsList.appendChild(errorItem);
                 }
             }
             
+            // Add event listeners to download buttons
+            document.querySelectorAll('.download-batch-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const index = parseInt(e.target.closest('.download-batch-btn').dataset.index);
+                    downloadBatchResult(index);
+                });
+            });
+            
             showProcessing(false);
-            showToast(`Processed ${state.batchResults.length} images successfully`);
+            showToast(`Processed ${state.batchImages.length} images successfully`);
         }
 
-        // Download batch result (global function)
-        window.downloadBatchResult = function(index) {
+        // Download batch result
+        function downloadBatchResult(index) {
             const result = state.batchResults[index];
             if (!result) return;
             
@@ -1823,7 +1905,7 @@
             link.download = `resized-${result.name.split('.')[0]}.${result.extension}`;
             link.href = result.dataUrl;
             link.click();
-        };
+        }
 
         // Clear batch
         function clearBatch() {
@@ -1873,12 +1955,14 @@
             // Reset state
             state.originalImage = null;
             state.resizedCanvas = null;
+            state.resizedDataUrl = null;
             state.isLinked = true;
             elements.linkDimensions.classList.add('linked');
+            elements.linkDimensions.textContent = '🔗';
             
             // Reset previews
-            elements.originalContainer.innerHTML = '<div class="upload-placeholder">No image selected</div>';
-            elements.resizedContainer.innerHTML = '<div class="upload-placeholder">Resized image will appear here</div>';
+            elements.originalContainer.innerHTML = '<div class="image-placeholder">No image selected</div>';
+            elements.resizedContainer.innerHTML = '<div class="image-placeholder">Resized image will appear here</div>';
             
             // Reset info displays
             elements.originalDimensions.textContent = '-';
@@ -1893,6 +1977,10 @@
             elements.downloadBtn.disabled = true;
             elements.copyBtn.disabled = true;
             elements.shareBtn.disabled = true;
+            
+            // Reset file inputs
+            elements.fileInput.value = '';
+            elements.batchFileInput.value = '';
             
             showToast('Settings reset to defaults');
         }
@@ -1924,7 +2012,7 @@
 
         // Format file size
         function formatFileSize(bytes) {
-            if (bytes === 0) return '0 Bytes';
+            if (bytes === 0 || !bytes) return '0 Bytes';
             
             const k = 1024;
             const sizes = ['Bytes', 'KB', 'MB', 'GB'];
@@ -1974,7 +2062,7 @@
         
         // Track page view
         window.addEventListener('load', () => {
-            console.log('Image Resizer Tool loaded');
+            console.log('Image Resizer Tool loaded and working');
         });
     </script>
 </body>
