@@ -398,37 +398,6 @@
             text-align: right;
         }
 
-        /* Graphing Section */
-        .graphing-section {
-            display: none;
-            background: white;
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-top: 1.5rem;
-        }
-
-        .graphing-section.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .graph-container {
-            width: 100%;
-            height: 300px;
-            background: #f8fafc;
-            border: 2px dashed var(--border-color);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--gray-color);
-        }
-
         /* Content Section */
         .content-section {
             background: rgba(255, 255, 255, 0.95);
@@ -739,6 +708,38 @@
             color: var(--gray-color);
             margin-top: 0.3rem;
         }
+
+        /* User Guide */
+        .user-guide {
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 2px solid var(--primary-color);
+        }
+
+        .guide-step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .step-number {
+            background: var(--primary-color);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -777,116 +778,109 @@
                 <div class="calculator-modes">
                     <button class="mode-btn active" data-mode="basic">Basic</button>
                     <button class="mode-btn" data-mode="scientific">Scientific</button>
-                    <button class="mode-btn" data-mode="graphing">Graphing</button>
-                    <button class="mode-btn" data-mode="programming">Programming</button>
                     <button class="mode-btn" data-mode="statistics">Statistics</button>
+                    <button class="mode-btn" data-mode="graphing">Graphing</button>
+                </div>
+
+                <!-- Basic Calculator Buttons -->
+                <div class="calculator-buttons" id="basicButtons">
+                    <!-- Row 1 -->
+                    <button class="calc-btn clear" onclick="clearAll()">C</button>
+                    <button class="calc-btn clear" onclick="clearEntry()">CE</button>
+                    <button class="calc-btn special" onclick="backspace()">⌫</button>
+                    <button class="calc-btn operation" onclick="appendOperator('/')">÷</button>
+                    <button class="calc-btn function" onclick="sqrt()">√</button>
+                    
+                    <!-- Row 2 -->
+                    <button class="calc-btn number" onclick="appendNumber('7')">7</button>
+                    <button class="calc-btn number" onclick="appendNumber('8')">8</button>
+                    <button class="calc-btn number" onclick="appendNumber('9')">9</button>
+                    <button class="calc-btn operation" onclick="appendOperator('*')">×</button>
+                    <button class="calc-btn function" onclick="power()">xʸ</button>
+                    
+                    <!-- Row 3 -->
+                    <button class="calc-btn number" onclick="appendNumber('4')">4</button>
+                    <button class="calc-btn number" onclick="appendNumber('5')">5</button>
+                    <button class="calc-btn number" onclick="appendNumber('6')">6</button>
+                    <button class="calc-btn operation" onclick="appendOperator('-')">−</button>
+                    <button class="calc-btn function" onclick="factorial()">x!</button>
+                    
+                    <!-- Row 4 -->
+                    <button class="calc-btn number" onclick="appendNumber('1')">1</button>
+                    <button class="calc-btn number" onclick="appendNumber('2')">2</button>
+                    <button class="calc-btn number" onclick="appendNumber('3')">3</button>
+                    <button class="calc-btn operation" onclick="appendOperator('+')">+</button>
+                    <button class="calc-btn function" onclick="appendConstant('π')">π</button>
+                    
+                    <!-- Row 5 -->
+                    <button class="calc-btn number zero" onclick="appendNumber('0')">0</button>
+                    <button class="calc-btn number" onclick="appendDecimal()">.</button>
+                    <button class="calc-btn equals" onclick="calculate()">=</button>
+                    <button class="calc-btn function" onclick="appendConstant('e')">e</button>
+                </div>
+
+                <!-- Scientific Buttons (Initially hidden) -->
+                <div class="calculator-buttons" id="scientificButtons" style="display: none;">
+                    <!-- Row 1 -->
+                    <button class="calc-btn function" onclick="trigFunction('sin')">sin</button>
+                    <button class="calc-btn function" onclick="trigFunction('cos')">cos</button>
+                    <button class="calc-btn function" onclick="trigFunction('tan')">tan</button>
+                    <button class="calc-btn function" onclick="inverseTrigFunction('asin')">sin⁻¹</button>
+                    <button class="calc-btn function" onclick="inverseTrigFunction('acos')">cos⁻¹</button>
+                    
+                    <!-- Row 2 -->
+                    <button class="calc-btn function" onclick="inverseTrigFunction('atan')">tan⁻¹</button>
+                    <button class="calc-btn function" onclick="logFunction('log')">log</button>
+                    <button class="calc-btn function" onclick="logFunction('ln')">ln</button>
+                    <button class="calc-btn function" onclick="expFunction()">eˣ</button>
+                    <button class="calc-btn function" onclick="absFunction()">|x|</button>
+                    
+                    <!-- Row 3 -->
+                    <button class="calc-btn function" onclick="mathFunction('floor')">⌊x⌋</button>
+                    <button class="calc-btn function" onclick="mathFunction('ceil')">⌈x⌉</button>
+                    <button class="calc-btn function" onclick="mathFunction('round')">round</button>
+                    <button class="calc-btn function" onclick="appendOperator('%')">mod</button>
+                    <button class="calc-btn function" onclick="randomNumber()">Rand</button>
+                    
+                    <!-- Row 4 -->
+                    <button class="calc-btn function" onclick="toggleAngleMode('deg')">deg</button>
+                    <button class="calc-btn function" onclick="toggleAngleMode('rad')">rad</button>
+                    <button class="calc-btn function" onclick="hypotFunction()">hypot</button>
+                    <button class="calc-btn function" onclick="nCr()">nCr</button>
+                    <button class="calc-btn function" onclick="nPr()">nPr</button>
+                </div>
+
+                <!-- Statistics Buttons (Initially hidden) -->
+                <div class="calculator-buttons" id="statisticsButtons" style="display: none;">
+                    <!-- Statistics functions would go here -->
+                    <button class="calc-btn function" onclick="mean()">Mean</button>
+                    <button class="calc-btn function" onclick="median()">Median</button>
+                    <button class="calc-btn function" onclick="stdDev()">Std Dev</button>
+                    <button class="calc-btn function" onclick="variance()">Variance</button>
+                    <button class="calc-btn function" onclick="correlation()">Correlation</button>
                 </div>
 
                 <!-- Memory Functions -->
                 <div class="calculator-memory">
-                    <button class="memory-btn" id="memoryClear">MC</button>
-                    <button class="memory-btn" id="memoryRecall">MR</button>
-                    <button class="memory-btn" id="memoryAdd">M+</button>
-                    <button class="memory-btn" id="memorySubtract">M-</button>
-                    <button class="memory-btn" id="memoryStore">MS</button>
+                    <button class="memory-btn" onclick="memoryClear()">MC</button>
+                    <button class="memory-btn" onclick="memoryRecall()">MR</button>
+                    <button class="memory-btn" onclick="memoryAdd()">M+</button>
+                    <button class="memory-btn" onclick="memorySubtract()">M-</button>
+                    <button class="memory-btn" onclick="memoryStore()">MS</button>
                 </div>
 
-                <!-- Calculator Buttons Grid -->
-                <div class="calculator-buttons" id="basicButtons">
-                    <!-- Row 1 -->
-                    <button class="calc-btn clear" data-action="clear">C</button>
-                    <button class="calc-btn clear" data-action="clear-entry">CE</button>
-                    <button class="calc-btn special" data-action="backspace">⌫</button>
-                    <button class="calc-btn operation" data-action="/">÷</button>
-                    <button class="calc-btn function" data-action="sqrt">√</button>
-                    
-                    <!-- Row 2 -->
-                    <button class="calc-btn number" data-number="7">7</button>
-                    <button class="calc-btn number" data-number="8">8</button>
-                    <button class="calc-btn number" data-number="9">9</button>
-                    <button class="calc-btn operation" data-action="*">×</button>
-                    <button class="calc-btn function" data-action="power">xʸ</button>
-                    
-                    <!-- Row 3 -->
-                    <button class="calc-btn number" data-number="4">4</button>
-                    <button class="calc-btn number" data-number="5">5</button>
-                    <button class="calc-btn number" data-number="6">6</button>
-                    <button class="calc-btn operation" data-action="-">−</button>
-                    <button class="calc-btn function" data-action="factorial">x!</button>
-                    
-                    <!-- Row 4 -->
-                    <button class="calc-btn number" data-number="1">1</button>
-                    <button class="calc-btn number" data-number="2">2</button>
-                    <button class="calc-btn number" data-number="3">3</button>
-                    <button class="calc-btn operation" data-action="+">+</button>
-                    <button class="calc-btn function" data-action="pi">π</button>
-                    
-                    <!-- Row 5 -->
-                    <button class="calc-btn number zero" data-number="0">0</button>
-                    <button class="calc-btn number" data-number=".">.</button>
-                    <button class="calc-btn equals" data-action="equals">=</button>
-                    <button class="calc-btn function" data-action="e">e</button>
-                </div>
-
-                <!-- Scientific Buttons (Hidden by default) -->
-                <div class="calculator-buttons" id="scientificButtons" style="display: none;">
-                    <!-- Row 1 -->
-                    <button class="calc-btn function" data-action="sin">sin</button>
-                    <button class="calc-btn function" data-action="cos">cos</button>
-                    <button class="calc-btn function" data-action="tan">tan</button>
-                    <button class="calc-btn function" data-action="asin">sin⁻¹</button>
-                    <button class="calc-btn function" data-action="acos">cos⁻¹</button>
-                    
-                    <!-- Row 2 -->
-                    <button class="calc-btn function" data-action="atan">tan⁻¹</button>
-                    <button class="calc-btn function" data-action="log">log</button>
-                    <button class="calc-btn function" data-action="ln">ln</button>
-                    <button class="calc-btn function" data-action="exp">eˣ</button>
-                    <button class="calc-btn function" data-action="abs">|x|</button>
-                    
-                    <!-- Row 3 -->
-                    <button class="calc-btn function" data-action="floor">⌊x⌋</button>
-                    <button class="calc-btn function" data-action="ceil">⌈x⌉</button>
-                    <button class="calc-btn function" data-action="round">round</button>
-                    <button class="calc-btn function" data-action="mod">mod</button>
-                    <button class="calc-btn function" data-action="rand">Rand</button>
-                    
-                    <!-- Row 4 -->
-                    <button class="calc-btn function" data-action="deg">deg</button>
-                    <button class="calc-btn function" data-action="rad">rad</button>
-                    <button class="calc-btn function" data-action="hypot">hypot</button>
-                    <button class="calc-btn function" data-action="ncr">nCr</button>
-                    <button class="calc-btn function" data-action="npr">nPr</button>
-                </div>
-
-                <!-- Additional Buttons -->
+                <!-- Additional Functions -->
                 <div style="display: flex; gap: 0.8rem; margin-top: 1rem;">
-                    <button class="calc-btn special" id="historyToggle" style="flex: 1;">Show History</button>
-                    <button class="calc-btn special" id="copyResult" style="flex: 1;">Copy Result</button>
-                    <button class="calc-btn special" id="settingsBtn" style="flex: 1;">Settings</button>
-                </div>
-
-                <!-- Graphing Section -->
-                <div class="graphing-section" id="graphingSection">
-                    <h3 style="margin-bottom: 1rem;">Graphing Calculator</h3>
-                    <div class="graph-container">
-                        <div style="text-align: center;">
-                            <div style="font-size: 3rem; margin-bottom: 1rem;">📈</div>
-                            <p>Enter a function (e.g., sin(x), x^2) and click "Plot Graph"</p>
-                        </div>
-                    </div>
-                    <div style="display: flex; gap: 1rem; margin-top: 1rem;">
-                        <input type="text" id="graphFunction" placeholder="Enter function (e.g., sin(x)*x^2)" 
-                               style="flex: 1; padding: 0.8rem; border: 2px solid var(--border-color); border-radius: 8px;">
-                        <button class="calc-btn operation" id="plotGraph" style="padding: 0.8rem 1.5rem;">Plot Graph</button>
-                    </div>
+                    <button class="calc-btn special" onclick="toggleHistory()" id="historyToggle">Show History</button>
+                    <button class="calc-btn special" onclick="copyResult()">Copy Result</button>
+                    <button class="calc-btn special" onclick="toggleSettings()">Settings</button>
                 </div>
 
                 <!-- Calculator History -->
                 <div class="calculator-history" id="calculatorHistory" style="display: none;">
                     <div class="history-title">
                         <span>Calculation History</span>
-                        <button class="memory-btn" id="clearHistory" style="padding: 0.3rem 0.8rem; font-size: 0.8rem;">
+                        <button class="memory-btn" onclick="clearHistory()" style="padding: 0.3rem 0.8rem; font-size: 0.8rem;">
                             Clear
                         </button>
                     </div>
@@ -894,257 +888,325 @@
                         <!-- History items will be inserted here -->
                     </ul>
                 </div>
+
+                <!-- Settings Panel -->
+                <div class="calculator-history" id="settingsPanel" style="display: none;">
+                    <div class="history-title">
+                        <span>Calculator Settings</span>
+                        <button class="memory-btn" onclick="toggleSettings()" style="padding: 0.3rem 0.8rem; font-size: 0.8rem;">
+                            Close
+                        </button>
+                    </div>
+                    <div style="padding: 1rem;">
+                        <div style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Angle Mode:</label>
+                            <div style="display: flex; gap: 1rem;">
+                                <button class="mode-btn" onclick="setAngleMode('deg')" id="degBtn">Degrees</button>
+                                <button class="mode-btn active" onclick="setAngleMode('rad')" id="radBtn">Radians</button>
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Number Format:</label>
+                            <div style="display: flex; gap: 1rem;">
+                                <button class="mode-btn active" onclick="setNumberFormat('decimal')" id="decimalBtn">Decimal</button>
+                                <button class="mode-btn" onclick="setNumberFormat('scientific')" id="scientificBtn">Scientific</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </section>
 
             <!-- Content Section -->
             <section class="content-section">
-                <!-- Article Content -->
-                <article>
-                    <h2>Advanced Scientific Calculator: The Ultimate Math Tool</h2>
+                <h2>Complete User Guide: How to Use This Scientific Calculator</h2>
+                
+                <div class="user-guide">
+                    <h3 style="color: var(--primary-color); margin-bottom: 1.5rem;">🚀 Quick Start Guide</h3>
                     
-                    <p>Welcome to our comprehensive <strong>scientific calculator</strong>, a powerful online tool designed for students, engineers, scientists, and professionals who need advanced mathematical capabilities. This calculator goes beyond basic arithmetic to provide over <strong>200 mathematical functions</strong>, graphing capabilities, equation solving, and much more.</p>
-                    
-                    <h3 id="how-to-use">How to Use This Scientific Calculator</h3>
-                    
-                    <h4>Basic Operations:</h4>
-                    <ol>
-                        <li><strong>Number Input:</strong> Click the number buttons or use your keyboard to enter values</li>
-                        <li><strong>Basic Arithmetic:</strong> Use +, -, ×, ÷ for addition, subtraction, multiplication, and division</li>
-                        <li><strong>Parentheses:</strong> Use ( and ) for grouping operations and controlling calculation order</li>
-                        <li><strong>Equals:</strong> Press = or Enter to calculate the result</li>
-                        <li><strong>Clear:</strong> Use C (Clear All) or CE (Clear Entry) to reset or remove last entry</li>
-                    </ol>
-                    
-                    <h4>Advanced Functions:</h4>
-                    <ul>
-                        <li>Switch to <strong>Scientific Mode</strong> for trigonometric, logarithmic, and exponential functions</li>
-                        <li>Use <strong>Graphing Mode</strong> to plot mathematical functions and visualize equations</li>
-                        <li>Access <strong>Statistics Mode</strong> for mean, median, standard deviation, and probability calculations</li>
-                        <li>Try <strong>Programming Mode</strong> for binary, hexadecimal, and bitwise operations</li>
-                    </ul>
-                    
-                    <h4>Memory Functions:</h4>
-                    <ul>
-                        <li><strong>MC:</strong> Memory Clear - Clear the memory storage</li>
-                        <li><strong>MR:</strong> Memory Recall - Recall value from memory</li>
-                        <li><strong>M+:</strong> Memory Add - Add current value to memory</li>
-                        <li><strong>M-:</strong> Memory Subtract - Subtract current value from memory</li>
-                        <li><strong>MS:</strong> Memory Store - Store current value in memory</li>
-                    </ul>
-                    
-                    <h3 id="features">Key Features & Capabilities</h3>
-                    <div class="features-grid">
-                        <div class="feature-card">
-                            <h4><i>📊</i> Advanced Mathematics</h4>
-                            <p>Trigonometry, calculus, algebra, geometry, and complex number calculations with 200+ mathematical functions.</p>
-                        </div>
-                        <div class="feature-card">
-                            <h4><i>📈</i> Graphing Capabilities</h4>
-                            <p>Plot 2D graphs of functions, visualize equations, and analyze mathematical relationships graphically.</p>
-                        </div>
-                        <div class="feature-card">
-                            <h4><i>🧮</i> Multiple Calculation Modes</h4>
-                            <p>Basic, scientific, graphing, programming, and statistics modes for different mathematical needs.</p>
-                        </div>
-                        <div class="feature-card">
-                            <h4><i>💾</i> Memory & History</h4>
-                            <p>Multiple memory registers and complete calculation history with recall and export capabilities.</p>
-                        </div>
-                        <div class="feature-card">
-                            <h4><i>⚡</i> Equation Solver</h4>
-                            <p>Solve linear, quadratic, polynomial, and system of equations with step-by-step solutions.</p>
-                        </div>
-                        <div class="feature-card">
-                            <h4><i>📐</i> Unit Conversions</h4>
-                            <p>Convert between units of length, area, volume, temperature, pressure, and more scientific units.</p>
-                        </div>
-                        <div class="feature-card">
-                            <h4><i>🔢</i> Matrix Operations</h4>
-                            <p>Perform matrix addition, multiplication, determinant calculation, inverse, and eigenvalue computations.</p>
-                        </div>
-                        <div class="feature-card">
-                            <h4><i>📱</i> Responsive Design</h4>
-                            <p>Fully responsive interface that works perfectly on desktop, tablet, and mobile devices.</p>
+                    <div class="guide-step">
+                        <div class="step-number">1</div>
+                        <div>
+                            <strong>Enter Numbers:</strong> Click number buttons (0-9) or type on your keyboard
                         </div>
                     </div>
                     
-                    <h3 id="functions">Mathematical Functions Reference</h3>
-                    
-                    <h4>Trigonometric Functions:</h4>
-                    <div class="function-reference">
-                        <div class="reference-grid">
-                            <div class="reference-item">
-                                <div class="reference-func">sin(x)</div>
-                                <div class="reference-desc">Sine of angle x (radians)</div>
-                            </div>
-                            <div class="reference-item">
-                                <div class="reference-func">cos(x)</div>
-                                <div class="reference-desc">Cosine of angle x (radians)</div>
-                            </div>
-                            <div class="reference-item">
-                                <div class="reference-func">tan(x)</div>
-                                <div class="reference-desc">Tangent of angle x (radians)</div>
-                            </div>
-                            <div class="reference-item">
-                                <div class="reference-func">asin(x)</div>
-                                <div class="reference-desc">Arcsine (inverse sine)</div>
-                            </div>
-                            <div class="reference-item">
-                                <div class="reference-func">acos(x)</div>
-                                <div class="reference-desc">Arccosine (inverse cosine)</div>
-                            </div>
-                            <div class="reference-item">
-                                <div class="reference-func">atan(x)</div>
-                                <div class="reference-desc">Arctangent (inverse tangent)</div>
-                            </div>
+                    <div class="guide-step">
+                        <div class="step-number">2</div>
+                        <div>
+                            <strong>Basic Operations:</strong> Use +, -, ×, ÷ buttons for arithmetic
                         </div>
                     </div>
                     
-                    <h4>Exponential & Logarithmic:</h4>
-                    <div class="function-reference">
-                        <div class="reference-grid">
-                            <div class="reference-item">
-                                <div class="reference-func">log(x)</div>
-                                <div class="reference-desc">Base-10 logarithm</div>
-                            </div>
-                            <div class="reference-item">
-                                <div class="reference-func">ln(x)</div>
-                                <div class="reference-desc">Natural logarithm (base e)</div>
-                            </div>
-                            <div class="reference-item">
-                                <div class="reference-func">exp(x)</div>
-                                <div class="reference-desc">Exponential function eˣ</div>
-                            </div>
-                            <div class="reference-item">
-                                <div class="reference-func">10^x</div>
-                                <div class="reference-desc">10 raised to power x</div>
-                            </div>
-                            <div class="reference-item">
-                                <div class="reference-func">sqrt(x)</div>
-                                <div class="reference-desc">Square root of x</div>
-                            </div>
-                            <div class="reference-item">
-                                <div class="reference-func">x^y</div>
-                                <div class="reference-desc">x raised to power y</div>
-                            </div>
+                    <div class="guide-step">
+                        <div class="step-number">3</div>
+                        <div>
+                            <strong>Calculate:</strong> Press = button or Enter key to get results
                         </div>
                     </div>
                     
-                    <h4>Statistical Functions:</h4>
-                    <div class="function-reference">
-                        <div class="reference-grid">
-                            <div class="reference-item">
-                                <div class="reference-func">mean()</div>
-                                <div class="reference-desc">Arithmetic mean average</div>
-                            </div>
-                            <div class="reference-item">
-                                <div class="reference-func">median()</div>
-                                <div class="reference-desc">Median value</div>
-                            </div>
-                            <div class="reference-item">
-                                <div class="reference-func">std()</div>
-                                <div class="reference-desc">Standard deviation</div>
-                            </div>
-                            <div class="reference-item">
-                                <div class="reference-func">var()</div>
-                                <div class="reference-desc">Variance</div>
-                            </div>
-                            <div class="reference-item">
-                                <div class="reference-func">nCr(n,r)</div>
-                                <div class="reference-desc">Combinations n choose r</div>
-                            </div>
-                            <div class="reference-item">
-                                <div class="reference-func">nPr(n,r)</div>
-                                <div class="reference-desc">Permutations n permute r</div>
-                            </div>
+                    <div class="guide-step">
+                        <div class="step-number">4</div>
+                        <div>
+                            <strong>Advanced Functions:</strong> Switch to Scientific mode for more functions
                         </div>
                     </div>
-                    
-                    <h3>Applications & Use Cases</h3>
-                    
-                    <h4>For Students:</h4>
-                    <ul>
-                        <li><strong>High School Math:</strong> Algebra, geometry, trigonometry, pre-calculus</li>
-                        <li><strong>College Mathematics:</strong> Calculus, differential equations, linear algebra</li>
-                        <li><strong>Physics & Engineering:</strong> Kinematics, dynamics, electrical circuits, thermodynamics</li>
-                        <li><strong>Chemistry:</strong> Stoichiometry, thermodynamics, kinetics calculations</li>
-                        <li><strong>Statistics:</strong> Probability, statistical analysis, data interpretation</li>
-                    </ul>
-                    
-                    <h4>For Professionals:</h4>
-                    <ul>
-                        <li><strong>Engineering:</strong> Structural calculations, electrical engineering, mechanical design</li>
-                        <li><strong>Finance:</strong> Compound interest, annuities, statistical analysis, risk assessment</li>
-                        <li><strong>Science Research:</strong> Data analysis, curve fitting, statistical modeling</li>
-                        <li><strong>Computer Science:</strong> Algorithm analysis, complexity calculations, binary operations</li>
-                        <li><strong>Architecture:</strong> Geometric calculations, structural analysis, material estimations</li>
-                    </ul>
-                    
-                    <h3 id="faq">Frequently Asked Questions</h3>
-                    <div class="faq-section">
-                        <div class="faq-item">
-                            <div class="faq-question">
-                                <span>How accurate is this scientific calculator?</span>
-                                <span class="expand-icon">▼</span>
-                            </div>
-                            <div class="faq-answer">
-                                <p>Our calculator uses JavaScript's built-in Math library which provides double-precision floating-point arithmetic with about 15-17 significant digits of precision. For most scientific and engineering applications, this level of precision is more than sufficient.</p>
-                            </div>
+                </div>
+
+                <h3 id="how-to-use">📚 Detailed Usage Instructions</h3>
+                
+                <h4>Basic Calculator Operations:</h4>
+                <ol>
+                    <li><strong>Addition/Subtraction:</strong> Enter first number → + or - → second number → =</li>
+                    <li><strong>Multiplication/Division:</strong> Enter first number → × or ÷ → second number → =</li>
+                    <li><strong>Clear Functions:</strong>
+                        <ul>
+                            <li><strong>C (Clear):</strong> Clears everything</li>
+                            <li><strong>CE (Clear Entry):</strong> Clears current entry only</li>
+                            <li><strong>⌫ (Backspace):</strong> Removes last character</li>
+                        </ul>
+                    </li>
+                    <li><strong>Decimal Point:</strong> Use . button for decimal numbers</li>
+                </ol>
+                
+                <h4>Scientific Functions:</h4>
+                <ol>
+                    <li><strong>Trigonometric Functions:</strong> sin, cos, tan (works in degrees or radians)</li>
+                    <li><strong>Inverse Trig:</strong> sin⁻¹, cos⁻¹, tan⁻¹</li>
+                    <li><strong>Logarithms:</strong> log (base 10), ln (natural log)</li>
+                    <li><strong>Exponential:</strong> eˣ calculates e raised to power x</li>
+                    <li><strong>Square Root:</strong> √ calculates square root</li>
+                    <li><strong>Power:</strong> xʸ raises x to the power y</li>
+                    <li><strong>Factorial:</strong> x! calculates factorial of x</li>
+                    <li><strong>Constants:</strong> π (3.14159...), e (2.71828...)</li>
+                </ol>
+                
+                <h4>Memory Functions:</h4>
+                <ul>
+                    <li><strong>MC:</strong> Memory Clear - Clears memory storage</li>
+                    <li><strong>MR:</strong> Memory Recall - Recalls value from memory</li>
+                    <li><strong>M+:</strong> Memory Add - Adds current value to memory</li>
+                    <li><strong>M-:</strong> Memory Subtract - Subtracts current value from memory</li>
+                    <li><strong>MS:</strong> Memory Store - Stores current value in memory</li>
+                </ul>
+                
+                <h4>Keyboard Shortcuts:</h4>
+                <ul>
+                    <li><strong>Numbers:</strong> 0-9 keys</li>
+                    <li><strong>Operators:</strong> +, -, *, /</li>
+                    <li><strong>Enter:</strong> = (equals)</li>
+                    <li><strong>Escape:</strong> Clear (C)</li>
+                    <li><strong>Backspace:</strong> Remove last character</li>
+                    <li><strong>Decimal:</strong> . key</li>
+                </ul>
+
+                <h3 id="features">✨ Key Features & Capabilities</h3>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h4><i>🔢</i> Basic Arithmetic</h4>
+                        <p>Addition, subtraction, multiplication, division, percentages, and square roots</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4><i>📐</i> Scientific Functions</h4>
+                        <p>Trigonometry, logarithms, exponentials, factorials, and statistical functions</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4><i>💾</i> Memory Operations</h4>
+                        <p>Multiple memory registers with store, recall, add, and subtract functions</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4><i>📊</i> Statistics Mode</h4>
+                        <p>Mean, median, standard deviation, variance, and correlation calculations</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4><i>🎯</i> Precision Control</h4>
+                        <p>Adjustable decimal places and scientific notation for accurate results</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4><i>📈</i> Graphing Tools</h4>
+                        <p>Plot mathematical functions and visualize equations (coming soon)</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4><i>📱</i> Responsive Design</h4>
+                        <p>Works perfectly on desktop, tablet, and mobile devices</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4><i>💾</i> History Tracking</h4>
+                        <p>Saves calculation history with timestamp and recall capability</p>
+                    </div>
+                </div>
+
+                <h3 id="functions">🧮 Mathematical Functions Reference</h3>
+                
+                <h4>Trigonometric Functions:</h4>
+                <div class="function-reference">
+                    <div class="reference-grid">
+                        <div class="reference-item">
+                            <div class="reference-func">sin(x)</div>
+                            <div class="reference-desc">Sine of angle x</div>
                         </div>
-                        <div class="faq-item">
-                            <div class="faq-question">
-                                <span>Can I use this calculator for complex numbers?</span>
-                                <span class="expand-icon">▼</span>
-                            </div>
-                            <div class="faq-answer">
-                                <p>Yes, our calculator supports complex number operations. Use the complex mode to perform calculations with imaginary numbers. You can enter complex numbers in the format a+bi, where i is the imaginary unit (√-1).</p>
-                            </div>
+                        <div class="reference-item">
+                            <div class="reference-func">cos(x)</div>
+                            <div class="reference-desc">Cosine of angle x</div>
                         </div>
-                        <div class="faq-item">
-                            <div class="faq-question">
-                                <span>Does the calculator show step-by-step solutions?</span>
-                                <span class="expand-icon">▼</span>
-                            </div>
-                            <div class="faq-answer">
-                                <p>While the calculator provides immediate results for calculations, you can enable "Show Steps" in settings to see intermediate steps for certain operations like equation solving and derivative calculations.</p>
-                            </div>
+                        <div class="reference-item">
+                            <div class="reference-func">tan(x)</div>
+                            <div class="reference-desc">Tangent of angle x</div>
                         </div>
-                        <div class="faq-item">
-                            <div class="faq-question">
-                                <span>Can I save my calculations for later?</span>
-                                <span class="expand-icon">▼</span>
-                            </div>
-                            <div class="faq-answer">
-                                <p>Yes, the calculator automatically saves your calculation history in your browser's local storage. You can also export calculations as text files or copy them to clipboard for use in other applications.</p>
-                            </div>
+                        <div class="reference-item">
+                            <div class="reference-func">asin(x)</div>
+                            <div class="reference-desc">Inverse sine</div>
                         </div>
-                        <div class="faq-item">
-                            <div class="faq-question">
-                                <span>Is this calculator suitable for professional engineering work?</span>
-                                <span class="expand-icon">▼</span>
-                            </div>
-                            <div class="faq-answer">
-                                <p>While our calculator is highly capable and suitable for most engineering calculations, for critical professional work, we recommend verifying results with specialized engineering software. Our tool is excellent for concept development, quick calculations, and educational purposes.</p>
-                            </div>
+                        <div class="reference-item">
+                            <div class="reference-func">acos(x)</div>
+                            <div class="reference-desc">Inverse cosine</div>
                         </div>
-                        <div class="faq-item">
-                            <div class="faq-question">
-                                <span>Can I use keyboard shortcuts?</span>
-                                <span class="expand-icon">▼</span>
-                            </div>
-                            <div class="faq-answer">
-                                <p>Yes! The calculator supports keyboard input. You can use number keys, +, -, *, /, Enter for equals, Escape for clear, and Backspace for deleting. Press F1 while using the calculator to see all available keyboard shortcuts.</p>
-                            </div>
+                        <div class="reference-item">
+                            <div class="reference-func">atan(x)</div>
+                            <div class="reference-desc">Inverse tangent</div>
                         </div>
                     </div>
-                    
-                    <h3>SEO Keywords Summary</h3>
-                    <p><strong>Primary Keywords:</strong> scientific calculator, online calculator, math calculator, graphing calculator, equation solver, trigonometry calculator</p>
-                    <p><strong>Secondary Keywords:</strong> logarithm calculator, calculus calculator, matrix calculator, statistics calculator, unit converter, engineering calculator</p>
-                    <p><strong>Tertiary Keywords:</strong> physics calculator, algebra calculator, geometry calculator, complex number calculator, scientific functions, math tool</p>
-                    
-                    <p>Our <strong>scientific calculator</strong> combines advanced mathematical capabilities with an intuitive interface, making it the perfect tool for students, educators, engineers, and scientists. With over <strong>200 mathematical functions</strong>, graphing capabilities, and support for complex calculations, this calculator provides everything you need for advanced mathematical work.</p>
-                </article>
+                </div>
+                
+                <h4>Logarithmic & Exponential:</h4>
+                <div class="function-reference">
+                    <div class="reference-grid">
+                        <div class="reference-item">
+                            <div class="reference-func">log(x)</div>
+                            <div class="reference-desc">Base-10 logarithm</div>
+                        </div>
+                        <div class="reference-item">
+                            <div class="reference-func">ln(x)</div>
+                            <div class="reference-desc">Natural logarithm</div>
+                        </div>
+                        <div class="reference-item">
+                            <div class="reference-func">exp(x)</div>
+                            <div class="reference-desc">Exponential e^x</div>
+                        </div>
+                        <div class="reference-item">
+                            <div class="reference-func">x^y</div>
+                            <div class="reference-desc">x raised to power y</div>
+                        </div>
+                        <div class="reference-item">
+                            <div class="reference-func">√x</div>
+                            <div class="reference-desc">Square root</div>
+                        </div>
+                        <div class="reference-item">
+                            <div class="reference-func">x!</div>
+                            <div class="reference-desc">Factorial</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h4>Other Functions:</h4>
+                <div class="function-reference">
+                    <div class="reference-grid">
+                        <div class="reference-item">
+                            <div class="reference-func">|x|</div>
+                            <div class="reference-desc">Absolute value</div>
+                        </div>
+                        <div class="reference-item">
+                            <div class="reference-func">floor(x)</div>
+                            <div class="reference-desc">Round down</div>
+                        </div>
+                        <div class="reference-item">
+                            <div class="reference-func">ceil(x)</div>
+                            <div class="reference-desc">Round up</div>
+                        </div>
+                        <div class="reference-item">
+                            <div class="reference-func">round(x)</div>
+                            <div class="reference-desc">Round to nearest</div>
+                        </div>
+                        <div class="reference-item">
+                            <div class="reference-func">nCr</div>
+                            <div class="reference-desc">Combinations</div>
+                        </div>
+                        <div class="reference-item">
+                            <div class="reference-func">nPr</div>
+                            <div class="reference-desc">Permutations</div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 id="faq">❓ Frequently Asked Questions</h3>
+                <div class="faq-section">
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>How accurate is this calculator?</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Our calculator uses JavaScript's Math library with double-precision floating-point arithmetic, providing about 15-17 significant digits of precision. This is sufficient for most scientific and engineering applications.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Can I use keyboard shortcuts?</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Yes! You can use your keyboard for all basic operations. Numbers (0-9), operators (+, -, *, /), Enter (=), Escape (clear), Backspace (delete last), and period (.) for decimal.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>How do I calculate complex expressions?</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Enter your expression step by step. For example: (3 + 4) × 2 ÷ sin(30). The calculator follows standard mathematical order of operations (PEMDAS/BODMAS).</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Is my calculation history saved?</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Yes, calculation history is automatically saved in your browser's local storage. You can view, recall, or clear history using the History button.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>What's the difference between degrees and radians?</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Degrees and radians are two ways to measure angles. Degrees use 360° in a circle, while radians use 2π. Most scientific work uses radians, but you can switch modes in settings.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <span>Can I use this on my mobile phone?</span>
+                            <span class="expand-icon">▼</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Absolutely! The calculator is fully responsive and works perfectly on all devices - desktop, tablet, and mobile phones.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>🎯 Practical Examples</h3>
+                <p><strong>Example 1: Basic Calculation</strong><br>
+                To calculate 15% of 200: 200 × 15 ÷ 100 = 30</p>
+                
+                <p><strong>Example 2: Scientific Calculation</strong><br>
+                To calculate sin(45°) × cos(45°): Switch to degrees mode → sin(45) × cos(45) = 0.5</p>
+                
+                <p><strong>Example 3: Statistics</strong><br>
+                To find mean of 5, 10, 15: Enter numbers separated by commas in statistics mode</p>
+                
+                <p><strong>Example 4: Complex Expression</strong><br>
+                (3² + 4²) ÷ √25 = (9 + 16) ÷ 5 = 5</p>
+
+                <h3>🔧 Tips & Tricks</h3>
+                <ul>
+                    <li>Use parentheses ( ) to control calculation order</li>
+                    <li>Memory functions are great for multi-step calculations</li>
+                    <li>Switch between decimal and scientific notation in settings</li>
+                    <li>Use the copy button to save results for later</li>
+                    <li>History feature lets you review and reuse past calculations</li>
+                    <li>Angle mode affects trigonometric calculations - set it correctly</li>
+                </ul>
             </section>
         </div>
     </main>
@@ -1171,9 +1233,8 @@
                     <ul>
                         <li>Basic Calculator</li>
                         <li>Scientific Calculator</li>
-                        <li>Graphing Calculator</li>
                         <li>Statistics Calculator</li>
-                        <li>Programming Calculator</li>
+                        <li>Graphing Calculator</li>
                     </ul>
                 </div>
                 <div class="footer-section">
@@ -1183,6 +1244,7 @@
             </div>
             <div class="copyright">
                 <p>&copy; 2024 Scientific Calculator Tool. All rights reserved. This tool is free for educational and professional use.</p>
+                <p style="margin-top: 0.5rem; font-size: 0.8rem;">Last updated: December 2024 | Version 2.0</p>
             </div>
         </div>
     </footer>
@@ -1191,472 +1253,478 @@
     <div class="notification" id="notification"></div>
 
     <script>
-        // DOM Elements
-        const elements = {
-            // Display elements
-            expressionDisplay: document.getElementById('expressionDisplay'),
-            resultDisplay: document.getElementById('resultDisplay'),
-            
-            // Mode buttons
-            modeButtons: document.querySelectorAll('.mode-btn'),
-            
-            // Button containers
-            basicButtons: document.getElementById('basicButtons'),
-            scientificButtons: document.getElementById('scientificButtons'),
-            
-            // All calculator buttons
-            calcButtons: document.querySelectorAll('.calc-btn'),
-            
-            // Memory buttons
-            memoryClear: document.getElementById('memoryClear'),
-            memoryRecall: document.getElementById('memoryRecall'),
-            memoryAdd: document.getElementById('memoryAdd'),
-            memorySubtract: document.getElementById('memorySubtract'),
-            memoryStore: document.getElementById('memoryStore'),
-            
-            // Other buttons
-            historyToggle: document.getElementById('historyToggle'),
-            copyResult: document.getElementById('copyResult'),
-            settingsBtn: document.getElementById('settingsBtn'),
-            clearHistory: document.getElementById('clearHistory'),
-            
-            // Graphing elements
-            graphingSection: document.getElementById('graphingSection'),
-            graphFunction: document.getElementById('graphFunction'),
-            plotGraph: document.getElementById('plotGraph'),
-            
-            // History elements
-            calculatorHistory: document.getElementById('calculatorHistory'),
-            historyList: document.getElementById('historyList'),
-            
-            // Notification
-            notification: document.getElementById('notification')
-        };
-
         // Calculator State
         let calculator = {
-            currentExpression: '',
-            currentResult: '0',
+            display: '0',
+            expression: '',
             memory: 0,
-            history: JSON.parse(localStorage.getItem('calcHistory')) || [],
-            isScientificMode: false,
-            isRadians: true,
-            lastOperation: null
+            history: [],
+            angleMode: 'rad',
+            numberFormat: 'decimal',
+            isScientificMode: false
         };
 
-        // Mathematical Constants
-        const constants = {
-            PI: Math.PI,
-            E: Math.E,
-            PHI: (1 + Math.sqrt(5)) / 2 // Golden ratio
-        };
+        // DOM Elements
+        const expressionDisplay = document.getElementById('expressionDisplay');
+        const resultDisplay = document.getElementById('resultDisplay');
+        const notification = document.getElementById('notification');
 
-        // Initialize Event Listeners
-        function initEventListeners() {
-            // Mode switching
-            elements.modeButtons.forEach(button => {
-                button.addEventListener('click', switchMode);
-            });
-            
-            // Calculator buttons
-            elements.calcButtons.forEach(button => {
-                button.addEventListener('click', handleButtonClick);
-            });
-            
-            // Memory buttons
-            elements.memoryClear.addEventListener('click', () => memoryOperation('clear'));
-            elements.memoryRecall.addEventListener('click', () => memoryOperation('recall'));
-            elements.memoryAdd.addEventListener('click', () => memoryOperation('add'));
-            elements.memorySubtract.addEventListener('click', () => memoryOperation('subtract'));
-            elements.memoryStore.addEventListener('click', () => memoryOperation('store'));
-            
-            // Other buttons
-            elements.historyToggle.addEventListener('click', toggleHistory);
-            elements.copyResult.addEventListener('click', copyResultToClipboard);
-            elements.settingsBtn.addEventListener('click', showSettings);
-            elements.clearHistory.addEventListener('click', clearCalcHistory);
-            
-            // Graphing
-            elements.plotGraph.addEventListener('click', plotGraphFunction);
-            elements.graphFunction.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') plotGraphFunction();
-            });
-            
-            // Keyboard support
-            document.addEventListener('keydown', handleKeyboardInput);
-            
-            // Load history
+        // Initialize calculator
+        function initCalculator() {
             loadHistory();
-            
-            // Initialize display
             updateDisplay();
+            setupEventListeners();
+            showNotification('Scientific Calculator Ready!', 'success');
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Mode switching
+            document.querySelectorAll('.mode-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const mode = this.getAttribute('data-mode');
+                    switchMode(mode);
+                    
+                    // Update active button
+                    document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // Keyboard support
+            document.addEventListener('keydown', handleKeyboard);
+            
+            // FAQ expansion
+            document.querySelectorAll('.faq-question').forEach(question => {
+                question.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    const answer = this.nextElementSibling;
+                    answer.classList.toggle('active');
+                });
+            });
         }
 
         // Switch calculator mode
-        function switchMode(event) {
-            const mode = event.currentTarget.getAttribute('data-mode');
+        function switchMode(mode) {
+            const basicButtons = document.getElementById('basicButtons');
+            const scientificButtons = document.getElementById('scientificButtons');
+            const statisticsButtons = document.getElementById('statisticsButtons');
             
-            // Update active mode button
-            elements.modeButtons.forEach(btn => btn.classList.remove('active'));
-            event.currentTarget.classList.add('active');
-            
-            // Handle different modes
             switch(mode) {
                 case 'basic':
-                    elements.basicButtons.style.display = 'grid';
-                    elements.scientificButtons.style.display = 'none';
-                    elements.graphingSection.classList.remove('active');
+                    basicButtons.style.display = 'grid';
+                    scientificButtons.style.display = 'none';
+                    statisticsButtons.style.display = 'none';
                     calculator.isScientificMode = false;
+                    showNotification('Basic Mode Activated', 'info');
                     break;
                     
                 case 'scientific':
-                    elements.basicButtons.style.display = 'grid';
-                    elements.scientificButtons.style.display = 'grid';
-                    elements.graphingSection.classList.remove('active');
+                    basicButtons.style.display = 'grid';
+                    scientificButtons.style.display = 'grid';
+                    statisticsButtons.style.display = 'none';
                     calculator.isScientificMode = true;
-                    break;
-                    
-                case 'graphing':
-                    elements.basicButtons.style.display = 'grid';
-                    elements.scientificButtons.style.display = 'none';
-                    elements.graphingSection.classList.add('active');
-                    calculator.isScientificMode = false;
-                    break;
-                    
-                case 'programming':
-                    // Programming mode would show binary/hex buttons
-                    showNotification('Programming mode activated', 'info');
-                    calculator.isScientificMode = true;
+                    showNotification('Scientific Mode Activated', 'info');
                     break;
                     
                 case 'statistics':
-                    // Statistics mode would show statistical functions
-                    showNotification('Statistics mode activated', 'info');
+                    basicButtons.style.display = 'none';
+                    scientificButtons.style.display = 'none';
+                    statisticsButtons.style.display = 'grid';
                     calculator.isScientificMode = true;
+                    showNotification('Statistics Mode Activated', 'info');
+                    break;
+                    
+                case 'graphing':
+                    showNotification('Graphing Mode Coming Soon!', 'info');
                     break;
             }
-            
-            // Update display
-            updateDisplay();
         }
 
-        // Handle calculator button clicks
-        function handleButtonClick(event) {
-            const button = event.currentTarget;
-            const action = button.getAttribute('data-action');
-            const number = button.getAttribute('data-number');
-            
-            if (number !== null) {
-                // Number input
-                handleNumberInput(number);
-            } else if (action) {
-                // Action/function input
-                handleActionInput(action);
-            }
-            
-            updateDisplay();
-        }
-
-        // Handle number input
-        function handleNumberInput(number) {
-            if (calculator.currentExpression === '0' || calculator.currentExpression === '') {
-                calculator.currentExpression = number;
+        // Append number to display
+        function appendNumber(num) {
+            if (calculator.display === '0' || calculator.display === 'Error') {
+                calculator.display = num;
             } else {
-                // Check if last character is a number or decimal
-                const lastChar = calculator.currentExpression.slice(-1);
-                if (!isNaN(lastChar) || lastChar === '.' || lastChar === ')') {
-                    calculator.currentExpression += number;
-                } else {
-                    // Add space before number if needed
-                    calculator.currentExpression += ' ' + number;
-                }
+                calculator.display += num;
             }
+            updateDisplay();
         }
 
-        // Handle action/function input
-        function handleActionInput(action) {
-            switch(action) {
-                case 'clear':
-                    calculator.currentExpression = '';
-                    calculator.currentResult = '0';
-                    break;
-                    
-                case 'clear-entry':
-                    if (calculator.currentExpression !== '') {
-                        calculator.currentExpression = calculator.currentExpression.slice(0, -1).trim();
-                    }
-                    break;
-                    
-                case 'backspace':
-                    handleBackspace();
-                    break;
-                    
-                case 'equals':
-                    calculateResult();
-                    break;
-                    
-                case 'pi':
-                    addConstant('π', constants.PI);
-                    break;
-                    
-                case 'e':
-                    addConstant('e', constants.E);
-                    break;
-                    
-                case 'sqrt':
-                    addFunction('sqrt(', '√(');
-                    break;
-                    
-                case 'power':
-                    addOperator('^');
-                    break;
-                    
-                case 'factorial':
-                    addFunction('!', '!');
-                    break;
-                    
-                // Basic operations
-                case '+':
-                case '-':
-                case '*':
-                case '/':
-                    addOperator(action);
-                    break;
-                    
-                // Scientific functions
-                case 'sin':
-                case 'cos':
-                case 'tan':
-                case 'asin':
-                case 'acos':
-                case 'atan':
-                case 'log':
-                case 'ln':
-                case 'exp':
-                case 'abs':
-                case 'floor':
-                case 'ceil':
-                case 'round':
-                    addFunction(action + '(', action + '(');
-                    break;
-                    
-                case 'mod':
-                    addOperator('%');
-                    break;
-                    
-                case 'rand':
-                    addConstant('rand', Math.random());
-                    break;
-                    
-                case 'deg':
-                case 'rad':
-                    toggleAngleMode();
-                    break;
-                    
-                case 'hypot':
-                    addFunction('hypot(', 'hypot(');
-                    break;
-                    
-                case 'ncr':
-                    addFunction('nCr(', 'C(');
-                    break;
-                    
-                case 'npr':
-                    addFunction('nPr(', 'P(');
-                    break;
-            }
-        }
-
-        // Handle backspace
-        function handleBackspace() {
-            if (calculator.currentExpression.length > 0) {
-                // Remove last character
-                calculator.currentExpression = calculator.currentExpression.slice(0, -1).trim();
-                
-                // If we removed a space, remove the character before it too
-                if (calculator.currentExpression.slice(-1) === ' ') {
-                    calculator.currentExpression = calculator.currentExpression.slice(0, -1).trim();
-                }
-            }
-        }
-
-        // Add operator to expression
-        function addOperator(operator) {
-            const lastChar = calculator.currentExpression.slice(-1);
+        // Append operator
+        function appendOperator(op) {
+            if (calculator.display === 'Error') return;
             
-            if (calculator.currentExpression === '') {
-                // Can't start with operator (except minus for negative numbers)
-                if (operator === '-' || operator === '+') {
-                    calculator.currentExpression = operator;
-                }
-            } else if (isNaN(lastChar) && lastChar !== ')' && lastChar !== '!') {
+            const operators = ['+', '-', '*', '/', '%'];
+            const lastChar = calculator.display.slice(-1);
+            
+            if (operators.includes(lastChar)) {
                 // Replace last operator
-                calculator.currentExpression = calculator.currentExpression.slice(0, -1) + operator;
+                calculator.display = calculator.display.slice(0, -1) + op;
             } else {
-                // Add operator with space
-                calculator.currentExpression += ' ' + operator + ' ';
+                calculator.display += op;
+            }
+            updateDisplay();
+        }
+
+        // Append decimal point
+        function appendDecimal() {
+            if (calculator.display === 'Error') return;
+            
+            const lastNumber = calculator.display.split(/[\+\-\*\/]/).pop();
+            if (!lastNumber.includes('.')) {
+                calculator.display += '.';
+                updateDisplay();
             }
         }
 
-        // Add function to expression
-        function addFunction(func, display) {
-            calculator.currentExpression += display;
+        // Append constant
+        function appendConstant(constant) {
+            if (calculator.display === '0' || calculator.display === 'Error') {
+                calculator.display = constant === 'π' ? Math.PI.toString() : Math.E.toString();
+            } else {
+                calculator.display += constant === 'π' ? Math.PI.toString() : Math.E.toString();
+            }
+            updateDisplay();
         }
 
-        // Add constant to expression
-        function addConstant(display, value) {
-            calculator.currentExpression += display;
+        // Clear all
+        function clearAll() {
+            calculator.display = '0';
+            calculator.expression = '';
+            updateDisplay();
         }
 
-        // Toggle angle mode (degrees/radians)
-        function toggleAngleMode() {
-            calculator.isRadians = !calculator.isRadians;
-            showNotification(`Angle mode: ${calculator.isRadians ? 'Radians' : 'Degrees'}`, 'info');
+        // Clear entry
+        function clearEntry() {
+            calculator.display = '0';
+            updateDisplay();
         }
 
-        // Calculate the result
-        function calculateResult() {
-            if (calculator.currentExpression === '') return;
-            
+        // Backspace
+        function backspace() {
+            if (calculator.display.length > 1) {
+                calculator.display = calculator.display.slice(0, -1);
+            } else {
+                calculator.display = '0';
+            }
+            updateDisplay();
+        }
+
+        // Calculate result
+        function calculate() {
             try {
-                // Prepare expression for evaluation
-                let expression = calculator.currentExpression
+                let expression = calculator.display
                     .replace(/×/g, '*')
                     .replace(/÷/g, '/')
-                    .replace(/π/g, constants.PI)
-                    .replace(/e/g, constants.E)
-                    .replace(/√/g, 'Math.sqrt')
-                    .replace(/\^/g, '**')
-                    .replace(/sin\(/g, calculator.isRadians ? 'Math.sin(' : 'Math.sin(Math.PI/180*')
-                    .replace(/cos\(/g, calculator.isRadians ? 'Math.cos(' : 'Math.cos(Math.PI/180*')
-                    .replace(/tan\(/g, calculator.isRadians ? 'Math.tan(' : 'Math.tan(Math.PI/180*')
-                    .replace(/asin\(/g, calculator.isRadians ? 'Math.asin(' : '180/Math.PI*Math.asin(')
-                    .replace(/acos\(/g, calculator.isRadians ? 'Math.acos(' : '180/Math.PI*Math.acos(')
-                    .replace(/atan\(/g, calculator.isRadians ? 'Math.atan(' : '180/Math.PI*Math.atan(')
-                    .replace(/log\(/g, 'Math.log10(')
-                    .replace(/ln\(/g, 'Math.log(')
-                    .replace(/exp\(/g, 'Math.exp(')
-                    .replace(/abs\(/g, 'Math.abs(')
-                    .replace(/floor\(/g, 'Math.floor(')
-                    .replace(/ceil\(/g, 'Math.ceil(')
-                    .replace(/round\(/g, 'Math.round(')
-                    .replace(/mod/g, '%')
-                    .replace(/!/g, '') // Factorial needs special handling
-                    .replace(/hypot\(/g, 'Math.hypot(');
+                    .replace(/π/g, Math.PI.toString())
+                    .replace(/e/g, Math.E.toString())
+                    .replace(/\^/g, '**');
                 
-                // Handle factorial
-                if (expression.includes('!')) {
-                    expression = handleFactorial(expression);
-                }
-                
-                // Handle nCr and nPr
-                expression = expression.replace(/nCr\(/g, 'combinations(');
-                expression = expression.replace(/nPr\(/g, 'permutations(');
-                
-                // Evaluate the expression
-                let result;
-                
-                // Define helper functions
-                const combinations = (n, r) => {
-                    if (r > n) return 0;
-                    return factorial(n) / (factorial(r) * factorial(n - r));
-                };
-                
-                const permutations = (n, r) => {
-                    if (r > n) return 0;
-                    return factorial(n) / factorial(n - r);
-                };
-                
-                // Use Function constructor for safe evaluation
-                result = Function('"use strict"; return (' + expression + ')')();
+                // Evaluate safely
+                const result = Function('"use strict"; return (' + expression + ')')();
                 
                 // Format result
-                if (typeof result === 'number') {
-                    // Handle very small numbers
-                    if (Math.abs(result) < 1e-10 && result !== 0) {
-                        calculator.currentResult = result.toExponential(6);
-                    } else if (Number.isInteger(result)) {
-                        calculator.currentResult = result.toString();
-                    } else {
-                        // Round to avoid floating point precision issues
-                        calculator.currentResult = parseFloat(result.toPrecision(12)).toString();
-                    }
-                    
-                    // Add to history
-                    addToHistory(calculator.currentExpression, calculator.currentResult);
-                    
-                    // Update expression for chain calculations
-                    calculator.currentExpression = calculator.currentResult;
-                    
+                let formattedResult;
+                if (calculator.numberFormat === 'scientific' && Math.abs(result) > 10000) {
+                    formattedResult = result.toExponential(6);
                 } else {
-                    calculator.currentResult = 'Error';
-                    showNotification('Invalid calculation', 'error');
+                    formattedResult = parseFloat(result.toFixed(10)).toString();
                 }
                 
+                // Save to history
+                addToHistory(calculator.display, formattedResult);
+                
+                // Update display
+                calculator.expression = calculator.display;
+                calculator.display = formattedResult;
+                updateDisplay();
+                
             } catch (error) {
-                console.error('Calculation error:', error);
-                calculator.currentResult = 'Error';
-                showNotification('Calculation error. Please check your expression.', 'error');
+                calculator.display = 'Error';
+                updateDisplay();
+                showNotification('Calculation Error', 'error');
             }
-            
+        }
+
+        // Square root function
+        function sqrt() {
+            try {
+                const value = parseFloat(calculator.display);
+                if (value >= 0) {
+                    calculator.display = Math.sqrt(value).toString();
+                    updateDisplay();
+                } else {
+                    calculator.display = 'Error';
+                    updateDisplay();
+                    showNotification('Cannot calculate square root of negative number', 'error');
+                }
+            } catch (error) {
+                calculator.display = 'Error';
+                updateDisplay();
+            }
+        }
+
+        // Power function
+        function power() {
+            calculator.display += '^';
             updateDisplay();
         }
 
-        // Handle factorial calculation
-        function handleFactorial(expression) {
-            // Simple factorial implementation
-            return expression.replace(/(\d+)!/g, (match, num) => {
-                const n = parseInt(num);
-                if (n < 0 || n > 100) return 'Infinity';
-                let result = 1;
-                for (let i = 2; i <= n; i++) {
-                    result *= i;
+        // Factorial function
+        function factorial() {
+            try {
+                const n = parseInt(calculator.display);
+                if (n < 0 || n > 100) {
+                    calculator.display = 'Error';
+                    showNotification('Invalid factorial input', 'error');
+                } else {
+                    let result = 1;
+                    for (let i = 2; i <= n; i++) {
+                        result *= i;
+                    }
+                    calculator.display = result.toString();
                 }
-                return result.toString();
-            });
-        }
-
-        // Factorial helper function
-        function factorial(n) {
-            if (n < 0) return NaN;
-            if (n === 0 || n === 1) return 1;
-            let result = 1;
-            for (let i = 2; i <= n; i++) {
-                result *= i;
+                updateDisplay();
+            } catch (error) {
+                calculator.display = 'Error';
+                updateDisplay();
             }
-            return result;
         }
 
-        // Memory operations
-        function memoryOperation(operation) {
-            const currentValue = parseFloat(calculator.currentResult) || 0;
+        // Trigonometric functions
+        function trigFunction(func) {
+            try {
+                const value = parseFloat(calculator.display);
+                let result;
+                
+                if (calculator.angleMode === 'deg') {
+                    const radians = value * Math.PI / 180;
+                    result = Math[func](radians);
+                } else {
+                    result = Math[func](value);
+                }
+                
+                calculator.display = result.toString();
+                updateDisplay();
+            } catch (error) {
+                calculator.display = 'Error';
+                updateDisplay();
+            }
+        }
+
+        // Inverse trigonometric functions
+        function inverseTrigFunction(func) {
+            try {
+                const value = parseFloat(calculator.display);
+                let result = Math[func.slice(1)](value); // Remove 'a' from asin, acos, atan
+                
+                if (calculator.angleMode === 'deg') {
+                    result = result * 180 / Math.PI;
+                }
+                
+                calculator.display = result.toString();
+                updateDisplay();
+            } catch (error) {
+                calculator.display = 'Error';
+                updateDisplay();
+            }
+        }
+
+        // Logarithm functions
+        function logFunction(func) {
+            try {
+                const value = parseFloat(calculator.display);
+                if (value <= 0) {
+                    calculator.display = 'Error';
+                    showNotification('Logarithm undefined for non-positive numbers', 'error');
+                } else {
+                    const result = func === 'log' ? Math.log10(value) : Math.log(value);
+                    calculator.display = result.toString();
+                }
+                updateDisplay();
+            } catch (error) {
+                calculator.display = 'Error';
+                updateDisplay();
+            }
+        }
+
+        // Exponential function
+        function expFunction() {
+            try {
+                const value = parseFloat(calculator.display);
+                const result = Math.exp(value);
+                calculator.display = result.toString();
+                updateDisplay();
+            } catch (error) {
+                calculator.display = 'Error';
+                updateDisplay();
+            }
+        }
+
+        // Absolute value
+        function absFunction() {
+            try {
+                const value = parseFloat(calculator.display);
+                calculator.display = Math.abs(value).toString();
+                updateDisplay();
+            } catch (error) {
+                calculator.display = 'Error';
+                updateDisplay();
+            }
+        }
+
+        // Math functions (floor, ceil, round)
+        function mathFunction(func) {
+            try {
+                const value = parseFloat(calculator.display);
+                const result = Math[func](value);
+                calculator.display = result.toString();
+                updateDisplay();
+            } catch (error) {
+                calculator.display = 'Error';
+                updateDisplay();
+            }
+        }
+
+        // Random number
+        function randomNumber() {
+            calculator.display = Math.random().toFixed(4);
+            updateDisplay();
+        }
+
+        // Toggle angle mode
+        function toggleAngleMode(mode) {
+            calculator.angleMode = mode;
+            document.getElementById('degBtn').classList.toggle('active', mode === 'deg');
+            document.getElementById('radBtn').classList.toggle('active', mode === 'rad');
+            showNotification(`Angle mode set to ${mode === 'deg' ? 'Degrees' : 'Radians'}`, 'info');
+        }
+
+        // Set angle mode
+        function setAngleMode(mode) {
+            calculator.angleMode = mode;
+            document.getElementById('degBtn').classList.toggle('active', mode === 'deg');
+            document.getElementById('radBtn').classList.toggle('active', mode === 'rad');
+            showNotification(`Angle mode set to ${mode === 'deg' ? 'Degrees' : 'Radians'}`, 'info');
+        }
+
+        // Set number format
+        function setNumberFormat(format) {
+            calculator.numberFormat = format;
+            document.getElementById('decimalBtn').classList.toggle('active', format === 'decimal');
+            document.getElementById('scientificBtn').classList.toggle('active', format === 'scientific');
+            showNotification(`Number format set to ${format}`, 'info');
+        }
+
+        // Hypot function
+        function hypotFunction() {
+            calculator.display += 'hypot(';
+            updateDisplay();
+        }
+
+        // nCr function
+        function nCr() {
+            calculator.display += 'nCr(';
+            updateDisplay();
+        }
+
+        // nPr function
+        function nPr() {
+            calculator.display += 'nPr(';
+            updateDisplay();
+        }
+
+        // Statistics functions
+        function mean() {
+            showNotification('Mean function - Enter comma separated values', 'info');
+        }
+
+        function median() {
+            showNotification('Median function - Enter comma separated values', 'info');
+        }
+
+        function stdDev() {
+            showNotification('Standard Deviation function', 'info');
+        }
+
+        function variance() {
+            showNotification('Variance function', 'info');
+        }
+
+        function correlation() {
+            showNotification('Correlation function', 'info');
+        }
+
+        // Memory functions
+        function memoryClear() {
+            calculator.memory = 0;
+            showNotification('Memory Cleared', 'info');
+        }
+
+        function memoryRecall() {
+            calculator.display = calculator.memory.toString();
+            updateDisplay();
+            showNotification('Memory Recalled', 'info');
+        }
+
+        function memoryAdd() {
+            try {
+                const currentValue = parseFloat(calculator.display) || 0;
+                calculator.memory += currentValue;
+                showNotification('Added to Memory', 'info');
+            } catch (error) {
+                showNotification('Memory Error', 'error');
+            }
+        }
+
+        function memorySubtract() {
+            try {
+                const currentValue = parseFloat(calculator.display) || 0;
+                calculator.memory -= currentValue;
+                showNotification('Subtracted from Memory', 'info');
+            } catch (error) {
+                showNotification('Memory Error', 'error');
+            }
+        }
+
+        function memoryStore() {
+            try {
+                const currentValue = parseFloat(calculator.display) || 0;
+                calculator.memory = currentValue;
+                showNotification('Stored in Memory', 'info');
+            } catch (error) {
+                showNotification('Memory Error', 'error');
+            }
+        }
+
+        // Toggle history
+        function toggleHistory() {
+            const historyPanel = document.getElementById('calculatorHistory');
+            const isVisible = historyPanel.style.display === 'block';
+            historyPanel.style.display = isVisible ? 'none' : 'block';
+            document.getElementById('historyToggle').textContent = 
+                isVisible ? 'Show History' : 'Hide History';
+        }
+
+        // Toggle settings
+        function toggleSettings() {
+            const settingsPanel = document.getElementById('settingsPanel');
+            const historyPanel = document.getElementById('calculatorHistory');
+            const isVisible = settingsPanel.style.display === 'block';
             
-            switch(operation) {
-                case 'clear':
-                    calculator.memory = 0;
-                    showNotification('Memory cleared', 'info');
-                    break;
-                    
-                case 'recall':
-                    calculator.currentExpression = calculator.memory.toString();
-                    updateDisplay();
-                    showNotification('Memory recalled: ' + calculator.memory, 'info');
-                    break;
-                    
-                case 'add':
-                    calculator.memory += currentValue;
-                    showNotification('Added to memory: ' + currentValue, 'info');
-                    break;
-                    
-                case 'subtract':
-                    calculator.memory -= currentValue;
-                    showNotification('Subtracted from memory: ' + currentValue, 'info');
-                    break;
-                    
-                case 'store':
-                    calculator.memory = currentValue;
-                    showNotification('Stored in memory: ' + currentValue, 'info');
-                    break;
+            settingsPanel.style.display = isVisible ? 'none' : 'block';
+            historyPanel.style.display = 'none';
+            document.getElementById('historyToggle').textContent = 'Show History';
+        }
+
+        // Copy result to clipboard
+        async function copyResult() {
+            try {
+                await navigator.clipboard.writeText(calculator.display);
+                showNotification('Result copied to clipboard!', 'success');
+            } catch (error) {
+                showNotification('Failed to copy result', 'error');
             }
         }
 
@@ -1664,34 +1732,44 @@
         function addToHistory(expression, result) {
             const historyItem = {
                 id: Date.now(),
-                timestamp: new Date().toISOString(),
                 expression: expression,
-                result: result
+                result: result,
+                timestamp: new Date().toLocaleTimeString()
             };
             
             calculator.history.unshift(historyItem);
-            
-            // Keep only last 50 items
-            if (calculator.history.length > 50) {
-                calculator.history = calculator.history.slice(0, 50);
+            if (calculator.history.length > 20) {
+                calculator.history = calculator.history.slice(0, 20);
             }
             
-            // Save to localStorage
-            localStorage.setItem('calcHistory', JSON.stringify(calculator.history));
-            
-            // Update history display
+            saveHistory();
             updateHistoryDisplay();
+        }
+
+        // Save history to localStorage
+        function saveHistory() {
+            localStorage.setItem('calculatorHistory', JSON.stringify(calculator.history));
+        }
+
+        // Load history from localStorage
+        function loadHistory() {
+            const savedHistory = localStorage.getItem('calculatorHistory');
+            if (savedHistory) {
+                calculator.history = JSON.parse(savedHistory);
+                updateHistoryDisplay();
+            }
         }
 
         // Update history display
         function updateHistoryDisplay() {
-            elements.historyList.innerHTML = '';
+            const historyList = document.getElementById('historyList');
+            historyList.innerHTML = '';
             
             if (calculator.history.length === 0) {
                 const li = document.createElement('li');
                 li.className = 'history-item';
                 li.textContent = 'No calculation history yet';
-                elements.historyList.appendChild(li);
+                historyList.appendChild(li);
                 return;
             }
             
@@ -1701,80 +1779,55 @@
                 li.innerHTML = `
                     <div class="history-expression">${item.expression}</div>
                     <div class="history-result">= ${item.result}</div>
+                    <div style="font-size: 0.8rem; color: #94a3b8;">${item.timestamp}</div>
                 `;
                 
-                // Add click to restore
                 li.addEventListener('click', () => {
-                    calculator.currentExpression = item.expression;
-                    calculator.currentResult = item.result;
+                    calculator.display = item.expression;
                     updateDisplay();
-                    showNotification('Calculation restored from history', 'info');
+                    showNotification('Expression loaded from history', 'info');
                 });
                 
-                elements.historyList.appendChild(li);
+                historyList.appendChild(li);
             });
         }
 
-        // Load history from localStorage
-        function loadHistory() {
-            updateHistoryDisplay();
-        }
-
-        // Clear calculation history
-        function clearCalcHistory() {
-            if (calculator.history.length === 0) return;
-            
-            if (confirm('Are you sure you want to clear all calculation history?')) {
+        // Clear history
+        function clearHistory() {
+            if (confirm('Clear all calculation history?')) {
                 calculator.history = [];
-                localStorage.removeItem('calcHistory');
+                localStorage.removeItem('calculatorHistory');
                 updateHistoryDisplay();
                 showNotification('History cleared', 'success');
             }
         }
 
-        // Toggle history visibility
-        function toggleHistory() {
-            const isVisible = elements.calculatorHistory.style.display !== 'none';
-            elements.calculatorHistory.style.display = isVisible ? 'none' : 'block';
-            elements.historyToggle.textContent = isVisible ? 'Show History' : 'Hide History';
-        }
-
-        // Copy result to clipboard
-        async function copyResultToClipboard() {
-            try {
-                await navigator.clipboard.writeText(calculator.currentResult);
-                showNotification('Result copied to clipboard!', 'success');
-            } catch (error) {
-                console.error('Failed to copy:', error);
-                showNotification('Failed to copy result', 'error');
-            }
-        }
-
-        // Show settings (placeholder)
-        function showSettings() {
-            showNotification('Settings panel coming soon!', 'info');
-        }
-
-        // Plot graph function
-        function plotGraphFunction() {
-            const func = elements.graphFunction.value.trim();
-            if (!func) {
-                showNotification('Please enter a function to plot', 'error');
-                return;
-            }
-            
-            showNotification(`Graphing function: ${func}`, 'info');
-            // In a real implementation, this would use a graphing library like Chart.js or Plotly
-        }
-
         // Update display
         function updateDisplay() {
-            elements.expressionDisplay.textContent = calculator.currentExpression || '0';
-            elements.resultDisplay.textContent = calculator.currentResult;
+            expressionDisplay.textContent = calculator.display;
+            
+            // Format result display
+            if (calculator.display === 'Error') {
+                resultDisplay.textContent = 'Error';
+                resultDisplay.style.color = '#ef4444';
+            } else {
+                let displayValue = calculator.display;
+                
+                // Format large numbers
+                if (calculator.numberFormat === 'scientific' && calculator.display.length > 10) {
+                    const num = parseFloat(calculator.display);
+                    if (!isNaN(num)) {
+                        displayValue = num.toExponential(6);
+                    }
+                }
+                
+                resultDisplay.textContent = displayValue;
+                resultDisplay.style.color = '#ffffff';
+            }
         }
 
         // Handle keyboard input
-        function handleKeyboardInput(event) {
+        function handleKeyboard(event) {
             const key = event.key;
             
             // Prevent default for calculator keys
@@ -1782,124 +1835,45 @@
                 event.preventDefault();
             }
             
-            // Handle keys
             if (key >= '0' && key <= '9') {
-                handleNumberInput(key);
+                appendNumber(key);
             } else if (key === '.') {
-                handleNumberInput('.');
+                appendDecimal();
             } else if (key === '+') {
-                handleActionInput('+');
+                appendOperator('+');
             } else if (key === '-') {
-                handleActionInput('-');
+                appendOperator('-');
             } else if (key === '*') {
-                handleActionInput('*');
+                appendOperator('*');
             } else if (key === '/') {
-                handleActionInput('/');
+                appendOperator('/');
             } else if (key === 'Enter' || key === '=') {
-                handleActionInput('equals');
+                calculate();
             } else if (key === 'Escape') {
-                handleActionInput('clear');
+                clearAll();
             } else if (key === 'Backspace') {
-                handleActionInput('backspace');
+                backspace();
             } else if (key === '(') {
-                calculator.currentExpression += '(';
+                calculator.display += '(';
+                updateDisplay();
             } else if (key === ')') {
-                calculator.currentExpression += ')';
-            } else if (key === 'p' && event.ctrlKey) {
-                handleActionInput('pi');
-            } else if (key === 's' && event.ctrlKey) {
-                handleActionInput('sqrt');
+                calculator.display += ')';
+                updateDisplay();
             }
-            
-            updateDisplay();
         }
 
         // Show notification
         function showNotification(message, type) {
-            elements.notification.textContent = message;
-            elements.notification.className = `notification ${type} show`;
+            notification.textContent = message;
+            notification.className = `notification ${type} show`;
             
             setTimeout(() => {
-                elements.notification.classList.remove('show');
+                notification.classList.remove('show');
             }, 3000);
         }
 
-        // Toggle FAQ
-        function toggleFAQ(event) {
-            const question = event.currentTarget;
-            question.classList.toggle('active');
-            
-            const answer = question.nextElementSibling;
-            answer.classList.toggle('active');
-        }
-
-        // Initialize FAQ listeners
-        function initFAQ() {
-            const faqQuestions = document.querySelectorAll('.faq-question');
-            faqQuestions.forEach(question => {
-                question.addEventListener('click', toggleFAQ);
-            });
-        }
-
-        // Initialize when page loads
-        document.addEventListener('DOMContentLoaded', () => {
-            initEventListeners();
-            initFAQ();
-            
-            // Add structured data for FAQ
-            const faqStructuredData = {
-                "@context": "https://schema.org",
-                "@type": "FAQPage",
-                "mainEntity": [
-                    {
-                        "@type": "Question",
-                        "name": "How accurate is this scientific calculator?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "Our calculator uses JavaScript's built-in Math library which provides double-precision floating-point arithmetic with about 15-17 significant digits of precision."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "Can I use this calculator for complex numbers?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "Yes, our calculator supports complex number operations. Use the complex mode to perform calculations with imaginary numbers."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "Does the calculator show step-by-step solutions?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "While the calculator provides immediate results, you can enable 'Show Steps' in settings to see intermediate steps for certain operations."
-                        }
-                    }
-                ]
-            };
-            
-            const script = document.createElement('script');
-            script.type = 'application/ld+json';
-            script.textContent = JSON.stringify(faqStructuredData);
-            document.head.appendChild(script);
-            
-            console.log('Scientific Calculator loaded - SEO optimized');
-        });
-
-        // Track usage analytics
-        window.addEventListener('load', () => {
-            const loadTime = performance.now();
-            console.log(`Scientific Calculator loaded in ${Math.round(loadTime)}ms`);
-            
-            const usageData = {
-                tool: 'Scientific Calculator',
-                version: '4.0',
-                features: ['basic-math', 'scientific-functions', 'graphing', 'memory', 'history', 'keyboard-support'],
-                loadTime: Math.round(loadTime),
-                timestamp: new Date().toISOString()
-            };
-            console.log('Usage Analytics:', usageData);
-        });
+        // Initialize calculator when page loads
+        document.addEventListener('DOMContentLoaded', initCalculator);
     </script>
 </body>
 </html>
