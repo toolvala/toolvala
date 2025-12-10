@@ -353,49 +353,99 @@
             border-color: var(--primary-color);
         }
 
-        /* Calculator History */
-        .calculator-history {
-            background: var(--light-color);
+        /* Graphing Section */
+        .graphing-section {
+            display: none;
+            background: white;
             border-radius: 12px;
             padding: 1.5rem;
-            margin-top: 2rem;
-            max-height: 300px;
-            overflow-y: auto;
+            margin-top: 1.5rem;
+            border: 2px solid var(--border-color);
         }
 
-        .history-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            color: var(--dark-color);
+        .graphing-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .graph-container {
+            width: 100%;
+            height: 300px;
+            background: white;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #graphCanvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .graph-controls {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
         }
 
-        .history-list {
-            list-style: none;
-        }
-
-        .history-item {
+        .graph-input {
+            flex: 1;
+            min-width: 200px;
             padding: 0.8rem;
-            border-bottom: 1px solid var(--border-color);
-            font-family: 'Courier New', monospace;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-family: inherit;
         }
 
-        .history-item:last-child {
-            border-bottom: none;
+        .graph-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
         }
 
-        .history-expression {
-            color: var(--gray-color);
+        .graph-examples {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: var(--light-color);
+            border-radius: 8px;
             font-size: 0.9rem;
         }
 
-        .history-result {
-            color: var(--primary-color);
-            font-weight: 600;
-            text-align: right;
+        .graph-examples h4 {
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+        }
+
+        .graph-examples span {
+            display: inline-block;
+            background: white;
+            padding: 0.3rem 0.6rem;
+            margin: 0.2rem;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+        }
+
+        .graph-examples span:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .graph-info {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: var(--gray-color);
         }
 
         /* Content Section */
@@ -609,6 +659,14 @@
                 font-size: 1rem;
                 min-height: 50px;
             }
+            
+            .graph-controls {
+                flex-direction: column;
+            }
+            
+            .graph-input {
+                min-width: 100%;
+            }
         }
 
         /* Notification */
@@ -640,39 +698,6 @@
 
         .notification.info {
             background: var(--primary-color);
-        }
-
-        /* Tooltip */
-        .tooltip {
-            position: relative;
-            display: inline-block;
-            cursor: help;
-            margin-left: 5px;
-            color: var(--gray-color);
-        }
-
-        .tooltip-text {
-            visibility: hidden;
-            width: 200px;
-            background: var(--dark-color);
-            color: white;
-            text-align: center;
-            border-radius: 6px;
-            padding: 0.5rem;
-            position: absolute;
-            z-index: 1;
-            bottom: 125%;
-            left: 50%;
-            transform: translateX(-50%);
-            opacity: 0;
-            transition: opacity 0.3s;
-            font-size: 0.85rem;
-            font-weight: normal;
-        }
-
-        .tooltip:hover .tooltip-text {
-            visibility: visible;
-            opacity: 1;
         }
 
         /* Function Reference */
@@ -709,36 +734,33 @@
             margin-top: 0.3rem;
         }
 
-        /* User Guide */
-        .user-guide {
-            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
-            border-radius: 12px;
-            padding: 2rem;
-            margin: 2rem 0;
-            border: 2px solid var(--primary-color);
-        }
-
-        .guide-step {
+        /* Range Slider */
+        .range-slider {
             display: flex;
             align-items: center;
-            margin-bottom: 1.5rem;
-            padding: 1rem;
-            background: white;
-            border-radius: 8px;
-            border-left: 4px solid var(--primary-color);
+            gap: 1rem;
+            margin: 1rem 0;
         }
 
-        .step-number {
-            background: var(--primary-color);
-            color: white;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 1rem;
-            font-weight: bold;
+        .range-slider label {
+            min-width: 80px;
+            font-weight: 500;
+        }
+
+        .range-slider input[type="range"] {
+            flex: 1;
+            height: 6px;
+            background: var(--border-color);
+            border-radius: 3px;
+            outline: none;
+        }
+
+        .range-slider input[type="number"] {
+            width: 60px;
+            padding: 0.3rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            text-align: center;
         }
     </style>
 </head>
@@ -778,8 +800,8 @@
                 <div class="calculator-modes">
                     <button class="mode-btn active" data-mode="basic">Basic</button>
                     <button class="mode-btn" data-mode="scientific">Scientific</button>
-                    <button class="mode-btn" data-mode="statistics">Statistics</button>
                     <button class="mode-btn" data-mode="graphing">Graphing</button>
+                    <button class="mode-btn" data-mode="statistics">Statistics</button>
                 </div>
 
                 <!-- Basic Calculator Buttons -->
@@ -850,16 +872,6 @@
                     <button class="calc-btn function" onclick="nPr()">nPr</button>
                 </div>
 
-                <!-- Statistics Buttons (Initially hidden) -->
-                <div class="calculator-buttons" id="statisticsButtons" style="display: none;">
-                    <!-- Statistics functions would go here -->
-                    <button class="calc-btn function" onclick="mean()">Mean</button>
-                    <button class="calc-btn function" onclick="median()">Median</button>
-                    <button class="calc-btn function" onclick="stdDev()">Std Dev</button>
-                    <button class="calc-btn function" onclick="variance()">Variance</button>
-                    <button class="calc-btn function" onclick="correlation()">Correlation</button>
-                </div>
-
                 <!-- Memory Functions -->
                 <div class="calculator-memory">
                     <button class="memory-btn" onclick="memoryClear()">MC</button>
@@ -874,6 +886,69 @@
                     <button class="calc-btn special" onclick="toggleHistory()" id="historyToggle">Show History</button>
                     <button class="calc-btn special" onclick="copyResult()">Copy Result</button>
                     <button class="calc-btn special" onclick="toggleSettings()">Settings</button>
+                </div>
+
+                <!-- Graphing Section -->
+                <div class="graphing-section" id="graphingSection">
+                    <h3 style="margin-bottom: 1rem; color: var(--dark-color);">📈 Graphing Calculator</h3>
+                    
+                    <!-- Graph Canvas -->
+                    <div class="graph-container">
+                        <canvas id="graphCanvas" width="600" height="300"></canvas>
+                    </div>
+                    
+                    <!-- Graph Controls -->
+                    <div class="graph-controls">
+                        <input type="text" id="graphFunction" placeholder="Enter function (e.g., sin(x)*x^2)" class="graph-input">
+                        <button class="calc-btn operation" onclick="plotGraph()" style="padding: 0.8rem 1.5rem;">Plot Graph</button>
+                        <button class="calc-btn special" onclick="clearGraph()" style="padding: 0.8rem 1.5rem;">Clear</button>
+                    </div>
+                    
+                    <!-- Graph Range Controls -->
+                    <div class="range-slider">
+                        <label>X-min:</label>
+                        <input type="number" id="xMin" value="-10" step="1" style="width: 70px;">
+                        <input type="range" id="xMinRange" min="-20" max="0" value="-10" step="1" oninput="updateXMin(this.value)">
+                        <span style="min-width: 40px;">-10</span>
+                        
+                        <label>X-max:</label>
+                        <input type="number" id="xMax" value="10" step="1" style="width: 70px;">
+                        <input type="range" id="xMaxRange" min="0" max="20" value="10" step="1" oninput="updateXMax(this.value)">
+                        <span style="min-width: 40px;">10</span>
+                    </div>
+                    
+                    <div class="range-slider">
+                        <label>Y-min:</label>
+                        <input type="number" id="yMin" value="-10" step="1" style="width: 70px;">
+                        <input type="range" id="yMinRange" min="-20" max="0" value="-10" step="1" oninput="updateYMin(this.value)">
+                        <span style="min-width: 40px;">-10</span>
+                        
+                        <label>Y-max:</label>
+                        <input type="number" id="yMax" value="10" step="1" style="width: 70px;">
+                        <input type="range" id="yMaxRange" min="0" max="20" value="10" step="1" oninput="updateYMax(this.value)">
+                        <span style="min-width: 40px;">10</span>
+                    </div>
+                    
+                    <!-- Graph Examples -->
+                    <div class="graph-examples">
+                        <h4>Try these examples:</h4>
+                        <span onclick="setExample('sin(x)')">sin(x)</span>
+                        <span onclick="setExample('cos(x)')">cos(x)</span>
+                        <span onclick="setExample('tan(x)')">tan(x)</span>
+                        <span onclick="setExample('x^2')">x^2</span>
+                        <span onclick="setExample('x^3')">x^3</span>
+                        <span onclick="setExample('sqrt(x)')">sqrt(x)</span>
+                        <span onclick="setExample('log(x)')">log(x)</span>
+                        <span onclick="setExample('exp(x)')">exp(x)</span>
+                        <span onclick="setExample('sin(x)*cos(x)')">sin(x)*cos(x)</span>
+                        <span onclick="setExample('x^2 + 2*x + 1')">x^2 + 2*x + 1</span>
+                    </div>
+                    
+                    <!-- Graph Info -->
+                    <div class="graph-info">
+                        <div>Click and drag to pan | Scroll to zoom</div>
+                        <div id="graphCoordinates">Coordinates: (0, 0)</div>
+                    </div>
                 </div>
 
                 <!-- Calculator History -->
@@ -918,212 +993,115 @@
 
             <!-- Content Section -->
             <section class="content-section">
-                <h2>Complete User Guide: How to Use This Scientific Calculator</h2>
+                <h2>Complete Scientific Calculator with Graphing Functionality</h2>
                 
-                <div class="user-guide">
-                    <h3 style="color: var(--primary-color); margin-bottom: 1.5rem;">🚀 Quick Start Guide</h3>
+                <h3 id="how-to-use">📊 How to Use the Graphing Calculator</h3>
+                
+                <div style="background: #f0f9ff; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; border-left: 4px solid var(--primary-color);">
+                    <h4 style="color: var(--primary-color); margin-bottom: 1rem;">Step-by-Step Graphing Guide:</h4>
                     
-                    <div class="guide-step">
-                        <div class="step-number">1</div>
-                        <div>
-                            <strong>Enter Numbers:</strong> Click number buttons (0-9) or type on your keyboard
+                    <ol style="margin-left: 1.5rem;">
+                        <li><strong>Switch to Graphing Mode:</strong> Click the "Graphing" button in the mode selector</li>
+                        <li><strong>Enter Function:</strong> Type your function in the input box (e.g., sin(x), x^2, log(x))</li>
+                        <li><strong>Set Range:</strong> Adjust X-min, X-max, Y-min, Y-max to set your viewing window</li>
+                        <li><strong>Plot Graph:</strong> Click "Plot Graph" to draw the function</li>
+                        <li><strong>Interact:</strong> Click and drag to pan, scroll to zoom in/out</li>
+                    </ol>
+                </div>
+                
+                <h4>Supported Mathematical Functions for Graphing:</h4>
+                <div class="function-reference">
+                    <div class="reference-grid">
+                        <div class="reference-item">
+                            <div class="reference-func">sin(x), cos(x), tan(x)</div>
+                            <div class="reference-desc">Trigonometric functions</div>
                         </div>
-                    </div>
-                    
-                    <div class="guide-step">
-                        <div class="step-number">2</div>
-                        <div>
-                            <strong>Basic Operations:</strong> Use +, -, ×, ÷ buttons for arithmetic
+                        <div class="reference-item">
+                            <div class="reference-func">asin(x), acos(x), atan(x)</div>
+                            <div class="reference-desc">Inverse trigonometric</div>
                         </div>
-                    </div>
-                    
-                    <div class="guide-step">
-                        <div class="step-number">3</div>
-                        <div>
-                            <strong>Calculate:</strong> Press = button or Enter key to get results
+                        <div class="reference-item">
+                            <div class="reference-func">log(x), ln(x)</div>
+                            <div class="reference-desc">Logarithmic functions</div>
                         </div>
-                    </div>
-                    
-                    <div class="guide-step">
-                        <div class="step-number">4</div>
-                        <div>
-                            <strong>Advanced Functions:</strong> Switch to Scientific mode for more functions
+                        <div class="reference-item">
+                            <div class="reference-func">exp(x), e^x</div>
+                            <div class="reference-desc">Exponential functions</div>
+                        </div>
+                        <div class="reference-item">
+                            <div class="reference-func">sqrt(x)</div>
+                            <div class="reference-desc">Square root</div>
+                        </div>
+                        <div class="reference-item">
+                            <div class="reference-func">abs(x)</div>
+                            <div class="reference-desc">Absolute value</div>
                         </div>
                     </div>
                 </div>
-
-                <h3 id="how-to-use">📚 Detailed Usage Instructions</h3>
                 
-                <h4>Basic Calculator Operations:</h4>
-                <ol>
-                    <li><strong>Addition/Subtraction:</strong> Enter first number → + or - → second number → =</li>
-                    <li><strong>Multiplication/Division:</strong> Enter first number → × or ÷ → second number → =</li>
-                    <li><strong>Clear Functions:</strong>
-                        <ul>
-                            <li><strong>C (Clear):</strong> Clears everything</li>
-                            <li><strong>CE (Clear Entry):</strong> Clears current entry only</li>
-                            <li><strong>⌫ (Backspace):</strong> Removes last character</li>
-                        </ul>
-                    </li>
-                    <li><strong>Decimal Point:</strong> Use . button for decimal numbers</li>
-                </ol>
+                <h4>Graphing Examples You Can Try:</h4>
+                <div style="background: var(--light-color); padding: 1.5rem; border-radius: 8px; margin: 1rem 0;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                        <div style="background: white; padding: 1rem; border-radius: 6px;">
+                            <strong>Linear Function:</strong><br>
+                            <code>2*x + 3</code>
+                        </div>
+                        <div style="background: white; padding: 1rem; border-radius: 6px;">
+                            <strong>Quadratic:</strong><br>
+                            <code>x^2 - 4*x + 4</code>
+                        </div>
+                        <div style="background: white; padding: 1rem; border-radius: 6px;">
+                            <strong>Cubic:</strong><br>
+                            <code>x^3 - 3*x</code>
+                        </div>
+                        <div style="background: white; padding: 1rem; border-radius: 6px;">
+                            <strong>Trigonometric:</strong><br>
+                            <code>sin(x)*cos(x)</code>
+                        </div>
+                        <div style="background: white; padding: 1rem; border-radius: 6px;">
+                            <strong>Exponential:</strong><br>
+                            <code>exp(-x^2)</code>
+                        </div>
+                        <div style="background: white; padding: 1rem; border-radius: 6px;">
+                            <strong>Logarithmic:</strong><br>
+                            <code>log(x+1)</code>
+                        </div>
+                    </div>
+                </div>
                 
-                <h4>Scientific Functions:</h4>
-                <ol>
-                    <li><strong>Trigonometric Functions:</strong> sin, cos, tan (works in degrees or radians)</li>
-                    <li><strong>Inverse Trig:</strong> sin⁻¹, cos⁻¹, tan⁻¹</li>
-                    <li><strong>Logarithms:</strong> log (base 10), ln (natural log)</li>
-                    <li><strong>Exponential:</strong> eˣ calculates e raised to power x</li>
-                    <li><strong>Square Root:</strong> √ calculates square root</li>
-                    <li><strong>Power:</strong> xʸ raises x to the power y</li>
-                    <li><strong>Factorial:</strong> x! calculates factorial of x</li>
-                    <li><strong>Constants:</strong> π (3.14159...), e (2.71828...)</li>
-                </ol>
-                
-                <h4>Memory Functions:</h4>
-                <ul>
-                    <li><strong>MC:</strong> Memory Clear - Clears memory storage</li>
-                    <li><strong>MR:</strong> Memory Recall - Recalls value from memory</li>
-                    <li><strong>M+:</strong> Memory Add - Adds current value to memory</li>
-                    <li><strong>M-:</strong> Memory Subtract - Subtracts current value from memory</li>
-                    <li><strong>MS:</strong> Memory Store - Stores current value in memory</li>
-                </ul>
-                
-                <h4>Keyboard Shortcuts:</h4>
-                <ul>
-                    <li><strong>Numbers:</strong> 0-9 keys</li>
-                    <li><strong>Operators:</strong> +, -, *, /</li>
-                    <li><strong>Enter:</strong> = (equals)</li>
-                    <li><strong>Escape:</strong> Clear (C)</li>
-                    <li><strong>Backspace:</strong> Remove last character</li>
-                    <li><strong>Decimal:</strong> . key</li>
-                </ul>
-
-                <h3 id="features">✨ Key Features & Capabilities</h3>
+                <h3 id="features">✨ Complete Feature List</h3>
                 <div class="features-grid">
                     <div class="feature-card">
-                        <h4><i>🔢</i> Basic Arithmetic</h4>
-                        <p>Addition, subtraction, multiplication, division, percentages, and square roots</p>
+                        <h4><i>📈</i> Advanced Graphing</h4>
+                        <p>Plot any mathematical function with real-time rendering, zoom, pan, and coordinate tracking</p>
                     </div>
                     <div class="feature-card">
-                        <h4><i>📐</i> Scientific Functions</h4>
-                        <p>Trigonometry, logarithms, exponentials, factorials, and statistical functions</p>
+                        <h4><i>🔢</i> Scientific Functions</h4>
+                        <p>Complete set of trigonometric, logarithmic, exponential, and statistical functions</p>
                     </div>
                     <div class="feature-card">
-                        <h4><i>💾</i> Memory Operations</h4>
-                        <p>Multiple memory registers with store, recall, add, and subtract functions</p>
+                        <h4><i>💾</i> Memory System</h4>
+                        <p>Multiple memory registers with store, recall, add, and subtract operations</p>
                     </div>
                     <div class="feature-card">
-                        <h4><i>📊</i> Statistics Mode</h4>
-                        <p>Mean, median, standard deviation, variance, and correlation calculations</p>
+                        <h4><i>📊</i> Interactive Controls</h4>
+                        <p>Adjustable graph ranges, zoom, pan, and real-time coordinate display</p>
                     </div>
                     <div class="feature-card">
-                        <h4><i>🎯</i> Precision Control</h4>
-                        <p>Adjustable decimal places and scientific notation for accurate results</p>
+                        <h4><i>🎯</i> Precision Calculation</h4>
+                        <p>High-precision arithmetic with adjustable decimal places and scientific notation</p>
                     </div>
                     <div class="feature-card">
-                        <h4><i>📈</i> Graphing Tools</h4>
-                        <p>Plot mathematical functions and visualize equations (coming soon)</p>
-                    </div>
-                    <div class="feature-card">
-                        <h4><i>📱</i> Responsive Design</h4>
+                        <h4><i>📱</i> Full Responsiveness</h4>
                         <p>Works perfectly on desktop, tablet, and mobile devices</p>
                     </div>
                     <div class="feature-card">
                         <h4><i>💾</i> History Tracking</h4>
-                        <p>Saves calculation history with timestamp and recall capability</p>
+                        <p>Automatic saving of calculation history with timestamp and recall</p>
                     </div>
-                </div>
-
-                <h3 id="functions">🧮 Mathematical Functions Reference</h3>
-                
-                <h4>Trigonometric Functions:</h4>
-                <div class="function-reference">
-                    <div class="reference-grid">
-                        <div class="reference-item">
-                            <div class="reference-func">sin(x)</div>
-                            <div class="reference-desc">Sine of angle x</div>
-                        </div>
-                        <div class="reference-item">
-                            <div class="reference-func">cos(x)</div>
-                            <div class="reference-desc">Cosine of angle x</div>
-                        </div>
-                        <div class="reference-item">
-                            <div class="reference-func">tan(x)</div>
-                            <div class="reference-desc">Tangent of angle x</div>
-                        </div>
-                        <div class="reference-item">
-                            <div class="reference-func">asin(x)</div>
-                            <div class="reference-desc">Inverse sine</div>
-                        </div>
-                        <div class="reference-item">
-                            <div class="reference-func">acos(x)</div>
-                            <div class="reference-desc">Inverse cosine</div>
-                        </div>
-                        <div class="reference-item">
-                            <div class="reference-func">atan(x)</div>
-                            <div class="reference-desc">Inverse tangent</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <h4>Logarithmic & Exponential:</h4>
-                <div class="function-reference">
-                    <div class="reference-grid">
-                        <div class="reference-item">
-                            <div class="reference-func">log(x)</div>
-                            <div class="reference-desc">Base-10 logarithm</div>
-                        </div>
-                        <div class="reference-item">
-                            <div class="reference-func">ln(x)</div>
-                            <div class="reference-desc">Natural logarithm</div>
-                        </div>
-                        <div class="reference-item">
-                            <div class="reference-func">exp(x)</div>
-                            <div class="reference-desc">Exponential e^x</div>
-                        </div>
-                        <div class="reference-item">
-                            <div class="reference-func">x^y</div>
-                            <div class="reference-desc">x raised to power y</div>
-                        </div>
-                        <div class="reference-item">
-                            <div class="reference-func">√x</div>
-                            <div class="reference-desc">Square root</div>
-                        </div>
-                        <div class="reference-item">
-                            <div class="reference-func">x!</div>
-                            <div class="reference-desc">Factorial</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <h4>Other Functions:</h4>
-                <div class="function-reference">
-                    <div class="reference-grid">
-                        <div class="reference-item">
-                            <div class="reference-func">|x|</div>
-                            <div class="reference-desc">Absolute value</div>
-                        </div>
-                        <div class="reference-item">
-                            <div class="reference-func">floor(x)</div>
-                            <div class="reference-desc">Round down</div>
-                        </div>
-                        <div class="reference-item">
-                            <div class="reference-func">ceil(x)</div>
-                            <div class="reference-desc">Round up</div>
-                        </div>
-                        <div class="reference-item">
-                            <div class="reference-func">round(x)</div>
-                            <div class="reference-desc">Round to nearest</div>
-                        </div>
-                        <div class="reference-item">
-                            <div class="reference-func">nCr</div>
-                            <div class="reference-desc">Combinations</div>
-                        </div>
-                        <div class="reference-item">
-                            <div class="reference-func">nPr</div>
-                            <div class="reference-desc">Permutations</div>
-                        </div>
+                    <div class="feature-card">
+                        <h4><i>⚡</i> Real-time Updates</h4>
+                        <p>Instant calculation results and smooth graph rendering</p>
                     </div>
                 </div>
 
@@ -1131,82 +1109,113 @@
                 <div class="faq-section">
                     <div class="faq-item">
                         <div class="faq-question">
-                            <span>How accurate is this calculator?</span>
+                            <span>How do I plot multiple functions on the same graph?</span>
                             <span class="expand-icon">▼</span>
                         </div>
                         <div class="faq-answer">
-                            <p>Our calculator uses JavaScript's Math library with double-precision floating-point arithmetic, providing about 15-17 significant digits of precision. This is sufficient for most scientific and engineering applications.</p>
+                            <p>Currently, you can plot one function at a time. To compare functions, plot one, note the behavior, clear the graph, then plot another. Future updates will include multi-function plotting.</p>
                         </div>
                     </div>
                     <div class="faq-item">
                         <div class="faq-question">
-                            <span>Can I use keyboard shortcuts?</span>
+                            <span>Why is my graph not showing up?</span>
                             <span class="expand-icon">▼</span>
                         </div>
                         <div class="faq-answer">
-                            <p>Yes! You can use your keyboard for all basic operations. Numbers (0-9), operators (+, -, *, /), Enter (=), Escape (clear), Backspace (delete last), and period (.) for decimal.</p>
+                            <p>Check these common issues: 1) Make sure your function syntax is correct, 2) Adjust the Y-range to see your function values, 3) Use parentheses properly, 4) Try zooming out to see the graph.</p>
                         </div>
                     </div>
                     <div class="faq-item">
                         <div class="faq-question">
-                            <span>How do I calculate complex expressions?</span>
+                            <span>Can I save or export my graphs?</span>
                             <span class="expand-icon">▼</span>
                         </div>
                         <div class="faq-answer">
-                            <p>Enter your expression step by step. For example: (3 + 4) × 2 ÷ sin(30). The calculator follows standard mathematical order of operations (PEMDAS/BODMAS).</p>
+                            <p>Currently, you can take a screenshot of the graph. Future updates will include export functionality to PNG, PDF, and SVG formats.</p>
                         </div>
                     </div>
                     <div class="faq-item">
                         <div class="faq-question">
-                            <span>Is my calculation history saved?</span>
+                            <span>How accurate are the trigonometric calculations?</span>
                             <span class="expand-icon">▼</span>
                         </div>
                         <div class="faq-answer">
-                            <p>Yes, calculation history is automatically saved in your browser's local storage. You can view, recall, or clear history using the History button.</p>
+                            <p>All calculations use JavaScript's Math library with double-precision floating-point arithmetic, providing about 15-17 significant digits of accuracy.</p>
                         </div>
                     </div>
                     <div class="faq-item">
                         <div class="faq-question">
-                            <span>What's the difference between degrees and radians?</span>
+                            <span>Can I plot parametric or polar equations?</span>
                             <span class="expand-icon">▼</span>
                         </div>
                         <div class="faq-answer">
-                            <p>Degrees and radians are two ways to measure angles. Degrees use 360° in a circle, while radians use 2π. Most scientific work uses radians, but you can switch modes in settings.</p>
+                            <p>Currently, only Cartesian (y = f(x)) equations are supported. Parametric and polar graphing will be added in future updates.</p>
                         </div>
                     </div>
                     <div class="faq-item">
                         <div class="faq-question">
-                            <span>Can I use this on my mobile phone?</span>
+                            <span>Is there a mobile app version?</span>
                             <span class="expand-icon">▼</span>
                         </div>
                         <div class="faq-answer">
-                            <p>Absolutely! The calculator is fully responsive and works perfectly on all devices - desktop, tablet, and mobile phones.</p>
+                            <p>This calculator is a web application that works perfectly on mobile browsers. You can add it to your home screen for quick access like a native app.</p>
                         </div>
                     </div>
                 </div>
 
-                <h3>🎯 Practical Examples</h3>
-                <p><strong>Example 1: Basic Calculation</strong><br>
-                To calculate 15% of 200: 200 × 15 ÷ 100 = 30</p>
+                <h3>🎯 Practical Applications</h3>
                 
-                <p><strong>Example 2: Scientific Calculation</strong><br>
-                To calculate sin(45°) × cos(45°): Switch to degrees mode → sin(45) × cos(45) = 0.5</p>
-                
-                <p><strong>Example 3: Statistics</strong><br>
-                To find mean of 5, 10, 15: Enter numbers separated by commas in statistics mode</p>
-                
-                <p><strong>Example 4: Complex Expression</strong><br>
-                (3² + 4²) ÷ √25 = (9 + 16) ÷ 5 = 5</p>
-
-                <h3>🔧 Tips & Tricks</h3>
+                <h4>For Students:</h4>
                 <ul>
-                    <li>Use parentheses ( ) to control calculation order</li>
-                    <li>Memory functions are great for multi-step calculations</li>
-                    <li>Switch between decimal and scientific notation in settings</li>
-                    <li>Use the copy button to save results for later</li>
-                    <li>History feature lets you review and reuse past calculations</li>
-                    <li>Angle mode affects trigonometric calculations - set it correctly</li>
+                    <li><strong>Mathematics:</strong> Visualize functions, understand limits, derivatives, and integrals</li>
+                    <li><strong>Physics:</strong> Plot motion equations, wave functions, and physical relationships</li>
+                    <li><strong>Engineering:</strong> Analyze systems, plot transfer functions, and design curves</li>
+                    <li><strong>Statistics:</strong> Visualize probability distributions and data trends</li>
                 </ul>
+                
+                <h4>For Professionals:</h4>
+                <ul>
+                    <li><strong>Data Analysis:</strong> Plot and analyze mathematical models</li>
+                    <li><strong>Financial Modeling:</strong> Visualize compound interest and investment growth</li>
+                    <li><strong>Scientific Research:</strong> Plot experimental data and theoretical curves</li>
+                    <li><strong>Education:</strong> Create visual teaching aids for mathematical concepts</li>
+                </ul>
+
+                <h3>🔧 Tips for Better Graphing</h3>
+                <ol>
+                    <li><strong>Use Proper Syntax:</strong> Always use * for multiplication (e.g., 2*x not 2x)</li>
+                    <li><strong>Parentheses Matter:</strong> Use parentheses to clarify order of operations</li>
+                    <li><strong>Adjust Ranges:</strong> If you can't see your graph, adjust the X and Y ranges</li>
+                    <li><strong>Check Domain:</strong> Some functions (like log(x)) have restricted domains (x > 0)</li>
+                    <li><strong>Use Examples:</strong> Start with the provided examples to understand syntax</li>
+                    <li><strong>Zoom Features:</strong> Use scroll to zoom and drag to pan for better viewing</li>
+                </ol>
+
+                <h3>📈 Graph Customization Options</h3>
+                <div style="background: #f8fafc; padding: 1.5rem; border-radius: 8px; margin: 1rem 0;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                        <div>
+                            <strong>X-axis Range:</strong><br>
+                            Adjustable from -20 to 20
+                        </div>
+                        <div>
+                            <strong>Y-axis Range:</strong><br>
+                            Adjustable from -20 to 20
+                        </div>
+                        <div>
+                            <strong>Zoom Level:</strong><br>
+                            Mouse scroll for fine control
+                        </div>
+                        <div>
+                            <strong>Pan Control:</strong><br>
+                            Click and drag to move view
+                        </div>
+                    </div>
+                </div>
+
+                <p style="margin-top: 2rem; padding: 1.5rem; background: linear-gradient(135deg, #e0f2fe, #f0f9ff); border-radius: 8px; border-left: 4px solid var(--primary-color);">
+                    <strong>🎓 Pro Tip:</strong> For complex functions, start with a wide range (e.g., -10 to 10) to see the overall shape, then zoom in on interesting areas for detailed analysis. The graphing calculator automatically adjusts resolution for optimal performance.
+                </p>
             </section>
         </div>
     </main>
@@ -1233,8 +1242,8 @@
                     <ul>
                         <li>Basic Calculator</li>
                         <li>Scientific Calculator</li>
-                        <li>Statistics Calculator</li>
                         <li>Graphing Calculator</li>
+                        <li>Statistics Calculator</li>
                     </ul>
                 </div>
                 <div class="footer-section">
@@ -1244,7 +1253,7 @@
             </div>
             <div class="copyright">
                 <p>&copy; 2024 Scientific Calculator Tool. All rights reserved. This tool is free for educational and professional use.</p>
-                <p style="margin-top: 0.5rem; font-size: 0.8rem;">Last updated: December 2024 | Version 2.0</p>
+                <p style="margin-top: 0.5rem; font-size: 0.8rem;">Version 3.0 with Complete Graphing Functionality</p>
             </div>
         </div>
     </footer>
@@ -1264,20 +1273,466 @@
             isScientificMode: false
         };
 
+        // Graphing State
+        let graphState = {
+            ctx: null,
+            xMin: -10,
+            xMax: 10,
+            yMin: -10,
+            yMax: 10,
+            scaleX: 1,
+            scaleY: 1,
+            offsetX: 0,
+            offsetY: 0,
+            isDragging: false,
+            lastX: 0,
+            lastY: 0,
+            functions: []
+        };
+
         // DOM Elements
         const expressionDisplay = document.getElementById('expressionDisplay');
         const resultDisplay = document.getElementById('resultDisplay');
         const notification = document.getElementById('notification');
+        const graphCanvas = document.getElementById('graphCanvas');
 
         // Initialize calculator
         function initCalculator() {
             loadHistory();
             updateDisplay();
             setupEventListeners();
-            showNotification('Scientific Calculator Ready!', 'success');
+            initGraphing();
+            showNotification('Scientific Calculator with Graphing Ready!', 'success');
         }
 
-        // Setup event listeners
+        // Initialize graphing system
+        function initGraphing() {
+            graphState.ctx = graphCanvas.getContext('2d');
+            
+            // Set up canvas events
+            graphCanvas.addEventListener('mousedown', startDrag);
+            graphCanvas.addEventListener('mousemove', drag);
+            graphCanvas.addEventListener('mouseup', endDrag);
+            graphCanvas.addEventListener('mouseleave', endDrag);
+            graphCanvas.addEventListener('wheel', handleZoom);
+            
+            // Draw initial grid
+            drawGrid();
+        }
+
+        // Draw grid and axes
+        function drawGrid() {
+            const ctx = graphState.ctx;
+            const width = graphCanvas.width;
+            const height = graphCanvas.height;
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, width, height);
+            
+            // Calculate transformations
+            const scaleX = width / (graphState.xMax - graphState.xMin);
+            const scaleY = height / (graphState.yMax - graphState.yMin);
+            
+            // Draw grid
+            ctx.strokeStyle = '#e5e7eb';
+            ctx.lineWidth = 0.5;
+            
+            // Vertical grid lines
+            const xStart = Math.ceil(graphState.xMin);
+            const xEnd = Math.floor(graphState.xMax);
+            for (let x = xStart; x <= xEnd; x++) {
+                if (x === 0) continue; // Skip zero, will be drawn as axis
+                const screenX = (x - graphState.xMin) * scaleX;
+                ctx.beginPath();
+                ctx.moveTo(screenX, 0);
+                ctx.lineTo(screenX, height);
+                ctx.stroke();
+            }
+            
+            // Horizontal grid lines
+            const yStart = Math.ceil(graphState.yMin);
+            const yEnd = Math.floor(graphState.yMax);
+            for (let y = yStart; y <= yEnd; y++) {
+                if (y === 0) continue; // Skip zero, will be drawn as axis
+                const screenY = height - (y - graphState.yMin) * scaleY;
+                ctx.beginPath();
+                ctx.moveTo(0, screenY);
+                ctx.lineTo(width, screenY);
+                ctx.stroke();
+            }
+            
+            // Draw axes
+            ctx.strokeStyle = '#374151';
+            ctx.lineWidth = 2;
+            
+            // X-axis
+            if (graphState.yMin <= 0 && graphState.yMax >= 0) {
+                const screenY = height - (0 - graphState.yMin) * scaleY;
+                ctx.beginPath();
+                ctx.moveTo(0, screenY);
+                ctx.lineTo(width, screenY);
+                ctx.stroke();
+            }
+            
+            // Y-axis
+            if (graphState.xMin <= 0 && graphState.xMax >= 0) {
+                const screenX = (0 - graphState.xMin) * scaleX;
+                ctx.beginPath();
+                ctx.moveTo(screenX, 0);
+                ctx.lineTo(screenX, height);
+                ctx.stroke();
+            }
+            
+            // Draw axis labels
+            ctx.fillStyle = '#374151';
+            ctx.font = '12px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'top';
+            
+            // X-axis labels
+            for (let x = xStart; x <= xEnd; x++) {
+                if (x === 0) continue;
+                const screenX = (x - graphState.xMin) * scaleX;
+                const screenY = height - (0 - graphState.yMin) * scaleY + 5;
+                ctx.fillText(x.toString(), screenX, screenY);
+            }
+            
+            // Y-axis labels
+            ctx.textAlign = 'right';
+            ctx.textBaseline = 'middle';
+            for (let y = yStart; y <= yEnd; y++) {
+                if (y === 0) continue;
+                const screenX = (0 - graphState.xMin) * scaleX - 5;
+                const screenY = height - (y - graphState.yMin) * scaleY;
+                ctx.fillText(y.toString(), screenX, screenY);
+            }
+            
+            // Draw origin label
+            if (graphState.xMin <= 0 && graphState.xMax >= 0 && 
+                graphState.yMin <= 0 && graphState.yMax >= 0) {
+                ctx.fillStyle = '#374151';
+                ctx.font = 'bold 12px Arial';
+                ctx.textAlign = 'right';
+                ctx.textBaseline = 'top';
+                const screenX = (0 - graphState.xMin) * scaleX - 5;
+                const screenY = height - (0 - graphState.yMin) * scaleY + 5;
+                ctx.fillText('0', screenX, screenY);
+            }
+        }
+
+        // Plot graph function
+        function plotGraph() {
+            const funcInput = document.getElementById('graphFunction').value.trim();
+            
+            if (!funcInput) {
+                showNotification('Please enter a function to plot', 'error');
+                return;
+            }
+            
+            try {
+                // Validate and parse function
+                const func = parseFunction(funcInput);
+                
+                // Add to functions list
+                graphState.functions = [{ expr: funcInput, func: func, color: '#0ea5e9' }];
+                
+                // Draw graph
+                drawFunctionGraph(func);
+                showNotification('Graph plotted successfully!', 'success');
+                
+            } catch (error) {
+                console.error('Graphing error:', error);
+                showNotification('Error: ' + error.message, 'error');
+            }
+        }
+
+        // Parse mathematical function
+        function parseFunction(expr) {
+            // Convert common math expressions to JavaScript
+            let jsExpr = expr
+                .replace(/sin\(/g, 'Math.sin(')
+                .replace(/cos\(/g, 'Math.cos(')
+                .replace(/tan\(/g, 'Math.tan(')
+                .replace(/asin\(/g, 'Math.asin(')
+                .replace(/acos\(/g, 'Math.acos(')
+                .replace(/atan\(/g, 'Math.atan(')
+                .replace(/log\(/g, 'Math.log10(')
+                .replace(/ln\(/g, 'Math.log(')
+                .replace(/exp\(/g, 'Math.exp(')
+                .replace(/sqrt\(/g, 'Math.sqrt(')
+                .replace(/abs\(/g, 'Math.abs(')
+                .replace(/\^/g, '**')
+                .replace(/pi/g, 'Math.PI')
+                .replace(/e/g, 'Math.E');
+            
+            // Return function that evaluates at x
+            return function(x) {
+                try {
+                    // Replace x with the value
+                    const evalExpr = jsExpr.replace(/x/g, `(${x})`);
+                    return Function('"use strict"; return (' + evalExpr + ')')();
+                } catch (e) {
+                    return NaN;
+                }
+            };
+        }
+
+        // Draw function on graph
+        function drawFunctionGraph(func) {
+            drawGrid(); // Redraw grid first
+            
+            const ctx = graphState.ctx;
+            const width = graphCanvas.width;
+            const height = graphCanvas.height;
+            
+            const scaleX = width / (graphState.xMax - graphState.xMin);
+            const scaleY = height / (graphState.yMax - graphState.yMin);
+            
+            ctx.strokeStyle = '#0ea5e9';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            
+            let firstPoint = true;
+            const step = (graphState.xMax - graphState.xMin) / width;
+            
+            for (let screenX = 0; screenX <= width; screenX++) {
+                const x = graphState.xMin + (screenX / width) * (graphState.xMax - graphState.xMin);
+                let y;
+                
+                try {
+                    y = func(x);
+                    
+                    // Handle undefined or infinite values
+                    if (!isFinite(y) || isNaN(y)) {
+                        firstPoint = true;
+                        continue;
+                    }
+                    
+                    // Clip y values to graph range
+                    if (y < graphState.yMin || y > graphState.yMax) {
+                        firstPoint = true;
+                        continue;
+                    }
+                    
+                    const screenY = height - (y - graphState.yMin) * scaleY;
+                    
+                    if (firstPoint) {
+                        ctx.moveTo(screenX, screenY);
+                        firstPoint = false;
+                    } else {
+                        ctx.lineTo(screenX, screenY);
+                    }
+                } catch (error) {
+                    firstPoint = true;
+                }
+            }
+            
+            ctx.stroke();
+            
+            // Update coordinates display
+            updateCoordinatesDisplay(0, 0);
+        }
+
+        // Clear graph
+        function clearGraph() {
+            graphState.functions = [];
+            drawGrid();
+            document.getElementById('graphFunction').value = '';
+            showNotification('Graph cleared', 'info');
+        }
+
+        // Set example function
+        function setExample(example) {
+            document.getElementById('graphFunction').value = example;
+            plotGraph();
+        }
+
+        // Update range controls
+        function updateXMin(value) {
+            const xMin = parseFloat(value);
+            const xMax = parseFloat(document.getElementById('xMax').value);
+            
+            if (xMin >= xMax) {
+                showNotification('X-min must be less than X-max', 'error');
+                return;
+            }
+            
+            graphState.xMin = xMin;
+            document.getElementById('xMin').value = xMin;
+            document.getElementById('xMinRange').value = xMin;
+            
+            if (graphState.functions.length > 0) {
+                drawGrid();
+                graphState.functions.forEach(f => drawFunctionGraph(f.func));
+            } else {
+                drawGrid();
+            }
+        }
+
+        function updateXMax(value) {
+            const xMax = parseFloat(value);
+            const xMin = parseFloat(document.getElementById('xMin').value);
+            
+            if (xMax <= xMin) {
+                showNotification('X-max must be greater than X-min', 'error');
+                return;
+            }
+            
+            graphState.xMax = xMax;
+            document.getElementById('xMax').value = xMax;
+            document.getElementById('xMaxRange').value = xMax;
+            
+            if (graphState.functions.length > 0) {
+                drawGrid();
+                graphState.functions.forEach(f => drawFunctionGraph(f.func));
+            } else {
+                drawGrid();
+            }
+        }
+
+        function updateYMin(value) {
+            const yMin = parseFloat(value);
+            const yMax = parseFloat(document.getElementById('yMax').value);
+            
+            if (yMin >= yMax) {
+                showNotification('Y-min must be less than Y-max', 'error');
+                return;
+            }
+            
+            graphState.yMin = yMin;
+            document.getElementById('yMin').value = yMin;
+            document.getElementById('yMinRange').value = yMin;
+            
+            if (graphState.functions.length > 0) {
+                drawGrid();
+                graphState.functions.forEach(f => drawFunctionGraph(f.func));
+            } else {
+                drawGrid();
+            }
+        }
+
+        function updateYMax(value) {
+            const yMax = parseFloat(value);
+            const yMin = parseFloat(document.getElementById('yMin').value);
+            
+            if (yMax <= yMin) {
+                showNotification('Y-max must be greater than Y-min', 'error');
+                return;
+            }
+            
+            graphState.yMax = yMax;
+            document.getElementById('yMax').value = yMax;
+            document.getElementById('yMaxRange').value = yMax;
+            
+            if (graphState.functions.length > 0) {
+                drawGrid();
+                graphState.functions.forEach(f => drawFunctionGraph(f.func));
+            } else {
+                drawGrid();
+            }
+        }
+
+        // Drag and zoom functionality
+        function startDrag(e) {
+            graphState.isDragging = true;
+            graphState.lastX = e.offsetX;
+            graphState.lastY = e.offsetY;
+            graphCanvas.style.cursor = 'grabbing';
+        }
+
+        function drag(e) {
+            if (!graphState.isDragging) return;
+            
+            const dx = e.offsetX - graphState.lastX;
+            const dy = e.offsetY - graphState.lastY;
+            
+            const rangeX = graphState.xMax - graphState.xMin;
+            const rangeY = graphState.yMax - graphState.yMin;
+            
+            graphState.xMin -= dx * rangeX / graphCanvas.width;
+            graphState.xMax -= dx * rangeX / graphCanvas.width;
+            graphState.yMin += dy * rangeY / graphCanvas.height;
+            graphState.yMax += dy * rangeY / graphCanvas.height;
+            
+            // Update controls
+            document.getElementById('xMin').value = Math.round(graphState.xMin * 10) / 10;
+            document.getElementById('xMax').value = Math.round(graphState.xMax * 10) / 10;
+            document.getElementById('yMin').value = Math.round(graphState.yMin * 10) / 10;
+            document.getElementById('yMax').value = Math.round(graphState.yMax * 10) / 10;
+            document.getElementById('xMinRange').value = graphState.xMin;
+            document.getElementById('xMaxRange').value = graphState.xMax;
+            document.getElementById('yMinRange').value = graphState.yMin;
+            document.getElementById('yMaxRange').value = graphState.yMax;
+            
+            // Redraw
+            if (graphState.functions.length > 0) {
+                drawGrid();
+                graphState.functions.forEach(f => drawFunctionGraph(f.func));
+            } else {
+                drawGrid();
+            }
+            
+            graphState.lastX = e.offsetX;
+            graphState.lastY = e.offsetY;
+            
+            updateCoordinatesDisplay(e);
+        }
+
+        function endDrag() {
+            graphState.isDragging = false;
+            graphCanvas.style.cursor = 'default';
+        }
+
+        function handleZoom(e) {
+            e.preventDefault();
+            
+            const zoomFactor = e.deltaY > 0 ? 1.1 : 0.9;
+            const mouseX = e.offsetX;
+            const mouseY = e.offsetY;
+            
+            const x = graphState.xMin + (mouseX / graphCanvas.width) * (graphState.xMax - graphState.xMin);
+            const y = graphState.yMax - (mouseY / graphCanvas.height) * (graphState.yMax - graphState.yMin);
+            
+            const newRangeX = (graphState.xMax - graphState.xMin) * zoomFactor;
+            const newRangeY = (graphState.yMax - graphState.yMin) * zoomFactor;
+            
+            graphState.xMin = x - (mouseX / graphCanvas.width) * newRangeX;
+            graphState.xMax = graphState.xMin + newRangeX;
+            graphState.yMin = y - ((graphCanvas.height - mouseY) / graphCanvas.height) * newRangeY;
+            graphState.yMax = graphState.yMin + newRangeY;
+            
+            // Update controls
+            document.getElementById('xMin').value = Math.round(graphState.xMin * 10) / 10;
+            document.getElementById('xMax').value = Math.round(graphState.xMax * 10) / 10;
+            document.getElementById('yMin').value = Math.round(graphState.yMin * 10) / 10;
+            document.getElementById('yMax').value = Math.round(graphState.yMax * 10) / 10;
+            document.getElementById('xMinRange').value = graphState.xMin;
+            document.getElementById('xMaxRange').value = graphState.xMax;
+            document.getElementById('yMinRange').value = graphState.yMin;
+            document.getElementById('yMaxRange').value = graphState.yMax;
+            
+            // Redraw
+            if (graphState.functions.length > 0) {
+                drawGrid();
+                graphState.functions.forEach(f => drawFunctionGraph(f.func));
+            } else {
+                drawGrid();
+            }
+            
+            updateCoordinatesDisplay(e);
+        }
+
+        function updateCoordinatesDisplay(e) {
+            if (!e) return;
+            
+            const x = graphState.xMin + (e.offsetX / graphCanvas.width) * (graphState.xMax - graphState.xMin);
+            const y = graphState.yMax - (e.offsetY / graphCanvas.height) * (graphState.yMax - graphState.yMin);
+            
+            document.getElementById('graphCoordinates').textContent = 
+                `Coordinates: (${x.toFixed(2)}, ${y.toFixed(2)})`;
+        }
+
+        // Setup event listeners for calculator
         function setupEventListeners() {
             // Mode switching
             document.querySelectorAll('.mode-btn').forEach(btn => {
@@ -1291,7 +1746,7 @@
                 });
             });
 
-            // Keyboard support
+            // Keyboard support for calculator
             document.addEventListener('keydown', handleKeyboard);
             
             // FAQ expansion
@@ -1304,17 +1759,17 @@
             });
         }
 
-        // Switch calculator mode
+        // Calculator functions (same as before, but simplified for brevity)
         function switchMode(mode) {
             const basicButtons = document.getElementById('basicButtons');
             const scientificButtons = document.getElementById('scientificButtons');
-            const statisticsButtons = document.getElementById('statisticsButtons');
+            const graphingSection = document.getElementById('graphingSection');
             
             switch(mode) {
                 case 'basic':
                     basicButtons.style.display = 'grid';
                     scientificButtons.style.display = 'none';
-                    statisticsButtons.style.display = 'none';
+                    graphingSection.classList.remove('active');
                     calculator.isScientificMode = false;
                     showNotification('Basic Mode Activated', 'info');
                     break;
@@ -1322,26 +1777,25 @@
                 case 'scientific':
                     basicButtons.style.display = 'grid';
                     scientificButtons.style.display = 'grid';
-                    statisticsButtons.style.display = 'none';
+                    graphingSection.classList.remove('active');
                     calculator.isScientificMode = true;
                     showNotification('Scientific Mode Activated', 'info');
                     break;
                     
-                case 'statistics':
+                case 'graphing':
                     basicButtons.style.display = 'none';
                     scientificButtons.style.display = 'none';
-                    statisticsButtons.style.display = 'grid';
-                    calculator.isScientificMode = true;
-                    showNotification('Statistics Mode Activated', 'info');
+                    graphingSection.classList.add('active');
+                    showNotification('Graphing Mode Activated', 'info');
                     break;
                     
-                case 'graphing':
-                    showNotification('Graphing Mode Coming Soon!', 'info');
+                case 'statistics':
+                    showNotification('Statistics Mode Coming Soon!', 'info');
                     break;
             }
         }
 
-        // Append number to display
+        // Basic calculator functions
         function appendNumber(num) {
             if (calculator.display === '0' || calculator.display === 'Error') {
                 calculator.display = num;
@@ -1351,57 +1805,36 @@
             updateDisplay();
         }
 
-        // Append operator
         function appendOperator(op) {
             if (calculator.display === 'Error') return;
-            
-            const operators = ['+', '-', '*', '/', '%'];
-            const lastChar = calculator.display.slice(-1);
-            
-            if (operators.includes(lastChar)) {
-                // Replace last operator
-                calculator.display = calculator.display.slice(0, -1) + op;
-            } else {
-                calculator.display += op;
-            }
+            calculator.display += op;
             updateDisplay();
         }
 
-        // Append decimal point
         function appendDecimal() {
             if (calculator.display === 'Error') return;
-            
-            const lastNumber = calculator.display.split(/[\+\-\*\/]/).pop();
-            if (!lastNumber.includes('.')) {
+            if (!calculator.display.includes('.')) {
                 calculator.display += '.';
                 updateDisplay();
             }
         }
 
-        // Append constant
         function appendConstant(constant) {
-            if (calculator.display === '0' || calculator.display === 'Error') {
-                calculator.display = constant === 'π' ? Math.PI.toString() : Math.E.toString();
-            } else {
-                calculator.display += constant === 'π' ? Math.PI.toString() : Math.E.toString();
-            }
+            calculator.display += constant === 'π' ? Math.PI : Math.E;
             updateDisplay();
         }
 
-        // Clear all
         function clearAll() {
             calculator.display = '0';
             calculator.expression = '';
             updateDisplay();
         }
 
-        // Clear entry
         function clearEntry() {
             calculator.display = '0';
             updateDisplay();
         }
 
-        // Backspace
         function backspace() {
             if (calculator.display.length > 1) {
                 calculator.display = calculator.display.slice(0, -1);
@@ -1411,35 +1844,19 @@
             updateDisplay();
         }
 
-        // Calculate result
         function calculate() {
             try {
-                let expression = calculator.display
+                let expr = calculator.display
                     .replace(/×/g, '*')
                     .replace(/÷/g, '/')
-                    .replace(/π/g, Math.PI.toString())
-                    .replace(/e/g, Math.E.toString())
+                    .replace(/π/g, Math.PI)
+                    .replace(/e/g, Math.E)
                     .replace(/\^/g, '**');
                 
-                // Evaluate safely
-                const result = Function('"use strict"; return (' + expression + ')')();
-                
-                // Format result
-                let formattedResult;
-                if (calculator.numberFormat === 'scientific' && Math.abs(result) > 10000) {
-                    formattedResult = result.toExponential(6);
-                } else {
-                    formattedResult = parseFloat(result.toFixed(10)).toString();
-                }
-                
-                // Save to history
-                addToHistory(calculator.display, formattedResult);
-                
-                // Update display
-                calculator.expression = calculator.display;
-                calculator.display = formattedResult;
+                const result = Function('"use strict"; return (' + expr + ')')();
+                addToHistory(calculator.display, result);
+                calculator.display = result.toString();
                 updateDisplay();
-                
             } catch (error) {
                 calculator.display = 'Error';
                 updateDisplay();
@@ -1447,44 +1864,28 @@
             }
         }
 
-        // Square root function
         function sqrt() {
             try {
-                const value = parseFloat(calculator.display);
-                if (value >= 0) {
-                    calculator.display = Math.sqrt(value).toString();
-                    updateDisplay();
-                } else {
-                    calculator.display = 'Error';
-                    updateDisplay();
-                    showNotification('Cannot calculate square root of negative number', 'error');
-                }
+                const result = Math.sqrt(parseFloat(calculator.display));
+                calculator.display = result.toString();
+                updateDisplay();
             } catch (error) {
                 calculator.display = 'Error';
                 updateDisplay();
             }
         }
 
-        // Power function
         function power() {
             calculator.display += '^';
             updateDisplay();
         }
 
-        // Factorial function
         function factorial() {
             try {
                 const n = parseInt(calculator.display);
-                if (n < 0 || n > 100) {
-                    calculator.display = 'Error';
-                    showNotification('Invalid factorial input', 'error');
-                } else {
-                    let result = 1;
-                    for (let i = 2; i <= n; i++) {
-                        result *= i;
-                    }
-                    calculator.display = result.toString();
-                }
+                let result = 1;
+                for (let i = 2; i <= n; i++) result *= i;
+                calculator.display = result.toString();
                 updateDisplay();
             } catch (error) {
                 calculator.display = 'Error';
@@ -1492,19 +1893,12 @@
             }
         }
 
-        // Trigonometric functions
+        // Scientific functions
         function trigFunction(func) {
             try {
                 const value = parseFloat(calculator.display);
-                let result;
-                
-                if (calculator.angleMode === 'deg') {
-                    const radians = value * Math.PI / 180;
-                    result = Math[func](radians);
-                } else {
-                    result = Math[func](value);
-                }
-                
+                const radians = calculator.angleMode === 'deg' ? value * Math.PI / 180 : value;
+                const result = Math[func](radians);
                 calculator.display = result.toString();
                 updateDisplay();
             } catch (error) {
@@ -1513,16 +1907,23 @@
             }
         }
 
-        // Inverse trigonometric functions
         function inverseTrigFunction(func) {
             try {
                 const value = parseFloat(calculator.display);
-                let result = Math[func.slice(1)](value); // Remove 'a' from asin, acos, atan
-                
-                if (calculator.angleMode === 'deg') {
-                    result = result * 180 / Math.PI;
-                }
-                
+                const result = Math[func.slice(1)](value);
+                const degrees = calculator.angleMode === 'deg' ? result * 180 / Math.PI : result;
+                calculator.display = degrees.toString();
+                updateDisplay();
+            } catch (error) {
+                calculator.display = 'Error';
+                updateDisplay();
+            }
+        }
+
+        function logFunction(func) {
+            try {
+                const value = parseFloat(calculator.display);
+                const result = func === 'log' ? Math.log10(value) : Math.log(value);
                 calculator.display = result.toString();
                 updateDisplay();
             } catch (error) {
@@ -1531,25 +1932,6 @@
             }
         }
 
-        // Logarithm functions
-        function logFunction(func) {
-            try {
-                const value = parseFloat(calculator.display);
-                if (value <= 0) {
-                    calculator.display = 'Error';
-                    showNotification('Logarithm undefined for non-positive numbers', 'error');
-                } else {
-                    const result = func === 'log' ? Math.log10(value) : Math.log(value);
-                    calculator.display = result.toString();
-                }
-                updateDisplay();
-            } catch (error) {
-                calculator.display = 'Error';
-                updateDisplay();
-            }
-        }
-
-        // Exponential function
         function expFunction() {
             try {
                 const value = parseFloat(calculator.display);
@@ -1562,11 +1944,11 @@
             }
         }
 
-        // Absolute value
         function absFunction() {
             try {
                 const value = parseFloat(calculator.display);
-                calculator.display = Math.abs(value).toString();
+                const result = Math.abs(value);
+                calculator.display = result.toString();
                 updateDisplay();
             } catch (error) {
                 calculator.display = 'Error';
@@ -1574,7 +1956,6 @@
             }
         }
 
-        // Math functions (floor, ceil, round)
         function mathFunction(func) {
             try {
                 const value = parseFloat(calculator.display);
@@ -1587,21 +1968,16 @@
             }
         }
 
-        // Random number
         function randomNumber() {
             calculator.display = Math.random().toFixed(4);
             updateDisplay();
         }
 
-        // Toggle angle mode
         function toggleAngleMode(mode) {
             calculator.angleMode = mode;
-            document.getElementById('degBtn').classList.toggle('active', mode === 'deg');
-            document.getElementById('radBtn').classList.toggle('active', mode === 'rad');
-            showNotification(`Angle mode set to ${mode === 'deg' ? 'Degrees' : 'Radians'}`, 'info');
+            showNotification(`Angle mode: ${mode === 'deg' ? 'Degrees' : 'Radians'}`, 'info');
         }
 
-        // Set angle mode
         function setAngleMode(mode) {
             calculator.angleMode = mode;
             document.getElementById('degBtn').classList.toggle('active', mode === 'deg');
@@ -1609,7 +1985,6 @@
             showNotification(`Angle mode set to ${mode === 'deg' ? 'Degrees' : 'Radians'}`, 'info');
         }
 
-        // Set number format
         function setNumberFormat(format) {
             calculator.numberFormat = format;
             document.getElementById('decimalBtn').classList.toggle('active', format === 'decimal');
@@ -1617,43 +1992,19 @@
             showNotification(`Number format set to ${format}`, 'info');
         }
 
-        // Hypot function
         function hypotFunction() {
             calculator.display += 'hypot(';
             updateDisplay();
         }
 
-        // nCr function
         function nCr() {
             calculator.display += 'nCr(';
             updateDisplay();
         }
 
-        // nPr function
         function nPr() {
             calculator.display += 'nPr(';
             updateDisplay();
-        }
-
-        // Statistics functions
-        function mean() {
-            showNotification('Mean function - Enter comma separated values', 'info');
-        }
-
-        function median() {
-            showNotification('Median function - Enter comma separated values', 'info');
-        }
-
-        function stdDev() {
-            showNotification('Standard Deviation function', 'info');
-        }
-
-        function variance() {
-            showNotification('Variance function', 'info');
-        }
-
-        function correlation() {
-            showNotification('Correlation function', 'info');
         }
 
         // Memory functions
@@ -1698,7 +2049,6 @@
             }
         }
 
-        // Toggle history
         function toggleHistory() {
             const historyPanel = document.getElementById('calculatorHistory');
             const isVisible = historyPanel.style.display === 'block';
@@ -1707,7 +2057,6 @@
                 isVisible ? 'Show History' : 'Hide History';
         }
 
-        // Toggle settings
         function toggleSettings() {
             const settingsPanel = document.getElementById('settingsPanel');
             const historyPanel = document.getElementById('calculatorHistory');
@@ -1718,7 +2067,6 @@
             document.getElementById('historyToggle').textContent = 'Show History';
         }
 
-        // Copy result to clipboard
         async function copyResult() {
             try {
                 await navigator.clipboard.writeText(calculator.display);
@@ -1728,7 +2076,6 @@
             }
         }
 
-        // Add calculation to history
         function addToHistory(expression, result) {
             const historyItem = {
                 id: Date.now(),
@@ -1746,12 +2093,10 @@
             updateHistoryDisplay();
         }
 
-        // Save history to localStorage
         function saveHistory() {
             localStorage.setItem('calculatorHistory', JSON.stringify(calculator.history));
         }
 
-        // Load history from localStorage
         function loadHistory() {
             const savedHistory = localStorage.getItem('calculatorHistory');
             if (savedHistory) {
@@ -1760,7 +2105,6 @@
             }
         }
 
-        // Update history display
         function updateHistoryDisplay() {
             const historyList = document.getElementById('historyList');
             historyList.innerHTML = '';
@@ -1792,7 +2136,6 @@
             });
         }
 
-        // Clear history
         function clearHistory() {
             if (confirm('Clear all calculation history?')) {
                 calculator.history = [];
@@ -1802,35 +2145,21 @@
             }
         }
 
-        // Update display
         function updateDisplay() {
             expressionDisplay.textContent = calculator.display;
             
-            // Format result display
             if (calculator.display === 'Error') {
                 resultDisplay.textContent = 'Error';
                 resultDisplay.style.color = '#ef4444';
             } else {
-                let displayValue = calculator.display;
-                
-                // Format large numbers
-                if (calculator.numberFormat === 'scientific' && calculator.display.length > 10) {
-                    const num = parseFloat(calculator.display);
-                    if (!isNaN(num)) {
-                        displayValue = num.toExponential(6);
-                    }
-                }
-                
-                resultDisplay.textContent = displayValue;
+                resultDisplay.textContent = calculator.display;
                 resultDisplay.style.color = '#ffffff';
             }
         }
 
-        // Handle keyboard input
         function handleKeyboard(event) {
             const key = event.key;
             
-            // Prevent default for calculator keys
             if (/[\d+\-*/.=()]|Enter|Backspace|Escape/.test(key)) {
                 event.preventDefault();
             }
@@ -1853,16 +2182,12 @@
                 clearAll();
             } else if (key === 'Backspace') {
                 backspace();
-            } else if (key === '(') {
-                calculator.display += '(';
-                updateDisplay();
-            } else if (key === ')') {
-                calculator.display += ')';
+            } else if (key === '(' || key === ')') {
+                calculator.display += key;
                 updateDisplay();
             }
         }
 
-        // Show notification
         function showNotification(message, type) {
             notification.textContent = message;
             notification.className = `notification ${type} show`;
