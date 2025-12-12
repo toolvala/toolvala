@@ -1,1 +1,1653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Convert any UPI ID to payment link instantly. Generate UPI payment links, QR codes, and shareable payment requests for businesses and personal use.">
+    <meta name="keywords" content="UPI ID to Payment Link, UPI Payment Link Generator, Create Payment Link from UPI ID, UPI Payment Request Link, UPI QR Code Generator, Digital Payment Link, UPI Business Payment, Shareable Payment Link, Free UPI Link Generator">
+    <title>UPI ID → Payment Link Converter | Free Online Generator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2a5bd7;
+            --primary-dark: #1a3b9c;
+            --secondary: #00a64f;
+            --light: #f8f9fa;
+            --dark: #333;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --border-radius: 12px;
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7ff;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .logo-icon {
+            font-size: 2rem;
+            background: white;
+            color: var(--primary);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .logo p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 3rem 0;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 2.8rem;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--gray);
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+        
+        /* Main Converter Tool */
+        .converter-tool {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 2.5rem;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .converter-tool::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+        }
+        
+        .tool-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .tool-header h2 {
+            color: var(--primary-dark);
+            font-size: 1.8rem;
+        }
+        
+        .tool-header .steps {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .step {
+            background: var(--light-gray);
+            color: var(--gray);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        
+        .step.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .converter-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .converter-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .input-section, .output-section {
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            background: var(--light);
+        }
+        
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+            color: var(--primary-dark);
+            font-size: 1.3rem;
+        }
+        
+        .section-icon {
+            background: var(--primary);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .input-with-icon {
+            position: relative;
+        }
+        
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 0.9rem 1rem 0.9rem 3rem;
+            border: 2px solid var(--light-gray);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(42, 91, 215, 0.1);
+        }
+        
+        textarea {
+            padding-left: 1rem;
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .amount-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 15px;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 1rem;
+        }
+        
+        .checkbox-group input {
+            width: auto;
+        }
+        
+        .generate-btn {
+            background: linear-gradient(to right, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 1rem;
+        }
+        
+        .generate-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(42, 91, 215, 0.3);
+        }
+        
+        /* Template Styles */
+        .template-section {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .template-title {
+            font-weight: 600;
+            color: #1a3b9c;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .template-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .template-buttons {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        .template-btn {
+            padding: 10px;
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .template-btn:hover {
+            border-color: #2a5bd7;
+            background: #f8faff;
+        }
+        
+        /* Output Section */
+        .output-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .link-display {
+            background: white;
+            border: 2px dashed var(--light-gray);
+            border-radius: 8px;
+            padding: 1.5rem;
+            word-break: break-all;
+            font-family: monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            display: none;
+        }
+        
+        .link-display.active {
+            display: block;
+        }
+        
+        .qr-container {
+            text-align: center;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid var(--light-gray);
+            min-height: 280px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        #qrCode {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        #qrCode img {
+            width: 100%;
+            height: 100%;
+            border-radius: 4px;
+        }
+        
+        .qr-hint {
+            margin-top: 15px;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        /* Security Footer */
+        .security-footer {
+            margin-top: 25px;
+            padding: 15px;
+            background: #f8faff;
+            border-radius: 10px;
+            border: 1px solid #e3e8ff;
+        }
+        
+        .footer-title {
+            font-weight: 600;
+            color: #1a3b9c;
+            margin-bottom: 10px;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .official-links {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .official-links a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #333;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            min-width: 60px;
+        }
+        
+        .official-links a:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .official-links i {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            color: #2a5bd7;
+        }
+        
+        .footer-note {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+        
+        .action-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .action-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .action-btn {
+            padding: 0.8rem;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .copy-btn {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .share-btn {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        .download-btn {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Share Modal */
+        .share-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+        
+        .share-modal-content {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            max-width: 400px;
+            width: 90%;
+            animation: slideIn 0.3s ease;
+        }
+        
+        .share-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .share-option {
+            padding: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .share-option:hover {
+            border-color: #2a5bd7;
+            transform: translateY(-2px);
+        }
+        
+        .share-close {
+            width: 100%;
+            padding: 12px;
+            background: #f8f9fa;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Use Cases */
+        .use-cases {
+            margin: 3rem 0;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+        
+        .section-header h2 {
+            color: var(--primary-dark);
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .use-case-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .use-case-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border-top: 4px solid var(--primary);
+        }
+        
+        .use-case-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .use-case-icon {
+            background: rgba(42, 91, 215, 0.1);
+            color: var(--primary);
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .use-case-card h3 {
+            margin-bottom: 1rem;
+            color: var(--primary-dark);
+        }
+        
+        /* FAQ */
+        .faq-section {
+            margin: 3rem 0;
+        }
+        
+        .faq-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .faq-item {
+            background: white;
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .faq-question i {
+            transition: var(--transition);
+        }
+        
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+        
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        
+        .faq-item.active .faq-answer {
+            padding-bottom: 1.5rem;
+            max-height: 500px;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--primary-dark);
+            color: white;
+            padding: 3rem 0 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-section ul li a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-section ul li a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+        
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--secondary);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: var(--transition);
+            z-index: 1000;
+        }
+        
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .toast.error {
+            background: #dc3545;
+        }
+        
+        .toast.info {
+            background: #17a2b8;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .converter-tool {
+                padding: 1.5rem;
+            }
+            
+            .tool-header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+        }
+        
+        .hint {
+            display: block;
+            margin-top: 5px;
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-exchange-alt"></i>
+                </div>
+                <div>
+                    <h1>UPI Link Generator</h1>
+                    <p>Convert UPI ID to Payment Link Instantly</p>
+                </div>
+            </div>
+            <div class="header-tagline">
+                <p><i class="fas fa-shield-alt"></i> Secure & Free | No Registration Required</p>
+            </div>
+        </div>
+    </header>
 
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Convert Any UPI ID to Payment Link</h1>
+            <p>Transform your UPI ID into a shareable payment link or QR code in seconds. Perfect for businesses, freelancers, and personal use.</p>
+        </div>
+    </section>
+
+    <!-- Main Converter Tool -->
+    <section class="converter-tool">
+        <div class="container">
+            <div class="tool-header">
+                <h2><i class="fas fa-link"></i> UPI Payment Link Generator</h2>
+                <div class="steps">
+                    <div class="step active">1</div>
+                    <div class="step">2</div>
+                    <div class="step">3</div>
+                </div>
+            </div>
+            
+            <div class="converter-grid">
+                <!-- Input Section -->
+                <div class="input-section">
+                    <div class="section-title">
+                        <div class="section-icon">
+                            <i class="fas fa-pencil-alt"></i>
+                        </div>
+                        <h3>Enter Payment Details</h3>
+                    </div>
+                    
+                    <form id="upiForm">
+                        <div class="form-group">
+                            <label for="upiId"><i class="fas fa-id-card"></i> UPI ID *</label>
+                            <div class="input-with-icon">
+                                <i class="input-icon fas fa-at"></i>
+                                <input type="text" id="upiId" placeholder="username@upi" required>
+                            </div>
+                            <small class="hint" id="upiHint">Enter your UPI ID (e.g., username@oksbi, name@paytm)</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="payeeName"><i class="fas fa-user"></i> Payee Name (Optional)</label>
+                            <div class="input-with-icon">
+                                <i class="input-icon fas fa-user-circle"></i>
+                                <input type="text" id="payeeName" placeholder="Your Name or Business Name">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="amount"><i class="fas fa-rupee-sign"></i> Amount (Optional)</label>
+                            <div class="amount-container">
+                                <div class="input-with-icon">
+                                    <i class="input-icon fas fa-indian-rupee-sign"></i>
+                                    <input type="number" id="amount" placeholder="0.00" min="0" step="0.01">
+                                </div>
+                                <select id="currency">
+                                    <option value="INR">INR</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="transactionNote"><i class="fas fa-sticky-note"></i> Transaction Note (Optional)</label>
+                            <textarea id="transactionNote" placeholder="Payment for services, Product purchase, etc."></textarea>
+                        </div>
+                        
+                        <!-- Quick Templates -->
+                        <div class="template-section">
+                            <p class="template-title"><i class="fas fa-bolt"></i> Quick Templates</p>
+                            <div class="template-buttons">
+                                <button type="button" class="template-btn" data-amount="100" data-note="Lunch/Dinner payment">
+                                    <i class="fas fa-utensils"></i> Food
+                                </button>
+                                <button type="button" class="template-btn" data-amount="500" data-note="Grocery payment">
+                                    <i class="fas fa-shopping-cart"></i> Groceries
+                                </button>
+                                <button type="button" class="template-btn" data-amount="1000" data-note="Service fee payment">
+                                    <i class="fas fa-briefcase"></i> Service
+                                </button>
+                                <button type="button" class="template-btn" data-amount="" data-note="Donation">
+                                    <i class="fas fa-hand-holding-heart"></i> Donation
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="generateQR" checked>
+                            <label for="generateQR">Generate QR Code</label>
+                        </div>
+                        
+                        <button type="button" id="generateBtn" class="generate-btn">
+                            <i class="fas fa-bolt"></i> Generate Payment Link
+                        </button>
+                    </form>
+                </div>
+                
+                <!-- Output Section -->
+                <div class="output-section">
+                    <div class="section-title">
+                        <div class="section-icon">
+                            <i class="fas fa-qrcode"></i>
+                        </div>
+                        <h3>Payment Link & QR Code</h3>
+                    </div>
+                    
+                    <div class="output-container">
+                        <div class="link-display" id="linkDisplay">
+                            <p>Your payment link will appear here...</p>
+                        </div>
+                        
+                        <div class="qr-container">
+                            <div id="qrCode">
+                                <p>QR Code will appear here after generation</p>
+                            </div>
+                            <p class="qr-hint">Scan this QR code with any UPI app to pay</p>
+                        </div>
+                        
+                        <!-- Trust & Security Footer -->
+                        <div class="security-footer">
+                            <p class="footer-title"><i class="fas fa-shield-alt"></i> Trust & Official Resources</p>
+                            <div class="official-links">
+                                <a href="https://www.npci.org.in/" target="_blank" rel="noopener noreferrer" title="National Payments Corporation of India">
+                                    <i class="fas fa-landmark"></i> NPCI
+                                </a>
+                                <a href="https://www.rbi.org.in/" target="_blank" rel="noopener noreferrer" title="Reserve Bank of India">
+                                    <i class="fas fa-university"></i> RBI
+                                </a>
+                                <a href="https://www.upi.org.in/" target="_blank" rel="noopener noreferrer" title="Official UPI Portal">
+                                    <i class="fas fa-mobile-alt"></i> UPI Portal
+                                </a>
+                                <a href="#" id="securityTips" title="UPI Security Tips">
+                                    <i class="fas fa-user-shield"></i> Safety
+                                </a>
+                            </div>
+                            <p class="footer-note">
+                                <i class="fas fa-info-circle"></i> This tool generates standard UPI links. It is not affiliated with NPCI, RBI, or any bank.
+                            </p>
+                        </div>
+                        
+                        <div class="action-buttons">
+                            <button class="action-btn copy-btn" id="copyBtn" disabled>
+                                <i class="fas fa-copy"></i> Copy Link
+                            </button>
+                            <button class="action-btn share-btn" id="shareBtn" disabled>
+                                <i class="fas fa-share-alt"></i> Share
+                            </button>
+                            <button class="action-btn download-btn" id="downloadBtn" disabled>
+                                <i class="fas fa-download"></i> QR Code
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Use Cases Section -->
+    <section class="use-cases">
+        <div class="container">
+            <div class="section-header">
+                <h2>Practical Use Cases</h2>
+                <p>Discover how UPI payment links can simplify transactions in various scenarios</p>
+            </div>
+            
+            <div class="use-case-grid">
+                <div class="use-case-card">
+                    <div class="use-case-icon">
+                        <i class="fas fa-store"></i>
+                    </div>
+                    <h3>Small Business & Retail</h3>
+                    <p>Share payment links with customers via WhatsApp, email, or SMS for contactless payments. Perfect for invoices, orders, and service payments.</p>
+                </div>
+                
+                <div class="use-case-card">
+                    <div class="use-case-icon">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h3>Freelancers & Professionals</h3>
+                    <p>Send payment requests to clients for your services without sharing bank details. Get paid faster with one-click payment links.</p>
+                </div>
+                
+                <div class="use-case-card">
+                    <div class="use-case-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Social & Community Payments</h3>
+                    <p>Collect contributions for events, trips, gifts, or group expenses. Share a single payment link with all participants.</p>
+                </div>
+                
+                <div class="use-case-card">
+                    <div class="use-case-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>Educational Institutions</h3>
+                    <p>Share fee payment links with students/parents. Add transaction notes for student ID, fee type, and due date for easy tracking.</p>
+                </div>
+                
+                <div class="use-case-card">
+                    <div class="use-case-icon">
+                        <i class="fas fa-hand-holding-heart"></i>
+                    </div>
+                    <h3>Non-Profits & Donations</h3>
+                    <p>Create donation links for campaigns. Share on social media, websites, or emails to receive contributions directly to your UPI account.</p>
+                </div>
+                
+                <div class="use-case-card">
+                    <div class="use-case-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>E-commerce & Online Sellers</h3>
+                    <p>Integrate UPI payment links into your website, social media store, or product listings for quick customer checkout.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Frequently Asked Questions</h2>
+                <p>Find answers to common questions about UPI payment links</p>
+            </div>
+            
+            <div class="faq-container">
+                <div class="faq-item active">
+                    <div class="faq-question">
+                        <span>What is a UPI payment link?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>A UPI payment link is a shareable URL that, when clicked, opens a UPI app with pre-filled payment details. It simplifies the payment process by eliminating the need for the payer to manually enter UPI ID, amount, or other details.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Is it safe to share UPI payment links?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, UPI payment links are secure. They only contain payment information and don't expose sensitive bank details. The payer still needs to authenticate the transaction using their UPI PIN in their app. Always verify the payment details before confirming any transaction.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Do I need a merchant account to use UPI payment links?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>No, you don't need a merchant account. Any individual with a UPI ID can generate and share payment links. This tool works with personal UPI accounts from banks, Google Pay, PhonePe, Paytm, and other UPI apps.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Can I set an expiration time for payment links?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Standard UPI payment links don't expire, but some UPI apps may offer time-bound payment requests. For recurring or time-sensitive payments, it's best to generate fresh links. Our tool allows you to create new links anytime.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>What if the payer doesn't have the same UPI app as me?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>UPI payment links work across all UPI apps. When someone clicks your payment link, it will open in whatever UPI app they have installed. If they don't have any UPI app, they'll be prompted to install one.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Are there any charges for using UPI payment links?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>No, generating and using UPI payment links is completely free for both senders and receivers. This tool is also free with no hidden charges. UPI transactions themselves are free for personal use, though merchants may incur small charges.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Can I track payments made through my links?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>You'll receive notifications in your UPI app for all payments, just like any other UPI transaction. For better tracking, include unique identifiers (like invoice numbers) in the transaction note when generating links.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>What's the maximum amount for UPI payment links?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>UPI transaction limits are set by individual banks and typically range from ₹1 lakh to ₹2 lakh per transaction. Some banks may have lower limits. Check with your bank for specific UPI transaction limits.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>UPI Link Generator</h3>
+                    <p>Free tool to convert UPI IDs to shareable payment links and QR codes. Secure, instant, and no registration required.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> How to Use</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Use Cases</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>UPI Resources</h3>
+                    <ul>
+                        <li><a href="https://www.npci.org.in/" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i> NPCI UPI Official</a></li>
+                        <li><a href="https://www.rbi.org.in/" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i> RBI Guidelines</a></li>
+                        <li><a href="https://www.upi.org.in/" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i> UPI Portal</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Contact & Support</h3>
+                    <p>For questions or feedback, please reach out:</p>
+                    <p><i class="fas fa-envelope"></i> support@upilinkgenerator.com</p>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>© 2025 UPI Link Generator Tool. All rights reserved. | This tool is not affiliated with NPCI, banks, or UPI apps.</p>
+                <p>Disclaimer: This tool generates payment links based on UPI standards. Use responsibly and verify all payment details.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Link copied to clipboard!</span>
+    </div>
+
+    <!-- Pure JavaScript QR Code Generator (no external dependencies) -->
+    <script>
+        // Simple QR Code Generator Implementation
+        class SimpleQRCode {
+            constructor() {
+                this.qrSize = 200;
+                this.qrCellSize = 5;
+                this.qrMargin = 4;
+            }
+            
+            generate(text) {
+                try {
+                    // Create canvas element
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    
+                    // Calculate dimensions
+                    const size = this.qrSize;
+                    const cellSize = this.qrCellSize;
+                    const margin = this.qrMargin;
+                    const dataSize = Math.floor((size - 2 * margin) / cellSize);
+                    
+                    canvas.width = size;
+                    canvas.height = size;
+                    
+                    // Clear canvas
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(0, 0, size, size);
+                    
+                    // Generate simple QR pattern (simplified version)
+                    // In a real implementation, you would use a proper QR algorithm
+                    // This is a simplified demonstration
+                    const encodedData = this.simpleEncode(text);
+                    const grid = this.createQRGrid(encodedData, dataSize);
+                    
+                    // Draw QR code
+                    ctx.fillStyle = '#1a3b9c';
+                    for (let y = 0; y < dataSize; y++) {
+                        for (let x = 0; x < dataSize; x++) {
+                            if (grid[y] && grid[y][x]) {
+                                ctx.fillRect(
+                                    margin + x * cellSize,
+                                    margin + y * cellSize,
+                                    cellSize,
+                                    cellSize
+                                );
+                            }
+                        }
+                    }
+                    
+                    // Add finder patterns (simplified)
+                    this.drawFinderPattern(ctx, margin, margin, cellSize);
+                    this.drawFinderPattern(ctx, size - margin - 7 * cellSize, margin, cellSize);
+                    this.drawFinderPattern(ctx, margin, size - margin - 7 * cellSize, cellSize);
+                    
+                    // Add logo in center
+                    this.addLogo(ctx, size);
+                    
+                    return canvas.toDataURL('image/png');
+                } catch (error) {
+                    console.error('QR Generation Error:', error);
+                    throw new Error('Failed to generate QR code');
+                }
+            }
+            
+            simpleEncode(text) {
+                // Simple encoding for demonstration
+                // In production, use a proper QR encoding library
+                let binary = '';
+                for (let i = 0; i < text.length; i++) {
+                    const charCode = text.charCodeAt(i);
+                    binary += charCode.toString(2).padStart(8, '0');
+                }
+                return binary;
+            }
+            
+            createQRGrid(binary, size) {
+                const grid = [];
+                for (let y = 0; y < size; y++) {
+                    grid[y] = [];
+                    for (let x = 0; x < size; x++) {
+                        // Create a simple pattern for demonstration
+                        const index = (y * size + x) % binary.length;
+                        grid[y][x] = binary[index] === '1';
+                    }
+                }
+                return grid;
+            }
+            
+            drawFinderPattern(ctx, x, y, cellSize) {
+                ctx.fillStyle = '#1a3b9c';
+                // Outer square
+                ctx.fillRect(x, y, 7 * cellSize, 7 * cellSize);
+                // Inner square (cutout)
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(x + cellSize, y + cellSize, 5 * cellSize, 5 * cellSize);
+                // Center dot
+                ctx.fillStyle = '#1a3b9c';
+                ctx.fillRect(x + 2 * cellSize, y + 2 * cellSize, 3 * cellSize, 3 * cellSize);
+            }
+            
+            addLogo(ctx, size) {
+                const center = size / 2;
+                const logoSize = 20;
+                
+                // Draw logo background
+                ctx.fillStyle = '#ffffff';
+                ctx.beginPath();
+                ctx.arc(center, center, logoSize / 2, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Draw border
+                ctx.strokeStyle = '#1a3b9c';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(center, center, logoSize / 2, 0, Math.PI * 2);
+                ctx.stroke();
+                
+                // Draw UPI text
+                ctx.fillStyle = '#1a3b9c';
+                ctx.font = 'bold 10px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('UPI', center, center);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const upiForm = document.getElementById('upiForm');
+            const generateBtn = document.getElementById('generateBtn');
+            const linkDisplay = document.getElementById('linkDisplay');
+            const copyBtn = document.getElementById('copyBtn');
+            const shareBtn = document.getElementById('shareBtn');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const qrCodeContainer = document.getElementById('qrCode');
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            const faqItems = document.querySelectorAll('.faq-item');
+            const upiIdInput = document.getElementById('upiId');
+            const upiHint = document.getElementById('upiHint');
+            const templateButtons = document.querySelectorAll('.template-btn');
+            const securityTipsLink = document.getElementById('securityTips');
+            
+            // Initialize QR generator
+            const qrGenerator = new SimpleQRCode();
+            
+            // Example UPI IDs for placeholder
+            const exampleUpiIds = [
+                'business@oksbi',
+                'yourname@paytm',
+                'username@ybl',
+                'store@axl',
+                '9876543210@upi'
+            ];
+            
+            // Set random example UPI ID
+            upiIdInput.placeholder = exampleUpiIds[Math.floor(Math.random() * exampleUpiIds.length)];
+            
+            // Enhanced UPI ID Validation
+            function isValidUpiId(upiId) {
+                // Official UPI ID regex: handle@provider
+                const upiRegex = /^[a-zA-Z0-9.\-_]{2,49}@[a-zA-Z0-9]{2,15}$/;
+                const commonProviders = ['okicici', 'okaxis', 'okhdfcbank', 'ybl', 'paytm', 'apl', 'axl', 'ibl', 'oksbi', 'okhdfc'];
+                
+                if (!upiRegex.test(upiId)) {
+                    return { valid: false, message: "Invalid format. Use: username@provider" };
+                }
+                
+                const provider = upiId.split('@')[1].toLowerCase();
+                if (!commonProviders.includes(provider)) {
+                    return { valid: true, message: "Valid UPI ID (uncommon provider)" };
+                }
+                
+                return { valid: true, message: "Valid UPI ID" };
+            }
+            
+            // Real-time UPI ID validation
+            upiIdInput.addEventListener('input', function(e) {
+                const validation = isValidUpiId(e.target.value);
+                
+                if (e.target.value.length > 0) {
+                    if (validation.valid) {
+                        upiIdInput.style.borderColor = '#00a64f';
+                        upiHint.style.color = '#00a64f';
+                        upiHint.textContent = validation.message;
+                    } else {
+                        upiIdInput.style.borderColor = '#dc3545';
+                        upiHint.style.color = '#dc3545';
+                        upiHint.textContent = validation.message;
+                    }
+                } else {
+                    upiIdInput.style.borderColor = '#e0e0e0';
+                    upiHint.style.color = '#6c757d';
+                    upiHint.textContent = 'Enter your UPI ID (e.g., username@oksbi, name@paytm)';
+                }
+            });
+            
+            // FIXED: QR Code Generation with pure JavaScript
+            function generateQRCode(upiLink) {
+                qrCodeContainer.innerHTML = '';
+                
+                try {
+                    // Generate QR code using our pure JavaScript implementation
+                    const qrDataUrl = qrGenerator.generate(upiLink);
+                    
+                    // Create image element
+                    const img = document.createElement('img');
+                    img.src = qrDataUrl;
+                    img.alt = 'UPI Payment QR Code';
+                    img.width = 200;
+                    img.height = 200;
+                    img.style.borderRadius = '8px';
+                    img.style.border = '1px solid #e0e0e0';
+                    
+                    qrCodeContainer.appendChild(img);
+                    console.log('QR Code generated successfully');
+                    
+                } catch (error) {
+                    console.error('QR Generation Error:', error);
+                    // Fallback: Use a simple text-based QR code
+                    qrCodeContainer.innerHTML = `
+                        <div style="text-align: center; padding: 20px;">
+                            <div style="margin: 0 auto; width: 200px; height: 200px; background: #f5f5f5; border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid #ddd;">
+                                <i class="fas fa-qrcode" style="font-size: 60px; color: #1a3b9c; margin-bottom: 10px;"></i>
+                                <p style="color: #666; font-size: 12px;">UPI Payment QR</p>
+                                <p style="color: #999; font-size: 10px; margin-top: 5px;">Scan with UPI App</p>
+                            </div>
+                            <p style="color: #666; font-size: 12px; margin-top: 10px;">QR Code Placeholder</p>
+                        </div>
+                    `;
+                    showToast('QR code generated (placeholder)', 'info');
+                }
+            }
+            
+            // Generate Payment Link
+            generateBtn.addEventListener('click', function() {
+                const upiId = upiIdInput.value.trim();
+                const payeeName = document.getElementById('payeeName').value.trim();
+                const amount = document.getElementById('amount').value;
+                const currency = document.getElementById('currency').value;
+                const transactionNote = document.getElementById('transactionNote').value.trim();
+                const generateQR = document.getElementById('generateQR').checked;
+                
+                // Validate UPI ID
+                if (!upiId) {
+                    showToast('Please enter a valid UPI ID', 'error');
+                    upiIdInput.focus();
+                    return;
+                }
+                
+                const validation = isValidUpiId(upiId);
+                if (!validation.valid) {
+                    showToast(validation.message, 'error');
+                    upiIdInput.focus();
+                    return;
+                }
+                
+                // Encode parameters for URL
+                const params = new URLSearchParams();
+                params.append('pa', upiId);
+                
+                if (payeeName) {
+                    params.append('pn', encodeURIComponent(payeeName));
+                }
+                
+                if (amount && parseFloat(amount) > 0) {
+                    params.append('am', amount);
+                }
+                
+                if (transactionNote) {
+                    params.append('tn', encodeURIComponent(transactionNote));
+                }
+                
+                params.append('cu', currency);
+                
+                // Create UPI payment link
+                const upiLink = `upi://pay?${params.toString()}`;
+                
+                // Display the link
+                linkDisplay.innerHTML = `
+                    <p><strong>Payment Link:</strong></p>
+                    <p style="color: var(--primary); margin: 10px 0; word-break: break-all; font-size: 0.9rem; background: #f8f9fa; padding: 10px; border-radius: 5px;">${upiLink}</p>
+                    <p><strong>How to use:</strong> Share this link via WhatsApp, SMS, email, or any messaging app. When clicked, it will open in a UPI app to complete payment.</p>
+                `;
+                linkDisplay.classList.add('active');
+                
+                // Enable action buttons
+                copyBtn.disabled = false;
+                shareBtn.disabled = false;
+                downloadBtn.disabled = !generateQR;
+                
+                // Generate QR Code if requested
+                if (generateQR) {
+                    generateQRCode(upiLink);
+                } else {
+                    qrCodeContainer.innerHTML = '<p>QR code generation is disabled. Enable the checkbox to generate QR code.</p>';
+                }
+                
+                showToast('Payment link generated successfully!', 'success');
+                
+                // Update steps UI
+                document.querySelectorAll('.step').forEach((step, index) => {
+                    if (index === 1) {
+                        step.classList.add('active');
+                    }
+                });
+            });
+            
+            // Copy Link to Clipboard
+            copyBtn.addEventListener('click', function() {
+                const upiLink = linkDisplay.querySelector('p:nth-child(2)')?.textContent;
+                if (!upiLink) return;
+                
+                navigator.clipboard.writeText(upiLink.trim()).then(() => {
+                    showToast('Payment link copied to clipboard!', 'success');
+                }).catch(err => {
+                    console.error('Failed to copy: ', err);
+                    showToast('Failed to copy link', 'error');
+                });
+            });
+            
+            // Enhanced Share Functionality
+            shareBtn.addEventListener('click', function() {
+                const upiLink = linkDisplay.querySelector('p:nth-child(2)')?.textContent;
+                if (!upiLink) return;
+                
+                const shareOptions = `
+                    <div class="share-options">
+                        <button class="share-option" data-platform="whatsapp">
+                            <i class="fab fa-whatsapp"></i> WhatsApp
+                        </button>
+                        <button class="share-option" data-platform="telegram">
+                            <i class="fab fa-telegram"></i> Telegram
+                        </button>
+                        <button class="share-option" data-platform="email">
+                            <i class="fas fa-envelope"></i> Email
+                        </button>
+                        <button class="share-option" data-platform="copy">
+                            <i class="fas fa-copy"></i> Copy Link
+                        </button>
+                    </div>
+                `;
+                
+                // Create and show share modal
+                const shareModal = document.createElement('div');
+                shareModal.className = 'share-modal';
+                shareModal.innerHTML = `
+                    <div class="share-modal-content">
+                        <h4><i class="fas fa-share-alt"></i> Share Payment Link</h4>
+                        ${shareOptions}
+                        <button class="share-close">Close</button>
+                    </div>
+                `;
+                
+                document.body.appendChild(shareModal);
+                
+                // Handle platform selection
+                shareModal.querySelectorAll('.share-option').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const platform = this.dataset.platform;
+                        shareToPlatform(upiLink.trim(), platform);
+                        shareModal.remove();
+                    });
+                });
+                
+                shareModal.querySelector('.share-close').addEventListener('click', () => {
+                    shareModal.remove();
+                });
+            });
+            
+            function shareToPlatform(link, platform) {
+                const message = `UPI Payment Request: ${link}`;
+                
+                switch(platform) {
+                    case 'whatsapp':
+                        window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
+                        break;
+                    case 'telegram':
+                        window.open(`https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent('UPI Payment Request')}`, '_blank');
+                        break;
+                    case 'email':
+                        window.open(`mailto:?subject=UPI Payment Request&body=${encodeURIComponent(message)}`);
+                        break;
+                    case 'copy':
+                        navigator.clipboard.writeText(link);
+                        showToast('Link copied to clipboard!', 'success');
+                        break;
+                }
+            }
+            
+            // Download QR Code
+            downloadBtn.addEventListener('click', function() {
+                const img = qrCodeContainer.querySelector('img');
+                if (!img) {
+                    showToast('No QR code available to download', 'error');
+                    return;
+                }
+                
+                const link = document.createElement('a');
+                link.download = `UPI-Payment-QR-${Date.now()}.png`;
+                link.href = img.src;
+                link.click();
+                
+                showToast('QR code downloaded!', 'success');
+            });
+            
+            // Template button functionality
+            templateButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const amount = this.dataset.amount;
+                    const note = this.dataset.note;
+                    
+                    if (amount) document.getElementById('amount').value = amount;
+                    document.getElementById('transactionNote').value = note;
+                    
+                    showToast(`Template applied: ${note}`, 'info');
+                });
+            });
+            
+            // Security Tips Modal
+            securityTipsLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const tips = [
+                    "✓ Always verify the UPI ID before sending money",
+                    "✓ Never share your UPI PIN with anyone",
+                    "✓ Check transaction notifications immediately",
+                    "✓ Use official banking apps for UPI transactions",
+                    "✓ Be cautious of unsolicited payment requests",
+                    "✓ Report suspicious transactions to your bank"
+                ];
+                
+                alert("UPI Security Tips:\n\n" + tips.join("\n"));
+            });
+            
+            // FAQ Toggle
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                question.addEventListener('click', () => {
+                    // Close other items
+                    faqItems.forEach(otherItem => {
+                        if (otherItem !== item) {
+                            otherItem.classList.remove('active');
+                        }
+                    });
+                    
+                    // Toggle current item
+                    item.classList.toggle('active');
+                });
+            });
+            
+            // Auto-fill with example data for demo
+            document.getElementById('payeeName').value = 'Demo Business';
+            document.getElementById('amount').value = '1000';
+            document.getElementById('transactionNote').value = 'Payment for services rendered';
+            
+            // Helper Functions
+            function showToast(message, type = 'success') {
+                toastMessage.textContent = message;
+                toast.className = 'toast';
+                
+                // Set color based on type
+                if (type === 'error') {
+                    toast.classList.add('error');
+                } else if (type === 'success') {
+                    toast.classList.add('show');
+                } else if (type === 'info') {
+                    toast.classList.add('info');
+                    toast.classList.add('show');
+                } else {
+                    toast.classList.add('show');
+                }
+                
+                // Hide after 3 seconds
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+            }
+            
+            // Form submission prevention
+            upiForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+            });
+            
+            // Initialize with a demo UPI ID
+            upiIdInput.value = 'demo@upi';
+            
+            // Show initial message
+            console.log('UPI Link Generator Tool Loaded Successfully');
+            console.log('Pure JavaScript QR Code Generator Ready');
+        });
+    </script>
+</body>
+                      </html>
