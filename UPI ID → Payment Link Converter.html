@@ -1,491 +1,519 @@
-
 <!DOCTYPE html>
 <html lang="en">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Generate a UPI Payment Link",
+  "description": "Step-by-step guide to creating a UPI payment link and QR code.",
+  "step": [
+    { "@type": "HowToStep", "text": "Enter your UPI ID in the input field." },
+    { "@type": "HowToStep", "text": "Enter a payment amount, or leave blank." },
+    { "@type": "HowToStep", "text": "Add a payment note to describe the purpose." },
+    { "@type": "HowToStep", "text": "Click the 'Generate Payment Link + QR' button." },
+    { "@type": "HowToStep", "text": "Copy your UPI link, download the QR code, or share via WhatsApp." }
+  ]
+}
+</script>
+
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>UPI Payment Link & QR Code Generator — Create GPay / PhonePe / Paytm Pay Links</title>
-  <meta name="description" content="Free UPI Payment Link & QR Code Generator. Enter UPI ID, amount and message — generate a UPI pay link, scannable QR, download QR (PNG), copy link and share via WhatsApp. Works with GPay, PhonePe, Paytm and BHIM." />
-  <meta name="keywords" content="upi payment link generator, upi qr generator, create upi pay link online, generate upi qr, gpay pay link, phonepe pay link, paytm pay link, upi qr download" />
-  <link rel="canonical" href="#" />
-  <style>
-    :root{
-      --accent:#0b5ed7;
-      --accent-2:#16a34a;
-      --muted:#6b7280;
-      --bg:#f7fafc;
-      --card:#ffffff;
-      --radius:12px;
-      --max-width:1100px;
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is this UPI payment link generator safe?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, the tool works inside your browser and does not store any UPI data."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which apps support this UPI link?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "All major UPI apps support these links including PhonePe, Google Pay, Paytm, BHIM, and Amazon Pay."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use this for my business?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, businesses and freelancers can use this to collect UPI payments easily."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I print the generated QR code?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, the QR code can be downloaded as PNG and printed."
+      }
     }
-    html,body{height:100%;margin:0;background:var(--bg);font-family:Inter,Roboto,Helvetica,Arial,sans-serif;color:#111;}
-    .container{max-width:var(--max-width);margin:28px auto;padding:18px;display:grid;gap:18px;grid-template-columns:1fr;align-items:start;}
-    header{background:linear-gradient(90deg,#f0f9ff,#fff);padding:18px;border-radius:14px;box-shadow:0 6px 20px rgba(20,20,40,0.04);}
-    h1{margin:0;font-size:20px;color:var(--accent);line-height:1.1;}
-    p.lead{margin:8px 0 0;color:var(--muted);}
-    .tool-card{background:var(--card);padding:16px;border-radius:12px;box-shadow:0 6px 18px rgba(20,20,40,0.04);}
-    label{display:block;font-weight:600;margin-top:10px;color:#222;}
-    input[type="text"], input[type="number"], textarea, select{
-      width:100%;padding:10px;border-radius:8px;border:1px solid #e6e9ef;margin-top:6px;box-sizing:border-box;font-size:14px;
-    }
-    .row{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px;}
-    .col{flex:1 1 220px;min-width:180px;}
-    .actions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;}
-    button{border:0;padding:10px 14px;border-radius:10px;font-weight:700;cursor:pointer;background:var(--accent);color:#fff;}
-    button.secondary{background:#6c757d;}
-    button.green{background:var(--accent-2);}
-    .result-box{display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin-top:16px;}
-    .qr-box{width:260px;height:260px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#fff,#f8fbff);box-shadow:inset 0 0 0 1px #f1f5f9;padding:10px;}
-    #qrcode{display:flex;align-items:center;justify-content:center;}
-    .link-area{flex:1;min-width:260px;}
-    textarea#paylink{width:100%;height:86px;padding:10px;border-radius:8px;border:1px dashed #dfe7ff;resize:vertical;}
-    .small{font-size:13px;color:var(--muted);margin-top:6px;}
-    .meta{font-size:13px;color:var(--muted);margin-top:8px;}
-    footer{font-size:13px;color:var(--muted);text-align:center;padding:10px;}
-    .share-wa{background:#25D366;border-radius:10px;padding:8px 12px;color:#fff;font-weight:700;border:0;cursor:pointer;}
-    @media (min-width:980px){
-      .container{grid-template-columns:380px 1fr;}
-      header{grid-column:1 / -1;}
-    }
+  ]
+}
+</script>
 
-    /* Official links & disclaimer */
-    .official-section{
-      margin-top:20px;
-      padding:14px;
-      border:1px solid #e5e7eb;
-      border-radius:10px;
-      background:#f9fafb;
-    }
-    .official-title{font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px;color:#111827;}
-    .official-links{margin-top:12px;display:flex;flex-direction:column;gap:10px;}
-    .official-links a{display:flex;align-items:center;gap:10px;text-decoration:none;font-size:15px;color:#1f4ed8;background:#fff;padding:8px 10px;border-radius:8px;border:1px solid #e5e7eb;}
-    .official-links a img{width:28px;height:28px;object-fit:contain;}
-    .disclaimer-box{margin-top:12px;padding:12px;border-left:4px solid #f59e0b;background:#fff8e6;font-size:14px;border-radius:6px;color:#6b7280;}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UPI Payment Link Generator & QR Code Tool | Free Online</title>
+<meta name="description" content="Generate secure UPI payment links and QR codes online. Works for all UPI apps—PhonePe, Google Pay, Paytm, BHIM. Free tool with WhatsApp sharing and QR download.">
 
-    /* SEO article */
-    article{background:var(--card);padding:18px;border-radius:12px;line-height:1.7;color:#222;}
-    article h2{color:var(--accent);margin-top:18px;}
-    ul{margin-left:1.1rem;}
-    .faq dt{font-weight:700;margin-top:10px;}
-    .faq dd{margin:6px 0 12px;color:var(--muted);}
-    .schema-hidden{display:none;}
-  </style>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f7f7f7;
+    margin: 0;
+    padding: 0;
+}
+.container {
+    max-width: 700px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+h1 {
+    text-align: center;
+    margin-bottom: 15px;
+    color: #333;
+}
+label {
+    font-weight: 600;
+    display: block;
+    margin-top: 15px;
+}
+input {
+    width: 100%;
+    padding: 12px;
+    margin-top: 8px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+}
+button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 20px;
+    background: #087f23;
+    color: #fff;
+    font-size: 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+button:hover { background: #065e19; }
+
+#resultBox {
+    margin-top: 25px;
+    padding: 20px;
+    background: #eefbf0;
+    border-left: 5px solid #087f23;
+    display: none;
+}
+.qr-box {
+    text-align: center;
+    margin-top: 20px;
+}
+#qrCode {
+    margin: auto;
+}
+.qr-download, .wa-share {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 15px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+}
+.qr-download { background: #1d4ed8; }
+.wa-share { background: #25D366; }
+
+.footer-links {
+    margin-top: 40px;
+    padding: 20px;
+    background: #fafafa;
+    border-radius: 10px;
+}
+.footer-links h3 { margin-bottom: 15px; }
+
+.link-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.link-item svg {
+    width: 22px;
+    height: 22px;
+    margin-right: 10px;
+}
+</style>
 </head>
 <body>
-  <div class="container" itemscope itemtype="https://schema.org/WebPage">
-    <header>
-      <h1 itemprop="headline">UPI Payment Link & QR Code Generator — Create GPay / PhonePe / Paytm Pay Links</h1>
-      <p class="lead">Generate UPI deep links and scannable QR codes with UPI ID, amount, payee name and note. Download QR (PNG), copy link and share via WhatsApp — free & client-side.</p>
-    </header>
 
-    <!-- Tool (left column on wide screens) -->
-    <section class="tool-card" aria-labelledby="tool-title">
-      <h2 id="tool-title" style="font-size:16px;margin:0 0 6px 0;color:#111;">Generate UPI Link & QR</h2>
+<div class="container">
+    <h1>UPI Payment Link & QR Code Generator</h1>
 
-      <label for="upi">UPI ID (pa) — example: yourname@bank</label>
-      <input id="upi" type="text" placeholder="example@upi" inputmode="text" />
+    <label>Enter UPI ID</label>
+    <input type="text" id="upiId" placeholder="example@upi">
 
-      <div class="row">
-        <div class="col">
-          <label for="amount">Amount (INR) — optional</label>
-          <input id="amount" type="number" min="0" step="0.01" placeholder="e.g., 499.00" />
+    <label>Enter Amount (₹)</label>
+    <input type="number" id="amount" placeholder="100">
+
+    <label>Payment Note</label>
+    <input type="text" id="note" placeholder="Payment for service">
+
+    <button onclick="generateLink()">Generate Payment Link + QR</button>
+
+    <div id="resultBox">
+        <p><strong>Generated UPI Payment Link:</strong></p>
+        <p id="generatedLink" style="word-break: break-all;"></p>
+
+        <div class="qr-box">
+            <div id="qrCode"></div>
+
+            <a id="downloadQR" class="qr-download" download="upi_payment_qr.png">Download QR</a>
+            <a id="waShare" class="wa-share" target="_blank">Share on WhatsApp</a>
         </div>
-        <div class="col">
-          <label for="payee">Payee Name (pn) — optional</label>
-          <input id="payee" type="text" placeholder="Your Shop / Your Name" />
-        </div>
-      </div>
-
-      <label for="note">Payment Note (tn) — optional</label>
-      <input id="note" type="text" placeholder="Payment for order #1234" />
-
-      <div class="actions">
-        <button id="generateBtn">Generate Link & QR</button>
-        <button id="clearBtn" class="secondary">Clear</button>
-        <button id="downloadQR" class="green" title="Download QR as PNG" disabled>Download QR (PNG)</button>
-      </div>
-
-      <div class="result-box" id="result" style="display:none;">
-        <div class="qr-box" aria-hidden="false">
-          <div id="qrcode" aria-label="Generated QR code"></div>
-        </div>
-
-        <div class="link-area">
-          <label for="paylink"><strong>Your UPI Payment Link</strong></label>
-          <textarea id="paylink" readonly></textarea>
-          <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;">
-            <button id="copyLinkBtn">Copy Link</button>
-            <button id="openLinkBtn" class="secondary">Open Link</button>
-            <button id="waShareBtn" class="share-wa">Share on WhatsApp</button>
-          </div>
-          <div class="small">Tip: Share this link directly or embed it as a <code>&lt;a href="upi://..."&gt;</code> on your site.</div>
-        </div>
-      </div>
-
-      <div class="meta small">This tool builds a UPI deep link: <code>upi://pay?pa=&amp;pn=&amp;am=&amp;tn=&amp;cu=INR</code></div>
-    </section>
-
-    <!-- Article / SEO content (right column on wide screens) -->
-    <article>
-      <h2>What is a UPI Payment Link & QR?</h2>
-      <p>Unified Payments Interface (UPI) is the most widely used instant payment system across India. A UPI payment link is a URL structured to instruct UPI apps to prefill the payee (UPI ID), amount and optional note. A QR code encodes this link so a payer can simply scan and complete the payment from their UPI app (Google Pay, PhonePe, Paytm, BHIM, etc.).</p>
-
-      <h2>Why use a payment link or QR?</h2>
-      <p>Payment links and QR codes remove friction. Instead of asking a customer to type UPI details manually, provide a link or QR that opens their UPI app with fields filled. This reduces errors, speeds checkout and improves business conversion for offline & online sellers: street vendors, salons, cafes, freelance professionals, social sellers and NGOs.</p>
-
-      <h2>How the tool works (simple)</h2>
-      <ol>
-        <li>Enter your <strong>UPI ID</strong> (VPA), optionally add <strong>amount</strong>, <strong>payee name</strong>, and a <strong>note</strong>.</li>
-        <li>Click <em>Generate Link & QR</em>. The tool creates a UPI deep link like: <code>upi://pay?pa=you@bank&amp;am=100.00&amp;tn=order123&amp;cu=INR</code>.</li>
-        <li>The QR code encodes the link; share or download it as PNG for printing or embedding in invoices.</li>
-        <li>Customer scans the QR or clicks the link → their UPI app opens → they authorize payment using their bank UPI flow.</li>
-      </ol>
-
-      <h2>Best use cases</h2>
-      <ul>
-        <li>Point-of-sale payments at kiosks or food stalls (print QR on counter)</li>
-        <li>Send pay links to customers for invoices or bookings</li>
-        <li>Collect donations or event fees</li>
-        <li>Social commerce (WhatsApp/Instagram sellers)</li>
-        <li>Add link/QR in emails or digital receipts</li>
-      </ul>
-
-      <h2>Security & best practices</h2>
-      <ul>
-        <li>Do not share sensitive bank details — UPI ID is intended to be shared for receipts.</li>
-        <li>Always verify incoming payment in your bank/UPI app before delivering goods.</li>
-        <li>Use unique notes or invoice numbers to reconcile payments.</li>
-      </ul>
-
-      <h2 id="faq">Frequently Asked Questions (FAQ)</h2>
-      <dl class="faq">
-        <dt>1. Is the QR safe to share publicly?</dt>
-        <dd>The QR encodes a UPI payment request (UPI ID, amount, note). Payments still require payer authentication (PIN/biometrics) in their bank app, so sharing the QR for receiving payments is standard practice.</dd>
-
-        <dt>2. Which apps support the UPI link?</dt>
-        <dd>Major UPI apps — Google Pay, PhonePe, Paytm, BHIM and other bank UPI apps — support deep links and QR scans for payments.</dd>
-
-        <dt>3. Is any registration required to use this tool?</dt>
-        <dd>No. The generator runs fully in your browser and does not require sign-in. Nothing is stored on a server by default.</dd>
-
-        <dt>4. Can I change the amount after creating the QR?</dt>
-        <dd>You can regenerate the QR with a different amount. If amount is omitted, payer can enter the amount manually while paying.</dd>
-
-        <dt>5. Does this tool process payments?</dt>
-        <dd>No, this tool only generates links and QR codes. Actual funds move through the payer’s bank and UPI app after authorization.</dd>
-
-        <dt>6. What if someone tampers with my UPI ID?</dt>
-        <dd>If you suspect fraud or tampering, do not accept payments from suspicious sources and contact your bank immediately.</dd>
-
-        <dt>7. Can I embed the link in an invoice?</dt>
-        <dd>Yes. Use the generated link as a clickable URL or add the downloaded QR image to invoice PDFs.</dd>
-
-        <dt>8. Does the tool support other currencies?</dt>
-        <dd>UPI is India-centric and uses INR. The tool sets <code>cu=INR</code> in links.</dd>
-
-        <dt>9. Are there any fees for using the tool?</dt>
-        <dd>No — generating links and QR codes with this page is free. Bank or app policies for transaction limits or fees apply separately.</dd>
-
-        <dt>10. How can I track clicks or payments?</dt>
-        <dd>To track clicks analytics or link scans, integrate a server-side tracking or use URL shorteners/analytics services. I can add analytics integration if you want.</dd>
-      </dl>
-    </article>
-
-    <footer style="grid-column:1/-1;margin-top:6px;">Built for quick UPI payments • Works on mobile & desktop • No sign-up required</footer>
-
-    <!-- Official links + disclaimer -->
-    <div class="official-section" style="grid-column:1/-1;">
-      <div class="official-title">🔗 Official UPI References</div>
-      <div class="official-links">
-        <a href="https://www.rbi.org.in/" target="_blank" rel="noopener noreferrer">
-          <img src="https://upload.wikimedia.org/wikipedia/en/thumb/0/0d/Reserve_Bank_of_India_logo.svg/1200px-Reserve_Bank_of_India_logo.svg.png" alt="RBI logo" />
-          Reserve Bank of India (RBI) – Official Website
-        </a>
-        <a href="https://www.npci.org.in/what-we-do/upi/product-overview" target="_blank" rel="noopener noreferrer">
-          <img src="https://upload.wikimedia.org/wikipedia/en/thumb/2/20/NPCI_Logo.png/800px-NPCI_Logo.png" alt="NPCI logo" />
-          NPCI – UPI Product Overview
-        </a>
-        <a href="https://upi.npci.org.in/" target="_blank" rel="noopener noreferrer">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/UPI-Logo-vector.svg/1200px-UPI-Logo-vector.svg.png" alt="UPI logo" />
-          UPI – Official Portal
-        </a>
-      </div>
-
-      <div class="disclaimer-box">
-        <strong>Disclaimer:</strong> This tool generates UPI payment links and QR codes based on user inputs. It does <strong>not</strong> store data or process payments, and it is <strong>not</strong> affiliated with RBI, NPCI, or any bank. Always verify UPI IDs before receiving payments. Use at your own discretion.
-      </div>
     </div>
 
-  </div>
+    <!-- Official Links -->
+    <div class="footer-links">
+        <h3>Official UPI Resources</h3>
 
-  <!-- QRCode library (cdn) -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" integrity="sha512-JcV8Qd6o0c1y8h0Wyv0xw4M3Yq8kF7gJc0q3R2BqH6o8Yp6VtQF2Dgqk3g3aN4c3aGdQ8V8j3kY3v3g3d5h3Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <div class="link-item">
+            <!-- RBI ICON -->
+            <svg viewBox="0 0 24 24" fill="black"><circle cx="12" cy="12" r="10"/></svg>
+            <a href="https://rbi.org.in" target="_blank">Reserve Bank of India (RBI)</a>
+        </div>
 
-  <script>
-    // Elements
-    const upiEl = document.getElementById('upi');
-    const amountEl = document.getElementById('amount');
-    const payeeEl = document.getElementById('payee');
-    const noteEl = document.getElementById('note');
+        <div class="link-item">
+            <!-- NPCI ICON -->
+            <svg viewBox="0 0 24 24" fill="blue"><rect width="20" height="20" x="2" y="2"/></svg>
+            <a href="https://www.npci.org.in" target="_blank">NPCI – National Payments Corporation of India</a>
+        </div>
 
-    const generateBtn = document.getElementById('generateBtn');
-    const clearBtn = document.getElementById('clearBtn');
-    const resultBox = document.getElementById('result');
-    const qrcodeContainer = document.getElementById('qrcode');
-    const paylinkEl = document.getElementById('paylink');
-    const copyLinkBtn = document.getElementById('copyLinkBtn');
-    const openLinkBtn = document.getElementById('openLinkBtn');
-    const waShareBtn = document.getElementById('waShareBtn');
-    const downloadQRBtn = document.getElementById('downloadQR');
+        <div class="link-item">
+            <!-- BHIM ICON -->
+            <svg viewBox="0 0 24 24" fill="orange"><polygon points="2,2 22,12 2,22"/></svg>
+            <a href="https://www.bhimupi.org.in" target="_blank">BHIM UPI Official Website</a>
+        </div>
 
-    let lastLink = '';
-    let qrObject = null;
+        <p style="margin-top:15px; font-size:14px; color:#555;">
+            <strong>Disclaimer:</strong> This tool is unofficial. It only generates UPI payment links using public UPI Deep Link standards.  
+            We do NOT store, track, or process any payment data.
+        </p>
+    </div>
 
-    function validateUPI(upi) {
-      if (!upi) return false;
-      upi = upi.trim();
-      if (upi.indexOf('@') === -1) return false;
-      if (/\s/.test(upi)) return false;
-      if (upi.length < 6) return false;
-      return true;
-    }
+</div>
 
-    function buildUPILink({pa, pn, am, tn}) {
-      let parts = [];
-      parts.push('upi://pay?pa=' + encodeURIComponent(pa));
-      if (pn) parts.push('pn=' + encodeURIComponent(pn));
-      if (am) parts.push('am=' + encodeURIComponent(am));
-      if (tn) parts.push('tn=' + encodeURIComponent(tn));
-      parts.push('cu=INR');
-      return parts.join('&');
-    }
+<!-- QR LIBRARY -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
-    function clearResult(){
-      qrcodeContainer.innerHTML = '';
-      paylinkEl.value = '';
-      resultBox.style.display = 'none';
-      downloadQRBtn.disabled = true;
-      lastLink = '';
-    }
+<script>
+function generateLink() {
+    let upiId = document.getElementById('upiId').value.trim();
+    let amount = document.getElementById('amount').value.trim();
+    let note = document.getElementById('note').value.trim();
 
-    clearBtn.addEventListener('click', () => {
-      upiEl.value = '';
-      amountEl.value = '';
-      payeeEl.value = '';
-      noteEl.value = '';
-      clearResult();
-    });
-
-    generateBtn.addEventListener('click', () => {
-      const upi = upiEl.value.trim();
-      const amount = amountEl.value ? parseFloat(amountEl.value).toFixed(2) : '';
-      const payee = payeeEl.value.trim();
-      const note = noteEl.value.trim();
-
-      if (!validateUPI(upi)) {
-        alert('Please enter a valid UPI ID (example: name@bank).');
-        upiEl.focus();
+    if (!upiId) {
+        alert("Enter valid UPI ID");
         return;
-      }
-
-      const link = buildUPILink({pa: upi, pn: payee || '', am: amount || '', tn: note || ''});
-      lastLink = link;
-      paylinkEl.value = link;
-
-      qrcodeContainer.innerHTML = '';
-      try {
-        qrObject = new QRCode(qrcodeContainer, {
-          text: link,
-          width: 240,
-          height: 240,
-          colorDark: "#000000",
-          colorLight: "#ffffff",
-          correctLevel: QRCode.CorrectLevel.H
-        });
-      } catch (e) {
-        const img = document.createElement('img');
-        img.alt = 'QR code';
-        img.src = 'https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=' + encodeURIComponent(link);
-        qrcodeContainer.appendChild(img);
-      }
-
-      resultBox.style.display = 'flex';
-      downloadQRBtn.disabled = false;
-    });
-
-    copyLinkBtn.addEventListener('click', async () => {
-      if (!lastLink) return alert('Generate a link first.');
-      try {
-        await navigator.clipboard.writeText(lastLink);
-        alert('UPI link copied to clipboard!');
-      } catch (err) {
-        paylinkEl.select();
-        document.execCommand('copy');
-        alert('Link copied (fallback)!');
-      }
-    });
-
-    openLinkBtn.addEventListener('click', () => {
-      if (!lastLink) return alert('Generate a link first.');
-      window.location.href = lastLink;
-    });
-
-    waShareBtn.addEventListener('click', () => {
-      if (!lastLink) return alert('Generate a link first.');
-      const text = encodeURIComponent('Pay using UPI: ' + lastLink);
-      const waUrl = 'https://api.whatsapp.com/send?text=' + text;
-      window.open(waUrl, '_blank');
-    });
-
-    downloadQRBtn.addEventListener('click', async () => {
-      if (!lastLink) return alert('Generate a link first.');
-
-      // Try to find a canvas or img generated by the QR lib
-      let img = qrcodeContainer.querySelector('img');
-      let canvas = qrcodeContainer.querySelector('canvas');
-
-      if (img && img.src && img.src.startsWith('data:')) {
-        downloadURI(img.src, 'upi-qr.png');
-        return;
-      }
-
-      if (canvas) {
-        const dataUrl = canvas.toDataURL('image/png');
-        downloadURI(dataUrl, 'upi-qr.png');
-        return;
-      }
-
-      if (img && img.src) {
-        try {
-          const response = await fetch(img.src);
-          const blob = await response.blob();
-          const url = URL.createObjectURL(blob);
-          downloadURI(url, 'upi-qr.png');
-          URL.revokeObjectURL(url);
-          return;
-        } catch (err) {
-          console.error(err);
-        }
-      }
-
-      // Fallback: generate via Google Chart
-      try {
-        const chartUrl = 'https://chart.googleapis.com/chart?cht=qr&chs=600x600&chl=' + encodeURIComponent(lastLink);
-        const resp = await fetch(chartUrl);
-        const blob = await resp.blob();
-        const url = URL.createObjectURL(blob);
-        downloadURI(url, 'upi-qr.png');
-        URL.revokeObjectURL(url);
-      } catch (err) {
-        console.error(err);
-        alert('Could not download QR automatically. Try right-clicking the QR and "Save image as..."');
-      }
-    });
-
-    function downloadURI(uri, name) {
-      const link = document.createElement("a");
-      link.href = uri;
-      link.download = name || 'upi-qr.png';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
     }
 
-    // Enter key triggers generate
-    [upiEl, amountEl, payeeEl, noteEl].forEach(el=>{
-      el.addEventListener('keydown', (e)=>{
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          generateBtn.click();
-        }
-      });
-    });
-  </script>
+    let upiLink = `upi://pay?pa=${upiId}&pn=Payment&am=${amount}&tn=${encodeURIComponent(note)}`;
 
-  <!-- JSON-LD Structured Data: FAQ + HowTo -->
-  <script type="application/ld+json" class="schema-hidden">
-  {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "Is the QR safe to share publicly?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "The QR encodes a UPI payment request (UPI ID, amount, note). Payments still require payer authentication in their bank app, so sharing the QR for receiving payments is standard practice."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Which apps support the UPI link?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Major UPI apps — Google Pay, PhonePe, Paytm, BHIM and other bank UPI apps — support deep links and QR scans for payments."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Is registration required to use this tool?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "No. The generator runs fully in your browser and does not require sign-in. Nothing is stored on a server by default."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Can I change the amount after creating the QR?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "You can regenerate the QR with a different amount. If amount is omitted, payer can enter the amount manually while paying."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Does this tool process payments?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "No, this tool only generates links and QR codes. Actual funds move through the payer’s bank and UPI app after authorization."
-            }
-          }
-        ]
-      },
-      {
-        "@type": "HowTo",
-        "name": "How to generate a UPI payment link and QR code",
-        "description": "Step-by-step guide to creating a UPI payment link and downloadable QR using the generator tool.",
-        "step": [
-          {
-            "@type": "HowToStep",
-            "position": 1,
-            "name": "Enter UPI ID",
-            "text": "Open the tool and enter your UPI ID (Virtual Payment Address) in the UPI field (for example: yourname@bank)."
-          },
-          {
-            "@type": "HowToStep",
-            "position": 2,
-            "name": "Add optional details",
-            "text": "Optionally enter an amount, payee name and a payment note or invoice number to help reconciliation."
-          },
-          {
-            "@type": "HowToStep",
-            "position": 3,
-            "name": "Generate the link and QR",
-            "text": "Click the Generate Link & QR button. The page will display a UPI deep link and a scannable QR code encoding that link."
-          },
-          {
-            "@type": "HowToStep",
-            "position": 4,
-            "name": "Share or download",
-            "text": "Copy the link to share in messages or click Download QR to save the QR image for printing or embedding."
-          }
-        ]
-      }
-    ]
-  }
-  </script>
+    document.getElementById('generatedLink').textContent = upiLink;
+    document.getElementById('resultBox').style.display = "block";
+
+    // Generate QR
+    document.getElementById('qrCode').innerHTML = "";
+    let qr = new QRCode(document.getElementById("qrCode"), {
+        text: upiLink,
+        width: 220,
+        height: 220
+    });
+
+    // QR download
+    setTimeout(() => {
+        let img = document.querySelector("#qrCode img");
+        document.getElementById("downloadQR").href = img.src;
+    }, 500);
+
+    // WhatsApp share
+    document.getElementById("waShare").href =
+        `https://wa.me/?text=${encodeURIComponent("UPI Payment Link: " + upiLink)}`;
+}
+</script>
 
 </body>
 </html>
+
+
+
+UPI Payment Link Generator & QR Code Maker – Free Online Tool for Instant Payments
+
+Introduction
+
+UPI (Unified Payments Interface) has become India’s fastest, simplest, and most convenient digital payment system. Whether you are a shop owner, freelancer, small business, student, seller on Instagram, or a service provider—collecting payments through a UPI link or UPI QR code is the easiest way to get paid instantly.
+
+To help individuals and businesses generate UPI links without any technical knowledge, this free UPI Payment Link Generator & QR Code Tool allows you to create:
+
+UPI Payment Links
+
+UPI QR Codes
+
+Ready-to-share WhatsApp payment messages
+
+Downloadable QR images
+
+This tool works for all UPI apps including PhonePe, Google Pay, Paytm, BHIM UPI, Cred UPI, Amazon Pay, and more.
+
+⭐ What Is a UPI Payment Link?
+
+A UPI Payment Link is a special URL that automatically opens your UPI app and fills in:
+
+UPI ID (pa — payee address)
+
+Receiver Name
+
+Payment Amount
+
+Payment Note
+
+For example:
+upi://pay?pa=example@upi&am=100&tn=Payment
+
+When someone clicks this on Mobile — it directly opens their UPI app to complete the payment.
+When someone clicks on Desktop — it asks them to open their UPI app.
+
+⭐ What Is a UPI QR Code?
+
+A UPI QR Code is a scannable image that contains your:
+
+UPI ID
+
+Payment Amount (optional)
+
+Payment Message / Note
+
+Once scanned, the user gets redirected to their UPI app to complete the payment safely.
+
+🔧 Features of This UPI Payment Link Generator Tool
+
+This tool is built for modern UPI users and supports all major features required by sellers and professionals.
+
+✓ 1. Generate UPI Payment Links
+
+Create a clean and secure UPI payment link in one click.
+
+✓ 2. Generate UPI QR Codes
+
+Instant QR code creation using QRCodeJS library.
+
+✓ 3. Download QR Code (PNG)
+
+Users can download and print their QR for:
+
+Shops
+
+Local stores
+
+Grocery / Kirana
+
+Instagram stores
+
+Freelancers
+
+✓ 4. WhatsApp Share Button
+
+Share your UPI payment link instantly with customers.
+
+✓ 5. 100% Secure & No Data Stored
+
+The tool works completely inside your browser.
+
+✓ 6. Works on GitHub Pages / Blogger / WordPress
+
+All icons are inline SVG → no CDN issues.
+
+🧠 How Does a UPI Payment Link Work?
+
+UPI deep link technology uses a universal format:
+
+upi://pay?pa=UPI_ID&pn=NAME&am=AMOUNT&tn=NOTE 
+
+This tool automatically generates this format and provides:
+
+Clickable link
+
+QR code
+
+Share button
+
+which you can send to customers.
+
+🎯 Benefits of Using a UPI Payment Link Generator
+
+✔ No App Required
+
+Anyone can generate payment links even without PhonePe/Google Pay installed.
+
+✔ Easy to Collect Payments Online
+
+Saves time compared to sending QR manually.
+
+✔ Fast Payments from Customers
+
+UPI links open instantly with amount auto-filled.
+
+✔ Boosts Trust
+
+Looks professional for freelancers & small businesses.
+
+✔ Useful for Social Media Sellers
+
+Instagram, WhatsApp, Facebook Marketplace, YouTube creators, Tuition teachers, Coaches etc.
+
+📌 How to Use This UPI Payment Link Generator Tool
+
+Follow these steps to generate a working UPI link & QR code:
+
+Step 1: Enter Your UPI ID
+
+Example: yourname@upi
+This is the email-like address used for receiving payments.
+
+Step 2: Enter Amount (Optional)
+
+You can enter any value, example: 199.
+
+If left blank → customer enters amount manually.
+
+Step 3: Add Payment Note (Optional)
+
+Examples:
+
+“Order Payment”
+
+“Service Charges”
+
+“Fees Payment”
+
+Step 4: Click “Generate Payment Link + QR”
+
+Your UPI link will appear instantly.
+
+Step 5: QR Code + Download
+
+The tool also creates a scannable QR code.
+
+Step 6: Share on WhatsApp
+
+One-tap WhatsApp message with the payment link included.
+
+🌍 Use Cases of UPI Payment Link Tool
+
+This tool works perfectly for:
+
+✔ Small Shops
+
+Kirana, juice centers, panwalas, veg/fruit sellers.
+
+✔ Freelancers
+
+Graphic designers, editors, video creators, developers.
+
+✔ Tuition Teachers / Consultants
+
+Easy fee collection using one link.
+
+✔ Instagram & WhatsApp Sellers
+
+Selling sarees, shirts, toys, accessories, gift hampers.
+
+✔ NGOs / Donations
+
+People can donate with one scan/click.
+
+✔ E-commerce Alternate Payment
+
+Useful when customers want to pay via UPI separately.
+
+✔ Event Organizers
+
+Collect entry fees or registration charges.
+
+⚠️ Is This UPI Tool Official?
+
+No, this tool is NOT an official UPI tool.
+
+It only generates UPI deep links using the public UPI specification.
+
+✔ We do NOT store any UPI ID
+
+✔ We do NOT track or save payment amounts
+
+✔ We do NOT process transactions
+
+Payments happen only inside the official UPI apps.
+
+🔗 Official UPI Resources
+
+You can verify UPI details from official authorities:
+
+🔘 Reserve Bank of India (RBI)
+
+https://www.rbi.org.in
+
+🔘 NPCI – National Payments Corporation of India
+
+https://www.npci.org.in
+
+🔘 BHIM UPI
+
+https://www.bhimupi.org.in
+
+❓ Frequently Asked Questions (FAQ)
+
+1. Is this UPI payment link generator safe?
+
+Yes. All processing happens in your browser. No data is stored.
+
+2. Can I use this for my business?
+
+Yes, businesses can use this tool to collect payments from customers easily.
+
+3. Which UPI apps support this link?
+
+All UPI apps: PhonePe, Google Pay, Paytm, BHIM, Amazon Pay, Cred UPI, etc.
+
+4. Do I need approval from the bank?
+
+No. If your UPI ID is active, it will work automatically.
+
+5. Why is my UPI link not opening?
+
+Check if your UPI ID is correct & active.
+
+6. Can customers enter their own amount?
+
+Yes. Leave the amount field blank.
+
+7. Can I print this QR code?
+
+Yes. Download the QR from the tool & print it.
+
+8. Is this tool free forever?
+
+Yes. 100% free & unlimited.
+
+
+
+
