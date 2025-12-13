@@ -1,21 +1,755 @@
-<!-- Add this in place of or alongside the email button -->
-<div class="contact-form" style="max-width: 600px; margin: 30px auto;">
-    <h3><i class="fas fa-edit"></i> Contact Form</h3>
-    <form id="contactForm">
-        <div style="margin-bottom: 15px;">
-            <label style="display: block; margin-bottom: 5px; font-weight: 500;">Your Email *</label>
-            <input type="email" required style="width: 100%; padding: 12px; border: 1px solid var(--medium-gray); border-radius: 8px;">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toolvala - Contact Us</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+        
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .content {
+            flex: 1;
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        
+        .content h1 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        
+        .content p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            color: #555;
+        }
+        
+        /* Contact Form Styles */
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 30px;
+        }
+        
+        .contact-info {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .contact-form {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .contact-info h2, .contact-form h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+        
+        .contact-info h2 i, .contact-form h2 i {
+            color: #3498db;
+            margin-right: 10px;
+        }
+        
+        .contact-details {
+            margin-top: 25px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+        
+        .contact-icon {
+            background-color: #3498db;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .contact-text h4 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+        
+        .contact-text p {
+            color: #666;
+            font-size: 1rem;
+            margin-bottom: 0;
+        }
+        
+        .social-contact {
+            margin-top: 30px;
+        }
+        
+        .social-contact h4 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .social-contact-links {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .social-contact-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background-color: #34495e;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .social-contact-btn:hover {
+            transform: translateY(-3px);
+        }
+        
+        .social-contact-btn.twitter:hover { background-color: #1DA1F2; }
+        .social-contact-btn.linkedin:hover { background-color: #0077B5; }
+        .social-contact-btn.github:hover { background-color: #333; }
+        
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+        
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .submit-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .submit-btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+        
+        /* Footer Styles */
+        footer {
+            background: linear-gradient(135deg, #2c3e50 0%, #1a2530 100%);
+            color: #fff;
+            padding: 60px 0 20px;
+            margin-top: auto;
+            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .footer-main {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-brand {
+            max-width: 300px;
+        }
+        
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #3498db;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .footer-logo i {
+            color: #3498db;
+        }
+        
+        .footer-brand p {
+            color: #bdc3c7;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .footer-section h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: #3498db;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-section h3:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 3px;
+            background: #3498db;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links a {
+            color: #ecf0f1;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .footer-links a:hover {
+            color: #3498db;
+            transform: translateX(5px);
+        }
+        
+        .footer-links i {
+            width: 20px;
+            text-align: center;
+            color: #3498db;
+        }
+        
+        /* Extended Social Icons */
+        .social-links-extended {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: #34495e;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .social-btn:hover {
+            background-color: #3498db;
+            transform: translateY(-5px);
+        }
+        
+        /* Social colors on hover */
+        .social-btn.twitter:hover { background-color: #1DA1F2; }
+        .social-btn.linkedin:hover { background-color: #0077B5; }
+        .social-btn.github:hover { background-color: #333; }
+        .social-btn.youtube:hover { background-color: #FF0000; }
+        .social-btn.facebook:hover { background-color: #1877F2; }
+        .social-btn.instagram:hover { background: linear-gradient(45deg, #405DE6, #833AB4, #C13584, #E1306C, #FD1D1D); }
+        
+        .disclaimer-box {
+            background-color: rgba(0, 0, 0, 0.2);
+            border-left: 4px solid #e74c3c;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 30px 0;
+        }
+        
+        .disclaimer-box h4 {
+            color: #e74c3c;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .disclaimer-box p {
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #bdc3c7;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .copyright {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .footer-extra-links {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .footer-extra-links a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-extra-links a:hover {
+            color: #3498db;
+        }
+        
+        .designer {
+            flex: 1;
+            text-align: right;
+        }
+        
+        .heart {
+            color: #e74c3c;
+            animation: heartbeat 1.5s infinite;
+        }
+        
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .contact-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .footer-main {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .content {
+                padding: 30px 15px;
+            }
+            
+            .footer-section h3 {
+                font-size: 1.2rem;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            
+            .copyright, .designer {
+                text-align: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            footer {
+                padding: 40px 0 15px;
+            }
+            
+            .footer-container {
+                padding: 0 15px;
+            }
+            
+            .contact-form, .contact-info {
+                padding: 20px;
+            }
+            
+            .social-contact-links, .social-links-extended {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1><i class="fas fa-envelope"></i> Contact Toolvala</h1>
+        <p>Have questions, feedback, or need assistance with our tools? We're here to help! Fill out the form below and we'll get back to you as soon as possible.</p>
+        
+        <div class="contact-container">
+            <!-- Contact Information -->
+            <div class="contact-info">
+                <h2><i class="fas fa-info-circle"></i> Get In Touch</h2>
+                <p>We value your feedback and are always looking for ways to improve our tools. Whether you have a suggestion, found a bug, or just want to say hello, we'd love to hear from you!</p>
+                
+                <div class="contact-details">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-text">
+                            <h4>Email Us</h4>
+                            <p>support@toolvala.com</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="contact-text">
+                            <h4>Response Time</h4>
+                            <p>We typically respond within 24-48 hours</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-question-circle"></i>
+                        </div>
+                        <div class="contact-text">
+                            <h4>Before Contacting</h4>
+                            <p>Check our FAQ page for quick answers to common questions</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="social-contact">
+                    <h4>Connect on Social Media</h4>
+                    <div class="social-contact-links">
+                        <a href="https://x.com/SureshBurla5?t=QxLgQHUd6TfZZIaGzl_-UA&s=09" target="_blank" class="social-contact-btn twitter" aria-label="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/suresh-burla-641b1a1a1" target="_blank" class="social-contact-btn linkedin" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="https://github.com/toolvala" target="_blank" class="social-contact-btn github" aria-label="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Contact Form -->
+            <div class="contact-form">
+                <h2><i class="fas fa-paper-plane"></i> Send Us a Message</h2>
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="name">Full Name *</label>
+                        <input type="text" id="name" name="name" required placeholder="Enter your full name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" required placeholder="Enter your email address">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="subject">Subject *</label>
+                        <select id="subject" name="subject" required>
+                            <option value="" disabled selected>Select a subject</option>
+                            <option value="general">General Inquiry</option>
+                            <option value="support">Technical Support</option>
+                            <option value="feedback">Feedback/Suggestion</option>
+                            <option value="bug">Report a Bug</option>
+                            <option value="business">Business Inquiry</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Message *</label>
+                        <textarea id="message" name="message" required placeholder="Please provide details about your inquiry..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-paper-plane"></i> Send Message
+                    </button>
+                </form>
+            </div>
         </div>
-        <div style="margin-bottom: 15px;">
-            <label style="display: block; margin-bottom: 5px; font-weight: 500;">Subject *</label>
-            <input type="text" required style="width: 100%; padding: 12px; border: 1px solid var(--medium-gray); border-radius: 8px;">
+    </div>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <i class="fas fa-tools"></i> Toolvala
+                    </div>
+                    <p>Free online tools for everyday tasks. PDF tools, image editors, converters and more - all in one place.</p>
+                    
+                    <div class="social-links-extended">
+                        <a href="https://x.com/SureshBurla5?t=QxLgQHUd6TfZZIaGzl_-UA&s=09" target="_blank" class="social-btn twitter" aria-label="Twitter/X">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/suresh-burla-641b1a1a1" target="_blank" class="social-btn linkedin" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="https://github.com/toolvala" target="_blank" class="social-btn github" aria-label="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://youtube.com/@toolvala" target="_blank" class="social-btn youtube" aria-label="YouTube">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="https://facebook.com/toolvala" target="_blank" class="social-btn facebook" aria-label="Facebook">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="https://instagram.com/toolvala" target="_blank" class="social-btn instagram" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Connect With Us</h3>
+                    <ul class="footer-links">
+                        <li>
+                            <a href="https://x.com/SureshBurla5?t=QxLgQHUd6TfZZIaGzl_-UA&s=09" target="_blank">
+                                <i class="fab fa-twitter"></i> Twitter / X
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.linkedin.com/in/suresh-burla-641b1a1a1" target="_blank">
+                                <i class="fab fa-linkedin"></i> LinkedIn
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/toolvala" target="_blank">
+                                <i class="fab fa-github"></i> GitHub Profile
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://youtube.com/@toolvala" target="_blank">
+                                <i class="fab fa-youtube"></i> YouTube
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://facebook.com/toolvala" target="_blank">
+                                <i class="fab fa-facebook"></i> Facebook
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Legal & Policies</h3>
+                    <ul class="footer-links">
+                        <li>
+                            <a href="https://toolvala.github.io/toolvala/privacy%20policy.html" target="_blank">
+                                <i class="fas fa-user-shield"></i> Privacy Policy
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://toolvala.github.io/toolvala/terms%20of%20service.html" target="_blank">
+                                <i class="fas fa-file-contract"></i> Terms of Service
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://toolvala.github.io/toolvala/cookies%20policy.html" target="_blank">
+                                <i class="fas fa-cookie-bite"></i> Cookies Policy
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://toolvala.github.io/toolvala/contact.html" target="_blank">
+                                <i class="fas fa-envelope"></i> Contact Us
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://toolvala.github.io/toolvala/disclaimer.html" target="_blank">
+                                <i class="fas fa-exclamation-circle"></i> Disclaimer
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://toolvala.github.io/toolvala/dmca.html" target="_blank">
+                                <i class="fas fa-balance-scale"></i> DMCA Policy
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Popular Tools</h3>
+                    <ul class="footer-links">
+                        <li>
+                            <a href="https://toolvala.github.io/toolvala/pdf%20merger.html" target="_blank">
+                                <i class="fas fa-file-pdf"></i> PDF Merger
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://toolvala.github.io/toolvala/image%20resizer.html" target="_blank">
+                                <i class="fas fa-image"></i> Image Resizer
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://toolvala.github.io/toolvala/image%20compressor.html" target="_blank">
+                                <i class="fas fa-compress-alt"></i> Image Compressor
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://toolvala.github.io/toolvala/qr%20generator.html" target="_blank">
+                                <i class="fas fa-qrcode"></i> QR Code Generator
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://toolvala.github.io/toolvala/upi%20payment.html" target="_blank">
+                                <i class="fas fa-rupee-sign"></i> UPI Payment Link
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="disclaimer-box">
+                <h4><i class="fas fa-exclamation-triangle"></i> Important Disclaimer - UPI Payment Link Generator Tool</h4>
+                <p>This tool is provided for convenience and informational purposes only. We do not store any payment information or transaction details. Users are solely responsible for verifying the accuracy of UPI links before sharing. We are not responsible for any financial losses, errors, or issues that may arise from the use of this tool. Always double-check payment details with your bank or payment service provider. All transactions are processed by third-party payment gateways and are subject to their terms and conditions.</p>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="copyright">
+                    <p>&copy; 2025 Toolvala. All rights reserved.</p>
+                </div>
+                
+                <div class="footer-extra-links">
+                    <a href="https://toolvala.github.io/toolvala/support.html" target="_blank">Support</a>
+                </div>
+                
+                <div class="designer">
+                    <p>Designed with <i class="fas fa-heart heart"></i> by Suresh Burla</p>
+                </div>
+            </div>
         </div>
-        <div style="margin-bottom: 20px;">
-            <label style="display: block; margin-bottom: 5px; font-weight: 500;">Message *</label>
-            <textarea required rows="6" style="width: 100%; padding: 12px; border: 1px solid var(--medium-gray); border-radius: 8px;"></textarea>
-        </div>
-        <button type="submit" style="background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-light) 100%); color: white; border: none; padding: 14px 30px; border-radius: 50px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin: 0 auto;">
-            <i class="fas fa-paper-plane"></i> Send Message
-        </button>
-    </form>
-</div>
+    </footer>
+
+    <script>
+        // Form submission handling
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+            
+            // Simple validation
+            if (!name || !email || !subject || !message) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+            
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('Please enter a valid email address.');
+                return;
+            }
+            
+            // In a real application, you would send this data to a server
+            // For this example, we'll just show a success message
+            const submitBtn = document.querySelector('.submit-btn');
+            const originalText = submitBtn.innerHTML;
+            
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            submitBtn.disabled = true;
+            
+            // Simulate API call
+            setTimeout(() => {
+                alert(`Thank you, ${name}! Your message has been sent successfully. We'll get back to you at ${email} soon.`);
+                
+                // Reset form
+                document.getElementById('contactForm').reset();
+                
+                // Reset button
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }, 1500);
+        });
+    </script>
+</body>
+    </html>
