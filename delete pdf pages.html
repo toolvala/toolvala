@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete PDF Pages Online | Free, Secure PDF Page Remover Tool</title>
+    <meta name="description" content="Remove pages from PDF documents instantly. Our free online tool lets you delete specific pages from PDF files securely without quality loss. No watermarks, no registration required.">
+    <meta name="keywords" content="delete PDF pages, remove pages from PDF, PDF page remover, delete PDF pages online, extract PDF pages, PDF editor">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            background: linear-gradient(90deg, #3498db, #2c3e50);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .tagline {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+            max-width: 800px;
+            margin: 0 auto 25px;
+        }
+        
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .tool-section {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .upload-area {
+            border: 3px dashed #3498db;
+            border-radius: 10px;
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 25px;
+        }
+        
+        .upload-area:hover {
+            background-color: #f8f9fa;
+            border-color: #2980b9;
+        }
+        
+        .upload-icon {
+            font-size: 60px;
+            color: #3498db;
+            margin-bottom: 15px;
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .page-preview {
+            display: none;
+            margin-top: 20px;
+        }
+        
+        .page-thumbnails {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 20px 0;
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 10px;
+        }
+        
+        .page-thumbnail {
+            width: 120px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .page-thumbnail:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .page-thumbnail.selected {
+            border-color: #e74c3c;
+            background-color: #ffeaea;
+        }
+        
+        .page-number {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 25px 0;
+        }
+        
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(90deg, #3498db, #2980b9);
+            color: white;
+            flex: 1;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(52, 152, 219, 0.4);
+        }
+        
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #2c3e50;
+            border: 2px solid #ddd;
+        }
+        
+        .btn-secondary:hover {
+            background: #e9ecef;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .spinner {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .result {
+            display: none;
+            text-align: center;
+            margin-top: 25px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 5px solid #2ecc71;
+        }
+        
+        .seo-content {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-top: 30px;
+        }
+        
+        .faq-section {
+            margin-top: 40px;
+        }
+        
+        .faq-item {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+        }
+        
+        .faq-question {
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+        
+        .privacy-note {
+            background: #e8f4fc;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 25px 0;
+            border-left: 4px solid #3498db;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-file-pdf"></i> Delete PDF Pages Online</h1>
+            <p class="tagline">Remove specific pages from PDF documents instantly. Free, secure, and no registration required. Your files are never stored on our servers.</p>
+        </header>
+        
+        <div class="main-content">
+            <div class="tool-section">
+                <h2><i class="fas fa-edit"></i> PDF Page Remover Tool</h2>
+                <p class="privacy-note">
+                    <i class="fas fa-shield-alt"></i> <strong>100% Secure:</strong> All processing happens in your browser. Your PDF files never leave your computer and are never uploaded to any server.
+                </p>
+                
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <h3>Drop your PDF file here or click to browse</h3>
+                    <p>Maximum file size: 50MB</p>
+                    <input type="file" id="pdfInput" class="file-input" accept=".pdf">
+                </div>
+                
+                <div class="page-preview" id="pagePreview">
+                    <h3>Select pages to delete:</h3>
+                    <p>Click on page thumbnails to select/unselect. Selected pages will be removed from the final PDF.</p>
+                    <div class="page-thumbnails" id="pageThumbnails">
+                        <!-- Page thumbnails will be generated here -->
+                    </div>
+                    
+                    <div class="controls">
+                        <button class="btn btn-secondary" id="selectAllBtn">
+                            <i class="fas fa-check-square"></i> Select All
+                        </button>
+                        <button class="btn btn-secondary" id="deselectAllBtn">
+                            <i class="far fa-square"></i> Deselect All
+                        </button>
+                        <button class="btn btn-secondary" id="selectOddBtn">
+                            <i class="fas fa-sort-numeric-down"></i> Select Odd Pages
+                        </button>
+                        <button class="btn btn-secondary" id="selectEvenBtn">
+                            <i class="fas fa-sort-numeric-up"></i> Select Even Pages
+                        </button>
+                    </div>
+                    
+                    <div class="controls">
+                        <button class="btn btn-primary" id="deletePagesBtn">
+                            <i class="fas fa-trash-alt"></i> Delete Selected Pages & Download PDF
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <p>Processing your PDF file...</p>
+                </div>
+                
+                <div class="result" id="result">
+                    <h3><i class="fas fa-check-circle"></i> PDF Successfully Processed!</h3>
+                    <p>Your modified PDF is ready to download. <span id="pageCountInfo"></span></p>
+                    <button class="btn btn-primary" id="downloadBtn">
+                        <i class="fas fa-download"></i> Download Your PDF
+                    </button>
+                    <p style="margin-top: 15px;">
+                        <button class="btn btn-secondary" id="processAnotherBtn">
+                            <i class="fas fa-redo"></i> Process Another PDF
+                        </button>
+                    </p>
+                </div>
+            </div>
+            
+            <div class="tool-section">
+                <h2><i class="fas fa-info-circle"></i> How to Delete Pages from PDF</h2>
+                <div style="margin: 20px 0;">
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 15px;">
+                        <h3><span style="background: #3498db; color: white; width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; margin-right: 10px;">1</span> Upload PDF</h3>
+                        <p>Drag and drop your PDF file or click to browse. We support all PDF versions up to 50MB.</p>
+                    </div>
+                    
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 15px;">
+                        <h3><span style="background: #3498db; color: white; width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; margin-right: 10px;">2</span> Select Pages</h3>
+                        <p>Click on page thumbnails to select which pages to delete. Use bulk selection options for faster selection.</p>
+                    </div>
+                    
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px;">
+                        <h3><span style="background: #3498db; color: white; width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; margin-right: 10px;">3</span> Download Result</h3>
+                        <p>Click "Delete Pages" to process and download your new PDF instantly. No watermarks added.</p>
+                    </div>
+                </div>
+                
+                <h3 style="margin-top: 30px;"><i class="fas fa-star"></i> Why Use Our PDF Page Deleter?</h3>
+                <ul style="margin: 15px 0 15px 20px; line-height: 1.6;">
+                    <li><strong>Browser-based processing</strong> - Your files never leave your computer</li>
+                    <li><strong>No file size limits</strong> - Process PDFs up to 50MB</li>
+                    <li><strong>No watermarks</strong> - Clean output without any branding</li>
+                    <li><strong>No registration</strong> - Completely free with no signup required</li>
+                    <li><strong>Fast processing</strong> - Delete pages in seconds</li>
+                    <li><strong>Secure</strong> - All processing happens locally in your browser</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="seo-content">
+            <h2><i class="fas fa-search"></i> Delete Pages from PDF - Free Online Tool</h2>
+            <p>Our <strong>PDF page deletion tool</strong> provides a simple, secure way to <strong>remove pages from PDF documents</strong> without installing any software. Whether you need to delete a single page, multiple non-consecutive pages, or entire sections from your PDF, our tool handles it all with precision.</p>
+            
+            <h3 style="margin-top: 25px;">Common Use Cases for PDF Page Deletion</h3>
+            <p>Users frequently need to <strong>delete pages from PDF files</strong> for various reasons:</p>
+            <ul style="margin: 15px 0 15px 20px; line-height: 1.6;">
+                <li><strong>Remove confidential pages</strong> before sharing a document</li>
+                <li><strong>Delete blank pages</strong> that appear after scanning documents</li>
+                <li><strong>Extract specific sections</strong> by removing unwanted pages</li>
+                <li><strong>Clean up PDF portfolios</strong> by eliminating unnecessary files</li>
+                <li><strong>Prepare documents for printing</strong> by removing cover pages or instructions</li>
+                <li><strong>Reduce file size</strong> by deleting image-heavy pages</li>
+            </ul>
+            
+            <div class="faq-section">
+                <h3><i class="fas fa-question-circle"></i> Frequently Asked Questions</h3>
+                
+                <div class="faq-item">
+                    <div class="faq-question">Is it safe to delete PDF pages using your online tool?</div>
+                    <p>Yes, absolutely. Our tool processes all PDF files directly in your browser using JavaScript. Your files are never uploaded to any server, ensuring complete privacy and security. This approach is safer than many online PDF editors that require file uploads.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">Will deleting pages reduce my PDF file size?</div>
+                    <p>Yes, removing pages from a PDF will generally reduce the file size, especially if you're deleting image-heavy pages or pages with complex graphics. The exact reduction depends on the content of the pages you're removing.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">Can I delete multiple non-consecutive pages?</div>
+                    <p>Yes, our tool allows you to select any combination of pages to delete. You can click on individual page thumbnails to select/deselect them, or use our bulk selection buttons to quickly select odd, even, or all pages.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">Do you keep copies of my PDF files?</div>
+                    <p>No. Since all processing happens locally in your browser, we never receive, store, or have access to your files. This is a key privacy advantage over server-based PDF tools.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">What PDF versions are supported?</div>
+                    <p>Our tool supports all PDF versions up to PDF 2.0. It works with PDFs created by Adobe Acrobat, Microsoft Word, Google Docs, scanners, and all other common PDF generators.</p>
+                </div>
+            </div>
+            
+            <div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 10px;">
+                <h3><i class="fas fa-lightbulb"></i> Pro Tip: Alternative PDF Editing Options</h3>
+                <p>While our tool specializes in deleting pages, you might also need other PDF editing functions. For comprehensive PDF editing including merging, splitting, rotating, and compressing PDFs, consider using our full suite of <a href="#" style="color: #3498db; font-weight: 600;">PDF tools</a>. All our tools maintain the same commitment to privacy and security.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include PDF.js library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    
+    <script>
+        // DOM Elements
+        const pdfInput = document.getElementById('pdfInput');
+        const uploadArea = document.getElementById('uploadArea');
+        const pagePreview = document.getElementById('pagePreview');
+        const pageThumbnails = document.getElementById('pageThumbnails');
+        const deletePagesBtn = document.getElementById('deletePagesBtn');
+        const loading = document.getElementById('loading');
+        const result = document.getElementById('result');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const processAnotherBtn = document.getElementById('processAnotherBtn');
+        const selectAllBtn = document.getElementById('selectAllBtn');
+        const deselectAllBtn = document.getElementById('deselectAllBtn');
+        const selectOddBtn = document.getElementById('selectOddBtn');
+        const selectEvenBtn = document.getElementById('selectEvenBtn');
+        const pageCountInfo = document.getElementById('pageCountInfo');
+        
+        // State variables
+        let pdfDoc = null;
+        let totalPages = 0;
+        let selectedPages = new Set();
+        let pdfBytes = null;
+        
+        // Event Listeners
+        uploadArea.addEventListener('click', () => pdfInput.click());
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = '#2980b9';
+            uploadArea.style.background = '#f0f8ff';
+        });
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.style.borderColor = '#3498db';
+            uploadArea.style.background = '';
+        });
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = '#3498db';
+            uploadArea.style.background = '';
+            
+            if (e.dataTransfer.files.length > 0) {
+                const file = e.dataTransfer.files[0];
+                if (file.type === 'application/pdf') {
+                    pdfInput.files = e.dataTransfer.files;
+                    handlePDFUpload(file);
+                } else {
+                    alert('Please upload a PDF file.');
+                }
+            }
+        });
+        
+        pdfInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handlePDFUpload(e.target.files[0]);
+            }
+        });
+        
+        // Handle PDF upload
+        async function handlePDFUpload(file) {
+            if (file.size > 50 * 1024 * 1024) {
+                alert('File size exceeds 50MB limit. Please upload a smaller PDF.');
+                return;
+            }
+            
+            try {
+                loading.style.display = 'block';
+                pagePreview.style.display = 'none';
+                
+                const arrayBuffer = await file.arrayBuffer();
+                pdfBytes = new Uint8Array(arrayBuffer);
+                
+                // Load PDF for preview
+                const loadingTask = pdfjsLib.getDocument({data: pdfBytes});
+                pdfDoc = await loadingTask.promise;
+                totalPages = pdfDoc.numPages;
+                
+                // Generate page thumbnails
+                await generatePageThumbnails();
+                
+                loading.style.display = 'none';
+                pagePreview.style.display = 'block';
+                uploadArea.style.display = 'none';
+                
+            } catch (error) {
+                console.error('Error loading PDF:', error);
+                loading.style.display = 'none';
+                alert('Error loading PDF. Please make sure it\'s a valid PDF file.');
+            }
+        }
+        
+        // Generate page thumbnails
+        async function generatePageThumbnails() {
+            pageThumbnails.innerHTML = '';
+            selectedPages.clear();
+            
+            // Create a limited number of thumbnails for performance
+            const maxThumbnails = Math.min(totalPages, 50);
+            const step = Math.max(1, Math.floor(totalPages / maxThumbnails));
+            
+            for (let i = 1; i <= totalPages; i += step) {
+                const pageNum = i;
+                const thumbnail = document.createElement('div');
+                thumbnail.className = 'page-thumbnail';
+                thumbnail.dataset.page = pageNum;
+                
+                // Generate thumbnail
+                try {
+                    const page = await pdfDoc.getPage(pageNum);
+                    const viewport = page.getViewport({scale: 0.2});
+                    
+                    const canvas = document.createElement('canvas');
+                    const context = canvas.getContext('2d');
+                    canvas.height = viewport.height;
+                    canvas.width = viewport.width;
+                    
+                    await page.render({
+                        canvasContext: context,
+                        viewport: viewport
+                    }).promise;
+                    
+                    thumbnail.innerHTML = `
+                        <img src="${canvas.toDataURL()}" style="width:100px; height:auto; border:1px solid #ddd;">
+                        <span class="page-number">Page ${pageNum}</span>
+                        <div style="margin-top:5px;">
+                            <input type="checkbox" id="page-${pageNum}" class="page-checkbox">
+                            <label for="page-${pageNum}">Delete</label>
+                        </div>
+                    `;
+                    
+                } catch (error) {
+                    // If we can't render the page, show a placeholder
+                    thumbnail.innerHTML = `
+                        <div style="width:100px; height:130px; background:#f0f0f0; display:flex; align-items:center; justify-content:center; border:1px solid #ddd;">
+                            <i class="fas fa-file-pdf" style="font-size:30px; color:#e74c3c;"></i>
+                        </div>
+                        <span class="page-number">Page ${pageNum}</span>
+                        <div style="margin-top:5px;">
+                            <input type="checkbox" id="page-${pageNum}" class="page-checkbox">
+                            <label for="page-${pageNum}">Delete</label>
+                        </div>
+                    `;
+                }
+                
+                // Add click event
+                thumbnail.addEventListener('click', (e) => {
+                    if (e.target.type !== 'checkbox' && e.target.tagName !== 'LABEL') {
+                        const checkbox = thumbnail.querySelector('.page-checkbox');
+                        checkbox.checked = !checkbox.checked;
+                        togglePageSelection(pageNum, checkbox.checked);
+                    }
+                });
+                
+                // Add checkbox event
+                const checkbox = thumbnail.querySelector('.page-checkbox');
+                checkbox.addEventListener('change', (e) => {
+                    togglePageSelection(pageNum, e.target.checked);
+                });
+                
+                pageThumbnails.appendChild(thumbnail);
+            }
+            
+            // Add note if we're not showing all pages
+            if (step > 1) {
+                const note = document.createElement('div');
+                note.style.width = '100%';
+                note.style.textAlign = 'center';
+                note.style.padding = '10px';
+                note.style.color = '#7f8c8d';
+                note.innerHTML = `<i class="fas fa-info-circle"></i> Showing ${maxThumbnails} of ${totalPages} pages for performance. All pages will be processed.`;
+                pageThumbnails.appendChild(note);
+            }
+        }
+        
+        // Toggle page selection
+        function togglePageSelection(pageNum, isSelected) {
+            if (isSelected) {
+                selectedPages.add(pageNum);
+                document.querySelector(`.page-thumbnail[data-page="${pageNum}"]`).classList.add('selected');
+            } else {
+                selectedPages.delete(pageNum);
+                document.querySelector(`.page-thumbnail[data-page="${pageNum}"]`).classList.remove('selected');
+            }
+        }
+        
+        // Bulk selection buttons
+        selectAllBtn.addEventListener('click', () => {
+            for (let i = 1; i <= totalPages; i++) {
+                selectedPages.add(i);
+                const thumbnail = document.querySelector(`.page-thumbnail[data-page="${i}"]`);
+                if (thumbnail) {
+                    thumbnail.classList.add('selected');
+                    const checkbox = thumbnail.querySelector('.page-checkbox');
+                    if (checkbox) checkbox.checked = true;
+                }
+            }
+        });
+        
+        deselectAllBtn.addEventListener('click', () => {
+            selectedPages.clear();
+            document.querySelectorAll('.page-thumbnail').forEach(thumb => {
+                thumb.classList.remove('selected');
+                const checkbox = thumb.querySelector('.page-checkbox');
+                if (checkbox) checkbox.checked = false;
+            });
+        });
+        
+        selectOddBtn.addEventListener('click', () => {
+            for (let i = 1; i <= totalPages; i++) {
+                if (i % 2 === 1) {
+                    selectedPages.add(i);
+                    const thumbnail = document.querySelector(`.page-thumbnail[data-page="${i}"]`);
+                    if (thumbnail) {
+                        thumbnail.classList.add('selected');
+                        const checkbox = thumbnail.querySelector('.page-checkbox');
+                        if (checkbox) checkbox.checked = true;
+                    }
+                }
+            }
+        });
+        
+        selectEvenBtn.addEventListener('click', () => {
+            for (let i = 1; i <= totalPages; i++) {
+                if (i % 2 === 0) {
+                    selectedPages.add(i);
+                    const thumbnail = document.querySelector(`.page-thumbnail[data-page="${i}"]`);
+                    if (thumbnail) {
+                        thumbnail.classList.add('selected');
+                        const checkbox = thumbnail.querySelector('.page-checkbox');
+                        if (checkbox) checkbox.checked = true;
+                    }
+                }
+            }
+        });
+        
+        // Delete pages and create new PDF
+        deletePagesBtn.addEventListener('click', async () => {
+            if (selectedPages.size === 0) {
+                alert('Please select at least one page to delete.');
+                return;
+            }
+            
+            if (selectedPages.size === totalPages) {
+                if (!confirm('You have selected all pages for deletion. This will result in an empty PDF. Continue?')) {
+                    return;
+                }
+            }
+            
+            try {
+                loading.style.display = 'block';
+                pagePreview.style.display = 'none';
+                
+                // Load PDF with pdf-lib
+                const pdfLib = window.PDFLib;
+                const pdfDoc = await pdfLib.PDFDocument.load(pdfBytes);
+                const pages = pdfDoc.getPages();
+                
+                // Create new PDF
+                const newPdf = await pdfLib.PDFDocument.create();
+                
+                // Copy pages except the ones to delete
+                for (let i = 0; i < pages.length; i++) {
+                    if (!selectedPages.has(i + 1)) {
+                        const [copiedPage] = await newPdf.copyPages(pdfDoc, [i]);
+                        newPdf.addPage(copiedPage);
+                    }
+                }
+                
+                // Save new PDF
+                const newPdfBytes = await newPdf.save();
+                
+                // Create download link
+                const blob = new Blob([newPdfBytes], { type: 'application/pdf' });
+                const url = URL.createObjectURL(blob);
+                
+                downloadBtn.onclick = () => {
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `pdf-without-pages-${new Date().getTime()}.pdf`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                };
+                
+                // Show result
+                loading.style.display = 'none';
+                result.style.display = 'block';
+                pageCountInfo.textContent = `Deleted ${selectedPages.size} page${selectedPages.size === 1 ? '' : 's'}. New PDF has ${pages.length - selectedPages.size} page${pages.length - selectedPages.size === 1 ? '' : 's'}.`;
+                
+            } catch (error) {
+                console.error('Error processing PDF:', error);
+                loading.style.display = 'none';
+                alert('Error processing PDF. Please try again.');
+            }
+        });
+        
+        // Process another PDF
+        processAnotherBtn.addEventListener('click', () => {
+            result.style.display = 'none';
+            pagePreview.style.display = 'none';
+            uploadArea.style.display = 'block';
+            pdfInput.value = '';
+            selectedPages.clear();
+            pdfBytes = null;
+        });
+        
+        // Initialize with a sample PDF for demonstration (optional)
+        // Uncomment to load a sample PDF on page load
+        /*
+        window.addEventListener('load', async () => {
+            // You can load a sample PDF here for demonstration
+            // const samplePdfResponse = await fetch('sample.pdf');
+            // const samplePdfBytes = await samplePdfResponse.arrayBuffer();
+            // pdfInput.files = ... // You would need to create a File object
+        });
+        */
+    </script>
+</body>
+</html>
