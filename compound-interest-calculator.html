@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Compound Interest Calculator | Toolvala</title>
+  <meta name="description" content="Free Compound Interest Calculator by Toolvala. Calculate compound interest, total amount, and investment growth instantly. Ideal for SIP, FD, savings, and long-term investments." />
+  <meta name="keywords" content="compound interest calculator, ci calculator online, investment calculator, interest calculator, savings calculator" />
+  <style>
+    body{font-family:Arial,sans-serif;background:#f3f4f6;margin:0}
+    .container{max-width:900px;margin:auto;padding:20px}
+    h1{text-align:center;color:#1f2933}
+    .card{background:#fff;border-radius:10px;padding:20px;box-shadow:0 4px 10px rgba(0,0,0,.08);margin-bottom:20px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px}
+    input,select,button{padding:10px;border-radius:6px;border:1px solid #d1d5db;font-size:15px}
+    button{background:#2563eb;color:#fff;border:none;cursor:pointer}
+    button:hover{background:#1d4ed8}
+    .result{display:flex;gap:15px;flex-wrap:wrap}
+    .box{flex:1;min-width:200px;background:#eff6ff;padding:15px;border-radius:8px;text-align:center}
+    .box h3{margin:0;color:#1e40af}
+    footer{text-align:center;font-size:14px;color:#6b7280}
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>📈 Compound Interest Calculator</h1>
+
+  <div class="card">
+    <h2>Calculate Compound Interest</h2>
+    <div class="grid">
+      <input type="number" id="principal" placeholder="Principal Amount (₹)" />
+      <input type="number" id="rate" placeholder="Annual Interest Rate (%)" />
+      <input type="number" id="time" placeholder="Time Period (Years)" />
+      <select id="frequency">
+        <option value="1">Yearly</option>
+        <option value="2">Half-Yearly</option>
+        <option value="4">Quarterly</option>
+        <option value="12">Monthly</option>
+      </select>
+      <button onclick="calculateCI()">Calculate</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="result">
+      <div class="box">
+        <h3>Invested Amount</h3>
+        <p id="invested">₹0</p>
+      </div>
+      <div class="box">
+        <h3>Total Amount</h3>
+        <p id="total">₹0</p>
+      </div>
+      <div class="box">
+        <h3>Compound Interest</h3>
+        <p id="interest">₹0</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>About Compound Interest Calculator</h2>
+    <p><strong>Compound Interest Calculator by Toolvala</strong> helps you calculate the future value of your investments by applying compound interest formula. It is useful for calculating returns on fixed deposits (FD), savings accounts, mutual funds, SIPs, and long-term investments.</p>
+
+    <h3>Formula Used</h3>
+    <p><strong>A = P (1 + r/n)<sup>nt</sup></strong></p>
+    <p>Where:<br>
+      P = Principal amount<br>
+      r = Annual interest rate<br>
+      n = Compounding frequency<br>
+      t = Time in years
+    </p>
+
+    <h3>Use Cases</h3>
+    <ul>
+      <li>Investment planning</li>
+      <li>Savings growth estimation</li>
+      <li>FD and RD calculations</li>
+      <li>Student finance learning</li>
+      <li>Long-term wealth planning</li>
+    </ul>
+
+    <h2>Frequently Asked Questions (FAQ)</h2>
+
+    <h4>1. What is compound interest?</h4>
+    <p>Compound interest is interest calculated on the initial principal and also on the accumulated interest over previous periods.</p>
+
+    <h4>2. Is this compound interest calculator free?</h4>
+    <p>Yes, it is completely free and requires no registration.</p>
+
+    <h4>3. Can I calculate monthly compound interest?</h4>
+    <p>Yes, select "Monthly" compounding frequency to calculate monthly compound interest.</p>
+
+    <h4>4. Is this calculator accurate?</h4>
+    <p>Yes, it uses the standard compound interest formula used by banks and financial institutions.</p>
+
+    <h4>5. Can I use this for SIP or mutual funds?</h4>
+    <p>This calculator is suitable for lump-sum investments. For SIPs, a dedicated SIP calculator is recommended.</p>
+
+    <p><strong>Use Toolvala Compound Interest Calculator to plan your investments smartly and grow your wealth.</strong></p>
+  </div>
+
+  <footer>© Toolvala – Free Compound Interest Calculator</footer>
+</div>
+
+<script>
+function calculateCI(){
+  const P=parseFloat(document.getElementById('principal').value);
+  const r=parseFloat(document.getElementById('rate').value)/100;
+  const t=parseFloat(document.getElementById('time').value);
+  const n=parseInt(document.getElementById('frequency').value);
+
+  if(!P||!r||!t){alert('Please fill all fields');return}
+
+  const A=P*Math.pow((1+r/n),(n*t));
+  const CI=A-P;
+
+  document.getElementById('invested').innerText='₹'+P.toFixed(2);
+  document.getElementById('total').innerText='₹'+A.toFixed(2);
+  document.getElementById('interest').innerText='₹'+CI.toFixed(2);
+}
+</script>
+</body>
+</html>
