@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Age Calculator | Toolvala</title>
+  <meta name="description" content="Free Age Calculator by Toolvala. Calculate your exact age in years, months, days, hours, minutes and leap years instantly." />
+  <meta name="keywords" content="age calculator, date of birth to age, calculate age online, dob calculator, exact age calculator, leap year age" />
+  <style>
+    body{font-family:Arial,sans-serif;background:#f3f4f6;margin:0}
+    .container{max-width:900px;margin:auto;padding:20px}
+    h1{text-align:center;color:#1f2933}
+    .card{background:#fff;border-radius:10px;padding:20px;box-shadow:0 4px 10px rgba(0,0,0,.08);margin-bottom:20px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px}
+    input,button{padding:10px;border-radius:6px;border:1px solid #d1d5db;font-size:15px}
+    button{background:#2563eb;color:#fff;border:none;cursor:pointer}
+    button:hover{background:#1d4ed8}
+    .result{display:flex;gap:15px;flex-wrap:wrap;margin-top:15px}
+    .box{flex:1;min-width:160px;background:#eff6ff;padding:15px;border-radius:8px;text-align:center}
+    .box h2{margin:0;color:#1e40af;font-size:26px}
+    footer{text-align:center;font-size:14px;color:#6b7280}
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>🎯 Age Calculator</h1>
+
+  <div class="card">
+    <h2>Calculate Your Exact Age</h2>
+    <div class="grid">
+      <input type="date" id="dob" />
+      <button onclick="calculateAge()">Calculate Age</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="result">
+      <div class="box"><h2 id="years">0</h2><p>Years</p></div>
+      <div class="box"><h2 id="months">0</h2><p>Months</p></div>
+      <div class="box"><h2 id="days">0</h2><p>Days</p></div>
+      <div class="box"><h2 id="hours">0</h2><p>Hours</p></div>
+      <div class="box"><h2 id="minutes">0</h2><p>Minutes</p></div>
+      <div class="box"><h2 id="leapYears">0</h2><p>Leap Years</p></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>About Age Calculator</h2>
+    <p><strong>Age Calculator by Toolvala</strong> helps you calculate your exact age from your date of birth. It shows age in years, months, days, hours, minutes, and leap years.</p>
+
+    <h3>How to Use</h3>
+    <ol>
+      <li>Select your date of birth</li>
+      <li>Click on <strong>Calculate Age</strong></li>
+      <li>View your exact age instantly</li>
+    </ol>
+
+    <h3>Use Cases</h3>
+    <ul>
+      <li>Government & job forms</li>
+      <li>School & college records</li>
+      <li>Medical & insurance documents</li>
+      <li>Personal curiosity</li>
+    </ul>
+
+    <h2>Frequently Asked Questions (FAQ)</h2>
+
+    <h4>Does this calculator count leap years?</h4>
+    <p>Yes, it accurately counts all leap years between your date of birth and today.</p>
+
+    <h4>Is this tool free?</h4>
+    <p>Yes, it is 100% free and works directly in your browser.</p>
+
+    <h4>Is my data saved?</h4>
+    <p>No, all calculations are done locally. No data is stored.</p>
+  </div>
+
+  <footer>© Toolvala – Free Age Calculator</footer>
+</div>
+
+<script>
+function calculateAge() {
+  const dobInput = document.getElementById('dob').value;
+  if (!dobInput) {
+    alert('Please select your date of birth');
+    return;
+  }
+
+  const dob = new Date(dobInput);
+  const now = new Date();
+
+  if (dob > now) {
+    alert('Date of birth cannot be in the future');
+    return;
+  }
+
+  const diffMs = now - dob;
+  const totalMinutes = Math.floor(diffMs / (1000 * 60));
+  const totalHours = Math.floor(diffMs / (1000 * 60 * 60));
+  const totalDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+  let years = now.getFullYear() - dob.getFullYear();
+  let months = now.getMonth() - dob.getMonth();
+
+  if (months < 0 || (months === 0 && now.getDate() < dob.getDate())) {
+    years--;
+    months += 12;
+  }
+
+  let leapYears = 0;
+  for (let y = dob.getFullYear(); y <= now.getFullYear(); y++) {
+    if ((y % 4 === 0 && y % 100 !== 0) || y % 400 === 0) {
+      leapYears++;
+    }
+  }
+
+  document.getElementById('years').innerText = years;
+  document.getElementById('months').innerText = months;
+  document.getElementById('days').innerText = totalDays % 365;
+  document.getElementById('hours').innerText = totalHours % 24;
+  document.getElementById('minutes').innerText = totalMinutes % 60;
+  document.getElementById('leapYears').innerText = leapYears;
+}
+</script>
+</body>
+</html>
