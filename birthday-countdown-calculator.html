@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Birthday Countdown Calculator | Toolvala</title>
+  <meta name="description" content="Free Birthday Countdown Calculator by Toolvala. Calculate days, hours, minutes left until your next birthday instantly. Fun, accurate & mobile-friendly tool." />
+  <meta name="keywords" content="birthday countdown calculator, days until my birthday, birthday timer online, next birthday calculator" />
+  <style>
+    body{font-family:Arial,sans-serif;background:#f3f4f6;margin:0}
+    .container{max-width:900px;margin:auto;padding:20px}
+    h1{text-align:center;color:#1f2933}
+    .card{background:#fff;border-radius:10px;padding:20px;box-shadow:0 4px 10px rgba(0,0,0,.08);margin-bottom:20px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px}
+    input,button{padding:10px;border-radius:6px;border:1px solid #d1d5db;font-size:15px}
+    button{background:#2563eb;color:#fff;border:none;cursor:pointer}
+    button:hover{background:#1d4ed8}
+    .countdown{display:flex;gap:15px;flex-wrap:wrap;margin-top:15px}
+    .box{flex:1;min-width:180px;background:#eff6ff;padding:15px;border-radius:8px;text-align:center}
+    .box h2{margin:0;color:#1e40af;font-size:28px}
+    footer{text-align:center;font-size:14px;color:#6b7280}
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>🎂 Birthday Countdown Calculator</h1>
+
+  <div class="card">
+    <h2>Find Time Left Until Your Birthday</h2>
+    <div class="grid">
+      <input type="date" id="dob" />
+      <button onclick="calculateCountdown()">Calculate Countdown</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="countdown">
+      <div class="box"><h2 id="days">0</h2><p>Days</p></div>
+      <div class="box"><h2 id="hours">0</h2><p>Hours</p></div>
+      <div class="box"><h2 id="minutes">0</h2><p>Minutes</p></div>
+      <div class="box"><h2 id="seconds">0</h2><p>Seconds</p></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>About Birthday Countdown Calculator</h2>
+    <p><strong>Birthday Countdown Calculator by Toolvala</strong> helps you calculate exactly how much time is left until your next birthday. It shows days, hours, minutes, and seconds remaining, making it a fun and useful tool for planning celebrations.</p>
+
+    <h3>How to Use</h3>
+    <ol>
+      <li>Select your date of birth</li>
+      <li>Click on Calculate Countdown</li>
+      <li>View live countdown to your next birthday</li>
+    </ol>
+
+    <h3>Use Cases</h3>
+    <ul>
+      <li>Birthday celebration planning</li>
+      <li>Surprise party countdown</li>
+      <li>Kids birthday excitement</li>
+      <li>Personal reminders</li>
+      <li>Fun time calculation</li>
+    </ul>
+
+    <h2>Frequently Asked Questions (FAQ)</h2>
+
+    <h4>1. How does the birthday countdown work?</h4>
+    <p>The tool calculates the time difference between today and your next birthday.</p>
+
+    <h4>2. Is this birthday countdown calculator free?</h4>
+    <p>Yes, it is completely free to use.</p>
+
+    <h4>3. Does it work for any age?</h4>
+    <p>Yes, it works for all ages.</p>
+
+    <h4>4. Is my date of birth saved?</h4>
+    <p>No, your date is not stored. All calculations are done in your browser.</p>
+
+    <h4>5. Can I use it on mobile?</h4>
+    <p>Yes, it is fully responsive and works on all devices.</p>
+
+    <p><strong>Use Toolvala Birthday Countdown Calculator to track your special day with excitement.</strong></p>
+  </div>
+
+  <footer>© Toolvala – Free Birthday Countdown Calculator</footer>
+</div>
+
+<script>
+let timer;
+function calculateCountdown(){
+  const dobInput=document.getElementById('dob').value;
+  if(!dobInput){alert('Please select your date of birth');return}
+
+  if(timer) clearInterval(timer);
+
+  timer=setInterval(()=>{
+    const now=new Date();
+    const dob=new Date(dobInput);
+    let nextBirthday=new Date(now.getFullYear(),dob.getMonth(),dob.getDate());
+
+    if(nextBirthday < now){
+      nextBirthday.setFullYear(now.getFullYear()+1);
+    }
+
+    const diff=nextBirthday-now;
+
+    const days=Math.floor(diff/(1000*60*60*24));
+    const hours=Math.floor((diff/(1000*60*60))%24);
+    const minutes=Math.floor((diff/(1000*60))%60);
+    const seconds=Math.floor((diff/1000)%60);
+
+    document.getElementById('days').innerText=days;
+    document.getElementById('hours').innerText=hours;
+    document.getElementById('minutes').innerText=minutes;
+    document.getElementById('seconds').innerText=seconds;
+  },1000);
+}
+</script>
+</body>
+</html>
