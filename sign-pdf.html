@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free PDF Signer Online | Sign Documents Without Uploading</title>
+    <meta name="description" content="Sign PDF documents online for free. Draw your e-signature and add it to PDF pages instantly. 100% private client-side processing, no server uploads.">
+    <!-- Required Library for PDF Manipulation -->
+    <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+    <!-- Font for interface -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brand: #2563eb;
+            --brand-dark: #1e40af;
+            --surface: #ffffff;
+            --bg: #f8fafc;
+            --text: #0f172a;
+            --border: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .seo-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px 20px;
+            text-align: center;
+        }
+
+        h1 { color: var(--brand); margin-bottom: 10px; font-size: 2.2rem; }
+        .subtext { color: #64748b; font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+
+        .tool-wrapper {
+            max-width: 900px;
+            margin: 20px auto;
+            background: var(--surface);
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+            padding: 30px;
+            border: 1px solid var(--border);
+            display: grid;
+            gap: 30px;
+        }
+
+        .step-section {
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 25px;
+        }
+        .step-section:last-child { border-bottom: none; padding-bottom: 0; }
+        
+        .step-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .badge { background: var(--brand); color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; }
+
+        /* File Upload */
+        .file-upload {
+            border: 2px dashed #cbd5e1;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: #f1f5f9;
+        }
+        .file-upload:hover { border-color: var(--brand); background: #eff6ff; }
+        
+        /* Signature Canvas */
+        .canvas-area {
+            background: white;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
+            cursor: crosshair;
+            /* subtle pattern to show it's drawing area */
+            background-image: radial-gradient(#e2e8f0 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        
+        .controls {
+            display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;
+        }
+
+        /* Buttons */
+        .btn {
+            background: var(--brand); color: white; padding: 12px 24px; 
+            border: none; border-radius: 6px; font-weight: 600; cursor: pointer;
+            transition: opacity 0.2s; font-size: 1rem;
+        }
+        .btn:hover { opacity: 0.9; }
+        .btn:disabled { background: #94a3b8; cursor: not-allowed; }
+        .btn-outline { background: white; color: #dc2626; border: 1px solid #dc2626; }
+        .btn-outline:hover { background: #fef2f2; }
+
+        /* Sliders */
+        .settings-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        @media(max-width: 600px) { .settings-grid { grid-template-columns: 1fr; } }
+
+        label { display: block; font-weight: 600; margin-bottom: 5px; font-size: 0.9rem; }
+        select, input[type="range"], input[type="number"] { width: 100%; padding: 8px; border: 1px solid var(--border); border-radius: 4px; box-sizing: border-box; }
+
+        /* Instructions */
+        .faq-section {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        .faq-section h2 { font-size: 1.5rem; color: var(--text); }
+        .faq-item { margin-bottom: 20px; }
+        .faq-item h3 { font-size: 1.1rem; color: var(--brand-dark); margin-bottom: 5px; }
+        .faq-item p { margin-top: 0; color: #475569; }
+
+        /* Helpers */
+        .hidden { display: none; }
+        .status-msg { margin-top:10px; font-size:0.9rem; font-weight:600; }
+        .success { color: #16a34a; }
+        .error { color: #dc2626; }
+    </style>
+</head>
+<body>
+
+    <header class="seo-container">
+        <h1>Sign PDF Documents Online</h1>
+        <p class="subtext">Securely add your handwritten signature to any PDF. Runs entirely in your browser—your files never get uploaded to a server.</p>
+    </header>
+
+    <main class="tool-wrapper">
+        
+        <!-- STEP 1: Upload PDF -->
+        <div class="step-section">
+            <div class="step-title"><span class="badge">1</span> Upload PDF</div>
+            <div class="file-upload" onclick="document.getElementById('pdfInput').click()">
+                <div style="font-size:2rem;">📄</div>
+                <strong>Click to Select PDF File</strong>
+                <p style="font-size:0.85rem; color:#64748b; margin-bottom:0;">Accepts standard PDF files (Max 10MB recommended)</p>
+            </div>
+            <input type="file" id="pdfInput" accept="application/pdf" style="display: none">
+            <div id="pdfStatus" class="status-msg"></div>
+        </div>
+
+        <!-- STEP 2: Draw Signature -->
+        <div class="step-section">
+            <div class="step-title"><span class="badge">2</span> Draw Your Signature</div>
+            <div style="position:relative; width:100%; height:200px;" id="canvasContainer">
+                <canvas id="sigCanvas" class="canvas-area"></canvas>
+            </div>
+            <div class="controls">
+                <button class="btn btn-outline" id="clearBtn">Clear / Retry</button>
+                <div style="flex:1;"></div>
+                <small style="align-self:center; color:#64748b;">(Draw with mouse or finger)</small>
+            </div>
+        </div>
+
+        <!-- STEP 3: Place & Download -->
+        <div class="step-section">
+            <div class="step-title"><span class="badge">3</span> Position & Download</div>
+            
+            <div class="settings-grid">
+                <div>
+                    <label>Select Page to Sign</label>
+                    <input type="number" id="pageNumber" min="1" value="1">
+                    <small style="color:#64748b;" id="pageCountDisplay">Loaded: 0 pages</small>
+                </div>
+                
+                <div>
+                    <label>Position Preset</label>
+                    <select id="positionPreset">
+                        <option value="bottom-right">Bottom Right</option>
+                        <option value="bottom-left">Bottom Left</option>
+                        <option value="bottom-center">Bottom Center</option>
+                        <option value="center">Center of Page</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label>Signature Scale (Size)</label>
+                    <input type="range" id="sigScale" min="0.1" max="1.0" step="0.1" value="0.3">
+                </div>
+
+                <div>
+                    <label>Fine Tune Vertical (Offset)</label>
+                    <input type="range" id="yOffset" min="-200" max="200" value="0">
+                    <small>Move Up/Down</small>
+                </div>
+            </div>
+
+            <div style="margin-top:30px;">
+                <button class="btn" id="downloadPdfBtn" style="width:100%;" disabled>⬇ Download Signed PDF</button>
+                <div id="processingMsg" class="status-msg" style="text-align: center;"></div>
+            </div>
+        </div>
+    </main>
+
+    <div class="faq-section">
+        <h2>How to Sign a PDF Without Adobe Acrobat?</h2>
+        
+        <div class="faq-item">
+            <h3>Is my PDF safe?</h3>
+            <p>Yes. This tool processes the PDF locally on your device using JavaScript. Unlike other websites, your sensitive contracts and forms are <strong>never sent to our servers</strong>.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>How do I create a digital signature?</h3>
+            <p>Simply use your mouse (on desktop) or your finger (on mobile) to draw inside the box above. Our tool converts it into a transparent signature image.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>Why isn't my signature downloading?</h3>
+            <p>We fixed that! If you want just the signature image, you can right-click the canvas and save. However, the button above embeds it directly into your PDF file for a professional finish.</p>
+        </div>
+    </div>
+
+    <script>
+        const { PDFDocument } = PDFLib;
+
+        // --- DOM Elements ---
+        const pdfInput = document.getElementById('pdfInput');
+        const pdfStatus = document.getElementById('pdfStatus');
+        
+        const canvas = document.getElementById('sigCanvas');
+        const ctx = canvas.getContext('2d');
+        const container = document.getElementById('canvasContainer');
+        const clearBtn = document.getElementById('clearBtn');
+        
+        const pageNumberInput = document.getElementById('pageNumber');
+        const pageCountDisplay = document.getElementById('pageCountDisplay');
+        const positionPreset = document.getElementById('positionPreset');
+        const sigScale = document.getElementById('sigScale');
+        const yOffset = document.getElementById('yOffset');
+        
+        const downloadPdfBtn = document.getElementById('downloadPdfBtn');
+        const processingMsg = document.getElementById('processingMsg');
+
+        // --- State ---
+        let existingPdfBytes = null;
+        let isDrawing = false;
+        let totalPages = 0;
+        let hasSignature = false;
+
+        // --- 1. Canvas / Drawing Logic ---
+        
+        function resizeCanvas() {
+            canvas.width = container.offsetWidth;
+            canvas.height = container.offsetHeight;
+            ctx.lineWidth = 2;
+            ctx.lineJoin = 'round';
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = '#000000';
+        }
+        window.addEventListener('resize', resizeCanvas);
+        // Init canvas size immediately
+        setTimeout(resizeCanvas, 100);
+
+        function getPos(e) {
+            const rect = canvas.getBoundingClientRect();
+            let cx, cy;
+            if(e.changedTouches) {
+                cx = e.changedTouches[0].clientX;
+                cy = e.changedTouches[0].clientY;
+            } else {
+                cx = e.clientX;
+                cy = e.clientY;
+            }
+            return { x: cx - rect.left, y: cy - rect.top };
+        }
+
+        // Draw Events
+        ['mousedown', 'touchstart'].forEach(evt => {
+            canvas.addEventListener(evt, (e) => {
+                isDrawing = true;
+                const pos = getPos(e);
+                ctx.beginPath();
+                ctx.moveTo(pos.x, pos.y);
+                if(evt === 'touchstart') e.preventDefault(); // Prevent scroll
+            }, {passive: false});
+        });
+
+        ['mousemove', 'touchmove'].forEach(evt => {
+            canvas.addEventListener(evt, (e) => {
+                if(!isDrawing) return;
+                const pos = getPos(e);
+                ctx.lineTo(pos.x, pos.y);
+                ctx.stroke();
+                hasSignature = true;
+                checkReady();
+                if(evt === 'touchmove') e.preventDefault();
+            }, {passive: false});
+        });
+
+        ['mouseup', 'touchend', 'mouseout'].forEach(evt => {
+            canvas.addEventListener(evt, () => isDrawing = false);
+        });
+
+        clearBtn.addEventListener('click', () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            hasSignature = false;
+            checkReady();
+        });
+
+        // --- 2. PDF Upload Logic ---
+        pdfInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            if (file.type !== 'application/pdf') {
+                pdfStatus.innerHTML = '<span class="error">❌ Please upload a valid PDF file.</span>';
+                return;
+            }
+
+            const arrayBuffer = await file.arrayBuffer();
+            existingPdfBytes = arrayBuffer;
+            
+            // Get page count to set limits
+            try {
+                const pdfDoc = await PDFDocument.load(existingPdfBytes);
+                totalPages = pdfDoc.getPageCount();
+                pageNumberInput.max = totalPages;
+                pageCountDisplay.innerText = `Loaded: ${totalPages} pages`;
+                pdfStatus.innerHTML = `<span class="success">✅ Loaded: ${file.name}</span>`;
+                checkReady();
+            } catch (err) {
+                pdfStatus.innerHTML = '<span class="error">❌ Error loading PDF. Is it encrypted?</span>';
+                console.error(err);
+            }
+        });
+
+        // --- 3. Readiness Check ---
+        function checkReady() {
+            if (existingPdfBytes && hasSignature) {
+                downloadPdfBtn.disabled = false;
+                downloadPdfBtn.innerText = "⬇ Download Signed PDF";
+                downloadPdfBtn.style.opacity = "1";
+            } else {
+                downloadPdfBtn.disabled = true;
+                downloadPdfBtn.style.opacity = "0.6";
+                if (!existingPdfBytes) downloadPdfBtn.innerText = "Waiting for PDF...";
+                else if (!hasSignature) downloadPdfBtn.innerText = "Please Draw Signature...";
+            }
+        }
+
+        // --- 4. Process & Download ---
+        downloadPdfBtn.addEventListener('click', async () => {
+            if (!existingPdfBytes || !hasSignature) return;
+            
+            processingMsg.innerText = "⏳ Processing... (Adding signature)";
+            
+            try {
+                // A. Convert Signature Canvas to PNG Buffer
+                const signatureDataUrl = canvas.toDataURL('image/png');
+                const signatureImageBytes = await fetch(signatureDataUrl).then((res) => res.arrayBuffer());
+
+                // B. Load PDF Document
+                const pdfDoc = await PDFDocument.load(existingPdfBytes);
+                const pngImage = await pdfDoc.embedPng(signatureImageBytes);
+                const pngDims = pngImage.scale(parseFloat(sigScale.value));
+
+                // C. Get Selected Page
+                const pageNum = parseInt(pageNumberInput.value) - 1; // 0-indexed
+                // validation
+                const safePageNum = Math.min(Math.max(0, pageNum), totalPages - 1);
+                const page = pdfDoc.getPages()[safePageNum];
+                
+                // D. Calculate Position (X, Y in PDF coordinates are Bottom-Left origin)
+                const { width, height } = page.getSize();
+                let x = 50; 
+                let y = 50;
+
+                const preset = positionPreset.value;
+                const margin = 50;
+                
+                // Calculate X
+                if (preset.includes('left')) x = margin;
+                else if (preset.includes('right')) x = width - pngDims.width - margin;
+                else x = (width - pngDims.width) / 2; // Center horizontal
+
+                // Calculate Y (Base position)
+                if (preset.includes('bottom')) y = margin + parseInt(yOffset.value); 
+                else if (preset === 'center') y = (height - pngDims.height) / 2 + parseInt(yOffset.value);
+
+                // E. Draw Image on PDF
+                page.drawImage(pngImage, {
+                    x: x,
+                    y: y,
+                    width: pngDims.width,
+                    height: pngDims.height,
+                });
+
+                // F. Save PDF
+                const pdfBytes = await pdfDoc.save();
+
+                // G. Reliable Download Method (Fixing the bug)
+                const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = 'signed_document.pdf';
+                document.body.appendChild(link); // Essential for some browsers
+                link.click();
+                document.body.removeChild(link); // Clean up
+                
+                processingMsg.innerHTML = '<span class="success">✅ Download started!</span>';
+
+            } catch (err) {
+                console.error(err);
+                processingMsg.innerHTML = '<span class="error">❌ Error processing PDF. Try a simple scale/position.</span>';
+            }
+        });
+
+    </script>
+</body>
+                      </html>
