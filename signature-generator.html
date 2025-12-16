@@ -1,0 +1,1554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Email Signature Generator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Dancing+Script:wght@400;500;600;700&family=Great+Vibes&family=Parisienne&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+        }
+
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.2rem;
+        }
+
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .form-container {
+            flex: 1.2;
+            min-width: 350px;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .preview-container {
+            flex: 1.5;
+            min-width: 400px;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-section {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .form-section-title {
+            font-size: 18px;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #3498db;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-section-title i {
+            color: #3498db;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            font-weight: normal;
+            cursor: pointer;
+        }
+
+        .checkbox-label input {
+            width: auto;
+            margin-right: 8px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #f1f1f1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: #555;
+        }
+
+        .social-icon.active {
+            background: #3498db;
+            color: white;
+        }
+
+        .preview-area {
+            flex: 1;
+            border: 2px dashed #ddd;
+            border-radius: 5px;
+            padding: 25px;
+            background: #f9f9f9;
+            overflow: auto;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .signature-preview {
+            font-family: Arial, sans-serif;
+            line-height: 1.5;
+            max-width: 100%;
+        }
+
+        .signature-name {
+            margin-bottom: 5px;
+        }
+
+        .signature-title {
+            color: #3498db;
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+
+        .signature-contact {
+            color: #555;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .signature-social {
+            margin-top: 10px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .signature-social a {
+            color: #555;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex: 1;
+            min-width: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2980b9;
+        }
+
+        .btn-secondary {
+            background: #2ecc71;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #27ae60;
+        }
+
+        .btn-copy {
+            background: #9b59b6;
+            color: white;
+        }
+
+        .btn-copy:hover {
+            background: #8e44ad;
+        }
+
+        .btn-download {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .btn-download:hover {
+            background: #c0392b;
+        }
+
+        .instructions {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-top: 40px;
+        }
+
+        .instructions h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .instructions ol {
+            padding-left: 20px;
+        }
+
+        .instructions li {
+            margin-bottom: 10px;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            background: #2ecc71;
+            color: white;
+            border-radius: 5px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .notification.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .template-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .template-btn {
+            padding: 8px 16px;
+            background: #ecf0f1;
+            border: 2px solid #bdc3c7;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .template-btn.active {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+
+        .name-style-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .name-style-btn {
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .name-style-btn.active {
+            border-color: #3498db;
+            background: rgba(52, 152, 219, 0.1);
+        }
+
+        .drawing-container {
+            margin-top: 15px;
+            border: 2px dashed #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            background: #f9f9f9;
+        }
+
+        .canvas-container {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            background: white;
+            border: 1px solid #ddd;
+            margin-bottom: 15px;
+        }
+
+        #signatureCanvas {
+            width: 100%;
+            height: 100%;
+            cursor: crosshair;
+            touch-action: none;
+        }
+
+        .draw-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .draw-btn {
+            padding: 8px 15px;
+            background: #f1f1f1;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .draw-btn.clear {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .draw-btn.save {
+            background: #2ecc71;
+            color: white;
+        }
+
+        .draw-btn.undo {
+            background: #f39c12;
+            color: white;
+        }
+
+        .color-picker {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+
+        .color-option {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .color-option.active {
+            border-color: #333;
+        }
+
+        .upload-area {
+            border: 2px dashed #3498db;
+            border-radius: 5px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .upload-area:hover {
+            background: rgba(52, 152, 219, 0.1);
+        }
+
+        .upload-area i {
+            font-size: 40px;
+            color: #3498db;
+            margin-bottom: 10px;
+        }
+
+        #uploadedSignature {
+            max-width: 100%;
+            max-height: 100px;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .name-font-preview {
+            font-size: 18px;
+            margin-top: 5px;
+            padding: 5px;
+            background: #f9f9f9;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        .handwritten-font {
+            font-family: 'Alex Brush', cursive;
+            font-size: 24px;
+        }
+
+        .elegant-font {
+            font-family: 'Dancing Script', cursive;
+            font-size: 22px;
+        }
+
+        .script-font {
+            font-family: 'Great Vibes', cursive;
+            font-size: 24px;
+        }
+
+        .parisienne-font {
+            font-family: 'Parisienne', cursive;
+            font-size: 22px;
+        }
+
+        .bold-font {
+            font-weight: 800;
+        }
+
+        .italic-font {
+            font-style: italic;
+        }
+
+        .uppercase-font {
+            text-transform: uppercase;
+        }
+
+        .capitalize-font {
+            text-transform: capitalize;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            color: #2c3e50;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #7f8c8d;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            button {
+                width: 100%;
+            }
+            
+            .name-style-options {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-signature"></i> Professional Signature Generator</h1>
+            <p class="subtitle">Create stunning email signatures with custom name styles and handwritten signatures</p>
+        </header>
+
+        <div class="main-content">
+            <div class="form-container">
+                <!-- Personal Information Section -->
+                <div class="form-section">
+                    <div class="form-section-title">
+                        <i class="fas fa-user"></i>
+                        <span>Personal Information</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="template">Select Template:</label>
+                        <div class="template-selector">
+                            <div class="template-btn active" data-template="modern">
+                                <i class="fas fa-rocket"></i> Modern
+                            </div>
+                            <div class="template-btn" data-template="classic">
+                                <i class="fas fa-landmark"></i> Classic
+                            </div>
+                            <div class="template-btn" data-template="minimal">
+                                <i class="fas fa-minimize"></i> Minimal
+                            </div>
+                            <div class="template-btn" data-template="creative">
+                                <i class="fas fa-palette"></i> Creative
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="fullName">Full Name *</label>
+                        <input type="text" id="fullName" placeholder="John Smith">
+                    </div>
+
+                    <!-- Name Style Options -->
+                    <div class="form-group">
+                        <label>Name Style:</label>
+                        <div class="name-style-options">
+                            <div class="name-style-btn active" data-style="normal">
+                                Normal
+                            </div>
+                            <div class="name-style-btn" data-style="bold">
+                                <strong>Bold</strong>
+                            </div>
+                            <div class="name-style-btn" data-style="italic">
+                                <em>Italic</em>
+                            </div>
+                            <div class="name-style-btn" data-style="uppercase">
+                                UPPERCASE
+                            </div>
+                            <div class="name-style-btn" data-style="handwritten">
+                                Handwritten
+                            </div>
+                            <div class="name-style-btn" data-style="elegant">
+                                Elegant
+                            </div>
+                            <div class="name-style-btn" data-style="script">
+                                Script
+                            </div>
+                            <div class="name-style-btn" data-style="parisienne">
+                                Parisienne
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="jobTitle">Job Title *</label>
+                        <input type="text" id="jobTitle" placeholder="Marketing Director">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="company">Company</label>
+                        <input type="text" id="company" placeholder="Acme Inc.">
+                    </div>
+                </div>
+
+                <!-- Contact Information Section -->
+                <div class="form-section">
+                    <div class="form-section-title">
+                        <i class="fas fa-address-book"></i>
+                        <span>Contact Information</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" placeholder="john.smith@example.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input type="text" id="phone" placeholder="+1 (123) 456-7890">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="website">Website</label>
+                        <input type="text" id="website" placeholder="www.example.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Include in Signature:</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="includeLogo" checked> Company Logo
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="includePhoto" checked> Profile Photo
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="includeAddress"> Address
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Signature Drawing Section -->
+                <div class="form-section">
+                    <div class="form-section-title">
+                        <i class="fas fa-pen"></i>
+                        <span>Handwritten Signature</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Add Handwritten Signature:</label>
+                        <div class="drawing-container">
+                            <div class="color-picker">
+                                <div class="color-option active" style="background-color: #000000;" data-color="#000000"></div>
+                                <div class="color-option" style="background-color: #3498db;" data-color="#3498db"></div>
+                                <div class="color-option" style="background-color: #e74c3c;" data-color="#e74c3c"></div>
+                                <div class="color-option" style="background-color: #2c3e50;" data-color="#2c3e50"></div>
+                                <div class="color-option" style="background-color: #7f8c8d;" data-color="#7f8c8d"></div>
+                            </div>
+                            
+                            <div class="canvas-container">
+                                <canvas id="signatureCanvas"></canvas>
+                            </div>
+                            
+                            <div class="draw-controls">
+                                <button class="draw-btn clear" id="clearCanvas">
+                                    <i class="fas fa-trash"></i> Clear
+                                </button>
+                                <button class="draw-btn undo" id="undoDrawing">
+                                    <i class="fas fa-undo"></i> Undo
+                                </button>
+                                <button class="draw-btn save" id="saveSignature">
+                                    <i class="fas fa-save"></i> Save Signature
+                                </button>
+                            </div>
+                            
+                            <div class="upload-area" id="uploadSignatureArea">
+                                <i class="fas fa-upload"></i>
+                                <p>Click here or drag & drop to upload signature image</p>
+                                <input type="file" id="signatureUpload" accept="image/*" style="display: none;">
+                                <img id="uploadedSignature" alt="Uploaded Signature">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Social Media Section -->
+                <div class="form-section">
+                    <div class="form-section-title">
+                        <i class="fas fa-share-alt"></i>
+                        <span>Social Media</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Social Media Links:</label>
+                        <div class="social-icons">
+                            <div class="social-icon active" data-social="linkedin">
+                                <i class="fab fa-linkedin-in"></i>
+                            </div>
+                            <div class="social-icon" data-social="twitter">
+                                <i class="fab fa-twitter"></i>
+                            </div>
+                            <div class="social-icon" data-social="facebook">
+                                <i class="fab fa-facebook-f"></i>
+                            </div>
+                            <div class="social-icon" data-social="instagram">
+                                <i class="fab fa-instagram"></i>
+                            </div>
+                            <div class="social-icon" data-social="github">
+                                <i class="fab fa-github"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="button-group">
+                    <button id="generateBtn" class="btn-primary">
+                        <i class="fas fa-sync-alt"></i> Generate Signature
+                    </button>
+                    <button id="resetBtn" class="btn-secondary">
+                        <i class="fas fa-redo"></i> Reset Form
+                    </button>
+                </div>
+            </div>
+
+            <!-- Preview Container -->
+            <div class="preview-container">
+                <div class="form-section-title">
+                    <i class="fas fa-eye"></i>
+                    <span>Signature Preview</span>
+                </div>
+                <div class="preview-area" id="previewArea">
+                    <div class="signature-preview" id="signaturePreview">
+                        <!-- Signature will be generated here -->
+                        <p>Your signature will appear here. Fill out the form and click "Generate Signature".</p>
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button id="copyHtmlBtn" class="btn-copy">
+                        <i class="fas fa-code"></i> Copy HTML
+                    </button>
+                    <button id="copyTextBtn" class="btn-secondary">
+                        <i class="fas fa-font"></i> Copy Text
+                    </button>
+                    <button id="downloadBtn" class="btn-download">
+                        <i class="fas fa-download"></i> Download as Image
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Instructions -->
+        <div class="instructions">
+            <h3>How to Use Your Signature</h3>
+            <ol>
+                <li>Fill out the form with your information</li>
+                <li>Choose a name style from the options (bold, italic, handwritten, etc.)</li>
+                <li>Draw your signature using the canvas or upload an image of your signature</li>
+                <li>Click "Generate Signature" to update the preview</li>
+                <li>Copy HTML for email clients, or download as an image</li>
+                <li>In your email client (Gmail, Outlook, etc.), paste the HTML code into your signature settings</li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">Copied to clipboard!</div>
+
+    <!-- Scripts -->
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script>
+        // DOM Elements
+        const fullNameInput = document.getElementById('fullName');
+        const jobTitleInput = document.getElementById('jobTitle');
+        const companyInput = document.getElementById('company');
+        const emailInput = document.getElementById('email');
+        const phoneInput = document.getElementById('phone');
+        const websiteInput = document.getElementById('website');
+        const includeLogoCheckbox = document.getElementById('includeLogo');
+        const includePhotoCheckbox = document.getElementById('includePhoto');
+        const includeAddressCheckbox = document.getElementById('includeAddress');
+        const generateBtn = document.getElementById('generateBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const copyHtmlBtn = document.getElementById('copyHtmlBtn');
+        const copyTextBtn = document.getElementById('copyTextBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const signaturePreview = document.getElementById('signaturePreview');
+        const notification = document.getElementById('notification');
+        const templateButtons = document.querySelectorAll('.template-btn');
+        const socialIcons = document.querySelectorAll('.social-icon');
+        const nameStyleButtons = document.querySelectorAll('.name-style-btn');
+        const colorOptions = document.querySelectorAll('.color-option');
+        const clearCanvasBtn = document.getElementById('clearCanvas');
+        const undoDrawingBtn = document.getElementById('undoDrawing');
+        const saveSignatureBtn = document.getElementById('saveSignature');
+        const signatureUpload = document.getElementById('signatureUpload');
+        const uploadSignatureArea = document.getElementById('uploadSignatureArea');
+        const uploadedSignatureImg = document.getElementById('uploadedSignature');
+        
+        // Canvas Elements
+        const canvas = document.getElementById('signatureCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Canvas Setup
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+        
+        // Set initial canvas background
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        // Drawing Variables
+        let isDrawing = false;
+        let lastX = 0;
+        let lastY = 0;
+        let strokeColor = '#000000';
+        let strokeWidth = 2;
+        let drawingHistory = [];
+        let currentHistoryIndex = -1;
+        
+        // Current template and settings
+        let currentTemplate = 'modern';
+        let activeSocials = ['linkedin'];
+        let currentNameStyle = 'normal';
+        let handwrittenSignature = null; // Base64 image of drawn signature
+        let uploadedSignature = null; // Base64 image of uploaded signature
+        
+        // Template colors
+        const templateColors = {
+            modern: { primary: '#3498db', secondary: '#2c3e50', background: '#ffffff' },
+            classic: { primary: '#2c3e50', secondary: '#7f8c8d', background: '#f8f9fa' },
+            minimal: { primary: '#333333', secondary: '#666666', background: '#ffffff' },
+            creative: { primary: '#9b59b6', secondary: '#34495e', background: '#ffffff' }
+        };
+        
+        // Sample data for demonstration
+        const sampleData = {
+            fullName: "Alexandra Johnson",
+            jobTitle: "Marketing Director",
+            company: "Acme Inc.",
+            email: "alexandra.johnson@acme.com",
+            phone: "+1 (555) 123-4567",
+            website: "www.acme.com",
+            address: "123 Business St, Suite 100, New York, NY 10001"
+        };
+        
+        // Initialize with sample data
+        window.addEventListener('DOMContentLoaded', () => {
+            fullNameInput.value = sampleData.fullName;
+            jobTitleInput.value = sampleData.jobTitle;
+            companyInput.value = sampleData.company;
+            emailInput.value = sampleData.email;
+            phoneInput.value = sampleData.phone;
+            websiteInput.value = sampleData.website;
+            
+            // Initialize canvas
+            initializeCanvas();
+            generateSignature();
+        });
+        
+        // Initialize Canvas
+        function initializeCanvas() {
+            // Set canvas size
+            canvas.width = canvas.offsetWidth * 2;
+            canvas.height = canvas.offsetHeight * 2;
+            ctx.scale(2, 2);
+            
+            // Set initial background
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, canvas.width/2, canvas.height/2);
+            
+            // Add event listeners for drawing
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseout', stopDrawing);
+            
+            // Touch events for mobile
+            canvas.addEventListener('touchstart', startDrawingTouch);
+            canvas.addEventListener('touchmove', drawTouch);
+            canvas.addEventListener('touchend', stopDrawing);
+        }
+        
+        // Drawing Functions
+        function startDrawing(e) {
+            isDrawing = true;
+            [lastX, lastY] = [e.offsetX, e.offsetY];
+            
+            // Save state to history
+            saveCanvasState();
+        }
+        
+        function startDrawingTouch(e) {
+            e.preventDefault();
+            const rect = canvas.getBoundingClientRect();
+            const touch = e.touches[0];
+            
+            isDrawing = true;
+            [lastX, lastY] = [
+                touch.clientX - rect.left,
+                touch.clientY - rect.top
+            ];
+            
+            // Save state to history
+            saveCanvasState();
+        }
+        
+        function draw(e) {
+            if (!isDrawing) return;
+            
+            ctx.strokeStyle = strokeColor;
+            ctx.lineWidth = strokeWidth;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(e.offsetX, e.offsetY);
+            ctx.stroke();
+            
+            [lastX, lastY] = [e.offsetX, e.offsetY];
+        }
+        
+        function drawTouch(e) {
+            e.preventDefault();
+            if (!isDrawing) return;
+            
+            const rect = canvas.getBoundingClientRect();
+            const touch = e.touches[0];
+            const x = touch.clientX - rect.left;
+            const y = touch.clientY - rect.top;
+            
+            ctx.strokeStyle = strokeColor;
+            ctx.lineWidth = strokeWidth;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(x, y);
+            ctx.stroke();
+            
+            [lastX, lastY] = [x, y];
+        }
+        
+        function stopDrawing() {
+            isDrawing = false;
+        }
+        
+        function saveCanvasState() {
+            // Remove any future states if we've undone and started drawing again
+            if (currentHistoryIndex < drawingHistory.length - 1) {
+                drawingHistory = drawingHistory.slice(0, currentHistoryIndex + 1);
+            }
+            
+            // Save current canvas state
+            drawingHistory.push(canvas.toDataURL());
+            currentHistoryIndex++;
+        }
+        
+        function clearCanvas() {
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, canvas.width/2, canvas.height/2);
+            saveCanvasState();
+        }
+        
+        function undoDrawing() {
+            if (currentHistoryIndex > 0) {
+                currentHistoryIndex--;
+                const img = new Image();
+                img.onload = () => {
+                    ctx.fillStyle = 'white';
+                    ctx.fillRect(0, 0, canvas.width/2, canvas.height/2);
+                    ctx.drawImage(img, 0, 0, canvas.width/2, canvas.height/2);
+                };
+                img.src = drawingHistory[currentHistoryIndex];
+            } else {
+                clearCanvas();
+            }
+        }
+        
+        function saveSignature() {
+            if (canvas.toDataURL() === drawingHistory[0]) {
+                showNotification('Please draw a signature first', 'error');
+                return;
+            }
+            
+            handwrittenSignature = canvas.toDataURL();
+            showNotification('Signature saved successfully!');
+            generateSignature();
+        }
+        
+        // Template selection
+        templateButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                templateButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                currentTemplate = button.dataset.template;
+                generateSignature();
+            });
+        });
+        
+        // Name style selection
+        nameStyleButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                nameStyleButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                currentNameStyle = button.dataset.style;
+                generateSignature();
+            });
+        });
+        
+        // Color picker selection
+        colorOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                colorOptions.forEach(opt => opt.classList.remove('active'));
+                option.classList.add('active');
+                strokeColor = option.dataset.color;
+            });
+        });
+        
+        // Social icon selection
+        socialIcons.forEach(icon => {
+            icon.addEventListener('click', () => {
+                const social = icon.dataset.social;
+                
+                if (icon.classList.contains('active')) {
+                    icon.classList.remove('active');
+                    activeSocials = activeSocials.filter(s => s !== social);
+                } else {
+                    icon.classList.add('active');
+                    activeSocials.push(social);
+                }
+                
+                generateSignature();
+            });
+        });
+        
+        // Upload signature image
+        uploadSignatureArea.addEventListener('click', () => {
+            signatureUpload.click();
+        });
+        
+        signatureUpload.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    uploadedSignature = event.target.result;
+                    uploadedSignatureImg.src = uploadedSignature;
+                    uploadedSignatureImg.style.display = 'block';
+                    handwrittenSignature = null; // Clear drawn signature if uploaded
+                    showNotification('Signature image uploaded successfully!');
+                    generateSignature();
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        // Drag and drop for signature upload
+        uploadSignatureArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadSignatureArea.style.background = 'rgba(52, 152, 219, 0.2)';
+        });
+        
+        uploadSignatureArea.addEventListener('dragleave', () => {
+            uploadSignatureArea.style.background = '';
+        });
+        
+        uploadSignatureArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadSignatureArea.style.background = '';
+            
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    uploadedSignature = event.target.result;
+                    uploadedSignatureImg.src = uploadedSignature;
+                    uploadedSignatureImg.style.display = 'block';
+                    handwrittenSignature = null; // Clear drawn signature if uploaded
+                    showNotification('Signature image uploaded successfully!');
+                    generateSignature();
+                };
+                reader.readAsDataURL(file);
+            } else {
+                showNotification('Please upload an image file', 'error');
+            }
+        });
+        
+        // Apply name style to text
+        function applyNameStyle(text) {
+            switch(currentNameStyle) {
+                case 'bold':
+                    return `<strong>${text}</strong>`;
+                case 'italic':
+                    return `<em>${text}</em>`;
+                case 'uppercase':
+                    return text.toUpperCase();
+                case 'handwritten':
+                    return `<span class="handwritten-font">${text}</span>`;
+                case 'elegant':
+                    return `<span class="elegant-font">${text}</span>`;
+                case 'script':
+                    return `<span class="script-font">${text}</span>`;
+                case 'parisienne':
+                    return `<span class="parisienne-font">${text}</span>`;
+                default:
+                    return text;
+            }
+        }
+        
+        // Generate signature
+        function generateSignature() {
+            const colors = templateColors[currentTemplate];
+            
+            // Get form values
+            const fullName = fullNameInput.value || "Your Name";
+            const jobTitle = jobTitleInput.value || "Your Title";
+            const company = companyInput.value || "Your Company";
+            const email = emailInput.value || "your.email@example.com";
+            const phone = phoneInput.value || "";
+            const website = websiteInput.value || "";
+            const includeLogo = includeLogoCheckbox.checked;
+            const includePhoto = includePhotoCheckbox.checked;
+            const includeAddress = includeAddressCheckbox.checked;
+            
+            // Apply name style
+            const styledName = applyNameStyle(fullName);
+            
+            // Social links mapping
+            const socialLinks = {
+                linkedin: `https://linkedin.com/in/${fullName.toLowerCase().replace(/\s/g, '-')}`,
+                twitter: `https://twitter.com/${fullName.split(' ')[0].toLowerCase()}`,
+                facebook: `https://facebook.com/${fullName.toLowerCase().replace(/\s/g, '.')}`,
+                instagram: `https://instagram.com/${fullName.split(' ')[0].toLowerCase()}`,
+                github: `https://github.com/${fullName.split(' ')[0].toLowerCase()}`
+            };
+            
+            // Generate signature HTML based on template
+            let signatureHTML = '';
+            
+            switch(currentTemplate) {
+                case 'modern':
+                    signatureHTML = generateModernTemplate(fullName, styledName, jobTitle, company, email, phone, website, includeLogo, includePhoto, includeAddress, colors, socialLinks);
+                    break;
+                case 'classic':
+                    signatureHTML = generateClassicTemplate(fullName, styledName, jobTitle, company, email, phone, website, includeLogo, includePhoto, includeAddress, colors, socialLinks);
+                    break;
+                case 'minimal':
+                    signatureHTML = generateMinimalTemplate(fullName, styledName, jobTitle, company, email, phone, website, includeLogo, includePhoto, includeAddress, colors, socialLinks);
+                    break;
+                case 'creative':
+                    signatureHTML = generateCreativeTemplate(fullName, styledName, jobTitle, company, email, phone, website, includeLogo, includePhoto, includeAddress, colors, socialLinks);
+                    break;
+            }
+            
+            signaturePreview.innerHTML = signatureHTML;
+        }
+        
+        // Modern template
+        function generateModernTemplate(fullName, styledName, jobTitle, company, email, phone, website, includeLogo, includePhoto, includeAddress, colors, socialLinks) {
+            return `
+                <div style="font-family: Arial, sans-serif; line-height: 1.5; color: ${colors.secondary}; border-left: 4px solid ${colors.primary}; padding-left: 15px; max-width: 600px;">
+                    ${includeLogo ? `<div style="margin-bottom: 15px;"><span style="font-weight: bold; font-size: 18px; color: ${colors.primary};">${company}</span></div>` : ''}
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        ${includePhoto ? `<div style="width: 80px; height: 80px; border-radius: 50%; background: ${colors.primary}; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 24px;">${fullName.charAt(0)}</div>` : ''}
+                        <div>
+                            <div class="signature-name" style="font-size: 18px; font-weight: bold; color: ${colors.primary}; margin-bottom: 5px;">${styledName}</div>
+                            <div style="color: ${colors.secondary}; margin-bottom: 5px;">${jobTitle}</div>
+                            ${company ? `<div style="color: ${colors.secondary}; margin-bottom: 5px;">${company}</div>` : ''}
+                        </div>
+                    </div>
+                    ${(handwrittenSignature || uploadedSignature) ? `
+                        <div style="margin-top: 15px;">
+                            <div style="font-weight: bold; margin-bottom: 5px;">Signature:</div>
+                            <img src="${handwrittenSignature || uploadedSignature}" alt="Signature" style="max-width: 200px; max-height: 60px; background: white; padding: 5px; border-radius: 4px;">
+                        </div>
+                    ` : ''}
+                    <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee;">
+                        ${email ? `<div style="margin-bottom: 5px;"><strong>Email:</strong> <a href="mailto:${email}" style="color: ${colors.primary}; text-decoration: none;">${email}</a></div>` : ''}
+                        ${phone ? `<div style="margin-bottom: 5px;"><strong>Phone:</strong> ${phone}</div>` : ''}
+                        ${website ? `<div style="margin-bottom: 5px;"><strong>Web:</strong> <a href="https://${website}" style="color: ${colors.primary}; text-decoration: none;">${website}</a></div>` : ''}
+                        ${includeAddress ? `<div style="margin-bottom: 5px;"><strong>Address:</strong> 123 Business St, Suite 100</div>` : ''}
+                        ${activeSocials.length > 0 ? `
+                            <div style="margin-top: 10px;">
+                                <strong>Connect:</strong>
+                                <div style="display: flex; gap: 10px; margin-top: 5px;">
+                                    ${activeSocials.map(social => `
+                                        <a href="${socialLinks[social]}" style="color: ${colors.primary}; text-decoration: none; font-size: 14px;">
+                                            <i class="fab fa-${social}"></i> ${social.charAt(0).toUpperCase() + social.slice(1)}
+                                        </a>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Classic template
+        function generateClassicTemplate(fullName, styledName, jobTitle, company, email, phone, website, includeLogo, includePhoto, includeAddress, colors, socialLinks) {
+            return `
+                <div style="font-family: 'Times New Roman', serif; line-height: 1.6; color: ${colors.secondary}; max-width: 500px;">
+                    <div style="border-bottom: 2px solid ${colors.primary}; padding-bottom: 10px; margin-bottom: 15px;">
+                        <div class="signature-name" style="font-size: 20px; font-weight: bold; color: ${colors.primary};">${styledName}</div>
+                        <div style="font-style: italic;">${jobTitle}</div>
+                    </div>
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <tr>
+                            ${includePhoto ? `<td style="width: 80px; vertical-align: top; padding-right: 15px;">
+                                <div style="width: 70px; height: 70px; border-radius: 5px; background: ${colors.primary}; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">${fullName.charAt(0)}</div>
+                            </td>` : ''}
+                            <td>
+                                ${company ? `<div style="margin-bottom: 5px;"><strong>${company}</strong></div>` : ''}
+                                ${email ? `<div style="margin-bottom: 3px;"><i class="fas fa-envelope"></i> <a href="mailto:${email}" style="color: ${colors.primary}; text-decoration: none;">${email}</a></div>` : ''}
+                                ${phone ? `<div style="margin-bottom: 3px;"><i class="fas fa-phone"></i> ${phone}</div>` : ''}
+                                ${website ? `<div style="margin-bottom: 3px;"><i class="fas fa-globe"></i> <a href="https://${website}" style="color: ${colors.primary}; text-decoration: none;">${website}</a></div>` : ''}
+                                ${includeAddress ? `<div style="margin-bottom: 3px;"><i class="fas fa-map-marker-alt"></i> 123 Business St, Suite 100</div>` : ''}
+                                ${(handwrittenSignature || uploadedSignature) ? `
+                                    <div style="margin-top: 10px; margin-bottom: 10px;">
+                                        <strong>Signature:</strong><br>
+                                        <img src="${handwrittenSignature || uploadedSignature}" alt="Signature" style="max-width: 180px; max-height: 50px; background: white; padding: 5px; border-radius: 4px;">
+                                    </div>
+                                ` : ''}
+                                ${activeSocials.length > 0 ? `
+                                    <div style="margin-top: 10px;">
+                                        ${activeSocials.map(social => `
+                                            <a href="${socialLinks[social]}" style="color: ${colors.primary}; text-decoration: none; margin-right: 10px;">
+                                                <i class="fab fa-${social}"></i>
+                                            </a>
+                                        `).join('')}
+                                    </div>
+                                ` : ''}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            `;
+        }
+        
+        // Minimal template
+        function generateMinimalTemplate(fullName, styledName, jobTitle, company, email, phone, website, includeLogo, includePhoto, includeAddress, colors, socialLinks) {
+            return `
+                <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 1.6; color: ${colors.secondary}; max-width: 400px;">
+                    <div style="margin-bottom: 10px;">
+                        <span class="signature-name" style="font-size: 16px; font-weight: bold; color: ${colors.primary};">${styledName}</span>
+                        <span style="color: #999; margin: 0 5px;">|</span>
+                        <span>${jobTitle}</span>
+                    </div>
+                    ${company ? `<div style="margin-bottom: 8px; color: ${colors.secondary};">${company}</div>` : ''}
+                    ${(handwrittenSignature || uploadedSignature) ? `
+                        <div style="margin-bottom: 10px;">
+                            <img src="${handwrittenSignature || uploadedSignature}" alt="Signature" style="max-width: 150px; max-height: 40px; background: white; padding: 3px; border-radius: 3px;">
+                        </div>
+                    ` : ''}
+                    <div style="font-size: 13px;">
+                        ${email ? `<div style="margin-bottom: 3px;"><a href="mailto:${email}" style="color: ${colors.primary}; text-decoration: none;">${email}</a></div>` : ''}
+                        ${phone ? `<div style="margin-bottom: 3px;">${phone}</div>` : ''}
+                        ${website ? `<div style="margin-bottom: 3px;"><a href="https://${website}" style="color: ${colors.primary}; text-decoration: none;">${website}</a></div>` : ''}
+                    </div>
+                    ${activeSocials.length > 0 ? `
+                        <div style="margin-top: 10px; font-size: 12px;">
+                            ${activeSocials.map(social => `
+                                <a href="${socialLinks[social]}" style="color: ${colors.secondary}; text-decoration: none; margin-right: 8px;">
+                                    <i class="fab fa-${social}"></i>
+                                </a>
+                            `).join('')}
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        }
+        
+        // Creative template
+        function generateCreativeTemplate(fullName, styledName, jobTitle, company, email, phone, website, includeLogo, includePhoto, includeAddress, colors, socialLinks) {
+            return `
+                <div style="font-family: 'Arial Rounded MT Bold', 'Arial', sans-serif; line-height: 1.5; color: ${colors.secondary}; max-width: 550px; background: ${colors.background}; padding: 20px; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">
+                    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+                        ${includePhoto ? `<div style="width: 70px; height: 70px; border-radius: 50%; background: linear-gradient(135deg, ${colors.primary}, #6c5ce7); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 22px;">${fullName.charAt(0)}</div>` : ''}
+                        <div>
+                            <div class="signature-name" style="font-size: 22px; font-weight: bold; color: ${colors.primary}; margin-bottom: 3px;">${styledName}</div>
+                            <div style="font-size: 16px; color: ${colors.secondary}; margin-bottom: 5px;">${jobTitle}</div>
+                            ${company ? `<div style="font-size: 14px; color: #7f8c8d;">${company}</div>` : ''}
+                        </div>
+                    </div>
+                    ${(handwrittenSignature || uploadedSignature) ? `
+                        <div style="margin-bottom: 15px; text-align: center;">
+                            <img src="${handwrittenSignature || uploadedSignature}" alt="Signature" style="max-width: 220px; max-height: 70px; background: white; padding: 8px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                        </div>
+                    ` : ''}
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-top: 10px;">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <tr>
+                                ${email ? `<td style="padding: 5px 0;"><i class="fas fa-envelope" style="color: ${colors.primary}; width: 20px;"></i> <a href="mailto:${email}" style="color: ${colors.secondary}; text-decoration: none;">${email}</a></td>` : ''}
+                                ${phone ? `<td style="padding: 5px 0;"><i class="fas fa-phone" style="color: ${colors.primary}; width: 20px;"></i> ${phone}</td>` : ''}
+                            </tr>
+                            <tr>
+                                ${website ? `<td style="padding: 5px 0;"><i class="fas fa-globe" style="color: ${colors.primary}; width: 20px;"></i> <a href="https://${website}" style="color: ${colors.secondary}; text-decoration: none;">${website}</a></td>` : ''}
+                                ${includeAddress ? `<td style="padding: 5px 0;"><i class="fas fa-map-marker-alt" style="color: ${colors.primary}; width: 20px;"></i> New York, NY</td>` : ''}
+                            </tr>
+                        </table>
+                        ${activeSocials.length > 0 ? `
+                            <div style="margin-top: 15px; padding-top: 10px; border-top: 1px dashed #ddd;">
+                                <div style="display: flex; gap: 10px;">
+                                    ${activeSocials.map(social => `
+                                        <a href="${socialLinks[social]}" style="display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; background: ${colors.primary}; color: white; text-decoration: none;">
+                                            <i class="fab fa-${social}"></i>
+                                        </a>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Show notification
+        function showNotification(message, type = 'success') {
+            notification.textContent = message;
+            notification.style.background = type === 'success' ? '#2ecc71' : '#e74c3c';
+            
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Copy HTML to clipboard
+        async function copyHtmlToClipboard() {
+            try {
+                const signatureHtml = signaturePreview.innerHTML;
+                const textarea = document.createElement('textarea');
+                textarea.value = signatureHtml;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                
+                showNotification('Signature HTML copied to clipboard!');
+            } catch (err) {
+                console.error('Failed to copy: ', err);
+                showNotification('Failed to copy. Please try again.', 'error');
+            }
+        }
+        
+        // Copy plain text to clipboard
+        async function copyTextToClipboard() {
+            try {
+                const fullName = fullNameInput.value || "Your Name";
+                const jobTitle = jobTitleInput.value || "Your Title";
+                const company = companyInput.value || "";
+                const email = emailInput.value || "";
+                const phone = phoneInput.value || "";
+                const website = websiteInput.value || "";
+                
+                let text = `${fullName}\n${jobTitle}\n`;
+                if (company) text += `${company}\n`;
+                if (email) text += `Email: ${email}\n`;
+                if (phone) text += `Phone: ${phone}\n`;
+                if (website) text += `Website: ${website}\n`;
+                
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                
+                showNotification('Signature text copied to clipboard!');
+            } catch (err) {
+                console.error('Failed to copy: ', err);
+                showNotification('Failed to copy. Please try again.', 'error');
+            }
+        }
+        
+        // Download as image
+        async function downloadAsImage() {
+            try {
+                const element = signaturePreview;
+                
+                // Use html2canvas to convert the signature to an image
+                const canvas = await html2canvas(element, {
+                    backgroundColor: null,
+                    scale: 2, // Higher quality
+                    useCORS: true,
+                    allowTaint: true
+                });
+                
+                // Create download link
+                const link = document.createElement('a');
+                const fileName = `signature-${fullNameInput.value.replace(/\s+/g, '-').toLowerCase() || 'my'}.png`;
+                link.download = fileName;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+                
+                showNotification('Signature downloaded as image!');
+            } catch (err) {
+                console.error('Failed to download: ', err);
+                showNotification('Failed to download. Please try again.', 'error');
+            }
+        }
+        
+        // Reset form
+        function resetForm() {
+            // Clear form inputs
+            fullNameInput.value = '';
+            jobTitleInput.value = '';
+            companyInput.value = '';
+            emailInput.value = '';
+            phoneInput.value = '';
+            websiteInput.value = '';
+            includeLogoCheckbox.checked = true;
+            includePhotoCheckbox.checked = true;
+            includeAddressCheckbox.checked = false;
+            
+            // Reset name style
+            nameStyleButtons.forEach(btn => {
+                if (btn.dataset.style === 'normal') {
+                    btn.classList.add('active');
+                    currentNameStyle = 'normal';
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            
+            // Reset social icons
+            socialIcons.forEach(icon => {
+                if (icon.dataset.social === 'linkedin') {
+                    icon.classList.add('active');
+                } else {
+                    icon.classList.remove('active');
+                }
+            });
+            
+            activeSocials = ['linkedin'];
+            
+            // Reset template
+            templateButtons.forEach(btn => {
+                if (btn.dataset.template === 'modern') {
+                    btn.classList.add('active');
+                    currentTemplate = 'modern';
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            
+            // Reset signature
+            clearCanvas();
+            handwrittenSignature = null;
+            uploadedSignature = null;
+            uploadedSignatureImg.src = '';
+            uploadedSignatureImg.style.display = 'none';
+            
+            // Clear file input
+            signatureUpload.value = '';
+            
+            generateSignature();
+            showNotification('Form reset to default values');
+        }
+        
+        // Event listeners
+        generateBtn.addEventListener('click', generateSignature);
+        resetBtn.addEventListener('click', resetForm);
+        copyHtmlBtn.addEventListener('click', copyHtmlToClipboard);
+        copyTextBtn.addEventListener('click', copyTextToClipboard);
+        downloadBtn.addEventListener('click', downloadAsImage);
+        clearCanvasBtn.addEventListener('click', clearCanvas);
+        undoDrawingBtn.addEventListener('click', undoDrawing);
+        saveSignatureBtn.addEventListener('click', saveSignature);
+        
+        // Auto-generate on input change
+        const inputs = document.querySelectorAll('input, select, .checkbox-label input');
+        inputs.forEach(input => {
+            input.addEventListener('input', generateSignature);
+            if (input.type === 'checkbox') {
+                input.addEventListener('change', generateSignature);
+            }
+        });
+        
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            // Save current drawing
+            const currentImage = canvas.toDataURL();
+            
+            // Resize canvas
+            canvas.width = canvas.offsetWidth * 2;
+            canvas.height = canvas.offsetHeight * 2;
+            ctx.scale(2, 2);
+            
+            // Restore drawing
+            const img = new Image();
+            img.onload = () => {
+                ctx.fillStyle = 'white';
+                ctx.fillRect(0, 0, canvas.width/2, canvas.height/2);
+                ctx.drawImage(img, 0, 0, canvas.width/2, canvas.height/2);
+            };
+            img.src = currentImage;
+        });
+    </script>
+</body>
+                          </html>
