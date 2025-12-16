@@ -1,180 +1,382 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Online Signature Generator – Type or Draw Digital Signature Free</title>
-  <meta name="description" content="Free online signature generator tool. Type or draw your signature using mouse or touch, customize color, preview instantly, and download high-quality PNG signature." />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Online Signature Generator | Draw & Type Signatures</title>
+    <meta name="description" content="Create a transparent digital signature online. Draw or type your signature instantly. Free tool for PDF, Word, and DocuSign compatible files.">
+    <!-- Load Handwriting Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&family=Pacifico&family=Sacramento&family=Satisfy&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --bg: #f9fafb;
+            --surface: #ffffff;
+            --border: #e5e7eb;
+        }
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: var(--bg);
+            color: #1f2937;
+            padding: 20px;
+            margin: 0;
+            line-height: 1.6;
+        }
 
-  <style>
-    body{font-family:Arial,Helvetica,sans-serif;background:#f3f4f6;margin:0;padding:0}
-    .container{max-width:900px;margin:20px auto;background:#fff;padding:20px;border-radius:10px;box-shadow:0 10px 25px rgba(0,0,0,.1)}
-    h1,h2,h3{color:#111}
-    p{line-height:1.7;color:#333}
-    .tool-box{margin-top:30px;padding:20px;border:2px dashed #d1d5db;border-radius:10px}
-    input,select,button{padding:10px;margin:6px 0;width:100%;font-size:15px}
-    button{background:#2563eb;color:#fff;border:none;border-radius:6px;cursor:pointer}
-    button.secondary{background:#10b981}
-    button.danger{background:#ef4444}
-    canvas{border:1px solid #ccc;border-radius:6px;margin-top:10px;max-width:100%;touch-action:none}
-    .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px}
-    .tabs{display:flex;gap:10px;margin-bottom:15px}
-    .tab{flex:1;padding:10px;text-align:center;border-radius:6px;background:#e5e7eb;cursor:pointer}
-    .tab.active{background:#2563eb;color:#fff}
-  </style>
+        .container { max-width: 900px; margin: 0 auto; }
+
+        /* SEO Header */
+        header { text-align: center; margin-bottom: 30px; }
+        h1 { color: var(--primary); font-size: 2.2rem; margin-bottom: 0.5rem; }
+        .intro { color: #4b5563; font-size: 1.1rem; }
+
+        /* App Card */
+        .app-card {
+            background: var(--surface);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        /* Navigation */
+        .nav-tabs { display: flex; background: #f3f4f6; border-bottom: 1px solid var(--border); }
+        .nav-btn {
+            flex: 1; padding: 15px; border: none; background: transparent;
+            font-weight: 600; color: #6b7280; cursor: pointer; font-size: 1rem;
+        }
+        .nav-btn.active { background: var(--surface); color: var(--primary); border-top: 3px solid var(--primary); }
+
+        /* Main Workspace */
+        .workspace { padding: 25px; display: flex; flex-direction: column; align-items: center; }
+
+        /* Drawing Area */
+        .canvas-box {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            border: 2px dashed #9ca3af;
+            border-radius: 8px;
+            background-color: #ffffff;
+            /* Lined paper effect */
+            background-image: repeating-linear-gradient(transparent, transparent 49px, #f1f5f9 49px, #f1f5f9 50px);
+            cursor: crosshair;
+            overflow: hidden;
+            touch-action: none; /* Stops mobile page scrolling */
+        }
+        
+        canvas { display: block; width: 100%; height: 100%; }
+
+        /* Typing Area */
+        .type-area { width: 100%; display: none; margin-bottom: 20px; }
+        .type-area.visible { display: block; }
+        
+        .type-input {
+            width: 100%; padding: 12px; font-size: 1.2rem;
+            border: 1px solid var(--border); border-radius: 8px;
+            box-sizing: border-box; margin-bottom: 15px;
+        }
+
+        .fonts-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px;
+        }
+        .font-item {
+            border: 1px solid var(--border); padding: 10px; text-align: center;
+            border-radius: 6px; cursor: pointer; font-size: 1.2rem; background: #fff;
+        }
+        .font-item:hover { background: #f0f9ff; }
+        .font-item.selected { border-color: var(--primary); background: #eff6ff; color: var(--primary); }
+
+        /* Controls Toolbar */
+        .toolbar {
+            width: 100%; display: flex; flex-wrap: wrap; gap: 15px;
+            align-items: center; justify-content: space-between;
+            margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border);
+        }
+
+        .tool-group { display: flex; align-items: center; gap: 10px; }
+        .label { font-size: 0.9rem; font-weight: 600; color: #374151; }
+        
+        input[type="color"] { border: none; background: none; width: 40px; height: 40px; cursor: pointer; }
+        
+        .btn {
+            padding: 12px 25px; border-radius: 6px; font-weight: 600; cursor: pointer; border: none; transition: 0.2s;
+        }
+        .btn-clear { background: #fee2e2; color: #b91c1c; }
+        .btn-save { background: var(--primary); color: white; }
+        .btn:hover { opacity: 0.9; }
+
+        /* SEO Footer */
+        .info-section { margin-top: 40px; background: white; padding: 30px; border-radius: 8px; border: 1px solid var(--border); }
+        .info-section h2 { font-size: 1.5rem; margin-top: 0; }
+        .info-section p { color: #4b5563; }
+        
+    </style>
 </head>
 <body>
 
 <div class="container">
+    <header>
+        <h1>Signature Generator Pro</h1>
+        <p class="intro">Create smooth e-signatures for Documents, Email, and PDFs.</p>
+    </header>
 
-<!-- SEO ARTICLE START -->
-<h1>Signature Generator Tool – Type or Draw Digital Signature Online</h1>
+    <div class="app-card">
+        <nav class="nav-tabs">
+            <button class="nav-btn active" id="tabDraw" onclick="setMode('draw')">✏️ Draw Signature</button>
+            <button class="nav-btn" id="tabType" onclick="setMode('type')">⌨️ Type Signature</button>
+        </nav>
 
-<p>A digital signature is now a necessity for online applications, documents, and official submissions. Whether you are filling government forms, job applications, banking documents, or college admissions, a clean and professional-looking signature is often required. The <strong>Signature Generator Tool</strong> allows you to either type your name in a handwritten style or draw your signature using a mouse or touch screen.</p>
+        <div class="workspace">
+            
+            <!-- Type Controls -->
+            <div id="typeControls" class="type-area">
+                <input type="text" id="textInput" class="type-input" placeholder="Enter your Name..." maxlength="40">
+                <div class="label" style="margin-bottom:8px">Select Font Style:</div>
+                <div class="fonts-grid" id="fontsList"></div>
+            </div>
 
-<p>This free online signature generator works directly in your browser. You can customize the color, preview your signature in real time, and download it instantly as a high-quality PNG image. No registration, no watermark, and no data upload required.</p>
+            <!-- Canvas -->
+            <div class="canvas-box" id="canvasContainer">
+                <canvas id="sigCanvas"></canvas>
+            </div>
 
-<h2>What is an Online Signature Generator?</h2>
-<p>An online signature generator is a web-based tool that helps users create a digital version of their handwritten signature. It supports both typed signatures using stylish fonts and freehand drawn signatures using mouse or finger.</p>
+            <!-- Bottom Toolbar -->
+            <div class="toolbar">
+                <div class="tool-group">
+                    <div class="label">Color:</div>
+                    <input type="color" id="penColor" value="#000000">
+                </div>
 
-<h2>Why Use This Signature Generator Tool?</h2>
-<ul>
-  <li>No software installation required</li>
-  <li>Type or draw signature freely</li>
-  <li>Works on mobile and desktop devices</li>
-  <li>Instant preview and download</li>
-  <li>Privacy-friendly (100% client-side)</li>
-</ul>
+                <div class="tool-group" id="penSizeControl">
+                    <div class="label">Size:</div>
+                    <input type="range" id="penSize" min="1" max="10" value="2">
+                </div>
 
-<h2>How to Use the Signature Generator</h2>
-<ol>
-  <li>Select Type or Draw option</li>
-  <li>Create your signature</li>
-  <li>Choose color if needed</li>
-  <li>Download signature as PNG</li>
-</ol>
-<!-- SEO ARTICLE END -->
+                <div class="tool-group">
+                    <input type="checkbox" id="transparentCheck" checked style="width:18px; height:18px;">
+                    <label for="transparentCheck" class="label" style="cursor:pointer">Transparent BG</label>
+                </div>
 
-<!-- TOOL START -->
-<div class="tool-box">
-  <h2>Create Your Signature</h2>
+                <div class="tool-group" style="margin-left: auto;">
+                    <button class="btn btn-clear" onclick="clearCanvas()">Clear</button>
+                    <button class="btn btn-save" onclick="downloadSignature()">Download Signature</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-  <div class="tabs">
-    <div class="tab active" id="typeTab" onclick="showType()">Type Signature</div>
-    <div class="tab" id="drawTab" onclick="showDraw()">Draw Signature</div>
-  </div>
-
-  <!-- TYPE SIGNATURE -->
-  <div id="typeBox">
-    <label>Type Your Name</label>
-    <input type="text" id="sigText" placeholder="Enter your name">
-
-    <label>Select Font Style</label>
-    <select id="fontStyle">
-      <option value="cursive">Handwritten</option>
-      <option value="serif">Serif</option>
-      <option value="monospace">Monospace</option>
-    </select>
-  </div>
-
-  <!-- DRAW SIGNATURE -->
-  <div id="drawBox" style="display:none">
-    <p>Draw your signature using mouse or finger:</p>
-    <button class="danger" onclick="clearCanvas()">Clear Drawing</button>
-  </div>
-
-  <label>Select Color</label>
-  <input type="color" id="sigColor" value="#000000">
-
-  <button onclick="generateSignature()">Generate / Update Signature</button>
-
-  <canvas id="sigCanvas" width="600" height="200"></canvas>
-
-  <button class="secondary" onclick="downloadSignature()">Download Signature</button>
-</div>
-<!-- TOOL END -->
-
-<h2>Frequently Asked Questions (FAQ)</h2>
-<h3>Can I draw my signature?</h3>
-<p>Yes, you can draw your signature using a mouse or touch screen.</p>
-
-<h3>Is this tool free?</h3>
-<p>Yes, it is completely free and watermark-free.</p>
-
-<h3>Does the tool save my signature?</h3>
-<p>No, everything runs locally in your browser.</p>
-
-<h3>Is it mobile-friendly?</h3>
-<p>Yes, it supports touch drawing on mobile devices.</p>
-
+    <!-- SEO Content Area -->
+    <div class="info-section">
+        <h2>How to download a Transparent Signature?</h2>
+        <p>1. Ensure the <strong>"Transparent BG"</strong> checkbox is ticked above.</p>
+        <p>2. Draw your signature or type your name using our handwritten fonts.</p>
+        <p>3. Click <strong>Download Signature</strong>. The file will save as a <strong>.PNG</strong> image.</p>
+        <p>This image can be placed over any line in Word, Google Docs, or PDF files without blocking the background text.</p>
+    </div>
 </div>
 
 <script>
-  const canvas = document.getElementById('sigCanvas');
-  const ctx = canvas.getContext('2d');
-  let drawing = false;
-  let mode = 'type';
+    const canvas = document.getElementById('sigCanvas');
+    const ctx = canvas.getContext('2d');
+    const container = document.getElementById('canvasContainer');
+    const textInput = document.getElementById('textInput');
+    const fontsList = document.getElementById('fontsList');
+    
+    // Config
+    let mode = 'draw';
+    let isDrawing = false;
+    let lastX = 0, lastY = 0;
+    
+    // Handwriting Fonts (Google Fonts)
+    const fontOptions = [
+        { name: "Classic", css: "'Dancing Script', cursive" },
+        { name: "Elegant", css: "'Great Vibes', cursive" },
+        { name: "Bold", css: "'Pacifico', cursive" },
+        { name: "Simple", css: "'Sacramento', cursive" },
+        { name: "Modern", css: "'Satisfy', cursive" }
+    ];
+    let selectedFont = fontOptions[0].css;
 
-  function showType(){
-    mode='type';
-    document.getElementById('typeBox').style.display='block';
-    document.getElementById('drawBox').style.display='none';
-    document.getElementById('typeTab').classList.add('active');
-    document.getElementById('drawTab').classList.remove('active');
-  }
+    // --- Init ---
+    function init() {
+        // Set canvas resolution
+        resize();
+        window.addEventListener('resize', resize);
+        
+        // Populate Fonts
+        fontOptions.forEach((font, index) => {
+            const div = document.createElement('div');
+            div.className = `font-item ${index === 0 ? 'selected' : ''}`;
+            div.style.fontFamily = font.css;
+            div.innerText = "Signature";
+            div.onclick = () => selectFont(div, font.css);
+            fontsList.appendChild(div);
+        });
 
-  function showDraw(){
-    mode='draw';
-    document.getElementById('typeBox').style.display='none';
-    document.getElementById('drawBox').style.display='block';
-    document.getElementById('drawTab').classList.add('active');
-    document.getElementById('typeTab').classList.remove('active');
-  }
+        // Event Listeners for Draw
+        canvas.addEventListener('mousedown', startDraw);
+        canvas.addEventListener('mousemove', drawing);
+        canvas.addEventListener('mouseup', stopDraw);
+        canvas.addEventListener('mouseout', stopDraw);
+        
+        // Touch events (Fix for Mobile scrolling issues)
+        canvas.addEventListener('touchstart', (e) => { e.preventDefault(); startDraw(e.touches[0]); }, {passive: false});
+        canvas.addEventListener('touchmove', (e) => { e.preventDefault(); drawing(e.touches[0]); }, {passive: false});
+        canvas.addEventListener('touchend', stopDraw);
 
-  function generateSignature(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    if(mode==='type'){
-      const text=document.getElementById('sigText').value;
-      const color=document.getElementById('sigColor').value;
-      const font=document.getElementById('fontStyle').value;
-      ctx.fillStyle=color;
-      ctx.font=`48px ${font}`;
-      ctx.fillText(text,20,120);
+        // Inputs
+        document.getElementById('penColor').addEventListener('input', refresh);
+        document.getElementById('penSize').addEventListener('input', refresh);
+        textInput.addEventListener('input', refreshType);
     }
-  }
 
-  canvas.addEventListener('mousedown',()=>{if(mode==='draw'){drawing=true}});
-  canvas.addEventListener('mouseup',()=>drawing=false);
-  canvas.addEventListener('mouseleave',()=>drawing=false);
-  canvas.addEventListener('mousemove',draw);
+    // --- Core Logic ---
 
-  canvas.addEventListener('touchstart',e=>{if(mode==='draw'){drawing=true;draw(e)}});
-  canvas.addEventListener('touchend',()=>drawing=false);
-  canvas.addEventListener('touchmove',draw);
+    function resize() {
+        // We match canvas resolution to visual size
+        canvas.width = container.offsetWidth;
+        canvas.height = container.offsetHeight;
+        if(mode === 'type') refreshType();
+    }
 
-  function draw(e){
-    if(!drawing||mode!=='draw')return;
-    const rect=canvas.getBoundingClientRect();
-    const x=(e.touches?e.touches[0].clientX:e.clientX)-rect.left;
-    const y=(e.touches?e.touches[0].clientY:e.clientY)-rect.top;
-    ctx.fillStyle=document.getElementById('sigColor').value;
-    ctx.beginPath();
-    ctx.arc(x,y,2,0,Math.PI*2);
-    ctx.fill();
-  }
+    function setMode(newMode) {
+        mode = newMode;
+        ctx.clearRect(0,0, canvas.width, canvas.height);
+        
+        // Toggle UI
+        document.getElementById('tabDraw').classList.toggle('active', mode === 'draw');
+        document.getElementById('tabType').classList.toggle('active', mode === 'type');
+        
+        document.getElementById('typeControls').classList.toggle('visible', mode === 'type');
+        document.getElementById('penSizeControl').style.display = mode === 'draw' ? 'flex' : 'none';
+        
+        canvas.style.cursor = mode === 'draw' ? 'crosshair' : 'default';
+        
+        if(mode === 'type') refreshType();
+    }
 
-  function clearCanvas(){ctx.clearRect(0,0,canvas.width,canvas.height)}
+    function refresh() {
+        if(mode === 'type') refreshType();
+    }
 
-  function downloadSignature(){
-    const link=document.createElement('a');
-    link.download='digital-signature.png';
-    link.href=canvas.toDataURL('image/png');
-    link.click();
-  }
+    function selectFont(element, fontName) {
+        document.querySelectorAll('.font-item').forEach(el => el.classList.remove('selected'));
+        element.classList.add('selected');
+        selectedFont = fontName;
+        refreshType();
+    }
+
+    // --- Draw Functions ---
+
+    function startDraw(e) {
+        if(mode !== 'draw') return;
+        isDrawing = true;
+        [lastX, lastY] = getPos(e);
+    }
+
+    function drawing(e) {
+        if(!isDrawing || mode !== 'draw') return;
+        
+        const [x, y] = getPos(e);
+        const color = document.getElementById('penColor').value;
+        const size = document.getElementById('penSize').value;
+
+        ctx.beginPath();
+        ctx.moveTo(lastX, lastY);
+        ctx.lineTo(x, y);
+        ctx.strokeStyle = color;
+        ctx.lineWidth = size;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.stroke();
+
+        [lastX, lastY] = [x, y];
+    }
+
+    function stopDraw() { isDrawing = false; }
+
+    function getPos(e) {
+        const rect = canvas.getBoundingClientRect();
+        return [e.clientX - rect.left, e.clientY - rect.top];
+    }
+
+    function clearCanvas() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        if(mode === 'type') {
+            textInput.value = '';
+            refreshType(); // Clears screen
+        }
+    }
+
+    // --- Type Function ---
+
+    function refreshType() {
+        if(mode !== 'type') return;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        const text = textInput.value;
+        if(!text) return; // Empty
+
+        const color = document.getElementById('penColor').value;
+        let fontSize = 60; 
+        
+        // Auto-fit font size
+        if(text.length > 10) fontSize = 40;
+        if(text.length > 20) fontSize = 25;
+
+        ctx.font = `${fontSize}px ${selectedFont}`;
+        ctx.fillStyle = color;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        
+        ctx.fillText(text, canvas.width/2, canvas.height/2);
+    }
+
+    // --- FIXED DOWNLOAD LOGIC ---
+
+    function downloadSignature() {
+        const isTransparent = document.getElementById('transparentCheck').checked;
+        let dataUrl;
+
+        if (isTransparent) {
+            dataUrl = canvas.toDataURL('image/png');
+        } else {
+            // Combine with white background
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = canvas.width;
+            tempCanvas.height = canvas.height;
+            const tCtx = tempCanvas.getContext('2d');
+            
+            tCtx.fillStyle = "#ffffff";
+            tCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+            tCtx.drawImage(canvas, 0, 0);
+            
+            dataUrl = tempCanvas.toDataURL('image/jpeg');
+        }
+
+        // --- THE FIX ---
+        // 1. Create Link
+        const link = document.createElement('a');
+        // 2. Determine Extension
+        const ext = isTransparent ? '.png' : '.jpg';
+        link.download = `my-signature-${Date.now()}${ext}`;
+        link.href = dataUrl;
+        
+        // 3. Append to BODY (Crucial for Firefox support)
+        document.body.appendChild(link);
+        
+        // 4. Trigger Click
+        link.click();
+        
+        // 5. Cleanup
+        document.body.removeChild(link);
+    }
+
+    // Start App
+    init();
+
 </script>
-
 </body>
 </html>
