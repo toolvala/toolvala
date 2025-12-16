@@ -3,1000 +3,406 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF to Word Converter | Free Online Tool</title>
-    <meta name="description" content="Convert PDF to Word online for free. This tool preserves formatting and converts PDF files to editable Word documents (DOC/DOCX) with high accuracy.">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <title>Free PDF to Word Converter | Convert PDF to Editable Doc</title>
+    <meta name="description" content="Convert PDF files to editable Word (.doc) documents online for free. Extract text from PDFs instantly. 100% Private & Client-side tool.">
+    <!-- Load PDF.js from CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --brand: #2b579a; /* Word Blue */
+            --bg: #f3f4f6;
+            --surface: #ffffff;
+            --text: #1f2937;
+            --border: #e5e7eb;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
             line-height: 1.6;
-            color: #333;
-            background-color: #f8fafc;
-            padding-bottom: 50px;
         }
 
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+            max-width: 900px;
+            margin: 40px auto;
         }
 
-        header {
-            background-color: #ffffff;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            padding: 20px 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
+        /* Hero / Header */
+        header { text-align: center; margin-bottom: 40px; }
+        h1 { color: var(--brand); font-size: 2.5rem; margin-bottom: 10px; }
+        .subtitle { color: #6b7280; font-size: 1.1rem; }
 
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 24px;
-            font-weight: 700;
-            color: #2563eb;
-            text-decoration: none;
-        }
-
-        .logo i {
-            font-size: 28px;
-        }
-
-        /* Hero Section */
-        .hero {
-            text-align: center;
-            padding: 60px 0 40px;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .hero h1 {
-            font-size: 42px;
-            margin-bottom: 20px;
-            color: #1e293b;
-            line-height: 1.2;
-        }
-
-        .hero p {
-            font-size: 18px;
-            color: #64748b;
-            margin-bottom: 30px;
-        }
-
-        /* Tool Container */
-        .tool-container {
-            background-color: #ffffff;
+        /* Main Card */
+        .converter-card {
+            background: var(--surface);
             border-radius: 12px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
             padding: 40px;
-            margin-bottom: 50px;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
+            text-align: center;
         }
 
         /* Upload Area */
-        .upload-area {
+        .drop-zone {
             border: 3px dashed #cbd5e1;
-            border-radius: 12px;
-            padding: 50px 20px;
-            text-align: center;
-            margin-bottom: 30px;
-            transition: all 0.3s;
-            background-color: #f8fafc;
-            cursor: pointer;
-        }
-
-        .upload-area:hover, .upload-area.dragover {
-            border-color: #2563eb;
-            background-color: #eff6ff;
-        }
-
-        .upload-icon {
-            font-size: 60px;
-            color: #2563eb;
-            margin-bottom: 20px;
-        }
-
-        .upload-text h3 {
-            font-size: 22px;
-            margin-bottom: 10px;
-            color: #1e293b;
-        }
-
-        .upload-text p {
-            color: #64748b;
-            margin-bottom: 20px;
-        }
-
-        .file-input {
-            display: none;
-        }
-
-        .browse-btn {
-            background-color: #2563eb;
-            color: white;
-            border: none;
-            padding: 12px 28px;
             border-radius: 8px;
-            font-weight: 600;
+            padding: 40px 20px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            background: #f8fafc;
+            transition: all 0.3s ease;
         }
-
-        .browse-btn:hover {
-            background-color: #1d4ed8;
-        }
-
-        /* File Info */
-        .file-info {
-            display: none;
-            background-color: #f1f5f9;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 30px;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .file-info.show {
-            display: flex;
-        }
-
-        .file-icon {
-            font-size: 40px;
-            color: #2563eb;
-        }
-
-        .file-details h4 {
-            margin-bottom: 5px;
-            color: #1e293b;
-        }
-
-        .file-details p {
-            color: #64748b;
-            font-size: 14px;
-        }
-
-        .remove-file {
-            margin-left: auto;
-            background: none;
-            border: none;
-            color: #ef4444;
-            cursor: pointer;
-            font-size: 18px;
-        }
-
-        /* Conversion Options */
-        .conversion-type {
-            background-color: #f8fafc;
-            padding: 25px;
-            border-radius: 10px;
-            margin-bottom: 30px;
-        }
-
-        .conversion-type h3 {
-            color: #1e293b;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .options-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
-
-        .option-card {
-            background: white;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            padding: 25px 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .option-card:hover {
-            border-color: #2563eb;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.1);
-        }
-
-        .option-card.active {
-            border-color: #2563eb;
-            background-color: #eff6ff;
-        }
-
-        .option-icon {
-            font-size: 40px;
-            color: #2563eb;
-            margin-bottom: 15px;
-        }
-
-        .option-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: #1e293b;
-            margin-bottom: 8px;
-        }
-
-        .option-desc {
-            color: #64748b;
-            font-size: 14px;
-            margin-bottom: 15px;
-        }
-
-        .option-radio {
-            display: none;
-        }
-
-        .option-radio:checked + .option-card {
-            border-color: #2563eb;
-            background-color: #eff6ff;
-        }
-
-        /* Actions */
-        .actions {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-
-        .convert-btn, .download-btn {
-            padding: 15px 30px;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: none;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .convert-btn {
-            background-color: #2563eb;
-            color: white;
-        }
-
-        .convert-btn:hover:not(:disabled) {
-            background-color: #1d4ed8;
-        }
-
-        .convert-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        .download-btn {
-            background-color: #10b981;
-            color: white;
-            display: none;
-            text-decoration: none;
-        }
-
-        .download-btn:hover {
-            background-color: #0da271;
-        }
-
-        /* Status */
-        .status {
-            text-align: center;
-            margin-top: 20px;
-            min-height: 24px;
-            color: #2563eb;
-            font-weight: 500;
-        }
-
-        .status.error {
-            color: #ef4444;
-        }
-
-        .status.success {
-            color: #10b981;
-        }
-
-        /* Progress Bar */
-        .progress-container {
-            display: none;
-            margin-top: 20px;
-        }
-
-        .progress-bar {
+        .drop-zone:hover { border-color: var(--brand); background: #eff6ff; }
+        .drop-zone i { font-size: 40px; display: block; margin-bottom: 15px; }
+        
+        /* Progress & Status */
+        .status-area { margin-top: 25px; display: none; }
+        .progress-bar-container {
             width: 100%;
-            height: 8px;
-            background-color: #e2e8f0;
-            border-radius: 4px;
+            background-color: #e5e7eb;
+            border-radius: 99px;
+            height: 10px;
+            margin: 15px 0;
             overflow: hidden;
-            margin-bottom: 10px;
         }
-
-        .progress-fill {
+        .progress-bar {
             height: 100%;
-            background-color: #2563eb;
             width: 0%;
+            background-color: var(--brand);
             transition: width 0.3s;
         }
 
-        .progress-text {
-            text-align: center;
-            color: #64748b;
-            font-size: 14px;
+        /* Buttons */
+        .btn {
+            background-color: var(--brand);
+            color: white;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            display: inline-block;
+            margin-top: 15px;
         }
+        .btn:hover { opacity: 0.9; }
+        .btn:disabled { background-color: #9ca3af; cursor: not-allowed; }
 
-        /* Limitations Notice */
-        .limitations-notice {
-            background-color: #fef3c7;
-            border: 1px solid #fbbf24;
-            border-radius: 8px;
+        .hidden { display: none; }
+        
+        /* Instructions Section */
+        .info-section {
+            margin-top: 50px;
+            background: var(--surface);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+        .info-section h2 { color: var(--brand); font-size: 1.5rem; }
+        
+        .limitations-box {
+            background: #fff7ed;
+            border-left: 4px solid #f97316;
             padding: 15px;
             margin-top: 20px;
-            color: #92400e;
+            text-align: left;
+            font-size: 0.95rem;
+            color: #9a3412;
         }
 
-        .limitations-notice h4 {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
-            color: #92400e;
-        }
-
-        .limitations-notice ul {
-            padding-left: 20px;
-            margin-bottom: 10px;
-        }
-
-        .limitations-notice li {
-            margin-bottom: 5px;
-        }
-
-        /* Loading Spinner */
-        .loading-spinner {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 1s ease-in-out infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* SEO Content */
-        .seo-content {
-            max-width: 800px;
-            margin: 0 auto 50px;
-            background-color: white;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-        }
-
-        .seo-content h2 {
-            color: #1e293b;
-            margin-bottom: 20px;
-            font-size: 28px;
-        }
-
-        .seo-content p {
-            margin-bottom: 20px;
-            color: #475569;
-        }
-
-        .seo-content h3 {
-            color: #1e293b;
-            margin: 25px 0 15px;
-            font-size: 22px;
-        }
-
-        /* FAQ */
-        .faq-section {
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: white;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-        }
-
-        .faq-section h2 {
-            color: #1e293b;
-            margin-bottom: 30px;
-            text-align: center;
-            font-size: 28px;
-        }
-
-        .faq-item {
-            margin-bottom: 20px;
-            border-bottom: 1px solid #e2e8f0;
-            padding-bottom: 20px;
-        }
-
-        .faq-question {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            color: #1e293b;
-            font-weight: 600;
-        }
-
-        .faq-question:hover {
-            color: #2563eb;
-        }
-
-        .faq-answer {
-            margin-top: 15px;
-            color: #475569;
-            display: none;
-            line-height: 1.7;
-        }
-
-        .faq-answer.show {
-            display: block;
-        }
-
-        .faq-toggle {
-            transition: transform 0.3s;
-        }
-
-        .faq-toggle.rotated {
-            transform: rotate(180deg);
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            margin-top: 50px;
-            padding-top: 30px;
-            border-top: 1px solid #e2e8f0;
-            color: #64748b;
-            font-size: 14px;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 32px;
-            }
-            
-            .tool-container {
-                padding: 25px;
-            }
-            
-            .seo-content, .faq-section {
-                padding: 25px;
-            }
-            
-            .actions {
-                flex-direction: column;
-            }
-        }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="container header-content">
-            <a href="/" class="logo">
-                <i class="fas fa-file-word"></i>
-                PDF Tools
-            </a>
-        </div>
-    </header>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <h1>Convert PDF to Word Document Online</h1>
-        <p>Free tool to convert PDF files to editable Word documents (DOC/DOCX). Extract text from PDFs and create Word files.</p>
-    </section>
-
-    <!-- Tool Container -->
     <div class="container">
-        <div class="tool-container">
-            <!-- Upload Area -->
-            <div class="upload-area" id="uploadArea">
-                <div class="upload-icon">
-                    <i class="fas fa-file-pdf"></i>
-                </div>
-                <div class="upload-text">
-                    <h3>Select PDF File</h3>
-                    <p>Drag and drop your PDF file here or click to browse</p>
-                    <button class="browse-btn" id="browseBtn">Browse Files</button>
-                    <input type="file" id="pdfInput" class="file-input" accept=".pdf">
-                </div>
-            </div>
+        
+        <header>
+            <h1>PDF to Word Converter</h1>
+            <p class="subtitle">Extract text from PDF and save as editable MS Word Doc.</p>
+        </header>
 
-            <!-- File Info -->
-            <div class="file-info" id="fileInfo">
-                <div class="file-icon">
-                    <i class="fas fa-file-pdf"></i>
-                </div>
-                <div class="file-details">
-                    <h4 id="fileName">sample.pdf</h4>
-                    <p id="fileSize">2.4 MB</p>
-                </div>
-                <button class="remove-file" id="removeFile">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-
-            <!-- Conversion Type -->
-            <div class="conversion-type">
-                <h3>Select Conversion Method</h3>
-                <div class="options-grid">
-                    <label>
-                        <input type="radio" name="conversionType" value="text" class="option-radio" checked>
-                        <div class="option-card">
-                            <div class="option-icon">
-                                <i class="fas fa-font"></i>
-                            </div>
-                            <div class="option-title">Text Extraction</div>
-                            <div class="option-desc">Extract text from PDF and create Word document. Works with text-based PDFs.</div>
-                        </div>
-                    </label>
-                    
-                    <label>
-                        <input type="radio" name="conversionType" value="rtf" class="option-radio">
-                        <div class="option-card">
-                            <div class="option-icon">
-                                <i class="fas fa-file-word"></i>
-                            </div>
-                            <div class="option-title">RTF Document</div>
-                            <div class="option-desc">Create Rich Text Format document that opens in Word.</div>
-                        </div>
-                    </label>
-                </div>
-            </div>
-
-            <!-- Progress Bar -->
-            <div class="progress-container" id="progressContainer">
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progressFill"></div>
-                </div>
-                <div class="progress-text" id="progressText">Processing...</div>
-            </div>
-
-            <!-- Actions -->
-            <div class="actions">
-                <button class="convert-btn" id="convertBtn" disabled>
-                    <span class="loading-spinner" id="loadingSpinner" style="display: none;"></span>
-                    Convert to Word
-                </button>
-                <a class="download-btn" id="downloadBtn">
-                    <i class="fas fa-download"></i>
-                    Download Word File
-                </a>
-            </div>
-
-            <!-- Status -->
-            <div class="status" id="status">Select a PDF file to convert</div>
-
-            <!-- Limitations Notice -->
-            <div class="limitations-notice">
-                <h4><i class="fas fa-info-circle"></i> Important Limitations</h4>
-                <ul>
-                    <li>This tool extracts text from PDFs but cannot preserve complex formatting</li>
-                    <li>For scanned/image-based PDFs, text extraction may not work</li>
-                    <li>For best results, use text-based PDF files</li>
-                    <li>Complex layouts, images, and tables may not convert perfectly</li>
-                </ul>
-                <p><strong>For complex PDFs:</strong> Consider using desktop software like Adobe Acrobat or online services with OCR capabilities.</p>
-            </div>
-        </div>
-
-        <!-- SEO Content -->
-        <div class="seo-content">
-            <h2>Free PDF to Word Converter</h2>
-            <p>Our PDF to Word converter is a practical browser-based tool that allows you to extract text from PDF documents and create editable Word files. While browser-based tools have limitations compared to desktop software, our converter provides a quick and free solution for basic PDF to Word conversions.</p>
+        <main class="converter-card">
             
-            <h3>How It Works</h3>
-            <p>The tool uses PDF.js library to parse PDF files and extract text content. This text is then formatted into a Word-compatible document. The process happens entirely in your browser, ensuring your documents never leave your computer and maintaining complete privacy.</p>
-            
-            <h3>Best Practices for Conversion</h3>
-            <p>For optimal results, use text-based PDFs (not scanned documents). The tool works best with:</p>
-            <ul style="padding-left: 20px; margin-bottom: 20px;">
-                <li>Digital PDFs created from Word, Excel, or other office software</li>
-                <li>PDFs with selectable text (you can highlight text with your cursor)</li>
-                <li>Simple layouts without complex formatting</li>
-                <li>Files under 50MB for best performance</li>
+            <!-- UPLOAD SECTION -->
+            <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+                <div style="font-size: 3rem;">📄 ➡️ 📝</div>
+                <h3>Click to Upload PDF</h3>
+                <p style="color: #6b7280;">or drag and drop file here</p>
+                <input type="file" id="fileInput" accept="application/pdf" class="hidden">
+            </div>
+
+            <!-- PROCESSING SECTION -->
+            <div id="statusArea" class="status-area">
+                <p id="statusText" style="font-weight: 600;">Processing PDF...</p>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+            </div>
+
+            <!-- DOWNLOAD SECTION -->
+            <div id="downloadArea" class="hidden">
+                <p style="color: #16a34a; font-weight: bold; margin-bottom: 15px;">✅ Conversion Complete!</p>
+                <button id="downloadBtn" class="btn">⬇ Download Word Document</button>
+                <br>
+                <button id="resetBtn" style="margin-top:10px; background:none; border:none; color:#6b7280; cursor:pointer; text-decoration:underline;">Convert Another File</button>
+            </div>
+
+        </main>
+
+        <div class="info-section">
+            <h2>About this Tool</h2>
+            <p>This tool reads the text layers of your PDF and reconstructs them into a Microsoft Word compatible file (`.doc`). Since it runs entirely in your browser:</p>
+            <ul>
+                <li>🔒 <strong>100% Private:</strong> Your documents are never uploaded to a server.</li>
+                <li>⚡ <strong>Instant:</strong> No queue, no waiting times.</li>
+                <li>💸 <strong>Free:</strong> Unlimited conversions.</li>
             </ul>
-            
-            <h3>Alternative Solutions</h3>
-            <p>For complex PDF conversions requiring OCR (Optical Character Recognition), formatting preservation, or handling of scanned documents, consider these alternatives:</p>
-            <ul style="padding-left: 20px;">
-                <li><strong>Adobe Acrobat Pro:</strong> Industry standard with excellent conversion quality</li>
-                <li><strong>Online OCR services:</strong> Upload-based services that can handle scanned PDFs</li>
-                <li><strong>Microsoft Word:</strong> Recent versions can open PDFs directly</li>
-                <li><strong>Google Docs:</strong> Can upload PDFs and perform OCR</li>
-            </ul>
+
+            <div class="limitations-box">
+                <strong>Note on Layouts:</strong> This is a <em>Text-Based Converter</em>. It works best for contracts, essays, and articles. If your PDF contains complex tables, scanned images (without text layer), or intricate design columns, the output will prioritize extracting editable text over visual layout.
+            </div>
         </div>
 
-        <!-- FAQ Section -->
-        <div class="faq-section">
-            <h2>Frequently Asked Questions</h2>
-            
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(1)">
-                    <span>Why doesn't my converted document look exactly like the PDF?</span>
-                    <i class="fas fa-chevron-down faq-toggle"></i>
-                </div>
-                <div class="faq-answer" id="faq1">
-                    <p>PDF and Word are fundamentally different formats. PDF is a fixed-layout format designed for printing, while Word is a flow document format designed for editing. Our browser-based tool extracts text and basic formatting but cannot perfectly recreate complex layouts, images, or advanced formatting.</p>
-                </div>
-            </div>
-            
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(2)">
-                    <span>Can this tool convert scanned PDFs?</span>
-                    <i class="fas fa-chevron-down faq-toggle"></i>
-                </div>
-                <div class="faq-answer" id="faq2">
-                    <p>No, this tool cannot convert scanned/image-based PDFs. It extracts text from digital PDFs that have embedded text. For scanned documents, you need OCR (Optical Character Recognition) software. Try opening the PDF in Google Docs or using Adobe Acrobat Pro for scanned PDFs.</p>
-                </div>
-            </div>
-            
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(3)">
-                    <span>Is there a file size limit?</span>
-                    <i class="fas fa-chevron-down faq-toggle"></i>
-                </div>
-                <div class="faq-answer" id="faq3">
-                    <p>Since processing happens in your browser, very large files (over 100MB) may cause performance issues or timeouts. For best results, use PDFs under 50MB. If you have a large PDF, consider splitting it into smaller files before conversion.</p>
-                </div>
-            </div>
-            
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(4)">
-                    <span>What Word formats are supported?</span>
-                    <i class="fas fa-chevron-down faq-toggle"></i>
-                </div>
-                <div class="faq-answer" id="faq4">
-                    <p>The tool creates DOCX files (Microsoft Word 2007+ format) that are compatible with modern versions of Microsoft Word, Google Docs, LibreOffice, and other word processors. The RTF option creates files compatible with older software.</p>
-                </div>
-            </div>
-            
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(5)">
-                    <span>Are my files secure?</span>
-                    <i class="fas fa-chevron-down faq-toggle"></i>
-                </div>
-                <div class="faq-answer" id="faq5">
-                    <p>Yes. All processing happens locally in your browser. Your PDF files are never uploaded to any server - they stay on your computer throughout the entire conversion process. This ensures complete privacy and security.</p>
-                </div>
-            </div>
-            
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(6)">
-                    <span>Why does the conversion fail for some PDFs?</span>
-                    <i class="fas fa-chevron-down faq-toggle"></i>
-                </div>
-                <div class="faq-answer" id="faq6">
-                    <p>Conversion may fail for: password-protected PDFs, scanned/image PDFs, corrupted files, or PDFs with unusual encoding. Ensure your PDF is not password protected and contains digital text (not images of text).</p>
-                </div>
-            </div>
-        </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="container">
-        <p>&copy; 2023 PDF Tools. All rights reserved.</p>
-        <p>This tool works entirely in your browser - your files are never uploaded to any server.</p>
-    </footer>
+    <!-- SEO CONTENT -->
+    <article style="max-width: 800px; margin: 40px auto; color: #374151;">
+        <h2>How to Convert PDF to Word Online?</h2>
+        <ol>
+            <li><strong>Upload:</strong> Select your PDF file from your device.</li>
+            <li><strong>Extraction:</strong> The tool scans all pages and extracts the text content.</li>
+            <li><strong>Format:</strong> It builds a structured Word file usable in MS Word, Google Docs, or LibreOffice.</li>
+            <li><strong>Save:</strong> Download your file immediately.</li>
+        </ol>
+        
+        <h3>Why convert PDF to Word?</h3>
+        <p>PDFs are great for viewing, but terrible for editing. By converting to Word, you can fix typos, update contracts, or copy-paste large chunks of text for research projects easily.</p>
+    </article>
 
     <script>
-        // DOM Elements
-        const uploadArea = document.getElementById('uploadArea');
-        const pdfInput = document.getElementById('pdfInput');
-        const browseBtn = document.getElementById('browseBtn');
-        const fileInfo = document.getElementById('fileInfo');
-        const fileName = document.getElementById('fileName');
-        const fileSize = document.getElementById('fileSize');
-        const removeFile = document.getElementById('removeFile');
-        const convertBtn = document.getElementById('convertBtn');
-        const downloadBtn = document.getElementById('downloadBtn');
-        const status = document.getElementById('status');
-        const loadingSpinner = document.getElementById('loadingSpinner');
-        const progressContainer = document.getElementById('progressContainer');
-        const progressFill = document.getElementById('progressFill');
-        const progressText = document.getElementById('progressText');
-        
-        let currentFile = null;
-        let pdfDoc = null;
+        // Init PDF.js
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
 
-        // Event Listeners
-        browseBtn.addEventListener('click', () => pdfInput.click());
-        
-        pdfInput.addEventListener('change', handleFileSelect);
-        
-        uploadArea.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            uploadArea.classList.add('dragover');
+        const fileInput = document.getElementById('fileInput');
+        const dropZone = document.getElementById('dropZone');
+        const statusArea = document.getElementById('statusArea');
+        const statusText = document.getElementById('statusText');
+        const progressBar = document.getElementById('progressBar');
+        const downloadArea = document.getElementById('downloadArea');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const resetBtn = document.getElementById('resetBtn');
+
+        let convertedContent = "";
+        let fileName = "document";
+
+        // Drag and Drop Logic
+        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.style.borderColor = 'var(--brand)'; });
+        dropZone.addEventListener('dragleave', (e) => { e.preventDefault(); dropZone.style.borderColor = '#cbd5e1'; });
+        dropZone.addEventListener('drop', (e) => { 
+            e.preventDefault(); 
+            dropZone.style.borderColor = '#cbd5e1';
+            handleFile(e.dataTransfer.files[0]);
         });
-        
-        uploadArea.addEventListener('dragleave', () => {
-            uploadArea.classList.remove('dragover');
-        });
-        
-        uploadArea.addEventListener('drop', (e) => {
-            e.preventDefault();
-            uploadArea.classList.remove('dragover');
-            
-            if (e.dataTransfer.files.length) {
-                handleFile(e.dataTransfer.files[0]);
-            }
-        });
-        
-        removeFile.addEventListener('click', clearFile);
-        
-        convertBtn.addEventListener('click', convertPdfToWord);
-        
-        // File Handling Functions
-        function handleFileSelect(e) {
-            if (e.target.files.length) {
-                handleFile(e.target.files[0]);
-            }
-        }
-        
-        function handleFile(file) {
-            // Check if file is PDF
-            if (!file.type.includes('pdf') && !file.name.toLowerCase().endsWith('.pdf')) {
-                showStatus('Please select a PDF file', 'error');
+        fileInput.addEventListener('change', (e) => handleFile(e.target.files[0]));
+
+        async function handleFile(file) {
+            if (!file || file.type !== 'application/pdf') {
+                alert("Please upload a valid PDF file.");
                 return;
             }
-            
-            // Check file size (limit to 50MB for browser performance)
-            if (file.size > 50 * 1024 * 1024) {
-                showStatus('File too large. Please select a PDF under 50MB for best performance.', 'error');
-                return;
-            }
-            
-            currentFile = file;
-            
-            // Update UI
-            fileName.textContent = file.name;
-            fileSize.textContent = formatFileSize(file.size);
-            fileInfo.classList.add('show');
-            convertBtn.disabled = false;
-            
-            showStatus('PDF file ready for conversion', 'success');
-        }
-        
-        function clearFile() {
-            pdfInput.value = '';
-            currentFile = null;
-            pdfDoc = null;
-            fileInfo.classList.remove('show');
-            convertBtn.disabled = true;
-            downloadBtn.style.display = 'none';
-            showStatus('Select a PDF file to convert', 'info');
-        }
-        
-        // Conversion Function
-        async function convertPdfToWord() {
-            if (!currentFile) {
-                showStatus('No file selected', 'error');
-                return;
-            }
-            
-            // Show loading state
-            convertBtn.disabled = true;
-            loadingSpinner.style.display = 'inline-block';
-            progressContainer.style.display = 'block';
-            progressFill.style.width = '0%';
-            progressText.textContent = 'Loading PDF...';
-            
-            showStatus('Starting conversion...', 'info');
+
+            // Reset UI
+            dropZone.classList.add('hidden');
+            statusArea.style.display = 'block';
+            downloadArea.classList.add('hidden');
+            fileName = file.name.replace('.pdf', '');
+            progressBar.style.width = '0%';
             
             try {
-                // Read the PDF file
-                const arrayBuffer = await currentFile.arrayBuffer();
+                const arrayBuffer = await file.arrayBuffer();
+                const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
                 
-                // Load the PDF document using pdf.js
-                progressFill.style.width = '20%';
-                progressText.textContent = 'Parsing PDF document...';
-                
-                const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
-                pdfDoc = await loadingTask.promise;
-                
-                const pageCount = pdfDoc.numPages;
-                let fullText = '';
-                
-                progressFill.style.width = '30%';
-                progressText.textContent = `Extracting text from ${pageCount} page(s)...`;
-                
-                // Extract text from each page
-                for (let i = 1; i <= pageCount; i++) {
-                    const page = await pdfDoc.getPage(i);
+                const totalPages = pdf.numPages;
+                let fullText = "";
+
+                statusText.innerText = `Analyzing ${totalPages} pages...`;
+
+                // Loop through pages
+                for (let i = 1; i <= totalPages; i++) {
+                    // Update progress
+                    const progress = Math.round((i / totalPages) * 100);
+                    progressBar.style.width = `${progress}%`;
+                    statusText.innerText = `Converting Page ${i} of ${totalPages}...`;
+
+                    const page = await pdf.getPage(i);
                     const textContent = await page.getTextContent();
                     
-                    // Extract text items
-                    const pageText = textContent.items.map(item => item.str).join(' ');
-                    fullText += pageText + '\n\n';
-                    
-                    // Update progress
-                    const progress = 30 + ((i / pageCount) * 50);
-                    progressFill.style.width = `${progress}%`;
-                    progressText.textContent = `Processing page ${i} of ${pageCount}...`;
+                    // Simple logic to attempt line preservation
+                    let lastY = -1;
+                    let pageText = "";
+
+                    textContent.items.forEach(item => {
+                        // If vertical position changes significantly, add a newline
+                        if (lastY !== -1 && Math.abs(item.transform[5] - lastY) > 5) {
+                            pageText += "\n";
+                        }
+                        pageText += item.str + " "; // Add space between words
+                        lastY = item.transform[5];
+                    });
+
+                    // Wrap page text in Word-compatible paragraph HTML
+                    fullText += `
+                        <div class="page-break" style="page-break-after: always;">
+                            <p style="font-family: Calibri, sans-serif; white-space: pre-wrap;">
+                                ${pageText.replace(/\n/g, "<br>")}
+                            </p>
+                        </div>
+                    `;
                 }
+
+                convertedContent = fullText;
                 
-                // Check if we extracted any text
-                if (!fullText.trim()) {
-                    throw new Error('No text could be extracted. This may be a scanned/image-based PDF.');
-                }
-                
-                progressFill.style.width = '85%';
-                progressText.textContent = 'Creating Word document...';
-                
-                // Get selected conversion type
-                const conversionType = document.querySelector('input[name="conversionType"]:checked').value;
-                
-                // Create Word document
-                let wordContent, mimeType, extension;
-                
-                if (conversionType === 'rtf') {
-                    // Create RTF document
-                    wordContent = createRtfDocument(fullText);
-                    mimeType = 'application/rtf';
-                    extension = '.rtf';
-                } else {
-                    // Create DOCX-like content (HTML that Word can open)
-                    wordContent = createDocxDocument(fullText);
-                    mimeType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
-                    extension = '.docx';
-                }
-                
-                progressFill.style.width = '95%';
-                progressText.textContent = 'Finalizing document...';
-                
-                // Create blob and download link
-                const blob = new Blob([wordContent], { type: mimeType });
-                const url = URL.createObjectURL(blob);
-                const outputFilename = currentFile.name.replace(/\.pdf$/i, '') + extension;
-                
-                // Update download button
-                downloadBtn.href = url;
-                downloadBtn.download = outputFilename;
-                downloadBtn.style.display = 'flex';
-                
-                progressFill.style.width = '100%';
-                progressText.textContent = 'Conversion complete!';
-                
-                // Show success message
-                showStatus(`Successfully converted! Extracted ${fullText.split(/\s+/).length} words.`, 'success');
-                
-                // Scroll to download button
-                downloadBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                
+                // Done
+                statusArea.style.display = 'none';
+                downloadArea.classList.remove('hidden');
+
             } catch (error) {
-                console.error('Conversion error:', error);
-                
-                if (error.message.includes('scanned') || error.message.includes('No text')) {
-                    showStatus('Error: This appears to be a scanned/image-based PDF. Browser-based tools cannot extract text from scanned documents. Try using Google Docs or Adobe Acrobat for OCR conversion.', 'error');
-                } else if (error.message.includes('password')) {
-                    showStatus('Error: PDF is password protected. Please remove password protection and try again.', 'error');
-                } else {
-                    showStatus('Error converting PDF. Please try another file or check console for details.', 'error');
-                }
-                
-                progressContainer.style.display = 'none';
-            } finally {
-                // Reset loading state
-                convertBtn.disabled = false;
-                loadingSpinner.style.display = 'none';
-                
-                // Hide progress bar after delay
-                setTimeout(() => {
-                    progressContainer.style.display = 'none';
-                }, 3000);
+                console.error(error);
+                statusArea.style.display = 'none';
+                dropZone.classList.remove('hidden');
+                alert("Error processing PDF. The file might be password protected or scanned image (OCR required).");
             }
         }
-        
-        // Create RTF Document
-        function createRtfDocument(text) {
-            // Simple RTF header
-            const rtfHeader = `{\\rtf1\\ansi\\ansicpg1252\\deff0\\nouicompat\\deflang1033{\\fonttbl{\\f0\\fnil\\fcharset0 Calibri;}}
-{\\*\\generator PDFtoWordConverter }
-\\viewkind4\\uc1 
-\\pard\\sa200\\sl276\\slmult1\\f0\\fs22\\lang9 `;
+
+        downloadBtn.addEventListener('click', () => {
+            // Create a specific HTML wrapper that Word interprets correctly
+            const preHtml = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Export HTML To Doc</title></head><body>";
+            const postHtml = "</body></html>";
+            const html = preHtml + convertedContent + postHtml;
+
+            const blob = new Blob(['\ufeff', html], {
+                type: 'application/msword'
+            });
+
+            // Trigger Download
+            const url = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(html);
+            const downloadLink = document.createElement("a");
+            document.body.appendChild(downloadLink);
+
+            if(navigator.msSaveOrOpenBlob ){
+                navigator.msSaveOrOpenBlob(blob, fileName + ".doc");
+            } else {
+                downloadLink.href = url;
+                downloadLink.download = fileName + ".doc";
+                downloadLink.click();
+            }
             
-            const rtfFooter = `\\par}`;
-            
-            // Escape RTF special characters
-            const escapedText = text
-                .replace(/\\/g, '\\\\')
-                .replace(/{/g, '\\{')
-                .replace(/}/g, '\\}')
-                .replace(/\n/g, '\\par ')
-                .replace(/\t/g, '\\tab ');
-            
-            return rtfHeader + escapedText + rtfFooter;
-        }
-        
-        // Create DOCX-like Document (HTML that Word can open)
-        function createDocxDocument(text) {
-            const lines = text.split('\n');
-            const htmlLines = lines.map(line => {
-                if (line.trim() === '') return '<p>&nbsp;</p>';
-                return `<p>${escapeHtml(line)}</p>`;
-            }).join('\n');
-            
-            return `<!DOCTYPE html>
-<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
-<head>
-<meta charset="UTF-8">
-<meta name=ProgId content=Word.Document>
-<meta name=Generator content="PDF to Word Converter">
-<meta name=Originator content="PDF to Word Converter">
-<!--[if gte mso 9]><xml><w:WordDocument><w:View>Print</w:View></w:WordDocument></xml><![endif]-->
-<title>Converted PDF Document</title>
-<style>
-body { font-family: Calibri, sans-serif; font-size: 11pt; margin: 1in; }
-p { margin: 0 0 12pt 0; }
-</style>
-</head>
-<body>
-${htmlLines}
-</body>
-</html>`;
-        }
-        
-        // Helper Functions
-        function formatFileSize(bytes) {
-            if (bytes === 0) return '0 Bytes';
-            const k = 1024;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-        }
-        
-        function showStatus(message, type) {
-            status.textContent = message;
-            status.className = 'status';
-            if (type === 'error') status.classList.add('error');
-            if (type === 'success') status.classList.add('success');
-        }
-        
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-        
-        // FAQ Functionality
-        function toggleFaq(index) {
-            const answer = document.getElementById(`faq${index}`);
-            const toggle = answer.previousElementSibling.querySelector('.faq-toggle');
-            
-            answer.classList.toggle('show');
-            toggle.classList.toggle('rotated');
-        }
-        
-        // Initialize
-        showStatus('Select a PDF file to convert', 'info');
+            document.body.removeChild(downloadLink);
+        });
+
+        resetBtn.addEventListener('click', () => {
+            fileInput.value = '';
+            dropZone.classList.remove('hidden');
+            downloadArea.classList.add('hidden');
+        });
     </script>
 </body>
-                      </html>
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+<body>
+
+<article style="font-family: sans-serif; line-height: 1.8; color: #333; max-width: 900px; margin: 40px auto; padding: 20px;">
+    
+    <h1>The Complete Guide to Converting PDF to Word Online (Free & Private)</h1>
+
+    <p>The Portable Document Format (PDF) is the gold standard for sharing documents. It ensures that your layout, fonts, and images look exactly the same on a smartphone, a tablet, or a computer. However, there is one major downside to PDFs: <strong>they are notoriously difficult to edit.</strong></p>
+
+    <p>Whether you are a student trying to copy a quote for an essay, a legal professional needing to update a contract clause, or an employee looking to repurpose a report, you have likely faced the frustration of a "read-only" PDF file. While viewing them is free, most software charges a premium to convert them into editable formats.</p>
+
+    <p>That is where our <strong>Free PDF to Word Converter</strong> comes in. This guide explains how you can extract text from your PDFs and turn them into Microsoft Word documents (`.doc` or `.docx`) without spending a penny and, more importantly, without uploading your private files to an unsafe cloud server.</p>
+
+    <div style="background:#eef2ff; border-left: 5px solid #2b579a; padding: 20px; margin: 30px 0;">
+        <h3>Why is Client-Side Conversion Safer?</h3>
+        <p>Most "Free Online Converters" work by uploading your file to their remote server. The server converts it and sends it back. While convenient, this poses a <strong>Privacy Risk</strong>. You don't know if they keep a copy of your bank statement or contract.</p>
+        <p><strong>Our Tool is Different:</strong> It uses "Client-Side" technology (JavaScript). Your PDF is processed entirely inside your own browser (Chrome, Safari, Edge). <strong>The file never leaves your computer.</strong> It is the safest way to convert sensitive documents.</p>
+    </div>
+
+    <h2>How the PDF to Word Technology Works</h2>
+    <p>You might wonder, how does a browser turn a fixed PDF into an editable Word Doc? It involves a process called Text Extraction and Reconstruction.</p>
+    
+    <ol>
+        <li><strong>Parsing:</strong> When you drag your file into our tool, the library (`pdf.js`) scans the underlying code of the PDF file.</li>
+        <li><strong>Text Layer Identification:</strong> Most PDFs created by computers (not scanned photos) have a hidden layer of text. The tool extracts this data.</li>
+        <li><strong>Coordinates Analysis:</strong> The tool reads where the text is located (X and Y coordinates). If there is a big gap between lines, it identifies a new paragraph. If there is a gap between pages, it adds a "Page Break."</li>
+        <li><strong>Reconstruction:</strong> Finally, the extracted text is wrapped in a file format compatible with Microsoft Word, allowing you to open it and start typing immediately.</li>
+    </ol>
+
+    <h2>When Should You Convert PDF to Word?</h2>
+    
+    <h3>1. Academic Research & Assignments</h3>
+    <p>Students often download research papers or eBooks in PDF format. Retyping quotes or statistics is a waste of time. By converting the PDF to Word, you can easily copy, paste, and cite the necessary information efficiently.</p>
+
+    <h3>2. Legal and Business Contracts</h3>
+    <p>If you receive a draft contract in PDF but need to make "Track Changes" or edits, you need it in Word format. Converting allows you to modify terms, fix typos, or add new clauses before sending it back.</p>
+
+    <h3>3. Resume Updating</h3>
+    <p>Many people lose their original Word file for their resume (CV) and are stuck with an old PDF version. Instead of rewriting your entire career history, convert the PDF to Word to update your new job role and skills.</p>
+
+    <h2>Limitations: Text vs. Layout</h2>
+    <p>It is important to understand that PDF and Word use fundamentally different engines to display content.</p>
+    <ul>
+        <li><strong>PDF</strong> uses fixed positioning (e.g., "Place text at pixel 100, 200").</li>
+        <li><strong>Word</strong> uses flow positioning (e.g., "Place this paragraph after the previous one").</li>
+    </ul>
+    <p>Because of this, <strong>no converter is 100% perfect</strong>. </p>
+    <p>Our tool focuses on <strong>Editability</strong>. We prioritize extracting the text so you can work with it. If your PDF contains heavy graphics, complex tables, or magazine-style columns, the converted Word file might require some formatting adjustments (like hitting 'Enter' or realigning text). However, saving you the time of retyping 10 pages of text is usually worth the minor cleanup effort.</p>
+
+    <h2>Scanned PDFs (OCR Requirement)</h2>
+    <p>A common issue users face is trying to convert a <strong>Scanned PDF</strong> (basically a photo of a document inside a PDF). Because these files contain no "text data" (only pixel data), a standard converter cannot read them.</p>
+    <p>If our tool returns an empty file or gibberish, check if your PDF allows text selection. If you cannot highlight the text with your mouse in a PDF viewer, it is likely a scanned image. In that case, you need an <strong>OCR (Optical Character Recognition)</strong> tool, which is a much heavier technology usually requiring software installation.</p>
+
+    <h2>Frequently Asked Questions (FAQ)</h2>
+
+    <h3>Is this PDF converter really free?</h3>
+    <p>Yes. There are no hidden paywalls, no "3 free daily limit," and no watermarks added to your Word documents. You can use it as many times as you like.</p>
+
+    <h3>Do I need Microsoft Word to open the downloaded file?</h3>
+    <p>No. The file (`.doc`) is a universal standard. You can open it using Microsoft Word, <strong>Google Docs</strong> (by uploading it to Drive), LibreOffice, OpenOffice, or Pages on Mac.</p>
+
+    <h3>Can I use this on my Mobile Phone?</h3>
+    <p>Yes. This tool is built with modern HTML5 and is fully responsive. You can convert files directly on your Android or iPhone without downloading any apps.</p>
+
+    <h3>How long does the conversion take?</h3>
+    <p>For standard text documents (1-20 pages), the conversion is usually <strong>instant (under 5 seconds)</strong>. Larger files (100+ pages) may take 10-20 seconds depending on your device's processing speed since the conversion happens on your CPU, not our server.</p>
+
+    <h2>Conclusion</h2>
+    <p>Converting a PDF to Word doesn't have to be a headache, nor does it require a monthly subscription to Adobe Acrobat. With browser-based solutions becoming more powerful, you can handle your document workflow securely and quickly.</p>
+    <p>Bookmark this page for the next time you need to extract text from a locked PDF file!</p>
+
+</article>
+
+<!-- JSON-LD Structured Data for Rich Snippets -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Free PDF to Word Converter",
+  "applicationCategory": "Productivity",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "description": "Convert PDF documents to editable Microsoft Word files instantly in your browser without uploading data.",
+  "featureList": "Client-side privacy, Fast extraction, No limits"
+}
+</script>
+
+</body>
+</html>
