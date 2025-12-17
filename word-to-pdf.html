@@ -3,272 +3,259 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Word to PDF Converter | Multi-Format Support</title>
-    <!-- Mammoth for parsing -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.21/mammoth.browser.min.js"></script>
-    <!-- HTML2PDF for generation -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <title>Advanced Word to PDF | Supports Headers & Formats</title>
     
+    <!-- Dependencies for Visual Rendering -->
+    <!-- 1. JSZip is required to open the .docx container -->
+    <script src="https://unpkg.com/jszip/dist/jszip.min.js"></script>
+    <!-- 2. Docx-Preview renders the full visual layout (headers/images) -->
+    <script src="https://unpkg.com/docx-preview/dist/docx-preview.min.js"></script>
+    <!-- 3. HTML2PDF for printing to file -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
     <style>
         :root {
-            --primary: #2563eb;
-            --bg: #f3f4f6;
-            --surface: #ffffff;
-            --text: #1e293b;
+            --primary: #4f46e5;
+            --bg: #eef2f6;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Arial, sans-serif;
             background: var(--bg);
-            color: var(--text);
             margin: 0;
-            padding: 20px;
+            padding: 30px;
         }
 
         .container {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
         }
 
-        h1 { text-align: center; color: var(--primary); margin-bottom: 5px; }
+        h1 { text-align: center; color: #1e293b; margin-bottom: 5px; }
         p.subtitle { text-align: center; color: #64748b; margin-bottom: 30px; }
 
-        /* Controls Panel */
-        .controls-card {
-            background: var(--surface);
-            padding: 25px;
+        .toolbar {
+            background: white;
+            padding: 20px;
             border-radius: 12px;
             box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
-            display: grid;
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .input-group {
-            border: 2px dashed #cbd5e1;
-            padding: 30px;
-            text-align: center;
-            border-radius: 8px;
-            background: #f8fafc;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .input-group:hover { border-color: var(--primary); background: #eff6ff; }
-        
-        .settings-row {
             display: flex;
-            gap: 20px;
-            justify-content: center;
-            align-items: flex-end;
+            gap: 15px;
             flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            border: 1px solid #e2e8f0;
         }
 
-        .setting {
-            flex: 1;
-            min-width: 200px;
+        .upload-btn {
+            background: #e0e7ff;
+            color: var(--primary);
+            border: 2px dashed var(--primary);
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 0.9rem; }
-        
-        select {
-            width: 100%;
-            padding: 10px;
-            border-radius: 6px;
+        .upload-btn:hover { background: #dbeafe; }
+
+        select, button.action-btn {
+            padding: 12px 20px;
+            border-radius: 8px;
             border: 1px solid #cbd5e1;
             font-size: 1rem;
         }
 
-        button.btn-primary {
+        .action-btn {
             background: var(--primary);
             color: white;
             border: none;
-            padding: 12px 25px;
-            font-size: 1rem;
-            border-radius: 6px;
-            font-weight: bold;
             cursor: pointer;
-            width: 100%;
+            font-weight: 600;
         }
-        button.btn-primary:hover { background: #1d4ed8; }
-        button:disabled { background: #94a3b8; cursor: not-allowed; }
+        .action-btn:disabled { background: #94a3b8; cursor: not-allowed; }
+        .action-btn:hover:not(:disabled) { background: #4338ca; }
 
-        /* Document Preview - "Paper Look" */
-        .preview-wrapper {
-            background: #525659;
+        /* The Output Canvas (Visual Paper) */
+        .preview-window {
+            background: #64748b; /* Dark backdrop */
             padding: 40px;
-            border-radius: 8px;
-            overflow-x: auto;
-            text-align: center; /* Center the page */
+            border-radius: 10px;
+            min-height: 500px;
+            display: flex;
+            justify-content: center;
         }
 
-        #docPreview {
+        /* 
+           This container must act like a piece of paper. 
+           Width is controlled by JS based on user selection (A4/Letter)
+        */
+        #document-container {
             background: white;
-            margin: 0 auto;
-            text-align: left;
-            box-shadow: 0 0 15px rgba(0,0,0,0.2);
-            padding: 25.4mm; /* Standard 1 inch margins */
-            box-sizing: border-box;
-            
-            /* Typography reset for Doc */
-            font-family: "Times New Roman", serif;
-            font-size: 12pt;
-            line-height: 1.5;
-            color: black;
-            min-height: 297mm; /* Min A4 Height */
+            min-height: 800px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            /* Reset internal styles */
+            padding: 0 !important; /* Docx-preview adds internal padding */
+            overflow: hidden; /* Prevent spillover */
+        }
+        
+        /* Overrides for the renderer to look like Paper */
+        .docx-wrapper { background: transparent !important; padding: 0 !important; }
+        .docx-wrapper > section { 
+            box-shadow: none !important; 
+            margin-bottom: 0 !important;
+            min-height: auto !important;
         }
 
-        /* Default is A4 */
-        .size-a4 { width: 210mm; min-height: 297mm; }
-        .size-letter { width: 216mm; min-height: 279mm; }
-        .size-legal { width: 216mm; min-height: 356mm; }
-
-        /* Processing Overlay */
-        #loader {
-            display: none;
-            text-align: center;
-            margin: 20px 0;
-            color: var(--primary);
-            font-weight: bold;
-        }
+        #status-msg { margin-top: 10px; color: #dc2626; font-weight: bold; }
 
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>Docx to PDF Pro</h1>
-        <p class="subtitle">Convert Word Documents with correct Page Size settings</p>
+<div class="container">
+    <h1>Advanced Word to PDF Converter</h1>
+    <p class="subtitle">Supports Headers, Logos, and Correct Page Layouts</p>
 
-        <div class="controls-card">
-            
-            <!-- Upload -->
-            <div class="input-group" onclick="document.getElementById('fileInput').click()">
-                <strong style="font-size:1.2rem; display:block; margin-bottom:5px;">📂 Upload Word File</strong>
-                <span id="fileName">Click here or Drag & Drop .docx</span>
-                <input type="file" id="fileInput" accept=".docx" style="display:none">
-            </div>
+    <!-- Control Toolbar -->
+    <div class="toolbar">
+        <label class="upload-btn">
+            📂 Upload .Docx
+            <input type="file" id="wordInput" accept=".docx" style="display:none">
+        </label>
+        
+        <div style="border-left: 1px solid #ccc; height: 30px;"></div>
 
-            <!-- Settings -->
-            <div class="settings-row">
-                <div class="setting">
-                    <label>Output Page Size</label>
-                    <select id="pageSizeSelect">
-                        <option value="a4" selected>A4 (Standard ISO)</option>
-                        <option value="letter">Letter (US Standard)</option>
-                        <option value="legal">Legal (US)</option>
-                        <option value="a3">A3 (Large)</option>
-                        <option value="a5">A5 (Notebook)</option>
-                    </select>
-                </div>
-                <div class="setting">
-                    <label>Actions</label>
-                    <button class="btn-primary" id="downloadBtn" disabled>⬇ Download PDF</button>
-                </div>
-            </div>
+        <label>Page Size:</label>
+        <select id="pageSize">
+            <option value="a4" selected>A4 (210 x 297 mm)</option>
+            <option value="letter">Letter (US Standard)</option>
+            <option value="legal">Legal (Long)</option>
+        </select>
 
-            <div id="loader">Processing... Please Wait</div>
-            <div id="errorMsg" style="color:red; display:none; text-align:center;"></div>
-        </div>
-
-        <!-- The "Paper" Preview -->
-        <div class="preview-wrapper" id="previewContainer" style="display:none;">
-            <div id="docPreview" class="size-a4">
-                <!-- Content injected here -->
-            </div>
-        </div>
-
+        <button class="action-btn" id="pdfBtn" disabled>⬇ Download PDF</button>
+        
+        <span id="fileName" style="color:#64748b; margin-left:10px;"></span>
     </div>
 
-    <script>
-        const fileInput = document.getElementById('fileInput');
-        const downloadBtn = document.getElementById('downloadBtn');
-        const docPreview = document.getElementById('docPreview');
-        const previewContainer = document.getElementById('previewContainer');
-        const fileNameSpan = document.getElementById('fileName');
-        const loader = document.getElementById('loader');
-        const errorMsg = document.getElementById('errorMsg');
-        const pageSizeSelect = document.getElementById('pageSizeSelect');
+    <!-- Live Preview Area -->
+    <div class="preview-window">
+        <!-- The library renders the DOCX *inside* this div -->
+        <div id="document-container">
+            <div style="padding:100px; text-align:center; color:#94a3b8;">
+                <h2>Document Preview</h2>
+                <p>Upload a file to see the content, header, and logos here.</p>
+            </div>
+        </div>
+    </div>
+</div>
 
-        let originalFileName = "document";
+<script>
+    // --- Configuration ---
+    const fileInput = document.getElementById('wordInput');
+    const container = document.getElementById('document-container');
+    const pdfBtn = document.getElementById('pdfBtn');
+    const pageSizeSelect = document.getElementById('pageSize');
+    const fileNameDisplay = document.getElementById('fileName');
+    
+    let originalFilename = "document";
 
-        // --- 1. Handle File Upload ---
-        fileInput.addEventListener('change', (e) => processFile(e.target.files[0]));
+    // 1. Set Container Width immediately based on Default A4
+    setContainerWidth("a4");
 
-        async function processFile(file) {
-            if (!file) return;
+    // --- Events ---
+    
+    // Page Size Changer
+    pageSizeSelect.addEventListener('change', (e) => {
+        setContainerWidth(e.target.value);
+    });
 
-            // UI Reset
-            downloadBtn.disabled = true;
-            errorMsg.style.display = 'none';
-            previewContainer.style.display = 'none';
-            fileNameSpan.innerText = file.name;
-            originalFileName = file.name.replace(".docx", "");
-            loader.style.display = 'block';
+    // File Upload Handler
+    fileInput.addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
 
-            try {
-                const arrayBuffer = await file.arrayBuffer();
-                
-                // Mammoth: Convert raw Docx to HTML
-                const result = await mammoth.convertToHtml({ arrayBuffer: arrayBuffer });
-                
-                // Show Result
-                if (result.value) {
-                    docPreview.innerHTML = result.value;
-                    previewContainer.style.display = 'block';
-                    updatePageSize(); // Apply default size visual
-                    downloadBtn.disabled = false;
-                } else {
-                    throw new Error("Empty document found.");
-                }
+        originalFilename = file.name.replace(/\.[^/.]+$/, ""); // Strip extension
+        fileNameDisplay.innerText = file.name;
+        pdfBtn.disabled = true;
+        
+        // Show Loading state
+        container.innerHTML = `<div style="padding:50px; text-align:center;">⏳ Rendering Word Document...<br>Includes Headers & Formatting</div>`;
 
-            } catch (err) {
-                console.error(err);
-                errorMsg.innerText = "Error: " + err.message;
-                errorMsg.style.display = 'block';
-            } finally {
-                loader.style.display = 'none';
-            }
-        }
-
-        // --- 2. Change Page Size Visuals ---
-        pageSizeSelect.addEventListener('change', updatePageSize);
-
-        function updatePageSize() {
-            // Remove old classes
-            docPreview.className = '';
-            // Add new class based on value
-            docPreview.classList.add(`size-${pageSizeSelect.value}`);
-        }
-
-        // --- 3. Generate & Download PDF ---
-        downloadBtn.addEventListener('click', generatePDF);
-
-        function generatePDF() {
-            loader.innerText = "Generating PDF... Do not refresh.";
-            loader.style.display = 'block';
-            downloadBtn.disabled = true;
-
-            const format = pageSizeSelect.value;
+        try {
+            const arrayBuffer = await file.arrayBuffer();
             
-            // PDF Options
-            const opt = {
-                margin:       [0.5, 0.5, 0.5, 0.5], // Top, Left, Bottom, Right (in inches)
-                filename:     `${originalFileName}_converted.pdf`,
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true, letterRendering: true }, 
-                jsPDF:        { unit: 'in', format: format, orientation: 'portrait' },
-                pagebreak:    { mode: ['css', 'legacy'] }
+            // --- RENDER using docx-preview ---
+            // This renders headers, tables, images, and full layout
+            const options = {
+                className: "docx_content", 
+                inWrapper: true, // We wrap it ourselves? No, library wrapper
+                ignoreWidth: false, // Use doc width
+                experimental: true, // Enable experimental features like better table rendering
+                padding: 0 // Allow us to handle paper margins via CSS if needed
             };
 
-            // Important: Target the specific visual element
-            html2pdf().set(opt).from(docPreview).save().then(() => {
-                loader.style.display = 'none';
-                downloadBtn.disabled = false;
-            }).catch(err => {
-                loader.innerText = "Error creating PDF";
-                console.error(err);
-                downloadBtn.disabled = false;
-            });
+            await docx.renderAsync(arrayBuffer, container, null, options);
+            
+            console.log("Render Success");
+            pdfBtn.disabled = false;
+
+            // Optional: force white background explicitly just in case styles leaked
+            container.style.backgroundColor = "white";
+
+        } catch (error) {
+            console.error(error);
+            container.innerHTML = `<div style="padding:50px; text-align:center; color:red;">Error Parsing Document: ${error.message}</div>`;
         }
-    </script>
+    });
+
+    // PDF Download Handler
+    pdfBtn.addEventListener('click', () => {
+        // Prepare HTML2PDF options
+        const format = pageSizeSelect.value;
+        const opt = {
+            margin:       [0, 0, 0, 0], // Docx usually includes margins, so we 0 the pdf print margin
+            filename:     originalFilename + ".pdf",
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2, useCORS: true },
+            jsPDF:        { unit: 'in', format: format, orientation: 'portrait' }
+        };
+        
+        // Visual indicator
+        const oldText = pdfBtn.innerText;
+        pdfBtn.innerText = "⏳ Generating...";
+        pdfBtn.disabled = true;
+
+        // Execute Download
+        html2pdf().set(opt).from(container).save().then(() => {
+            pdfBtn.innerText = oldText;
+            pdfBtn.disabled = false;
+        });
+    });
+
+    // Helper: Manage Visual Size on Screen to match Print Output
+    function setContainerWidth(size) {
+        // Approximate pixel widths at screen PPI
+        // A4 Width: 210mm (~794px at 96dpi)
+        // Letter Width: 216mm (~816px)
+        
+        let width = "794px"; // Default A4
+        
+        if (size === "letter") width = "816px"; // Letter (8.5 inch)
+        if (size === "legal") width = "816px";  // Legal width is same as letter
+
+        container.style.width = width;
+        
+        // Auto-Height (Minimum) based on format ratio
+        if(size === "a4") container.style.minHeight = "1123px"; // 297mm
+        if(size === "letter") container.style.minHeight = "1056px"; // 11in
+        if(size === "legal") container.style.minHeight = "1344px"; // 14in
+    }
+
+</script>
+
 </body>
 </html>
