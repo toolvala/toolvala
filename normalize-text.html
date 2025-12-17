@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Normalize Line Breaks | Convert CRLF to LF / Remove Empty Lines</title>
+    <meta name="description" content="Free online tool to normalize line breaks. Convert text between Windows (CRLF), Unix (LF), and Mac (CR) standards. Remove empty lines and trailing whitespace instantly.">
+    
+    <style>
+        :root {
+            --primary: #0284c7;
+            --primary-hover: #0369a1;
+            --bg: #f8fafc;
+            --surface: #ffffff;
+            --text: #334155;
+            --border: #e2e8f0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; }
+
+        header { text-align: center; margin-bottom: 30px; }
+        h1 { color: var(--primary); margin: 0; font-size: 2rem; }
+        .subtitle { color: #64748b; margin-top: 5px; }
+
+        /* Two Column Layout */
+        .workspace {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        @media(max-width: 768px) { .workspace { grid-template-columns: 1fr; } }
+
+        .box {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .box-header {
+            padding: 12px 15px;
+            background: #f1f5f9;
+            border-bottom: 1px solid var(--border);
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .badge {
+            font-size: 0.75rem;
+            background: #cbd5e1;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #475569;
+        }
+
+        textarea {
+            width: 100%;
+            height: 350px;
+            padding: 15px;
+            border: none;
+            resize: none;
+            font-family: 'Consolas', 'Monaco', monospace; /* Monospace is better for whitespace visibility */
+            font-size: 0.95rem;
+            box-sizing: border-box;
+            outline: none;
+            line-height: 1.5;
+            color: #333;
+        }
+
+        .footer-actions {
+            padding: 10px;
+            background: #f8fafc;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            padding: 8px 16px;
+            border: 1px solid var(--border);
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text);
+            transition: all 0.2s;
+            flex: 1;
+        }
+        button:hover { background: #e2e8f0; color: var(--primary); border-color: #cbd5e1; }
+        button.primary-btn { background: var(--primary); color: white; border: none; }
+        button.primary-btn:hover { background: var(--primary-hover); }
+
+        /* Configuration Panel */
+        .settings-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 25px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        @media(max-width: 600px) { .settings-card { grid-template-columns: 1fr; } }
+
+        .settings-col h3 { margin-top: 0; color: var(--primary); font-size: 1.1rem; border-bottom: 2px solid #f1f5f9; padding-bottom: 8px; }
+
+        .radio-group, .check-group { margin-bottom: 10px; display: block; cursor: pointer; }
+        input[type="radio"], input[type="checkbox"] { margin-right: 8px; }
+
+        .stats-area { font-size: 0.9rem; color: #64748b; margin-top: 10px; }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <header>
+        <h1>Normalize Line Breaks</h1>
+        <p class="subtitle">Convert between Windows (CRLF) and Unix (LF) text formats.</p>
+    </header>
+
+    <div class="workspace">
+        
+        <!-- Input -->
+        <div class="box">
+            <div class="box-header">
+                Input Text
+                <span class="badge" id="inputStats">0 chars</span>
+            </div>
+            <textarea id="inputText" placeholder="Paste your text here...&#10;Line 1&#10;Line 2..."></textarea>
+            <div class="footer-actions">
+                <button onclick="loadFile()">📂 Load File</button>
+                <input type="file" id="fileInput" hidden>
+                <button onclick="clearText()">❌ Clear</button>
+            </div>
+        </div>
+
+        <!-- Output -->
+        <div class="box">
+            <div class="box-header">
+                Normalized Output
+                <span class="badge" id="outputStats">0 lines</span>
+            </div>
+            <textarea id="outputText" readonly></textarea>
+            <div class="footer-actions">
+                <button class="primary-btn" onclick="copyToClipboard()">📋 Copy Output</button>
+                <button onclick="downloadText()">⬇ Save as .txt</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings -->
+    <div class="settings-card">
+        
+        <!-- Column 1: Mode -->
+        <div class="settings-col">
+            <h3>New Line Ending Mode</h3>
+            <label class="radio-group" title="Standard for Linux, macOS, Android, & Web">
+                <input type="radio" name="breakMode" value="lf" checked onchange="process()"> 
+                <strong>Linux / Unix / macOS</strong> (\n - LF)
+            </label>
+            <label class="radio-group" title="Standard for Windows Notepad & Excel">
+                <input type="radio" name="breakMode" value="crlf" onchange="process()"> 
+                <strong>Windows</strong> (\r\n - CRLF)
+            </label>
+            <label class="radio-group" title="Old Macintosh (Pre-OSX)">
+                <input type="radio" name="breakMode" value="cr" onchange="process()"> 
+                <strong>Classic Mac</strong> (\r - CR)
+            </label>
+        </div>
+
+        <!-- Column 2: Cleanup Options -->
+        <div class="settings-col">
+            <h3>Cleanup Options</h3>
+            <label class="check-group">
+                <input type="checkbox" id="removeEmpty" onchange="process()"> 
+                Remove Empty Lines
+            </label>
+            <label class="check-group">
+                <input type="checkbox" id="trimLines" onchange="process()"> 
+                Trim Whitespace (End of lines)
+            </label>
+            <label class="check-group">
+                <input type="checkbox" id="collapseMulti" onchange="process()"> 
+                Collapse multiple empty lines to one
+            </label>
+        </div>
+    </div>
+
+</div>
+
+<!-- SEO CONTENT AREA -->
+<div style="max-width:900px; margin:50px auto; color:#334155; line-height:1.8;">
+    <h2>What is Line Break Normalization?</h2>
+    <p>Line breaks (newlines) are invisible characters that tell the computer to start a new line of text. However, different operating systems handle this differently. This causes issues when you copy code or data between Windows and Linux/Mac systems.</p>
+
+    <h3>Understanding the differences:</h3>
+    <ul>
+        <li><strong>LF (\n):</strong> Used by Linux, Unix, macOS, and standard Web technologies. It stands for "Line Feed".</li>
+        <li><strong>CRLF (\r\n):</strong> Used by Windows (Notepad, Word, etc.). It combines "Carriage Return" and "Line Feed".</li>
+        <li><strong>CR (\r):</strong> Used by very old Classic Macintosh systems (rarely used today, but useful for legacy data cleaning).</li>
+    </ul>
+
+    <h3>Why use this tool?</h3>
+    <p>If you are a programmer, data analyst, or writer, you have likely encountered "messy" text containing weird gaps, blank lines, or hidden characters that break your scripts. This <strong>Client-Side Line Normalizer</strong> fixes those issues instantly by:</p>
+    <ol>
+        <li>Converting all breaks to your preferred standard (e.g., forcing Windows format to Unix).</li>
+        <li>Deleting unintentional blank lines to clean up lists.</li>
+        <li>Trimming trailing spaces that cause database errors.</li>
+    </ol>
+</div>
+
+<!-- SCRIPTS -->
+<script>
+    const inputArea = document.getElementById('inputText');
+    const outputArea = document.getElementById('outputText');
+    const inputStats = document.getElementById('inputStats');
+    const outputStats = document.getElementById('outputStats');
+    
+    // Configs
+    const removeEmpty = document.getElementById('removeEmpty');
+    const trimLines = document.getElementById('trimLines');
+    const collapseMulti = document.getElementById('collapseMulti');
+    const fileInput = document.getElementById('fileInput');
+
+    // Run on typing
+    inputArea.addEventListener('input', process);
+
+    function process() {
+        const originalText = inputArea.value;
+        const mode = document.querySelector('input[name="breakMode"]:checked').value;
+        
+        // 1. Unify: Convert ALL \r\n, \r, \n to a temporary single \n token
+        // This makes processing easier regardless of source format
+        let normalized = originalText.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+
+        // 2. Line by Line processing (Trimming)
+        let lines = normalized.split('\n');
+
+        // Feature: Trim Trailing Whitespace
+        if(trimLines.checked) {
+            lines = lines.map(line => line.trimEnd()); // or trim() for both ends
+        }
+
+        // Feature: Remove Empty Lines
+        if(removeEmpty.checked) {
+            lines = lines.filter(line => line.length > 0);
+        } else if (collapseMulti.checked) {
+            // Feature: Collapse Multiple empty lines into just one
+            let newLines = [];
+            let wasEmpty = false;
+            for(let line of lines) {
+                let isEmpty = (line.trim().length === 0);
+                if (!isEmpty || !wasEmpty) {
+                    newLines.push(line);
+                }
+                wasEmpty = isEmpty;
+            }
+            lines = newLines;
+        }
+
+        // 3. Final Re-join based on selected mode
+        let joinChar = '\n'; // default LF
+        if(mode === 'crlf') joinChar = '\r\n';
+        if(mode === 'cr') joinChar = '\r';
+
+        const finalText = lines.join(joinChar);
+        
+        // Output
+        outputArea.value = finalText;
+
+        // Update Stats
+        inputStats.innerText = `${originalText.length} chars`;
+        outputStats.innerText = `${lines.length} lines`;
+    }
+
+    // ACTIONS
+    function copyToClipboard() {
+        outputArea.select();
+        navigator.clipboard.writeText(outputArea.value);
+        // Visual feedback
+        const btn = document.querySelector('button.primary-btn');
+        const oldText = btn.innerText;
+        btn.innerText = "✅ Copied!";
+        setTimeout(() => btn.innerText = oldText, 2000);
+    }
+
+    function clearText() {
+        inputArea.value = '';
+        process();
+        inputArea.focus();
+    }
+
+    function loadFile() {
+        fileInput.click();
+    }
+
+    fileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if(!file) return;
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+            inputArea.value = ev.target.result;
+            process();
+        };
+        reader.readAsText(file);
+    });
+
+    function downloadText() {
+        const text = outputArea.value;
+        const blob = new Blob([text], { type: 'text/plain' });
+        const link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = 'normalized-text.txt';
+        link.click();
+    }
+
+    // Initialize with example
+    window.onload = () => {
+        if(inputArea.value === "") {
+            inputArea.value = "Line 1\n\n   Line 2 (Has leading spaces)\nLine 3 (Trailing spaces)   \n\n\nLine 6 (After gaps)";
+            process();
+        }
+    }
+</script>
+
+<!-- Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Line Break Normalizer",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "description": "Convert CRLF to LF online. Normalize text line breaks between Windows, Linux and Mac formats.",
+  "featureList": "Remove empty lines, Convert LF to CRLF, Client-side privacy, Batch text cleaning"
+}
+</script>
+
+</body>
+</html>
