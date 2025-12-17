@@ -1,144 +1,204 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Professional Word to PDF (With Headers & Logos)</title>
-    <!-- ConvertAPI JavaScript Library -->
-    <script src="https://unpkg.com/convertapi-js/lib/convertapi.js"></script>
+    <title>Perfect Word to PDF | Hindi & Headers Fixed</title>
+    
+    <!-- Word Document Parser Libraries -->
+    <script src="https://unpkg.com/jszip/dist/jszip.min.js"></script>
+    <script src="https://unpkg.com/docx-preview/dist/docx-preview.min.js"></script>
+
+    <!-- Google Fonts for perfect Hindi support -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet">
+
     <style>
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: #f3f4f6;
+            background-color: #f1f5f9;
+            font-family: 'Segoe UI', Roboto, 'Noto Sans Devanagari', sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .controls-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h1 { margin: 0; color: #1e40af; font-size: 1.5rem; }
+        p { color: #64748b; margin-top: 5px; }
+
+        .btn-upload {
+            display: inline-block;
+            background: #eff6ff;
+            color: #2563eb;
+            border: 2px dashed #2563eb;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 15px 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .btn-save {
+            background: #16a34a; /* Green */
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            box-shadow: 0 4px 6px rgba(22, 163, 74, 0.3);
+        }
+        .btn-save:disabled { background: #cbd5e1; box-shadow: none; cursor: not-allowed; }
+
+        #error-msg { color: #dc2626; font-weight: bold; margin-top: 10px; }
+
+        /* --- PREVIEW AREA --- */
+        .preview-scroller {
+            background: #475569; /* Dark grey bg for contrast */
+            padding: 20px;
+            overflow-x: auto; /* Allow horizontal scrolling on mobile */
+            border-radius: 8px;
             display: flex;
             justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
         }
 
-        .card {
+        /* EXACT A4 DIMENSIONS IN PIXELS (at 96 DPI) */
+        /* width: 210mm approx 794px */
+        #doc-visual {
             background: white;
-            padding: 40px;
-            width: 100%;
-            max-width: 500px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            text-align: center;
+            width: 794px; 
+            min-height: 1123px; 
+            padding: 0; /* Let DOCX control margins */
+            box-shadow: 0 0 15px rgba(0,0,0,0.3);
+            /* Important for text breaking */
+            word-wrap: break-word; 
         }
 
-        h1 { color: #1e40af; margin-bottom: 5px; }
-        p { color: #64748b; margin-bottom: 30px; }
+        /* --- PRINT PDF MAGIC --- */
+        @media print {
+            body * { visibility: hidden; } /* Hide buttons/background */
+            
+            /* Isolate the document container */
+            #doc-visual, #doc-visual * { 
+                visibility: visible; 
+            }
 
-        .drop-area {
-            border: 2px dashed #cbd5e1;
-            padding: 40px;
-            border-radius: 10px;
-            background: #f8fafc;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .drop-area:hover {
-            border-color: #3b82f6;
-            background: #eff6ff;
-        }
+            #doc-visual {
+                position: absolute;
+                left: 0; top: 0;
+                width: 100%;
+                margin: 0;
+                box-shadow: none;
+                /* Forces backgrounds/images/logos to print */
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
 
-        .icon { font-size: 50px; display: block; margin-bottom: 10px; }
-
-        .btn {
-            background-color: #2563eb;
-            color: white;
-            padding: 12px 30px;
-            border-radius: 6px;
-            border: none;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 20px;
-            width: 100%;
-        }
-        .btn:disabled { background-color: #94a3b8; cursor: not-allowed; }
-
-        #status {
-            margin-top: 15px;
-            font-weight: bold;
-            color: #475569;
+            /* Reset Page */
+            @page {
+                size: A4 portrait;
+                margin: 0; /* Let Word file handle its own margins */
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <h1>Word to PDF Converter</h1>
-        <p>100% Accurate (Logos, Headers, Hindi/Marathi Support)</p>
+<div class="container">
+    <div class="controls-card">
+        <h1>Word to PDF Mobile Pro</h1>
+        <p>Fixes Hindi Fonts, Header Logos & Layout Squeezing</p>
         
-        <div class="drop-area" onclick="document.getElementById('fileInput').click()">
-            <span class="icon">📄</span>
-            <strong>Click to upload .docx</strong>
-            <br><small style="color:#94a3b8">Preserves Logos & Layouts</small>
-            <input type="file" id="fileInput" accept=".docx" style="display:none">
-        </div>
+        <label class="btn-upload">
+            📂 Click to Select .docx File
+            <input type="file" id="wordFile" accept=".docx" style="display:none">
+        </label>
 
-        <div id="status"></div>
-        
-        <button id="convertBtn" class="btn" style="display:none;">⬇ Download Converted PDF</button>
-        <a id="downloadLink" style="display:none"></a>
+        <div id="error-msg"></div>
+
+        <button id="savePdfBtn" class="btn-save" disabled>
+            💾 Save as PDF
+        </button>
+        <p style="font-size: 0.85rem; color:#94a3b8;">*Tap 'Save' then select "Save as PDF" on your phone.</p>
     </div>
 
-    <script>
-        // *** CRITICAL SETUP ***
-        // You need a free key from https://www.convertapi.com/
-        // 1. Sign up (Free). 2. Copy "Secret" key. 3. Paste it below.
-        // It gives you 250 conversions for free.
-        const convertApi = ConvertApi.auth('YOUR_SECRET_KEY_HERE');
+    <div class="preview-scroller">
+        <!-- The Document Paper -->
+        <div id="doc-visual">
+            <div style="padding: 100px; text-align: center; color: #94a3b8;">
+                Document Preview (A4 Size)
+            </div>
+        </div>
+    </div>
+</div>
 
-        const fileInput = document.getElementById('fileInput');
-        const status = document.getElementById('status');
-        const convertBtn = document.getElementById('convertBtn');
-        const downloadLink = document.getElementById('downloadLink');
+<script>
+    const fileInput = document.getElementById('wordFile');
+    const container = document.getElementById('doc-visual');
+    const saveBtn = document.getElementById('savePdfBtn');
+    const errorMsg = document.getElementById('error-msg');
 
-        fileInput.addEventListener('change', async (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
+    fileInput.addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
 
-            // Check if user updated the key (Simple check for demo)
-            if (convertApi.authVal === 'YOUR_SECRET_KEY_HERE') {
-                alert("Please add a free API Key in the code to make this specific tool work. Browsers cannot render Word Headers alone.");
-                status.innerHTML = `⚠️ <a href="https://www.convertapi.com/a" target="_blank">Get Free Key Here</a> and paste inside code.`;
-                return;
-            }
+        // Reset UI
+        errorMsg.innerText = "";
+        saveBtn.disabled = true;
+        saveBtn.innerText = "⏳ Processing...";
+        container.innerHTML = "<div style='padding:50px; text-align:center;'>Loading Document Layout...</div>";
 
-            status.innerText = "⏳ Uploading and Converting... (Perfect Quality)";
-            convertBtn.style.display = "none";
+        try {
+            const arrayBuffer = await file.arrayBuffer();
 
-            try {
-                // Settings to ensure layout preservation
-                let params = convertApi.createParams();
-                params.add('File', file);
-                params.add('StoreFile', true);
+            // RENDER SETTINGS
+            const options = {
+                className: "docx_content",
+                inWrapper: true, 
+                ignoreWidth: false, // Use original Word widths
+                experimental: true, // Needed for Tables & Logos
+                breakPages: true,
+                padding: 0
+            };
 
-                // API Call (Word -> PDF)
-                let result = await convertApi.convert('docx', 'pdf', params);
+            // Render Docx inside our A4 Container
+            await docx.renderAsync(arrayBuffer, container, null, options);
 
-                // Success
-                let pdfUrl = result.dto.Files[0].Url;
-                let pdfName = file.name.replace('.docx', '.pdf');
+            // If success
+            saveBtn.disabled = false;
+            saveBtn.innerHTML = "🖨️ Download / Print PDF";
+            errorMsg.innerHTML = "<span style='color:green'>✅ Preview Loaded! Check below.</span>";
 
-                status.innerHTML = "✅ Conversion Complete!";
-                convertBtn.style.display = "block";
-                
-                convertBtn.onclick = () => {
-                    downloadLink.href = pdfUrl;
-                    downloadLink.download = pdfName; // Attempt filename
-                    // Since it's a cross-origin URL, we usually open in new tab or use blob
-                    window.open(pdfUrl, '_blank'); 
-                };
+        } catch (err) {
+            console.error(err);
+            container.innerHTML = "";
+            errorMsg.innerText = "Error: " + err.message;
+            saveBtn.innerText = "❌ Failed";
+        }
+    });
 
-            } catch (err) {
-                console.error(err);
-                status.innerHTML = "❌ Conversion Failed: " + err.message;
-            }
-        });
-    </script>
+    saveBtn.addEventListener('click', () => {
+        // This triggers the Android/iPhone Native Print Dialog
+        // User just needs to change "Printer" to "Save as PDF"
+        window.print();
+    });
+</script>
+
 </body>
 </html>
