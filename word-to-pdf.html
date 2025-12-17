@@ -3,258 +3,179 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Word to PDF | Supports Headers & Formats</title>
+    <title>Word to PDF (Hindi Support Fixed)</title>
     
-    <!-- Dependencies for Visual Rendering -->
-    <!-- 1. JSZip is required to open the .docx container -->
+    <!-- 1. JSZip for unzipping .docx -->
     <script src="https://unpkg.com/jszip/dist/jszip.min.js"></script>
-    <!-- 2. Docx-Preview renders the full visual layout (headers/images) -->
+    <!-- 2. Docx-Preview for rendering Layout/Logos -->
     <script src="https://unpkg.com/docx-preview/dist/docx-preview.min.js"></script>
-    <!-- 3. HTML2PDF for printing to file -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <!-- 3. Google Font for Perfect Hindi Rendering -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
-        :root {
-            --primary: #4f46e5;
-            --bg: #eef2f6;
-        }
-
         body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background: var(--bg);
-            margin: 0;
+            font-family: 'Noto Sans Devanagari', 'Segoe UI', sans-serif;
+            background: #e2e8f0;
             padding: 30px;
+            margin: 0;
         }
 
-        .container {
-            max-width: 1000px;
+        .main-panel {
+            max-width: 900px;
             margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
-        h1 { text-align: center; color: #1e293b; margin-bottom: 5px; }
-        p.subtitle { text-align: center; color: #64748b; margin-bottom: 30px; }
+        h1 { color: #1e3a8a; text-align: center; }
 
         .toolbar {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 25px;
-            border: 1px solid #e2e8f0;
+            display: flex; gap: 15px; margin-bottom: 20px;
+            flex-wrap: wrap; justify-content: center;
+            background: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #cbd5e1;
         }
 
         .upload-btn {
-            background: #e0e7ff;
-            color: var(--primary);
-            border: 2px dashed var(--primary);
-            padding: 12px 25px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .upload-btn:hover { background: #dbeafe; }
-
-        select, button.action-btn {
-            padding: 12px 20px;
-            border-radius: 8px;
-            border: 1px solid #cbd5e1;
-            font-size: 1rem;
+            background: white; border: 2px dashed #3b82f6; padding: 10px 20px;
+            cursor: pointer; font-weight: bold; color: #2563eb; border-radius: 6px;
         }
 
-        .action-btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-weight: 600;
+        .print-btn {
+            background: #16a34a; color: white; border: none; padding: 12px 25px;
+            font-size: 1rem; font-weight: bold; border-radius: 6px; cursor: pointer;
+            display: flex; align-items: center; gap: 8px;
         }
-        .action-btn:disabled { background: #94a3b8; cursor: not-allowed; }
-        .action-btn:hover:not(:disabled) { background: #4338ca; }
+        .print-btn:disabled { background: #cbd5e1; cursor: not-allowed; }
+        .print-btn:hover:not(:disabled) { background: #15803d; }
 
-        /* The Output Canvas (Visual Paper) */
-        .preview-window {
-            background: #64748b; /* Dark backdrop */
+        /* PREVIEW AREA (The Paper) */
+        .paper-container {
+            background: #525659;
             padding: 40px;
-            border-radius: 10px;
-            min-height: 500px;
-            display: flex;
-            justify-content: center;
+            display: flex; justify-content: center;
+            overflow: auto;
         }
 
-        /* 
-           This container must act like a piece of paper. 
-           Width is controlled by JS based on user selection (A4/Letter)
-        */
-        #document-container {
+        #doc-visual {
             background: white;
-            min-height: 800px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-            /* Reset internal styles */
-            padding: 0 !important; /* Docx-preview adds internal padding */
-            overflow: hidden; /* Prevent spillover */
-        }
-        
-        /* Overrides for the renderer to look like Paper */
-        .docx-wrapper { background: transparent !important; padding: 0 !important; }
-        .docx-wrapper > section { 
-            box-shadow: none !important; 
-            margin-bottom: 0 !important;
-            min-height: auto !important;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+            min-height: 1000px;
+            /* CRITICAL: Force Standard A4 Width in pixels */
+            width: 794px; /* A4 width at 96 DPI */
+            padding: 0 !important;
         }
 
-        #status-msg { margin-top: 10px; color: #dc2626; font-weight: bold; }
+        /* --- PRINT CSS: This magic makes the PDF perfect --- */
+        @media print {
+            body * { visibility: hidden; } /* Hide everything */
+            #doc-visual, #doc-visual * { visibility: visible; } /* Show only doc */
+            
+            /* Reset Layout for Printing */
+            #doc-visual {
+                position: absolute;
+                left: 0; top: 0;
+                width: 100%;
+                margin: 0; padding: 0;
+                box-shadow: none;
+                background: white;
+            }
+            
+            /* Remove margins from browser print settings if possible */
+            @page {
+                size: A4 portrait;
+                margin: 10mm; /* Small print margin */
+            }
 
+            /* HINDI FIXES */
+            .docx_content {
+                text-rendering: optimizeLegibility !important;
+                font-variant-ligatures: normal !important;
+                /* Force fonts if needed */
+                font-family: 'Noto Sans Devanagari', sans-serif !important;
+            }
+        }
+
+        /* OVERRIDES for DOCX Library styling to fit Header */
+        .docx-wrapper { padding: 20px !important; background: transparent !important; }
+        .docx-wrapper > section.docx { 
+            box-shadow: none !important; margin-bottom: 0 !important; 
+            min-height: auto !important; width: 100% !important; padding: 20px !important;
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>Advanced Word to PDF Converter</h1>
-    <p class="subtitle">Supports Headers, Logos, and Correct Page Layouts</p>
+<div class="main-panel">
+    <h1>Word to PDF (Hindi/Logo Fix)</h1>
 
-    <!-- Control Toolbar -->
     <div class="toolbar">
         <label class="upload-btn">
-            📂 Upload .Docx
+            📂 Click to Upload .docx
             <input type="file" id="wordInput" accept=".docx" style="display:none">
         </label>
         
-        <div style="border-left: 1px solid #ccc; height: 30px;"></div>
-
-        <label>Page Size:</label>
-        <select id="pageSize">
-            <option value="a4" selected>A4 (210 x 297 mm)</option>
-            <option value="letter">Letter (US Standard)</option>
-            <option value="legal">Legal (Long)</option>
-        </select>
-
-        <button class="action-btn" id="pdfBtn" disabled>⬇ Download PDF</button>
-        
-        <span id="fileName" style="color:#64748b; margin-left:10px;"></span>
+        <!-- THE MAGIC BUTTON -->
+        <button class="print-btn" id="savePdfBtn" disabled>
+            🖨️ Save as PDF (Best Quality)
+        </button>
     </div>
 
-    <!-- Live Preview Area -->
-    <div class="preview-window">
-        <!-- The library renders the DOCX *inside* this div -->
-        <div id="document-container">
-            <div style="padding:100px; text-align:center; color:#94a3b8;">
-                <h2>Document Preview</h2>
-                <p>Upload a file to see the content, header, and logos here.</p>
-            </div>
-        </div>
+    <div style="text-align:center; color:#64748b; margin-bottom:10px;" id="statusMsg">
+        Please upload your Hindi document.
+    </div>
+
+    <div class="paper-container">
+        <!-- Document renders here -->
+        <div id="doc-visual"></div>
     </div>
 </div>
 
 <script>
-    // --- Configuration ---
     const fileInput = document.getElementById('wordInput');
-    const container = document.getElementById('document-container');
-    const pdfBtn = document.getElementById('pdfBtn');
-    const pageSizeSelect = document.getElementById('pageSize');
-    const fileNameDisplay = document.getElementById('fileName');
-    
-    let originalFilename = "document";
+    const container = document.getElementById('doc-visual');
+    const saveBtn = document.getElementById('savePdfBtn');
+    const statusMsg = document.getElementById('statusMsg');
 
-    // 1. Set Container Width immediately based on Default A4
-    setContainerWidth("a4");
-
-    // --- Events ---
-    
-    // Page Size Changer
-    pageSizeSelect.addEventListener('change', (e) => {
-        setContainerWidth(e.target.value);
-    });
-
-    // File Upload Handler
     fileInput.addEventListener('change', async (e) => {
         const file = e.target.files[0];
         if (!file) return;
 
-        originalFilename = file.name.replace(/\.[^/.]+$/, ""); // Strip extension
-        fileNameDisplay.innerText = file.name;
-        pdfBtn.disabled = true;
-        
-        // Show Loading state
-        container.innerHTML = `<div style="padding:50px; text-align:center;">⏳ Rendering Word Document...<br>Includes Headers & Formatting</div>`;
+        saveBtn.disabled = true;
+        statusMsg.innerText = "Processing document and fonts...";
+        container.innerHTML = "<div style='padding:50px; text-align:center;'>⏳ Loading...</div>";
 
         try {
             const arrayBuffer = await file.arrayBuffer();
-            
-            // --- RENDER using docx-preview ---
-            // This renders headers, tables, images, and full layout
+
+            // RENDER CONFIG
             const options = {
-                className: "docx_content", 
-                inWrapper: true, // We wrap it ourselves? No, library wrapper
-                ignoreWidth: false, // Use doc width
-                experimental: true, // Enable experimental features like better table rendering
-                padding: 0 // Allow us to handle paper margins via CSS if needed
+                inWrapper: false, // Don't create extra HTML wrappers
+                ignoreWidth: true, // We control width via CSS
+                experimental: true, // Needed for graphic/logo support
+                breakPages: true,   // Attempt to break pages visually
+                padding: 0
             };
 
             await docx.renderAsync(arrayBuffer, container, null, options);
             
-            console.log("Render Success");
-            pdfBtn.disabled = false;
-
-            // Optional: force white background explicitly just in case styles leaked
-            container.style.backgroundColor = "white";
+            statusMsg.innerText = "✅ Preview Loaded. Click 'Save as PDF' to finish.";
+            statusMsg.style.color = "green";
+            saveBtn.disabled = false;
 
         } catch (error) {
             console.error(error);
-            container.innerHTML = `<div style="padding:50px; text-align:center; color:red;">Error Parsing Document: ${error.message}</div>`;
+            statusMsg.innerText = "❌ Error: " + error.message;
+            statusMsg.style.color = "red";
         }
     });
 
-    // PDF Download Handler
-    pdfBtn.addEventListener('click', () => {
-        // Prepare HTML2PDF options
-        const format = pageSizeSelect.value;
-        const opt = {
-            margin:       [0, 0, 0, 0], // Docx usually includes margins, so we 0 the pdf print margin
-            filename:     originalFilename + ".pdf",
-            image:        { type: 'jpeg', quality: 0.98 },
-            html2canvas:  { scale: 2, useCORS: true },
-            jsPDF:        { unit: 'in', format: format, orientation: 'portrait' }
-        };
-        
-        // Visual indicator
-        const oldText = pdfBtn.innerText;
-        pdfBtn.innerText = "⏳ Generating...";
-        pdfBtn.disabled = true;
-
-        // Execute Download
-        html2pdf().set(opt).from(container).save().then(() => {
-            pdfBtn.innerText = oldText;
-            pdfBtn.disabled = false;
-        });
+    saveBtn.addEventListener('click', () => {
+        // Trigger Browser Native Print
+        // This is the ONLY way to get perfect Hindi vectors client-side
+        window.print();
     });
-
-    // Helper: Manage Visual Size on Screen to match Print Output
-    function setContainerWidth(size) {
-        // Approximate pixel widths at screen PPI
-        // A4 Width: 210mm (~794px at 96dpi)
-        // Letter Width: 216mm (~816px)
-        
-        let width = "794px"; // Default A4
-        
-        if (size === "letter") width = "816px"; // Letter (8.5 inch)
-        if (size === "legal") width = "816px";  // Legal width is same as letter
-
-        container.style.width = width;
-        
-        // Auto-Height (Minimum) based on format ratio
-        if(size === "a4") container.style.minHeight = "1123px"; // 297mm
-        if(size === "letter") container.style.minHeight = "1056px"; // 11in
-        if(size === "legal") container.style.minHeight = "1344px"; // 14in
-    }
-
 </script>
 
 </body>
