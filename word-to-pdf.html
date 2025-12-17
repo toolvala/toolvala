@@ -1,179 +1,183 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Word to PDF (Hindi Support Fixed)</title>
+    <title>Perfect Layout Word to PDF</title>
     
-    <!-- 1. JSZip for unzipping .docx -->
+    <!-- Required Libraries -->
     <script src="https://unpkg.com/jszip/dist/jszip.min.js"></script>
-    <!-- 2. Docx-Preview for rendering Layout/Logos -->
     <script src="https://unpkg.com/docx-preview/dist/docx-preview.min.js"></script>
-    <!-- 3. Google Font for Perfect Hindi Rendering -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Google Fonts for better Hindi rendering -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;700&family=Tiro+Devanagari+Hindi&display=swap" rel="stylesheet">
 
     <style>
         body {
-            font-family: 'Noto Sans Devanagari', 'Segoe UI', sans-serif;
-            background: #e2e8f0;
-            padding: 30px;
+            background-color: #f3f4f6;
+            font-family: 'Segoe UI', sans-serif;
             margin: 0;
+            padding: 20px;
         }
 
-        .main-panel {
-            max-width: 900px;
-            margin: 0 auto;
+        .controls {
             background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto 20px auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
         }
 
-        h1 { color: #1e3a8a; text-align: center; }
+        h1 { margin: 0 0 10px 0; color: #1e3a8a; }
 
-        .toolbar {
-            display: flex; gap: 15px; margin-bottom: 20px;
-            flex-wrap: wrap; justify-content: center;
-            background: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #cbd5e1;
+        .btn-upload {
+            background: #eff6ff;
+            color: #1e40af;
+            border: 2px dashed #3b82f6;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 15px;
         }
 
-        .upload-btn {
-            background: white; border: 2px dashed #3b82f6; padding: 10px 20px;
-            cursor: pointer; font-weight: bold; color: #2563eb; border-radius: 6px;
+        .btn-print {
+            background: #16a34a;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
         }
+        .btn-print:hover { background: #15803d; }
+        .btn-print:disabled { background: #ccc; cursor: not-allowed; }
 
-        .print-btn {
-            background: #16a34a; color: white; border: none; padding: 12px 25px;
-            font-size: 1rem; font-weight: bold; border-radius: 6px; cursor: pointer;
-            display: flex; align-items: center; gap: 8px;
-        }
-        .print-btn:disabled { background: #cbd5e1; cursor: not-allowed; }
-        .print-btn:hover:not(:disabled) { background: #15803d; }
-
-        /* PREVIEW AREA (The Paper) */
-        .paper-container {
+        /* --- THE PREVIEWER (Fixes the Layout) --- */
+        
+        .preview-window {
+            overflow: auto; /* Scrollbar if screen is small */
             background: #525659;
             padding: 40px;
-            display: flex; justify-content: center;
-            overflow: auto;
+            display: flex;
+            justify-content: center;
         }
 
-        #doc-visual {
+        #doc-container {
             background: white;
-            box-shadow: 0 0 10px rgba(0,0,0,0.3);
-            min-height: 1000px;
-            /* CRITICAL: Force Standard A4 Width in pixels */
-            width: 794px; /* A4 width at 96 DPI */
-            padding: 0 !important;
+            /* CRITICAL FIX: Lock Width to A4 size so text doesn't wrap */
+            width: 794px; /* Exact width of A4 at 96 DPI */
+            min-height: 1123px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            margin: 0 auto;
         }
 
-        /* --- PRINT CSS: This magic makes the PDF perfect --- */
+        /* Styles specifically for the document content */
+        .docx-wrapper { padding: 0 !important; background: white !important; }
+        
+        /* Force Graphics/Logos to show */
+        .docx-wrapper > section { 
+            padding: 40px !important; /* Internal Page Margins */
+            width: auto !important; 
+            margin-bottom: 0 !important;
+            box-shadow: none !important;
+        }
+
+        /* --- PRINT PDF SETTINGS --- */
         @media print {
-            body * { visibility: hidden; } /* Hide everything */
-            #doc-visual, #doc-visual * { visibility: visible; } /* Show only doc */
+            body { background: white; margin: 0; padding: 0; }
+            .controls, .preview-window { padding: 0; margin: 0; background: white; }
+            body > *:not(.preview-window) { display: none !important; }
             
-            /* Reset Layout for Printing */
-            #doc-visual {
-                position: absolute;
-                left: 0; top: 0;
-                width: 100%;
-                margin: 0; padding: 0;
+            /* Remove scrollbars for print */
+            .preview-window { overflow: visible; display: block; }
+            
+            #doc-container {
+                width: 100%; /* Fill paper width */
+                margin: 0;
                 box-shadow: none;
-                background: white;
+                border: none;
             }
-            
-            /* Remove margins from browser print settings if possible */
+
             @page {
                 size: A4 portrait;
-                margin: 10mm; /* Small print margin */
+                margin: 0; /* Let Word handle the margins internally */
             }
 
-            /* HINDI FIXES */
-            .docx_content {
-                text-rendering: optimizeLegibility !important;
-                font-variant-ligatures: normal !important;
-                /* Force fonts if needed */
-                font-family: 'Noto Sans Devanagari', sans-serif !important;
+            /* Better Graphics Rendering */
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
             }
-        }
-
-        /* OVERRIDES for DOCX Library styling to fit Header */
-        .docx-wrapper { padding: 20px !important; background: transparent !important; }
-        .docx-wrapper > section.docx { 
-            box-shadow: none !important; margin-bottom: 0 !important; 
-            min-height: auto !important; width: 100% !important; padding: 20px !important;
         }
     </style>
 </head>
 <body>
 
-<div class="main-panel">
-    <h1>Word to PDF (Hindi/Logo Fix)</h1>
+<div class="controls">
+    <h1>Word to PDF Layout Fixer</h1>
+    <p>Upload .docx &rarr; Check Layout &rarr; Save as PDF</p>
+    
+    <label class="btn-upload">
+        📂 Select Word File
+        <input type="file" id="wordFile" accept=".docx" style="display:none">
+    </label>
+    <br>
+    <button id="printBtn" class="btn-print" disabled>🖨️ Save as PDF</button>
+    <p id="msg" style="margin-top:10px; font-weight:bold; color:#666;"></p>
+</div>
 
-    <div class="toolbar">
-        <label class="upload-btn">
-            📂 Click to Upload .docx
-            <input type="file" id="wordInput" accept=".docx" style="display:none">
-        </label>
-        
-        <!-- THE MAGIC BUTTON -->
-        <button class="print-btn" id="savePdfBtn" disabled>
-            🖨️ Save as PDF (Best Quality)
-        </button>
-    </div>
-
-    <div style="text-align:center; color:#64748b; margin-bottom:10px;" id="statusMsg">
-        Please upload your Hindi document.
-    </div>
-
-    <div class="paper-container">
-        <!-- Document renders here -->
-        <div id="doc-visual"></div>
+<!-- Preview Area -->
+<div class="preview-window">
+    <div id="doc-container">
+        <div style="padding:100px; text-align:center; color:#ccc;">
+            Document will appear here exactly as A4 size.
+        </div>
     </div>
 </div>
 
 <script>
-    const fileInput = document.getElementById('wordInput');
-    const container = document.getElementById('doc-visual');
-    const saveBtn = document.getElementById('savePdfBtn');
-    const statusMsg = document.getElementById('statusMsg');
+    const fileInput = document.getElementById('wordFile');
+    const container = document.getElementById('doc-container');
+    const printBtn = document.getElementById('printBtn');
+    const msg = document.getElementById('msg');
 
     fileInput.addEventListener('change', async (e) => {
         const file = e.target.files[0];
         if (!file) return;
 
-        saveBtn.disabled = true;
-        statusMsg.innerText = "Processing document and fonts...";
-        container.innerHTML = "<div style='padding:50px; text-align:center;'>⏳ Loading...</div>";
-
+        printBtn.disabled = true;
+        msg.innerText = "Loading layout...";
+        
         try {
             const arrayBuffer = await file.arrayBuffer();
-
-            // RENDER CONFIG
+            
             const options = {
-                inWrapper: false, // Don't create extra HTML wrappers
-                ignoreWidth: true, // We control width via CSS
-                experimental: true, // Needed for graphic/logo support
-                breakPages: true,   // Attempt to break pages visually
-                padding: 0
+                className: "docx-content",
+                inWrapper: true,
+                ignoreWidth: false, // Keep Word widths
+                experimental: true, // Needed for LOGOS
+                breakPages: true
             };
 
             await docx.renderAsync(arrayBuffer, container, null, options);
             
-            statusMsg.innerText = "✅ Preview Loaded. Click 'Save as PDF' to finish.";
-            statusMsg.style.color = "green";
-            saveBtn.disabled = false;
+            printBtn.disabled = false;
+            msg.innerText = "✅ Preview Loaded. If spacing looks correct, click Save as PDF.";
+            msg.style.color = "green";
 
         } catch (error) {
             console.error(error);
-            statusMsg.innerText = "❌ Error: " + error.message;
-            statusMsg.style.color = "red";
+            msg.innerText = "❌ Error reading file.";
         }
     });
 
-    saveBtn.addEventListener('click', () => {
-        // Trigger Browser Native Print
-        // This is the ONLY way to get perfect Hindi vectors client-side
+    printBtn.addEventListener('click', () => {
         window.print();
     });
 </script>
