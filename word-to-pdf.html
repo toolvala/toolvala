@@ -3,291 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free Word to PDF Converter | DOCX to PDF Online</title>
-    <meta name="description" content="Convert Word documents (.docx) to PDF online for free. No email required. Secure client-side conversion for essays, contracts, and resumes.">
-    
-    <!-- Library to read Word Files -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
-    <!-- Library to create PDF -->
+    <title>Word to PDF Converter (Fixed)</title>
+    <!-- Mammoth for .docx parsing -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.21/mammoth.browser.min.js"></script>
+    <!-- HTML2PDF for printing -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
+    
     <style>
-        :root {
-            --brand: #2b579a; /* Word Blue */
-            --bg: #f8fafc;
-            --surface: #ffffff;
-            --text: #1e293b;
-            --border: #e2e8f0;
-        }
-
-        body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            margin: 0;
-            padding: 20px;
-            line-height: 1.6;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        h1 { color: var(--brand); margin-bottom: 5px; font-size: 2.2rem; }
-        .subtitle { color: #64748b; font-size: 1.1rem; }
-
-        /* Card Styles */
-        .tool-card {
-            background: var(--surface);
-            padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
-            text-align: center;
-            border: 1px solid var(--border);
-        }
-
-        /* Upload Area */
-        .upload-area {
-            border: 3px dashed #cbd5e1;
-            padding: 50px 20px;
-            border-radius: 12px;
-            background: #f1f5f9;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-bottom: 25px;
-        }
-
-        .upload-area:hover {
-            border-color: var(--brand);
-            background: #eff6ff;
-        }
-
-        .icon { font-size: 60px; margin-bottom: 15px; display: block; }
-
-        /* Preview Box (Hidden primarily) */
-        #previewContainer {
-            text-align: left;
-            padding: 40px;
-            background: white;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            margin: 20px auto;
-            max-width: 210mm; /* A4 Width */
-            display: none; 
-            border: 1px solid #ccc;
-        }
-
-        /* Progress Bar */
-        .progress-container {
-            width: 100%;
-            background-color: #e2e8f0;
-            border-radius: 20px;
-            margin: 20px 0;
-            height: 10px;
-            display: none;
-            overflow: hidden;
-        }
+        body { font-family: sans-serif; background: #f0f2f5; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 40px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         
-        .progress-bar {
-            width: 0%;
-            height: 100%;
-            background-color: var(--brand);
-            transition: width 0.3s ease;
+        .upload-box {
+            border: 2px dashed #3b82f6; background: #eff6ff;
+            padding: 40px; text-align: center; border-radius: 10px; cursor: pointer;
+            margin-bottom: 20px; transition: 0.2s;
         }
-
-        .btn {
-            background: var(--brand); color: white; border: none; padding: 12px 30px;
-            font-size: 1rem; border-radius: 6px; cursor: pointer; font-weight: bold;
-            display: inline-block; transition: background 0.2s;
-        }
-        .btn:hover { background: #1e40af; }
-        .btn:disabled { background: #94a3b8; cursor: not-allowed; }
-
-        .hidden { display: none; }
-        .error-msg { color: #dc2626; margin-top: 10px; font-weight: bold; display: none; }
-        .success-msg { color: #16a34a; margin-top: 10px; font-weight: bold; display: none; }
-
-        /* Style for the converted HTML to look like a doc */
-        .doc-content {
-            font-family: 'Times New Roman', Times, serif;
+        .upload-box:hover { background: #dbeafe; }
+        
+        /* THE FIX: Preview must be visible but contained */
+        #previewArea {
+            border: 1px solid #ddd;
+            padding: 40px; /* Standard Print Margin */
+            min-height: 500px;
+            background: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+            font-family: "Times New Roman", Times, serif;
             font-size: 12pt;
             line-height: 1.5;
+            color: #000;
         }
-        .doc-content h1, .doc-content h2, .doc-content h3 { font-family: 'Arial', sans-serif; color: #2b579a; }
-        .doc-content table { border-collapse: collapse; width: 100%; margin-bottom: 1em; }
-        .doc-content td, .doc-content th { border: 1px solid #999; padding: 5px; }
-        .doc-content img { max-width: 100%; height: auto; }
-
+        
+        /* Simple paragraph styling for Word look-alike */
+        #previewArea p { margin-bottom: 1em; }
+        #previewArea h1 { color: #2563eb; }
+        
+        .btn {
+            background: #2563eb; color: white; padding: 15px 30px;
+            border: none; border-radius: 5px; font-size: 1rem; cursor: pointer;
+            width: 100%; font-weight: bold;
+        }
+        .btn:disabled { background: #cbd5e1; cursor: not-allowed; }
+        
+        .hidden { display: none; }
+        #status { font-weight: bold; margin-bottom: 10px; color: #64748b; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <header>
-            <h1>Word to PDF Converter</h1>
-            <p class="subtitle">Securely convert DOCX files to PDF directly in your browser.</p>
-        </header>
-
-        <div class="tool-card">
-            
-            <!-- UPLOAD STEP -->
-            <div class="upload-area" id="dropZone" onclick="document.getElementById('fileInput').click()">
-                <span class="icon">📝</span>
-                <h3 style="margin:0;">Select WORD file</h3>
-                <p style="color: #64748b; margin-top:5px;">or drop .docx file here</p>
-                <input type="file" id="fileInput" accept=".docx" class="hidden">
-            </div>
-
-            <div class="progress-container" id="progressContainer">
-                <div class="progress-bar" id="progressBar"></div>
-            </div>
-
-            <div class="success-msg" id="successMsg">Processing Complete! Generating PDF...</div>
-            <div class="error-msg" id="errorMsg"></div>
-
-            <button id="convertBtn" class="btn hidden">Download PDF Now</button>
-            <br><br>
-            <small style="color:#64748b;" id="fileNameDisplay"></small>
-        </div>
-
-        <!-- Hidden preview used for PDF generation -->
-        <div id="previewContainer" class="doc-content"></div>
-
-        <!-- INFO SECTION -->
-        <div style="margin-top: 50px; color: #475569;">
-            <h2>About this Tool</h2>
-            <p>Most Word to PDF converters upload your document to a cloud server to convert it. <strong>We do not.</strong></p>
-            <p>This tool converts your document from <em>.docx format -> HTML -> PDF</em> entirely inside your web browser. This ensures maximum privacy for your contracts, essays, and personal letters.</p>
-            
-            <div style="background: #fff7ed; border-left: 4px solid #ea580c; padding: 15px; font-size: 0.95rem;">
-                <strong>Limitation Note:</strong> Because this runs in the browser, complex layouts (floating images, intricate text boxes) might shift slightly. This is perfect for text-heavy documents like resumes, essays, and agreements.
-            </div>
-        </div>
+<div class="container">
+    <h1 style="text-align: center; color:#1e293b;">DOCX to PDF Converter</h1>
+    
+    <!-- Upload Section -->
+    <div class="upload-box" onclick="document.getElementById('fileInput').click()">
+        <span style="font-size: 40px;">📂</span>
+        <h3>Click to Upload Word File</h3>
+        <input type="file" id="fileInput" accept=".docx" class="hidden">
     </div>
 
-    <script>
-        const fileInput = document.getElementById('fileInput');
-        const dropZone = document.getElementById('dropZone');
-        const convertBtn = document.getElementById('convertBtn');
-        const previewContainer = document.getElementById('previewContainer');
-        const progressBar = document.getElementById('progressBar');
-        const progressContainer = document.getElementById('progressContainer');
-        const errorMsg = document.getElementById('errorMsg');
-        const successMsg = document.getElementById('successMsg');
-        const fileNameDisplay = document.getElementById('fileNameDisplay');
+    <div id="status"></div>
 
-        let currentFile = null;
+    <!-- Live Preview (Must be visible for conversion to work) -->
+    <div id="uiContainer" class="hidden">
+        <h4 style="margin-bottom: 5px;">Document Preview:</h4>
+        <div id="previewArea"></div>
+        <button class="btn" id="downloadBtn">⬇ Save as PDF</button>
+    </div>
+</div>
 
-        // Event Listeners
-        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.style.borderColor = 'var(--brand)'; });
-        dropZone.addEventListener('dragleave', (e) => { e.preventDefault(); dropZone.style.borderColor = '#cbd5e1'; });
-        dropZone.addEventListener('drop', (e) => { 
-            e.preventDefault(); 
-            dropZone.style.borderColor = '#cbd5e1';
-            handleFile(e.dataTransfer.files[0]); 
-        });
-        
-        fileInput.addEventListener('change', (e) => handleFile(e.target.files[0]));
+<script>
+    const fileInput = document.getElementById('fileInput');
+    const previewArea = document.getElementById('previewArea');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const status = document.getElementById('status');
+    const uiContainer = document.getElementById('uiContainer');
+    let filename = "document";
 
-        function handleFile(file) {
-            // Reset UI
-            errorMsg.style.display = 'none';
-            successMsg.style.display = 'none';
-            convertBtn.classList.add('hidden');
-            previewContainer.innerHTML = '';
+    fileInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if(!file) return;
+
+        filename = file.name.replace(".docx", "");
+        status.innerText = "Processing Document...";
+        uiContainer.classList.add("hidden");
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const arrayBuffer = e.target.result;
             
-            if (!file) return;
+            // Mammoth options to preserve style better
+            const options = {
+                styleMap: [
+                    "p[style-name='Heading 1'] => h1:fresh",
+                    "p[style-name='Heading 2'] => h2:fresh"
+                ]
+            };
 
-            if (!file.name.endsWith('.docx')) {
-                showError("Please upload a valid Microsoft Word (.docx) file.");
-                return;
-            }
-
-            currentFile = file;
-            fileNameDisplay.innerText = `Selected: ${file.name}`;
-            
-            // Auto start conversion
-            startConversion(file);
-        }
-
-        function startConversion(file) {
-            progressContainer.style.display = 'block';
-            progressBar.style.width = '20%';
-
-            const reader = new FileReader();
-            
-            reader.onload = function(event) {
-                const arrayBuffer = event.target.result;
-                
-                // Use Mammoth to convert Docx -> HTML
-                mammoth.convertToHtml({arrayBuffer: arrayBuffer})
+            mammoth.convertToHtml({arrayBuffer: arrayBuffer}, options)
                 .then(displayResult)
-                .catch(function(err) {
-                    showError("Error parsing the Word file. Is it corrupt?");
+                .catch(err => {
+                    status.innerText = "Error: " + err.message;
                     console.error(err);
                 });
-            };
+        };
+        reader.readAsArrayBuffer(file);
+    });
 
-            reader.readAsArrayBuffer(file);
-        }
+    function displayResult(result) {
+        previewArea.innerHTML = result.value;
+        status.innerText = "Ready to Download";
+        uiContainer.classList.remove("hidden");
+    }
 
-        function displayResult(result) {
-            progressBar.style.width = '60%';
-            
-            const html = result.value; 
-            const messages = result.messages; // Any warnings
+    downloadBtn.addEventListener('click', () => {
+        status.innerText = "Generating PDF...";
+        
+        const opt = {
+            margin:       0.5, // 0.5 inch margins
+            filename:     filename + '.pdf',
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2 }, // Higher resolution
+            jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+        };
 
-            // Inject HTML into our hidden preview container
-            previewContainer.innerHTML = html;
-            
-            // Now generate PDF
-            generatePDF();
-        }
+        // Capture the visible Preview Area
+        html2pdf().set(opt).from(previewArea).save().then(() => {
+            status.innerText = "Download Started!";
+        });
+    });
+</script>
 
-        function generatePDF() {
-            // HTML2PDF options
-            const opt = {
-                margin:       1, // 1 inch margins
-                filename:     currentFile.name.replace('.docx', '.pdf'),
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2 }, // Higher scale for better resolution
-                jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
-            };
-
-            progressBar.style.width = '80%';
-            successMsg.innerText = "Creating PDF file...";
-            successMsg.style.display = 'block';
-
-            // We generate the Blob but don't save immediately, we attach to button
-            html2pdf().set(opt).from(previewContainer).toPdf().get('pdf').then(function(pdf) {
-                // PDF Generated successfully
-                progressBar.style.width = '100%';
-                convertBtn.classList.remove('hidden');
-                
-                // Clean up handler
-                convertBtn.onclick = function() {
-                    html2pdf().set(opt).from(previewContainer).save();
-                };
-            }).catch(err => {
-                showError("Conversion failed during PDF generation.");
-                console.error(err);
-            });
-        }
-
-        function showError(msg) {
-            errorMsg.innerText = msg;
-            errorMsg.style.display = 'block';
-            progressContainer.style.display = 'none';
-        }
-
-    </script>
 </body>
 </html>
+
 <article style="max-width: 800px; margin: 50px auto; color: #334155; line-height: 1.8;">
 
     <h2 style="font-size: 2rem; color: #0f172a; margin-top: 50px;">Complete Guide: How to Convert Word to PDF Online for Free</h2>
