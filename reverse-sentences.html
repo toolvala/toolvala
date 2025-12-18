@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Sentence Reverser</title>
+    <style>
+        :root {
+            --primary: #0984e3;
+            --dark: #2d3436;
+            --bg: #f4f7f6;
+            --surface: #ffffff;
+            --border: #dfe6e9;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--dark);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background: var(--surface);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary);
+            margin-top: 0;
+            font-size: 2rem;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #636e72;
+            margin-bottom: 25px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        @media(min-width: 768px) {
+            .grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #555;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 250px;
+            padding: 15px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 16px;
+            line-height: 1.6;
+            resize: vertical;
+            box-sizing: border-box;
+            transition: border-color 0.2s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .controls {
+            background: #f1f2f6;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.1s, background-color 0.2s;
+            font-size: 14px;
+        }
+
+        button:active { transform: scale(0.98); }
+
+        .btn-primary { background-color: var(--primary); color: white; }
+        .btn-primary:hover { background-color: #00cec9; }
+
+        .btn-secondary { background-color: #dfe6e9; color: #2d3436; }
+        .btn-secondary:hover { background-color: #b2bec3; }
+
+        .btn-copy { 
+            width: 100%; 
+            background-color: #00b894; 
+            color: white; 
+            margin-top: 10px;
+            padding: 12px;
+        }
+        .btn-copy:hover { background-color: #00a884; }
+
+        .badge {
+            background: #ffeaa7;
+            color: #d35400;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-left: 10px;
+            display: none; /* Shown if Intl.Segmenter is missing */
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Smart Sentence Reverser</h1>
+    <p class="subtitle">Reverse the order of sentences without flipping the words inside them.</p>
+
+    <!-- Controls -->
+    <div class="controls">
+        <div style="display:flex; align-items:center;">
+            <input type="checkbox" id="keepFormat" style="width:16px; height:16px;" checked>
+            <label for="keepFormat" style="margin:0 0 0 8px; text-transform:none; cursor:pointer;">Preserve Paragraphs</label>
+        </div>
+        <div style="display:flex; gap:10px;">
+            <button class="btn-secondary" onclick="clearAll()">Clear</button>
+            <button class="btn-primary" onclick="reverseSentences()">Reverse Order</button>
+        </div>
+        <div id="legacyWarning" class="badge">Using Legacy Mode</div>
+    </div>
+
+    <!-- Workspace -->
+    <div class="grid">
+        <!-- Input -->
+        <div>
+            <label for="input">Input Text</label>
+            <textarea id="input" placeholder="Hello World. How are you today? I am fine." spellcheck="false"></textarea>
+        </div>
+
+        <!-- Output -->
+        <div>
+            <label for="output">Result</label>
+            <textarea id="output" readonly placeholder="I am fine. How are you today? Hello World."></textarea>
+            <button class="btn-copy" onclick="copyResult()" id="copyBtn">Copy to Clipboard</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Check for modern browser support
+    const hasSegmenter = typeof Intl !== 'undefined' && Intl.Segmenter;
+
+    if (!hasSegmenter) {
+        document.getElementById('legacyWarning').style.display = 'inline-block';
+    }
+
+    function reverseSentences() {
+        const inputField = document.getElementById('input');
+        const outputField = document.getElementById('output');
+        const text = inputField.value;
+        const preserveParagraphs = document.getElementById('keepFormat').checked;
+
+        if (!text.trim()) {
+            outputField.value = '';
+            return;
+        }
+
+        if (preserveParagraphs) {
+            // Process paragraph by paragraph
+            const paragraphs = text.split(/\r?\n/);
+            const reversedParagraphs = paragraphs.map(p => processBlock(p));
+            outputField.value = reversedParagraphs.join('\n');
+        } else {
+            // Treat whole text as one block
+            outputField.value = processBlock(text);
+        }
+    }
+
+    function processBlock(text) {
+        if (!text.trim()) return text;
+
+        let sentences = [];
+
+        if (hasSegmenter) {
+            // MODERN METHOD: Uses browser's built-in NLP (Natural Language Processing)
+            const segmenter = new Intl.Segmenter('en', { granularity: 'sentence' });
+            const segments = segmenter.segment(text);
+            
+            // Extract the segments and trim them
+            sentences = Array.from(segments).map(s => s.segment.trim());
+        } else {
+            // LEGACY METHOD: Fallback Regex for older browsers
+            // This is complex to handle abbreviations like "Mr." or "U.S.A."
+            // It looks for punctuation (.!?) followed by space or end of line.
+            // It is less accurate than Intl.Segmenter but works reasonably well.
+            sentences = text.match( /[^\.!\?]+[\.!\?]+("|')?(\s|$)/g ) || [text];
+            sentences = sentences.map(s => s.trim());
+        }
+
+        // Filter out empty sentences
+        sentences = sentences.filter(s => s.length > 0);
+
+        // Reverse the array of sentences
+        return sentences.reverse().join(' ');
+    }
+
+    function clearAll() {
+        document.getElementById('input').value = '';
+        document.getElementById('output').value = '';
+        document.getElementById('input').focus();
+    }
+
+    function copyResult() {
+        const output = document.getElementById('output');
+        if (!output.value) return;
+
+        output.select();
+        output.setSelectionRange(0, 99999);
+        navigator.clipboard.writeText(output.value).then(() => {
+            const btn = document.getElementById('copyBtn');
+            const originalText = btn.innerText;
+            btn.innerText = "Copied!";
+            btn.style.backgroundColor = "#27ae60";
+            
+            setTimeout(() => {
+                btn.innerText = originalText;
+                btn.style.backgroundColor = ""; 
+            }, 2000);
+        });
+    }
+</script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Reverse Sentence Tool Guide</title>
+    <style>
+        .article-body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .article-body h1 { color: #0984e3; font-size: 2.5rem; border-bottom: 2px solid #dfe6e9; padding-bottom: 15px; }
+        .article-body h2 { color: #2d3436; margin-top: 40px; border-left: 5px solid #0984e3; padding-left: 15px; }
+        .article-body h3 { color: #636e72; margin-top: 30px; }
+        .article-body p { margin-bottom: 1.5rem; font-size: 1.1rem; }
+        .article-body ul { margin-bottom: 1.5rem; padding-left: 20px; }
+        .article-body li { margin-bottom: 10px; }
+        .article-body code { background: #dfe6e9; color: #d63031; padding: 2px 5px; border-radius: 4px; font-family: monospace; }
+        .article-body .example-box { background-color: #f1f2f6; padding: 20px; border-radius: 8px; margin: 25px 0; border: 1px solid #dcdde1; }
+        .article-body .strong { font-weight: bold; color: #000; }
+    </style>
+</head>
+<body>
+
+<article class="article-body">
+
+    <h1>Reverse Sentences Tool: How to Reorder Text Logic Instantly</h1>
+
+    <p>Text manipulation is usually simple: we can bold it, italicize it, or count the words. But what if you need to change the logic of the narrative? What if you need to take the end of a story and make it the beginning?</p>
+
+    <p>Welcome to the <strong>Smart Sentence Reverser</strong>. This is not a standard "text flipper" that turns "Hello" into "olleh". Instead, this intelligent utility detects where your sentences begin and end, and then reverses their order while keeping the words inside them readable.</p>
+
+    <h2>The Problem: Why Reversing Sentences is Hard</h2>
+    <p>You might think, "Why can't I just split the text by periods?" It sounds simple, but language is complex. If you try to split text by every dot (<code>.</code>), you will run into major issues.</p>
+    
+    <h3>The "Dr." and "U.S.A." Problem</h3>
+    <p>Consider this sentence:</p>
+    <div class="example-box">
+        "Dr. Smith went to the U.S.A. yesterday."
+    </div>
+    <p>If a computer splits this by periods, it sees:</p>
+    <ol>
+        <li>"Dr"</li>
+        <li>" Smith went to the U"</li>
+        <li>"S"</li>
+        <li>"A"</li>
+        <li>" yesterday"</li>
+    </ol>
+    <p>This destroys the sentence. A true <strong>Sentence Reverser</strong> needs to know that the dot in "Dr." is an abbreviation, not a full stop. Our tool uses advanced browser capabilities (the <code>Intl.Segmenter</code> API) to understand these linguistic nuances.</p>
+
+    <h2>How to Use This Tool</h2>
+    <p>We designed this tool to be "Paste and Go." Here is the workflow:</p>
+
+    <ol>
+        <li><strong>Paste Text:</strong> Copy your paragraph, essay, or email into the left-hand box.</li>
+        <li><strong>Choose Mode:</strong>
+            <ul>
+                <li><em>Preserve Paragraphs (Checked):</em> This keeps your paragraph structure. It will reverse the sentences <em>inside</em> Paragraph 1, and then separately reverse the sentences <em>inside</em> Paragraph 2.</li>
+                <li><em>Preserve Paragraphs (Unchecked):</em> This treats the entire text as one giant block and reverses every sentence from the very bottom to the very top.</li>
+            </ul>
+        </li>
+        <li><strong>Click Reverse:</strong> Hit the blue button.</li>
+        <li><strong>Copy:</strong> Use the green button to copy your reordered text.</li>
+    </ol>
+
+    <h2>Real-World Use Cases</h2>
+
+    <h3>1. Creative Writing & Plot Exercises</h3>
+    <p>Writers often use a technique called "Reverse Chronology" (think of the movie <em>Memento</em>). By writing a story normally and then flipping the sentence order, you can create a surreal, dream-like narrative where the effect comes before the cause.</p>
+
+    <h3>2. Rhetorical Analysis</h3>
+    <p>Students and editors analyze speeches by reversing the sentence order. This isolates each thought. When you read a speech backwards (sentence by sentence), you stop getting swept up in the emotional "flow" and start noticing if the individual arguments actually make sense on their own.</p>
+
+    <h3>3. Social Media & "Reveal" Posts</h3>
+    <p>You can create engaging posts where the answer is at the top, and the question is at the bottom. Or, create a "Bottom-up" reading experience for Twitter threads or Instagram captions.</p>
+
+    <h3>4. Cleaning Up Chat Logs</h3>
+    <p>Sometimes, chat exports (like from WhatsApp or Slack) verify the newest messages at the bottom. If you want to read a conversation like a novel (oldest to newest), and the file is formatted strangely, reversing the sentences (or lines) can help restore the chronological flow.</p>
+
+    <h2>Technical Deep Dive: Intl.Segmenter</h2>
+    <p>For the developers and tech-enthusiasts using this tool, you might wonder how we achieved such high accuracy without a massive backend server.</p>
+
+    <p>The secret is <strong>Intl.Segmenter</strong>. This is a JavaScript API built into modern engines (Chrome, Edge, Safari). It allows the browser to perform "locale-sensitive" text segmentation.</p>
+
+    <p>Old Method (Regex):</p>
+    <code>text.split(/[.!?]/)</code>
+    <p>This was fast but dumb. It failed on abbreviations, decimal numbers (3.14), and ellipses (...).</p>
+
+    <p>New Method (Intl.Segmenter):</p>
+    <code>new Intl.Segmenter('en', { granularity: 'sentence' })</code>
+    <p>This allows the tool to run entirely <strong>Client-Side</strong>. Your text is never sent to a cloud server. It is processed instantly in your own browser, ensuring maximum privacy and speed.</p>
+
+    <h2>Frequently Asked Questions (FAQ)</h2>
+
+    <h3>Does this reverse the words too?</h3>
+    <p>No. "Hello World" becomes "Hello World" (just moved to a new position). If you want to reverse words (to get "World Hello"), you need a "Reverse Words" tool.</p>
+
+    <h3>Does it handle quotes?</h3>
+    <p>Yes. If a sentence ends with a quote, like <em>He said, "Go away."</em>, the tool keeps the quote attached to the sentence correctly.</p>
+
+    <h3>What happens to formatting?</h3>
+    <p>The tool attempts to strip extra whitespace to ensure clean reversal. However, if you check "Preserve Paragraphs," it will respect your line breaks.</p>
+
+    <h3>Is there a text limit?</h3>
+    <p>Since it runs on your machine, the limit is your computer's memory. You can easily process essays of 5,000 to 10,000 words without a stutter.</p>
+
+    <h2>Conclusion</h2>
+    <p>The <strong>Reverse Sentences Tool</strong> is a specific utility for a specific job. It doesn't just jumble text; it reorganizes logic. Whether you are debugging a log file, experimenting with creative writing, or simply trying to read a list backwards, this tool provides the most accurate, privacy-focused solution available online.</p>
+
+</article>
+
+</body>
+</html>
