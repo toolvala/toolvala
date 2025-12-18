@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swap Letters & Word Scrambler</title>
+    <style>
+        :root {
+            --primary: #8e44ad; /* Deep Purple */
+            --dark: #2c3e50;
+            --bg: #f8f9fa;
+            --surface: #ffffff;
+            --border: #dfe6e9;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--dark);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background: var(--surface);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary);
+            margin-top: 0;
+            font-size: 2.2rem;
+        }
+
+        .description {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 25px;
+        }
+
+        .workspace {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        @media(min-width: 800px) {
+            .workspace { grid-template-columns: 1fr 1fr; }
+        }
+
+        .controls {
+            background: #f1f2f6;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border: 1px solid #dfe6e9;
+        }
+
+        .mode-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .mode-btn {
+            background: white;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .mode-btn:hover { background: #efe6f5; }
+        .mode-btn.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 10px rgba(142, 68, 173, 0.3);
+        }
+
+        /* Specific Replace Inputs */
+        .replace-group {
+            display: none; /* Hidden by default */
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #ddd;
+        }
+
+        .replace-group input {
+            width: 50px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        label { font-weight: 600; font-size: 14px; color: #555; }
+
+        textarea {
+            width: 100%;
+            height: 250px;
+            padding: 15px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-family: 'Courier New', monospace; /* Monospace helps see letter swaps */
+            font-size: 15px;
+            resize: vertical;
+            box-sizing: border-box;
+            line-height: 1.5;
+        }
+
+        textarea:focus { outline: none; border-color: var(--primary); }
+
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            align-items: center;
+        }
+
+        button.action-btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: transform 0.1s;
+        }
+        
+        button.action-btn:active { transform: scale(0.98); }
+
+        .btn-copy { background-color: #27ae60; color: white; }
+        .btn-copy:hover { background-color: #219150; }
+        
+        .btn-clear {
+            background: none;
+            border: none;
+            color: #c0392b;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .btn-clear:hover { text-decoration: underline; }
+
+        .badge {
+            background: #fdcb6e;
+            color: #d35400;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+            margin-left: 5px;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Swap Letters Tool</h1>
+    <p class="description">Scramble words, swap adjacent characters, or find & replace specific letters.</p>
+
+    <!-- Controls -->
+    <div class="controls">
+        <label style="display:block; text-align:center; margin-bottom:10px;">SELECT MODE:</label>
+        <div class="mode-selector">
+            <button class="mode-btn active" onclick="setMode('adjacent')">Swap Adjacent Pair</button>
+            <button class="mode-btn" onclick="setMode('scramble')">Scramble (Typoglycemia)</button>
+            <button class="mode-btn" onclick="setMode('replace')">Specific Character</button>
+            <button class="mode-btn" onclick="setMode('case')">Invert Case</button>
+        </div>
+
+        <div id="replaceInputs" class="replace-group">
+            <label>Find:</label>
+            <input type="text" id="findChar" maxlength="1" value="a" oninput="processText()">
+            <label>&rarr; Replace with:</label>
+            <input type="text" id="repChar" maxlength="1" value="@" oninput="processText()">
+            <label style="margin-left:10px;"><input type="checkbox" id="matchCase" checked onchange="processText()"> Match Case</label>
+        </div>
+        
+        <div id="scrambleInfo" style="display:none; text-align:center; margin-top:10px; font-size:13px; color:#666;">
+            <i>Keeps first and last letter fixed. Scrambles the middle.</i>
+            <button onclick="processText()" style="margin-left:10px; cursor:pointer; padding:2px 8px;">Re-Shuffle</button>
+        </div>
+    </div>
+
+    <!-- Workspace -->
+    <div class="workspace">
+        <!-- Input -->
+        <div>
+            <div class="toolbar">
+                <label>Input Text</label>
+                <button class="btn-clear" onclick="clearAll()">Clear</button>
+            </div>
+            <textarea id="input" placeholder="Type text here..." oninput="processText()"></textarea>
+        </div>
+
+        <!-- Output -->
+        <div>
+            <div class="toolbar">
+                <label>Result</label>
+            </div>
+            <textarea id="output" readonly placeholder="Result appears here..."></textarea>
+            <button class="action-btn btn-copy" onclick="copyResult()" id="copyBtn">Copy Result</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentMode = 'adjacent';
+
+    function setMode(mode) {
+        currentMode = mode;
+        
+        // Update UI buttons
+        document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+        event.target.classList.add('active');
+
+        // Show/Hide specific controls
+        document.getElementById('replaceInputs').style.display = (mode === 'replace') ? 'flex' : 'none';
+        document.getElementById('scrambleInfo').style.display = (mode === 'scramble') ? 'block' : 'none';
+
+        processText();
+    }
+
+    function processText() {
+        const input = document.getElementById('input').value;
+        const output = document.getElementById('output');
+        
+        if (!input) {
+            output.value = '';
+            return;
+        }
+
+        let result = '';
+
+        if (currentMode === 'adjacent') {
+            // Swap every adjacent pair: 1-2, 3-4, etc.
+            const chars = input.split('');
+            for (let i = 0; i < chars.length - 1; i += 2) {
+                // Check if current or next char is a newline, skip if so to preserve formatting
+                if(chars[i] === '\n' || chars[i+1] === '\n') {
+                    i--; // Go back one step to only skip the newline
+                    continue; 
+                }
+                // Swap
+                let temp = chars[i];
+                chars[i] = chars[i+1];
+                chars[i+1] = temp;
+            }
+            result = chars.join('');
+        } 
+        else if (currentMode === 'scramble') {
+            // Split by non-word characters to keep punctuation intact
+            result = input.replace(/\b\w+\b/g, function(word) {
+                if (word.length <= 3) return word; // Too short to scramble
+
+                const first = word[0];
+                const last = word[word.length - 1];
+                const middle = word.slice(1, -1).split('');
+
+                // Fisher-Yates Shuffle for middle letters
+                for (let i = middle.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [middle[i], middle[j]] = [middle[j], middle[i]];
+                }
+
+                return first + middle.join('') + last;
+            });
+        }
+        else if (currentMode === 'replace') {
+            const find = document.getElementById('findChar').value;
+            const rep = document.getElementById('repChar').value;
+            const matchCase = document.getElementById('matchCase').checked;
+
+            if(!find) {
+                result = input;
+            } else {
+                const flags = matchCase ? 'g' : 'gi'; // g = global, i = case insensitive
+                // Escape special regex characters in the 'find' string
+                const safeFind = find.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); 
+                result = input.replace(new RegExp(safeFind, flags), rep);
+            }
+        }
+        else if (currentMode === 'case') {
+            result = input.split('').map(c => {
+                return c === c.toUpperCase() ? c.toLowerCase() : c.toUpperCase();
+            }).join('');
+        }
+
+        output.value = result;
+    }
+
+    function clearAll() {
+        document.getElementById('input').value = '';
+        document.getElementById('output').value = '';
+        document.getElementById('input').focus();
+    }
+
+    function copyResult() {
+        const output = document.getElementById('output');
+        if (!output.value) return;
+
+        output.select();
+        output.setSelectionRange(0, 99999);
+        navigator.clipboard.writeText(output.value).then(() => {
+            const btn = document.getElementById('copyBtn');
+            const originalText = btn.innerText;
+            btn.innerText = "Copied!";
+            
+            setTimeout(() => {
+                btn.innerText = originalText;
+            }, 2000);
+        });
+    }
+</script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Swap Letters Tool Guide</title>
+    <style>
+        .article-body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .article-body h1 { color: #8e44ad; font-size: 2.5rem; border-bottom: 2px solid #f3e5f5; padding-bottom: 15px; }
+        .article-body h2 { color: #2c3e50; margin-top: 40px; }
+        .article-body h3 { color: #555; margin-top: 30px; }
+        .article-body p { margin-bottom: 1.5rem; }
+        .article-body ul { margin-bottom: 1.5rem; padding-left: 20px; }
+        .article-body li { margin-bottom: 10px; }
+        .article-body .feature-box { background-color: #f8f9fa; border-left: 5px solid #8e44ad; padding: 20px; margin: 25px 0; }
+        .article-body code { background: #eee; color: #c0392b; padding: 2px 5px; border-radius: 4px; font-family: monospace; }
+    </style>
+</head>
+<body>
+
+<article class="article-body">
+
+    <h1>Swap Letters & Word Scrambler: Manipulate Text Characters Instantly</h1>
+
+    <p>Text is rigid. Words are spelled a specific way, and capital letters go in specific places. But sometimes, you need to break those rules. Whether you are creating a difficult puzzle, obfuscating an email address to stop spambots, or testing the "Typoglycemia" reading theory, manipulating the letters within words is a powerful technique.</p>
+
+    <p>Welcome to the <strong>Swap Letters Tool</strong>. This is a multi-purpose utility designed to swap, scramble, and replace characters inside your text string. Unlike standard "Find and Replace" tools, this utility focuses on the structural arrangement of the letters themselves.</p>
+
+    <h2>How to Use the Four Swap Modes</h2>
+
+    <h3>1. Swap Adjacent Pair</h3>
+    <p>This mode takes every two characters and flips their positions.</p>
+    <ul>
+        <li><strong>Logic:</strong> Character 1 swaps with Character 2. Character 3 swaps with Character 4.</li>
+        <li><strong>Example:</strong> "Hello" becomes "eHll o".</li>
+        <li><strong>Use Case:</strong> Simple cryptography or creating "alien" languages for RPGs and fiction writing. It makes text unreadable at a glance but easily decipherable if you know the pattern.</li>
+    </ul>
+
+    <h3>2. Scramble (Typoglycemia Mode)</h3>
+    <p>This is the most popular feature. It keeps the <strong>first</strong> and <strong>last</strong> letter of every word in their correct positions but shuffles all the letters in the middle randomly.</p>
+    <ul>
+        <li><strong>Logic:</strong> "Problem" &rarr; P (fixed) + roble (shuffled) + m (fixed) &rarr; "Porlbem".</li>
+        <li><strong>Use Case:</strong> Testing the cognitive theory that humans read words as a whole pattern, not letter-by-letter. You can send emails to friends that look messy but are surprisingly readable.</li>
+    </ul>
+
+    <h3>3. Specific Character Replace</h3>
+    <p>This is a targeted swap. You tell the tool exactly which letter to find and what to swap it with.</p>
+    <ul>
+        <li><strong>Logic:</strong> Find "a", replace with "@".</li>
+        <li><strong>Example:</strong> "Password" becomes "P@ssword".</li>
+        <li><strong>Use Case:</strong> Leetspeak (1337) generation, creating secure passwords, or sanitizing text by masking specific characters.</li>
+    </ul>
+
+    <h3>4. Invert Case</h3>
+    <p>This mode flips the capitalization of every letter.</p>
+    <ul>
+        <li><strong>Logic:</strong> A &rarr; a, b &rarr; B.</li>
+        <li><strong>Example:</strong> "Code" becomes "cODE".</li>
+        <li><strong>Use Case:</strong> Fixing text that was accidentally typed with CAPS LOCK on.</li>
+    </ul>
+
+    <hr>
+
+    <h2>What is Typoglycemia?</h2>
+    <div class="feature-box">
+        <strong>Definition:</strong> Typoglycemia is a portmanteau of "typo" and "hypoglycemia." It refers to a viral internet meme/theory suggesting that as long as the first and last letters of a word are correct, your brain can read the scrambled mess in between.
+    </div>
+    <p>Try it yourself using the "Scramble" mode above! Paste this paragraph in:</p>
+    <blockquote>
+        "According to a researcher at Cambridge University, it doesn't matter in what order the letters in a word are, the only important thing is that the first and last letter be at the right place."
+    </blockquote>
+    <p>The result will look chaotic, but you will find you can read it perfectly at normal speed. This tool is the easiest way to generate text to test this phenomenon.</p>
+
+    <h2>Why Use a Client-Side Text Swapper?</h2>
+    
+    <h3>Privacy and Security</h3>
+    <p>When you are manipulating text—especially passwords or personal messages—you don't want that data sent to a server. This tool runs <strong>100% in your browser</strong>. The scrambling logic is handled by JavaScript on your device. No data leaves your computer.</p>
+
+    <h3>Speed</h3>
+    <p>Server-side tools require a round trip (upload, process, download). This tool is instant. As you type, the letters swap in real-time.</p>
+
+    <h2>Real-World Applications</h2>
+
+    <h3>1. Obfuscating Email Addresses</h3>
+    <p>If you post your email address publicly, bots will scrape it. By using the "Specific Character Replace" mode to swap `.` with ` [dot] ` and `@` with ` [at] `, you make it readable for humans but broken for bots.</p>
+
+    <h3>2. Creating Puzzles and Games</h3>
+    <p>Teachers and game masters use the "Adjacent Swap" or "Scramble" modes to create clues. Players have to "descramble" the text to reveal the hidden message.</p>
+
+    <h3>3. Cleaning Data</h3>
+    <p>If you downloaded a dataset where a specific character is corrupted (e.g., all "é" characters turned into "?"), use the Replace mode to swap "?" back to "é" instantly.</p>
+
+    <h2>Frequently Asked Questions (FAQ)</h2>
+
+    <h3>Can I un-scramble text with this tool?</h3>
+    <p>If you used "Adjacent Swap" or "Invert Case," running the tool a second time on the result will revert it back to the original (because the logic is symmetrical). <br>However, the "Scramble" mode is random. You cannot automatically un-scramble it because the original order is lost.</p>
+
+    <h3>Does this work on other languages?</h3>
+    <p>Yes. The tool supports Unicode, so it works with Spanish, French, Russian, Chinese, emojis, etc.</p>
+
+    <h3>Is there a character limit?</h3>
+    <p>No limit. You can paste entire books into the tool, and it will process them in seconds.</p>
+
+    <h2>Conclusion</h2>
+    <p>The <strong>Swap Letters Tool</strong> gives you total control over the microscopic structure of your text. Whether you are proving a scientific point about reading, fixing a Caps Lock error, or creating a secure password, this utility is the fast, private, and free solution.</p>
+
+</article>
+
+</body>
+</html>
