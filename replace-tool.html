@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Find & Replace Tool</title>
+    <style>
+        :root {
+            --primary: #2980b9; /* Blue theme for 'Utility/Edit' */
+            --dark: #2c3e50;
+            --bg: #f4f6f7;
+            --text: #34495e;
+            --border: #bdc3c7;
+            --success: #27ae60;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary);
+            margin-top: 0;
+            font-size: 2.2rem;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 25px;
+        }
+
+        /* Tabs for Single vs Bulk */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #ecf0f1;
+        }
+
+        .tab-btn {
+            padding: 12px 24px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #95a5a6;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            font-size: 16px;
+        }
+
+        .tab-btn:hover { color: var(--primary); }
+        .tab-btn.active {
+            color: var(--primary);
+            border-bottom: 3px solid var(--primary);
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        @media(min-width: 850px) {
+            .layout { grid-template-columns: 350px 1fr; }
+        }
+
+        /* Controls Area */
+        .controls-panel {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+            height: fit-content;
+        }
+
+        .control-group { margin-bottom: 15px; }
+        
+        label { 
+            display: block; 
+            font-weight: 700; 
+            font-size: 13px; 
+            margin-bottom: 5px; 
+            color: #555;
+            text-transform: uppercase;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 15px;
+            box-sizing: border-box;
+        }
+
+        /* Bulk Area Textarea */
+        textarea.bulk-rules {
+            width: 100%;
+            height: 150px;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 13px;
+            resize: vertical;
+            box-sizing: border-box;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            font-size: 13px;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .checkbox-wrapper input { margin-right: 8px; }
+
+        button.process-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        button.process-btn:hover { background-color: #1f618d; }
+
+        /* Editors */
+        .editor-area {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        textarea.content-editor {
+            width: 100%;
+            height: 200px;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 15px;
+            resize: vertical;
+            box-sizing: border-box;
+        }
+
+        textarea.content-editor:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .badge {
+            background: var(--success);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .badge.visible { opacity: 1; }
+
+        .btn-clear { background: #e74c3c; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 12px;}
+        .btn-copy { background: #27ae60; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 12px;}
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Find & Replace Tool</h1>
+    <p class="subtitle">Replace words, fix typos, or swap bulk text instantly.</p>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('single')" id="tabSingle">Single Replace</button>
+        <button class="tab-btn" onclick="switchTab('bulk')" id="tabBulk">Bulk Replace</button>
+    </div>
+
+    <div class="layout">
+        <!-- Controls Panel -->
+        <div class="controls-panel">
+            
+            <!-- SINGLE MODE INPUTS -->
+            <div id="singleControls">
+                <div class="control-group">
+                    <label for="findText">Find what:</label>
+                    <input type="text" id="findText" placeholder="e.g. Cat">
+                </div>
+                <div class="control-group">
+                    <label for="repText">Replace with:</label>
+                    <input type="text" id="repText" placeholder="e.g. Dog">
+                </div>
+            </div>
+
+            <!-- BULK MODE INPUTS -->
+            <div id="bulkControls" style="display:none;">
+                <div class="control-group">
+                    <label>Bulk Rules (One per line):</label>
+                    <div style="font-size:11px; color:#666; margin-bottom:5px;">Format: <code>Find -> Replace</code></div>
+                    <textarea class="bulk-rules" id="bulkRules" placeholder="Cat -> Dog&#10;Red -> Blue&#10;Old -> New"></textarea>
+                </div>
+            </div>
+
+            <!-- OPTIONS -->
+            <div class="control-group">
+                <label>Options:</label>
+                <div class="options-grid">
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" id="optCase"> Match Case
+                    </label>
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" id="optWhole"> Whole Words
+                    </label>
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" id="optRegex"> Use Regex
+                    </label>
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" id="optGlobal" checked disabled> Global
+                    </label>
+                </div>
+            </div>
+
+            <button class="process-btn" onclick="processReplace()">Replace All</button>
+            <div style="text-align:center; margin-top:10px;">
+                <span id="statBadge" class="badge">0 replacements made</span>
+            </div>
+        </div>
+
+        <!-- Editors Panel -->
+        <div class="editor-area">
+            <div>
+                <div class="toolbar">
+                    <label>Original Text</label>
+                    <button class="btn-clear" onclick="clearInput()">Clear</button>
+                </div>
+                <textarea class="content-editor" id="inputText" placeholder="Paste your text here..."></textarea>
+            </div>
+            
+            <div>
+                <div class="toolbar">
+                    <label>Modified Text</label>
+                    <button class="btn-copy" onclick="copyOutput()" id="copyBtn">Copy</button>
+                </div>
+                <textarea class="content-editor" id="outputText" readonly placeholder="Result will appear here..."></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentTab = 'single';
+
+    function switchTab(tab) {
+        currentTab = tab;
+        // UI Toggles
+        document.getElementById('tabSingle').classList.toggle('active', tab === 'single');
+        document.getElementById('tabBulk').classList.toggle('active', tab === 'bulk');
+        
+        document.getElementById('singleControls').style.display = tab === 'single' ? 'block' : 'none';
+        document.getElementById('bulkControls').style.display = tab === 'bulk' ? 'block' : 'none';
+    }
+
+    function escapeRegex(string) {
+        return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
+
+    function processReplace() {
+        const input = document.getElementById('inputText').value;
+        const output = document.getElementById('outputText');
+        const badge = document.getElementById('statBadge');
+        
+        if(!input) {
+            output.value = "";
+            return;
+        }
+
+        // Options
+        const matchCase = document.getElementById('optCase').checked;
+        const wholeWord = document.getElementById('optWhole').checked;
+        const useRegex = document.getElementById('optRegex').checked;
+
+        let resultText = input;
+        let totalCount = 0;
+
+        // --- SINGLE MODE ---
+        if (currentTab === 'single') {
+            const find = document.getElementById('findText').value;
+            const replace = document.getElementById('repText').value;
+
+            if (find) {
+                const count = performReplace(resultText, find, replace, matchCase, wholeWord, useRegex);
+                resultText = count.text;
+                totalCount = count.matches;
+            }
+        } 
+        // --- BULK MODE ---
+        else {
+            const rulesRaw = document.getElementById('bulkRules').value;
+            const rules = rulesRaw.split('\n');
+
+            rules.forEach(rule => {
+                if(!rule.includes('->')) return; // Skip invalid lines
+                
+                // Split by first arrow occurrence
+                const parts = rule.split('->');
+                const f = parts[0].trim();
+                const r = parts.slice(1).join('->').trim(); // Join back in case replacement has ->
+
+                if(f) {
+                    const count = performReplace(resultText, f, r, matchCase, wholeWord, useRegex);
+                    resultText = count.text;
+                    totalCount += count.matches;
+                }
+            });
+        }
+
+        output.value = resultText;
+        
+        // Show Stats
+        badge.innerText = `${totalCount} replacement${totalCount !== 1 ? 's' : ''}`;
+        badge.classList.add('visible');
+        setTimeout(() => badge.classList.remove('visible'), 3000);
+    }
+
+    function performReplace(text, find, replace, matchCase, wholeWord, useRegex) {
+        let flags = 'g'; // Always global
+        if (!matchCase) flags += 'i';
+
+        let pattern;
+        
+        try {
+            if (useRegex) {
+                pattern = new RegExp(find, flags);
+            } else {
+                let safeFind = escapeRegex(find);
+                if (wholeWord) {
+                    safeFind = `\\b${safeFind}\\b`;
+                }
+                pattern = new RegExp(safeFind, flags);
+            }
+        } catch (e) {
+            alert("Invalid Regular Expression: " + find);
+            return { text: text, matches: 0 };
+        }
+
+        // Count matches before replacing
+        const matches = (text.match(pattern) || []).length;
+        
+        // Replace
+        const newText = text.replace(pattern, replace);
+
+        return { text: newText, matches: matches };
+    }
+
+    function clearInput() {
+        document.getElementById('inputText').value = '';
+        document.getElementById('outputText').value = '';
+    }
+
+    function copyOutput() {
+        const output = document.getElementById('outputText');
+        if (!output.value) return;
+        output.select();
+        navigator.clipboard.writeText(output.value);
+        
+        const btn = document.getElementById('copyBtn');
+        btn.innerText = "Copied!";
+        setTimeout(() => btn.innerText = "Copy", 1500);
+    }
+</script>
+
+</body>
+</html> 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Find and Replace Tool Guide</title>
+    <style>
+        .seo-content {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .seo-content h1 { color: #2980b9; font-size: 2.5rem; border-bottom: 2px solid #ecf0f1; padding-bottom: 15px; }
+        .seo-content h2 { color: #2c3e50; margin-top: 40px; }
+        .seo-content h3 { color: #e67e22; margin-top: 30px; }
+        .seo-content p { margin-bottom: 1.5rem; }
+        .seo-content ul, .seo-content ol { margin-bottom: 1.5rem; padding-left: 20px; }
+        .seo-content li { margin-bottom: 10px; }
+        .seo-content .info-box { background-color: #e8f8f5; border-left: 5px solid #27ae60; padding: 20px; margin: 25px 0; }
+        .seo-content code { background: #f4f6f7; color: #c0392b; padding: 2px 6px; border-radius: 4px; font-family: monospace; }
+        .seo-content table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .seo-content th, .seo-content td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        .seo-content th { background: #eee; }
+    </style>
+</head>
+<body>
+
+<article class="seo-content">
+
+    <h1>Advanced Find & Replace Tool: Bulk Text Swap and Regex Support</h1>
+
+    <p>Editing text manually is a slow, error-prone process. Whether you are a programmer refactoring variable names, a content writer fixing a recurring typo in a novel, or a data analyst cleaning up a CSV file, you need a way to change text quickly.</p>
+
+    <p>Welcome to the <strong>Online Find & Replace Tool</strong>. This is not just a basic "Ctrl+F" utility. It is a comprehensive text manipulation engine that allows you to perform **Bulk Replacements**, use **Regular Expressions (Regex)**, and filter by **Case Sensitivity** and **Whole Words**. It runs entirely in your browser for maximum speed and privacy.</p>
+
+    <h2>Why Use an Online Text Replacer?</h2>
+    <p>Most text editors (Word, Notepad, Google Docs) have basic find-and-replace features. However, they often lack advanced capabilities:</p>
+    <ul>
+        <li><strong>No Bulk Support:</strong> Can you replace "Cat" with "Dog" AND "Red" with "Blue" at the same time in Word? No. You have to run two separate operations. Our tool handles unlimited pairs at once.</li>
+        <li><strong>Complex Regex:</strong> Standard editors often have limited or confusing wildcard support. This tool uses standard JavaScript Regex, giving developers full power.</li>
+        <li><strong>Clean Interface:</strong> No need to open a heavy application. Paste, click, copy, done.</li>
+    </ul>
+
+    <h2>How to Use the Tool</h2>
+
+    <h3>Mode 1: Single Replace</h3>
+    <p>This is the standard mode for quick fixes.</p>
+    <ol>
+        <li><strong>Input Text:</strong> Paste your document into the "Original Text" box.</li>
+        <li><strong>Find:</strong> Enter the word or phrase you want to search for (e.g., "color").</li>
+        <li><strong>Replace:</strong> Enter the new text (e.g., "colour").</li>
+        <li><strong>Options:</strong>
+            <ul>
+                <li><em>Match Case:</em> If unchecked, "Color" and "color" will both be replaced.</li>
+                <li><em>Whole Words:</em> If checked, "colorful" will NOT be changed (because "color" is part of a larger word).</li>
+            </ul>
+        </li>
+        <li><strong>Execute:</strong> Click "Replace All" to see the result.</li>
+    </ol>
+
+    <h3>Mode 2: Bulk Replace (The Power Feature)</h3>
+    <p>This mode allows you to define a list of rules to execute in sequence.</p>
+    <ol>
+        <li>Click the <strong>"Bulk Replace"</strong> tab at the top.</li>
+        <li>In the "Bulk Rules" box, enter your swaps using the syntax: <code>Find -> Replace</code>.</li>
+        <li>Example:
+            <pre style="background:#eee; padding:10px; border-radius:5px;">
+Jan -> January
+Feb -> February
+Mar -> March
+            </pre>
+        </li>
+        <li>When you click "Replace All," the tool looks for "Jan" and turns it into "January," then looks for "Feb," and so on. This is a massive time-saver for formatting dates, converting units, or translating lists.</li>
+    </ol>
+
+    <div class="info-box">
+        <strong>Note on Bulk Order:</strong> The rules are executed from top to bottom. If you have a rule `Cat -> Dog` and then `Dog -> Mouse`, your original "Cat" will eventually become "Mouse." Be careful with the order!
+    </div>
+
+    <h2>Advanced Features Explained</h2>
+
+    <h3>1. Regular Expressions (Regex)</h3>
+    <p>For power users, checking the <strong>"Use Regex"</strong> box unlocks unlimited potential. You can match patterns rather than just fixed words.</p>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Goal</th>
+                <th>Regex Pattern</th>
+                <th>Explanation</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Remove all numbers</td>
+                <td><code>[0-9]+</code></td>
+                <td>Matches any sequence of digits. Replace with empty string to delete.</td>
+            </tr>
+            <tr>
+                <td>Remove extra spaces</td>
+                <td><code>\s+</code></td>
+                <td>Matches one or more spaces. Replace with a single space ` `.</td>
+            </tr>
+            <tr>
+                <td>Find emails</td>
+                <td><code>\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b</code></td>
+                <td>Matches standard email formats.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>2. Whole Word Matching</h3>
+    <p>This is crucial for coding and writing. If you want to change the variable <code>int i</code> to <code>int index</code>, you don't want to accidentally change the word <code>while</code> to <code>whindexle</code>.</p>
+    <p>The "Whole Words" checkbox automatically wraps your search term in Regex word boundaries (<code>\bWord\b</code>), ensuring only exact matches are touched.</p>
+
+    <h3>3. Case Sensitivity</h3>
+    <p>By default, "Apple" and "apple" are treated as different words in computer science. Uncheck "Match Case" to treat them as the same. This is useful for standardizing capitalization inconsistencies in a document.</p>
+
+    <h2>Real-World Use Cases</h2>
+
+    <h3>For Developers</h3>
+    <p><strong>Refactoring Code:</strong> You wrote a CSS file using the color hex code <code>#3498db</code> everywhere, but now the client wants <code>#2980b9</code>. Use Single Replace to swap them globally instantly.</p>
+    <p><strong>Obfuscating Data:</strong> You need to share a log file but hide user IDs. Use Regex <code>User\d+</code> to replace all "User123" instances with "UserXXX".</p>
+
+    <h3>For Writers and Editors</h3>
+    <p><strong>Character Name Change:</strong> You wrote 20 chapters of a book naming the hero "John," but now you want to call him "Jack." A simple replace fixes the whole manuscript in seconds.</p>
+    <p><strong>British vs. American English:</strong> Use Bulk Replace to swap a list of words:
+    <br><code>optimize -> optimise</code>
+    <br><code>center -> centre</code>
+    <br><code>color -> colour</code></p>
+
+    <h3>For Data Analysts</h3>
+    <p><strong>Cleaning CSVs:</strong> You have a list of states, but some are abbreviated (NY) and some are full (New York). Use Bulk Replace to standardize them all to the full name before importing into Excel or SQL.</p>
+
+    <h2>Frequently Asked Questions (FAQ)</h2>
+
+    <h3>Is there a limit on file size?</h3>
+    <p>The tool runs client-side, so it depends on your browser's memory. Text files up to 10MB (millions of characters) are usually processed in under a second.</p>
+
+    <h3>Does Bulk Replace support Regex?</h3>
+    <p>Yes! If you check the "Use Regex" box while in Bulk Mode, every line in your rules list is treated as a Regex pattern. This allows for incredibly complex batch processing.</p>
+
+    <h3>Can I undo a replacement?</h3>
+    <p>Since this is a web tool, there is no "Ctrl+Z" for the logic itself. However, your text in the "Original Text" box remains untouched. If you make a mistake, simply clear the "Modified Text" box and try again with different settings.</p>
+
+    <h3>Is my data secure?</h3>
+    <p>Absolutely. Unlike many server-based tools, this utility processes your text using JavaScript <strong>locally on your device</strong>. No text is ever uploaded to our servers, making it safe for confidential documents and code.</p>
+
+    <h2>Conclusion</h2>
+    <p>Stop wasting time manually hunting for words to change. With the <strong>Advanced Find & Replace Tool</strong>, you can manipulate text with surgical precision. Whether you are performing a simple typo fix or a complex regex-based data transformation, this tool is the ultimate solution for efficient text editing.</p>
+
+</article>
+
+</body>
+</html>
