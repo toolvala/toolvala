@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Left Pad & Text Prefix Tool</title>
+    <style>
+        :root {
+            --primary: #2ecc71; /* Green theme for this tool */
+            --dark: #27ae60;
+            --bg: #f5f6fa;
+            --text: #2f3640;
+            --border: #dcdde1;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--dark);
+            margin-top: 0;
+        }
+
+        .description {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 25px;
+        }
+
+        .editor-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        @media(min-width: 768px) {
+            .editor-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        .control-panel {
+            background: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border);
+        }
+
+        .control-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        label { font-weight: 600; font-size: 14px; }
+
+        input[type="number"], input[type="text"], select {
+            padding: 8px;
+            border: 1px solid #bdc3c7;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 250px;
+            padding: 10px;
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            font-family: 'Courier New', Courier, monospace; /* Monospace is crucial for alignment */
+            font-size: 14px;
+            resize: vertical;
+            box-sizing: border-box;
+            white-space: pre;
+            overflow-x: auto;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+
+        .btn-copy { background-color: var(--primary); color: white; width: 100%; margin-top: 10px; }
+        .btn-copy:hover { background-color: var(--dark); }
+
+        .btn-clear { background-color: #e74c3c; color: white; font-size: 12px; padding: 5px 10px; }
+        
+        .toggle-switch {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        /* Custom switch styling */
+        .switch-btn {
+            background: #bdc3c7;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        .switch-btn.active {
+            background: var(--primary);
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Left Pad & Text Aligner</h1>
+    <p class="description">Add characters to the start of lines to reach a specific length or simply add a prefix.</p>
+
+    <!-- Controls -->
+    <div class="control-panel">
+        
+        <div class="toggle-switch">
+            <span style="font-weight:bold; margin-right:10px;">Mode:</span>
+            <div id="modePad" class="switch-btn active" onclick="setMode('pad')">Pad to Length</div>
+            <div id="modePrefix" class="switch-btn" onclick="setMode('prefix')">Add Prefix</div>
+        </div>
+
+        <div class="control-row">
+            <!-- Controls for Pad Mode -->
+            <div id="padControls" style="display:flex; gap:20px;">
+                <div class="control-group">
+                    <label for="targetLength">Target Length</label>
+                    <input type="number" id="targetLength" value="10" min="1" oninput="processText()">
+                </div>
+                <div class="control-group">
+                    <label for="padChar">Padding Character</label>
+                    <input type="text" id="padChar" value="0" maxlength="5" oninput="processText()">
+                </div>
+            </div>
+
+            <!-- Controls for Prefix Mode (Hidden by default) -->
+            <div id="prefixControls" style="display:none; gap:20px;">
+                <div class="control-group">
+                    <label for="prefixText">Prefix String</label>
+                    <input type="text" id="prefixText" placeholder='e.g. "> "' oninput="processText()">
+                </div>
+            </div>
+            
+            <div class="control-group" style="justify-content:center;">
+                <div style="display:flex; align-items:center; gap:5px; margin-top:20px;">
+                     <input type="checkbox" id="skipEmpty" checked onchange="processText()">
+                     <label for="skipEmpty" style="font-weight:normal; cursor:pointer;">Skip empty lines</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Editor Area -->
+    <div class="editor-grid">
+        <div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                <label>Input Text</label>
+                <button class="btn-clear" onclick="clearAll()">Clear</button>
+            </div>
+            <textarea id="inputText" placeholder="1&#10;2&#10;3" oninput="processText()"></textarea>
+        </div>
+        <div>
+            <label style="display:block; margin-bottom:5px;">Result</label>
+            <textarea id="outputText" readonly placeholder="0000000001&#10;0000000002&#10;0000000003"></textarea>
+            <button class="btn-copy" onclick="copyResult()" id="copyBtn">Copy to Clipboard</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentMode = 'pad';
+
+    function setMode(mode) {
+        currentMode = mode;
+        
+        // Visual updates
+        document.getElementById('modePad').classList.remove('active');
+        document.getElementById('modePrefix').classList.remove('active');
+        
+        if (mode === 'pad') {
+            document.getElementById('modePad').classList.add('active');
+            document.getElementById('padControls').style.display = 'flex';
+            document.getElementById('prefixControls').style.display = 'none';
+        } else {
+            document.getElementById('modePrefix').classList.add('active');
+            document.getElementById('padControls').style.display = 'none';
+            document.getElementById('prefixControls').style.display = 'flex';
+        }
+        processText();
+    }
+
+    function processText() {
+        const input = document.getElementById('inputText').value;
+        const skipEmpty = document.getElementById('skipEmpty').checked;
+        const outputField = document.getElementById('outputText');
+
+        if (!input) {
+            outputField.value = '';
+            return;
+        }
+
+        const lines = input.split(/\r?\n/);
+        
+        const resultLines = lines.map(line => {
+            // Check empty line skip
+            if (skipEmpty && line.trim() === '') {
+                return line;
+            }
+
+            if (currentMode === 'pad') {
+                const targetLen = parseInt(document.getElementById('targetLength').value) || 0;
+                let padChar = document.getElementById('padChar').value;
+                
+                // If user deleted pad char, default to space
+                if (padChar === '') padChar = ' ';
+
+                // Using native JavaScript padStart
+                return line.padStart(targetLen, padChar);
+            } else {
+                const prefix = document.getElementById('prefixText').value;
+                return prefix + line;
+            }
+        });
+
+        outputField.value = resultLines.join('\n');
+    }
+
+    function clearAll() {
+        document.getElementById('inputText').value = '';
+        document.getElementById('outputText').value = '';
+        document.getElementById('inputText').focus();
+    }
+
+    function copyResult() {
+        const output = document.getElementById('outputText');
+        if (!output.value) return;
+
+        output.select();
+        output.setSelectionRange(0, 99999);
+        navigator.clipboard.writeText(output.value);
+
+        const btn = document.getElementById('copyBtn');
+        const originalText = btn.innerText;
+        btn.innerText = "Copied!";
+        setTimeout(() => btn.innerText = originalText, 2000);
+    }
+</script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Left Pad Tool Guide</title>
+    <style>
+        .content-body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .content-body h1 { color: #27ae60; }
+        .content-body h2 { color: #2c3e50; margin-top: 30px; border-bottom: 2px solid #ecf0f1; padding-bottom: 5px; }
+        .content-body h3 { color: #2980b9; }
+        .content-body code { background: #f1f2f6; padding: 2px 5px; border-radius: 4px; color: #c0392b; font-family: monospace; }
+        .content-body .alert { background: #fff3cd; border: 1px solid #ffeeba; padding: 15px; border-radius: 5px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+
+<div class="content-body">
+
+    <h1>Left Pad Tool: The Ultimate Online Text Aligner and Formatter</h1>
+
+    <p>In data formatting and programming, precision is everything. Whether you are generating fixed-width files for a legacy database, formatting a list of ID numbers so they all align perfectly, or simply trying to indent a block of code, you need a reliable way to manipulate strings.</p>
+
+    <p>Welcome to the <strong>Online Left Pad Tool</strong>. This is a robust, browser-based utility that allows you to add characters (padding) to the beginning of text lines until they reach a specific length. It is also a powerful "Prefixer" that can append specific text to the start of every line in your document instantly.</p>
+
+    <h2>What is "Left Padding"?</h2>
+    <p>Left padding is a computer science term that refers to adding characters—usually spaces or zeros—to the left side (the beginning) of a string. The goal is to ensure the string reaches a pre-defined total length.</p>
+
+    <p>For example, imagine you have a list of numbers:</p>
+    <ul>
+        <li>1</li>
+        <li>20</li>
+        <li>300</li>
+    </ul>
+
+    <p>If you sort these alphabetically, "1" comes before "20", but "20" might come after "100". This causes sorting errors in databases. By using <strong>Left Pad</strong> with zeros to a target length of 3, you transform the list into:</p>
+    <ul>
+        <li>001</li>
+        <li>020</li>
+        <li>300</li>
+    </ul>
+    <p>Now, they are visually aligned and sortable.</p>
+
+    <hr>
+
+    <h2>How to Use This Tool</h2>
+    <p>We have designed this tool with two distinct modes to cover every formatting scenario.</p>
+
+    <h3>Mode 1: Pad to Length</h3>
+    <p>Use this mode when you want every line to be the exact same length (character count).</p>
+    <ol>
+        <li><strong>Select Mode:</strong> Click the "Pad to Length" toggle button.</li>
+        <li><strong>Set Target Length:</strong> Enter the total number of characters you want the final string to be (e.g., 10).</li>
+        <li><strong>Choose Padding Character:</strong> By default, this is a zero (0), but you can change it to a space, a dash (-), or any other character.</li>
+        <li><strong>Input Text:</strong> Paste your list. The tool will calculate how many characters are missing from the start of each line and fill them in automatically.</li>
+    </ol>
+
+    <h3>Mode 2: Add Prefix</h3>
+    <p>Use this mode when you simply want to add the same text to the start of every line, regardless of how long the line is.</p>
+    <ol>
+        <li><strong>Select Mode:</strong> Click the "Add Prefix" toggle button.</li>
+        <li><strong>Enter Prefix:</strong> Type the text you want to add. Common examples include:
+            <ul>
+                <li><code>&gt; </code> (for email blockquotes)</li>
+                <li><code>- [ ] </code> (for markdown checklists)</li>
+                <li><code>    </code> (4 spaces for code indentation)</li>
+            </ul>
+        </li>
+        <li><strong>Result:</strong> The prefix is instantly applied to all non-empty lines.</li>
+    </ol>
+
+    <hr>
+
+    <h2>Why Use an Online Padding Tool?</h2>
+
+    <h3>1. Fix CSV and Excel Formatting</h3>
+    <p>Excel is notorious for stripping leading zeros. If you open a CSV file containing ZIP codes (e.g., "02134") or Product IDs, Excel often converts "02134" to "2134". This ruins the data integrity. You can paste that column into our Left Pad tool, set the target length to 5 and the pad character to "0", and instantly restore your data before importing it back.</p>
+
+    <h3>2. Code Indentation</h3>
+    <p>Developers often receive code snippets that are flattened (no indentation). Using the "Add Prefix" mode, you can quickly add tabs or spaces to hundreds of lines of code to make it readable again.</p>
+
+    <h3>3. SQL and Database Queries</h3>
+    <p>When generating massive <code>INSERT</code> statements or formatting data for fixed-width text files (often used in banking and mainframe systems), precise character counts are mandatory. This tool ensures you never have a "Short Record" error.</p>
+
+    <h3>4. The "Left-Pad" Incident</h3>
+    <p>In the programming world, "left-pad" is famous. In 2016, a developer removed a tiny piece of code called <code>left-pad</code> from the internet, which caused thousands of major websites (including Facebook and Netflix dev tools) to crash because they relied on it. This highlighted how essential this simple function is. Our tool provides this functionality directly in your browser, so you never have to rely on a third-party library.</p>
+
+    <hr>
+
+    <h2>Features of Our Tool</h2>
+
+    <ul>
+        <li><strong>100% Client-Side:</strong> Your data is processed using JavaScript in your own browser. No data is sent to our servers, ensuring total privacy for your sensitive financial or code data.</li>
+        <li><strong>Multi-Character Padding:</strong> Unlike basic tools, you aren't limited to just spaces or zeros. You can pad with patterns like "AB" (generating "ABABText").</li>
+        <li><strong>Empty Line Detection:</strong> A smart checkbox allows you to skip empty lines, keeping your document formatting clean without adding random zeros to blank spaces.</li>
+        <li><strong>Monospace Editor:</strong> The input and output fields use a Monospace font (Courier), allowing you to visually verify that your text is perfectly aligned.</li>
+    </ul>
+
+    <hr>
+
+    <h2>Frequently Asked Questions (FAQ)</h2>
+
+    <h3>What happens if my text is longer than the target length?</h3>
+    <p>In "Pad to Length" mode, if a line is already longer than your target length, the tool will <strong>not</strong> truncate (cut) it. It simply leaves it alone. This ensures you don't accidentally lose data.</p>
+
+    <h3>Can I use this for Right Padding?</h3>
+    <p>Currently, this tool is optimized for Left Padding (adding to the start). However, right padding is often just referred to as "text alignment," which many text editors handle natively.</p>
+
+    <h3>Is this tool free?</h3>
+    <p>Yes, the Left Pad Tool is completely free to use for personal and commercial projects. There are no API limits or paywalls.</p>
+
+    <h3>How do I handle "Tab" characters?</h3>
+    <p>You can copy a Tab character from a text editor and paste it into the "Prefix String" or "Padding Character" input box. The tool supports all standard text characters.</p>
+
+    <hr>
+
+    <h2>Conclusion</h2>
+    <p>Formatting text lists doesn't have to be a manual headache. Whether you are correcting Excel errors, formatting SQL data, or preparing a markdown document, the <strong>Left Pad Tool</strong> is your instant solution for perfect text alignment. Bookmark this page to ensure you always have access to quick, secure, and accurate string manipulation.</p>
+
+</div>
+
+</body>
+</html>
