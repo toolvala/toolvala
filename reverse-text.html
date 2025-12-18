@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Reverse Text Tool</title>
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --secondary: #a29bfe;
+            --bg: #dfe6e9;
+            --text: #2d3436;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        .tool-container {
+            background: var(--white);
+            width: 100%;
+            max-width: 850px;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        h1 { text-align: center; color: var(--primary); margin-top: 0; }
+        
+        .description {
+            text-align: center;
+            color: #636e72;
+            margin-bottom: 25px;
+        }
+
+        .io-wrapper {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        @media(min-width: 768px) {
+            .io-wrapper { grid-template-columns: 1fr 1fr; }
+        }
+
+        label { font-weight: bold; display: block; margin-bottom: 8px; }
+
+        textarea {
+            width: 100%;
+            height: 250px;
+            padding: 15px;
+            border: 2px solid #b2bec3;
+            border-radius: 8px;
+            font-size: 16px;
+            resize: vertical;
+            box-sizing: border-box;
+            font-family: monospace; /* Helps align text */
+        }
+
+        textarea:focus { outline: none; border-color: var(--primary); }
+
+        .controls {
+            background: #f1f2f6;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mode-group {
+            display: flex;
+            gap: 15px;
+        }
+
+        /* Custom Radio Buttons */
+        .radio-label {
+            cursor: pointer;
+            padding: 8px 16px;
+            border: 2px solid var(--primary);
+            border-radius: 20px;
+            transition: all 0.2s;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        input[type="radio"] { display: none; }
+
+        input[type="radio"]:checked + .radio-label {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            transition: transform 0.1s;
+        }
+
+        button:active { transform: scale(0.98); }
+
+        .btn-action { background-color: var(--primary); color: white; min-width: 150px; }
+        .btn-action:hover { background-color: #5849be; }
+
+        .btn-clear { background-color: #ff7675; color: white; }
+        .btn-copy { background-color: #00b894; color: white; width: 100%; margin-top: 10px; }
+
+    </style>
+</head>
+<body>
+
+<div class="tool-container">
+    <h1>Text Reverser Suite</h1>
+    <p class="description">Reverse characters, words, or whole lines instantly.</p>
+
+    <!-- Controls Section -->
+    <div class="controls">
+        <div class="mode-group">
+            <label>
+                <input type="radio" name="mode" value="line" checked onchange="processText()">
+                <span class="radio-label">Reverse Lines</span>
+            </label>
+            <label>
+                <input type="radio" name="mode" value="word" onchange="processText()">
+                <span class="radio-label">Reverse Words</span>
+            </label>
+            <label>
+                <input type="radio" name="mode" value="char" onchange="processText()">
+                <span class="radio-label">Reverse Text (abc&rarr;cba)</span>
+            </label>
+        </div>
+        
+        <div style="display: flex; align-items: center; gap: 5px;">
+             <input type="checkbox" id="liveMode" checked> 
+             <label for="liveMode" style="margin:0; font-weight:normal; cursor:pointer;">Live Mode (Auto)</label>
+        </div>
+    </div>
+
+    <div class="io-wrapper">
+        <!-- Input -->
+        <div>
+            <div style="display:flex; justify-content:space-between;">
+                <label for="input">Input:</label>
+                <button class="btn-clear" onclick="clearText()" style="padding: 4px 10px; font-size: 12px;">Clear</button>
+            </div>
+            <textarea id="input" placeholder="Type or paste content here..." oninput="handleInput()"></textarea>
+        </div>
+
+        <!-- Output -->
+        <div>
+            <label for="output">Result:</label>
+            <textarea id="output" readonly placeholder="Output appears here..."></textarea>
+            <button class="btn-copy" onclick="copyText()" id="copyBtn">Copy Result</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function handleInput() {
+        const isLive = document.getElementById('liveMode').checked;
+        if(isLive) {
+            processText();
+        }
+    }
+
+    function processText() {
+        const input = document.getElementById('input').value;
+        const mode = document.querySelector('input[name="mode"]:checked').value;
+        let result = '';
+
+        if (!input) {
+            document.getElementById('output').value = '';
+            return;
+        }
+
+        switch (mode) {
+            case 'line':
+                // Splits by new line, reverses array, joins back
+                result = input.split(/\r?\n/).reverse().join('\n');
+                break;
+                
+            case 'word':
+                // Preserves lines, but reverses words inside them
+                result = input.split(/\r?\n/).map(line => {
+                    return line.split(' ').reverse().join(' ');
+                }).join('\n');
+                break;
+
+            case 'char':
+                // Reverses the entire string completely
+                result = input.split('').reverse().join('');
+                break;
+        }
+
+        document.getElementById('output').value = result;
+    }
+
+    function clearText() {
+        document.getElementById('input').value = '';
+        document.getElementById('output').value = '';
+        document.getElementById('input').focus();
+    }
+
+    function copyText() {
+        const output = document.getElementById('output');
+        if (!output.value) return;
+        
+        output.select();
+        output.setSelectionRange(0, 99999);
+        navigator.clipboard.writeText(output.value);
+
+        const btn = document.getElementById('copyBtn');
+        const originalText = btn.innerText;
+        btn.innerText = "Copied!";
+        setTimeout(() => btn.innerText = originalText, 2000);
+    }
+</script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Reverse Text Tool Content</title>
+    <style>
+        .seo-content {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .seo-content h1 { color: #2c3e50; font-size: 2.5rem; margin-bottom: 1rem; }
+        .seo-content h2 { color: #34495e; font-size: 1.8rem; margin-top: 2rem; border-bottom: 2px solid #ecf0f1; padding-bottom: 0.5rem; }
+        .seo-content h3 { color: #6c5ce7; font-size: 1.4rem; margin-top: 1.5rem; }
+        .seo-content p { margin-bottom: 1.2rem; }
+        .seo-content ul { margin-bottom: 1.5rem; }
+        .seo-content li { margin-bottom: 0.5rem; }
+        .seo-content strong { color: #2d3436; }
+        .seo-content .highlight-box { background-color: #f8f9fa; border-left: 4px solid #6c5ce7; padding: 15px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+
+<article class="seo-content">
+
+    <h1>Free Online Reverse Text Generator: Flip Words, Lines, and Characters Instantly</h1>
+
+    <p>Welcome to the ultimate <strong>Reverse Text Tool</strong>. Whether you need to flip a list of data, reverse the order of words in a sentence, or completely mirror a string of text character-by-character, this utility handles it all. Built with modern, client-side technology, it offers real-time results without ever sending your data to a server.</p>
+
+    <p>Text manipulation is a common need for developers, writers, social media enthusiasts, and data analysts. However, most text editors don't have a "Reverse" button. That is why we created this all-in-one solution to generate backwards text, flip list orders, and rephrase sentences in seconds.</p>
+
+    <h2>How to Use the Reverse Text Tool</h2>
+    <p>Our tool is designed for simplicity. You don't need to install software or register an account. Just follow these three steps:</p>
+
+    <ol>
+        <li><strong>Enter Your Text:</strong> Type or paste your content into the "Input" box.</li>
+        <li><strong>Select Your Mode:</strong> Choose one of the three reversal methods:
+            <ul>
+                <li><em>Reverse Lines:</em> Flips the vertical order of a list.</li>
+                <li><em>Reverse Words:</em> Keeps the lines intact but swaps the word order (e.g., "Hello World" &rarr; "World Hello").</li>
+                <li><em>Reverse Characters:</em> Completely mirrors the text (e.g., "ABC" &rarr; "CBA").</li>
+            </ul>
+        </li>
+        <li><strong>Copy Result:</strong> The tool processes your text instantly. Click the "Copy Result" button to save it to your clipboard.</li>
+    </ol>
+
+    <div class="highlight-box">
+        <strong>Pro Tip:</strong> Enable "Live Mode" to see your text flip in real-time as you type!
+    </div>
+
+    <h2>Three Powerful Modes Explained</h2>
+    <p>Unlike basic tools that only do one thing, our <strong>Reverse Text Generator</strong> offers three distinct functionalities to cover every use case.</p>
+
+    <h3>1. Reverse Lines (List Flipper)</h3>
+    <p>This is the most common tool for data organization. If you have a list of items, dates, or log entries sorted chronologically (A to Z), and you need them anti-chronological (Z to A), this mode is for you.</p>
+    <p><em>Example:</em><br>
+    Input:<br>
+    1. Alpha<br>
+    2. Beta<br>
+    3. Gamma<br>
+    <br>
+    <strong>Output:</strong><br>
+    3. Gamma<br>
+    2. Beta<br>
+    1. Alpha</p>
+
+    <h3>2. Reverse Words (Sentence Reorder)</h3>
+    <p>This mode is tricky but useful. It preserves the order of the letters <em>within</em> the word, but changes the position of the word in the sentence. This is often used for creative writing, poetry, or correcting data that was exported in "Last Name, First Name" format when you need "First Name, Last Name."</p>
+    <p><em>Example:</em><br>
+    Input: "The quick brown fox"<br>
+    <strong>Output:</strong> "fox brown quick The"</p>
+
+    <h3>3. Reverse Characters (Mirror Text)</h3>
+    <p>This is the classic "Backwards Text" effect. It reverses the entire string. This is popular on social media (Twitter, Instagram, TikTok) for creating unique bios, or for developers testing "Palindromes" (words that read the same forwards and backwards).</p>
+    <p><em>Example:</em><br>
+    Input: "Hello"<br>
+    <strong>Output:</strong> "olleH"</p>
+
+    <h2>Why Use a Client-Side Tool?</h2>
+    <p>In the world of online tools, <strong>privacy is paramount</strong>. Many text generators process your input on a backend server. This means your text travels across the internet, is processed in a database, and sent back to you. This creates a risk if you are working with sensitive data like passwords, emails, or proprietary code.</p>
+
+    <p>Our Reverse Text Tool is <strong>100% Client-Side</strong>. This means:</p>
+    <ul>
+        <li><strong>Zero Latency:</strong> Because the processing happens in your browser (using JavaScript), the results are instant. There is no loading time.</li>
+        <li><strong>Total Privacy:</strong> Your text never leaves your device. You can even use this tool while offline (without an internet connection).</li>
+        <li><strong>Security:</strong> Since no data is transmitted, there is zero risk of data interception or logging.</li>
+    </ul>
+
+    <h2>Real-World Use Cases</h2>
+
+    <h3>For Social Media & Fun</h3>
+    <p>Stand out in the comments section or your profile bio by using backwards text. It catches the eye and forces people to stop scrolling to decode your message. It is also great for sending "secret" messages to friends that require a tool to decode.</p>
+
+    <h3>For Developers & QA Testers</h3>
+    <p>Programmers often use this tool to test algorithms. For example, checking if a string reversal function in Python or Java is working correctly by comparing it against our tool. It is also useful for generating test cases for database sorting.</p>
+
+    <h3>For Graphic Designers</h3>
+    <p>Designers occasionally need mirror text for printing purposes (like iron-on T-shirt transfers) or for artistic layouts where text needs to be reflected.</p>
+
+    <h3>For Data Analysts</h3>
+    <p>If you have a column of data in Excel or a CSV file that is sorted the wrong way, copying it here and using "Reverse Lines" is often faster than creating a custom sort filter in spreadsheet software.</p>
+
+    <h2>Frequently Asked Questions (FAQ)</h2>
+
+    <h3>Is this Reverse Text Tool free?</h3>
+    <p>Yes, it is completely free to use. There are no limits on usage, no ads, and no subscription fees.</p>
+
+    <h3>Does it work on Mobile?</h3>
+    <p>Absolutely. The interface is fully responsive. Whether you are on an iPhone, Android, Tablet, or Desktop, the layout adjusts to fit your screen perfectly.</p>
+
+    <h3>What is a Palindrome?</h3>
+    <p>A palindrome is a word, phrase, or sequence that reads the same backward as forward. Examples include "madam," "racecar," and "level." You can use our "Reverse Characters" mode to check if a word is a palindrome; if the output matches the input, it is a palindrome!</p>
+
+    <h3>Can I reverse code snippets?</h3>
+    <p>Yes. The "Reverse Lines" mode is particularly useful for developers who need to reverse the order of execution in a script or read a stack trace from bottom to top.</p>
+
+    <h2>Conclusion</h2>
+    <p>Don't waste time manually retyping data or writing custom scripts just to flip text. Our <strong>Online Reverse Text Generator</strong> provides a fast, secure, and versatile solution for all your text manipulation needs. Bookmark this page today and streamline your workflow with the power of instant text reversal.</p>
+
+</article>
+
+</body>
+</html>
