@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Center Text & String Padding Tool</title>
+    <style>
+        :root {
+            --primary: #9b59b6; /* Purple theme for 'Center/Balance' */
+            --dark: #8e44ad;
+            --bg: #f3e5f5;
+            --text: #2c3e50;
+            --border: #dcdde1;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--dark);
+            margin-top: 0;
+            font-size: 2.2rem;
+        }
+
+        .description {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 25px;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .workspace {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        @media(min-width: 768px) {
+            .workspace { grid-template-columns: 1fr 1fr; }
+        }
+
+        .controls {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: flex-end;
+            justify-content: center;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        label { font-weight: 700; font-size: 13px; color: #555; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        input[type="number"], input[type="text"] {
+            padding: 10px;
+            border: 1px solid #bdc3c7;
+            border-radius: 6px;
+            font-size: 16px;
+            width: 100%;
+            box-sizing: border-box;
+            transition: border 0.3s;
+        }
+
+        input[type="number"]:focus, input[type="text"]:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        textarea {
+            width: 100%;
+            height: 300px;
+            padding: 15px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-family: 'Courier New', Courier, monospace; /* Monospace is MANDATORY for centering */
+            font-size: 14px;
+            resize: vertical;
+            box-sizing: border-box;
+            white-space: pre; 
+            overflow-x: auto;
+            line-height: 1.5;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            align-items: center;
+        }
+
+        button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+
+        .btn-clear { background-color: #fab1a0; color: #d63031; }
+        .btn-clear:hover { background-color: #ff7675; color: white; }
+
+        .btn-copy { 
+            background-color: var(--primary); 
+            color: white; 
+            width: 100%; 
+            padding: 12px;
+            font-size: 16px;
+            margin-top: 10px; 
+            box-shadow: 0 4px 6px rgba(155, 89, 182, 0.3);
+        }
+        .btn-copy:hover { background-color: var(--dark); transform: translateY(-1px); }
+
+        .ruler {
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: #aaa;
+            text-align: center;
+            margin-top: 5px;
+            letter-spacing: 0px;
+        }
+        
+        /* Auto-calculate button styling */
+        .btn-auto {
+            background: #34495e;
+            color: white;
+            padding: 10px 15px;
+        }
+        .btn-auto:hover { background: #2c3e50; }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Center Text Generator</h1>
+    <p class="description">Physically center align your text strings by padding them with spaces or characters to a fixed width.</p>
+
+    <!-- Controls -->
+    <div class="controls">
+        <div class="control-group" style="width: 120px;">
+            <label for="totalWidth">Total Width</label>
+            <input type="number" id="totalWidth" value="80" min="10" oninput="processText()">
+        </div>
+
+        <div class="control-group" style="width: 100px;">
+            <label for="padChar">Pad Char</label>
+            <input type="text" id="padChar" value=" " maxlength="1" oninput="processText()" style="text-align:center;">
+        </div>
+
+        <div class="control-group">
+            <label>&nbsp;</label>
+            <button class="btn-auto" onclick="setMaxWidth()">Match Longest Line</button>
+        </div>
+
+        <div class="control-group" style="justify-content: center;">
+             <div style="display:flex; align-items:center; gap:8px;">
+                 <input type="checkbox" id="trimFirst" checked onchange="processText()" style="width:auto;">
+                 <label for="trimFirst" style="font-weight:normal; text-transform:none; cursor:pointer;">Trim whitespace first</label>
+             </div>
+        </div>
+    </div>
+
+    <!-- Workspace -->
+    <div class="workspace">
+        <!-- Input -->
+        <div>
+            <div class="toolbar">
+                <label>Input Text</label>
+                <button class="btn-clear" onclick="clearAll()">Clear</button>
+            </div>
+            <textarea id="input" placeholder="Title&#10;Subtitle&#10;Author Name" oninput="processText()"></textarea>
+            <div class="ruler">Input text alignment</div>
+        </div>
+
+        <!-- Output -->
+        <div>
+            <div class="toolbar">
+                <label>Centered Output</label>
+            </div>
+            <textarea id="output" readonly placeholder="Result appears here..."></textarea>
+            <div class="ruler" id="rulerText">Width: 80 chars</div>
+            <button class="btn-copy" onclick="copyResult()" id="copyBtn">Copy Centered Text</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function processText() {
+        const inputField = document.getElementById('input');
+        const outputField = document.getElementById('output');
+        let width = parseInt(document.getElementById('totalWidth').value) || 80;
+        let padChar = document.getElementById('padChar').value;
+        const trimFirst = document.getElementById('trimFirst').checked;
+
+        // If user clears the pad char, default to space
+        if (padChar === '') padChar = ' ';
+        // Update ruler text
+        document.getElementById('rulerText').innerText = `Width: ${width} chars`;
+
+        const lines = inputField.value.split(/\r?\n/);
+        
+        const centeredLines = lines.map(line => {
+            let txt = line;
+            if (trimFirst) txt = txt.trim();
+            
+            // If line is longer than width, return as is (or truncate if we wanted strict mode)
+            if (txt.length >= width) return txt;
+
+            const totalPadding = width - txt.length;
+            const leftPad = Math.floor(totalPadding / 2);
+            const rightPad = totalPadding - leftPad;
+
+            return padChar.repeat(leftPad) + txt + padChar.repeat(rightPad);
+        });
+
+        outputField.value = centeredLines.join('\n');
+    }
+
+    function setMaxWidth() {
+        const lines = document.getElementById('input').value.split(/\r?\n/);
+        let max = 0;
+        lines.forEach(line => {
+            if (line.trim().length > max) max = line.trim().length;
+        });
+        
+        // Add a little breathing room (e.g., 4 chars)
+        const newWidth = max + 8; 
+        document.getElementById('totalWidth').value = newWidth;
+        processText();
+    }
+
+    function clearAll() {
+        document.getElementById('input').value = '';
+        document.getElementById('output').value = '';
+        document.getElementById('input').focus();
+    }
+
+    function copyResult() {
+        const output = document.getElementById('output');
+        if (!output.value) return;
+
+        output.select();
+        output.setSelectionRange(0, 99999);
+        navigator.clipboard.writeText(output.value).then(() => {
+            const btn = document.getElementById('copyBtn');
+            const originalText = btn.innerText;
+            btn.innerText = "Copied!";
+            btn.style.backgroundColor = "#27ae60";
+            
+            setTimeout(() => {
+                btn.innerText = originalText;
+                btn.style.backgroundColor = ""; 
+            }, 2000);
+        });
+    }
+</script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Center Text Tool Guide</title>
+    <style>
+        .article-body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .article-body h1 { color: #8e44ad; font-size: 2.5em; border-bottom: 2px solid #f3e5f5; padding-bottom: 10px; }
+        .article-body h2 { color: #9b59b6; margin-top: 40px; }
+        .article-body h3 { color: #34495e; margin-top: 30px; }
+        .article-body p { margin-bottom: 1.2em; font-size: 1.05em; }
+        .article-body ul, .article-body ol { margin-bottom: 1.5em; padding-left: 25px; }
+        .article-body li { margin-bottom: 8px; }
+        .article-body pre { background: #2d3436; color: #dfe6e9; padding: 15px; border-radius: 6px; overflow-x: auto; }
+        .article-body code { background: #f0f0f1; color: #c0392b; padding: 2px 5px; border-radius: 4px; font-family: monospace; }
+        .article-body .note-box { background-color: #e8f6f3; border-left: 5px solid #1abc9c; padding: 20px; margin: 25px 0; }
+    </style>
+</head>
+<body>
+
+<article class="article-body">
+
+    <h1>Center Text Generator: Align Plain Text with Padding</h1>
+
+    <p>In the world of web design, centering text is easy—you just use <code>text-align: center</code>. But what if you are working in a plain text environment? What if you are writing a <code>readme.txt</code> file, adding comments to your Python code, or formatting a header for a SQL report?</p>
+
+    <p>In these environments, CSS doesn't exist. To center text, you must physically add spaces to the left and right of your words until they sit in the middle of the line. Doing this manually (hitting the spacebar repeatedly) is tedious and inaccurate.</p>
+
+    <p>Welcome to the <strong>Online Center Text Tool</strong>. This utility automates the process of "Physical Centering." It calculates exactly how many padding characters are needed on each side of your string to ensure it is perfectly centered within a specific width.</p>
+
+    <hr>
+
+    <h2>Visual Centering vs. Physical Centering</h2>
+    <p>It is important to understand the difference between the two main types of text alignment.</p>
+
+    <h3>1. Visual Centering (CSS/Word)</h3>
+    <p>This is what happens in Microsoft Word or on a website. The computer calculates the whitespace on the fly. The text file itself doesn't contain spaces; the software simply draws the text in the middle of the screen. If you copy this text to Notepad, the centering disappears, and the text snaps back to the left.</p>
+
+    <h3>2. Physical Centering (This Tool)</h3>
+    <p>This method modifies the actual string data. It inserts "hard spaces" (ASCII 32) before the text. If you copy the result to Notepad, code editors, or an email, the text <strong>remains centered</strong> because the spaces are part of the content.</p>
+
+    <p><em>Example:</em></p>
+    <pre>
+       Title       
+     Subtitle      
+   Author Name     
+    </pre>
+
+    <hr>
+
+    <h2>How to Use the Center Text Tool</h2>
+
+    <h3>Step 1: Set Your Width</h3>
+    <p>First, you must decide how wide your "canvas" is. Standard code terminals are often <strong>80 characters</strong> wide. Printed documents might be around 100 characters. Enter this number in the "Total Width" field.</p>
+    <p>If you aren't sure, click the <strong>"Match Longest Line"</strong> button. The tool will scan your input, find the longest sentence, add a margin, and set that as the width.</p>
+
+    <h3>Step 2: Choose Padding Character</h3>
+    <p>By default, we use a space. However, you can get creative! Try using:</p>
+    <ul>
+        <li><strong>Hyphens (-):</strong> for Markdown headers (e.g., <code>--- Title ---</code>).</li>
+        <li><strong>Equals (=):</strong> for strong emphasis (e.g., <code>=== NOTICE ===</code>).</li>
+        <li><strong>Stars (*):</strong> for comments (e.g., <code>*** IMPORTANT ***</code>).</li>
+    </ul>
+
+    <h3>Step 3: Paste and Copy</h3>
+    <p>Paste your raw text into the input box. The tool instantly calculates the math: <code>(TotalWidth - TextLength) / 2</code>. It adds the result to the left side and the remainder to the right side.</p>
+
+    <div class="note-box">
+        <strong>Pro Tip:</strong> Ensure the software where you paste the result uses a <strong>Monospace Font</strong> (like Courier, Consolas, or Fira Code). If you use a proportional font (like Arial), the spaces will be thinner than the letters, and the centering will look slightly off.
+    </div>
+
+    <hr>
+
+    <h2>Real-World Use Cases</h2>
+
+    <h3>1. Coding Comments and Headers</h3>
+    <p>Developers love clean code. When separating sections in a massive file, a centered block comment stands out.</p>
+    <p><em>Input:</em> "Database Config"</p>
+    <p><em>Output (Width 40, Pad with *):</em></p>
+    <pre>*********** Database Config ************</pre>
+
+    <h3>2. ASCII Art and Readme Files</h3>
+    <p>GitHub <code>README.md</code> files often use plain text diagrams. If you are building a text-based table or an ASCII banner, this tool ensures your title sits directly in the middle of the box.</p>
+
+    <h3>3. Legacy Report Formatting</h3>
+    <p>Banks, logistics companies, and hospitals often use mainframe systems that print reports in plain text (fixed-width format). Aligning the column headers manually is a nightmare. This tool guarantees that "Account Balance" is centered over the 15-character column perfectly.</p>
+
+    <h3>4. Social Media Bios</h3>
+    <p>Want your Instagram or Twitter bio to look unique? While you can't force true alignment on social apps, using "Braille Spaces" or specific symbols to pad your text can create a centered effect on many mobile screens.</p>
+
+    <hr>
+
+    <h2>Technical Details: The Centering Algorithm</h2>
+
+    <p>For those learning JavaScript, here is the logic used in this tool:</p>
+    <ol>
+        <li><strong>Trim:</strong> First, <code>line.trim()</code> removes any existing accidental spaces so we start with a clean string.</li>
+        <li><strong>Calculate Gap:</strong> We subtract the string length from the target width. <br><code>gap = width - string.length</code></li>
+        <li><strong>Divide:</strong> We divide the gap by 2.
+            <ul>
+                <li>Left Padding = <code>Math.floor(gap / 2)</code></li>
+                <li>Right Padding = <code>gap - Left Padding</code></li>
+            </ul>
+        </li>
+        <li><strong>Construct:</strong> We combine the strings: <br><code>padChar.repeat(left) + string + padChar.repeat(right)</code></li>
+    </ol>
+    <p>This logic handles "odd" numbers perfectly. If you have a 10-character space and a 3-character word (gap of 7), it puts 3 spaces on the left and 4 on the right, keeping it as centered as mathematically possible.</p>
+
+    <hr>
+
+    <h2>Frequently Asked Questions (FAQ)</h2>
+
+    <h3>Why does my text look un-centered in Word/Email?</h3>
+    <p>This usually happens because you are using a font like Times New Roman or Arial. In these fonts, the letter "i" is very thin, and the letter "w" is very wide. A "space" character is also thin. <br>To see the perfect centering, you must switch your font to <strong>Courier New</strong> or <strong>Consolas</strong>.</p>
+
+    <h3>What happens if my text is longer than the width?</h3>
+    <p>The tool is designed to be non-destructive. If your text is 100 characters long, but you set the width to 80, the tool will simply do nothing to that line. It will not delete or truncate your text.</p>
+
+    <h3>Can I center text with HTML code?</h3>
+    <p>If you are building a website, do not use this tool. Instead, use the CSS property <code>text-align: center;</code> on your parent element. This tool is strictly for generating plain text strings.</p>
+
+    <h3>Is this tool secure?</h3>
+    <p>Yes. It runs <strong>client-side</strong>. Your data is processed in your own browser's memory and is never sent to an external server. You can safely format passwords, API keys, or private notes.</p>
+
+    <hr>
+
+    <h2>Conclusion</h2>
+    <p>Physical text centering is a niche but vital skill in data formatting and programming. The <strong>Center Text Generator</strong> bridges the gap between manual spacing and automated perfection. Whether you are beautifying a code base or formatting a plain-text invoice, this tool saves you time and ensures pixel-perfect (or rather, character-perfect) alignment.</p>
+
+</article>
+
+</body>
+</html>
