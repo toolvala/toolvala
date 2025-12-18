@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unindent Text & Code Dedenter</title>
+    <style>
+        :root {
+            --primary: #e84393; /* Pink theme for 'Reduction/removal' */
+            --dark: #d63031;
+            --bg: #fff0f6;
+            --text: #2d3436;
+            --border: #fab1a0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 950px;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary);
+            margin-top: 0;
+            font-size: 2.2rem;
+        }
+
+        .description {
+            text-align: center;
+            color: #636e72;
+            margin-bottom: 25px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .workspace {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        @media(min-width: 800px) {
+            .workspace { grid-template-columns: 1fr 1fr; }
+        }
+
+        .controls {
+            background: #ffeaa7; /* Soft yellow for highlighting controls */
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border: 1px solid #fdcb6e;
+        }
+
+        .mode-selector {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .mode-btn {
+            background: white;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .mode-btn.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 10px rgba(232, 67, 147, 0.3);
+        }
+
+        .mode-btn:hover:not(.active) {
+            background: #fff5f8;
+        }
+
+        .sub-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(0,0,0,0.05);
+        }
+
+        label { font-weight: 600; font-size: 14px; color: #555; }
+
+        input[type="number"] {
+            padding: 8px;
+            border: 1px solid #bdc3c7;
+            border-radius: 4px;
+            font-size: 14px;
+            width: 60px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 350px;
+            padding: 15px;
+            border: 2px solid #dfe6e9;
+            border-radius: 8px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* Critical for code */
+            font-size: 13px;
+            resize: vertical;
+            box-sizing: border-box;
+            white-space: pre; 
+            overflow-x: auto;
+            line-height: 1.5;
+            tab-size: 4;
+            background: #fafafa;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+        }
+
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            align-items: flex-end;
+        }
+
+        button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+
+        .btn-clear { background-color: #ff7675; color: white; }
+        .btn-clear:hover { background-color: #d63031; }
+
+        .btn-copy { 
+            background-color: var(--primary); 
+            color: white; 
+            width: 100%; 
+            padding: 12px;
+            font-size: 16px;
+            margin-top: 10px; 
+        }
+        .btn-copy:hover { background-color: #c42b75; }
+
+        .info-pill {
+            background: #74b9ff;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Unindent Code & Text</h1>
+    <p class="description">
+        Shift text to the left while preserving relative formatting. Perfect for fixing nested code blocks copied from websites.
+    </p>
+
+    <!-- Controls -->
+    <div class="controls">
+        <div class="mode-selector">
+            <button class="mode-btn active" onclick="setMode('smart')" id="btnSmart">
+                Smart Unindent (Dedent)
+            </button>
+            <button class="mode-btn" onclick="setMode('flatten')" id="btnFlatten">
+                Flatten All (Strip Left)
+            </button>
+            <button class="mode-btn" onclick="setMode('manual')" id="btnManual">
+                Manual Shift Left
+            </button>
+        </div>
+
+        <div class="sub-controls" id="manualControls" style="display:none;">
+            <label for="shiftAmount">Spaces to remove:</label>
+            <input type="number" id="shiftAmount" value="4" min="1" oninput="processText()">
+            <span style="font-size:12px; color:#666;">(Or 1 Tab)</span>
+        </div>
+        
+        <div class="sub-controls" id="smartControls">
+            <span style="font-size:13px; color:#555;"><i>Automatically detects common indentation and removes it.</i></span>
+        </div>
+    </div>
+
+    <!-- Workspace -->
+    <div class="workspace">
+        <!-- Input -->
+        <div>
+            <div class="toolbar">
+                <label>Input (Indented Text)</label>
+                <button class="btn-clear" onclick="clearAll()">Clear</button>
+            </div>
+            <textarea id="input" placeholder="    def function():&#10;        print('Hello')&#10;        return True" oninput="processText()"></textarea>
+        </div>
+
+        <!-- Output -->
+        <div>
+            <div class="toolbar">
+                <label>Unindented Result</label>
+                <span class="info-pill" id="removedStats">Removed: 0 chars</span>
+            </div>
+            <textarea id="output" readonly placeholder="def function():&#10;    print('Hello')&#10;    return True"></textarea>
+            <button class="btn-copy" onclick="copyResult()" id="copyBtn">Copy Code</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentMode = 'smart';
+
+    function setMode(mode) {
+        currentMode = mode;
+        
+        // Update UI
+        document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+        if(mode === 'smart') document.getElementById('btnSmart').classList.add('active');
+        if(mode === 'flatten') document.getElementById('btnFlatten').classList.add('active');
+        if(mode === 'manual') document.getElementById('btnManual').classList.add('active');
+
+        // Toggle Controls
+        document.getElementById('manualControls').style.display = (mode === 'manual') ? 'flex' : 'none';
+        document.getElementById('smartControls').style.display = (mode === 'smart') ? 'flex' : 'none';
+
+        processText();
+    }
+
+    function processText() {
+        const input = document.getElementById('input').value;
+        const output = document.getElementById('output');
+        
+        if (!input) {
+            output.value = '';
+            document.getElementById('removedStats').innerText = "Removed: 0 chars";
+            return;
+        }
+
+        const lines = input.split(/\r?\n/);
+        let resultLines = [];
+        let removalCount = 0;
+
+        if (currentMode === 'flatten') {
+            // Simply trimStart every line
+            resultLines = lines.map(line => line.trimStart());
+        } 
+        else if (currentMode === 'manual') {
+            // Remove first N characters if they are whitespace
+            const amount = parseInt(document.getElementById('shiftAmount').value) || 4;
+            const regex = new RegExp(`^ {1,${amount}}|^\\t`); // Match up to N spaces OR 1 tab
+            
+            resultLines = lines.map(line => line.replace(regex, ''));
+        } 
+        else if (currentMode === 'smart') {
+            // 1. Find the shortest leading whitespace among non-empty lines
+            let minIndent = Infinity;
+            let commonIndent = "";
+
+            // First pass: find min indent length
+            lines.forEach(line => {
+                if (line.trim().length === 0) return; // Skip empty lines
+                const match = line.match(/^(\s*)/);
+                const indent = match ? match[1] : "";
+                if (indent.length < minIndent) {
+                    minIndent = indent.length;
+                    commonIndent = indent;
+                }
+            });
+
+            if (minIndent === Infinity) minIndent = 0;
+
+            // Second pass: remove that common indent from everyone
+            resultLines = lines.map(line => {
+                if (line.trim().length === 0) return ""; // Clean empty lines
+                if (line.startsWith(commonIndent)) {
+                    removalCount = commonIndent.length;
+                    return line.substring(minIndent);
+                }
+                return line;
+            });
+            
+            document.getElementById('removedStats').innerText = `Dedeanted: ${minIndent} chars`;
+        }
+
+        output.value = resultLines.join('\n');
+    }
+
+    function clearAll() {
+        document.getElementById('input').value = '';
+        document.getElementById('output').value = '';
+        document.getElementById('input').focus();
+    }
+
+    function copyResult() {
+        const output = document.getElementById('output');
+        if (!output.value) return;
+
+        output.select();
+        output.setSelectionRange(0, 99999);
+        navigator.clipboard.writeText(output.value).then(() => {
+            const btn = document.getElementById('copyBtn');
+            const originalText = btn.innerText;
+            btn.innerText = "Copied to Clipboard!";
+            btn.style.backgroundColor = "#27ae60";
+            setTimeout(() => {
+                btn.innerText = originalText;
+                btn.style.backgroundColor = ""; 
+            }, 2000);
+        });
+    }
+</script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Unindent Text Tool Guide</title>
+    <style>
+        .article-body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .article-body h1 { color: #e84393; font-size: 2.5rem; border-bottom: 2px solid #fce4ec; padding-bottom: 10px; }
+        .article-body h2 { color: #d63031; margin-top: 40px; font-size: 1.8rem; }
+        .article-body h3 { color: #2d3436; margin-top: 30px; }
+        .article-body p { margin-bottom: 1.5rem; font-size: 1.1rem; }
+        .article-body ul { margin-bottom: 1.5rem; padding-left: 20px; }
+        .article-body li { margin-bottom: 10px; }
+        .article-body pre { background: #2d3436; color: #fab1a0; padding: 15px; border-radius: 8px; overflow-x: auto; font-size: 0.95rem; }
+        .article-body .feature-box { background-color: #fff0f6; border-left: 5px solid #e84393; padding: 20px; margin: 25px 0; }
+        .article-body code { background: #eee; color: #d63031; padding: 2px 5px; border-radius: 4px; font-family: monospace; }
+    </style>
+</head>
+<body>
+
+<article class="article-body">
+
+    <h1>Unindent Text Tool: Smartly Dedent Code and Shift Text Left</h1>
+
+    <p>Every programmer and content editor has faced this problem: You find a perfect snippet of code or text on a website, but it is nested inside a function or a list. When you copy and paste it into your own editor, it arrives with massive indentation—20 spaces of whitespace on the left side of every line.</p>
+
+    <p>Manually deleting these spaces line-by-line is tedious. Simply hitting "Backspace" might ruin the nested structure of the code. You need a tool that can intelligently <strong>Unindent</strong> or <strong>Dedent</strong> the text.</p>
+
+    <p>Welcome to the <strong>Online Unindent Text Tool</strong>. This utility is designed to shift your text to the left margin while preserving the relative indentation that keeps your code logic intact.</p>
+
+    <div class="feature-box">
+        <strong>What is "Dedenting"?</strong><br>
+        Dedenting is the opposite of indenting. It involves removing the common leading whitespace from a block of text. For example, if every line starts with at least 4 spaces, dedenting removes those 4 spaces from everyone, effectively moving the whole block left.
+    </div>
+
+    <h2>How to Use the Unindent Tool</h2>
+    <p>This tool offers three powerful modes to handle different formatting nightmares. Here is how to choose the right one for you:</p>
+
+    <h3>1. Smart Unindent (Dedent) - <em>Recommended for Code</em></h3>
+    <p>This is the most advanced mode. It scans your entire text block to find the "Common Indentation." It identifies the minimum amount of whitespace shared by all lines and strips exactly that amount.</p>
+    <ul>
+        <li><strong>Use Case:</strong> Copying a function body from Python or JavaScript.</li>
+        <li><strong>Result:</strong> The code moves to the left edge, but the <code>if/else</code> nesting <em>inside</em> the code stays perfectly indented relative to the parent.</li>
+    </ul>
+
+    <h3>2. Flatten All (Strip Left)</h3>
+    <p>This is the nuclear option. It completely removes <strong>all</strong> leading whitespace from every single line. Every line will be snapped strictly to the left margin.</p>
+    <ul>
+        <li><strong>Use Case:</strong> Cleaning up messy lists, poetry, or SQL queries where indentation doesn't matter and you just want raw text.</li>
+    </ul>
+
+    <h3>3. Manual Shift Left</h3>
+    <p>Sometimes you need precise control. This mode allows you to specify exactly how many spaces (or tabs) to remove from the start of each line.</p>
+    <ul>
+        <li><strong>Use Case:</strong> You have code indented by 8 spaces and you want to reduce it to 4 spaces (unindenting by one level), but not all the way to the edge.</li>
+    </ul>
+
+    <hr>
+
+    <h2>Real-World Examples</h2>
+
+    <h3>Example 1: Fixing Nested Python Code</h3>
+    <p>Imagine you copy this code block that was inside a class:</p>
+    <pre>
+        def calculate(x):
+            if x > 10:
+                return True
+            else:
+                return False
+    </pre>
+    <p>There are 8 spaces before <code>def</code>. If you use <strong>Smart Unindent</strong>, the tool detects that 8 spaces is the common baseline. It removes 8 spaces from every line.</p>
+    <p><strong>Result:</strong></p>
+    <pre>
+def calculate(x):
+    if x > 10:
+        return True
+    else:
+        return False
+    </pre>
+    <p>Notice how the <code>if</code> statement is still indented relative to the <code>def</code>? That is the magic of smart dedenting.</p>
+
+    <h3>Example 2: Fixing "Staircase" Text</h3>
+    <p>Sometimes you get text that looks like this:</p>
+    <pre>
+    Line 1
+      Line 2
+        Line 3
+    </pre>
+    <p>If you use <strong>Flatten All</strong>, the tool strips everything:</p>
+    <pre>
+Line 1
+Line 2
+Line 3
+    </pre>
+
+    <hr>
+
+    <h2>Why Use an Online Unindent Tool?</h2>
+
+    <h3>1. Speed and Workflow</h3>
+    <p>While IDEs like VS Code or IntelliJ have "Shift+Tab" shortcuts to unindent, they often require you to create a file, paste the text, select it all, and then save it. This online tool allows you to treat the browser as a scratchpad. Paste, click, copy, done.</p>
+
+    <h3>2. Handling Mixed Tabs and Spaces</h3>
+    <p>One of the biggest headaches in programming is "Mixed Indentation" (some lines use Tabs, others use Spaces). This tool normalizes the text. When you run it through the processor, you can clean up these inconsistencies instantly.</p>
+
+    <h3>3. Privacy and Security</h3>
+    <p>We understand that you might be unindenting proprietary code or sensitive configuration files. This tool is built with <strong>Client-Side JavaScript</strong>. Your code is processed in your browser's RAM. It is <strong>never</strong> sent to our servers, ensuring your intellectual property stays safe.</p>
+
+    <h3>4. Mobile Friendly</h3>
+    <p>Coding on an iPad or checking a script on your phone? Mobile keyboards don't have a "Tab" or "Shift+Tab" key. This tool gives you a mobile-friendly interface to format code on the go.</p>
+
+    <hr>
+
+    <h2>Technical Details: How Dedenting Works</h2>
+
+    <p>For the developers out there, here is the logic behind our "Smart Unindent" algorithm:</p>
+    <ol>
+        <li><strong>Split:</strong> The text is split into an array of lines based on newline characters (<code>\n</code>).</li>
+        <li><strong>Analyze:</strong> The algorithm iterates through every non-empty line. It uses Regex <code>/^(\s*)/</code> to capture the leading whitespace.</li>
+        <li><strong>Compare:</strong> It measures the length of whitespace for each line and finds the <em>minimum</em> length found in the entire block. This is the "Common Indent."</li>
+        <li><strong>Strip:</strong> It loops through the lines again, using <code>substring()</code> to cut off exactly that minimum length from the start of each line.</li>
+    </ol>
+    <p>This ensures that if your code is indented by 20 spaces, but line 3 is indented by 24 spaces (a nested block), the tool removes 20 spaces from everyone. Line 3 is left with 4 spaces, preserving the structure.</p>
+
+    <hr>
+
+    <h2>Frequently Asked Questions (FAQ)</h2>
+
+    <h3>What is the difference between "Unindent" and "Left Align"?</h3>
+    <p>"Left Align" usually implies flattening everything to the margin (Mode 2 in this tool). "Unindent" usually implies shifting text to the left while keeping the relative structure intact (Mode 1 in this tool).</p>
+
+    <h3>Does this tool support Tabs?</h3>
+    <p>Yes. The tool treats a Tab character (<code>\t</code>) as a whitespace character. However, for "Smart Unindent" to work best, your indentation should be consistent (either all tabs or all spaces).</p>
+
+    <h3>Can I choose how many spaces to remove?</h3>
+    <p>Yes. Use the <strong>"Manual Shift Left"</strong> mode. You can set it to remove exactly 2 spaces, 4 spaces, or any number you like.</p>
+
+    <h3>Is there a limit on text size?</h3>
+    <p>No artificial limits. You can paste thousands of lines of code. Since it runs in your browser, performance depends on your computer, but text processing is generally extremely fast.</p>
+
+    <hr>
+
+    <h2>Conclusion</h2>
+    <p>Don't let bad formatting slow down your development or writing process. The <strong>Unindent Text Tool</strong> is the Swiss Army Knife for text alignment. Whether you need to carefully dedent a complex Python script or simply smash a list against the left margin, this tool handles it securely and instantly.</p>
+    <p>Bookmark this page for the next time you encounter "The Wall of Whitespace."</p>
+
+</article>
+
+</body>
+</html>
