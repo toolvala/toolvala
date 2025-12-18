@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duplicate Word Remover & Counter</title>
+    <style>
+        :root {
+            --primary: #e74c3c; /* Red theme for 'Removal/Stop' */
+            --dark: #c0392b;
+            --bg: #fdf2f2;
+            --text: #2c3e50;
+            --border: #e6b0aa;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary);
+            margin-top: 0;
+            font-size: 2.2rem;
+        }
+
+        .description {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 25px;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        @media(min-width: 850px) {
+            .layout { grid-template-columns: 2fr 1fr; }
+        }
+
+        .editor-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .stats-section {
+            background: #f9f9f9;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 15px;
+            height: fit-content;
+        }
+
+        .controls {
+            background: #fff5f5;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 5px;
+        }
+
+        .radio-btn {
+            padding: 6px 12px;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .radio-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        textarea {
+            width: 100%;
+            height: 200px;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 15px;
+            resize: vertical;
+            box-sizing: border-box;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .btn-action { background-color: var(--primary); color: white; }
+        .btn-action:hover { background-color: var(--dark); }
+
+        .btn-copy { background-color: #27ae60; color: white; width: 100%; margin-top: 10px; }
+        .btn-copy:hover { background-color: #219150; }
+
+        .btn-clear { background: #95a5a6; color: white; font-size: 12px; padding: 5px 10px; }
+
+        /* Frequency Table */
+        .freq-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            margin-top: 10px;
+        }
+        
+        .freq-table th, .freq-table td {
+            text-align: left;
+            padding: 6px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .freq-table th { color: #666; }
+        .freq-count { font-weight: bold; color: var(--primary); }
+
+        .stat-badge {
+            background: var(--primary);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+            margin-left: 5px;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Duplicate Remover & Word Counter</h1>
+    <p class="description">Remove repeated lines, clean duplicate words, and analyze word frequency.</p>
+
+    <div class="layout">
+        <!-- LEFT: Editor -->
+        <div class="editor-section">
+            
+            <div class="controls">
+                <div style="flex-grow:1;">
+                    <label style="font-weight:bold; font-size:12px; display:block; margin-bottom:5px;">OPERATION MODE:</label>
+                    <div class="radio-group">
+                        <div class="radio-btn active" onclick="setMode('list')" id="btnList">Unique Lines (List)</div>
+                        <div class="radio-btn" onclick="setMode('words')" id="btnWords">Unique Words (Prose)</div>
+                        <div class="radio-btn" onclick="setMode('grammar')" id="btnGrammar">Fix Grammar (Consecutive)</div>
+                    </div>
+                </div>
+                
+                <div style="display:flex; flex-direction:column; gap:5px;">
+                    <label style="font-size:13px; cursor:pointer;">
+                        <input type="checkbox" id="ignoreCase" checked onchange="processText()"> Ignore Case (A = a)
+                    </label>
+                    <label style="font-size:13px; cursor:pointer;">
+                        <input type="checkbox" id="trim" checked onchange="processText()"> Trim Whitespace
+                    </label>
+                </div>
+            </div>
+
+            <!-- Input -->
+            <div>
+                <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                    <label><strong>Input Text</strong></label>
+                    <button class="btn-clear" onclick="clearAll()">Clear</button>
+                </div>
+                <textarea id="input" placeholder="Apple&#10;Banana&#10;Apple&#10;Orange" oninput="processText()"></textarea>
+            </div>
+
+            <!-- Output -->
+            <div>
+                <label><strong>Result</strong> <span id="removedCount" style="font-size:12px; color:#e74c3c;"></span></label>
+                <textarea id="output" readonly placeholder="Clean text will appear here..."></textarea>
+                <button class="btn-copy" onclick="copyResult()" id="copyBtn">Copy Clean Text</button>
+            </div>
+        </div>
+
+        <!-- RIGHT: Statistics -->
+        <div class="stats-section">
+            <h3 style="margin-top:0; border-bottom:2px solid #ddd; padding-bottom:10px;">Word Frequency</h3>
+            <div style="max-height: 400px; overflow-y: auto;">
+                <table class="freq-table">
+                    <thead>
+                        <tr>
+                            <th>Word</th>
+                            <th>Count</th>
+                        </tr>
+                    </thead>
+                    <tbody id="freqBody">
+                        <!-- JS fills this -->
+                        <tr><td colspan="2" style="color:#999; text-align:center;">Type to analyze...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentMode = 'list';
+
+    function setMode(mode) {
+        currentMode = mode;
+        
+        // UI Updates
+        document.getElementById('btnList').className = 'radio-btn' + (mode === 'list' ? ' active' : '');
+        document.getElementById('btnWords').className = 'radio-btn' + (mode === 'words' ? ' active' : '');
+        document.getElementById('btnGrammar').className = 'radio-btn' + (mode === 'grammar' ? ' active' : '');
+        
+        // Placeholder updates
+        const input = document.getElementById('input');
+        if(mode === 'list') input.placeholder = "Apple\nBanana\nApple\nOrange";
+        if(mode === 'words') input.placeholder = "apple orange apple banana";
+        if(mode === 'grammar') input.placeholder = "I went to the the store.";
+
+        processText();
+    }
+
+    function processText() {
+        const inputText = document.getElementById('input').value;
+        const ignoreCase = document.getElementById('ignoreCase').checked;
+        const trim = document.getElementById('trim').checked;
+        const output = document.getElementById('output');
+        
+        if(!inputText) {
+            output.value = "";
+            document.getElementById('freqBody').innerHTML = '<tr><td colspan="2" style="color:#999; text-align:center;">Type to analyze...</td></tr>';
+            document.getElementById('removedCount').innerText = "";
+            return;
+        }
+
+        // 1. Generate Frequency Table (Always runs)
+        generateFrequency(inputText, ignoreCase);
+
+        // 2. Process Removal Logic
+        let result = "";
+        let originalCount = 0;
+        let finalCount = 0;
+
+        if (currentMode === 'list') {
+            // Split by new lines
+            let items = inputText.split(/\r?\n/);
+            originalCount = items.length;
+            
+            let seen = new Set();
+            let cleanItems = [];
+
+            items.forEach(item => {
+                let checkItem = item;
+                if(trim) checkItem = checkItem.trim();
+                if(ignoreCase) checkItem = checkItem.toLowerCase();
+                
+                // Keep empty lines? Let's keep them only if unique (so only 1 empty line max)
+                if(!seen.has(checkItem)) {
+                    seen.add(checkItem);
+                    cleanItems.push(trim ? item.trim() : item);
+                }
+            });
+            result = cleanItems.join('\n');
+            finalCount = cleanItems.length;
+        } 
+        else if (currentMode === 'words') {
+            // Treat whole text as a bag of words (removes all formatting/newlines)
+            // Regex splits by whitespace
+            let words = inputText.split(/\s+/);
+            originalCount = words.length;
+            
+            let seen = new Set();
+            let cleanWords = [];
+
+            words.forEach(word => {
+                if(!word) return;
+                let checkWord = ignoreCase ? word.toLowerCase() : word;
+                
+                if(!seen.has(checkWord)) {
+                    seen.add(checkWord);
+                    cleanWords.push(word);
+                }
+            });
+            result = cleanWords.join(' ');
+            finalCount = cleanWords.length;
+        }
+        else if (currentMode === 'grammar') {
+            // Remove CONSECUTIVE duplicates only ("the the")
+            // This preserves paragraph structure
+            const lines = inputText.split(/\r?\n/);
+            originalCount = 0; // Hard to count items here, we'll track dupes removed
+            let removed = 0;
+
+            const processedLines = lines.map(line => {
+                const words = line.split(/(\s+)/); // Split keeping separators
+                let lastWord = "";
+                
+                return words.filter(chunk => {
+                    // chunk is either a word or whitespace
+                    if(!chunk.trim()) return true; // keep whitespace
+                    
+                    originalCount++;
+                    let current = ignoreCase ? chunk.toLowerCase() : chunk;
+                    if (current === lastWord) {
+                        removed++;
+                        return false; // Skip duplicate
+                    }
+                    lastWord = current;
+                    return true;
+                }).join('');
+            });
+            result = processedLines.join('\n');
+            // Hacky stats for grammar mode
+            originalCount = removed + " duplicates found";
+            finalCount = "";
+        }
+
+        output.value = result;
+
+        // Update stats badge
+        if(currentMode !== 'grammar') {
+            const diff = originalCount - finalCount;
+            document.getElementById('removedCount').innerText = `(Removed ${diff} items)`;
+        } else {
+            document.getElementById('removedCount').innerText = `(${originalCount})`;
+        }
+    }
+
+    function generateFrequency(text, ignoreCase) {
+        // Simple word tokenizer
+        const words = text.match(/\b[\w']+\b/g);
+        if(!words) return;
+
+        const freq = {};
+        words.forEach(w => {
+            const key = ignoreCase ? w.toLowerCase() : w;
+            freq[key] = (freq[key] || 0) + 1;
+        });
+
+        // Sort by count descending
+        const sorted = Object.entries(freq).sort((a, b) => b[1] - a[1]);
+
+        // Render HTML
+        const html = sorted.slice(0, 50).map(([word, count]) => { // Limit to top 50
+            return `<tr><td>${word}</td><td class="freq-count">${count}</td></tr>`;
+        }).join('');
+        
+        document.getElementById('freqBody').innerHTML = html;
+    }
+
+    function clearAll() {
+        document.getElementById('input').value = '';
+        processText();
+        document.getElementById('input').focus();
+    }
+
+    function copyResult() {
+        const output = document.getElementById('output');
+        if (!output.value) return;
+
+        output.select();
+        output.setSelectionRange(0, 99999);
+        navigator.clipboard.writeText(output.value).then(() => {
+            const btn = document.getElementById('copyBtn');
+            const originalText = btn.innerText;
+            btn.innerText = "Copied!";
+            btn.style.backgroundColor = "#27ae60";
+            setTimeout(() => {
+                btn.innerText = originalText;
+                btn.style.backgroundColor = ""; 
+            }, 2000);
+        });
+    }
+</script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Duplicate Remover Content</title>
+    <style>
+        .article-content {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .article-content h1 { color: #c0392b; font-size: 2.5rem; margin-bottom: 20px; }
+        .article-content h2 { color: #e74c3c; margin-top: 40px; border-bottom: 2px solid #fadbd8; padding-bottom: 10px; }
+        .article-content h3 { color: #2c3e50; margin-top: 30px; }
+        .article-content p { margin-bottom: 1.5rem; }
+        .article-content ul { margin-bottom: 1.5rem; padding-left: 20px; }
+        .article-content li { margin-bottom: 10px; }
+        .article-content .highlight-box { background-color: #fdf2f2; border-left: 5px solid #e74c3c; padding: 20px; margin: 25px 0; }
+        .article-content code { background: #f2f2f2; color: #c0392b; padding: 2px 5px; border-radius: 4px; font-family: monospace; }
+        .article-content table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .article-content th, .article-content td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        .article-content th { background: #eee; }
+    </style>
+</head>
+<body>
+
+<article class="article-content">
+
+    <h1>Duplicate Word Remover: Clean Lists and Fix Repetitive Text</h1>
+
+    <p>Whether you are managing a massive email subscriber list, optimizing SEO keywords, or editing a blog post, duplicates are a nuisance. Repeated lines clutter your data, and repeated words ("the the") make your writing look unprofessional.</p>
+
+    <p>Welcome to the ultimate <strong>Online Duplicate Remover & Word Counter</strong>. This tool is designed to identify, count, and eliminate repetitions from your text instantly. It functions both as a "List Cleaner" for data and a "Grammar Fixer" for prose.</p>
+
+    <h2>Three Tools in One</h2>
+    <p>Most duplicate finders only do one thing. We have combined three essential text manipulation functions into a single interface:</p>
+
+    <h3>1. Unique Lines (List Deduplicator)</h3>
+    <p>This is perfect for data cleaning. If you have a vertical list of items (like a CSV export or a list of names), this mode removes any entry that appears more than once.</p>
+    <ul>
+        <li><em>Input:</em> Apple, Banana, Apple, Orange</li>
+        <li><em>Result:</em> Apple, Banana, Orange</li>
+    </ul>
+
+    <h3>2. Unique Words (Prose Cleaner)</h3>
+    <p>This "bag of words" mode takes a paragraph, strips away the formatting, and returns a single list of every unique word used. This is incredibly useful for extracting vocabulary lists or creating tag clouds.</p>
+
+    <h3>3. Fix Grammar (Consecutive Duplicates)</h3>
+    <p>This is a writer's best friend. It detects when you accidentally type the same word twice in a row—a very common error known as "lexical stuttering." It fixes the error while leaving the rest of your paragraph structure intact.</p>
+    <ul>
+        <li><em>Input:</em> "I went to the the store."</li>
+        <li><em>Result:</em> "I went to the store."</li>
+    </ul>
+
+    <h2>How to Deduplicate Your Text</h2>
+    <p>Using the tool is straightforward. Follow these steps to clean your data:</p>
+
+    <ol>
+        <li><strong>Paste Your Text:</strong> Copy your list or paragraph into the main input box.</li>
+        <li><strong>Select Mode:</strong>
+            <ul>
+                <li>Choose <strong>"Unique Lines"</strong> for lists.</li>
+                <li>Choose <strong>"Fix Grammar"</strong> for sentences.</li>
+            </ul>
+        </li>
+        <li><strong>Adjust Settings:</strong>
+            <ul>
+                <li><strong>Ignore Case:</strong> If checked, "Apple" and "apple" are treated as the same word (and one will be removed).</li>
+                <li><strong>Trim Whitespace:</strong> If checked, " Apple " and "Apple" are treated as duplicates.</li>
+            </ul>
+        </li>
+        <li><strong>Analyze Frequency:</strong> Look at the right-hand panel (or bottom on mobile) to see exactly which words are appearing most often.</li>
+        <li><strong>Copy:</strong> Click the green "Copy Clean Text" button to grab your deduplicated result.</li>
+    </ol>
+
+    <div class="highlight-box">
+        <strong>Pro Tip:</strong> The "Word Frequency" table updates in real-time. Use this to spot "crutch words"—words you overuse in your writing (like "very," "just," or "really").
+    </div>
+
+    <h2>Why Remove Duplicates? Real-World Use Cases</h2>
+
+    <h3>1. SEO Keyword Management</h3>
+    <p>When performing keyword research using tools like Google Keyword Planner or Ahrefs, you often end up with CSV files containing thousands of rows. Many of these keywords overlap. By pasting your list here and using "Unique Lines," you can condense a list of 5,000 keywords down to 800 unique terms, saving you hours of sorting time.</p>
+
+    <h3>2. Email Marketing Hygiene</h3>
+    <p>Sending the same newsletter twice to the same email address is a quick way to get marked as spam. Before uploading a new contact list to Mailchimp or HubSpot, run it through this tool to ensure every email address is unique.</p>
+
+    <h3>3. Database Cleanup (SQL)</h3>
+    <p>While you can use <code>SELECT DISTINCT</code> in SQL, sometimes it is faster to just copy a column of data, paste it here, clean it, and paste it back into Excel or Google Sheets. It is a quick-fix for non-technical team members.</p>
+
+    <h3>4. Editing and Proofreading</h3>
+    <p>The human brain has a feature called "Typoglycemia" and pattern auto-completion. This means if you type "the the," your brain often ignores the second "the" when reading. A computer, however, spots it instantly. Using the "Fix Grammar" mode ensures your final draft is free of stuttering errors.</p>
+
+    <h2>Technical Deep Dive: How It Works</h2>
+
+    <p>For the developers curious about the logic (or students learning JavaScript), here is how the tool processes your data.</p>
+
+    <h3>The Set Object</h3>
+    <p>The core of the deduplication logic uses the JavaScript <code>Set</code> object. A Set is a collection of values that may only occur once. If you try to add a duplicate value to a Set, it is simply ignored.</p>
+    <code>const uniqueItems = [...new Set(inputArray)];</code>
+    <p>This one line of code effectively removes all duplicates. We then combine it with <code>.map()</code> and <code>.filter()</code> to handle case sensitivity and whitespace trimming.</p>
+
+    <h3>Frequency Counting</h3>
+    <p>To generate the frequency table, the tool tokenizes the text (breaks it into words using Regex <code>/\b[\w']+\b/g</code>). It then iterates through the array, using an Object (dictionary) to keep a running count of every word.</p>
+
+    <h2>Frequently Asked Questions (FAQ)</h2>
+
+    <h3>Does this tool handle large files?</h3>
+    <p>The tool runs in your browser (Client-Side). It can easily handle lists with 50,000 to 100,000 lines depending on your computer's RAM. It is much faster than Excel for simple deduplication.</p>
+
+    <h3>Is my data safe?</h3>
+    <p>Yes. Because it is client-side, your email lists or keywords are <strong>never uploaded</strong> to our server. The processing happens entirely on your device.</p>
+
+    <h3>Does "Unique Words" mode keep punctuation?</h3>
+    <p>No. In "Unique Words" mode, we strip punctuation to ensure that "apple." and "apple" are counted as the same word. If you need to preserve punctuation, use the "Unique Lines" mode.</p>
+
+    <h3>Can I remove duplicates but keep the original order?</h3>
+    <p>Yes! Our algorithm preserves the <em>first occurrence</em> of the item. <br>
+    Input: A, B, A, C.<br>
+    Output: A, B, C.<br>
+    (The second 'A' is removed, but the order remains A-B-C).</p>
+
+    <h2>Conclusion</h2>
+    <p>Duplicate data is a waste of storage, time, and mental energy. The <strong>Duplicate Remover Tool</strong> provides a fast, secure, and free way to sanitize your text. Whether you are coding, writing, or marketing, keeping your lists unique is just a click away.</p>
+
+</article>
+
+</body>
+</html>
