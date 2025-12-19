@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biodata Maker Tool - Create Professional Resume & CV Online</title>
+    <meta name="description" content="Free online Biodata Maker. Create professional resumes, marriage biodatas, and CVs with photo upload. Live preview and instant PDF download.">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #2563eb; /* Royal Blue */
+            --primary-dark: #1e40af;
+            --bg-color: #f1f5f9;
+            --surface: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* --- HEADER --- */
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h1 { color: var(--primary); margin: 0; font-size: 2.2rem; }
+        .subtitle { color: var(--text-muted); }
+
+        /* --- APP LAYOUT --- */
+        .app-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        @media (max-width: 900px) {
+            .app-grid { grid-template-columns: 1fr; }
+        }
+
+        /* --- FORM SECTION (LEFT) --- */
+        .editor-panel {
+            background: var(--surface);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            max-height: 90vh;
+            overflow-y: auto;
+            position: sticky;
+            top: 20px;
+        }
+
+        .form-section { margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
+        .form-section h3 { color: var(--primary); margin-top: 0; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+        
+        .input-group { margin-bottom: 15px; }
+        label { display: block; font-weight: 600; font-size: 0.9rem; margin-bottom: 5px; }
+        
+        input[type="text"], input[type="email"], input[type="tel"], input[type="date"], textarea, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-family: inherit;
+            box-sizing: border-box;
+        }
+        
+        textarea { height: 80px; resize: vertical; }
+
+        .btn-print {
+            width: 100%;
+            padding: 15px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.2s;
+        }
+        .btn-print:hover { background: var(--primary-dark); }
+
+        /* --- PREVIEW SECTION (RIGHT) --- */
+        .preview-container {
+            background: #525659; /* Dark background like PDF viewers */
+            padding: 20px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .resume-paper {
+            background: white;
+            width: 210mm; /* A4 Width */
+            min-height: 297mm; /* A4 Height */
+            padding: 40px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            color: #333;
+        }
+
+        /* Resume Styling */
+        .res-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+
+        .res-name-block h2 { margin: 0; font-size: 2.5rem; text-transform: uppercase; color: #2c3e50; }
+        .res-title { font-size: 1.1rem; color: var(--primary); font-weight: 600; letter-spacing: 1px; }
+
+        .res-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 3px solid var(--primary);
+            object-fit: cover;
+            background-color: #eee;
+        }
+
+        .res-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+        }
+
+        .res-left { border-right: 1px solid #eee; padding-right: 20px; }
+        
+        .res-section { margin-bottom: 25px; }
+        .res-head { 
+            font-size: 1.1rem; 
+            font-weight: 700; 
+            text-transform: uppercase; 
+            color: #2c3e50; 
+            border-bottom: 1px solid #ddd; 
+            padding-bottom: 5px; 
+            margin-bottom: 10px;
+        }
+
+        .res-contact-item { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 0.9rem; word-break: break-all; }
+        .res-contact-item i { color: var(--primary); width: 20px; text-align: center; }
+
+        .res-list { padding-left: 15px; margin: 0; }
+        .res-list li { margin-bottom: 5px; }
+
+        .res-job { margin-bottom: 15px; }
+        .res-job-title { font-weight: 700; font-size: 1rem; }
+        .res-job-company { color: #666; font-style: italic; font-size: 0.9rem; }
+        .res-job-date { float: right; font-size: 0.85rem; color: var(--primary); }
+
+        /* --- PRINT MEDIA QUERY --- */
+        @media print {
+            body { background: white; margin: 0; padding: 0; }
+            header, .editor-panel, .seo-content, .cards-grid, footer { display: none !important; }
+            .container { width: 100%; max-width: 100%; padding: 0; margin: 0; }
+            .app-grid { display: block; }
+            .preview-container { background: white; padding: 0; border: none; }
+            .resume-paper { 
+                box-shadow: none; 
+                width: 100%; 
+                margin: 0; 
+                padding: 30px; 
+                min-height: auto; 
+            }
+            /* Reset colors for printing */
+            .res-header { border-bottom-color: #000 !important; }
+            .res-title, .res-job-date, .res-contact-item i { color: #000 !important; }
+            .res-photo { border-color: #000 !important; }
+        }
+
+        /* --- SEO STYLES --- */
+        .seo-content { margin-top: 60px; color: #333; max-width: 900px; margin-left: auto; margin-right: auto; }
+        .seo-content h2 { color: var(--primary-dark); border-bottom: 2px solid var(--border); padding-bottom: 10px; margin-top: 40px; }
+        
+        /* --- CARDS --- */
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--border); }
+        .tool-card { text-decoration: none; color: inherit; border: 1px solid var(--border); border-radius: 12px; padding: 20px; display: flex; align-items: center; justify-content: space-between; transition: all 0.3s ease; background: white; }
+        .tool-card:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); border-color: var(--primary); }
+        .tool-left { display: flex; align-items: center; gap: 15px; }
+        .icon { width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px; }
+        .tool-title { font-weight: 700; font-size: 15px; }
+        .tool-desc { font-size: 12px; color: #64748b; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Biodata Maker Tool</h1>
+        <p class="subtitle">Create a professional Resume, CV, or Marriage Biodata in minutes.</p>
+    </header>
+
+    <div class="app-grid">
+        <!-- LEFT: INPUT FORM -->
+        <div class="editor-panel">
+            <div class="form-section">
+                <h3><i class="fa-solid fa-user"></i> Personal Details</h3>
+                <div class="input-group">
+                    <label>Upload Photo</label>
+                    <input type="file" id="photoInput" accept="image/*" onchange="loadPhoto(event)">
+                </div>
+                <div class="input-group">
+                    <label>Full Name</label>
+                    <input type="text" id="inName" placeholder="John Doe" oninput="updatePreview()">
+                </div>
+                <div class="input-group">
+                    <label>Professional Title</label>
+                    <input type="text" id="inTitle" placeholder="Software Engineer" oninput="updatePreview()">
+                </div>
+                <div class="input-group">
+                    <label>About Me (Summary)</label>
+                    <textarea id="inSummary" placeholder="A passionate professional..." oninput="updatePreview()"></textarea>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3><i class="fa-solid fa-address-book"></i> Contact & Info</h3>
+                <div class="input-group">
+                    <label>Phone Number</label>
+                    <input type="tel" id="inPhone" placeholder="+1 234 567 890" oninput="updatePreview()">
+                </div>
+                <div class="input-group">
+                    <label>Email Address</label>
+                    <input type="email" id="inEmail" placeholder="john@example.com" oninput="updatePreview()">
+                </div>
+                <div class="input-group">
+                    <label>Location</label>
+                    <input type="text" id="inAddress" placeholder="New York, USA" oninput="updatePreview()">
+                </div>
+                <div class="input-group">
+                    <label>Date of Birth</label>
+                    <input type="date" id="inDob" oninput="updatePreview()">
+                </div>
+                <div class="input-group">
+                    <label>Marital Status</label>
+                    <select id="inMarital" oninput="updatePreview()">
+                        <option value="">-- Select --</option>
+                        <option value="Single">Single</option>
+                        <option value="Married">Married</option>
+                        <option value="Divorced">Divorced</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3><i class="fa-solid fa-briefcase"></i> Experience</h3>
+                <div class="input-group">
+                    <label>Latest Job Title</label>
+                    <input type="text" id="inJob1Title" placeholder="Senior Developer" oninput="updatePreview()">
+                </div>
+                <div class="input-group">
+                    <label>Company</label>
+                    <input type="text" id="inJob1Comp" placeholder="Tech Corp" oninput="updatePreview()">
+                </div>
+                <div class="input-group">
+                    <label>Duration</label>
+                    <input type="text" id="inJob1Date" placeholder="2020 - Present" oninput="updatePreview()">
+                </div>
+                <div class="input-group">
+                    <label>Description</label>
+                    <textarea id="inJob1Desc" placeholder="- Led a team of 5..." oninput="updatePreview()"></textarea>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3><i class="fa-solid fa-graduation-cap"></i> Education</h3>
+                <div class="input-group">
+                    <label>Degree</label>
+                    <input type="text" id="inEduDegree" placeholder="BSc Computer Science" oninput="updatePreview()">
+                </div>
+                <div class="input-group">
+                    <label>University/School</label>
+                    <input type="text" id="inEduUni" placeholder="University of Tech" oninput="updatePreview()">
+                </div>
+                <div class="input-group">
+                    <label>Year</label>
+                    <input type="text" id="inEduYear" placeholder="2016 - 2020" oninput="updatePreview()">
+                </div>
+            </div>
+
+            <button class="btn-print" onclick="window.print()">
+                <i class="fa-solid fa-file-pdf"></i> Download PDF / Print
+            </button>
+        </div>
+
+        <!-- RIGHT: PREVIEW -->
+        <div class="preview-container">
+            <div class="resume-paper" id="printableArea">
+                <!-- Header -->
+                <div class="res-header">
+                    <div class="res-name-block">
+                        <h2 id="outName">John Doe</h2>
+                        <div class="res-title" id="outTitle">Software Engineer</div>
+                    </div>
+                    <img src="https://via.placeholder.com/150" alt="Profile" class="res-photo" id="outPhoto">
+                </div>
+
+                <div class="res-grid">
+                    <!-- Sidebar -->
+                    <div class="res-left">
+                        <div class="res-section">
+                            <div class="res-head">Contact</div>
+                            <div class="res-contact-item"><i class="fa-solid fa-phone"></i> <span id="outPhone">+1 234 567 890</span></div>
+                            <div class="res-contact-item"><i class="fa-solid fa-envelope"></i> <span id="outEmail">john@example.com</span></div>
+                            <div class="res-contact-item"><i class="fa-solid fa-location-dot"></i> <span id="outAddress">New York, USA</span></div>
+                        </div>
+
+                        <div class="res-section">
+                            <div class="res-head">Personal Details</div>
+                            <div class="res-contact-item"><strong>DOB:</strong> <span id="outDob"></span></div>
+                            <div class="res-contact-item"><strong>Status:</strong> <span id="outMarital"></span></div>
+                        </div>
+
+                        <div class="res-section">
+                            <div class="res-head">Skills</div>
+                            <ul class="res-list">
+                                <li>Communication</li>
+                                <li>Leadership</li>
+                                <li>Problem Solving</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Main Content -->
+                    <div class="res-right">
+                        <div class="res-section">
+                            <div class="res-head">Profile</div>
+                            <p id="outSummary">A passionate professional with experience in managing projects and delivering high-quality results.</p>
+                        </div>
+
+                        <div class="res-section">
+                            <div class="res-head">Experience</div>
+                            
+                            <div class="res-job">
+                                <span class="res-job-date" id="outJob1Date">2020 - Present</span>
+                                <div class="res-job-title" id="outJob1Title">Senior Developer</div>
+                                <div class="res-job-company" id="outJob1Comp">Tech Corp</div>
+                                <p id="outJob1Desc" style="white-space: pre-line; margin-top:5px; font-size:0.9rem;">- Led a team of 5 developers.</p>
+                            </div>
+                        </div>
+
+                        <div class="res-section">
+                            <div class="res-head">Education</div>
+                            <div class="res-job">
+                                <span class="res-job-date" id="outEduYear">2016 - 2020</span>
+                                <div class="res-job-title" id="outEduDegree">BSc Computer Science</div>
+                                <div class="res-job-company" id="outEduUni">University of Tech</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SEO CONTENT -->
+    <article class="seo-content">
+        <h2>Online Biodata Maker: Create Professional CVs & Resumes for Free</h2>
+        <p>In today's competitive job market—or when searching for a life partner in many cultures—presentation is everything. A <strong>Biodata</strong> (Biographical Data) acts as your first impression. Unlike a complex CV, a biodata focuses on personal details, physical attributes, and background summary alongside professional qualifications.</p>
+
+        <p>Our <strong>Biodata Maker Tool</strong> is a fast, secure, and free solution designed to help you create stunning profiles in minutes without needing complex software like Word or Photoshop.</p>
+
+        <h3>Why Use an Online Biodata Creator?</h3>
+        <ul>
+            <li><strong>Instant Formatting:</strong> No need to struggle with alignment or margins. Our tool places your photo, contact info, and details in a professional layout automatically.</li>
+            <li><strong>Live Preview:</strong> See changes instantly as you type. The split-screen interface ensures you know exactly how your document will look before you print.</li>
+            <li><strong>Privacy First:</strong> This tool runs <strong>Client-Side</strong>. Your personal data and photo are processed in your browser and are <strong>never</strong> uploaded to our servers.</li>
+            <li><strong>Free PDF Download:</strong> With a single click, you can save your biodata as a PDF file to share via email or WhatsApp.</li>
+        </ul>
+
+        <h3>Differences Between Resume, CV, and Biodata</h3>
+        <p>While often used interchangeably, there are nuances:</p>
+        <ol>
+            <li><strong>Resume:</strong> A 1-page summary of work experience and skills (common in the USA).</li>
+            <li><strong>CV (Curriculum Vitae):</strong> A detailed academic and professional history (common in Europe/Academic fields).</li>
+            <li><strong>Biodata:</strong> Focuses on personal specifics (Date of Birth, Religion, Marital Status, Height/Weight). It is widely used in South Asia for marriage proposals and government job applications.</li>
+        </ol>
+
+        <h3>How to Create the Perfect Biodata</h3>
+        <p>To get the best results from this tool, upload a high-quality, professional photo (headshot). Keep your "About Me" summary concise but descriptive. Ensure your contact details are accurate. When you are finished, simply click the "Download PDF" button. In the print dialog settings, ensure "Background Graphics" is checked to keep the colors and styling intact.</p>
+    </article>
+
+    <!-- NAVIGATION CARDS -->
+    <div class="cards-grid">
+        <a href="reverse-text.html" class="tool-card">
+            <div class="tool-left">
+                <div class="icon" style="background:#2563eb">
+                    <i class="fa-solid fa-font"></i>
+                </div>
+                <div>
+                    <div class="tool-title">Reverse Text Tool</div>
+                    <div class="tool-desc">Reverse characters & words</div>
+                </div>
+            </div>
+            <i class="fa-solid fa-chevron-right arrow"></i>
+        </a>
+
+        <a href="duplicate-remover.html" class="tool-card">
+            <div class="tool-left">
+                <div class="icon" style="background:#22c55e">
+                    <i class="fa-solid fa-copy"></i>
+                </div>
+                <div>
+                    <div class="tool-title">Duplicate Remover</div>
+                    <div class="tool-desc">Clean lists & fix text</div>
+                </div>
+            </div>
+            <i class="fa-solid fa-chevron-right arrow"></i>
+        </a>
+
+        <a href="left-align.html" class="tool-card">
+            <div class="tool-left">
+                <div class="icon" style="background:#d97706">
+                    <i class="fa-solid fa-align-left"></i>
+                </div>
+                <div>
+                    <div class="tool-title">Left Align Tool</div>
+                    <div class="tool-desc">Remove indentation</div>
+                </div>
+            </div>
+            <i class="fa-solid fa-chevron-right arrow"></i>
+        </a>
+
+        <a href="center-text.html" class="tool-card">
+            <div class="tool-left">
+                <div class="icon" style="background:#ef4444">
+                    <i class="fa-solid fa-align-center"></i>
+                </div>
+                <div>
+                    <div class="tool-title">Center Text Tool</div>
+                    <div class="tool-desc">Align text with padding</div>
+                </div>
+            </div>
+            <i class="fa-solid fa-chevron-right arrow"></i>
+        </a>
+    </div>
+
+</div>
+
+<script>
+    // Map Input IDs to Output IDs
+    const fields = [
+        { in: 'inName', out: 'outName', default: 'John Doe' },
+        { in: 'inTitle', out: 'outTitle', default: 'Software Engineer' },
+        { in: 'inPhone', out: 'outPhone', default: '+1 234 567 890' },
+        { in: 'inEmail', out: 'outEmail', default: 'john@example.com' },
+        { in: 'inAddress', out: 'outAddress', default: 'New York, USA' },
+        { in: 'inDob', out: 'outDob', default: '' },
+        { in: 'inMarital', out: 'outMarital', default: '' },
+        { in: 'inSummary', out: 'outSummary', default: 'A passionate professional...' },
+        // Job 1
+        { in: 'inJob1Title', out: 'outJob1Title', default: 'Senior Developer' },
+        { in: 'inJob1Comp', out: 'outJob1Comp', default: 'Tech Corp' },
+        { in: 'inJob1Date', out: 'outJob1Date', default: '2020 - Present' },
+        { in: 'inJob1Desc', out: 'outJob1Desc', default: '- Led a team...' },
+        // Edu
+        { in: 'inEduDegree', out: 'outEduDegree', default: 'BSc Computer Science' },
+        { in: 'inEduUni', out: 'outEduUni', default: 'University of Tech' },
+        { in: 'inEduYear', out: 'outEduYear', default: '2016 - 2020' }
+    ];
+
+    function updatePreview() {
+        fields.forEach(field => {
+            const inputVal = document.getElementById(field.in).value;
+            const outputEl = document.getElementById(field.out);
+            
+            if(inputVal) {
+                outputEl.innerText = inputVal;
+            } else {
+                // Only show default if it's strictly defined, otherwise empty
+                outputEl.innerText = field.default || "";
+            }
+        });
+    }
+
+    // Handle Photo Upload
+    function loadPhoto(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('outPhoto').src = e.target.result;
+            }
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
+
+</body>
+</html>
