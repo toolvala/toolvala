@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reverse Sentences Tool - Reorder Paragraph Logic Online</title>
-    <meta name="description" content="Free online Reverse Sentences Tool. Automatically reorder sentences from last to first while keeping words intact. Perfect for writers, editors, and data cleaning.">
+    <title>Reverse Sentences Tool - Reorder Text Logic Online</title>
+    <meta name="description" content="Free online Reverse Sentences Tool. Automatically reorder sentences from last to first while keeping words intact. Uses smart segmentation for accurate results.">
     
     <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root {
-            --primary: #8b5cf6; /* Violet Theme for 'Logic/Structure' */
-            --primary-hover: #7c3aed;
-            --bg-color: #f5f3ff;
+            --primary: #4f46e5; /* Indigo Theme for "Logic" */
+            --primary-hover: #4338ca;
+            --bg-color: #eef2ff;
             --surface: #ffffff;
-            --text-main: #1e293b;
-            --text-muted: #64748b;
-            --border: #e2e8f0;
+            --text-main: #312e81;
+            --text-muted: #4f46e5;
+            --border: #c7d2fe;
             --success: #22c55e;
             --danger: #ef4444;
         }
@@ -32,7 +32,7 @@
         }
 
         .container {
-            max-width: 900px;
+            max-width: 950px;
             margin: 0 auto;
             padding: 40px 20px;
         }
@@ -42,7 +42,7 @@
             background: var(--surface);
             padding: 30px;
             border-radius: 16px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
             margin-bottom: 60px;
             border-top: 5px solid var(--primary);
         }
@@ -57,20 +57,22 @@
 
         .subtitle {
             text-align: center;
-            color: var(--text-muted);
+            color: #6b7280;
             margin-bottom: 30px;
         }
 
+        /* Controls */
         .controls {
-            background: #ede9fe;
+            background: #e0e7ff;
             padding: 20px;
             border-radius: 12px;
             margin-bottom: 25px;
-            border: 1px solid #ddd6fe;
+            border: 1px solid #c7d2fe;
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             gap: 20px;
+            align-items: center;
         }
 
         .checkbox-label {
@@ -81,6 +83,7 @@
             font-size: 0.95rem;
             cursor: pointer;
             user-select: none;
+            color: var(--text-main);
         }
         
         input[type="checkbox"] {
@@ -90,6 +93,24 @@
             accent-color: var(--primary);
         }
 
+        button.action-btn {
+            padding: 10px 24px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        button.action-btn:hover { background-color: var(--primary-hover); }
+
+        /* Editor Area */
         .io-grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -97,13 +118,19 @@
         }
         @media (min-width: 768px) { .io-grid { grid-template-columns: 1fr 1fr; } }
 
-        .input-group {
+        .input-wrapper {
             display: flex;
             flex-direction: column;
             gap: 8px;
         }
 
-        label.field-label { font-weight: 700; font-size: 0.9rem; color: var(--text-main); }
+        label.field-label { 
+            font-weight: 700; 
+            font-size: 0.9rem; 
+            color: var(--text-main); 
+            display: flex; 
+            justify-content: space-between;
+        }
 
         textarea {
             width: 100%;
@@ -126,7 +153,7 @@
             margin-top: 10px;
         }
 
-        button {
+        button.secondary-btn {
             flex: 1;
             padding: 12px;
             border: none;
@@ -140,28 +167,37 @@
             transition: opacity 0.2s;
             font-size: 1rem;
         }
-        button:hover { opacity: 0.9; }
+        button.secondary-btn:hover { opacity: 0.9; }
 
-        .btn-copy { background-color: var(--primary); color: white; }
+        .btn-copy { background-color: var(--success); color: white; }
         .btn-clear { background-color: var(--danger); color: white; }
 
-        /* --- SEO CONTENT --- */
+        .badge {
+            font-size: 0.75rem;
+            background: #fef3c7;
+            color: #d97706;
+            padding: 2px 6px;
+            border-radius: 4px;
+            display: none; /* Hidden unless logic falls back */
+        }
+
+        /* --- SEO CONTENT STYLES --- */
         article { color: #333; line-height: 1.8; }
-        article h2 { color: #1e293b; margin-top: 40px; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; }
+        article h2 { color: #3730a3; margin-top: 40px; border-bottom: 2px solid #c7d2fe; padding-bottom: 10px; }
         article h3 { color: var(--primary); margin-top: 30px; }
         article p { margin-bottom: 20px; font-size: 1.05rem; }
         article ul { margin-bottom: 25px; padding-left: 20px; }
         article li { margin-bottom: 10px; }
         
-        .faq-item { 
-            background: white; 
-            padding: 20px; 
-            border-radius: 8px; 
-            margin-bottom: 20px; 
-            border-left: 5px solid var(--primary);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        .example-box {
+            background: #e0e7ff;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+            margin: 20px 0;
+            font-family: monospace;
+            color: #312e81;
         }
-        .faq-question { font-weight: bold; color: #1e293b; display: block; margin-bottom: 8px; font-size: 1.1rem; }
 
         /* --- TOOL CARDS --- */
         .cards-grid {
@@ -199,7 +235,7 @@
             flex-shrink: 0;
         }
         .tool-title { font-weight: 700; font-size: 16px; margin-bottom: 4px; }
-        .tool-desc { font-size: 13px; color: var(--text-muted); line-height: 1.4; }
+        .tool-desc { font-size: 13px; color: #6b7280; line-height: 1.4; }
         .arrow { color: #cbd5e1; transition: color 0.3s; }
         .tool-card:hover .arrow { color: var(--primary); }
 
@@ -208,10 +244,10 @@
             position: fixed;
             bottom: 30px; left: 50%;
             transform: translateX(-50%) translateY(100px);
-            background: #1e293b; color: white;
+            background: #312e81; color: white;
             padding: 12px 24px; border-radius: 50px;
             font-size: 14px; opacity: 0;
-            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            transition: all 0.3s;
             z-index: 1000;
         }
         .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
@@ -226,36 +262,46 @@
     <!-- ========================= -->
     <div class="tool-wrapper">
         <h1>Reverse Sentences Tool</h1>
-        <p class="subtitle">Intelligently reorder sentences from last to first while keeping words intact.</p>
+        <p class="subtitle">Flip the order of sentences (Logic) without flipping words (Spelling).</p>
 
         <div class="controls">
             <label class="checkbox-label">
                 <input type="checkbox" id="keepParagraphs" checked onchange="processText()">
                 Preserve Paragraphs
             </label>
+            
             <label class="checkbox-label">
-                <input type="checkbox" id="trimSpace" checked onchange="processText()">
-                Normalize Spacing
+                <input type="checkbox" id="cleanSpaces" checked onchange="processText()">
+                Clean Whitespace
             </label>
+
+            <button class="action-btn" onclick="processText()">
+                <i class="fa-solid fa-rotate" style="transform: rotate(90deg);"></i> Reverse Sentences
+            </button>
         </div>
 
         <div class="io-grid">
             <!-- Input -->
-            <div class="input-group">
-                <label class="field-label" for="input">Input Text</label>
-                <textarea id="input" placeholder="Hello World. How are you? I am fine." oninput="processText()"></textarea>
+            <div class="input-wrapper">
+                <label class="field-label">
+                    Input Text
+                </label>
+                <textarea id="input" placeholder="Hello World. This is the second sentence. And this is the third!" oninput="processText()"></textarea>
             </div>
 
             <!-- Output -->
-            <div class="input-group">
-                <label class="field-label" for="output">Reversed Result</label>
-                <textarea id="output" readonly placeholder="I am fine. How are you? Hello World."></textarea>
+            <div class="input-wrapper">
+                <label class="field-label">
+                    Reversed Result
+                    <span id="legacyBadge" class="badge">Legacy Mode</span>
+                </label>
+                <textarea id="output" readonly placeholder="And this is the third! This is the second sentence. Hello World."></textarea>
                 <div class="actions">
-                    <button class="btn-clear" onclick="clearAll()">
+                    <button class="secondary-btn btn-clear" onclick="clearAll()">
                         <i class="fa-solid fa-trash"></i> Clear
                     </button>
-                    <button class="btn-copy" onclick="copyToClipboard()">
-                        <i class="fa-solid fa-copy"></i> Copy Output
+                    <button class="secondary-btn btn-copy" onclick="copyToClipboard()">
+                        <i class="fa-solid fa-copy"></i> Copy Result
                     </button>
                 </div>
             </div>
@@ -263,59 +309,71 @@
     </div>
 
     <!-- ========================= -->
-    <!-- 2. SEO CONTENT -->
+    <!-- 2. SEO OPTIMIZED CONTENT -->
     <!-- ========================= -->
     <article>
-        <h1>Reverse Sentences Tool – Reorder Text Logic Online</h1>
+        <h1>Smart Sentence Reverser: How to Reorder Text Logic Instantly</h1>
 
         <p>Text manipulation is an essential part of data cleaning, creative writing, and coding. While there are many tools that reverse characters (turning "cat" into "tac"), there are very few that understand the grammatical structure of language. Sometimes, you don't want to spell words backward; you want to flip the chronological order of the statements.</p>
 
-        <p>Welcome to the <strong>Reverse Sentences Tool</strong>. This intelligent online utility takes your paragraph, detects where each sentence begins and ends, and flips the order from last-to-first. It preserves the spelling of the words, ensuring the text remains readable, but the narrative flow is inverted.</p>
+        <p>Welcome to the <strong>Reverse Sentences Tool</strong>. This intelligent online utility takes your text, detects exactly where each sentence begins and ends, and flips the order from last-to-first. It preserves the spelling of the words, ensuring the text remains readable, but the narrative flow is inverted.</p>
+
+        <div class="example-box">
+            <strong>Input:</strong> "I woke up. I ate breakfast. I went to work."<br><br>
+            <strong>Output:</strong> "I went to work. I ate breakfast. I woke up."
+        </div>
 
         <h2>Why Reversing Sentences is Difficult</h2>
         <p>To a human, identifying a sentence is easy. To a computer, it is surprisingly hard. Most basic tools simply split text every time they see a period (<code>.</code>). However, this naive approach fails in the real world.</p>
+
+        <h3>The "False Period" Problem</h3>
         <p>Consider the sentence: <em>"Mr. Smith bought 3.5 lbs of apples in the U.S.A. yesterday."</em></p>
-        <p>If a basic tool splits this by periods, it creates a mess. Our <strong>Smart Sentence Reverser</strong> is different. It utilizes the browser's native <strong>Intl.Segmenter API</strong>. This is an advanced linguistic engine that understands that "Mr." is a title, "3.5" is a number, and "U.S.A." is an abbreviation. It keeps the sentence intact, ensuring accurate reordering every time.</p>
+        <p>If a basic tool splits this by periods, it creates a mess:</p>
+        <ul>
+            <li>"Mr"</li>
+            <li>" Smith bought 3"</li>
+            <li>"5 lbs of apples in the U"</li>
+            <li>"S"</li>
+            <li>"A"</li>
+            <li>" yesterday"</li>
+        </ul>
+
+        <p>Our tool uses the advanced <strong>Intl.Segmenter API</strong> (built into modern browsers). This is a smart linguistic engine that understands that "Mr." is a title, "3.5" is a number, and "U.S.A." is an abbreviation. It keeps the sentence intact, ensuring accurate reordering every time.</p>
 
         <h2>How to Use This Tool</h2>
         <ol>
             <li><strong>Paste Your Text:</strong> Copy your document, email, or story into the "Input Text" box.</li>
-            <li><strong>Choose Your Settings:</strong>
+            <li><strong>Choose Settings:</strong>
                 <ul>
-                    <li><strong>Preserve Paragraphs:</strong> Keep this checked if you want to reverse sentences <em>within</em> their respective paragraphs. Uncheck it if you want to mash the entire text into one block and reverse it from the very end to the very start.</li>
-                    <li><strong>Normalize Spacing:</strong> This removes double spaces and ensures there is exactly one space between each sentence in the result.</li>
+                    <li><strong>Preserve Paragraphs:</strong> Check this to reverse sentences <em>within</em> their respective paragraphs. Uncheck it to merge the whole text into one block and reverse it from the very end to the very start.</li>
+                    <li><strong>Clean Whitespace:</strong> This removes double spaces and ensures there is exactly one space between each sentence in the result.</li>
                 </ul>
             </li>
-            <li><strong>Copy Result:</strong> The tool processes the text instantly. Click "Copy Output" to use your reversed text.</li>
+            <li><strong>Copy Result:</strong> The tool processes the text instantly. Click the green "Copy Result" button.</li>
         </ol>
 
         <h2>Real-World Use Cases</h2>
 
         <h3>Creative Writing and Plot Structure</h3>
-        <p>Writers often experiment with non-linear storytelling. By writing a scene chronologically and then running it through this tool, you can instantly see how it reads in reverse order. This is excellent for creating dream sequences, flashbacks, or mystery reveals.</p>
+        <p>Writers often experiment with non-linear storytelling (like the movie <em>Memento</em>). By writing a scene chronologically and then running it through this tool, you can instantly see how it reads in reverse order. This is excellent for creating dream sequences, flashbacks, or mystery reveals.</p>
 
         <h3>Rhetorical Analysis</h3>
-        <p>Editors and speechwriters use sentence reversing to check for "flow dependency." If you read a speech backward (sentence by sentence), you are forced to judge each sentence on its own merit, rather than getting swept up in the rhythm of the paragraph.</p>
+        <p>Editors and speechwriters use sentence reversing to check for "flow dependency." If you read a speech backward (sentence by sentence), you are forced to judge each sentence on its own merit, rather than getting swept up in the rhythm of the paragraph. It helps identify weak arguments.</p>
 
         <h3>Fixing Chat Logs</h3>
-        <p>When exporting chat logs from platforms like Slack, WhatsApp, or Discord, the data sometimes exports with the newest message at the top. If you want to read the conversation like a novel (oldest to newest), simply paste the log here to flip them to the correct chronological order.</p>
+        <p>When exporting chat logs from platforms like Slack, WhatsApp, or Discord, the data sometimes exports with the newest message at the top. If you want to read the conversation like a novel (oldest to newest), simply paste the log here. If each message is a "sentence" or line, the tool flips them to the correct chronological order.</p>
 
         <h2>Frequently Asked Questions (FAQ)</h2>
 
-        <div class="faq-item">
-            <span class="faq-question">1. Does this reverse the letters?</span>
-            No. "Hello World" remains "Hello World". It only changes the position of the sentence relative to other sentences.
-        </div>
+        <h3>Does this reverse the letters inside the words?</h3>
+        <p>No. "Hello World" remains "Hello World". It only changes the position of the sentence relative to other sentences. If you want to reverse letters, check out our <strong>Reverse Text Tool</strong> below.</p>
 
-        <div class="faq-item">
-            <span class="faq-question">2. Is there a limit to the text length?</span>
-            Since the processing happens on your computer, the limit is your browser's memory. You can generally process 50,000+ words without any lag.
-        </div>
+        <h3>Is there a limit to the text length?</h3>
+        <p>Since the processing happens on your computer (Client-Side), the limit is your browser's memory. You can generally process 50,000+ words without any lag.</p>
 
-        <div class="faq-item">
-            <span class="faq-question">3. Does it work with other languages?</span>
-            Yes! The tool uses modern browser APIs to support many languages including Spanish, French, German, Japanese, and Chinese. It intelligently detects sentence boundaries based on the punctuation rules of those languages.
-        </div>
+        <h3>Does it work with other languages?</h3>
+        <p>Yes! The <code>Intl.Segmenter</code> API supports many languages including Spanish, French, German, Japanese, and Chinese. It intelligently detects sentence boundaries based on the punctuation rules of those languages.</p>
+
     </article>
 
     <!-- ========================= -->
@@ -328,24 +386,24 @@
                     <i class="fa-solid fa-font"></i>
                 </div>
                 <div>
-                    <div class="tool-title">Reverse Text (Chars)</div>
+                    <div class="tool-title">Reverse Text Tool</div>
                     <div class="tool-desc">
-                        Reverse characters, flip words, and mirror text.
+                        Reverse characters, words, and sentences instantly.
                     </div>
                 </div>
             </div>
             <i class="fa-solid fa-chevron-right arrow"></i>
         </a>
 
-        <a href="duplicate-remover.html" class="tool-card">
+        <a href="reverse-paragraphs.html" class="tool-card">
             <div class="tool-left">
-                <div class="icon" style="background:#22c55e">
-                    <i class="fa-solid fa-copy"></i>
+                <div class="icon" style="background:#475569">
+                    <i class="fa-solid fa-list-ol"></i>
                 </div>
                 <div>
-                    <div class="tool-title">Duplicate Remover</div>
+                    <div class="tool-title">Reverse Paragraphs</div>
                     <div class="tool-desc">
-                        Remove duplicate items and fix repeated words.
+                        Flip the order of lines or list items vertically.
                     </div>
                 </div>
             </div>
@@ -367,15 +425,15 @@
             <i class="fa-solid fa-chevron-right arrow"></i>
         </a>
 
-        <a href="unindent-tool.html" class="tool-card">
+        <a href="left-align.html" class="tool-card">
             <div class="tool-left">
-                <div class="icon" style="background:#14b8a6">
-                    <i class="fa-solid fa-outdent"></i>
+                <div class="icon" style="background:#d97706">
+                    <i class="fa-solid fa-align-left"></i>
                 </div>
                 <div>
-                    <div class="tool-title">Smart Unindent Tool</div>
+                    <div class="tool-title">Left Align Tool</div>
                     <div class="tool-desc">
-                        Remove indentation from code or text blocks.
+                        Remove indentation and strip leading whitespace.
                     </div>
                 </div>
             </div>
@@ -394,11 +452,15 @@
     // Modern Browser Check
     const hasSegmenter = typeof Intl !== 'undefined' && Intl.Segmenter;
 
+    if (!hasSegmenter) {
+        document.getElementById('legacyBadge').style.display = 'inline-block';
+    }
+
     function processText() {
         const inputField = document.getElementById('input');
         const outputField = document.getElementById('output');
         const keepParagraphs = document.getElementById('keepParagraphs').checked;
-        const cleanWhitespace = document.getElementById('trimSpace').checked;
+        const cleanSpaces = document.getElementById('cleanSpaces').checked;
         
         const rawText = inputField.value;
 
@@ -412,13 +474,13 @@
         if (keepParagraphs) {
             // Split by newline, process each block, join back
             const paragraphs = rawText.split(/\r?\n/);
-            const processedParagraphs = paragraphs.map(p => reverseBlock(p, cleanWhitespace));
+            const processedParagraphs = paragraphs.map(p => reverseBlock(p, cleanSpaces));
             result = processedParagraphs.join('\n');
         } else {
             // Treat entire text as one block
-            // We replace newlines with space to merge paragraphs before reversing
+            // Replace newlines with space to merge paragraphs before reversing
             const flattenedText = rawText.replace(/\r?\n/g, ' ');
-            result = reverseBlock(flattenedText, cleanWhitespace);
+            result = reverseBlock(flattenedText, cleanSpaces);
         }
 
         outputField.value = result;
