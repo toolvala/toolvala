@@ -36,26 +36,53 @@
         }
 
         /* --- HEADER --- */
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+        header { text-align: center; margin-bottom: 30px; }
         h1 { color: var(--primary); margin: 0; font-size: 2.2rem; }
         .subtitle { color: var(--text-muted); }
 
-        /* --- APP LAYOUT --- */
+        /* --- APP LAYOUT (DESKTOP) --- */
         .app-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr 1fr; /* Side by side on Desktop */
             gap: 30px;
             align-items: start;
         }
 
-        @media (max-width: 900px) {
-            .app-grid { grid-template-columns: 1fr; }
+        /* --- MOBILE RESPONSIVE FIX --- */
+        @media (max-width: 1024px) {
+            .app-grid {
+                display: flex;
+                flex-direction: column; /* Stack vertically on Mobile */
+            }
+            
+            .editor-panel {
+                position: static !important; /* Stop sticky behavior on mobile */
+                max-height: none !important;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            .preview-container {
+                width: 100%;
+                overflow-x: auto; /* Allow horizontal scrolling for A4 paper */
+                justify-content: flex-start !important; /* Align left */
+                padding: 10px !important;
+                border: 1px solid #ccc;
+            }
+            
+            /* Helper text for mobile users */
+            .preview-container::before {
+                content: "← Scroll to view full Resume →";
+                display: block;
+                width: 100%;
+                text-align: center;
+                color: #ccc;
+                font-size: 12px;
+                margin-bottom: 10px;
+            }
         }
 
-        /* --- FORM SECTION (LEFT) --- */
+        /* --- FORM SECTION --- */
         .editor-panel {
             background: var(--surface);
             padding: 25px;
@@ -65,6 +92,7 @@
             overflow-y: auto;
             position: sticky;
             top: 20px;
+            z-index: 10;
         }
 
         .form-section { margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
@@ -73,7 +101,7 @@
         .input-group { margin-bottom: 15px; }
         label { display: block; font-weight: 600; font-size: 0.9rem; margin-bottom: 5px; }
         
-        input[type="text"], input[type="email"], input[type="tel"], input[type="date"], textarea, select {
+        input, textarea, select {
             width: 100%;
             padding: 10px;
             border: 1px solid var(--border);
@@ -81,7 +109,6 @@
             font-family: inherit;
             box-sizing: border-box;
         }
-        
         textarea { height: 80px; resize: vertical; }
 
         .btn-print {
@@ -99,25 +126,27 @@
         }
         .btn-print:hover { background: var(--primary-dark); }
 
-        /* --- PREVIEW SECTION (RIGHT) --- */
+        /* --- PREVIEW SECTION --- */
         .preview-container {
-            background: #525659; /* Dark background like PDF viewers */
+            background: #525659;
             padding: 20px;
             border-radius: 12px;
             display: flex;
             justify-content: center;
+            box-sizing: border-box;
         }
 
         .resume-paper {
             background: white;
-            width: 210mm; /* A4 Width */
-            min-height: 297mm; /* A4 Height */
+            width: 210mm; /* Fixed A4 Width */
+            min-width: 210mm; /* Prevent shrinking */
+            min-height: 297mm;
             padding: 40px;
             box-shadow: 0 0 15px rgba(0,0,0,0.2);
-            box-sizing: border-box;
             display: flex;
             flex-direction: column;
             color: #333;
+            box-sizing: border-box;
         }
 
         /* Resume Styling */
@@ -130,7 +159,7 @@
             margin-bottom: 20px;
         }
 
-        .res-name-block h2 { margin: 0; font-size: 2.5rem; text-transform: uppercase; color: #2c3e50; }
+        .res-name-block h2 { margin: 0; font-size: 2.5rem; text-transform: uppercase; color: #2c3e50; line-height: 1.2; }
         .res-title { font-size: 1.1rem; color: var(--primary); font-weight: 600; letter-spacing: 1px; }
 
         .res-photo {
@@ -140,6 +169,7 @@
             border: 3px solid var(--primary);
             object-fit: cover;
             background-color: #eee;
+            flex-shrink: 0;
         }
 
         .res-grid {
@@ -172,31 +202,38 @@
         .res-job-company { color: #666; font-style: italic; font-size: 0.9rem; }
         .res-job-date { float: right; font-size: 0.85rem; color: var(--primary); }
 
-        /* --- PRINT MEDIA QUERY --- */
+        /* --- PRINT SETTINGS --- */
         @media print {
             body { background: white; margin: 0; padding: 0; }
-            header, .editor-panel, .seo-content, .cards-grid, footer { display: none !important; }
+            header, .editor-panel, .seo-content, .cards-grid { display: none !important; }
             .container { width: 100%; max-width: 100%; padding: 0; margin: 0; }
             .app-grid { display: block; }
-            .preview-container { background: white; padding: 0; border: none; }
+            .preview-container { 
+                background: white; 
+                padding: 0; 
+                display: block; 
+                border: none;
+                overflow: visible; 
+            }
+            .preview-container::before { display: none; }
             .resume-paper { 
                 box-shadow: none; 
                 width: 100%; 
+                min-width: 100%;
                 margin: 0; 
-                padding: 30px; 
+                padding: 0; 
                 min-height: auto; 
             }
-            /* Reset colors for printing */
-            .res-header { border-bottom-color: #000 !important; }
-            .res-title, .res-job-date, .res-contact-item i { color: #000 !important; }
-            .res-photo { border-color: #000 !important; }
+            /* Colors fix */
+            -webkit-print-color-adjust: exact; 
+            print-color-adjust: exact;
         }
 
-        /* --- SEO STYLES --- */
+        /* --- SEO CONTENT --- */
         .seo-content { margin-top: 60px; color: #333; max-width: 900px; margin-left: auto; margin-right: auto; }
         .seo-content h2 { color: var(--primary-dark); border-bottom: 2px solid var(--border); padding-bottom: 10px; margin-top: 40px; }
         
-        /* --- CARDS --- */
+        /* --- TOOL CARDS --- */
         .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--border); }
         .tool-card { text-decoration: none; color: inherit; border: 1px solid var(--border); border-radius: 12px; padding: 20px; display: flex; align-items: center; justify-content: space-between; transition: all 0.3s ease; background: white; }
         .tool-card:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); border-color: var(--primary); }
