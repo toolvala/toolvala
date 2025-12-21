@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free CV Maker 2025 - Build Professional Resumes Online</title>
-    <meta name="description" content="Create a professional CV in minutes with our Free 2025 Resume Builder. Download as PDF. ATS-friendly templates, easy customization, and instant preview.">
+    <title>Professional CV Maker - Free Resume Builder 2025</title>
+    <meta name="description" content="Build your professional resume in minutes. Free online CV maker with live preview and PDF download. ATS-friendly templates.">
     
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- html2pdf Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -19,49 +19,46 @@
         :root {
             --primary: #2563eb;
             --primary-dark: #1e40af;
-            --secondary: #f3f4f6;
+            --bg: #f3f4f6;
             --text-main: #1f2937;
-            --text-light: #6b7280;
             --border: #e5e7eb;
             --cv-width: 210mm;
-            --cv-height: 297mm;
+            --cv-min-height: 297mm; /* A4 Height */
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f9fafb;
+            background-color: var(--bg);
             color: var(--text-main);
-            line-height: 1.6;
+            padding-bottom: 50px;
         }
 
-        /* --- Header --- */
+        /* Header */
         header {
             background: white;
-            border-bottom: 1px solid var(--border);
-            padding: 20px 0;
+            padding: 15px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
             position: sticky;
             top: 0;
-            z-index: 100;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            z-index: 1000;
         }
 
-        .header-content {
+        .container {
             max-width: 1400px;
             margin: 0 auto;
             padding: 0 20px;
+        }
+
+        .header-inner {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .logo {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: 800;
             color: var(--primary);
             display: flex;
@@ -69,53 +66,48 @@
             gap: 10px;
         }
 
-        .action-btn {
+        .download-btn {
             background: var(--primary);
             color: white;
             border: none;
-            padding: 10px 24px;
-            border-radius: 8px;
+            padding: 10px 20px;
+            border-radius: 6px;
             font-weight: 600;
             cursor: pointer;
-            transition: background 0.2s;
             display: flex;
             align-items: center;
             gap: 8px;
+            font-size: 1rem;
         }
+        
+        .download-btn:hover { background: var(--primary-dark); }
 
-        .action-btn:hover {
-            background: var(--primary-dark);
-        }
-
-        /* --- Main App Layout --- */
-        .app-container {
+        /* App Grid */
+        .app-grid {
             display: flex;
             flex-wrap: wrap;
-            max-width: 1400px;
-            margin: 40px auto;
-            gap: 40px;
-            padding: 0 20px;
-            min-height: 100vh;
+            gap: 30px;
+            margin-top: 30px;
+            align-items: flex-start;
         }
 
-        /* Left Side: Editor */
-        .editor-panel {
+        /* LEFT: Editor */
+        .editor-col {
             flex: 1;
             min-width: 350px;
             background: white;
-            padding: 30px;
+            padding: 25px;
             border-radius: 12px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            height: fit-content;
         }
 
-        .editor-section {
+        .section-box {
             margin-bottom: 30px;
-            border-bottom: 1px solid var(--border);
+            border-bottom: 1px solid #eee;
             padding-bottom: 20px;
         }
 
-        .editor-section h3 {
+        .section-box h3 {
             margin-bottom: 15px;
             color: var(--primary);
             display: flex;
@@ -123,713 +115,408 @@
             gap: 10px;
         }
 
-        .form-group {
+        .form-row {
             margin-bottom: 15px;
         }
 
-        .form-group label {
+        .form-row label {
             display: block;
-            margin-bottom: 5px;
-            font-size: 0.9rem;
+            margin-bottom: 6px;
             font-weight: 500;
-            color: var(--text-main);
+            font-size: 0.9rem;
         }
 
-        .form-control {
+        .form-input, .form-textarea {
             width: 100%;
             padding: 10px;
             border: 1px solid var(--border);
             border-radius: 6px;
             font-family: inherit;
-            font-size: 0.95rem;
         }
 
-        .form-control:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        }
+        .form-textarea { min-height: 80px; resize: vertical; }
 
-        textarea.form-control {
-            resize: vertical;
-            min-height: 80px;
-        }
-
-        .add-btn {
-            background: transparent;
-            border: 1px dashed var(--primary);
-            color: var(--primary);
+        .btn-outline {
             width: 100%;
             padding: 10px;
+            border: 2px dashed var(--primary);
+            background: #eff6ff;
+            color: var(--primary);
             border-radius: 6px;
             cursor: pointer;
+            font-weight: 600;
             margin-top: 10px;
         }
+        
+        .btn-outline:hover { background: #dbeafe; }
 
-        .add-btn:hover {
-            background: #eff6ff;
-        }
-
-        .dynamic-item {
+        .dynamic-entry {
             background: #f9fafb;
             padding: 15px;
-            border-radius: 6px;
+            border-radius: 8px;
             margin-bottom: 10px;
             position: relative;
+            border: 1px solid #e5e7eb;
         }
 
-        .remove-btn {
+        .delete-btn {
             position: absolute;
-            right: 10px;
             top: 10px;
+            right: 10px;
             color: #ef4444;
-            cursor: pointer;
             background: none;
             border: none;
+            cursor: pointer;
         }
 
-        /* Right Side: Preview (The CV) */
-        .preview-panel {
+        /* RIGHT: Preview */
+        .preview-col {
             flex: 1.2;
-            min-width: 350px;
+            min-width: 350px; /* Ensures it doesn't disappear on small screens */
+            background: #525659;
+            padding: 30px;
+            border-radius: 12px;
             display: flex;
             justify-content: center;
-            background: #525659; /* Acrobat gray */
-            padding: 40px;
-            border-radius: 12px;
             overflow-x: auto;
         }
 
-        /* The A4 Page */
-        #cv-document {
+        /* The CV Paper (A4) */
+        #cv-paper {
             width: var(--cv-width);
-            min-height: var(--cv-height);
+            min-height: var(--cv-min-height);
             background: white;
-            box-shadow: 0 0 15px rgba(0,0,0,0.2);
-            padding: 0;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
             display: flex;
             flex-direction: column;
             color: #333;
+            /* Ensures strict printing layout */
+            position: relative; 
         }
 
-        /* CV Design - Classic Clean */
-        .cv-header {
+        /* CV Styles */
+        .cv-top {
             background: #2c3e50;
             color: white;
             padding: 30px 40px;
             display: flex;
             align-items: center;
-            gap: 30px;
+            gap: 25px;
         }
 
-        .cv-photo {
+        .cv-img {
             width: 100px;
             height: 100px;
             border-radius: 50%;
             object-fit: cover;
             border: 3px solid white;
-            background: #ddd;
-            display: none; /* Hidden by default until uploaded */
+            background-color: #ddd;
+            display: none; /* Hidden unless image uploaded */
         }
 
-        .cv-name-block h1 {
-            font-size: 2.2rem;
-            margin-bottom: 5px;
-            line-height: 1.2;
-        }
+        .cv-header-text h1 { font-size: 2.2rem; margin-bottom: 5px; line-height: 1.1; }
+        .cv-header-text h2 { font-size: 1.1rem; font-weight: 300; opacity: 0.9; }
 
-        .cv-name-block p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-            font-weight: 300;
-        }
-
-        .cv-body {
+        .cv-content {
             display: flex;
             flex: 1;
         }
 
-        .cv-sidebar {
-            width: 32%;
-            background: #f4f6f8;
-            padding: 30px 20px;
+        .cv-left {
+            width: 33%;
+            background: #f8f9fa;
+            padding: 25px;
             border-right: 1px solid #eee;
         }
 
-        .cv-main {
-            width: 68%;
+        .cv-right {
+            width: 67%;
             padding: 30px 40px;
         }
 
-        .cv-section {
-            margin-bottom: 25px;
-        }
-
-        .cv-section-title {
+        .cv-heading {
             font-size: 1rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #2c3e50;
+            font-weight: 700;
             border-bottom: 2px solid #2c3e50;
             padding-bottom: 5px;
             margin-bottom: 15px;
-            font-weight: 700;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
-            font-size: 0.9rem;
-            word-break: break-all;
-        }
-
-        .contact-item i {
             color: #2c3e50;
-            width: 20px;
-            text-align: center;
         }
 
-        .skill-tag {
+        .info-item {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+            word-break: break-word;
+        }
+        
+        .info-item i { color: #2c3e50; width: 18px; margin-top: 3px; }
+
+        .skill-pill {
             display: inline-block;
-            background: #e2e8f0;
-            padding: 4px 8px;
+            background: #e9ecef;
+            padding: 4px 10px;
             border-radius: 4px;
-            font-size: 0.85rem;
             margin: 0 5px 5px 0;
+            font-size: 0.85rem;
         }
 
-        .job-item, .edu-item {
-            margin-bottom: 20px;
-        }
-
-        .job-header {
+        .job-entry, .edu-entry { margin-bottom: 25px; }
+        
+        .entry-header {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 5px;
+            align-items: baseline;
+            margin-bottom: 4px;
         }
 
-        .job-title {
-            font-weight: 700;
-            font-size: 1.05rem;
-        }
+        .entry-title { font-weight: 700; font-size: 1.05rem; }
+        .entry-date { font-size: 0.85rem; color: #666; font-style: italic; }
+        .entry-subtitle { font-weight: 600; color: #555; font-size: 0.95rem; margin-bottom: 5px; }
+        .entry-desc { font-size: 0.95rem; color: #444; white-space: pre-line; line-height: 1.5; }
 
-        .job-company {
-            font-weight: 600;
-            color: #555;
-        }
-
-        .job-date {
-            font-size: 0.9rem;
-            color: #666;
-            font-style: italic;
-        }
-
-        .job-desc {
-            font-size: 0.95rem;
-            color: #444;
-            white-space: pre-line;
-        }
-
-        /* --- Tool Cards Section --- */
-        .tools-section {
-            max-width: 1200px;
-            margin: 60px auto;
-            padding: 0 20px;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2rem;
-            margin-bottom: 40px;
-            color: var(--text-main);
-        }
-
+        /* Tools Grid (Copied from request) */
+        .tools-section { margin-top: 60px; }
+        .tools-title { text-align: center; font-size: 1.8rem; margin-bottom: 30px; }
+        
         .tools-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 20px;
         }
 
         .tool-card {
             background: white;
             border-radius: 12px;
-            padding: 20px;
+            padding: 15px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             text-decoration: none;
             color: inherit;
             border: 1px solid var(--border);
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: 0.2s;
         }
+        .tool-card:hover { transform: translateY(-3px); border-color: var(--primary); }
+        .tool-left { display: flex; align-items: center; gap: 12px; }
+        .icon { width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; }
+        .tool-info div:first-child { font-weight: 700; }
+        .tool-info div:last-child { font-size: 0.8rem; color: #666; }
 
-        .tool-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-            border-color: var(--primary);
-        }
-
-        .tool-left {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .icon {
-            width: 45px;
-            height: 45px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 20px;
-            flex-shrink: 0;
-        }
-
-        .tool-title {
-            font-weight: 700;
-            font-size: 1rem;
-            margin-bottom: 4px;
-        }
-
-        .tool-desc {
-            font-size: 0.85rem;
-            color: var(--text-light);
-            line-height: 1.3;
-        }
-
-        .arrow {
-            color: var(--text-light);
-            font-size: 0.8rem;
-        }
-
-        /* --- Content Area --- */
-        .content-area {
-            max-width: 1000px;
-            margin: 60px auto;
+        /* SEO Content */
+        .seo-content {
             background: white;
-            padding: 50px;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-
-        .content-area h1 { margin-bottom: 20px; font-size: 2.5rem; }
-        .content-area h2 { margin-top: 30px; margin-bottom: 15px; font-size: 1.8rem; }
-        .content-area h3 { margin-top: 25px; margin-bottom: 10px; font-size: 1.4rem; }
-        .content-area p { margin-bottom: 15px; font-size: 1.05rem; color: #4b5563; }
-        .content-area ul { margin-bottom: 20px; padding-left: 25px; color: #4b5563; }
-        .content-area li { margin-bottom: 10px; }
-
-        footer {
-            text-align: center;
             padding: 40px;
-            background: #1f2937;
-            color: #d1d5db;
-            margin-top: 60px;
+            border-radius: 12px;
+            margin-top: 50px;
+            line-height: 1.7;
         }
+        .seo-content h2 { margin-top: 20px; }
 
-        @media (max-width: 1000px) {
-            .app-container { flex-direction: column; }
-            .preview-panel { display: none; } /* Hide live preview on mobile, add view button */
-            .mobile-preview-btn { display: block; }
+        /* Mobile Responsive */
+        @media (max-width: 900px) {
+            .app-grid { flex-direction: column; }
+            .preview-col { width: 100%; min-width: auto; padding: 10px; background: #eee; }
+            #cv-paper { width: 100%; min-height: auto; } /* Scale down on mobile */
         }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="header-content">
+        <div class="container header-inner">
             <div class="logo">
-                <i class="fa-solid fa-file-invoice"></i> CV Maker 2025
+                <i class="fa-solid fa-file-contract"></i> CV Maker 2025
             </div>
-            <button class="action-btn" onclick="generatePDF()">
-                <i class="fa-solid fa-download"></i> Download PDF
+            <button class="download-btn" onclick="downloadPDF()">
+                <i class="fa-solid fa-cloud-arrow-down"></i> Download PDF
             </button>
         </div>
     </header>
 
-    <div class="app-container">
-        
-        <!-- EDITOR PANEL -->
-        <div class="editor-panel">
-            <div class="editor-section">
-                <h3><i class="fa-solid fa-user"></i> Personal Details</h3>
-                <div class="form-group">
-                    <label>Full Name</label>
-                    <input type="text" class="form-control" oninput="updateText('cvName', this.value)" placeholder="e.g. John Doe">
-                </div>
-                <div class="form-group">
-                    <label>Job Title</label>
-                    <input type="text" class="form-control" oninput="updateText('cvTitle', this.value)" placeholder="e.g. Software Engineer">
-                </div>
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" class="form-control" oninput="updateText('cvEmail', this.value)" placeholder="john@example.com">
-                </div>
-                <div class="form-group">
-                    <label>Phone</label>
-                    <input type="text" class="form-control" oninput="updateText('cvPhone', this.value)" placeholder="+1 234 567 890">
-                </div>
-                <div class="form-group">
-                    <label>Location</label>
-                    <input type="text" class="form-control" oninput="updateText('cvLocation', this.value)" placeholder="New York, USA">
-                </div>
-                <div class="form-group">
-                    <label>Profile Photo</label>
-                    <input type="file" class="form-control" accept="image/*" onchange="loadPhoto(event)">
-                </div>
-                <div class="form-group">
-                    <label>Professional Summary</label>
-                    <textarea class="form-control" oninput="updateText('cvSummary', this.value)" placeholder="Briefly describe your career..."></textarea>
-                </div>
-            </div>
-
-            <div class="editor-section">
-                <h3><i class="fa-solid fa-briefcase"></i> Experience</h3>
-                <div id="experienceInputs">
-                    <!-- Dynamic inputs will be added here -->
-                </div>
-                <button class="add-btn" onclick="addExperienceField()"><i class="fa-solid fa-plus"></i> Add Job</button>
-            </div>
-
-            <div class="editor-section">
-                <h3><i class="fa-solid fa-graduation-cap"></i> Education</h3>
-                <div id="educationInputs">
-                    <!-- Dynamic inputs will be added here -->
-                </div>
-                <button class="add-btn" onclick="addEducationField()"><i class="fa-solid fa-plus"></i> Add Education</button>
-            </div>
-
-            <div class="editor-section">
-                <h3><i class="fa-solid fa-star"></i> Skills</h3>
-                <div class="form-group">
-                    <label>Skills (Comma separated)</label>
-                    <textarea class="form-control" oninput="updateSkills(this.value)" placeholder="HTML, CSS, JavaScript, Leadership, Communication"></textarea>
-                </div>
-            </div>
-        </div>
-
-        <!-- PREVIEW PANEL -->
-        <div class="preview-panel">
-            <div id="cv-document">
-                <div class="cv-header">
-                    <img src="" id="cvPhotoImg" class="cv-photo">
-                    <div class="cv-name-block">
-                        <h1 id="cvName">Your Name</h1>
-                        <p id="cvTitle">Professional Title</p>
-                    </div>
-                </div>
-
-                <div class="cv-body">
-                    <!-- Sidebar -->
-                    <div class="cv-sidebar">
-                        <div class="cv-section">
-                            <div class="cv-section-title">Contact</div>
-                            <div class="contact-item"><i class="fa-solid fa-envelope"></i> <span id="cvEmail">email@example.com</span></div>
-                            <div class="contact-item"><i class="fa-solid fa-phone"></i> <span id="cvPhone">+1234567890</span></div>
-                            <div class="contact-item"><i class="fa-solid fa-location-dot"></i> <span id="cvLocation">City, Country</span></div>
-                        </div>
-
-                        <div class="cv-section">
-                            <div class="cv-section-title">Skills</div>
-                            <div id="cvSkills">
-                                <span class="skill-tag">Skill 1</span>
-                                <span class="skill-tag">Skill 2</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Main Content -->
-                    <div class="cv-main">
-                        <div class="cv-section">
-                            <div class="cv-section-title">Profile</div>
-                            <p id="cvSummary">Experienced professional looking for new opportunities.</p>
-                        </div>
-
-                        <div class="cv-section">
-                            <div class="cv-section-title">Experience</div>
-                            <div id="cvExperienceList">
-                                <!-- Dynamic Jobs -->
-                            </div>
-                        </div>
-
-                        <div class="cv-section">
-                            <div class="cv-section-title">Education</div>
-                            <div id="cvEducationList">
-                                <!-- Dynamic Education -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- TOOL CARDS SECTION -->
-    <div class="tools-section">
-        <h2 class="section-title">More Useful Tools</h2>
-        <div class="tools-grid">
+    <div class="container">
+        <div class="app-grid">
             
-            <a href="pdf merger.html" class="tool-card">
-                <div class="tool-left">
-                  <div class="icon" style="background:#7c3aed"><i class="fa-solid fa-object-group"></i></div>
-                  <div>
-                    <div class="tool-title">Merge PDF</div>
-                    <div class="tool-desc">Combine multiple PDFs into one</div>
-                  </div>
+            <!-- EDITOR -->
+            <div class="editor-col">
+                <div class="section-box">
+                    <h3><i class="fa-solid fa-id-card"></i> Personal Details</h3>
+                    <div class="form-row">
+                        <label>Full Name</label>
+                        <input type="text" class="form-input" placeholder="e.g. John Doe" oninput="updateCV('name', this.value)">
+                    </div>
+                    <div class="form-row">
+                        <label>Job Title</label>
+                        <input type="text" class="form-input" placeholder="e.g. Senior Manager" oninput="updateCV('title', this.value)">
+                    </div>
+                    <div class="form-row">
+                        <label>Email</label>
+                        <input type="text" class="form-input" placeholder="email@example.com" oninput="updateCV('email', this.value)">
+                    </div>
+                    <div class="form-row">
+                        <label>Phone</label>
+                        <input type="text" class="form-input" placeholder="+1 234 567 890" oninput="updateCV('phone', this.value)">
+                    </div>
+                    <div class="form-row">
+                        <label>Location</label>
+                        <input type="text" class="form-input" placeholder="City, Country" oninput="updateCV('location', this.value)">
+                    </div>
+                    <div class="form-row">
+                        <label>Profile Photo</label>
+                        <input type="file" class="form-input" accept="image/*" onchange="handleImage(event)">
+                    </div>
+                    <div class="form-row">
+                        <label>Professional Summary</label>
+                        <textarea class="form-textarea" placeholder="Brief summary of your career..." oninput="updateCV('summary', this.value)"></textarea>
+                    </div>
                 </div>
-                <i class="fa-solid fa-chevron-right arrow"></i>
-            </a>
-        
-            <a href="image to PDF converter.html" class="tool-card">
-                <div class="tool-left">
-                  <div class="icon" style="background:#f59e0b"><i class="fa-solid fa-image"></i></div>
-                  <div>
-                    <div class="tool-title">JPG to PDF</div>
-                    <div class="tool-desc">Convert images to PDF format</div>
-                  </div>
+
+                <div class="section-box">
+                    <h3><i class="fa-solid fa-laptop-code"></i> Experience</h3>
+                    <div id="experience-list"></div>
+                    <button class="btn-outline" onclick="addExperience()">+ Add Position</button>
                 </div>
-                <i class="fa-solid fa-chevron-right arrow"></i>
-            </a>
-        
-            <a href="sign-pdf.html" class="tool-card">
-                <div class="tool-left">
-                  <div class="icon" style="background:#ec4899"><i class="fa-solid fa-signature"></i></div>
-                  <div>
-                    <div class="tool-title">Sign PDF</div>
-                    <div class="tool-desc">Add electronic signature to PDFs</div>
-                  </div>
+
+                <div class="section-box">
+                    <h3><i class="fa-solid fa-graduation-cap"></i> Education</h3>
+                    <div id="education-list"></div>
+                    <button class="btn-outline" onclick="addEducation()">+ Add Education</button>
                 </div>
-                <i class="fa-solid fa-chevron-right arrow"></i>
-            </a>
-        
-            <a href="signature-generator.html" class="tool-card">
-              <div class="tool-left">
-                <div class="icon" style="background:#0ea5e9">
-                  <i class="fa-solid fa-pen-fancy"></i>
+
+                <div class="section-box">
+                    <h3><i class="fa-solid fa-tags"></i> Skills</h3>
+                    <div class="form-row">
+                        <label>Enter skills separated by commas</label>
+                        <textarea class="form-textarea" placeholder="HTML, CSS, Leadership, Management..." oninput="updateSkills(this.value)"></textarea>
+                    </div>
                 </div>
-                <div>
-                  <div class="tool-title">Signature Generator</div>
-                  <div class="tool-desc">
-                    Create digital signatures online with custom styles
-                  </div>
+            </div>
+
+            <!-- PREVIEW -->
+            <div class="preview-col">
+                <div id="cv-paper">
+                    <!-- Header -->
+                    <div class="cv-top">
+                        <img id="display-img" class="cv-img" src="" alt="Profile">
+                        <div class="cv-header-text">
+                            <h1 id="display-name">Your Name</h1>
+                            <h2 id="display-title">Job Title</h2>
+                        </div>
+                    </div>
+
+                    <div class="cv-content">
+                        <!-- Sidebar -->
+                        <div class="cv-left">
+                            <div class="cv-heading">Contact</div>
+                            <div class="info-item"><i class="fa-solid fa-envelope"></i> <span id="display-email">email@example.com</span></div>
+                            <div class="info-item"><i class="fa-solid fa-phone"></i> <span id="display-phone">+1 234 567 890</span></div>
+                            <div class="info-item"><i class="fa-solid fa-location-dot"></i> <span id="display-location">City, Country</span></div>
+                            
+                            <div style="margin-top: 30px;" class="cv-heading">Skills</div>
+                            <div id="display-skills">
+                                <span class="skill-pill">Skill 1</span>
+                                <span class="skill-pill">Skill 2</span>
+                            </div>
+                        </div>
+
+                        <!-- Main Body -->
+                        <div class="cv-right">
+                            <div class="cv-heading">Profile</div>
+                            <p id="display-summary" style="margin-bottom: 25px;">Experienced professional ready to make an impact.</p>
+
+                            <div class="cv-heading">Experience</div>
+                            <div id="display-experience">
+                                <!-- Dynamic Content -->
+                            </div>
+
+                            <div class="cv-heading">Education</div>
+                            <div id="display-education">
+                                <!-- Dynamic Content -->
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
-              <i class="fa-solid fa-chevron-right arrow"></i>
-            </a>
-        
-            <a href="add-name-&-dob-on-photo.html" class="tool-card">
-              <div class="tool-left">
-                <div class="icon" style="background:#ec4899">
-                  <i class="fa-solid fa-image"></i>
-                </div>
-                <div>
-                  <div class="tool-title">Add Name & DOB on Photo</div>
-                  <div class="tool-desc">
-                    Add your name and date of birth on photos easily online
-                  </div>
-                </div>
-              </div>
-              <i class="fa-solid fa-chevron-right arrow"></i>
-            </a>
-            <a href="photo-&-signature-merger.html" class="tool-card">
-              <div class="tool-left">
-                <div class="icon" style="background:#14b8a6">
-                  <i class="fa-solid fa-images"></i>
-                </div>
-                <div>
-                  <div class="tool-title">Photo & Signature Merger</div>
-                  <div class="tool-desc">
-                    Merge photo and signature into a single image online
-                  </div>
-                </div>
-              </div>
-              <i class="fa-solid fa-chevron-right arrow"></i>
-            </a>
-        
-            <a href="image compressor.html" class="tool-card">
-                <div class="tool-left">
-                  <div class="icon" style="background:#16a34a"><i class="fa-solid fa-compress"></i></div>
-                  <div>
-                    <div class="tool-title">Image Compressor</div>
-                    <div class="tool-desc">Reduce image size without quality loss</div>
-                  </div>
-                </div>
-                <i class="fa-solid fa-chevron-right arrow"></i>
-            </a>
-        
-            <a href="birthday-countdown-calculator.html" class="tool-card">
-              <div class="tool-left">
-                <div class="icon" style="background:#f59e0b">
-                  <i class="fa-solid fa-birthday-cake"></i>
-                </div>
-                <div>
-                  <div class="tool-title">Birthday Countdown Calculator</div>
-                  <div class="tool-desc">
-                    Count down the days, hours, and minutes to your next birthday
-                  </div>
-                </div>
-              </div>
-              <i class="fa-solid fa-chevron-right arrow"></i>
-            </a>
-        
-            <a href="biodata-maker.html" class="tool-card">
-              <div class="tool-left">
-                <div class="icon" style="background:#0ea5e9">
-                  <i class="fa-solid fa-id-card"></i>
-                </div>
-                <div>
-                  <div class="tool-title">Biodata Maker</div>
-                  <div class="tool-desc">Create professional biodata instantly online</div>
-                </div>
-              </div>
-              <i class="fa-solid fa-chevron-right arrow"></i>
-            </a>
-        
-            <a href="duplicate-remover.html" class="tool-card">
-              <div class="tool-left">
-                <div class="icon" style="background:#22c55e">
-                  <i class="fa-solid fa-copy"></i>
-                </div>
-                <div>
-                  <div class="tool-title">Duplicate Remover</div>
-                  <div class="tool-desc">
-                    Remove duplicate items, fix repeated words, and analyze word frequency
-                  </div>
-                </div>
-              </div>
-              <i class="fa-solid fa-chevron-right arrow"></i>
-            </a>
-        
-            <a href="swap-letters.html" class="tool-card">
-              <div class="tool-left">
-                <div class="icon" style="background:#f59e0b">
-                  <i class="fa-solid fa-arrow-right-arrow-left"></i>
-                </div>
-                <div>
-                  <div class="tool-title">Swap Letters Tool</div>
-                  <div class="tool-desc">
-                    Swap adjacent letters, scramble words, replace characters, or invert text case
-                  </div>
-                </div>
-              </div>
-              <i class="fa-solid fa-chevron-right arrow"></i>
-            </a>
-        
-            <a href="unindent-tool.html" class="tool-card">
-              <div class="tool-left">
-                <div class="icon" style="background:#14b8a6">
-                  <i class="fa-solid fa-outdent"></i>
-                </div>
-                <div>
-                  <div class="tool-title">Smart Unindent Tool</div>
-                  <div class="tool-desc">
-                    Remove common indentation from code while preserving internal nesting
-                  </div>
-                </div>
-              </div>
-              <i class="fa-solid fa-chevron-right arrow"></i>
-            </a>
-        
-            <a href="center-text.html" class="tool-card">
-              <div class="tool-left">
-                <div class="icon" style="background:#ef4444">
-                  <i class="fa-solid fa-align-center"></i>
-                </div>
-                <div>
-                  <div class="tool-title">Center Text Tool</div>
-                  <div class="tool-desc">
-                    Center align text evenly while preserving spacing and line breaks
-                  </div>
-                </div>
-              </div>
-              <i class="fa-solid fa-chevron-right arrow"></i>
-            </a>
+            </div>
 
         </div>
+
+        <!-- TOOL CARDS -->
+        <div class="tools-section">
+            <h2 class="tools-title">More Free Tools</h2>
+            <div class="tools-grid">
+                <a href="pdf merger.html" class="tool-card">
+                    <div class="tool-left">
+                      <div class="icon" style="background:#7c3aed"><i class="fa-solid fa-object-group"></i></div>
+                      <div class="tool-info">
+                        <div>Merge PDF</div>
+                        <div>Combine PDFs</div>
+                      </div>
+                    </div>
+                </a>
+                <a href="image to PDF converter.html" class="tool-card">
+                    <div class="tool-left">
+                      <div class="icon" style="background:#f59e0b"><i class="fa-solid fa-image"></i></div>
+                      <div class="tool-info">
+                        <div>JPG to PDF</div>
+                        <div>Images to PDF</div>
+                      </div>
+                    </div>
+                </a>
+                <a href="sign-pdf.html" class="tool-card">
+                    <div class="tool-left">
+                      <div class="icon" style="background:#ec4899"><i class="fa-solid fa-signature"></i></div>
+                      <div class="tool-info">
+                        <div>Sign PDF</div>
+                        <div>Electronic Signatures</div>
+                      </div>
+                    </div>
+                </a>
+                <a href="image compressor.html" class="tool-card">
+                    <div class="tool-left">
+                      <div class="icon" style="background:#16a34a"><i class="fa-solid fa-compress"></i></div>
+                      <div class="tool-info">
+                        <div>Image Compressor</div>
+                        <div>Reduce size</div>
+                      </div>
+                    </div>
+                </a>
+                <!-- Add other cards here -->
+            </div>
+        </div>
+
+        <!-- SEO ARTICLE -->
+        <article class="seo-content">
+            <h1>Free Online CV Maker (2025 Edition)</h1>
+            <p>Creating a resume should not be a struggle. Our <strong>Free CV Maker</strong> allows you to build a professional, ATS-optimized Curriculum Vitae directly in your browser. Whether you are applying for a corporate job, a creative role, or a government position, this tool provides the structure you need.</p>
+            
+            <h2>How to Use This Tool</h2>
+            <p>1. <strong>Fill in your details:</strong> Use the form on the left to enter your personal information, experience, and education.<br>
+            2. <strong>Watch the Preview:</strong> The CV on the right updates instantly as you type.<br>
+            3. <strong>Customize:</strong> Add as many jobs or degrees as needed using the "Add" buttons.<br>
+            4. <strong>Download:</strong> Click the "Download PDF" button to save your file ready for application.</p>
+
+            <h2>Why Choose Our Resume Builder?</h2>
+            <ul>
+                <li><strong>Privacy Focused:</strong> Your data never leaves your browser. We do not store your CV on any server.</li>
+                <li><strong>Instant PDF Generation:</strong> We use high-quality rendering to ensure your PDF looks exactly like the preview.</li>
+                <li><strong>Mobile Friendly:</strong> Edit your CV on your phone or tablet with our responsive design.</li>
+            </ul>
+        </article>
+
     </div>
 
-    <!-- SEO CONTENT -->
-    <article class="content-area">
-        <h1>Best Free CV Maker Tool 2025: Create Professional Resumes Online</h1>
-        
-        <p>In the competitive job market of 2025, your CV (Curriculum Vitae) is your first opportunity to make a lasting impression. Whether you are a fresh graduate or an experienced professional, our **Free Online CV Maker** helps you design a polished, ATS-friendly resume in minutes. No software installation needed—just fill, preview, and download.</p>
-
-        <h2>Why Use Our Online CV Builder?</h2>
-        <p>Creating a resume from scratch using Word or Photoshop can be frustrating. Formatting issues, alignment problems, and exporting errors waste valuable time. Here is why our tool is superior:</p>
-        <ul>
-            <li><strong>Instant Live Preview:</strong> See changes in real-time as you type. No guessing how the final PDF will look.</li>
-            <li><strong>ATS-Friendly Layout:</strong> We use a clean, structured layout that Applicant Tracking Systems (ATS) can easily parse, ensuring your resume gets seen by human recruiters.</li>
-            <li><strong>100% Free & Secure:</strong> Your data is processed locally in your browser. We do not store your personal information on our servers.</li>
-            <li><strong>High-Quality PDF Download:</strong> Generate professional A4 PDFs ready for emailing or uploading to job portals like LinkedIn, Indeed, and Glassdoor.</li>
-        </ul>
-
-        <h2>How to Create a Perfect CV in 4 Steps</h2>
-        <h3>1. Enter Your Personal Details</h3>
-        <p>Start with the basics. Add your full name, professional job title, email, phone number, and location. You can also upload a professional headshot if required by the job market in your country.</p>
-
-        <h3>2. Write a Strong Summary</h3>
-        <p>Your professional summary is your elevator pitch. Keep it under 4 lines. Highlight your years of experience, key achievements, and what you bring to the table.</p>
-
-        <h3>3. Add Experience & Education</h3>
-        <p>Use the "Add Job" and "Add Education" buttons to dynamically create sections. Focus on <em>achievements</em> rather than just duties. Use action verbs like "Managed," "Developed," and "increased."</p>
-
-        <h3>4. Download and Apply</h3>
-        <p>Once you are satisfied with the preview, click the "Download PDF" button. The file is saved instantly to your device, ready for your job application.</p>
-
-        <h2>Key Features of a 2025 Resume</h2>
-        <p>Recruitment trends change. In 2025, successful resumes focus on:</p>
-        <ul>
-            <li><strong>Skills-Based Hiring:</strong> Dedicate a section to hard and soft skills. Our tool allows you to add comma-separated skills that appear as modern tags.</li>
-            <li><strong>Clean Aesthetics:</strong> Avoid cluttered designs. Our template uses a classic two-column structure (Sidebar for quick info, Main body for detailed history) which is preferred by hiring managers.</li>
-            <li><strong>Conciseness:</strong> Keep your CV to 1 or 2 pages. Our tool's formatting ensures you maximize space without overcrowding the text.</li>
-        </ul>
-
-        <h2>Frequently Asked Questions (FAQ)</h2>
-        
-        <h3>Is this CV Maker truly free?</h3>
-        <p>Yes, it is completely free. There are no paywalls, watermarks, or hidden subscriptions. You can create as many resumes as you like.</p>
-
-        <h3>Can I edit my CV later?</h3>
-        <p>Since we prioritize privacy and do not store your data on servers, you cannot "log in" to edit later. We recommend keeping the tab open until you are finished, or copying your text into a document for safekeeping.</p>
-
-        <h3>What is the best file format for CVs?</h3>
-        <p>PDF is the industry standard. Unlike Word documents, which can look different on different computers, a PDF locks your formatting in place. Our tool generates high-quality PDF files automatically.</p>
-
-        <p>Start building your career today with the most efficient <strong>CV Maker of 2025</strong>. If you need other document tools, check out our <a href="pdf merger.html">PDF Merger</a> or <a href="sign-pdf.html">PDF Signature tool</a>.</p>
-    </article>
-
-    <footer>
-        <p>&copy; 2025 Free CV Maker Tools. All rights reserved.</p>
-    </footer>
-
-    <!-- LOGIC -->
     <script>
-        // --- 1. State Management ---
-        const data = {
-            experience: [],
-            education: []
-        };
-
-        // --- 2. Live Preview Updaters ---
-        function updateText(elementId, value) {
-            const el = document.getElementById(elementId);
-            if(el) {
-                if(value.trim() === '') {
-                    // Keep placeholder visible or hide element if empty logic needed
-                    // For now, simple text replacement
-                }
-                el.innerText = value;
-            }
+        // --- 1. SIMPLE UPDATERS ---
+        function updateCV(field, value) {
+            const el = document.getElementById('display-' + field);
+            if(el) el.innerText = value;
         }
 
-        function loadPhoto(event) {
+        function handleImage(event) {
             const file = event.target.files[0];
-            const img = document.getElementById('cvPhotoImg');
+            const img = document.getElementById('display-img');
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
@@ -841,152 +528,142 @@
         }
 
         function updateSkills(value) {
-            const container = document.getElementById('cvSkills');
+            const container = document.getElementById('display-skills');
             const skills = value.split(',').filter(s => s.trim() !== '');
-            
-            container.innerHTML = skills.map(s => 
-                `<span class="skill-tag">${s.trim()}</span>`
-            ).join('');
-        }
-
-        // --- 3. Dynamic Fields (Experience & Education) ---
-        
-        function addExperienceField() {
-            const id = Date.now();
-            data.experience.push({ id, title: '', company: '', date: '', desc: '' });
-            renderExperienceInputs();
-            renderExperiencePreview();
-        }
-
-        function removeExperience(id) {
-            data.experience = data.experience.filter(item => item.id !== id);
-            renderExperienceInputs();
-            renderExperiencePreview();
-        }
-
-        function updateExperienceData(id, key, value) {
-            const item = data.experience.find(x => x.id === id);
-            if(item) {
-                item[key] = value;
-                renderExperiencePreview();
+            if(skills.length === 0) {
+                container.innerHTML = '<span class="skill-pill">Your Skills Here</span>';
+                return;
             }
+            container.innerHTML = skills.map(s => `<span class="skill-pill">${s.trim()}</span>`).join('');
         }
 
-        function renderExperienceInputs() {
-            const container = document.getElementById('experienceInputs');
-            container.innerHTML = data.experience.map(item => `
-                <div class="dynamic-item">
-                    <button class="remove-btn" onclick="removeExperience(${item.id})"><i class="fa-solid fa-trash"></i></button>
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Job Title" value="${item.title}" oninput="updateExperienceData(${item.id}, 'title', this.value)">
+        // --- 2. DYNAMIC LISTS (Experience & Education) ---
+        const state = {
+            experience: [
+                { id: 1, title: 'Sample Job', company: 'Sample Company', date: '2023 - Present', desc: 'Describe your responsibilities and achievements here.' }
+            ],
+            education: [
+                { id: 1, school: 'University Name', degree: 'Bachelor of Science', date: '2019 - 2023' }
+            ]
+        };
+
+        function renderExperience() {
+            // Render Inputs
+            const inputContainer = document.getElementById('experience-list');
+            inputContainer.innerHTML = state.experience.map(item => `
+                <div class="dynamic-entry">
+                    <button class="delete-btn" onclick="removeExp(${item.id})"><i class="fa-solid fa-trash"></i></button>
+                    <div class="form-row">
+                        <input class="form-input" value="${item.title}" placeholder="Job Title" oninput="updateExpData(${item.id}, 'title', this.value)">
                     </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Company Name" value="${item.company}" oninput="updateExperienceData(${item.id}, 'company', this.value)">
+                    <div class="form-row">
+                        <input class="form-input" value="${item.company}" placeholder="Company" oninput="updateExpData(${item.id}, 'company', this.value)">
                     </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Date (e.g. 2020 - Present)" value="${item.date}" oninput="updateExperienceData(${item.id}, 'date', this.value)">
+                    <div class="form-row">
+                        <input class="form-input" value="${item.date}" placeholder="Date" oninput="updateExpData(${item.id}, 'date', this.value)">
                     </div>
-                    <div class="form-group">
-                        <textarea class="form-control" placeholder="Job Description" oninput="updateExperienceData(${item.id}, 'desc', this.value)">${item.desc}</textarea>
+                    <div class="form-row">
+                        <textarea class="form-textarea" placeholder="Description" oninput="updateExpData(${item.id}, 'desc', this.value)">${item.desc}</textarea>
                     </div>
+                </div>
+            `).join('');
+
+            // Render Preview
+            const previewContainer = document.getElementById('display-experience');
+            previewContainer.innerHTML = state.experience.map(item => `
+                <div class="job-entry">
+                    <div class="entry-header">
+                        <div class="entry-title">${item.title || 'Job Title'}</div>
+                        <div class="entry-date">${item.date || 'Date'}</div>
+                    </div>
+                    <div class="entry-subtitle">${item.company || 'Company'}</div>
+                    <div class="entry-desc">${item.desc || ''}</div>
                 </div>
             `).join('');
         }
 
-        function renderExperiencePreview() {
-            const container = document.getElementById('cvExperienceList');
-            container.innerHTML = data.experience.map(item => `
-                <div class="job-item">
-                    <div class="job-header">
-                        <div class="job-title">${item.title || 'Job Title'}</div>
-                        <div class="job-date">${item.date || 'Dates'}</div>
+        function renderEducation() {
+            // Render Inputs
+            const inputContainer = document.getElementById('education-list');
+            inputContainer.innerHTML = state.education.map(item => `
+                <div class="dynamic-entry">
+                    <button class="delete-btn" onclick="removeEdu(${item.id})"><i class="fa-solid fa-trash"></i></button>
+                    <div class="form-row">
+                        <input class="form-input" value="${item.school}" placeholder="School/University" oninput="updateEduData(${item.id}, 'school', this.value)">
                     </div>
-                    <div class="job-company">${item.company || 'Company'}</div>
-                    <div class="job-desc">${item.desc || ''}</div>
+                    <div class="form-row">
+                        <input class="form-input" value="${item.degree}" placeholder="Degree/Course" oninput="updateEduData(${item.id}, 'degree', this.value)">
+                    </div>
+                    <div class="form-row">
+                        <input class="form-input" value="${item.date}" placeholder="Year" oninput="updateEduData(${item.id}, 'date', this.value)">
+                    </div>
+                </div>
+            `).join('');
+
+            // Render Preview
+            const previewContainer = document.getElementById('display-education');
+            previewContainer.innerHTML = state.education.map(item => `
+                <div class="edu-entry">
+                    <div class="entry-header">
+                        <div class="entry-title">${item.school || 'University'}</div>
+                        <div class="entry-date">${item.date || 'Year'}</div>
+                    </div>
+                    <div class="entry-subtitle">${item.degree || 'Degree'}</div>
                 </div>
             `).join('');
         }
 
-        // --- Education Logic (Identical structure to Experience) ---
-        function addEducationField() {
-            const id = Date.now();
-            data.education.push({ id, school: '', degree: '', year: '' });
-            renderEducationInputs();
-            renderEducationPreview();
+        // --- 3. DATA HANDLERS ---
+        function addExperience() {
+            state.experience.push({ id: Date.now(), title: '', company: '', date: '', desc: '' });
+            renderExperience();
+        }
+        function removeExp(id) {
+            state.experience = state.experience.filter(x => x.id !== id);
+            renderExperience();
+        }
+        function updateExpData(id, key, val) {
+            const item = state.experience.find(x => x.id === id);
+            if(item) { item[key] = val; renderExperience(); }
         }
 
-        function removeEducation(id) {
-            data.education = data.education.filter(item => item.id !== id);
-            renderEducationInputs();
-            renderEducationPreview();
+        function addEducation() {
+            state.education.push({ id: Date.now(), school: '', degree: '', date: '' });
+            renderEducation();
+        }
+        function removeEdu(id) {
+            state.education = state.education.filter(x => x.id !== id);
+            renderEducation();
+        }
+        function updateEduData(id, key, val) {
+            const item = state.education.find(x => x.id === id);
+            if(item) { item[key] = val; renderEducation(); }
         }
 
-        function updateEducationData(id, key, value) {
-            const item = data.education.find(x => x.id === id);
-            if(item) {
-                item[key] = value;
-                renderEducationPreview();
-            }
-        }
-
-        function renderEducationInputs() {
-            const container = document.getElementById('educationInputs');
-            container.innerHTML = data.education.map(item => `
-                <div class="dynamic-item">
-                    <button class="remove-btn" onclick="removeEducation(${item.id})"><i class="fa-solid fa-trash"></i></button>
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="School / University" value="${item.school}" oninput="updateEducationData(${item.id}, 'school', this.value)">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Degree / Course" value="${item.degree}" oninput="updateEducationData(${item.id}, 'degree', this.value)">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Year" value="${item.year}" oninput="updateEducationData(${item.id}, 'year', this.value)">
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function renderEducationPreview() {
-            const container = document.getElementById('cvEducationList');
-            container.innerHTML = data.education.map(item => `
-                <div class="edu-item">
-                    <div class="job-header">
-                        <div class="job-title">${item.school || 'University'}</div>
-                        <div class="job-date">${item.year || 'Year'}</div>
-                    </div>
-                    <div class="job-company">${item.degree || 'Degree'}</div>
-                </div>
-            `).join('');
-        }
-
-        // --- 4. PDF Generation ---
-        function generatePDF() {
-            const element = document.getElementById('cv-document');
+        // --- 4. PDF DOWNLOAD ---
+        function downloadPDF() {
+            const element = document.getElementById('cv-paper');
             const opt = {
                 margin:       0,
-                filename:     'my-professional-cv.pdf',
+                filename:     'my-cv-2025.pdf',
                 image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true },
+                html2canvas:  { scale: 2, useCORS: true, scrollY: 0 },
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
 
-            // Temporary UI feedback
-            const btn = document.querySelector('.action-btn');
-            const originalText = btn.innerHTML;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Generating...';
+            const btn = document.querySelector('.download-btn');
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
             
             html2pdf().set(opt).from(element).save().then(() => {
-                btn.innerHTML = originalText;
+                btn.innerHTML = '<i class="fa-solid fa-cloud-arrow-down"></i> Download PDF';
             });
         }
 
-        // Initialize with one empty field each
-        window.onload = function() {
-            addExperienceField();
-            addEducationField();
-        };
-
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            renderExperience();
+            renderEducation();
+        });
     </script>
 </body>
 </html>
