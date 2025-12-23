@@ -3,11 +3,52 @@
 <head> 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Toolvala - All-in-One Online Tools | Fast, Free & Simple</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <!-- =========================================
+         SEO & META TAGS FOR RANKING
+    ========================================== -->
+    <title>Toolvala - 150+ Free Online Tools | Converters, Calculators & Utilities</title>
+    <meta name="title" content="Toolvala - 150+ Free Online Tools | Converters, Calculators & Utilities">
+    <meta name="description" content="Access 150+ free online tools at Toolvala. Instant calculators, PDF converters, image tools, text utilities, and developer tools. No login required, 100% secure.">
+    <meta name="keywords" content="online tools, free tools, pdf converter, word counter, image compressor, scientific calculator, qr code generator, password generator, text tools, image resizer, toolvala, free web utilities, developer tools, upi converter, pdf merger">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="English">
+    <meta name="author" content="Toolvala">
     <link rel="canonical" href="https://www.toolvala.in/">
 
-    <meta name="description" content="100+ evergreen tools for daily productivity, conversions, calculations, text utilities, and more. 100% free, no login required.">
-    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolvala.in/">
+    <meta property="og:title" content="Toolvala - All-in-One Online Tools | Fast, Free & Simple">
+    <meta property="og:description" content="Access 150+ evergreen tools for daily productivity. PDF tools, Image tools, Converters, and more. No login required.">
+    <meta property="og:image" content="https://www.toolvala.in/assets/og-image.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.toolvala.in/">
+    <meta property="twitter:title" content="Toolvala - All-in-One Online Tools">
+    <meta property="twitter:description" content="Free online tools for productivity. Convert, Calculate, and Create instantly.">
+    <meta property="twitter:image" content="https://www.toolvala.in/assets/og-image.jpg">
+
+    <!-- Mobile Theme Color -->
+    <meta name="theme-color" content="#2563eb">
+
+    <!-- JSON-LD Schema Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Toolvala",
+      "url": "https://www.toolvala.in/",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://www.toolvala.in/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -16,6 +57,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
+    <!-- SortableJS (For Movable Cards) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
+
     <style>
         :root {
             --primary-blue: #2563eb;
@@ -110,14 +154,6 @@
         }
         
         .btn-primary:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); }
-        
-        .btn-secondary {
-            background: transparent;
-            color: var(--primary-blue);
-            border: 2px solid var(--primary-blue);
-        }
-        
-        .btn-secondary:hover { background: var(--primary-blue); color: white; }
         
         /* Header */
         header {
@@ -238,7 +274,7 @@
             color: var(--text-light);
         }
 
-        /* Tools Grid */
+        /* Tools Grid - With Drag/Drop Styles */
         .tools-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -258,6 +294,23 @@
             height: 100%;
             position: relative;
             overflow: hidden;
+            cursor: grab; /* Indicates draggable */
+        }
+
+        .tool-card:active {
+            cursor: grabbing;
+        }
+        
+        /* Style for the "ghost" element (the space where the item will be dropped) */
+        .sortable-ghost {
+            opacity: 0.4;
+            background: #e0f2fe;
+            border: 2px dashed var(--primary-blue);
+        }
+
+        /* Style for the element being dragged */
+        .sortable-drag {
+            cursor: grabbing;
         }
         
         .tool-card:hover {
@@ -438,7 +491,7 @@
                 </div>
             </div>
             <div class="hero-illustration">
-                <!-- Placeholder for Dashboard Image - using a gradient box if image fails -->
+                <!-- Placeholder for Dashboard Image -->
                 <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Toolvala Dashboard" class="dashboard-img">
             </div>
         </div>
@@ -471,12 +524,12 @@
     <!-- Featured Tools Grid -->
     <section id="tools" style="background-color: #f8fafc;">
         <div class="container">
-            <h2>Popular Tools</h2>
+            <h2>Popular Tools <span style="font-size: 0.9rem; font-weight: 400; color: var(--text-light);">(Drag to rearrange)</span></h2>
             
             <div class="tools-grid" id="toolsGrid">
                 
                 <!-- 1. Word Counter -->
-                <a href="word-counter-tool.html" class="tool-card" data-name="word counter text">
+                <a href="word-counter-tool.html" class="tool-card" data-id="1" data-name="word counter text">
                     <div class="tool-card-header">
                         <div class="tool-icon"><i class="fas fa-font"></i></div>
                         <div class="tool-info">
@@ -496,7 +549,7 @@
                 </a>
 
                 <!-- 2. Scientific Calculator -->
-                <a href="scientific-calculator.html" class="tool-card" data-name="calculator math">
+                <a href="scientific-calculator.html" class="tool-card" data-id="2" data-name="calculator math">
                     <div class="tool-card-header">
                         <div class="tool-icon"><i class="fas fa-calculator"></i></div>
                         <div class="tool-info">
@@ -516,7 +569,7 @@
                 </a>
 
                 <!-- 3. Image Compressor -->
-                <a href="image-compressor.html" class="tool-card" data-name="image compressor photo">
+                <a href="image-compressor.html" class="tool-card" data-id="3" data-name="image compressor photo">
                     <div class="tool-card-header">
                         <div class="tool-icon orange"><i class="fas fa-compress"></i></div>
                         <div class="tool-info">
@@ -536,7 +589,7 @@
                 </a>
 
                 <!-- 4. PDF Merger -->
-                <a href="pdf-merger.html" class="tool-card" data-name="pdf merger document">
+                <a href="pdf-merger.html" class="tool-card" data-id="4" data-name="pdf merger document">
                     <div class="badge-new">HOT</div>
                     <div class="tool-card-header">
                         <div class="tool-icon red"><i class="fas fa-file-pdf"></i></div>
@@ -557,7 +610,7 @@
                 </a>
 
                 <!-- 5. Password Generator -->
-                <a href="password-generator.html" class="tool-card" data-name="password security">
+                <a href="password-generator.html" class="tool-card" data-id="5" data-name="password security">
                     <div class="tool-card-header">
                         <div class="tool-icon purple"><i class="fas fa-key"></i></div>
                         <div class="tool-info">
@@ -577,7 +630,7 @@
                 </a>
 
                 <!-- 6. QR Code Generator -->
-                <a href="qr-code-generator.html" class="tool-card" data-name="qr code generator">
+                <a href="qr-code-generator.html" class="tool-card" data-id="6" data-name="qr code generator">
                     <div class="tool-card-header">
                         <div class="tool-icon"><i class="fas fa-qrcode"></i></div>
                         <div class="tool-info">
@@ -597,7 +650,7 @@
                 </a>
 
                 <!-- 7. UPI ID to Payment Link -->
-                <a href="UPI-ID-payment-link-converter.html" class="tool-card" data-name="upi payment finance">
+                <a href="UPI-ID-payment-link-converter.html" class="tool-card" data-id="7" data-name="upi payment finance">
                     <div class="tool-card-header">
                         <div class="tool-icon green"><i class="fas fa-rupee-sign"></i></div>
                         <div class="tool-info">
@@ -617,7 +670,7 @@
                 </a>
 
                 <!-- 8. Decimal to Time -->
-                <a href="decimal-to-time-converter.html" class="tool-card" data-name="decimal time converter">
+                <a href="decimal-to-time-converter.html" class="tool-card" data-id="8" data-name="decimal time converter">
                     <div class="tool-card-header">
                         <div class="tool-icon"><i class="fas fa-clock"></i></div>
                         <div class="tool-info">
@@ -637,7 +690,7 @@
                 </a>
 
                 <!-- 9. PDF to Image -->
-                <a href="pdf-to-image-converter.html" class="tool-card" data-name="pdf to image converter">
+                <a href="pdf-to-image-converter.html" class="tool-card" data-id="9" data-name="pdf to image converter">
                     <div class="tool-card-header">
                         <div class="tool-icon red"><i class="fas fa-images"></i></div>
                         <div class="tool-info">
@@ -656,7 +709,7 @@
                 </a>
 
                 <!-- 10. Image to PDF -->
-                <a href="image-to-pdf-converter.html" class="tool-card" data-name="image to pdf converter">
+                <a href="image-to-pdf-converter.html" class="tool-card" data-id="10" data-name="image to pdf converter">
                     <div class="tool-card-header">
                         <div class="tool-icon green"><i class="fas fa-file-image"></i></div>
                         <div class="tool-info">
@@ -675,7 +728,7 @@
                 </a>
 
                 <!-- 11. Notes to Coins -->
-                <a href="notes-to-coins-calculator.html" class="tool-card" data-name="notes coins money">
+                <a href="notes-to-coins-calculator.html" class="tool-card" data-id="11" data-name="notes coins money">
                     <div class="tool-card-header">
                         <div class="tool-icon orange"><i class="fas fa-coins"></i></div>
                         <div class="tool-info">
@@ -695,7 +748,7 @@
                 </a>
 
                 <!-- 12. Mood to Emoji -->
-                <a href="mood-to-emoji-converter.html" class="tool-card" data-name="mood emoji fun">
+                <a href="mood-to-emoji-converter.html" class="tool-card" data-id="12" data-name="mood emoji fun">
                     <div class="tool-card-header">
                         <div class="tool-icon purple"><i class="fas fa-smile-beam"></i></div>
                         <div class="tool-info">
@@ -715,7 +768,7 @@
                 </a>
 
                 <!-- 13. Image Resizer -->
-                <a href="image-resizer.html" class="tool-card" data-name="image resizer photo">
+                <a href="image-resizer.html" class="tool-card" data-id="13" data-name="image resizer photo">
                     <div class="tool-card-header">
                         <div class="tool-icon orange"><i class="fas fa-expand"></i></div>
                         <div class="tool-info">
@@ -735,7 +788,7 @@
                 </a>
 
                 <!-- 14. JSON Formatter -->
-                <a href="json-formatter.html" class="tool-card" data-name="json code dev">
+                <a href="json-formatter.html" class="tool-card" data-id="14" data-name="json code dev">
                     <div class="tool-card-header">
                         <div class="tool-icon"><i class="fas fa-code"></i></div>
                         <div class="tool-info">
@@ -755,7 +808,7 @@
                 </a>
 
                 <!-- 15. All Tools Link -->
-                <a href="all-tools.html" class="tool-card" style="background: var(--light-gray); border: 2px dashed var(--primary-blue);">
+                <a href="all-tools.html" class="tool-card" data-id="15" style="background: var(--light-gray); border: 2px dashed var(--primary-blue);">
                     <div class="tool-card-header">
                         <div class="tool-icon" style="background: var(--primary-dark);"><i class="fas fa-th-large"></i></div>
                         <div class="tool-info">
@@ -863,7 +916,9 @@
         // Set Current Year
         document.getElementById('current-year').textContent = new Date().getFullYear();
 
-        // Mobile Menu Logic
+        // ----------------------------------------------------
+        // MOBILE MENU LOGIC
+        // ----------------------------------------------------
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const closeMenuBtn = document.getElementById('closeMenu');
         const mobileNav = document.getElementById('mobileNav');
@@ -884,7 +939,9 @@
             });
         });
 
-        // Search Functionality
+        // ----------------------------------------------------
+        // SEARCH FUNCTIONALITY
+        // ----------------------------------------------------
         const searchInput = document.getElementById('toolSearch');
         const toolCards = document.querySelectorAll('.tool-card');
 
@@ -903,7 +960,45 @@
             });
         });
 
-        // Smooth Scroll for Anchors
+        // ----------------------------------------------------
+        // MOVABLE CARDS (SortableJS + Persistence)
+        // ----------------------------------------------------
+        const grid = document.getElementById('toolsGrid');
+
+        // Restore order from LocalStorage if exists
+        function restoreOrder() {
+            const order = JSON.parse(localStorage.getItem('toolOrder'));
+            if (order) {
+                const currentCards = Array.from(grid.children);
+                // Sort current cards based on the saved order
+                const sortedCards = currentCards.sort((a, b) => {
+                    const idA = a.getAttribute('data-id');
+                    const idB = b.getAttribute('data-id');
+                    return order.indexOf(idA) - order.indexOf(idB);
+                });
+                // Re-append in new order
+                sortedCards.forEach(card => grid.appendChild(card));
+            }
+        }
+        
+        // Call restore immediately
+        restoreOrder();
+
+        // Initialize Sortable
+        var sortable = new Sortable(grid, {
+            animation: 150,
+            ghostClass: 'sortable-ghost',
+            dragClass: 'sortable-drag',
+            onEnd: function (evt) {
+                // Save new order to LocalStorage
+                const order = Array.from(grid.children).map(card => card.getAttribute('data-id'));
+                localStorage.setItem('toolOrder', JSON.stringify(order));
+            }
+        });
+
+        // ----------------------------------------------------
+        // SMOOTH SCROLL
+        // ----------------------------------------------------
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
