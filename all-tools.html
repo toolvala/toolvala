@@ -62,14 +62,15 @@
 
     /* CONTAINER */
     .container {
-      max-width: 1000px;
+      /* Increased width to accommodate 3 columns comfortably */
+      max-width: 1200px;
       margin: 0 auto;
       padding: 20px 16px 60px;
     }
 
     /* CATEGORY SECTIONS */
     .category {
-      margin-top: 30px;
+      margin-top: 35px;
     }
 
     .category-title {
@@ -82,57 +83,65 @@
       color: var(--text-main);
     }
 
-    /* TOOL GRID */
+    /* TOOL GRID - LAYOUT LOGIC */
     .tool-grid {
       display: grid;
-      /* Responsive: 1 column on mobile (like screenshot), 2 on tablet, 3 on desktop */
+      gap: 16px;
+      /* Default: 1 Column (Mobile) */
       grid-template-columns: 1fr; 
-      gap: 12px;
     }
 
+    /* Tablet: 2 Columns */
     @media (min-width: 640px) {
-      .tool-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (min-width: 1024px) {
-      .tool-grid { grid-template-columns: repeat(3, 1fr); }
+      .tool-grid { 
+        grid-template-columns: repeat(2, 1fr); 
+      }
     }
 
-    /* CARD DESIGN (Matches Screenshot) */
+    /* Desktop: 3 Columns (As requested) */
+    @media (min-width: 1024px) {
+      .tool-grid { 
+        grid-template-columns: repeat(3, 1fr); 
+      }
+    }
+
+    /* CARD DESIGN */
     .tool-card {
       background: var(--card-bg);
-      border: 1px solid #ffffff; /* Subtle border */
+      border: 1px solid #ffffff;
       border-radius: var(--radius);
-      padding: 12px;
+      padding: 16px; /* Slightly larger padding for desktop feel */
       display: flex;
       align-items: center;
       justify-content: space-between;
       text-decoration: none;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.05); /* Soft shadow */
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
       transition: transform 0.2s, box-shadow 0.2s;
     }
 
     .tool-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.1);
+      z-index: 1;
     }
 
     .card-left {
       display: flex;
       align-items: center;
-      gap: 12px;
-      overflow: hidden; /* Prevents text overflow */
+      gap: 14px;
+      overflow: hidden;
     }
 
     /* ICON SQUARES */
     .icon-box {
-      width: 42px;
-      height: 42px;
-      border-radius: 8px;
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
       color: white;
-      font-size: 18px;
+      font-size: 20px;
       flex-shrink: 0;
     }
 
@@ -142,23 +151,24 @@
     }
 
     .tool-name {
-      font-size: 14px;
+      font-size: 15px;
       font-weight: 600;
       color: var(--text-main);
-      margin-bottom: 2px;
+      margin-bottom: 3px;
     }
 
     .tool-desc {
-      font-size: 11px;
+      font-size: 12px;
       color: var(--text-muted);
       line-height: 1.3;
+      /* Truncate text on single line for cleaner grid */
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      max-width: 200px;
+      max-width: 220px; 
     }
     
-    /* Mobile specific tweaks for description */
+    /* On mobile, let text wrap */
     @media (max-width: 640px) {
         .tool-desc { white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
     }
@@ -171,13 +181,13 @@
     /* FOOTER */
     footer {
       text-align: center;
-      margin-top: 50px;
+      margin-top: 60px;
       color: var(--text-muted);
-      font-size: 12px;
-      padding-bottom: 20px;
+      font-size: 13px;
+      padding-bottom: 30px;
     }
     
-    /* COLOR CLASSES (Based on your screenshot) */
+    /* COLORS FROM SCREENSHOT */
     .bg-red { background-color: #ef4444; }
     .bg-orange { background-color: #f97316; }
     .bg-yellow { background-color: #eab308; }
@@ -188,6 +198,7 @@
     .bg-purple { background-color: #8b5cf6; }
     .bg-pink { background-color: #ec4899; }
     .bg-sky { background-color: #0ea5e9; }
+    .bg-slate { background-color: #64748b; }
 
   </style>
 </head>
@@ -204,7 +215,6 @@
   <div class="category">
     <div class="category-title">📄 PDF Tools</div>
     <div class="tool-grid">
-      <!-- Word to PDF -->
       <a href="word-to-pdf.html" class="tool-card">
         <div class="card-left">
           <div class="icon-box bg-red"><i class="fa-solid fa-file-pdf"></i></div>
@@ -216,7 +226,6 @@
         <i class="fa-solid fa-chevron-right arrow-icon"></i>
       </a>
 
-      <!-- PDF Compressor -->
       <a href="pdf-compressor.html" class="tool-card">
         <div class="card-left">
           <div class="icon-box bg-orange"><i class="fa-solid fa-file-zipper"></i></div>
@@ -228,7 +237,6 @@
         <i class="fa-solid fa-chevron-right arrow-icon"></i>
       </a>
 
-      <!-- Merge PDF -->
       <a href="pdf-merger.html" class="tool-card">
         <div class="card-left">
           <div class="icon-box bg-purple"><i class="fa-solid fa-object-group"></i></div>
@@ -240,7 +248,6 @@
         <i class="fa-solid fa-chevron-right arrow-icon"></i>
       </a>
 
-      <!-- JPG to PDF -->
       <a href="image-to-pdf-converter.html" class="tool-card">
         <div class="card-left">
           <div class="icon-box bg-yellow"><i class="fa-solid fa-image"></i></div>
@@ -252,7 +259,6 @@
         <i class="fa-solid fa-chevron-right arrow-icon"></i>
       </a>
 
-      <!-- Sign PDF -->
       <a href="sign-pdf.html" class="tool-card">
         <div class="card-left">
           <div class="icon-box bg-pink"><i class="fa-solid fa-signature"></i></div>
@@ -270,7 +276,6 @@
   <div class="category">
     <div class="category-title">🖼️ Image Tools</div>
     <div class="tool-grid">
-      <!-- Image Resizer -->
       <a href="image-resizer.html" class="tool-card">
         <div class="card-left">
           <div class="icon-box bg-teal"><i class="fa-solid fa-expand"></i></div>
@@ -282,7 +287,6 @@
         <i class="fa-solid fa-chevron-right arrow-icon"></i>
       </a>
 
-      <!-- Signature Generator -->
       <a href="signature-generator.html" class="tool-card">
         <div class="card-left">
           <div class="icon-box bg-sky"><i class="fa-solid fa-pen-fancy"></i></div>
@@ -294,7 +298,6 @@
         <i class="fa-solid fa-chevron-right arrow-icon"></i>
       </a>
 
-      <!-- Add Name & DOB -->
       <a href="add-name-&-dob-on-photo.html" class="tool-card">
         <div class="card-left">
           <div class="icon-box bg-pink"><i class="fa-solid fa-id-card"></i></div>
@@ -306,7 +309,6 @@
         <i class="fa-solid fa-chevron-right arrow-icon"></i>
       </a>
 
-      <!-- Photo & Signature Merger -->
       <a href="photo-&-signature-merger.html" class="tool-card">
         <div class="card-left">
           <div class="icon-box bg-green"><i class="fa-solid fa-images"></i></div>
@@ -318,7 +320,6 @@
         <i class="fa-solid fa-chevron-right arrow-icon"></i>
       </a>
 
-      <!-- Image Compressor (FIXED BROKEN CARD) -->
       <a href="image-compressor.html" class="tool-card">
         <div class="card-left">
           <div class="icon-box bg-green"><i class="fa-solid fa-compress"></i></div>
@@ -336,7 +337,6 @@
   <div class="category">
     <div class="category-title">🧮 Calculators</div>
     <div class="tool-grid">
-      <!-- Notes to Coins -->
       <a href="notes-to-coins-calculator.html" class="tool-card">
         <div class="card-left">
           <div class="icon-box bg-orange"><i class="fa-solid fa-coins"></i></div>
@@ -348,7 +348,6 @@
         <i class="fa-solid fa-chevron-right arrow-icon"></i>
       </a>
 
-      <!-- Age Calculator -->
       <a href="age-calculator.html" class="tool-card">
         <div class="card-left">
           <div class="icon-box bg-green"><i class="fa-solid fa-cake-candles"></i></div>
@@ -360,7 +359,6 @@
         <i class="fa-solid fa-chevron-right arrow-icon"></i>
       </a>
 
-      <!-- Birthday Countdown -->
       <a href="birthday-countdown-calculator.html" class="tool-card">
         <div class="card-left">
           <div class="icon-box bg-yellow"><i class="fa-solid fa-calendar-days"></i></div>
@@ -372,7 +370,6 @@
         <i class="fa-solid fa-chevron-right arrow-icon"></i>
       </a>
 
-      <!-- Compound Interest -->
       <a href="compound-interest-calculator.html" class="tool-card">
         <div class="card-left">
           <div class="icon-box bg-blue"><i class="fa-solid fa-chart-line"></i></div>
@@ -384,7 +381,6 @@
         <i class="fa-solid fa-chevron-right arrow-icon"></i>
       </a>
 
-      <!-- Round-off Decimal -->
       <a href="round-off-decimal-calculator.html" class="tool-card">
         <div class="card-left">
           <div class="icon-box bg-purple"><i class="fa-solid fa-percent"></i></div>
@@ -396,7 +392,6 @@
         <i class="fa-solid fa-chevron-right arrow-icon"></i>
       </a>
 
-      <!-- Hours & Minutes Adder -->
       <a href="hours-&-minutes-adder.html" class="tool-card">
         <div class="card-left">
           <div class="icon-box bg-sky"><i class="fa-solid fa-clock"></i></div>
@@ -414,7 +409,6 @@
   <div class="category">
     <div class="category-title">✍️ Text & Utility Tools</div>
     <div class="tool-grid">
-      <!-- Word Counter -->
       <a href="word-counter-tool.html" class="tool-card">
         <div class="card-left">
           <div class="icon-box bg-blue"><i class="fa-solid fa-font"></i></div>
@@ -426,7 +420,6 @@
         <i class="fa-solid fa-chevron-right arrow-icon"></i>
       </a>
 
-      <!-- Duplicate Words Remover -->
       <a href="duplicate-words-remover.html" class="tool-card">
         <div class="card-left">
           <div class="icon-box bg-red"><i class="fa-solid fa-eraser"></i></div>
@@ -438,7 +431,6 @@
         <i class="fa-solid fa-chevron-right arrow-icon"></i>
       </a>
 
-      <!-- Text to Image -->
       <a href="text-to-image.html" class="tool-card">
         <div class="card-left">
           <div class="icon-box bg-sky"><i class="fa-solid fa-image"></i></div>
@@ -450,7 +442,6 @@
         <i class="fa-solid fa-chevron-right arrow-icon"></i>
       </a>
 
-      <!-- Normalize Text -->
       <a href="normalize-text.html" class="tool-card">
         <div class="card-left">
           <div class="icon-box bg-purple"><i class="fa-solid fa-text-height"></i></div>
@@ -462,7 +453,6 @@
         <i class="fa-solid fa-chevron-right arrow-icon"></i>
       </a>
 
-      <!-- Reverse Paragraphs -->
       <a href="reverse-paragraphs-in-text.html" class="tool-card">
         <div class="card-left">
           <div class="icon-box bg-indigo"><i class="fa-solid fa-paragraph"></i></div>
@@ -474,10 +464,9 @@
         <i class="fa-solid fa-chevron-right arrow-icon"></i>
       </a>
 
-      <!-- Advanced Replace -->
       <a href="replace-tool.html" class="tool-card">
         <div class="card-left">
-          <div class="icon-box bg-blue"><i class="fa-solid fa-right-left"></i></div>
+          <div class="icon-box bg-sky"><i class="fa-solid fa-right-left"></i></div>
           <div class="card-info">
             <span class="tool-name">Advanced Replace Tool</span>
             <span class="tool-desc">Bulk replace words with regex and whole-word filtering for precise text editing</span>
@@ -486,7 +475,6 @@
         <i class="fa-solid fa-chevron-right arrow-icon"></i>
       </a>
 
-      <!-- Duplicate Remover -->
       <a href="duplicate-remover.html" class="tool-card">
         <div class="card-left">
           <div class="icon-box bg-green"><i class="fa-solid fa-copy"></i></div>
@@ -498,10 +486,9 @@
         <i class="fa-solid fa-chevron-right arrow-icon"></i>
       </a>
 
-      <!-- Swap Letters -->
       <a href="swap-letters.html" class="tool-card">
         <div class="card-left">
-          <div class="icon-box bg-yellow"><i class="fa-solid fa-arrow-right-arrow-left"></i></div>
+          <div class="icon-box bg-orange"><i class="fa-solid fa-arrow-right-arrow-left"></i></div>
           <div class="card-info">
             <span class="tool-name">Swap Letters Tool</span>
             <span class="tool-desc">Swap adjacent letters, scramble words, replace characters, or invert text case</span>
@@ -510,7 +497,6 @@
         <i class="fa-solid fa-chevron-right arrow-icon"></i>
       </a>
 
-      <!-- Reverse Sentences -->
       <a href="reverse-sentences.html" class="tool-card">
         <div class="card-left">
           <div class="icon-box bg-purple"><i class="fa-solid fa-rotate-left"></i></div>
@@ -522,7 +508,6 @@
         <i class="fa-solid fa-chevron-right arrow-icon"></i>
       </a>
 
-      <!-- Smart Unindent -->
       <a href="unindent-tool.html" class="tool-card">
         <div class="card-left">
           <div class="icon-box bg-teal"><i class="fa-solid fa-outdent"></i></div>
@@ -534,7 +519,6 @@
         <i class="fa-solid fa-chevron-right arrow-icon"></i>
       </a>
 
-      <!-- Center Text -->
       <a href="center-text.html" class="tool-card">
         <div class="card-left">
           <div class="icon-box bg-red"><i class="fa-solid fa-align-center"></i></div>
@@ -546,7 +530,6 @@
         <i class="fa-solid fa-chevron-right arrow-icon"></i>
       </a>
 
-      <!-- Left Align -->
       <a href="left-align.html" class="tool-card">
         <div class="card-left">
           <div class="icon-box bg-blue"><i class="fa-solid fa-align-left"></i></div>
@@ -558,7 +541,6 @@
         <i class="fa-solid fa-chevron-right arrow-icon"></i>
       </a>
 
-      <!-- Left Pad Text -->
       <a href="left-pad.html" class="tool-card">
         <div class="card-left">
           <div class="icon-box bg-teal"><i class="fa-solid fa-indent"></i></div>
@@ -570,7 +552,6 @@
         <i class="fa-solid fa-chevron-right arrow-icon"></i>
       </a>
 
-      <!-- Reverse Text Tool -->
       <a href="reverse-text.html" class="tool-card">
         <div class="card-left">
           <div class="icon-box bg-pink"><i class="fa-solid fa-arrows-rotate"></i></div>
@@ -582,7 +563,6 @@
         <i class="fa-solid fa-chevron-right arrow-icon"></i>
       </a>
 
-      <!-- Mood to Emoji -->
       <a href="mood-to-emoji-converter.html" class="tool-card">
         <div class="card-left">
           <div class="icon-box bg-yellow"><i class="fa-solid fa-face-smile"></i></div>
@@ -600,7 +580,6 @@
   <div class="category">
     <div class="category-title">🧰 Other Tools</div>
     <div class="tool-grid">
-      <!-- Biodata Maker -->
       <a href="biodata-maker.html" class="tool-card">
         <div class="card-left">
           <div class="icon-box bg-sky"><i class="fa-solid fa-id-card"></i></div>
@@ -612,7 +591,6 @@
         <i class="fa-solid fa-chevron-right arrow-icon"></i>
       </a>
 
-      <!-- Resume Maker -->
       <a href="resume-maker.html" class="tool-card">
         <div class="card-left">
           <div class="icon-box bg-blue"><i class="fa-solid fa-file-contract"></i></div>
@@ -624,7 +602,6 @@
         <i class="fa-solid fa-chevron-right arrow-icon"></i>
       </a>
 
-      <!-- CV Maker -->
       <a href="cv-maker.html" class="tool-card">
         <div class="card-left">
           <div class="icon-box bg-green"><i class="fa-solid fa-file-lines"></i></div>
@@ -636,7 +613,6 @@
         <i class="fa-solid fa-chevron-right arrow-icon"></i>
       </a>
 
-      <!-- Decimal to Time -->
       <a href="decimal-to-time-converter.html" class="tool-card">
         <div class="card-left">
           <div class="icon-box bg-sky"><i class="fa-solid fa-clock"></i></div>
