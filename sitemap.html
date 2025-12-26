@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>HTML Sitemap – Toolvala</title>
+<title>Toolvala HTML Sitemap</title>
 
-<meta name="description" content="Browse all free online tools on Toolvala. This HTML sitemap is auto-generated from our sitemap.xml.">
+<meta name="description" content="Browse all Toolvala tools in one place. This HTML sitemap is auto-generated from internal links.">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="canonical" href="https://www.toolvala.in/sitemap.html">
 
@@ -39,11 +39,6 @@ a{
   font-weight:500;
 }
 a:hover{text-decoration:underline;}
-#status{
-  text-align:center;
-  color:#666;
-  margin-bottom:15px;
-}
 </style>
 </head>
 
@@ -51,47 +46,63 @@ a:hover{text-decoration:underline;}
 
 <div class="sitemap">
 <h1>Toolvala HTML Sitemap</h1>
-<p id="status">Loading tools…</p>
-<ul id="sitemap-list"></ul>
+<p>All tools available on Toolvala.</p>
+<ul id="list"></ul>
 </div>
 
 <script>
-const SITEMAP_URL = "https://www.toolvala.in/sitemap.xml";
+(function(){
+  const links = new Set();
 
-fetch(SITEMAP_URL)
-  .then(res => res.text())
-  .then(text => {
-    const parser = new DOMParser();
-    const xml = parser.parseFromString(text, "text/xml");
+  // scan homepage + tool listing pages
+  const pagesToScan = [
+    "/",
+    "/index.html"
+  ];
 
-    // ✅ Namespace-safe selector
-    const urls = xml.querySelectorAll("loc");
+  const base = "https://www.toolvala.in";
 
-    const list = document.getElementById("sitemap-list");
-    const status = document.getElementById("status");
-    status.style.display = "none";
+  function addLink(href){
+    if(
+      href &&
+      href.endsWith(".html") &&
+      !href.includes("sitemap") &&
+      !href.includes("generate")
+    ){
+      links.add(href);
+    }
+  }
 
-    urls.forEach(loc => {
-      const url = loc.textContent.trim();
+  Promise.all(
+    pagesToScan.map(p =>
+      fetch(base + p).then(r => r.text())
+    )
+  ).then(htmlPages => {
+    htmlPages.forEach(html => {
+      const doc = new DOMParser().parseFromString(html,"text/html");
+      doc.querySelectorAll("a[href]").forEach(a=>{
+        let href = a.getAttribute("href");
+        if(href.startsWith("/")) href = base + href;
+        if(href.startsWith(base)) addLink(href);
+      });
+    });
 
-      let title = url
-        .replace("https://www.toolvala.in/", "")
+    const ul = document.getElementById("list");
+
+    [...links].sort().forEach(url=>{
+      let name = url.replace(base,"")
         .replace(".html","")
         .replace(/-/g," ")
-        .replace(/\b\w/g, c => c.toUpperCase());
+        .replace(/\b\w/g,c=>c.toUpperCase());
 
-      if (title === "") title = "Home";
+      if(name === "") name = "Home";
 
       const li = document.createElement("li");
-      li.innerHTML = `<a href="${url}">${title}</a>`;
-      list.appendChild(li);
+      li.innerHTML = `<a href="${url}">${name}</a>`;
+      ul.appendChild(li);
     });
-  })
-  .catch(err => {
-    document.getElementById("status").textContent =
-      "Unable to load sitemap.";
-    console.error(err);
   });
+})();
 </script>
 
 </body>
