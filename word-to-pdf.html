@@ -1,471 +1,230 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfect Word to PDF | Hindi & Headers Fixed</title>
-    <link rel="canonical"href="https://www.toolvala.in/word-to-pdf.html">
-    <!-- Word Document Parser Libraries -->
-    <script src="https://unpkg.com/jszip/dist/jszip.min.js"></script>
-    <script src="https://unpkg.com/docx-preview/dist/docx-preview.min.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Google Fonts for perfect Hindi support -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet">
+<title>Live Word & Character Counter | Word to PDF Tool – Toolvala</title>
 
-    <style>
-        body {
-            background-color: #f1f5f9;
-            font-family: 'Segoe UI', Roboto, 'Noto Sans Devanagari', sans-serif;
-            margin: 0;
-            padding: 20px;
-        }
+<meta name="description" content="Free Live Word Counter & Character Counter with Hindi support. Convert Word DOCX to PDF with accurate word count, characters, headers & logos. 100% client-side.">
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
+<link rel="canonical" href="https://www.toolvala.in/word-to-pdf.html">
 
-        .controls-card {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            text-align: center;
-            margin-bottom: 20px;
-        }
+<!-- DOCX Libraries -->
+<script src="https://unpkg.com/jszip/dist/jszip.min.js"></script>
+<script src="https://unpkg.com/docx-preview/dist/docx-preview.min.js"></script>
 
-        h1 { margin: 0; color: #1e40af; font-size: 1.5rem; }
-        p { color: #64748b; margin-top: 5px; }
+<!-- Hindi Font -->
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet">
 
-        .btn-upload {
-            display: inline-block;
-            background: #eff6ff;
-            color: #2563eb;
-            border: 2px dashed #2563eb;
-            padding: 12px 25px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            margin: 15px 0;
-            width: 100%;
-            box-sizing: border-box;
-        }
+<style>
+body{
+    font-family: 'Segoe UI', 'Noto Sans Devanagari', sans-serif;
+    background:#f1f5f9;
+    margin:0;
+    padding:20px;
+    color:#0f172a;
+}
+.container{max-width:1000px;margin:auto}
+.card{
+    background:#fff;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 6px 15px rgba(0,0,0,.08);
+}
+.btn-upload{
+    display:block;
+    border:2px dashed #2563eb;
+    padding:15px;
+    border-radius:10px;
+    text-align:center;
+    cursor:pointer;
+    font-weight:700;
+    color:#2563eb;
+    margin:15px 0;
+}
+button{
+    width:100%;
+    padding:14px;
+    background:#16a34a;
+    color:#fff;
+    border:none;
+    border-radius:8px;
+    font-size:1.05rem;
+    cursor:pointer;
+    font-weight:700;
+}
+button:disabled{background:#cbd5e1;cursor:not-allowed}
 
-        .btn-save {
-            background: #16a34a; /* Green */
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            font-size: 1.1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            width: 100%;
-            box-shadow: 0 4px 6px rgba(22, 163, 74, 0.3);
-        }
-        .btn-save:disabled { background: #cbd5e1; box-shadow: none; cursor: not-allowed; }
+.counter-box{
+    display:flex;
+    gap:15px;
+    flex-wrap:wrap;
+    margin-top:15px;
+}
+.counter{
+    flex:1;
+    background:#eff6ff;
+    padding:12px;
+    border-radius:8px;
+    text-align:center;
+    font-weight:700;
+}
 
-        #error-msg { color: #dc2626; font-weight: bold; margin-top: 10px; }
-
-        /* --- PREVIEW AREA --- */
-        .preview-scroller {
-            background: #475569; /* Dark grey bg for contrast */
-            padding: 20px;
-            overflow-x: auto; /* Allow horizontal scrolling on mobile */
-            border-radius: 8px;
-            display: flex;
-            justify-content: center;
-        }
-
-        /* EXACT A4 DIMENSIONS IN PIXELS (at 96 DPI) */
-        /* width: 210mm approx 794px */
-        #doc-visual {
-            background: white;
-            width: 794px; 
-            min-height: 1123px; 
-            padding: 0; /* Let DOCX control margins */
-            box-shadow: 0 0 15px rgba(0,0,0,0.3);
-            /* Important for text breaking */
-            word-wrap: break-word; 
-        }
-
-        /* --- PRINT PDF MAGIC --- */
-        @media print {
-            body * { visibility: hidden; } /* Hide buttons/background */
-            
-            /* Isolate the document container */
-            #doc-visual, #doc-visual * { 
-                visibility: visible; 
-            }
-
-            #doc-visual {
-                position: absolute;
-                left: 0; top: 0;
-                width: 100%;
-                margin: 0;
-                box-shadow: none;
-                /* Forces backgrounds/images/logos to print */
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-
-            /* Reset Page */
-            @page {
-                size: A4 portrait;
-                margin: 0; /* Let Word file handle its own margins */
-            }
-        }
-    </style>
+.preview{
+    background:#475569;
+    padding:20px;
+    border-radius:10px;
+    margin-top:20px;
+    overflow:auto;
+}
+#doc{
+    background:#fff;
+    width:794px;
+    min-height:1123px;
+    margin:auto;
+    padding:40px;
+}
+article{
+    background:#fff;
+    margin-top:30px;
+    padding:30px;
+    border-radius:12px;
+}
+h1,h2,h3{color:#1e3a8a}
+p{text-align:justify;line-height:1.8;font-size:1.05rem}
+</style>
 </head>
+
 <body>
-
 <div class="container">
-    <div class="controls-card">
-        <h1>Word to PDF Mobile Pro</h1>
-        <p>Fixes Hindi Fonts, Header Logos & Layout Squeezing</p>
-        
-        <label class="btn-upload">
-            📂 Click to Select .docx File
-            <input type="file" id="wordFile" accept=".docx" style="display:none">
-        </label>
 
-        <div id="error-msg"></div>
+<!-- TOOL CARD -->
+<div class="card">
+<h1>Live Word & Character Counter (DOCX + Hindi)</h1>
+<p>Upload Word file or preview content to get real-time word & character count.</p>
 
-        <button id="savePdfBtn" class="btn-save" disabled>
-            💾 Save as PDF
-        </button>
-        <p style="font-size: 0.85rem; color:#94a3b8;">*Tap 'Save' then select "Save as PDF" on your phone.</p>
-    </div>
+<label class="btn-upload">
+📂 Select Word (.docx)
+<input type="file" id="fileInput" accept=".docx" hidden>
+</label>
 
-    <div class="preview-scroller">
-        <!-- The Document Paper -->
-        <div id="doc-visual">
-            <div style="padding: 100px; text-align: center; color: #94a3b8;">
-                Document Preview (A4 Size)
-            </div>
-        </div>
-    </div>
+<div class="counter-box">
+<div class="counter" id="wordCount">Words: 0</div>
+<div class="counter" id="charCount">Characters: 0</div>
+<div class="counter" id="charNoSpace">Characters (No Spaces): 0</div>
+</div>
+
+<button id="printBtn" disabled>🖨️ Save as PDF</button>
+</div>
+
+<!-- PREVIEW -->
+<div class="preview">
+<div id="doc">Document preview will appear here</div>
+</div>
+
+<!-- SEO CONTENT -->
+<article>
+
+<h2>Live Word Counter & Character Counter – Accurate for Hindi & English</h2>
+
+<p>
+A reliable word counter is essential for students, bloggers, teachers, government exam aspirants, and professionals. Whether you are writing a school assignment, competitive exam answer, resume, legal document, or blog article, accurate word and character counting is critical.
+</p>
+
+<p>
+Toolvala’s Live Word & Character Counter is designed to work flawlessly with both English and Indian languages such as Hindi and Marathi. Unlike basic counters that fail on complex scripts, our tool counts words using real browser-rendered text.
+</p>
+
+<h2>Why Accurate Word Count Matters</h2>
+
+<p>
+Word limits are strictly enforced in exams like UPSC, SSC, State PSCs, and university submissions. Even a few extra words can lead to penalties. Online platforms also require character limits for descriptions, forms, and applications.
+</p>
+
+<p>
+Our live counter updates instantly as the document loads, ensuring you always stay within the required limit.
+</p>
+
+<h2>Features of Toolvala Word Counter</h2>
+
+<ul>
+<li>✔ Live Word Counter</li>
+<li>✔ Live Character Counter</li>
+<li>✔ Hindi & Devanagari Safe</li>
+<li>✔ DOCX Preview Support</li>
+<li>✔ Convert Word to PDF</li>
+<li>✔ 100% Client-Side (No Uploads)</li>
+</ul>
+
+<h2>How This Tool Works</h2>
+
+<p>
+Unlike server-based tools, Toolvala processes everything directly in your browser. The Word file is rendered visually and then analyzed for accurate text counting. This ensures that ligatures, matras, and combined characters in Hindi are counted correctly.
+</p>
+
+<h2>Use Cases</h2>
+
+<h3>Students & Teachers</h3>
+<p>
+Perfect for assignments, exam papers, and question sets with strict word limits.
+</p>
+
+<h3>Bloggers & Content Writers</h3>
+<p>
+Ensure SEO-optimized articles meet minimum and maximum word requirements.
+</p>
+
+<h3>Government Exam Aspirants</h3>
+<p>
+Count words accurately in Hindi & English answers before submission.
+</p>
+
+<h2>Privacy & Security</h2>
+
+<p>
+Your files never leave your device. There are no uploads, no tracking, and no data storage. Once you close the browser tab, everything is cleared automatically.
+</p>
+
+<h2>Conclusion</h2>
+
+<p>
+Toolvala’s Live Word & Character Counter is the most accurate free solution for Word documents, especially for Hindi and Indian language users. Upload, preview, count, and convert — all in one secure tool.
+</p>
+
+</article>
 </div>
 
 <script>
-    const fileInput = document.getElementById('wordFile');
-    const container = document.getElementById('doc-visual');
-    const saveBtn = document.getElementById('savePdfBtn');
-    const errorMsg = document.getElementById('error-msg');
+const fileInput = document.getElementById("fileInput");
+const doc = document.getElementById("doc");
+const printBtn = document.getElementById("printBtn");
 
-    fileInput.addEventListener('change', async (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
+function updateCounter(){
+    const text = doc.innerText.replace(/\s+/g," ").trim();
+    const words = text ? text.split(" ").length : 0;
+    const chars = text.length;
+    const charsNoSpace = text.replace(/\s/g,"").length;
 
-        // Reset UI
-        errorMsg.innerText = "";
-        saveBtn.disabled = true;
-        saveBtn.innerText = "⏳ Processing...";
-        container.innerHTML = "<div style='padding:50px; text-align:center;'>Loading Document Layout...</div>";
-
-        try {
-            const arrayBuffer = await file.arrayBuffer();
-
-            // RENDER SETTINGS
-            const options = {
-                className: "docx_content",
-                inWrapper: true, 
-                ignoreWidth: false, // Use original Word widths
-                experimental: true, // Needed for Tables & Logos
-                breakPages: true,
-                padding: 0
-            };
-
-            // Render Docx inside our A4 Container
-            await docx.renderAsync(arrayBuffer, container, null, options);
-
-            // If success
-            saveBtn.disabled = false;
-            saveBtn.innerHTML = "🖨️ Download / Print PDF";
-            errorMsg.innerHTML = "<span style='color:green'>✅ Preview Loaded! Check below.</span>";
-
-        } catch (err) {
-            console.error(err);
-            container.innerHTML = "";
-            errorMsg.innerText = "Error: " + err.message;
-            saveBtn.innerText = "❌ Failed";
-        }
-    });
-
-    saveBtn.addEventListener('click', () => {
-        // This triggers the Android/iPhone Native Print Dialog
-        // User just needs to change "Printer" to "Save as PDF"
-        window.print();
-    });
-</script>
-
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="description" content="Convert Word DOCX to PDF online with 100% accuracy. Keeps School Logos, Headers, and Hindi/Marathi fonts perfect. Free, unlimited, and secure client-side conversion.">
-    <title>Ultimate Word to PDF Converter - 100% Format & Hindi Support</title>
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.8;
-            color: #334155;
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        h1 {
-            font-size: 2.5rem;
-            color: #1e3a8a;
-            margin-top: 40px;
-            margin-bottom: 20px;
-            border-bottom: 4px solid #3b82f6;
-            display: inline-block;
-        }
-        h2 {
-            font-size: 1.8rem;
-            color: #1d4ed8;
-            margin-top: 50px;
-        }
-        h3 {
-            font-size: 1.4rem;
-            color: #0f172a;
-            margin-top: 30px;
-            font-weight: 700;
-        }
-        p {
-            font-size: 1.1rem;
-            margin-bottom: 20px;
-            text-align: justify;
-        }
-        ul, ol {
-            margin-bottom: 30px;
-            padding-left: 20px;
-        }
-        li {
-            margin-bottom: 12px;
-            font-size: 1.05rem;
-        }
-        .highlight-box {
-            background: #eff6ff;
-            border-left: 5px solid #2563eb;
-            padding: 25px;
-            margin: 30px 0;
-            border-radius: 8px;
-        }
-        .warning-box {
-            background: #fef2f2;
-            border: 1px solid #ef4444;
-            padding: 20px;
-            border-radius: 8px;
-            color: #991b1b;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 30px 0;
-        }
-        th, td {
-            border: 1px solid #cbd5e1;
-            padding: 15px;
-            text-align: left;
-        }
-        th { background: #1e3a8a; color: white; }
-    </style>
-</head>
-<body>
-
-<article>
-    <h1>The Ultimate Word to PDF Converter: Accurate Formatting for Hindi, Logos & Headers</h1>
-
-    <p>We have all been there. You spend hours perfecting a document in Microsoft Word. You adjust the school logo in the header, you align the table columns perfectly, and you type out complex questions in Hindi or Marathi. It looks perfect on your screen. But the moment you email it to someone or upload it to a generic online converter, disaster strikes.</p>
-
-    <p>The text shifts to the next page. The logo disappears. The Hindi text breaks apart (e.g., "उत्तर" becomes incomprehensible symbols). The layout that was meant to be A4 size is suddenly squeezed.</p>
-
-    <p>Enter the <strong>Advanced Word to PDF Pro Tool</strong>. This is not just another basic file changer. This is a precision-engineered tool designed to solve the hardest problems of document conversion: retaining <strong>Headers</strong>, rendering <strong>Complex Scripts (Devanagari)</strong>, and keeping your data <strong>100% Private</strong>.</p>
-
-    <div class="highlight-box">
-        <strong>⚡ Quick Summary:</strong> Unlike other websites that process files on a server (often breaking fonts), our tool utilizes your <strong>browser's native print engine</strong>. This ensures that whatever you see in Word is exactly what you get in the PDF—Logos, Headers, Tables, and Hindi fonts included.
-    </div>
-
-    <h2>Why Converting Word to PDF is Usually So Hard</h2>
-    <p>To understand why our tool is different, we must understand why most "free converters" fail.</p>
-    
-    <h3>1. The "Lost Logo" Problem</h3>
-    <p>Microsoft Word uses a proprietary structure called XML. Headers and Footers (where you usually put School Logos or Letterheads) exist in a different "layer" of the file. Simple conversion scripts used by most free websites only read the "Body Text" layer. As a result, when you download your PDF, the body text is there, but your professional letterhead is gone.</p>
-
-    <h3>2. The Regional Language Nightmare (Hindi/Marathi)</h3>
-    <p>Scripts like Hindi, Marathi, Sanskrit, and Arabic rely on "Ligatures" (Matras and joint letters). For example, to write 'क्ष' (Ksha), the computer combines 'क' + 'ष'. Standard PDF engines used by servers often lack the font libraries to do this math instantly. The result is "broken text" where letters are scattered or squares appear. Our tool uses the <strong>Google Chrome/Edge Font Rendering Engine</strong>, which is the gold standard for displaying world languages correctly.</p>
-
-    <h3>3. The Layout Shift</h3>
-    <p>Word documents flow text. PDFs have fixed text. If the conversion software estimates the page width wrong by even 10 pixels, a single line of text can spill over, creating an ugly 2-page document from a 1-page resume.</p>
-
-    <h2>Key Features of Our DOCX to PDF Tool</h2>
-
-    <h3>1. True A4 & Letter Page Locking</h3>
-    <p>We don't guess the size of your page. Our tool includes a strict width-locking mechanism. Whether you view it on a mobile phone or a desktop, the preview renders at exactly <strong>794 pixels wide</strong> (the digital standard for A4 width at 96 DPI). This ensures that your text lines break exactly where they did in MS Word.</p>
-
-    <h3>2. Zero Server Uploads (100% Privacy)</h3>
-    <p>In an age of data leaks, do you really want to upload your <strong>Employment Contract</strong>, <strong>Bank Statement</strong>, or <strong>Student Exam Papers</strong> to an unknown server?</p>
-    <p>Our tool is <strong>Client-Side</strong>. This means the magic happens inside <em>your</em> browser. 
-    <ul>
-        <li>No file is sent to our cloud.</li>
-        <li>We cannot read your documents.</li>
-        <li>Once you close the tab, the data is erased from memory.</li>
-    </ul>
-    </p>
-
-    <h3>3. Header & Background Graphics Support</h3>
-    <p>Do you have a watermark? A colored table row? A logo in the top right corner? By leveraging the `window.print` PDF engine, we allow you to capture the document with <strong>Background Graphics Enabled</strong>. This makes it the only free tool capable of properly rendering school exam papers with logos.</p>
-
-    <h2>How to Convert Word to PDF on Mobile and Desktop</h2>
-
-    <p>We have simplified the process to a single click. Here is how to get the perfect PDF, even on a smartphone.</p>
-
-    <h3>For Desktop Users (Windows/Mac)</h3>
-    <ol>
-        <li><strong>Upload:</strong> Click the "Select Word File" button and choose your `.docx`.</li>
-        <li><strong>Preview:</strong> The grey preview window will show your document. Scroll down to ensure your formatting is intact.</li>
-        <li><strong>Print to PDF:</strong> Click the <strong>"Save as PDF"</strong> button.</li>
-        <li><strong>Crucial Setting:</strong> In the print popup, ensure the <strong>"Margins"</strong> are set to <strong>"None"</strong> (since your Word file already has margins) and tick the box for <strong>"Background Graphics"</strong> if your logo is missing.</li>
-    </ol>
-
-    <h3>For Mobile Users (Android/iPhone)</h3>
-    <p>Most converters fail on mobile. Ours shines.</p>
-    <ol>
-        <li>Open the tool in <strong>Chrome</strong> (Android) or <strong>Safari</strong> (iOS).</li>
-        <li>Tap upload and select your file.</li>
-        <li>Once the preview loads, tap the <strong>Download/Print</strong> button.</li>
-        <li>Your phone will open its print dialog. Look at the top where it says "Select Printer" and change it to <strong>"Save as PDF"</strong>.</li>
-        <li>Tap the yellow/blue PDF icon to save the file to your "Downloads" folder.</li>
-    </ol>
-
-    <h2>Technical Comparison: Us vs. The Others</h2>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Feature</th>
-                <th>Standard Online Tools</th>
-                <th>Our Tool (Native Mode)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><strong>Hindi/Marathi Text</strong></td>
-                <td>Often breaks (Ligature issues)</td>
-                <td><strong>100% Accurate</strong></td>
-            </tr>
-            <tr>
-                <td><strong>Logos/Headers</strong></td>
-                <td>Frequently removed</td>
-                <td><strong>Preserved visually</strong></td>
-            </tr>
-            <tr>
-                <td><strong>Privacy</strong></td>
-                <td>File stored on server temp</td>
-                <td><strong>File never leaves device</strong></td>
-            </tr>
-            <tr>
-                <td><strong>Page Layout</strong></td>
-                <td>Often reflows text</td>
-                <td><strong>Locked A4 dimensions</strong></td>
-            </tr>
-            <tr>
-                <td><strong>Cost</strong></td>
-                <td>Free with limits (e.g., 2 files/day)</td>
-                <td><strong>Unlimited Free</strong></td>
-            </tr>
-        </tbody>
-    </table>
-
-    <h2>Troubleshooting: "My Logo isn't appearing!"</h2>
-    <p>This is the most common query. If you use our tool and your school logo or background colors are still white, the setting lies in your <strong>Browser Print Dialog</strong>.</p>
-    
-    <div class="warning-box">
-        <strong>The Solution:</strong> When the "Save as PDF" window opens, look for <strong>"More Settings"</strong>. You MUST check the box that says <strong>"Background Graphics"</strong>. Browsers disable this by default to save printer ink, but for a PDF, you need it enabled!
-    </div>
-
-    <h2>Use Cases for This Tool</h2>
-    
-    <h3>1. Teachers and Educators</h3>
-    <p>Creating periodic test papers often involves school headers, specific fonts, and strict formatting. Teachers can type their papers in Word at home, upload them here, and convert them to PDF for WhatsApp distribution to students without the layout scattering.</p>
-
-    <h3>2. Government Aspirants (UPSC/MPSC)</h3>
-    <p>Government forms often require you to upload documents in PDF format. Whether it is a declaration typed in Marathi or an English Resume, using our tool ensures that your application looks professional and is not rejected due to formatting errors.</p>
-
-    <h3>3. Legal Professionals</h3>
-    <p>Legal drafts often use marginal comments, specific line spacing, and header stamps. Accuracy is legally required. Our tool preserves the visual fidelity of legal drafts better than text-extraction converters.</p>
-
-    <h2>Why is this tool free?</h2>
-    <p>We believe that privacy and accessibility are rights, not privileges. Students and professionals in developing nations often cannot afford $15/month subscriptions for Adobe Acrobat just to convert a Resume or a Homework assignment. By utilizing the open-source power of modern web browsers, we provide a service that matches premium tools at zero cost to the user.</p>
-
-    <h2>Frequently Asked Questions (FAQ)</h2>
-
-    <div itemscope itemtype="https://schema.org/FAQPage">
-        
-        <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-            <h3>Does this tool convert PDF back to Word?</h3>
-            <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                <p>No, this specific tool is designed for <strong>DOCX to PDF</strong> to maximize visual accuracy. We have a separate tool for PDF to Word conversion if needed.</p>
-            </div>
-        </div>
-
-        <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-            <h3>Why do I need to click "Print"? Why doesn't it just download?</h3>
-            <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                <p>To support complex scripts like Hindi and images like Logos <strong>without a server</strong>, we must use the browser's "Print Engine" to generate the PDF file. This is the secret to why our quality is higher than other instant download buttons that break formatting.</p>
-            </div>
-        </div>
-
-        <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-            <h3>My Hindi font looks different. Why?</h3>
-            <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                <p>We force the preview to use Google's "Noto Sans Devanagari" to ensure readability across all devices. However, when you "Print to PDF", your computer uses its local system fonts, which usually results in the document looking exactly as it did in Word.</p>
-            </div>
-        </div>
-
-        <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-            <h3>Is there a file size limit?</h3>
-            <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                <p>Since we don't upload your file to a server, there is no strict limit! You can convert a 50MB thesis if your computer's RAM can handle it.</p>
-            </div>
-        </div>
-    </div>
-
-    <h2>Conclusion</h2>
-    <p>Stop fighting with formatting. Stop losing your logos. And stop uploading your private data to unknown clouds. Switch to the <strong>Native Word to PDF Converter</strong> today and experience document conversion the way it was meant to be: <strong>Private, Perfect, and Free.</strong></p>
-
-    <p style="text-align:center; font-weight:bold; margin-top:40px;">
-        Ready to convert? Scroll up and upload your file now.
-    </p>
-
-</article>
-
-<!-- SEO Schema for Software App -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "Advanced Word to PDF Converter",
-  "applicationCategory": "Productivity",
-  "operatingSystem": "Web",
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "USD"
-  },
-  "description": "Convert Word DOCX to PDF online with header, logo, and Hindi font support. Client-side privacy guaranteed.",
-  "featureList": "Hindi Font Support, Logo Preservation, A4 Layout Lock, Client-Side Privacy",
-  "softwareHelp": {
-    "@type": "CreativeWork",
-    "text": "1. Upload Docx. 2. Verify Layout in Preview. 3. Click Save PDF via Print Dialog."
-  }
+    document.getElementById("wordCount").innerText = "Words: " + words;
+    document.getElementById("charCount").innerText = "Characters: " + chars;
+    document.getElementById("charNoSpace").innerText = "Characters (No Spaces): " + charsNoSpace;
 }
+
+fileInput.addEventListener("change", async e=>{
+    const file = e.target.files[0];
+    if(!file) return;
+
+    const buffer = await file.arrayBuffer();
+    doc.innerHTML = "Loading document...";
+    await docx.renderAsync(buffer, doc, null, {breakPages:true});
+    updateCounter();
+    printBtn.disabled = false;
+});
+
+printBtn.onclick = ()=>window.print();
 </script>
 
 </body>
 </html>
+
