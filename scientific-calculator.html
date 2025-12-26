@@ -1,2204 +1,1418 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scientific Calculator - Advanced Online Math Tool with Graphing & Functions</title>
-    <link rel="canonical"href="https://www.toolvala.in/scientific-calculator.html">
-    <!-- Primary SEO Meta Tags -->
-    <meta name="description" content="Free online scientific calculator with advanced mathematical functions, graphing capabilities, equation solving, and unit conversions. Perfect for students, engineers, and scientists.">
-    
-    <meta name="keywords" content="scientific calculator, online calculator, math calculator, graphing calculator, equation solver, trigonometry calculator, logarithm calculator, calculus calculator, matrix calculator, statistics calculator, unit converter, engineering calculator, physics calculator, algebra calculator, geometry calculator, complex number calculator, scientific functions, math tool, online math calculator">
-    
-    <meta name="author" content="Scientific Calculator Tool">
-    <meta name="robots" content="index, follow, max-snippet:200, max-image-preview:large">
-    <meta name="googlebot" content="index, follow">
-    
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://yourdomain.com/scientific-calculator">
-    
-    <!-- Open Graph / Social Media Meta Tags -->
-    <meta property="og:title" content="Scientific Calculator - Advanced Online Math Tool">
-    <meta property="og:description" content="Free online scientific calculator with graphing, equation solving, matrix operations, and 200+ mathematical functions.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://yourdomain.com/scientific-calculator">
-    <meta property="og:image" content="https://yourdomain.com/scientific-calculator-og.jpg">
-    <meta property="og:site_name" content="Scientific Calculator Tool">
-    
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Free Scientific Calculator Online">
-    <meta name="twitter:description" content="Advanced scientific calculator with graphing, calculus, statistics, and 200+ mathematical functions.">
-    <meta name="twitter:image" content="https://yourdomain.com/scientific-calculator-twitter.jpg">
-    
-    <!-- Additional SEO Meta -->
-    <meta name="subject" content="Mathematics & Scientific Calculation">
-    <meta name="language" content="EN">
-    <meta name="rating" content="General">
-    <meta name="revisit-after" content="7 days">
-    <meta name="theme-color" content="#0ea5e9">
-    
-    <!-- Structured Data for Rich Snippets -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "Scientific Calculator Tool",
-        "description": "Advanced online scientific calculator with graphing, equation solving, and comprehensive mathematical functions",
-        "applicationCategory": ["EducationalApplication", "UtilityApplication", "MathSolver"],
-        "operatingSystem": "Any",
-        "url": "https://yourdomain.com/scientific-calculator",
-        "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD"
-        },
-        "author": {
-            "@type": "Organization",
-            "name": "Scientific Calculator Tool",
-            "url": "https://yourdomain.com"
-        },
-        "aggregateRating": {
-            "@type": "AggregateRating",
-            "ratingValue": "4.9",
-            "ratingCount": "3157",
-            "bestRating": "5",
-            "worstRating": "1"
-        },
-        "keywords": "scientific calculator, online calculator, math calculator, graphing calculator, equation solver, trigonometry calculator, logarithm calculator, calculus calculator",
-        "mainEntityOfPage": {
-            "@type": "WebPage",
-            "@id": "https://yourdomain.com/scientific-calculator"
-        },
-        "featureList": [
-            "200+ mathematical functions",
-            "Graph plotting capabilities",
-            "Equation solving",
-            "Matrix operations",
-            "Statistics calculations",
-            "Unit conversions",
-            "Complex numbers",
-            "Programming modes",
-            "History tracking",
-            "Export capabilities"
-        ]
-    }
-    </script>
-    
-    <style>
-        :root {
-            --primary-color: #0ea5e9;
-            --primary-dark: #0284c7;
-            --secondary-color: #10b981;
-            --accent-color: #8b5cf6;
-            --danger-color: #ef4444;
-            --warning-color: #f59e0b;
-            --dark-color: #1f2937;
-            --light-color: #f9fafb;
-            --gray-color: #6b7280;
-            --border-color: #e5e7eb;
-            --calc-bg: #1e293b;
-            --calc-display: #0f172a;
-            --calc-button: #334155;
-            --calc-button-hover: #475569;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            line-height: 1.6;
-            color: var(--dark-color);
-            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-            min-height: 100vh;
-        }
-
-        .container {
-            max-width: 1600px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        /* Header Styles */
-        header {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            padding: 1.5rem 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .logo h1 {
-            font-size: 2rem;
-            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-weight: 700;
-        }
-
-        nav ul {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: var(--dark-color);
-            font-weight: 500;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            transition: all 0.3s;
-        }
-
-        nav a:hover {
-            background: var(--primary-color);
-            color: white;
-        }
-
-        /* Main Content */
-        .main-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-
-        @media (max-width: 1200px) {
-            .main-content {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Calculator Container */
-        .calculator-container {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
-            padding: 2rem;
-            backdrop-filter: blur(10px);
-        }
-
-        .calculator-title {
-            font-size: 1.8rem;
-            color: var(--dark-color);
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 3px solid var(--primary-color);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        /* Calculator Display */
-        .calculator-display {
-            background: var(--calc-display);
-            color: white;
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            font-family: 'Courier New', monospace;
-            min-height: 120px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .expression-display {
-            font-size: 1.2rem;
-            color: #94a3b8;
-            min-height: 30px;
-            word-break: break-all;
-        }
-
-        .result-display {
-            font-size: 2.5rem;
-            font-weight: 600;
-            text-align: right;
-            word-break: break-all;
-            min-height: 60px;
-        }
-
-        /* Calculator Modes */
-        .calculator-modes {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-        }
-
-        .mode-btn {
-            padding: 0.6rem 1.2rem;
-            border: 2px solid var(--border-color);
-            background: white;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 500;
-        }
-
-        .mode-btn.active {
-            background: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
-        }
-
-        .mode-btn:hover:not(.active) {
-            border-color: var(--primary-color);
-        }
-
-        /* Calculator Buttons Grid */
-        .calculator-buttons {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 0.8rem;
-            margin-bottom: 1.5rem;
-        }
-
-        @media (max-width: 768px) {
-            .calculator-buttons {
-                grid-template-columns: repeat(4, 1fr);
-            }
-        }
-
-        .calc-btn {
-            background: var(--calc-button);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            padding: 1rem;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-family: inherit;
-            min-height: 60px;
-        }
-
-        .calc-btn:hover {
-            background: var(--calc-button-hover);
-            transform: translateY(-2px);
-        }
-
-        .calc-btn:active {
-            transform: translateY(0);
-        }
-
-        .calc-btn.number {
-            background: #475569;
-        }
-
-        .calc-btn.operation {
-            background: var(--primary-color);
-        }
-
-        .calc-btn.function {
-            background: var(--accent-color);
-        }
-
-        .calc-btn.special {
-            background: var(--warning-color);
-        }
-
-        .calc-btn.clear {
-            background: var(--danger-color);
-        }
-
-        .calc-btn.equals {
-            background: var(--secondary-color);
-            grid-column: span 2;
-        }
-
-        .calc-btn.zero {
-            grid-column: span 2;
-        }
-
-        /* Calculator Memory */
-        .calculator-memory {
-            display: flex;
-            gap: 0.8rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .memory-btn {
-            flex: 1;
-            padding: 0.8rem;
-            border: 2px solid var(--border-color);
-            background: white;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 500;
-        }
-
-        .memory-btn:hover {
-            background: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
-        }
-
-        /* Graphing Section */
-        .graphing-section {
-            display: none;
-            background: white;
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-top: 1.5rem;
-            border: 2px solid var(--border-color);
-        }
-
-        .graphing-section.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .graph-container {
-            width: 100%;
-            height: 300px;
-            background: white;
-            border: 2px solid var(--border-color);
-            border-radius: 8px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        #graphCanvas {
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
-
-        .graph-controls {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .graph-input {
-            flex: 1;
-            min-width: 200px;
-            padding: 0.8rem;
-            border: 2px solid var(--border-color);
-            border-radius: 8px;
-            font-family: inherit;
-        }
-
-        .graph-input:focus {
-            outline: none;
-            border-color: var(--primary-color);
-        }
-
-        .graph-examples {
-            margin-top: 1rem;
-            padding: 1rem;
-            background: var(--light-color);
-            border-radius: 8px;
-            font-size: 0.9rem;
-        }
-
-        .graph-examples h4 {
-            margin-bottom: 0.5rem;
-            color: var(--dark-color);
-        }
-
-        .graph-examples span {
-            display: inline-block;
-            background: white;
-            padding: 0.3rem 0.6rem;
-            margin: 0.2rem;
-            border-radius: 4px;
-            border: 1px solid var(--border-color);
-            cursor: pointer;
-            font-family: 'Courier New', monospace;
-            font-size: 0.85rem;
-        }
-
-        .graph-examples span:hover {
-            background: var(--primary-color);
-            color: white;
-        }
-
-        .graph-info {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 1rem;
-            font-size: 0.9rem;
-            color: var(--gray-color);
-        }
-
-        /* Content Section */
-        .content-section {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
-            padding: 2.5rem;
-            backdrop-filter: blur(10px);
-        }
-
-        .content-section h2 {
-            color: var(--dark-color);
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 3px solid var(--primary-color);
-        }
-
-        .content-section h3 {
-            color: var(--dark-color);
-            font-size: 1.4rem;
-            margin: 2rem 0 1rem;
-            padding-left: 0.5rem;
-            border-left: 4px solid var(--primary-color);
-        }
-
-        .content-section p {
-            margin-bottom: 1.5rem;
-            line-height: 1.8;
-            font-size: 1.05rem;
-        }
-
-        .content-section ul, .content-section ol {
-            margin-left: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .content-section li {
-            margin-bottom: 0.8rem;
-            line-height: 1.7;
-        }
-
-        /* Features Grid */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-
-        .feature-card {
-            background: linear-gradient(135deg, var(--light-color), white);
-            border-radius: 12px;
-            padding: 1.5rem;
-            border: 2px solid var(--border-color);
-            transition: all 0.3s;
-        }
-
-        .feature-card:hover {
-            border-color: var(--primary-color);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .feature-card h4 {
-            color: var(--dark-color);
-            margin-bottom: 0.8rem;
-            font-size: 1.2rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .feature-card p {
-            color: var(--gray-color);
-            font-size: 0.95rem;
-            margin-bottom: 0;
-        }
-
-        /* FAQ Section */
-        .faq-section {
-            margin-top: 3rem;
-        }
-
-        .faq-item {
-            background: var(--light-color);
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            overflow: hidden;
-        }
-
-        .faq-question {
-            padding: 1.5rem;
-            font-weight: 600;
-            color: var(--dark-color);
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: background 0.3s;
-        }
-
-        .faq-question:hover {
-            background: #f0f0f0;
-        }
-
-        .faq-question.active {
-            background: var(--primary-color);
-            color: white;
-        }
-
-        .faq-answer {
-            padding: 0 1.5rem;
-            max-height: 0;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .faq-answer.active {
-            padding: 1.5rem;
-            max-height: 1000px;
-        }
-
-        .expand-icon {
-            transition: transform 0.3s;
-        }
-
-        .faq-question.active .expand-icon {
-            transform: rotate(180deg);
-        }
-
-        /* Footer */
-        footer {
-            background: rgba(31, 41, 55, 0.95);
-            color: white;
-            border-radius: 16px;
-            padding: 3rem 2rem;
-            margin-top: 4rem;
-            backdrop-filter: blur(10px);
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 3rem;
-            margin-bottom: 2rem;
-        }
-
-        .footer-section h3 {
-            font-size: 1.3rem;
-            margin-bottom: 1.5rem;
-            color: white;
-        }
-
-        .footer-section ul {
-            list-style: none;
-        }
-
-        .footer-section li {
-            margin-bottom: 0.8rem;
-        }
-
-        .footer-section a {
-            color: #d1d5db;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .footer-section a:hover {
-            color: white;
-        }
-
-        .footer-section p {
-            color: #9ca3af;
-            line-height: 1.6;
-        }
-
-        .copyright {
-            text-align: center;
-            padding-top: 2rem;
-            border-top: 1px solid #374151;
-            color: #9ca3af;
-            font-size: 0.9rem;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                gap: 1rem;
-                text-align: center;
-            }
+<main class="container">
+    <div class="main-content">
+        <!-- Calculator Section -->
+        <section class="calculator-container">
+            <h2 class="calculator-title">
+                <i>🧮</i> Advanced Scientific Calculator
+            </h2>
             
-            nav ul {
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 1rem;
-            }
-            
-            .calculator-container, .content-section {
-                padding: 1.5rem;
-            }
-            
-            .calculator-buttons {
-                gap: 0.5rem;
-            }
-            
-            .calc-btn {
-                padding: 0.8rem;
-                font-size: 1rem;
-                min-height: 50px;
-            }
-            
-            .graph-controls {
-                flex-direction: column;
-            }
-            
-            .graph-input {
-                min-width: 100%;
-            }
-        }
-
-        /* Notification */
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 1rem 1.5rem;
-            border-radius: 8px;
-            color: white;
-            font-weight: 500;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            transform: translateX(150%);
-            transition: transform 0.3s;
-            z-index: 1000;
-        }
-
-        .notification.show {
-            transform: translateX(0);
-        }
-
-        .notification.success {
-            background: var(--secondary-color);
-        }
-
-        .notification.error {
-            background: var(--danger-color);
-        }
-
-        .notification.info {
-            background: var(--primary-color);
-        }
-
-        /* Function Reference */
-        .function-reference {
-            background: var(--light-color);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .reference-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .reference-item {
-            padding: 0.8rem;
-            background: white;
-            border-radius: 6px;
-            border: 1px solid var(--border-color);
-        }
-
-        .reference-func {
-            font-family: 'Courier New', monospace;
-            color: var(--primary-color);
-            font-weight: 600;
-        }
-
-        .reference-desc {
-            font-size: 0.9rem;
-            color: var(--gray-color);
-            margin-top: 0.3rem;
-        }
-
-        /* Range Slider */
-        .range-slider {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin: 1rem 0;
-        }
-
-        .range-slider label {
-            min-width: 80px;
-            font-weight: 500;
-        }
-
-        .range-slider input[type="range"] {
-            flex: 1;
-            height: 6px;
-            background: var(--border-color);
-            border-radius: 3px;
-            outline: none;
-        }
-
-        .range-slider input[type="number"] {
-            width: 60px;
-            padding: 0.3rem;
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            text-align: center;
-        }
-    </style>
-</head>
-<body>
-    <!-- Header -->
-    <header>
-        <div class="container header-content">
-            <div class="logo">
-                <h1>Scientific Calculator</h1>
+            <!-- Calculator Display -->
+            <div class="calculator-display">
+                <div class="expression-display" id="expressionDisplay"></div>
+                <div class="result-display" id="resultDisplay">0</div>
             </div>
-            <nav>
+
+            <!-- Calculator Modes -->
+            <div class="calculator-modes">
+                <button class="mode-btn active" data-mode="basic">Basic</button>
+                <button class="mode-btn" data-mode="scientific">Scientific</button>
+                <button class="mode-btn" data-mode="graphing">Graphing</button>
+                <button class="mode-btn" data-mode="statistics">Statistics</button>
+            </div>
+
+            <!-- Basic Calculator Buttons -->
+            <div class="calculator-buttons" id="basicButtons">
+                <!-- Row 1 -->
+                <button class="calc-btn clear" onclick="clearAll()">C</button>
+                <button class="calc-btn clear" onclick="clearEntry()">CE</button>
+                <button class="calc-btn special" onclick="backspace()">⌫</button>
+                <button class="calc-btn operation" onclick="appendOperator('/')">÷</button>
+                <button class="calc-btn function" onclick="sqrt()">√</button>
+                
+                <!-- Row 2 -->
+                <button class="calc-btn number" onclick="appendNumber('7')">7</button>
+                <button class="calc-btn number" onclick="appendNumber('8')">8</button>
+                <button class="calc-btn number" onclick="appendNumber('9')">9</button>
+                <button class="calc-btn operation" onclick="appendOperator('*')">×</button>
+                <button class="calc-btn function" onclick="power()">xʸ</button>
+                
+                <!-- Row 3 -->
+                <button class="calc-btn number" onclick="appendNumber('4')">4</button>
+                <button class="calc-btn number" onclick="appendNumber('5')">5</button>
+                <button class="calc-btn number" onclick="appendNumber('6')">6</button>
+                <button class="calc-btn operation" onclick="appendOperator('-')">−</button>
+                <button class="calc-btn function" onclick="factorial()">x!</button>
+                
+                <!-- Row 4 -->
+                <button class="calc-btn number" onclick="appendNumber('1')">1</button>
+                <button class="calc-btn number" onclick="appendNumber('2')">2</button>
+                <button class="calc-btn number" onclick="appendNumber('3')">3</button>
+                <button class="calc-btn operation" onclick="appendOperator('+')">+</button>
+                <button class="calc-btn function" onclick="appendConstant('π')">π</button>
+                
+                <!-- Row 5 -->
+                <button class="calc-btn number zero" onclick="appendNumber('0')">0</button>
+                <button class="calc-btn number" onclick="appendDecimal()">.</button>
+                <button class="calc-btn equals" onclick="calculate()">=</button>
+                <button class="calc-btn function" onclick="appendConstant('e')">e</button>
+            </div>
+
+            <!-- Scientific Buttons (Initially hidden) -->
+            <div class="calculator-buttons" id="scientificButtons" style="display: none;">
+                <!-- Row 1 -->
+                <button class="calc-btn function" onclick="trigFunction('sin')">sin</button>
+                <button class="calc-btn function" onclick="trigFunction('cos')">cos</button>
+                <button class="calc-btn function" onclick="trigFunction('tan')">tan</button>
+                <button class="calc-btn function" onclick="inverseTrigFunction('asin')">sin⁻¹</button>
+                <button class="calc-btn function" onclick="inverseTrigFunction('acos')">cos⁻¹</button>
+                
+                <!-- Row 2 -->
+                <button class="calc-btn function" onclick="inverseTrigFunction('atan')">tan⁻¹</button>
+                <button class="calc-btn function" onclick="logFunction('log')">log</button>
+                <button class="calc-btn function" onclick="logFunction('ln')">ln</button>
+                <button class="calc-btn function" onclick="expFunction()">eˣ</button>
+                <button class="calc-btn function" onclick="absFunction()">|x|</button>
+                
+                <!-- Row 3 -->
+                <button class="calc-btn function" onclick="mathFunction('floor')">⌊x⌋</button>
+                <button class="calc-btn function" onclick="mathFunction('ceil')">⌈x⌉</button>
+                <button class="calc-btn function" onclick="mathFunction('round')">round</button>
+                <button class="calc-btn function" onclick="appendOperator('%')">mod</button>
+                <button class="calc-btn function" onclick="randomNumber()">Rand</button>
+                
+                <!-- Row 4 -->
+                <button class="calc-btn function" onclick="toggleAngleMode('deg')">deg</button>
+                <button class="calc-btn function" onclick="toggleAngleMode('rad')">rad</button>
+                <button class="calc-btn function" onclick="hypotFunction()">hypot</button>
+                <button class="calc-btn function" onclick="nCr()">nCr</button>
+                <button class="calc-btn function" onclick="nPr()">nPr</button>
+            </div>
+
+            <!-- Memory Functions -->
+            <div class="calculator-memory">
+                <button class="memory-btn" onclick="memoryClear()">MC</button>
+                <button class="memory-btn" onclick="memoryRecall()">MR</button>
+                <button class="memory-btn" onclick="memoryAdd()">M+</button>
+                <button class="memory-btn" onclick="memorySubtract()">M-</button>
+                <button class="memory-btn" onclick="memoryStore()">MS</button>
+            </div>
+
+            <!-- Additional Functions -->
+            <div style="display: flex; gap: 0.8rem; margin-top: 1rem;">
+                <button class="calc-btn special" onclick="toggleHistory()" id="historyToggle">Show History</button>
+                <button class="calc-btn special" onclick="copyResult()">Copy Result</button>
+                <button class="calc-btn special" onclick="toggleSettings()">Settings</button>
+            </div>
+
+            <!-- Graphing Section -->
+            <div class="graphing-section" id="graphingSection">
+                <h3 style="margin-bottom: 1rem; color: var(--dark-color);">📈 Graphing Calculator</h3>
+                
+                <!-- Graph Canvas -->
+                <div class="graph-container">
+                    <canvas id="graphCanvas" width="600" height="300"></canvas>
+                </div>
+                
+                <!-- Graph Controls -->
+                <div class="graph-controls">
+                    <input type="text" id="graphFunction" placeholder="Enter function (e.g., sin(x)*x^2)" class="graph-input">
+                    <button class="calc-btn operation" onclick="plotGraph()" style="padding: 0.8rem 1.5rem;">Plot Graph</button>
+                    <button class="calc-btn special" onclick="clearGraph()" style="padding: 0.8rem 1.5rem;">Clear</button>
+                </div>
+                
+                <!-- Graph Range Controls -->
+                <div class="range-slider">
+                    <label>X-min:</label>
+                    <input type="number" id="xMin" value="-10" step="1" style="width: 70px;">
+                    <input type="range" id="xMinRange" min="-20" max="0" value="-10" step="1" oninput="updateXMin(this.value)">
+                    <span style="min-width: 40px;">-10</span>
+                    
+                    <label>X-max:</label>
+                    <input type="number" id="xMax" value="10" step="1" style="width: 70px;">
+                    <input type="range" id="xMaxRange" min="0" max="20" value="10" step="1" oninput="updateXMax(this.value)">
+                    <span style="min-width: 40px;">10</span>
+                </div>
+                
+                <div class="range-slider">
+                    <label>Y-min:</label>
+                    <input type="number" id="yMin" value="-10" step="1" style="width: 70px;">
+                    <input type="range" id="yMinRange" min="-20" max="0" value="-10" step="1" oninput="updateYMin(this.value)">
+                    <span style="min-width: 40px;">-10</span>
+                    
+                    <label>Y-max:</label>
+                    <input type="number" id="yMax" value="10" step="1" style="width: 70px;">
+                    <input type="range" id="yMaxRange" min="0" max="20" value="10" step="1" oninput="updateYMax(this.value)">
+                    <span style="min-width: 40px;">10</span>
+                </div>
+                
+                <!-- Graph Examples -->
+                <div class="graph-examples">
+                    <h4>Try these examples:</h4>
+                    <span onclick="setExample('sin(x)')">sin(x)</span>
+                    <span onclick="setExample('cos(x)')">cos(x)</span>
+                    <span onclick="setExample('tan(x)')">tan(x)</span>
+                    <span onclick="setExample('x^2')">x^2</span>
+                    <span onclick="setExample('x^3')">x^3</span>
+                    <span onclick="setExample('sqrt(x)')">sqrt(x)</span>
+                    <span onclick="setExample('log(x)')">log(x)</span>
+                    <span onclick="setExample('exp(x)')">exp(x)</span>
+                    <span onclick="setExample('sin(x)*cos(x)')">sin(x)*cos(x)</span>
+                    <span onclick="setExample('x^2 + 2*x + 1')">x^2 + 2*x + 1</span>
+                </div>
+                
+                <!-- Graph Info -->
+                <div class="graph-info">
+                    <div>Click and drag to pan | Scroll to zoom</div>
+                    <div id="graphCoordinates">Coordinates: (0, 0)</div>
+                </div>
+            </div>
+
+            <!-- Calculator History -->
+            <div class="calculator-history" id="calculatorHistory" style="display: none;">
+                <div class="history-title">
+                    <span>Calculation History</span>
+                    <button class="memory-btn" onclick="clearHistory()" style="padding: 0.3rem 0.8rem; font-size: 0.8rem;">
+                        Clear
+                    </button>
+                </div>
+                <ul class="history-list" id="historyList">
+                    <!-- History items will be inserted here -->
+                </ul>
+            </div>
+
+            <!-- Settings Panel -->
+            <div class="calculator-history" id="settingsPanel" style="display: none;">
+                <div class="history-title">
+                    <span>Calculator Settings</span>
+                    <button class="memory-btn" onclick="toggleSettings()" style="padding: 0.3rem 0.8rem; font-size: 0.8rem;">
+                        Close
+                    </button>
+                </div>
+                <div style="padding: 1rem;">
+                    <div style="margin-bottom: 1rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Angle Mode:</label>
+                        <div style="display: flex; gap: 1rem;">
+                            <button class="mode-btn" onclick="setAngleMode('deg')" id="degBtn">Degrees</button>
+                            <button class="mode-btn active" onclick="setAngleMode('rad')" id="radBtn">Radians</button>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Number Format:</label>
+                        <div style="display: flex; gap: 1rem;">
+                            <button class="mode-btn active" onclick="setNumberFormat('decimal')" id="decimalBtn">Decimal</button>
+                            <button class="mode-btn" onclick="setNumberFormat('scientific')" id="scientificBtn">Scientific</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Content Section -->
+        <section class="content-section">
+            <h2>Complete Scientific Calculator with Graphing Functionality</h2>
+            
+            <h3 id="how-to-use">📊 How to Use the Graphing Calculator</h3>
+            
+            <div style="background: #f0f9ff; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; border-left: 4px solid var(--primary-color);">
+                <h4 style="color: var(--primary-color); margin-bottom: 1rem;">Step-by-Step Graphing Guide:</h4>
+                
+                <ol style="margin-left: 1.5rem;">
+                    <li><strong>Switch to Graphing Mode:</strong> Click the "Graphing" button in the mode selector</li>
+                    <li><strong>Enter Function:</strong> Type your function in the input box (e.g., sin(x), x^2, log(x))</li>
+                    <li><strong>Set Range:</strong> Adjust X-min, X-max, Y-min, Y-max to set your viewing window</li>
+                    <li><strong>Plot Graph:</strong> Click "Plot Graph" to draw the function</li>
+                    <li><strong>Interact:</strong> Click and drag to pan, scroll to zoom in/out</li>
+                </ol>
+            </div>
+            
+            <h4>Supported Mathematical Functions for Graphing:</h4>
+            <div class="function-reference">
+                <div class="reference-grid">
+                    <div class="reference-item">
+                        <div class="reference-func">sin(x), cos(x), tan(x)</div>
+                        <div class="reference-desc">Trigonometric functions</div>
+                    </div>
+                    <div class="reference-item">
+                        <div class="reference-func">asin(x), acos(x), atan(x)</div>
+                        <div class="reference-desc">Inverse trigonometric</div>
+                    </div>
+                    <div class="reference-item">
+                        <div class="reference-func">log(x), ln(x)</div>
+                        <div class="reference-desc">Logarithmic functions</div>
+                    </div>
+                    <div class="reference-item">
+                        <div class="reference-func">exp(x), e^x</div>
+                        <div class="reference-desc">Exponential functions</div>
+                    </div>
+                    <div class="reference-item">
+                        <div class="reference-func">sqrt(x)</div>
+                        <div class="reference-desc">Square root</div>
+                    </div>
+                    <div class="reference-item">
+                        <div class="reference-func">abs(x)</div>
+                        <div class="reference-desc">Absolute value</div>
+                    </div>
+                </div>
+            </div>
+            
+            <h4>Graphing Examples You Can Try:</h4>
+            <div style="background: var(--light-color); padding: 1.5rem; border-radius: 8px; margin: 1rem 0;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                    <div style="background: white; padding: 1rem; border-radius: 6px;">
+                        <strong>Linear Function:</strong><br>
+                        <code>2*x + 3</code>
+                    </div>
+                    <div style="background: white; padding: 1rem; border-radius: 6px;">
+                        <strong>Quadratic:</strong><br>
+                        <code>x^2 - 4*x + 4</code>
+                    </div>
+                    <div style="background: white; padding: 1rem; border-radius: 6px;">
+                        <strong>Cubic:</strong><br>
+                        <code>x^3 - 3*x</code>
+                    </div>
+                    <div style="background: white; padding: 1rem; border-radius: 6px;">
+                        <strong>Trigonometric:</strong><br>
+                        <code>sin(x)*cos(x)</code>
+                    </div>
+                    <div style="background: white; padding: 1rem; border-radius: 6px;">
+                        <strong>Exponential:</strong><br>
+                        <code>exp(-x^2)</code>
+                    </div>
+                    <div style="background: white; padding: 1rem; border-radius: 6px;">
+                        <strong>Logarithmic:</strong><br>
+                        <code>log(x+1)</code>
+                    </div>
+                </div>
+            </div>
+            
+            <h3 id="features">✨ Complete Feature List</h3>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h4><i>📈</i> Advanced Graphing</h4>
+                    <p>Plot any mathematical function with real-time rendering, zoom, pan, and coordinate tracking</p>
+                </div>
+                <div class="feature-card">
+                    <h4><i>🔢</i> Scientific Functions</h4>
+                    <p>Complete set of trigonometric, logarithmic, exponential, and statistical functions</p>
+                </div>
+                <div class="feature-card">
+                    <h4><i>💾</i> Memory System</h4>
+                    <p>Multiple memory registers with store, recall, add, and subtract operations</p>
+                </div>
+                <div class="feature-card">
+                    <h4><i>📊</i> Interactive Controls</h4>
+                    <p>Adjustable graph ranges, zoom, pan, and real-time coordinate display</p>
+                </div>
+                <div class="feature-card">
+                    <h4><i>🎯</i> Precision Calculation</h4>
+                    <p>High-precision arithmetic with adjustable decimal places and scientific notation</p>
+                </div>
+                <div class="feature-card">
+                    <h4><i>📱</i> Full Responsiveness</h4>
+                    <p>Works perfectly on desktop, tablet, and mobile devices</p>
+                </div>
+                <div class="feature-card">
+                    <h4><i>💾</i> History Tracking</h4>
+                    <p>Automatic saving of calculation history with timestamp and recall</p>
+                </div>
+                <div class="feature-card">
+                    <h4><i>⚡</i> Real-time Updates</h4>
+                    <p>Instant calculation results and smooth graph rendering</p>
+                </div>
+            </div>
+
+            <h3 id="faq">❓ Frequently Asked Questions</h3>
+            <div class="faq-section">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>How do I plot multiple functions on the same graph?</span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Currently, you can plot one function at a time. To compare functions, plot one, note the behavior, clear the graph, then plot another. Future updates will include multi-function plotting.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Why is my graph not showing up?</span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Check these common issues: 1) Make sure your function syntax is correct, 2) Adjust the Y-range to see your function values, 3) Use parentheses properly, 4) Try zooming out to see the graph.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Can I save or export my graphs?</span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Currently, you can take a screenshot of the graph. Future updates will include export functionality to PNG, PDF, and SVG formats.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>How accurate are the trigonometric calculations?</span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>All calculations use JavaScript's Math library with double-precision floating-point arithmetic, providing about 15-17 significant digits of accuracy.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Can I plot parametric or polar equations?</span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Currently, only Cartesian (y = f(x)) equations are supported. Parametric and polar graphing will be added in future updates.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Is there a mobile app version?</span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>This calculator is a web application that works perfectly on mobile browsers. You can add it to your home screen for quick access like a native app.</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3>🎯 Practical Applications</h3>
+            
+            <h4>For Students:</h4>
+            <ul>
+                <li><strong>Mathematics:</strong> Visualize functions, understand limits, derivatives, and integrals</li>
+                <li><strong>Physics:</strong> Plot motion equations, wave functions, and physical relationships</li>
+                <li><strong>Engineering:</strong> Analyze systems, plot transfer functions, and design curves</li>
+                <li><strong>Statistics:</strong> Visualize probability distributions and data trends</li>
+            </ul>
+            
+            <h4>For Professionals:</h4>
+            <ul>
+                <li><strong>Data Analysis:</strong> Plot and analyze mathematical models</li>
+                <li><strong>Financial Modeling:</strong> Visualize compound interest and investment growth</li>
+                <li><strong>Scientific Research:</strong> Plot experimental data and theoretical curves</li>
+                <li><strong>Education:</strong> Create visual teaching aids for mathematical concepts</li>
+            </ul>
+
+            <h3>🔧 Tips for Better Graphing</h3>
+            <ol>
+                <li><strong>Use Proper Syntax:</strong> Always use * for multiplication (e.g., 2*x not 2x)</li>
+                <li><strong>Parentheses Matter:</strong> Use parentheses to clarify order of operations</li>
+                <li><strong>Adjust Ranges:</strong> If you can't see your graph, adjust the X and Y ranges</li>
+                <li><strong>Check Domain:</strong> Some functions (like log(x)) have restricted domains (x > 0)</li>
+                <li><strong>Use Examples:</strong> Start with the provided examples to understand syntax</li>
+                <li><strong>Zoom Features:</strong> Use scroll to zoom and drag to pan for better viewing</li>
+            </ol>
+
+            <h3>📈 Graph Customization Options</h3>
+            <div style="background: #f8fafc; padding: 1.5rem; border-radius: 8px; margin: 1rem 0;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                    <div>
+                        <strong>X-axis Range:</strong><br>
+                        Adjustable from -20 to 20
+                    </div>
+                    <div>
+                        <strong>Y-axis Range:</strong><br>
+                        Adjustable from -20 to 20
+                    </div>
+                    <div>
+                        <strong>Zoom Level:</strong><br>
+                        Mouse scroll for fine control
+                    </div>
+                    <div>
+                        <strong>Pan Control:</strong><br>
+                        Click and drag to move view
+                    </div>
+                </div>
+            </div>
+
+            <p style="margin-top: 2rem; padding: 1.5rem; background: linear-gradient(135deg, #e0f2fe, #f0f9ff); border-radius: 8px; border-left: 4px solid var(--primary-color);">
+                <strong>🎓 Pro Tip:</strong> For complex functions, start with a wide range (e.g., -10 to 10) to see the overall shape, then zoom in on interesting areas for detailed analysis. The graphing calculator automatically adjusts resolution for optimal performance.
+            </p>
+        </section>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Scientific Calculator</h3>
+                <p>Advanced online scientific calculator with comprehensive mathematical functions, graphing capabilities, and professional tools for students, engineers, and scientists.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
                 <ul>
                     <li><a href="#how-to-use">How to Use</a></li>
                     <li><a href="#features">Features</a></li>
                     <li><a href="#faq">FAQ</a></li>
                     <li><a href="#functions">Functions</a></li>
                 </ul>
-            </nav>
-        </div>
-    </header>
-
-    <main class="container">
-        <div class="main-content">
-            <!-- Calculator Section -->
-            <section class="calculator-container">
-                <h2 class="calculator-title">
-                    <i>🧮</i> Advanced Scientific Calculator
-                </h2>
-                
-                <!-- Calculator Display -->
-                <div class="calculator-display">
-                    <div class="expression-display" id="expressionDisplay"></div>
-                    <div class="result-display" id="resultDisplay">0</div>
-                </div>
-
-                <!-- Calculator Modes -->
-                <div class="calculator-modes">
-                    <button class="mode-btn active" data-mode="basic">Basic</button>
-                    <button class="mode-btn" data-mode="scientific">Scientific</button>
-                    <button class="mode-btn" data-mode="graphing">Graphing</button>
-                    <button class="mode-btn" data-mode="statistics">Statistics</button>
-                </div>
-
-                <!-- Basic Calculator Buttons -->
-                <div class="calculator-buttons" id="basicButtons">
-                    <!-- Row 1 -->
-                    <button class="calc-btn clear" onclick="clearAll()">C</button>
-                    <button class="calc-btn clear" onclick="clearEntry()">CE</button>
-                    <button class="calc-btn special" onclick="backspace()">⌫</button>
-                    <button class="calc-btn operation" onclick="appendOperator('/')">÷</button>
-                    <button class="calc-btn function" onclick="sqrt()">√</button>
-                    
-                    <!-- Row 2 -->
-                    <button class="calc-btn number" onclick="appendNumber('7')">7</button>
-                    <button class="calc-btn number" onclick="appendNumber('8')">8</button>
-                    <button class="calc-btn number" onclick="appendNumber('9')">9</button>
-                    <button class="calc-btn operation" onclick="appendOperator('*')">×</button>
-                    <button class="calc-btn function" onclick="power()">xʸ</button>
-                    
-                    <!-- Row 3 -->
-                    <button class="calc-btn number" onclick="appendNumber('4')">4</button>
-                    <button class="calc-btn number" onclick="appendNumber('5')">5</button>
-                    <button class="calc-btn number" onclick="appendNumber('6')">6</button>
-                    <button class="calc-btn operation" onclick="appendOperator('-')">−</button>
-                    <button class="calc-btn function" onclick="factorial()">x!</button>
-                    
-                    <!-- Row 4 -->
-                    <button class="calc-btn number" onclick="appendNumber('1')">1</button>
-                    <button class="calc-btn number" onclick="appendNumber('2')">2</button>
-                    <button class="calc-btn number" onclick="appendNumber('3')">3</button>
-                    <button class="calc-btn operation" onclick="appendOperator('+')">+</button>
-                    <button class="calc-btn function" onclick="appendConstant('π')">π</button>
-                    
-                    <!-- Row 5 -->
-                    <button class="calc-btn number zero" onclick="appendNumber('0')">0</button>
-                    <button class="calc-btn number" onclick="appendDecimal()">.</button>
-                    <button class="calc-btn equals" onclick="calculate()">=</button>
-                    <button class="calc-btn function" onclick="appendConstant('e')">e</button>
-                </div>
-
-                <!-- Scientific Buttons (Initially hidden) -->
-                <div class="calculator-buttons" id="scientificButtons" style="display: none;">
-                    <!-- Row 1 -->
-                    <button class="calc-btn function" onclick="trigFunction('sin')">sin</button>
-                    <button class="calc-btn function" onclick="trigFunction('cos')">cos</button>
-                    <button class="calc-btn function" onclick="trigFunction('tan')">tan</button>
-                    <button class="calc-btn function" onclick="inverseTrigFunction('asin')">sin⁻¹</button>
-                    <button class="calc-btn function" onclick="inverseTrigFunction('acos')">cos⁻¹</button>
-                    
-                    <!-- Row 2 -->
-                    <button class="calc-btn function" onclick="inverseTrigFunction('atan')">tan⁻¹</button>
-                    <button class="calc-btn function" onclick="logFunction('log')">log</button>
-                    <button class="calc-btn function" onclick="logFunction('ln')">ln</button>
-                    <button class="calc-btn function" onclick="expFunction()">eˣ</button>
-                    <button class="calc-btn function" onclick="absFunction()">|x|</button>
-                    
-                    <!-- Row 3 -->
-                    <button class="calc-btn function" onclick="mathFunction('floor')">⌊x⌋</button>
-                    <button class="calc-btn function" onclick="mathFunction('ceil')">⌈x⌉</button>
-                    <button class="calc-btn function" onclick="mathFunction('round')">round</button>
-                    <button class="calc-btn function" onclick="appendOperator('%')">mod</button>
-                    <button class="calc-btn function" onclick="randomNumber()">Rand</button>
-                    
-                    <!-- Row 4 -->
-                    <button class="calc-btn function" onclick="toggleAngleMode('deg')">deg</button>
-                    <button class="calc-btn function" onclick="toggleAngleMode('rad')">rad</button>
-                    <button class="calc-btn function" onclick="hypotFunction()">hypot</button>
-                    <button class="calc-btn function" onclick="nCr()">nCr</button>
-                    <button class="calc-btn function" onclick="nPr()">nPr</button>
-                </div>
-
-                <!-- Memory Functions -->
-                <div class="calculator-memory">
-                    <button class="memory-btn" onclick="memoryClear()">MC</button>
-                    <button class="memory-btn" onclick="memoryRecall()">MR</button>
-                    <button class="memory-btn" onclick="memoryAdd()">M+</button>
-                    <button class="memory-btn" onclick="memorySubtract()">M-</button>
-                    <button class="memory-btn" onclick="memoryStore()">MS</button>
-                </div>
-
-                <!-- Additional Functions -->
-                <div style="display: flex; gap: 0.8rem; margin-top: 1rem;">
-                    <button class="calc-btn special" onclick="toggleHistory()" id="historyToggle">Show History</button>
-                    <button class="calc-btn special" onclick="copyResult()">Copy Result</button>
-                    <button class="calc-btn special" onclick="toggleSettings()">Settings</button>
-                </div>
-
-                <!-- Graphing Section -->
-                <div class="graphing-section" id="graphingSection">
-                    <h3 style="margin-bottom: 1rem; color: var(--dark-color);">📈 Graphing Calculator</h3>
-                    
-                    <!-- Graph Canvas -->
-                    <div class="graph-container">
-                        <canvas id="graphCanvas" width="600" height="300"></canvas>
-                    </div>
-                    
-                    <!-- Graph Controls -->
-                    <div class="graph-controls">
-                        <input type="text" id="graphFunction" placeholder="Enter function (e.g., sin(x)*x^2)" class="graph-input">
-                        <button class="calc-btn operation" onclick="plotGraph()" style="padding: 0.8rem 1.5rem;">Plot Graph</button>
-                        <button class="calc-btn special" onclick="clearGraph()" style="padding: 0.8rem 1.5rem;">Clear</button>
-                    </div>
-                    
-                    <!-- Graph Range Controls -->
-                    <div class="range-slider">
-                        <label>X-min:</label>
-                        <input type="number" id="xMin" value="-10" step="1" style="width: 70px;">
-                        <input type="range" id="xMinRange" min="-20" max="0" value="-10" step="1" oninput="updateXMin(this.value)">
-                        <span style="min-width: 40px;">-10</span>
-                        
-                        <label>X-max:</label>
-                        <input type="number" id="xMax" value="10" step="1" style="width: 70px;">
-                        <input type="range" id="xMaxRange" min="0" max="20" value="10" step="1" oninput="updateXMax(this.value)">
-                        <span style="min-width: 40px;">10</span>
-                    </div>
-                    
-                    <div class="range-slider">
-                        <label>Y-min:</label>
-                        <input type="number" id="yMin" value="-10" step="1" style="width: 70px;">
-                        <input type="range" id="yMinRange" min="-20" max="0" value="-10" step="1" oninput="updateYMin(this.value)">
-                        <span style="min-width: 40px;">-10</span>
-                        
-                        <label>Y-max:</label>
-                        <input type="number" id="yMax" value="10" step="1" style="width: 70px;">
-                        <input type="range" id="yMaxRange" min="0" max="20" value="10" step="1" oninput="updateYMax(this.value)">
-                        <span style="min-width: 40px;">10</span>
-                    </div>
-                    
-                    <!-- Graph Examples -->
-                    <div class="graph-examples">
-                        <h4>Try these examples:</h4>
-                        <span onclick="setExample('sin(x)')">sin(x)</span>
-                        <span onclick="setExample('cos(x)')">cos(x)</span>
-                        <span onclick="setExample('tan(x)')">tan(x)</span>
-                        <span onclick="setExample('x^2')">x^2</span>
-                        <span onclick="setExample('x^3')">x^3</span>
-                        <span onclick="setExample('sqrt(x)')">sqrt(x)</span>
-                        <span onclick="setExample('log(x)')">log(x)</span>
-                        <span onclick="setExample('exp(x)')">exp(x)</span>
-                        <span onclick="setExample('sin(x)*cos(x)')">sin(x)*cos(x)</span>
-                        <span onclick="setExample('x^2 + 2*x + 1')">x^2 + 2*x + 1</span>
-                    </div>
-                    
-                    <!-- Graph Info -->
-                    <div class="graph-info">
-                        <div>Click and drag to pan | Scroll to zoom</div>
-                        <div id="graphCoordinates">Coordinates: (0, 0)</div>
-                    </div>
-                </div>
-
-                <!-- Calculator History -->
-                <div class="calculator-history" id="calculatorHistory" style="display: none;">
-                    <div class="history-title">
-                        <span>Calculation History</span>
-                        <button class="memory-btn" onclick="clearHistory()" style="padding: 0.3rem 0.8rem; font-size: 0.8rem;">
-                            Clear
-                        </button>
-                    </div>
-                    <ul class="history-list" id="historyList">
-                        <!-- History items will be inserted here -->
-                    </ul>
-                </div>
-
-                <!-- Settings Panel -->
-                <div class="calculator-history" id="settingsPanel" style="display: none;">
-                    <div class="history-title">
-                        <span>Calculator Settings</span>
-                        <button class="memory-btn" onclick="toggleSettings()" style="padding: 0.3rem 0.8rem; font-size: 0.8rem;">
-                            Close
-                        </button>
-                    </div>
-                    <div style="padding: 1rem;">
-                        <div style="margin-bottom: 1rem;">
-                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Angle Mode:</label>
-                            <div style="display: flex; gap: 1rem;">
-                                <button class="mode-btn" onclick="setAngleMode('deg')" id="degBtn">Degrees</button>
-                                <button class="mode-btn active" onclick="setAngleMode('rad')" id="radBtn">Radians</button>
-                            </div>
-                        </div>
-                        <div style="margin-bottom: 1rem;">
-                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Number Format:</label>
-                            <div style="display: flex; gap: 1rem;">
-                                <button class="mode-btn active" onclick="setNumberFormat('decimal')" id="decimalBtn">Decimal</button>
-                                <button class="mode-btn" onclick="setNumberFormat('scientific')" id="scientificBtn">Scientific</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Content Section -->
-            <section class="content-section">
-                <h2>Complete Scientific Calculator with Graphing Functionality</h2>
-                
-                <h3 id="how-to-use">📊 How to Use the Graphing Calculator</h3>
-                
-                <div style="background: #f0f9ff; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; border-left: 4px solid var(--primary-color);">
-                    <h4 style="color: var(--primary-color); margin-bottom: 1rem;">Step-by-Step Graphing Guide:</h4>
-                    
-                    <ol style="margin-left: 1.5rem;">
-                        <li><strong>Switch to Graphing Mode:</strong> Click the "Graphing" button in the mode selector</li>
-                        <li><strong>Enter Function:</strong> Type your function in the input box (e.g., sin(x), x^2, log(x))</li>
-                        <li><strong>Set Range:</strong> Adjust X-min, X-max, Y-min, Y-max to set your viewing window</li>
-                        <li><strong>Plot Graph:</strong> Click "Plot Graph" to draw the function</li>
-                        <li><strong>Interact:</strong> Click and drag to pan, scroll to zoom in/out</li>
-                    </ol>
-                </div>
-                
-                <h4>Supported Mathematical Functions for Graphing:</h4>
-                <div class="function-reference">
-                    <div class="reference-grid">
-                        <div class="reference-item">
-                            <div class="reference-func">sin(x), cos(x), tan(x)</div>
-                            <div class="reference-desc">Trigonometric functions</div>
-                        </div>
-                        <div class="reference-item">
-                            <div class="reference-func">asin(x), acos(x), atan(x)</div>
-                            <div class="reference-desc">Inverse trigonometric</div>
-                        </div>
-                        <div class="reference-item">
-                            <div class="reference-func">log(x), ln(x)</div>
-                            <div class="reference-desc">Logarithmic functions</div>
-                        </div>
-                        <div class="reference-item">
-                            <div class="reference-func">exp(x), e^x</div>
-                            <div class="reference-desc">Exponential functions</div>
-                        </div>
-                        <div class="reference-item">
-                            <div class="reference-func">sqrt(x)</div>
-                            <div class="reference-desc">Square root</div>
-                        </div>
-                        <div class="reference-item">
-                            <div class="reference-func">abs(x)</div>
-                            <div class="reference-desc">Absolute value</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <h4>Graphing Examples You Can Try:</h4>
-                <div style="background: var(--light-color); padding: 1.5rem; border-radius: 8px; margin: 1rem 0;">
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
-                        <div style="background: white; padding: 1rem; border-radius: 6px;">
-                            <strong>Linear Function:</strong><br>
-                            <code>2*x + 3</code>
-                        </div>
-                        <div style="background: white; padding: 1rem; border-radius: 6px;">
-                            <strong>Quadratic:</strong><br>
-                            <code>x^2 - 4*x + 4</code>
-                        </div>
-                        <div style="background: white; padding: 1rem; border-radius: 6px;">
-                            <strong>Cubic:</strong><br>
-                            <code>x^3 - 3*x</code>
-                        </div>
-                        <div style="background: white; padding: 1rem; border-radius: 6px;">
-                            <strong>Trigonometric:</strong><br>
-                            <code>sin(x)*cos(x)</code>
-                        </div>
-                        <div style="background: white; padding: 1rem; border-radius: 6px;">
-                            <strong>Exponential:</strong><br>
-                            <code>exp(-x^2)</code>
-                        </div>
-                        <div style="background: white; padding: 1rem; border-radius: 6px;">
-                            <strong>Logarithmic:</strong><br>
-                            <code>log(x+1)</code>
-                        </div>
-                    </div>
-                </div>
-                
-                <h3 id="features">✨ Complete Feature List</h3>
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <h4><i>📈</i> Advanced Graphing</h4>
-                        <p>Plot any mathematical function with real-time rendering, zoom, pan, and coordinate tracking</p>
-                    </div>
-                    <div class="feature-card">
-                        <h4><i>🔢</i> Scientific Functions</h4>
-                        <p>Complete set of trigonometric, logarithmic, exponential, and statistical functions</p>
-                    </div>
-                    <div class="feature-card">
-                        <h4><i>💾</i> Memory System</h4>
-                        <p>Multiple memory registers with store, recall, add, and subtract operations</p>
-                    </div>
-                    <div class="feature-card">
-                        <h4><i>📊</i> Interactive Controls</h4>
-                        <p>Adjustable graph ranges, zoom, pan, and real-time coordinate display</p>
-                    </div>
-                    <div class="feature-card">
-                        <h4><i>🎯</i> Precision Calculation</h4>
-                        <p>High-precision arithmetic with adjustable decimal places and scientific notation</p>
-                    </div>
-                    <div class="feature-card">
-                        <h4><i>📱</i> Full Responsiveness</h4>
-                        <p>Works perfectly on desktop, tablet, and mobile devices</p>
-                    </div>
-                    <div class="feature-card">
-                        <h4><i>💾</i> History Tracking</h4>
-                        <p>Automatic saving of calculation history with timestamp and recall</p>
-                    </div>
-                    <div class="feature-card">
-                        <h4><i>⚡</i> Real-time Updates</h4>
-                        <p>Instant calculation results and smooth graph rendering</p>
-                    </div>
-                </div>
-
-                <h3 id="faq">❓ Frequently Asked Questions</h3>
-                <div class="faq-section">
-                    <div class="faq-item">
-                        <div class="faq-question">
-                            <span>How do I plot multiple functions on the same graph?</span>
-                            <span class="expand-icon">▼</span>
-                        </div>
-                        <div class="faq-answer">
-                            <p>Currently, you can plot one function at a time. To compare functions, plot one, note the behavior, clear the graph, then plot another. Future updates will include multi-function plotting.</p>
-                        </div>
-                    </div>
-                    <div class="faq-item">
-                        <div class="faq-question">
-                            <span>Why is my graph not showing up?</span>
-                            <span class="expand-icon">▼</span>
-                        </div>
-                        <div class="faq-answer">
-                            <p>Check these common issues: 1) Make sure your function syntax is correct, 2) Adjust the Y-range to see your function values, 3) Use parentheses properly, 4) Try zooming out to see the graph.</p>
-                        </div>
-                    </div>
-                    <div class="faq-item">
-                        <div class="faq-question">
-                            <span>Can I save or export my graphs?</span>
-                            <span class="expand-icon">▼</span>
-                        </div>
-                        <div class="faq-answer">
-                            <p>Currently, you can take a screenshot of the graph. Future updates will include export functionality to PNG, PDF, and SVG formats.</p>
-                        </div>
-                    </div>
-                    <div class="faq-item">
-                        <div class="faq-question">
-                            <span>How accurate are the trigonometric calculations?</span>
-                            <span class="expand-icon">▼</span>
-                        </div>
-                        <div class="faq-answer">
-                            <p>All calculations use JavaScript's Math library with double-precision floating-point arithmetic, providing about 15-17 significant digits of accuracy.</p>
-                        </div>
-                    </div>
-                    <div class="faq-item">
-                        <div class="faq-question">
-                            <span>Can I plot parametric or polar equations?</span>
-                            <span class="expand-icon">▼</span>
-                        </div>
-                        <div class="faq-answer">
-                            <p>Currently, only Cartesian (y = f(x)) equations are supported. Parametric and polar graphing will be added in future updates.</p>
-                        </div>
-                    </div>
-                    <div class="faq-item">
-                        <div class="faq-question">
-                            <span>Is there a mobile app version?</span>
-                            <span class="expand-icon">▼</span>
-                        </div>
-                        <div class="faq-answer">
-                            <p>This calculator is a web application that works perfectly on mobile browsers. You can add it to your home screen for quick access like a native app.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <h3>🎯 Practical Applications</h3>
-                
-                <h4>For Students:</h4>
-                <ul>
-                    <li><strong>Mathematics:</strong> Visualize functions, understand limits, derivatives, and integrals</li>
-                    <li><strong>Physics:</strong> Plot motion equations, wave functions, and physical relationships</li>
-                    <li><strong>Engineering:</strong> Analyze systems, plot transfer functions, and design curves</li>
-                    <li><strong>Statistics:</strong> Visualize probability distributions and data trends</li>
-                </ul>
-                
-                <h4>For Professionals:</h4>
-                <ul>
-                    <li><strong>Data Analysis:</strong> Plot and analyze mathematical models</li>
-                    <li><strong>Financial Modeling:</strong> Visualize compound interest and investment growth</li>
-                    <li><strong>Scientific Research:</strong> Plot experimental data and theoretical curves</li>
-                    <li><strong>Education:</strong> Create visual teaching aids for mathematical concepts</li>
-                </ul>
-
-                <h3>🔧 Tips for Better Graphing</h3>
-                <ol>
-                    <li><strong>Use Proper Syntax:</strong> Always use * for multiplication (e.g., 2*x not 2x)</li>
-                    <li><strong>Parentheses Matter:</strong> Use parentheses to clarify order of operations</li>
-                    <li><strong>Adjust Ranges:</strong> If you can't see your graph, adjust the X and Y ranges</li>
-                    <li><strong>Check Domain:</strong> Some functions (like log(x)) have restricted domains (x > 0)</li>
-                    <li><strong>Use Examples:</strong> Start with the provided examples to understand syntax</li>
-                    <li><strong>Zoom Features:</strong> Use scroll to zoom and drag to pan for better viewing</li>
-                </ol>
-
-                <h3>📈 Graph Customization Options</h3>
-                <div style="background: #f8fafc; padding: 1.5rem; border-radius: 8px; margin: 1rem 0;">
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
-                        <div>
-                            <strong>X-axis Range:</strong><br>
-                            Adjustable from -20 to 20
-                        </div>
-                        <div>
-                            <strong>Y-axis Range:</strong><br>
-                            Adjustable from -20 to 20
-                        </div>
-                        <div>
-                            <strong>Zoom Level:</strong><br>
-                            Mouse scroll for fine control
-                        </div>
-                        <div>
-                            <strong>Pan Control:</strong><br>
-                            Click and drag to move view
-                        </div>
-                    </div>
-                </div>
-
-                <p style="margin-top: 2rem; padding: 1.5rem; background: linear-gradient(135deg, #e0f2fe, #f0f9ff); border-radius: 8px; border-left: 4px solid var(--primary-color);">
-                    <strong>🎓 Pro Tip:</strong> For complex functions, start with a wide range (e.g., -10 to 10) to see the overall shape, then zoom in on interesting areas for detailed analysis. The graphing calculator automatically adjusts resolution for optimal performance.
-                </p>
-            </section>
-        </div>
-    </main>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>Scientific Calculator</h3>
-                    <p>Advanced online scientific calculator with comprehensive mathematical functions, graphing capabilities, and professional tools for students, engineers, and scientists.</p>
-                </div>
-                <div class="footer-section">
-                    <h3>Quick Links</h3>
-                    <ul>
-                        <li><a href="#how-to-use">How to Use</a></li>
-                        <li><a href="#features">Features</a></li>
-                        <li><a href="#faq">FAQ</a></li>
-                        <li><a href="#functions">Functions</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h3>Calculation Modes</h3>
-                    <ul>
-                        <li>Basic Calculator</li>
-                        <li>Scientific Calculator</li>
-                        <li>Graphing Calculator</li>
-                        <li>Statistics Calculator</li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h3>Contact & Support</h3>
-                    <p>This calculator is completely free with no limitations. All calculations happen locally in your browser for maximum privacy and performance.</p>
-                </div>
             </div>
-            <div class="copyright">
-                <p>&copy; 2024 Scientific Calculator Tool. All rights reserved. This tool is free for educational and professional use.</p>
-                <p style="margin-top: 0.5rem; font-size: 0.8rem;">Version 3.0 with Complete Graphing Functionality</p>
+            <div class="footer-section">
+                <h3>Calculation Modes</h3>
+                <ul>
+                    <li>Basic Calculator</li>
+                    <li>Scientific Calculator</li>
+                    <li>Graphing Calculator</li>
+                    <li>Statistics Calculator</li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact & Support</h3>
+                <p>This calculator is completely free with no limitations. All calculations happen locally in your browser for maximum privacy and performance.</p>
             </div>
         </div>
-    </footer>
+        <div class="copyright">
+            <p>&copy; 2024 Scientific Calculator Tool. All rights reserved. This tool is free for educational and professional use.</p>
+            <p style="margin-top: 0.5rem; font-size: 0.8rem;">Version 3.0 with Complete Graphing Functionality</p>
+        </div>
+    </div>
+</footer>
 
-    <!-- Notification -->
-    <div class="notification" id="notification"></div>
+<!-- Notification -->
+<div class="notification" id="notification"></div>
 
-    <script>
-        // Calculator State
-        let calculator = {
-            display: '0',
-            expression: '',
-            memory: 0,
-            history: [],
-            angleMode: 'rad',
-            numberFormat: 'decimal',
-            isScientificMode: false
-        };
+<script>
+    // Calculator State
+    let calculator = {
+        display: '0',
+        expression: '',
+        memory: 0,
+        history: [],
+        angleMode: 'rad',
+        numberFormat: 'decimal',
+        isScientificMode: false
+    };
 
-        // Graphing State
-        let graphState = {
-            ctx: null,
-            xMin: -10,
-            xMax: 10,
-            yMin: -10,
-            yMax: 10,
-            scaleX: 1,
-            scaleY: 1,
-            offsetX: 0,
-            offsetY: 0,
-            isDragging: false,
-            lastX: 0,
-            lastY: 0,
-            functions: []
-        };
+    // Graphing State
+    let graphState = {
+        ctx: null,
+        xMin: -10,
+        xMax: 10,
+        yMin: -10,
+        yMax: 10,
+        scaleX: 1,
+        scaleY: 1,
+        offsetX: 0,
+        offsetY: 0,
+        isDragging: false,
+        lastX: 0,
+        lastY: 0,
+        functions: []
+    };
 
-        // DOM Elements
-        const expressionDisplay = document.getElementById('expressionDisplay');
-        const resultDisplay = document.getElementById('resultDisplay');
-        const notification = document.getElementById('notification');
-        const graphCanvas = document.getElementById('graphCanvas');
+    // DOM Elements
+    const expressionDisplay = document.getElementById('expressionDisplay');
+    const resultDisplay = document.getElementById('resultDisplay');
+    const notification = document.getElementById('notification');
+    const graphCanvas = document.getElementById('graphCanvas');
 
-        // Initialize calculator
-        function initCalculator() {
-            loadHistory();
-            updateDisplay();
-            setupEventListeners();
-            initGraphing();
-            showNotification('Scientific Calculator with Graphing Ready!', 'success');
-        }
+    // Initialize calculator
+    function initCalculator() {
+        loadHistory();
+        updateDisplay();
+        setupEventListeners();
+        initGraphing();
+        showNotification('Scientific Calculator with Graphing Ready!', 'success');
+    }
 
-        // Initialize graphing system
-        function initGraphing() {
-            graphState.ctx = graphCanvas.getContext('2d');
-            
-            // Set up canvas events
-            graphCanvas.addEventListener('mousedown', startDrag);
-            graphCanvas.addEventListener('mousemove', drag);
-            graphCanvas.addEventListener('mouseup', endDrag);
-            graphCanvas.addEventListener('mouseleave', endDrag);
-            graphCanvas.addEventListener('wheel', handleZoom);
-            
-            // Draw initial grid
-            drawGrid();
-        }
+    // Initialize graphing system
+    function initGraphing() {
+        graphState.ctx = graphCanvas.getContext('2d');
+        
+        // Set up canvas events
+        graphCanvas.addEventListener('mousedown', startDrag);
+        graphCanvas.addEventListener('mousemove', drag);
+        graphCanvas.addEventListener('mouseup', endDrag);
+        graphCanvas.addEventListener('mouseleave', endDrag);
+        graphCanvas.addEventListener('wheel', handleZoom);
+        
+        // Draw initial grid
+        drawGrid();
+    }
 
-        // Draw grid and axes
-        function drawGrid() {
-            const ctx = graphState.ctx;
-            const width = graphCanvas.width;
-            const height = graphCanvas.height;
-            
-            // Clear canvas
-            ctx.clearRect(0, 0, width, height);
-            
-            // Calculate transformations
-            const scaleX = width / (graphState.xMax - graphState.xMin);
-            const scaleY = height / (graphState.yMax - graphState.yMin);
-            
-            // Draw grid
-            ctx.strokeStyle = '#e5e7eb';
-            ctx.lineWidth = 0.5;
-            
-            // Vertical grid lines
-            const xStart = Math.ceil(graphState.xMin);
-            const xEnd = Math.floor(graphState.xMax);
-            for (let x = xStart; x <= xEnd; x++) {
-                if (x === 0) continue; // Skip zero, will be drawn as axis
-                const screenX = (x - graphState.xMin) * scaleX;
-                ctx.beginPath();
-                ctx.moveTo(screenX, 0);
-                ctx.lineTo(screenX, height);
-                ctx.stroke();
-            }
-            
-            // Horizontal grid lines
-            const yStart = Math.ceil(graphState.yMin);
-            const yEnd = Math.floor(graphState.yMax);
-            for (let y = yStart; y <= yEnd; y++) {
-                if (y === 0) continue; // Skip zero, will be drawn as axis
-                const screenY = height - (y - graphState.yMin) * scaleY;
-                ctx.beginPath();
-                ctx.moveTo(0, screenY);
-                ctx.lineTo(width, screenY);
-                ctx.stroke();
-            }
-            
-            // Draw axes
-            ctx.strokeStyle = '#374151';
-            ctx.lineWidth = 2;
-            
-            // X-axis
-            if (graphState.yMin <= 0 && graphState.yMax >= 0) {
-                const screenY = height - (0 - graphState.yMin) * scaleY;
-                ctx.beginPath();
-                ctx.moveTo(0, screenY);
-                ctx.lineTo(width, screenY);
-                ctx.stroke();
-            }
-            
-            // Y-axis
-            if (graphState.xMin <= 0 && graphState.xMax >= 0) {
-                const screenX = (0 - graphState.xMin) * scaleX;
-                ctx.beginPath();
-                ctx.moveTo(screenX, 0);
-                ctx.lineTo(screenX, height);
-                ctx.stroke();
-            }
-            
-            // Draw axis labels
-            ctx.fillStyle = '#374151';
-            ctx.font = '12px Arial';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'top';
-            
-            // X-axis labels
-            for (let x = xStart; x <= xEnd; x++) {
-                if (x === 0) continue;
-                const screenX = (x - graphState.xMin) * scaleX;
-                const screenY = height - (0 - graphState.yMin) * scaleY + 5;
-                ctx.fillText(x.toString(), screenX, screenY);
-            }
-            
-            // Y-axis labels
-            ctx.textAlign = 'right';
-            ctx.textBaseline = 'middle';
-            for (let y = yStart; y <= yEnd; y++) {
-                if (y === 0) continue;
-                const screenX = (0 - graphState.xMin) * scaleX - 5;
-                const screenY = height - (y - graphState.yMin) * scaleY;
-                ctx.fillText(y.toString(), screenX, screenY);
-            }
-            
-            // Draw origin label
-            if (graphState.xMin <= 0 && graphState.xMax >= 0 && 
-                graphState.yMin <= 0 && graphState.yMax >= 0) {
-                ctx.fillStyle = '#374151';
-                ctx.font = 'bold 12px Arial';
-                ctx.textAlign = 'right';
-                ctx.textBaseline = 'top';
-                const screenX = (0 - graphState.xMin) * scaleX - 5;
-                const screenY = height - (0 - graphState.yMin) * scaleY + 5;
-                ctx.fillText('0', screenX, screenY);
-            }
-        }
-
-        // Plot graph function
-        function plotGraph() {
-            const funcInput = document.getElementById('graphFunction').value.trim();
-            
-            if (!funcInput) {
-                showNotification('Please enter a function to plot', 'error');
-                return;
-            }
-            
-            try {
-                // Validate and parse function
-                const func = parseFunction(funcInput);
-                
-                // Add to functions list
-                graphState.functions = [{ expr: funcInput, func: func, color: '#0ea5e9' }];
-                
-                // Draw graph
-                drawFunctionGraph(func);
-                showNotification('Graph plotted successfully!', 'success');
-                
-            } catch (error) {
-                console.error('Graphing error:', error);
-                showNotification('Error: ' + error.message, 'error');
-            }
-        }
-
-        // Parse mathematical function
-        function parseFunction(expr) {
-            // Convert common math expressions to JavaScript
-            let jsExpr = expr
-                .replace(/sin\(/g, 'Math.sin(')
-                .replace(/cos\(/g, 'Math.cos(')
-                .replace(/tan\(/g, 'Math.tan(')
-                .replace(/asin\(/g, 'Math.asin(')
-                .replace(/acos\(/g, 'Math.acos(')
-                .replace(/atan\(/g, 'Math.atan(')
-                .replace(/log\(/g, 'Math.log10(')
-                .replace(/ln\(/g, 'Math.log(')
-                .replace(/exp\(/g, 'Math.exp(')
-                .replace(/sqrt\(/g, 'Math.sqrt(')
-                .replace(/abs\(/g, 'Math.abs(')
-                .replace(/\^/g, '**')
-                .replace(/pi/g, 'Math.PI')
-                .replace(/e/g, 'Math.E');
-            
-            // Return function that evaluates at x
-            return function(x) {
-                try {
-                    // Replace x with the value
-                    const evalExpr = jsExpr.replace(/x/g, `(${x})`);
-                    return Function('"use strict"; return (' + evalExpr + ')')();
-                } catch (e) {
-                    return NaN;
-                }
-            };
-        }
-
-        // Draw function on graph
-        function drawFunctionGraph(func) {
-            drawGrid(); // Redraw grid first
-            
-            const ctx = graphState.ctx;
-            const width = graphCanvas.width;
-            const height = graphCanvas.height;
-            
-            const scaleX = width / (graphState.xMax - graphState.xMin);
-            const scaleY = height / (graphState.yMax - graphState.yMin);
-            
-            ctx.strokeStyle = '#0ea5e9';
-            ctx.lineWidth = 2;
+    // Draw grid and axes
+    function drawGrid() {
+        const ctx = graphState.ctx;
+        const width = graphCanvas.width;
+        const height = graphCanvas.height;
+        
+        // Clear canvas
+        ctx.clearRect(0, 0, width, height);
+        
+        // Calculate transformations
+        const scaleX = width / (graphState.xMax - graphState.xMin);
+        const scaleY = height / (graphState.yMax - graphState.yMin);
+        
+        // Draw grid
+        ctx.strokeStyle = '#e5e7eb';
+        ctx.lineWidth = 0.5;
+        
+        // Vertical grid lines
+        const xStart = Math.ceil(graphState.xMin);
+        const xEnd = Math.floor(graphState.xMax);
+        for (let x = xStart; x <= xEnd; x++) {
+            if (x === 0) continue; // Skip zero, will be drawn as axis
+            const screenX = (x - graphState.xMin) * scaleX;
             ctx.beginPath();
-            
-            let firstPoint = true;
-            const step = (graphState.xMax - graphState.xMin) / width;
-            
-            for (let screenX = 0; screenX <= width; screenX++) {
-                const x = graphState.xMin + (screenX / width) * (graphState.xMax - graphState.xMin);
-                let y;
-                
-                try {
-                    y = func(x);
-                    
-                    // Handle undefined or infinite values
-                    if (!isFinite(y) || isNaN(y)) {
-                        firstPoint = true;
-                        continue;
-                    }
-                    
-                    // Clip y values to graph range
-                    if (y < graphState.yMin || y > graphState.yMax) {
-                        firstPoint = true;
-                        continue;
-                    }
-                    
-                    const screenY = height - (y - graphState.yMin) * scaleY;
-                    
-                    if (firstPoint) {
-                        ctx.moveTo(screenX, screenY);
-                        firstPoint = false;
-                    } else {
-                        ctx.lineTo(screenX, screenY);
-                    }
-                } catch (error) {
-                    firstPoint = true;
-                }
-            }
-            
+            ctx.moveTo(screenX, 0);
+            ctx.lineTo(screenX, height);
             ctx.stroke();
-            
-            // Update coordinates display
-            updateCoordinatesDisplay(0, 0);
         }
-
-        // Clear graph
-        function clearGraph() {
-            graphState.functions = [];
-            drawGrid();
-            document.getElementById('graphFunction').value = '';
-            showNotification('Graph cleared', 'info');
+        
+        // Horizontal grid lines
+        const yStart = Math.ceil(graphState.yMin);
+        const yEnd = Math.floor(graphState.yMax);
+        for (let y = yStart; y <= yEnd; y++) {
+            if (y === 0) continue; // Skip zero, will be drawn as axis
+            const screenY = height - (y - graphState.yMin) * scaleY;
+            ctx.beginPath();
+            ctx.moveTo(0, screenY);
+            ctx.lineTo(width, screenY);
+            ctx.stroke();
         }
-
-        // Set example function
-        function setExample(example) {
-            document.getElementById('graphFunction').value = example;
-            plotGraph();
+        
+        // Draw axes
+        ctx.strokeStyle = '#374151';
+        ctx.lineWidth = 2;
+        
+        // X-axis
+        if (graphState.yMin <= 0 && graphState.yMax >= 0) {
+            const screenY = height - (0 - graphState.yMin) * scaleY;
+            ctx.beginPath();
+            ctx.moveTo(0, screenY);
+            ctx.lineTo(width, screenY);
+            ctx.stroke();
         }
-
-        // Update range controls
-        function updateXMin(value) {
-            const xMin = parseFloat(value);
-            const xMax = parseFloat(document.getElementById('xMax').value);
-            
-            if (xMin >= xMax) {
-                showNotification('X-min must be less than X-max', 'error');
-                return;
-            }
-            
-            graphState.xMin = xMin;
-            document.getElementById('xMin').value = xMin;
-            document.getElementById('xMinRange').value = xMin;
-            
-            if (graphState.functions.length > 0) {
-                drawGrid();
-                graphState.functions.forEach(f => drawFunctionGraph(f.func));
-            } else {
-                drawGrid();
-            }
+        
+        // Y-axis
+        if (graphState.xMin <= 0 && graphState.xMax >= 0) {
+            const screenX = (0 - graphState.xMin) * scaleX;
+            ctx.beginPath();
+            ctx.moveTo(screenX, 0);
+            ctx.lineTo(screenX, height);
+            ctx.stroke();
         }
-
-        function updateXMax(value) {
-            const xMax = parseFloat(value);
-            const xMin = parseFloat(document.getElementById('xMin').value);
-            
-            if (xMax <= xMin) {
-                showNotification('X-max must be greater than X-min', 'error');
-                return;
-            }
-            
-            graphState.xMax = xMax;
-            document.getElementById('xMax').value = xMax;
-            document.getElementById('xMaxRange').value = xMax;
-            
-            if (graphState.functions.length > 0) {
-                drawGrid();
-                graphState.functions.forEach(f => drawFunctionGraph(f.func));
-            } else {
-                drawGrid();
-            }
+        
+        // Draw axis labels
+        ctx.fillStyle = '#374151';
+        ctx.font = '12px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'top';
+        
+        // X-axis labels
+        for (let x = xStart; x <= xEnd; x++) {
+            if (x === 0) continue;
+            const screenX = (x - graphState.xMin) * scaleX;
+            const screenY = height - (0 - graphState.yMin) * scaleY + 5;
+            ctx.fillText(x.toString(), screenX, screenY);
         }
-
-        function updateYMin(value) {
-            const yMin = parseFloat(value);
-            const yMax = parseFloat(document.getElementById('yMax').value);
-            
-            if (yMin >= yMax) {
-                showNotification('Y-min must be less than Y-max', 'error');
-                return;
-            }
-            
-            graphState.yMin = yMin;
-            document.getElementById('yMin').value = yMin;
-            document.getElementById('yMinRange').value = yMin;
-            
-            if (graphState.functions.length > 0) {
-                drawGrid();
-                graphState.functions.forEach(f => drawFunctionGraph(f.func));
-            } else {
-                drawGrid();
-            }
+        
+        // Y-axis labels
+        ctx.textAlign = 'right';
+        ctx.textBaseline = 'middle';
+        for (let y = yStart; y <= yEnd; y++) {
+            if (y === 0) continue;
+            const screenX = (0 - graphState.xMin) * scaleX - 5;
+            const screenY = height - (y - graphState.yMin) * scaleY;
+            ctx.fillText(y.toString(), screenX, screenY);
         }
-
-        function updateYMax(value) {
-            const yMax = parseFloat(value);
-            const yMin = parseFloat(document.getElementById('yMin').value);
-            
-            if (yMax <= yMin) {
-                showNotification('Y-max must be greater than Y-min', 'error');
-                return;
-            }
-            
-            graphState.yMax = yMax;
-            document.getElementById('yMax').value = yMax;
-            document.getElementById('yMaxRange').value = yMax;
-            
-            if (graphState.functions.length > 0) {
-                drawGrid();
-                graphState.functions.forEach(f => drawFunctionGraph(f.func));
-            } else {
-                drawGrid();
-            }
+        
+        // Draw origin label
+        if (graphState.xMin <= 0 && graphState.xMax >= 0 && 
+            graphState.yMin <= 0 && graphState.yMax >= 0) {
+            ctx.fillStyle = '#374151';
+            ctx.font = 'bold 12px Arial';
+            ctx.textAlign = 'right';
+            ctx.textBaseline = 'top';
+            const screenX = (0 - graphState.xMin) * scaleX - 5;
+            const screenY = height - (0 - graphState.yMin) * scaleY + 5;
+            ctx.fillText('0', screenX, screenY);
         }
+    }
 
-        // Drag and zoom functionality
-        function startDrag(e) {
-            graphState.isDragging = true;
-            graphState.lastX = e.offsetX;
-            graphState.lastY = e.offsetY;
-            graphCanvas.style.cursor = 'grabbing';
+    // Plot graph function
+    function plotGraph() {
+        const funcInput = document.getElementById('graphFunction').value.trim();
+        
+        if (!funcInput) {
+            showNotification('Please enter a function to plot', 'error');
+            return;
         }
-
-        function drag(e) {
-            if (!graphState.isDragging) return;
+        
+        try {
+            // Validate and parse function
+            const func = parseFunction(funcInput);
             
-            const dx = e.offsetX - graphState.lastX;
-            const dy = e.offsetY - graphState.lastY;
+            // Add to functions list
+            graphState.functions = [{ expr: funcInput, func: func, color: '#0ea5e9' }];
             
-            const rangeX = graphState.xMax - graphState.xMin;
-            const rangeY = graphState.yMax - graphState.yMin;
+            // Draw graph
+            drawFunctionGraph(func);
+            showNotification('Graph plotted successfully!', 'success');
             
-            graphState.xMin -= dx * rangeX / graphCanvas.width;
-            graphState.xMax -= dx * rangeX / graphCanvas.width;
-            graphState.yMin += dy * rangeY / graphCanvas.height;
-            graphState.yMax += dy * rangeY / graphCanvas.height;
-            
-            // Update controls
-            document.getElementById('xMin').value = Math.round(graphState.xMin * 10) / 10;
-            document.getElementById('xMax').value = Math.round(graphState.xMax * 10) / 10;
-            document.getElementById('yMin').value = Math.round(graphState.yMin * 10) / 10;
-            document.getElementById('yMax').value = Math.round(graphState.yMax * 10) / 10;
-            document.getElementById('xMinRange').value = graphState.xMin;
-            document.getElementById('xMaxRange').value = graphState.xMax;
-            document.getElementById('yMinRange').value = graphState.yMin;
-            document.getElementById('yMaxRange').value = graphState.yMax;
-            
-            // Redraw
-            if (graphState.functions.length > 0) {
-                drawGrid();
-                graphState.functions.forEach(f => drawFunctionGraph(f.func));
-            } else {
-                drawGrid();
-            }
-            
-            graphState.lastX = e.offsetX;
-            graphState.lastY = e.offsetY;
-            
-            updateCoordinatesDisplay(e);
+        } catch (error) {
+            console.error('Graphing error:', error);
+            showNotification('Error: ' + error.message, 'error');
         }
+    }
 
-        function endDrag() {
-            graphState.isDragging = false;
-            graphCanvas.style.cursor = 'default';
-        }
-
-        function handleZoom(e) {
-            e.preventDefault();
-            
-            const zoomFactor = e.deltaY > 0 ? 1.1 : 0.9;
-            const mouseX = e.offsetX;
-            const mouseY = e.offsetY;
-            
-            const x = graphState.xMin + (mouseX / graphCanvas.width) * (graphState.xMax - graphState.xMin);
-            const y = graphState.yMax - (mouseY / graphCanvas.height) * (graphState.yMax - graphState.yMin);
-            
-            const newRangeX = (graphState.xMax - graphState.xMin) * zoomFactor;
-            const newRangeY = (graphState.yMax - graphState.yMin) * zoomFactor;
-            
-            graphState.xMin = x - (mouseX / graphCanvas.width) * newRangeX;
-            graphState.xMax = graphState.xMin + newRangeX;
-            graphState.yMin = y - ((graphCanvas.height - mouseY) / graphCanvas.height) * newRangeY;
-            graphState.yMax = graphState.yMin + newRangeY;
-            
-            // Update controls
-            document.getElementById('xMin').value = Math.round(graphState.xMin * 10) / 10;
-            document.getElementById('xMax').value = Math.round(graphState.xMax * 10) / 10;
-            document.getElementById('yMin').value = Math.round(graphState.yMin * 10) / 10;
-            document.getElementById('yMax').value = Math.round(graphState.yMax * 10) / 10;
-            document.getElementById('xMinRange').value = graphState.xMin;
-            document.getElementById('xMaxRange').value = graphState.xMax;
-            document.getElementById('yMinRange').value = graphState.yMin;
-            document.getElementById('yMaxRange').value = graphState.yMax;
-            
-            // Redraw
-            if (graphState.functions.length > 0) {
-                drawGrid();
-                graphState.functions.forEach(f => drawFunctionGraph(f.func));
-            } else {
-                drawGrid();
-            }
-            
-            updateCoordinatesDisplay(e);
-        }
-
-        function updateCoordinatesDisplay(e) {
-            if (!e) return;
-            
-            const x = graphState.xMin + (e.offsetX / graphCanvas.width) * (graphState.xMax - graphState.xMin);
-            const y = graphState.yMax - (e.offsetY / graphCanvas.height) * (graphState.yMax - graphState.yMin);
-            
-            document.getElementById('graphCoordinates').textContent = 
-                `Coordinates: (${x.toFixed(2)}, ${y.toFixed(2)})`;
-        }
-
-        // Setup event listeners for calculator
-        function setupEventListeners() {
-            // Mode switching
-            document.querySelectorAll('.mode-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const mode = this.getAttribute('data-mode');
-                    switchMode(mode);
-                    
-                    // Update active button
-                    document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-                    this.classList.add('active');
-                });
-            });
-
-            // Keyboard support for calculator
-            document.addEventListener('keydown', handleKeyboard);
-            
-            // FAQ expansion
-            document.querySelectorAll('.faq-question').forEach(question => {
-                question.addEventListener('click', function() {
-                    this.classList.toggle('active');
-                    const answer = this.nextElementSibling;
-                    answer.classList.toggle('active');
-                });
-            });
-        }
-
-        // Calculator functions (same as before, but simplified for brevity)
-        function switchMode(mode) {
-            const basicButtons = document.getElementById('basicButtons');
-            const scientificButtons = document.getElementById('scientificButtons');
-            const graphingSection = document.getElementById('graphingSection');
-            
-            switch(mode) {
-                case 'basic':
-                    basicButtons.style.display = 'grid';
-                    scientificButtons.style.display = 'none';
-                    graphingSection.classList.remove('active');
-                    calculator.isScientificMode = false;
-                    showNotification('Basic Mode Activated', 'info');
-                    break;
-                    
-                case 'scientific':
-                    basicButtons.style.display = 'grid';
-                    scientificButtons.style.display = 'grid';
-                    graphingSection.classList.remove('active');
-                    calculator.isScientificMode = true;
-                    showNotification('Scientific Mode Activated', 'info');
-                    break;
-                    
-                case 'graphing':
-                    basicButtons.style.display = 'none';
-                    scientificButtons.style.display = 'none';
-                    graphingSection.classList.add('active');
-                    showNotification('Graphing Mode Activated', 'info');
-                    break;
-                    
-                case 'statistics':
-                    showNotification('Statistics Mode Coming Soon!', 'info');
-                    break;
-            }
-        }
-
-        // Basic calculator functions
-        function appendNumber(num) {
-            if (calculator.display === '0' || calculator.display === 'Error') {
-                calculator.display = num;
-            } else {
-                calculator.display += num;
-            }
-            updateDisplay();
-        }
-
-        function appendOperator(op) {
-            if (calculator.display === 'Error') return;
-            calculator.display += op;
-            updateDisplay();
-        }
-
-        function appendDecimal() {
-            if (calculator.display === 'Error') return;
-            if (!calculator.display.includes('.')) {
-                calculator.display += '.';
-                updateDisplay();
-            }
-        }
-
-        function appendConstant(constant) {
-            calculator.display += constant === 'π' ? Math.PI : Math.E;
-            updateDisplay();
-        }
-
-        function clearAll() {
-            calculator.display = '0';
-            calculator.expression = '';
-            updateDisplay();
-        }
-
-        function clearEntry() {
-            calculator.display = '0';
-            updateDisplay();
-        }
-
-        function backspace() {
-            if (calculator.display.length > 1) {
-                calculator.display = calculator.display.slice(0, -1);
-            } else {
-                calculator.display = '0';
-            }
-            updateDisplay();
-        }
-
-        function calculate() {
+    // Parse mathematical function
+    function parseFunction(expr) {
+        // Convert common math expressions to JavaScript
+        let jsExpr = expr
+            .replace(/sin\(/g, 'Math.sin(')
+            .replace(/cos\(/g, 'Math.cos(')
+            .replace(/tan\(/g, 'Math.tan(')
+            .replace(/asin\(/g, 'Math.asin(')
+            .replace(/acos\(/g, 'Math.acos(')
+            .replace(/atan\(/g, 'Math.atan(')
+            .replace(/log\(/g, 'Math.log10(')
+            .replace(/ln\(/g, 'Math.log(')
+            .replace(/exp\(/g, 'Math.exp(')
+            .replace(/sqrt\(/g, 'Math.sqrt(')
+            .replace(/abs\(/g, 'Math.abs(')
+            .replace(/\^/g, '**')
+            .replace(/pi/g, 'Math.PI')
+            .replace(/e/g, 'Math.E');
+        
+        // Return function that evaluates at x
+        return function(x) {
             try {
-                let expr = calculator.display
-                    .replace(/×/g, '*')
-                    .replace(/÷/g, '/')
-                    .replace(/π/g, Math.PI)
-                    .replace(/e/g, Math.E)
-                    .replace(/\^/g, '**');
+                // Replace x with the value
+                const evalExpr = jsExpr.replace(/x/g, `(${x})`);
+                return Function('"use strict"; return (' + evalExpr + ')')();
+            } catch (e) {
+                return NaN;
+            }
+        };
+    }
+
+    // Draw function on graph
+    function drawFunctionGraph(func) {
+        drawGrid(); // Redraw grid first
+        
+        const ctx = graphState.ctx;
+        const width = graphCanvas.width;
+        const height = graphCanvas.height;
+        
+        const scaleX = width / (graphState.xMax - graphState.xMin);
+        const scaleY = height / (graphState.yMax - graphState.yMin);
+        
+        ctx.strokeStyle = '#0ea5e9';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        
+        let firstPoint = true;
+        const step = (graphState.xMax - graphState.xMin) / width;
+        
+        for (let screenX = 0; screenX <= width; screenX++) {
+            const x = graphState.xMin + (screenX / width) * (graphState.xMax - graphState.xMin);
+            let y;
+            
+            try {
+                y = func(x);
                 
-                const result = Function('"use strict"; return (' + expr + ')')();
-                addToHistory(calculator.display, result);
-                calculator.display = result.toString();
-                updateDisplay();
+                // Handle undefined or infinite values
+                if (!isFinite(y) || isNaN(y)) {
+                    firstPoint = true;
+                    continue;
+                }
+                
+                // Clip y values to graph range
+                if (y < graphState.yMin || y > graphState.yMax) {
+                    firstPoint = true;
+                    continue;
+                }
+                
+                const screenY = height - (y - graphState.yMin) * scaleY;
+                
+                if (firstPoint) {
+                    ctx.moveTo(screenX, screenY);
+                    firstPoint = false;
+                } else {
+                    ctx.lineTo(screenX, screenY);
+                }
             } catch (error) {
-                calculator.display = 'Error';
-                updateDisplay();
-                showNotification('Calculation Error', 'error');
+                firstPoint = true;
             }
         }
+        
+        ctx.stroke();
+        
+        // Update coordinates display
+        updateCoordinatesDisplay(0, 0);
+    }
 
-        function sqrt() {
-            try {
-                const result = Math.sqrt(parseFloat(calculator.display));
-                calculator.display = result.toString();
-                updateDisplay();
-            } catch (error) {
-                calculator.display = 'Error';
-                updateDisplay();
-            }
+    // Clear graph
+    function clearGraph() {
+        graphState.functions = [];
+        drawGrid();
+        document.getElementById('graphFunction').value = '';
+        showNotification('Graph cleared', 'info');
+    }
+
+    // Set example function
+    function setExample(example) {
+        document.getElementById('graphFunction').value = example;
+        plotGraph();
+    }
+
+    // Update range controls
+    function updateXMin(value) {
+        const xMin = parseFloat(value);
+        const xMax = parseFloat(document.getElementById('xMax').value);
+        
+        if (xMin >= xMax) {
+            showNotification('X-min must be less than X-max', 'error');
+            return;
         }
+        
+        graphState.xMin = xMin;
+        document.getElementById('xMin').value = xMin;
+        document.getElementById('xMinRange').value = xMin;
+        
+        if (graphState.functions.length > 0) {
+            drawGrid();
+            graphState.functions.forEach(f => drawFunctionGraph(f.func));
+        } else {
+            drawGrid();
+        }
+    }
 
-        function power() {
-            calculator.display += '^';
+    function updateXMax(value) {
+        const xMax = parseFloat(value);
+        const xMin = parseFloat(document.getElementById('xMin').value);
+        
+        if (xMax <= xMin) {
+            showNotification('X-max must be greater than X-min', 'error');
+            return;
+        }
+        
+        graphState.xMax = xMax;
+        document.getElementById('xMax').value = xMax;
+        document.getElementById('xMaxRange').value = xMax;
+        
+        if (graphState.functions.length > 0) {
+            drawGrid();
+            graphState.functions.forEach(f => drawFunctionGraph(f.func));
+        } else {
+            drawGrid();
+        }
+    }
+
+    function updateYMin(value) {
+        const yMin = parseFloat(value);
+        const yMax = parseFloat(document.getElementById('yMax').value);
+        
+        if (yMin >= yMax) {
+            showNotification('Y-min must be less than Y-max', 'error');
+            return;
+        }
+        
+        graphState.yMin = yMin;
+        document.getElementById('yMin').value = yMin;
+        document.getElementById('yMinRange').value = yMin;
+        
+        if (graphState.functions.length > 0) {
+            drawGrid();
+            graphState.functions.forEach(f => drawFunctionGraph(f.func));
+        } else {
+            drawGrid();
+        }
+    }
+
+    function updateYMax(value) {
+        const yMax = parseFloat(value);
+        const yMin = parseFloat(document.getElementById('yMin').value);
+        
+        if (yMax <= yMin) {
+            showNotification('Y-max must be greater than Y-min', 'error');
+            return;
+        }
+        
+        graphState.yMax = yMax;
+        document.getElementById('yMax').value = yMax;
+        document.getElementById('yMaxRange').value = yMax;
+        
+        if (graphState.functions.length > 0) {
+            drawGrid();
+            graphState.functions.forEach(f => drawFunctionGraph(f.func));
+        } else {
+            drawGrid();
+        }
+    }
+
+    // Drag and zoom functionality
+    function startDrag(e) {
+        graphState.isDragging = true;
+        graphState.lastX = e.offsetX;
+        graphState.lastY = e.offsetY;
+        graphCanvas.style.cursor = 'grabbing';
+    }
+
+    function drag(e) {
+        if (!graphState.isDragging) return;
+        
+        const dx = e.offsetX - graphState.lastX;
+        const dy = e.offsetY - graphState.lastY;
+        
+        const rangeX = graphState.xMax - graphState.xMin;
+        const rangeY = graphState.yMax - graphState.yMin;
+        
+        graphState.xMin -= dx * rangeX / graphCanvas.width;
+        graphState.xMax -= dx * rangeX / graphCanvas.width;
+        graphState.yMin += dy * rangeY / graphCanvas.height;
+        graphState.yMax += dy * rangeY / graphCanvas.height;
+        
+        // Update controls
+        document.getElementById('xMin').value = Math.round(graphState.xMin * 10) / 10;
+        document.getElementById('xMax').value = Math.round(graphState.xMax * 10) / 10;
+        document.getElementById('yMin').value = Math.round(graphState.yMin * 10) / 10;
+        document.getElementById('yMax').value = Math.round(graphState.yMax * 10) / 10;
+        document.getElementById('xMinRange').value = graphState.xMin;
+        document.getElementById('xMaxRange').value = graphState.xMax;
+        document.getElementById('yMinRange').value = graphState.yMin;
+        document.getElementById('yMaxRange').value = graphState.yMax;
+        
+        // Redraw
+        if (graphState.functions.length > 0) {
+            drawGrid();
+            graphState.functions.forEach(f => drawFunctionGraph(f.func));
+        } else {
+            drawGrid();
+        }
+        
+        graphState.lastX = e.offsetX;
+        graphState.lastY = e.offsetY;
+        
+        updateCoordinatesDisplay(e);
+    }
+
+    function endDrag() {
+        graphState.isDragging = false;
+        graphCanvas.style.cursor = 'default';
+    }
+
+    function handleZoom(e) {
+        e.preventDefault();
+        
+        const zoomFactor = e.deltaY > 0 ? 1.1 : 0.9;
+        const mouseX = e.offsetX;
+        const mouseY = e.offsetY;
+        
+        const x = graphState.xMin + (mouseX / graphCanvas.width) * (graphState.xMax - graphState.xMin);
+        const y = graphState.yMax - (mouseY / graphCanvas.height) * (graphState.yMax - graphState.yMin);
+        
+        const newRangeX = (graphState.xMax - graphState.xMin) * zoomFactor;
+        const newRangeY = (graphState.yMax - graphState.yMin) * zoomFactor;
+        
+        graphState.xMin = x - (mouseX / graphCanvas.width) * newRangeX;
+        graphState.xMax = graphState.xMin + newRangeX;
+        graphState.yMin = y - ((graphCanvas.height - mouseY) / graphCanvas.height) * newRangeY;
+        graphState.yMax = graphState.yMin + newRangeY;
+        
+        // Update controls
+        document.getElementById('xMin').value = Math.round(graphState.xMin * 10) / 10;
+        document.getElementById('xMax').value = Math.round(graphState.xMax * 10) / 10;
+        document.getElementById('yMin').value = Math.round(graphState.yMin * 10) / 10;
+        document.getElementById('yMax').value = Math.round(graphState.yMax * 10) / 10;
+        document.getElementById('xMinRange').value = graphState.xMin;
+        document.getElementById('xMaxRange').value = graphState.xMax;
+        document.getElementById('yMinRange').value = graphState.yMin;
+        document.getElementById('yMaxRange').value = graphState.yMax;
+        
+        // Redraw
+        if (graphState.functions.length > 0) {
+            drawGrid();
+            graphState.functions.forEach(f => drawFunctionGraph(f.func));
+        } else {
+            drawGrid();
+        }
+        
+        updateCoordinatesDisplay(e);
+    }
+
+    function updateCoordinatesDisplay(e) {
+        if (!e) return;
+        
+        const x = graphState.xMin + (e.offsetX / graphCanvas.width) * (graphState.xMax - graphState.xMin);
+        const y = graphState.yMax - (e.offsetY / graphCanvas.height) * (graphState.yMax - graphState.yMin);
+        
+        document.getElementById('graphCoordinates').textContent = 
+            `Coordinates: (${x.toFixed(2)}, ${y.toFixed(2)})`;
+    }
+
+    // Setup event listeners for calculator
+    function setupEventListeners() {
+        // Mode switching
+        document.querySelectorAll('.mode-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const mode = this.getAttribute('data-mode');
+                switchMode(mode);
+                
+                // Update active button
+                document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Keyboard support for calculator
+        document.addEventListener('keydown', handleKeyboard);
+        
+        // FAQ expansion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', function() {
+                this.classList.toggle('active');
+                const answer = this.nextElementSibling;
+                answer.classList.toggle('active');
+            });
+        });
+    }
+
+    // Calculator functions (same as before, but simplified for brevity)
+    function switchMode(mode) {
+        const basicButtons = document.getElementById('basicButtons');
+        const scientificButtons = document.getElementById('scientificButtons');
+        const graphingSection = document.getElementById('graphingSection');
+        
+        switch(mode) {
+            case 'basic':
+                basicButtons.style.display = 'grid';
+                scientificButtons.style.display = 'none';
+                graphingSection.classList.remove('active');
+                calculator.isScientificMode = false;
+                showNotification('Basic Mode Activated', 'info');
+                break;
+                
+            case 'scientific':
+                basicButtons.style.display = 'grid';
+                scientificButtons.style.display = 'grid';
+                graphingSection.classList.remove('active');
+                calculator.isScientificMode = true;
+                showNotification('Scientific Mode Activated', 'info');
+                break;
+                
+            case 'graphing':
+                basicButtons.style.display = 'none';
+                scientificButtons.style.display = 'none';
+                graphingSection.classList.add('active');
+                showNotification('Graphing Mode Activated', 'info');
+                break;
+                
+            case 'statistics':
+                showNotification('Statistics Mode Coming Soon!', 'info');
+                break;
+        }
+    }
+
+    // Basic calculator functions
+    function appendNumber(num) {
+        if (calculator.display === '0' || calculator.display === 'Error') {
+            calculator.display = num;
+        } else {
+            calculator.display += num;
+        }
+        updateDisplay();
+    }
+
+    function appendOperator(op) {
+        if (calculator.display === 'Error') return;
+        calculator.display += op;
+        updateDisplay();
+    }
+
+    function appendDecimal() {
+        if (calculator.display === 'Error') return;
+        if (!calculator.display.includes('.')) {
+            calculator.display += '.';
             updateDisplay();
         }
+    }
 
-        function factorial() {
-            try {
-                const n = parseInt(calculator.display);
-                let result = 1;
-                for (let i = 2; i <= n; i++) result *= i;
-                calculator.display = result.toString();
-                updateDisplay();
-            } catch (error) {
-                calculator.display = 'Error';
-                updateDisplay();
-            }
+    function appendConstant(constant) {
+        calculator.display += constant === 'π' ? Math.PI : Math.E;
+        updateDisplay();
+    }
+
+    function clearAll() {
+        calculator.display = '0';
+        calculator.expression = '';
+        updateDisplay();
+    }
+
+    function clearEntry() {
+        calculator.display = '0';
+        updateDisplay();
+    }
+
+    function backspace() {
+        if (calculator.display.length > 1) {
+            calculator.display = calculator.display.slice(0, -1);
+        } else {
+            calculator.display = '0';
         }
+        updateDisplay();
+    }
 
-        // Scientific functions
-        function trigFunction(func) {
-            try {
-                const value = parseFloat(calculator.display);
-                const radians = calculator.angleMode === 'deg' ? value * Math.PI / 180 : value;
-                const result = Math[func](radians);
-                calculator.display = result.toString();
-                updateDisplay();
-            } catch (error) {
-                calculator.display = 'Error';
-                updateDisplay();
-            }
-        }
-
-        function inverseTrigFunction(func) {
-            try {
-                const value = parseFloat(calculator.display);
-                const result = Math[func.slice(1)](value);
-                const degrees = calculator.angleMode === 'deg' ? result * 180 / Math.PI : result;
-                calculator.display = degrees.toString();
-                updateDisplay();
-            } catch (error) {
-                calculator.display = 'Error';
-                updateDisplay();
-            }
-        }
-
-        function logFunction(func) {
-            try {
-                const value = parseFloat(calculator.display);
-                const result = func === 'log' ? Math.log10(value) : Math.log(value);
-                calculator.display = result.toString();
-                updateDisplay();
-            } catch (error) {
-                calculator.display = 'Error';
-                updateDisplay();
-            }
-        }
-
-        function expFunction() {
-            try {
-                const value = parseFloat(calculator.display);
-                const result = Math.exp(value);
-                calculator.display = result.toString();
-                updateDisplay();
-            } catch (error) {
-                calculator.display = 'Error';
-                updateDisplay();
-            }
-        }
-
-        function absFunction() {
-            try {
-                const value = parseFloat(calculator.display);
-                const result = Math.abs(value);
-                calculator.display = result.toString();
-                updateDisplay();
-            } catch (error) {
-                calculator.display = 'Error';
-                updateDisplay();
-            }
-        }
-
-        function mathFunction(func) {
-            try {
-                const value = parseFloat(calculator.display);
-                const result = Math[func](value);
-                calculator.display = result.toString();
-                updateDisplay();
-            } catch (error) {
-                calculator.display = 'Error';
-                updateDisplay();
-            }
-        }
-
-        function randomNumber() {
-            calculator.display = Math.random().toFixed(4);
-            updateDisplay();
-        }
-
-        function toggleAngleMode(mode) {
-            calculator.angleMode = mode;
-            showNotification(`Angle mode: ${mode === 'deg' ? 'Degrees' : 'Radians'}`, 'info');
-        }
-
-        function setAngleMode(mode) {
-            calculator.angleMode = mode;
-            document.getElementById('degBtn').classList.toggle('active', mode === 'deg');
-            document.getElementById('radBtn').classList.toggle('active', mode === 'rad');
-            showNotification(`Angle mode set to ${mode === 'deg' ? 'Degrees' : 'Radians'}`, 'info');
-        }
-
-        function setNumberFormat(format) {
-            calculator.numberFormat = format;
-            document.getElementById('decimalBtn').classList.toggle('active', format === 'decimal');
-            document.getElementById('scientificBtn').classList.toggle('active', format === 'scientific');
-            showNotification(`Number format set to ${format}`, 'info');
-        }
-
-        function hypotFunction() {
-            calculator.display += 'hypot(';
-            updateDisplay();
-        }
-
-        function nCr() {
-            calculator.display += 'nCr(';
-            updateDisplay();
-        }
-
-        function nPr() {
-            calculator.display += 'nPr(';
-            updateDisplay();
-        }
-
-        // Memory functions
-        function memoryClear() {
-            calculator.memory = 0;
-            showNotification('Memory Cleared', 'info');
-        }
-
-        function memoryRecall() {
-            calculator.display = calculator.memory.toString();
-            updateDisplay();
-            showNotification('Memory Recalled', 'info');
-        }
-
-        function memoryAdd() {
-            try {
-                const currentValue = parseFloat(calculator.display) || 0;
-                calculator.memory += currentValue;
-                showNotification('Added to Memory', 'info');
-            } catch (error) {
-                showNotification('Memory Error', 'error');
-            }
-        }
-
-        function memorySubtract() {
-            try {
-                const currentValue = parseFloat(calculator.display) || 0;
-                calculator.memory -= currentValue;
-                showNotification('Subtracted from Memory', 'info');
-            } catch (error) {
-                showNotification('Memory Error', 'error');
-            }
-        }
-
-        function memoryStore() {
-            try {
-                const currentValue = parseFloat(calculator.display) || 0;
-                calculator.memory = currentValue;
-                showNotification('Stored in Memory', 'info');
-            } catch (error) {
-                showNotification('Memory Error', 'error');
-            }
-        }
-
-        function toggleHistory() {
-            const historyPanel = document.getElementById('calculatorHistory');
-            const isVisible = historyPanel.style.display === 'block';
-            historyPanel.style.display = isVisible ? 'none' : 'block';
-            document.getElementById('historyToggle').textContent = 
-                isVisible ? 'Show History' : 'Hide History';
-        }
-
-        function toggleSettings() {
-            const settingsPanel = document.getElementById('settingsPanel');
-            const historyPanel = document.getElementById('calculatorHistory');
-            const isVisible = settingsPanel.style.display === 'block';
+    function calculate() {
+        try {
+            let expr = calculator.display
+                .replace(/×/g, '*')
+                .replace(/÷/g, '/')
+                .replace(/π/g, Math.PI)
+                .replace(/e/g, Math.E)
+                .replace(/\^/g, '**');
             
-            settingsPanel.style.display = isVisible ? 'none' : 'block';
-            historyPanel.style.display = 'none';
-            document.getElementById('historyToggle').textContent = 'Show History';
+            const result = Function('"use strict"; return (' + expr + ')')();
+            addToHistory(calculator.display, result);
+            calculator.display = result.toString();
+            updateDisplay();
+        } catch (error) {
+            calculator.display = 'Error';
+            updateDisplay();
+            showNotification('Calculation Error', 'error');
         }
+    }
 
-        async function copyResult() {
-            try {
-                await navigator.clipboard.writeText(calculator.display);
-                showNotification('Result copied to clipboard!', 'success');
-            } catch (error) {
-                showNotification('Failed to copy result', 'error');
-            }
+    function sqrt() {
+        try {
+            const result = Math.sqrt(parseFloat(calculator.display));
+            calculator.display = result.toString();
+            updateDisplay();
+        } catch (error) {
+            calculator.display = 'Error';
+            updateDisplay();
         }
+    }
 
-        function addToHistory(expression, result) {
-            const historyItem = {
-                id: Date.now(),
-                expression: expression,
-                result: result,
-                timestamp: new Date().toLocaleTimeString()
-            };
-            
-            calculator.history.unshift(historyItem);
-            if (calculator.history.length > 20) {
-                calculator.history = calculator.history.slice(0, 20);
-            }
-            
-            saveHistory();
+    function power() {
+        calculator.display += '^';
+        updateDisplay();
+    }
+
+    function factorial() {
+        try {
+            const n = parseInt(calculator.display);
+            let result = 1;
+            for (let i = 2; i <= n; i++) result *= i;
+            calculator.display = result.toString();
+            updateDisplay();
+        } catch (error) {
+            calculator.display = 'Error';
+            updateDisplay();
+        }
+    }
+
+    // Scientific functions
+    function trigFunction(func) {
+        try {
+            const value = parseFloat(calculator.display);
+            const radians = calculator.angleMode === 'deg' ? value * Math.PI / 180 : value;
+            const result = Math[func](radians);
+            calculator.display = result.toString();
+            updateDisplay();
+        } catch (error) {
+            calculator.display = 'Error';
+            updateDisplay();
+        }
+    }
+
+    function inverseTrigFunction(func) {
+        try {
+            const value = parseFloat(calculator.display);
+            const result = Math[func.slice(1)](value);
+            const degrees = calculator.angleMode === 'deg' ? result * 180 / Math.PI : result;
+            calculator.display = degrees.toString();
+            updateDisplay();
+        } catch (error) {
+            calculator.display = 'Error';
+            updateDisplay();
+        }
+    }
+
+    function logFunction(func) {
+        try {
+            const value = parseFloat(calculator.display);
+            const result = func === 'log' ? Math.log10(value) : Math.log(value);
+            calculator.display = result.toString();
+            updateDisplay();
+        } catch (error) {
+            calculator.display = 'Error';
+            updateDisplay();
+        }
+    }
+
+    function expFunction() {
+        try {
+            const value = parseFloat(calculator.display);
+            const result = Math.exp(value);
+            calculator.display = result.toString();
+            updateDisplay();
+        } catch (error) {
+            calculator.display = 'Error';
+            updateDisplay();
+        }
+    }
+
+    function absFunction() {
+        try {
+            const value = parseFloat(calculator.display);
+            const result = Math.abs(value);
+            calculator.display = result.toString();
+            updateDisplay();
+        } catch (error) {
+            calculator.display = 'Error';
+            updateDisplay();
+        }
+    }
+
+    function mathFunction(func) {
+        try {
+            const value = parseFloat(calculator.display);
+            const result = Math[func](value);
+            calculator.display = result.toString();
+            updateDisplay();
+        } catch (error) {
+            calculator.display = 'Error';
+            updateDisplay();
+        }
+    }
+
+    function randomNumber() {
+        calculator.display = Math.random().toFixed(4);
+        updateDisplay();
+    }
+
+    function toggleAngleMode(mode) {
+        calculator.angleMode = mode;
+        showNotification(`Angle mode: ${mode === 'deg' ? 'Degrees' : 'Radians'}`, 'info');
+    }
+
+    function setAngleMode(mode) {
+        calculator.angleMode = mode;
+        document.getElementById('degBtn').classList.toggle('active', mode === 'deg');
+        document.getElementById('radBtn').classList.toggle('active', mode === 'rad');
+        showNotification(`Angle mode set to ${mode === 'deg' ? 'Degrees' : 'Radians'}`, 'info');
+    }
+
+    function setNumberFormat(format) {
+        calculator.numberFormat = format;
+        document.getElementById('decimalBtn').classList.toggle('active', format === 'decimal');
+        document.getElementById('scientificBtn').classList.toggle('active', format === 'scientific');
+        showNotification(`Number format set to ${format}`, 'info');
+    }
+
+    function hypotFunction() {
+        calculator.display += 'hypot(';
+        updateDisplay();
+    }
+
+    function nCr() {
+        calculator.display += 'nCr(';
+        updateDisplay();
+    }
+
+    function nPr() {
+        calculator.display += 'nPr(';
+        updateDisplay();
+    }
+
+    // Memory functions
+    function memoryClear() {
+        calculator.memory = 0;
+        showNotification('Memory Cleared', 'info');
+    }
+
+    function memoryRecall() {
+        calculator.display = calculator.memory.toString();
+        updateDisplay();
+        showNotification('Memory Recalled', 'info');
+    }
+
+    function memoryAdd() {
+        try {
+            const currentValue = parseFloat(calculator.display) || 0;
+            calculator.memory += currentValue;
+            showNotification('Added to Memory', 'info');
+        } catch (error) {
+            showNotification('Memory Error', 'error');
+        }
+    }
+
+    function memorySubtract() {
+        try {
+            const currentValue = parseFloat(calculator.display) || 0;
+            calculator.memory -= currentValue;
+            showNotification('Subtracted from Memory', 'info');
+        } catch (error) {
+            showNotification('Memory Error', 'error');
+        }
+    }
+
+    function memoryStore() {
+        try {
+            const currentValue = parseFloat(calculator.display) || 0;
+            calculator.memory = currentValue;
+            showNotification('Stored in Memory', 'info');
+        } catch (error) {
+            showNotification('Memory Error', 'error');
+        }
+    }
+
+    function toggleHistory() {
+        const historyPanel = document.getElementById('calculatorHistory');
+        const isVisible = historyPanel.style.display === 'block';
+        historyPanel.style.display = isVisible ? 'none' : 'block';
+        document.getElementById('historyToggle').textContent = 
+            isVisible ? 'Show History' : 'Hide History';
+    }
+
+    function toggleSettings() {
+        const settingsPanel = document.getElementById('settingsPanel');
+        const historyPanel = document.getElementById('calculatorHistory');
+        const isVisible = settingsPanel.style.display === 'block';
+        
+        settingsPanel.style.display = isVisible ? 'none' : 'block';
+        historyPanel.style.display = 'none';
+        document.getElementById('historyToggle').textContent = 'Show History';
+    }
+
+    async function copyResult() {
+        try {
+            await navigator.clipboard.writeText(calculator.display);
+            showNotification('Result copied to clipboard!', 'success');
+        } catch (error) {
+            showNotification('Failed to copy result', 'error');
+        }
+    }
+
+    function addToHistory(expression, result) {
+        const historyItem = {
+            id: Date.now(),
+            expression: expression,
+            result: result,
+            timestamp: new Date().toLocaleTimeString()
+        };
+        
+        calculator.history.unshift(historyItem);
+        if (calculator.history.length > 20) {
+            calculator.history = calculator.history.slice(0, 20);
+        }
+        
+        saveHistory();
+        updateHistoryDisplay();
+    }
+
+    function saveHistory() {
+        localStorage.setItem('calculatorHistory', JSON.stringify(calculator.history));
+    }
+
+    function loadHistory() {
+        const savedHistory = localStorage.getItem('calculatorHistory');
+        if (savedHistory) {
+            calculator.history = JSON.parse(savedHistory);
             updateHistoryDisplay();
         }
+    }
 
-        function saveHistory() {
-            localStorage.setItem('calculatorHistory', JSON.stringify(calculator.history));
+    function updateHistoryDisplay() {
+        const historyList = document.getElementById('historyList');
+        historyList.innerHTML = '';
+        
+        if (calculator.history.length === 0) {
+            const li = document.createElement('li');
+            li.className = 'history-item';
+            li.textContent = 'No calculation history yet';
+            historyList.appendChild(li);
+            return;
         }
-
-        function loadHistory() {
-            const savedHistory = localStorage.getItem('calculatorHistory');
-            if (savedHistory) {
-                calculator.history = JSON.parse(savedHistory);
-                updateHistoryDisplay();
-            }
-        }
-
-        function updateHistoryDisplay() {
-            const historyList = document.getElementById('historyList');
-            historyList.innerHTML = '';
+        
+        calculator.history.forEach(item => {
+            const li = document.createElement('li');
+            li.className = 'history-item';
+            li.innerHTML = `
+                <div class="history-expression">${item.expression}</div>
+                <div class="history-result">= ${item.result}</div>
+                <div style="font-size: 0.8rem; color: #94a3b8;">${item.timestamp}</div>
+            `;
             
-            if (calculator.history.length === 0) {
-                const li = document.createElement('li');
-                li.className = 'history-item';
-                li.textContent = 'No calculation history yet';
-                historyList.appendChild(li);
-                return;
-            }
-            
-            calculator.history.forEach(item => {
-                const li = document.createElement('li');
-                li.className = 'history-item';
-                li.innerHTML = `
-                    <div class="history-expression">${item.expression}</div>
-                    <div class="history-result">= ${item.result}</div>
-                    <div style="font-size: 0.8rem; color: #94a3b8;">${item.timestamp}</div>
-                `;
-                
-                li.addEventListener('click', () => {
-                    calculator.display = item.expression;
-                    updateDisplay();
-                    showNotification('Expression loaded from history', 'info');
-                });
-                
-                historyList.appendChild(li);
-            });
-        }
-
-        function clearHistory() {
-            if (confirm('Clear all calculation history?')) {
-                calculator.history = [];
-                localStorage.removeItem('calculatorHistory');
-                updateHistoryDisplay();
-                showNotification('History cleared', 'success');
-            }
-        }
-
-        function updateDisplay() {
-            expressionDisplay.textContent = calculator.display;
-            
-            if (calculator.display === 'Error') {
-                resultDisplay.textContent = 'Error';
-                resultDisplay.style.color = '#ef4444';
-            } else {
-                resultDisplay.textContent = calculator.display;
-                resultDisplay.style.color = '#ffffff';
-            }
-        }
-
-        function handleKeyboard(event) {
-            const key = event.key;
-            
-            if (/[\d+\-*/.=()]|Enter|Backspace|Escape/.test(key)) {
-                event.preventDefault();
-            }
-            
-            if (key >= '0' && key <= '9') {
-                appendNumber(key);
-            } else if (key === '.') {
-                appendDecimal();
-            } else if (key === '+') {
-                appendOperator('+');
-            } else if (key === '-') {
-                appendOperator('-');
-            } else if (key === '*') {
-                appendOperator('*');
-            } else if (key === '/') {
-                appendOperator('/');
-            } else if (key === 'Enter' || key === '=') {
-                calculate();
-            } else if (key === 'Escape') {
-                clearAll();
-            } else if (key === 'Backspace') {
-                backspace();
-            } else if (key === '(' || key === ')') {
-                calculator.display += key;
+            li.addEventListener('click', () => {
+                calculator.display = item.expression;
                 updateDisplay();
-            }
-        }
-
-        function showNotification(message, type) {
-            notification.textContent = message;
-            notification.className = `notification ${type} show`;
+                showNotification('Expression loaded from history', 'info');
+            });
             
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 3000);
-        }
+            historyList.appendChild(li);
+        });
+    }
 
-        // Initialize calculator when page loads
-        document.addEventListener('DOMContentLoaded', initCalculator);
-    </script>
-</body>
-</html>
+    function clearHistory() {
+        if (confirm('Clear all calculation history?')) {
+            calculator.history = [];
+            localStorage.removeItem('calculatorHistory');
+            updateHistoryDisplay();
+            showNotification('History cleared', 'success');
+        }
+    }
+
+    function updateDisplay() {
+        expressionDisplay.textContent = calculator.display;
+        
+        if (calculator.display === 'Error') {
+            resultDisplay.textContent = 'Error';
+            resultDisplay.style.color = '#ef4444';
+        } else {
+            resultDisplay.textContent = calculator.display;
+            resultDisplay.style.color = '#ffffff';
+        }
+    }
+
+    function handleKeyboard(event) {
+        const key = event.key;
+        
+        if (/[\d+\-*/.=()]|Enter|Backspace|Escape/.test(key)) {
+            event.preventDefault();
+        }
+        
+        if (key >= '0' && key <= '9') {
+            appendNumber(key);
+        } else if (key === '.') {
+            appendDecimal();
+        } else if (key === '+') {
+            appendOperator('+');
+        } else if (key === '-') {
+            appendOperator('-');
+        } else if (key === '*') {
+            appendOperator('*');
+        } else if (key === '/') {
+            appendOperator('/');
+        } else if (key === 'Enter' || key === '=') {
+            calculate();
+        } else if (key === 'Escape') {
+            clearAll();
+        } else if (key === 'Backspace') {
+            backspace();
+        } else if (key === '(' || key === ')') {
+            calculator.display += key;
+            updateDisplay();
+        }
+    }
+
+    function showNotification(message, type) {
+        notification.textContent = message;
+        notification.className = `notification ${type} show`;
+        
+        setTimeout(() => {
+            notification.classList.remove('show');
+        }, 3000);
+    }
+
+    // Initialize calculator when page loads
+    document.addEventListener('DOMContentLoaded', initCalculator);
+</script>
