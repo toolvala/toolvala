@@ -5,14 +5,15 @@
 <meta charset="UTF-8">
 <title>Word to PDF Converter + Word Counter | Toolvala</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Free Word to PDF Converter with live word and character counter. Upload DOCX, preview, count words, and download PDF instantly.">
+<meta name="description" content="Free Word to PDF Converter with live word and character counter. Upload DOCX, preview content, count words, and download PDF instantly.">
 <link rel="canonical" href="https://www.toolvala.in/word-to-pdf.html">
 
+<!-- DOCX Preview Library -->
 <script src="https://unpkg.com/docx-preview@0.4.0/dist/docx-preview.min.js"></script>
 
 <style>
 body{
-  font-family: Arial, sans-serif;
+  font-family:Arial,Helvetica,sans-serif;
   background:#f8fafc;
   margin:0;
 }
@@ -28,8 +29,14 @@ h1{
 .card{
   background:#fff;
   padding:20px;
-  border-radius:12px;
+  border-radius:14px;
   box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+.controls{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-bottom:15px;
 }
 input[type=file]{
   padding:10px;
@@ -64,17 +71,34 @@ button:disabled{
   font-size:24px;
   font-weight:bold;
 }
+
+/* ===== DOCX MOBILE RENDER FIX ===== */
 #doc{
   background:#fff;
   padding:25px;
   border-radius:12px;
   min-height:300px;
-  margin-top:20px;
+  width:100%;
+  overflow-x:auto;
+  display:block;
 }
+.docx-wrapper{
+  width:100% !important;
+}
+.docx-wrapper *{
+  font-family:Arial,Helvetica,sans-serif !important;
+}
+
+/* PRINT PDF */
 @media print{
   body *{visibility:hidden}
   #doc, #doc *{visibility:visible}
-  #doc{position:absolute;left:0;top:0;width:100%}
+  #doc{
+    position:absolute;
+    left:0;
+    top:0;
+    width:100%;
+  }
 }
 </style>
 </head>
@@ -85,16 +109,18 @@ button:disabled{
 <h1>Word to PDF Converter + Word Counter</h1>
 
 <div class="card">
-<input type="file" id="fileInput" accept=".docx">
-<button id="pdfBtn" disabled>Download PDF</button>
+  <div class="controls">
+    <input type="file" id="fileInput" accept=".docx">
+    <button id="pdfBtn" disabled>Download PDF</button>
+  </div>
 
-<div class="stats">
-  <div class="stat">Words <span id="wordCount">0</span></div>
-  <div class="stat">Characters <span id="charCount">0</span></div>
-  <div class="stat">Characters (No Space) <span id="charNoSpace">0</span></div>
-</div>
+  <div class="stats">
+    <div class="stat">Words <span id="wordCount">0</span></div>
+    <div class="stat">Characters <span id="charCount">0</span></div>
+    <div class="stat">Characters (No Space) <span id="charNoSpace">0</span></div>
+  </div>
 
-<div id="doc">Upload a DOCX file to preview</div>
+  <div id="doc">Upload a DOCX file to preview</div>
 </div>
 </div>
 
@@ -107,6 +133,7 @@ const wordCount = document.getElementById("wordCount");
 const charCount = document.getElementById("charCount");
 const charNoSpace = document.getElementById("charNoSpace");
 
+/* COUNT WORDS CORRECTLY */
 function updateCounts(){
   const text = doc.textContent
     .replace(/\u00A0/g," ")
@@ -122,10 +149,11 @@ function updateCounts(){
   charNoSpace.textContent = charsNS;
 }
 
-/* 🔥 Wait until DOCX is actually rendered */
+/* OBSERVE DOCX RENDERING */
 const observer = new MutationObserver(updateCounts);
 observer.observe(doc,{childList:true,subtree:true,characterData:true});
 
+/* LOAD DOCX */
 fileInput.addEventListener("change", async e=>{
   const file = e.target.files[0];
   if(!file) return;
@@ -140,12 +168,17 @@ fileInput.addEventListener("change", async e=>{
     experimental:true
   });
 
+  /* ANDROID FORCE REPAINT */
+  doc.style.display="none";
+  doc.offsetHeight;
+  doc.style.display="block";
+
   pdfBtn.disabled=false;
 });
 
+/* PDF DOWNLOAD */
 pdfBtn.addEventListener("click",()=>window.print());
 </script>
 
 </body>
 </html>
-
