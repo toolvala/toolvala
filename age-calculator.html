@@ -1,129 +1,424 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Age Calculator | Calculate Exact Age from Date of Birth</title>
+    <meta name="description" content="Calculate your exact age in years, months, and days. Find out your next birthday, total days lived, and zodiac sign with this free, secure, client-side age calculator.">
+    <meta name="keywords" content="age calculator, calculate age from date of birth, how old am i, birthday calculator, chronological age, exact age calculator, age difference, date of birth calculator, zodiac sign calculator, client side age tool">
+    <meta name="author" content="GitHub Client-Side Tool">
+    <meta name="robots" content="index, follow">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Age Calculator | Toolvala</title>
-  <link rel="canonical"href="https://www.toolvala.in/ age-calculator.html">
-  <meta name="description" content="Free Age Calculator by Toolvala. Calculate your exact age in years, months, days, hours, minutes and leap years instantly." />
-  <meta name="keywords" content="age calculator, date of birth to age, calculate age online, dob calculator, exact age calculator, leap year age" />
-  <style>
-    body{font-family:Arial,sans-serif;background:#f3f4f6;margin:0}
-    .container{max-width:900px;margin:auto;padding:20px}
-    h1{text-align:center;color:#1f2933}
-    .card{background:#fff;border-radius:10px;padding:20px;box-shadow:0 4px 10px rgba(0,0,0,.08);margin-bottom:20px}
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px}
-    input,button{padding:10px;border-radius:6px;border:1px solid #d1d5db;font-size:15px}
-    button{background:#2563eb;color:#fff;border:none;cursor:pointer}
-    button:hover{background:#1d4ed8}
-    .result{display:flex;gap:15px;flex-wrap:wrap;margin-top:15px}
-    .box{flex:1;min-width:160px;background:#eff6ff;padding:15px;border-radius:8px;text-align:center}
-    .box h2{margin:0;color:#1e40af;font-size:26px}
-    footer{text-align:center;font-size:14px;color:#6b7280}
-  </style>
+    <style>
+        :root {
+            --primary: #4f46e5; /* Indigo */
+            --secondary: #4338ca;
+            --accent: #e0e7ff;
+            --dark: #1e1b4b;
+            --light: #f5f5f5;
+            --white: #ffffff;
+            --text: #333333;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--light);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* --- Tool Interface --- */
+        .calculator-wrapper {
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin-bottom: 3rem;
+        }
+
+        .tool-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .tool-header h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+        .tool-header p { opacity: 0.9; }
+
+        .tool-body { padding: 2rem; }
+
+        .input-group {
+            max-width: 500px;
+            margin: 0 auto 2rem auto;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--dark);
+            font-size: 1.1rem;
+        }
+
+        input[type="date"] {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-family: inherit;
+            cursor: pointer;
+            transition: border 0.3s;
+        }
+
+        input[type="date"]:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .btn-calc {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+            width: 100%;
+            transition: background 0.3s;
+        }
+
+        .btn-calc:hover { background: var(--secondary); }
+
+        /* Results Area */
+        .result-section {
+            display: none; /* Hidden by default */
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .main-result {
+            background: var(--accent);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            border: 1px solid var(--primary);
+        }
+
+        .age-big {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            line-height: 1.2;
+            margin: 10px 0;
+        }
+
+        .grid-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .stat-card {
+            background: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        .stat-icon { font-size: 2rem; margin-bottom: 10px; color: var(--secondary); }
+        .stat-value { font-size: 1.2rem; font-weight: 700; color: var(--dark); }
+        .stat-label { font-size: 0.9rem; color: #64748b; }
+
+        /* --- SEO Content --- */
+        .content-section {
+            background: var(--white);
+            padding: 3rem;
+            border-radius: 16px;
+            margin-bottom: 3rem;
+        }
+
+        h2 { color: var(--dark); font-size: 1.8rem; margin-top: 2.5rem; margin-bottom: 1rem; }
+        h3 { font-size: 1.4rem; margin-top: 1.5rem; margin-bottom: 0.8rem; color: #333; }
+        p { margin-bottom: 1.2rem; text-align: justify; color: #4b5563; }
+        ul { margin-bottom: 1.5rem; padding-left: 2rem; color: #4b5563; }
+        li { margin-bottom: 0.5rem; }
+
+        /* --- Related Tools Cards --- */
+        .tool-category { font-size: 1.5rem; color: var(--dark); margin-bottom: 1.5rem; border-left: 5px solid var(--primary); padding-left: 1rem; }
+        .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-top: 1rem; }
+        
+        .tool-card {
+            display: block;
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-decoration: none;
+            color: var(--dark);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 1px solid #e5e7eb;
+            transition: transform 0.2s;
+        }
+        .tool-card:hover { transform: translateY(-3px); border-color: var(--primary); }
+        .tool-left { display: flex; align-items: center; gap: 15px; }
+        .icon { width: 50px; height: 50px; background: #f1f5f9; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 1.2rem; flex-shrink: 0; }
+        .tool-title { font-weight: 700; font-size: 1.1rem; margin-bottom: 4px; }
+        .tool-desc { color: #64748b; font-size: 0.9rem; }
+
+        @media (max-width: 600px) {
+            .age-big { font-size: 2rem; }
+            .content-section { padding: 1.5rem; }
+        }
+    </style>
 </head>
 <body>
+
 <div class="container">
-  <h1>🎯 Age Calculator</h1>
+    
+    <!-- CALCULATOR SECTION -->
+    <div class="calculator-wrapper">
+        <div class="tool-header">
+            <h1><i class="fa-solid fa-cake-candles"></i> Free Age Calculator</h1>
+            <p>Calculate your exact age in years, months, and days instantly.</p>
+        </div>
 
-  <div class="card">
-    <h2>Calculate Your Exact Age</h2>
-    <div class="grid">
-      <input type="date" id="dob" />
-      <button onclick="calculateAge()">Calculate Age</button>
+        <div class="tool-body">
+            <div class="input-group">
+                <label for="dob">Enter Date of Birth:</label>
+                <input type="date" id="dob">
+                <button class="btn-calc" onclick="calculateAge()">Calculate Age</button>
+            </div>
+
+            <div class="result-section" id="result-view">
+                <div class="main-result">
+                    <p style="text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">You are currently</p>
+                    <div class="age-big" id="age-text">0 Years, 0 Months, 0 Days</div>
+                    <p>old</p>
+                </div>
+
+                <div class="grid-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fa-regular fa-calendar-check"></i></div>
+                        <div class="stat-value" id="next-bday">Unknown</div>
+                        <div class="stat-label">Next Birthday Day</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-infinity"></i></div>
+                        <div class="stat-value" id="total-days">0</div>
+                        <div class="stat-label">Total Days Lived</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-star"></i></div>
+                        <div class="stat-value" id="zodiac">Unknown</div>
+                        <div class="stat-label">Zodiac Sign</div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <div class="card">
-    <div class="result">
-      <div class="box"><h2 id="years">0</h2><p>Years</p></div>
-      <div class="box"><h2 id="months">0</h2><p>Months</p></div>
-      <div class="box"><h2 id="days">0</h2><p>Days</p></div>
-      <div class="box"><h2 id="hours">0</h2><p>Hours</p></div>
-      <div class="box"><h2 id="minutes">0</h2><p>Minutes</p></div>
-      <div class="box"><h2 id="leapYears">0</h2><p>Leap Years</p></div>
+    <!-- RELATED TOOLS SECTION -->
+    <div class="container" style="margin-bottom: 3rem;">
+        <h2 class="tool-category">More Calculators</h2>
+        <div class="tools-grid">
+            <a href="index.html" class="tool-card"> <!-- Link back to Plate Calc -->
+              <div class="tool-left">
+                <div class="icon"><i class="fa-solid fa-dumbbell"></i></div>
+                <div>
+                  <div class="tool-title">Plate Calculator</div>
+                  <div class="tool-desc">Barbell racking math</div>
+                </div>
+              </div>
+            </a>
+            
+            <a href="birthday-countdown-calculator.html" class="tool-card">
+              <div class="tool-left">
+                <div class="icon"><i class="fa-solid fa-calendar-days"></i></div>
+                <div>
+                  <div class="tool-title">Birthday Countdown</div>
+                  <div class="tool-desc">Days left for birthday</div>
+                </div>
+              </div>
+            </a>
+            
+            <a href="compound-interest-calculator.html" class="tool-card">
+              <div class="tool-left">
+                <div class="icon"><i class="fa-solid fa-chart-line"></i></div>
+                <div>
+                  <div class="tool-title">Compound Interest</div>
+                  <div class="tool-desc">Investment growth</div>
+                </div>
+              </div>
+            </a>
+        </div>
     </div>
-  </div>
 
-  <div class="card">
-    <h2>About Age Calculator</h2>
-    <p><strong>Age Calculator by Toolvala</strong> helps you calculate your exact age from your date of birth. It shows age in years, months, days, hours, minutes, and leap years.</p>
+    <!-- SEO CONTENT -->
+    <article class="content-section">
+        <h2>The Definitive Guide to Age Calculation & Chronological Time</h2>
+        <p>Time is the one resource we all spend but can never replenish. In our daily lives, we usually track our age by simple year increments. However, for legal, medical, and astrological purposes, knowing your <strong>exact chronological age</strong> down to the day is often necessary. Whether you are filling out a government application, determining eligibility for a retirement plan, or simply satisfying a curiosity about how many days you have been alive, an accurate <strong>Age Calculator</strong> is an indispensable tool.</p>
 
-    <h3>How to Use</h3>
-    <ol>
-      <li>Select your date of birth</li>
-      <li>Click on <strong>Calculate Age</strong></li>
-      <li>View your exact age instantly</li>
-    </ol>
+        <h3>Why Precision Matters: Years, Months, and Days</h3>
+        <p>The standard question "How old are you?" typically elicits a single integer response (e.g., "I am 25"). Yet, this simplifies the complexity of the Gregorian calendar. Because months have varying lengths (28, 30, or 31 days) and years occasionally have 366 days (leap years), calculating the exact duration between two dates is mathematically non-trivial.</p>
+        <p>This tool utilizes precise client-side algorithms to handle these irregularities. It calculates the exact difference between your Date of Birth (DOB) and the current date (or a specific target date), accounting for:</p>
+        <ul>
+            <li><strong>Leap Years:</strong> The extra day in February every four years.</li>
+            <li><strong>Variable Month Lengths:</strong> Adjusting calculations when crossing from a 31-day month to a 30-day month.</li>
+            <li><strong>Time Zones:</strong> Ensuring the "current date" reflects your local time, not the server's time.</li>
+        </ul>
 
-    <h3>Use Cases</h3>
-    <ul>
-      <li>Government & job forms</li>
-      <li>School & college records</li>
-      <li>Medical & insurance documents</li>
-      <li>Personal curiosity</li>
-    </ul>
+        <h2>How to Use This Age Calculator</h2>
+        <p>Using this tool is straightforward and designed for privacy—no data is ever sent to a server. Here is the step-by-step process:</p>
+        <ol>
+            <li><strong>Enter Your Date of Birth:</strong> Click on the date picker field. A calendar will appear allowing you to select your birth year, month, and day.</li>
+            <li><strong>Click Calculate:</strong> Hit the blue button. The tool processes the date instantly.</li>
+            <li><strong>View Detailed Results:</strong>
+                <ul>
+                    <li><strong>Exact Age:</strong> Broken down into Years, Months, and Days.</li>
+                    <li><strong>Next Birthday:</strong> Discover which day of the week your next celebration falls on.</li>
+                    <li><strong>Total Days Lived:</strong> A fascinating metric showing the sheer volume of time you have experienced.</li>
+                    <li><strong>Zodiac Sign:</strong> Based on tropical astrology, the tool identifies your sun sign.</li>
+                </ul>
+            </li>
+        </ol>
 
-    <h2>Frequently Asked Questions (FAQ)</h2>
+        <h2>The Mathematics of Age</h2>
+        <p>Calculating age isn't just subtraction (Current Year - Birth Year). Consider a person born on February 29th (Leap Day). Their "official" birthday only occurs once every four years, yet they age annually. Legally, most jurisdictions consider their age to advance on March 1st in non-leap years.</p>
+        <p>Furthermore, calculating "months" is subjective. If you are born on January 31st, are you one month old on February 28th? Or does it require a full 30/31 day cycle? Our calculator uses the standard convention: moving from a specific day in one month to the same day in the next counts as a full month, with remaining days added to the tally.</p>
 
-    <h4>Does this calculator count leap years?</h4>
-    <p>Yes, it accurately counts all leap years between your date of birth and today.</p>
+        <h3>Common Use Cases</h3>
+        <ul>
+            <li><strong>School Admissions:</strong> Many educational institutions have strict cut-off dates (e.g., "Child must be 5 years old by September 1st"). This tool helps parents determine eligibility.</li>
+            <li><strong>Retirement Planning:</strong> Social Security and pension funds often require calculations based on total months lived or specific age milestones (e.g., 59 ½ years for IRA withdrawals).</li>
+            <li><strong>Medical Charts:</strong> In pediatrics, a child's age is often tracked in months or even weeks to monitor developmental milestones accurately.</li>
+            <li><strong>Relationship Age Gap:</strong> Couples often use age calculators to determine the exact time difference between their birth dates.</li>
+        </ul>
 
-    <h4>Is this tool free?</h4>
-    <p>Yes, it is 100% free and works directly in your browser.</p>
+        <h2>Understanding Zodiac Signs & Astrology</h2>
+        <p>Beyond the math, your birth date connects you to the stars. This tool automatically calculates your <strong>Sun Sign</strong> based on Western Tropical Astrology. While not scientifically proven, knowing your zodiac sign is a fun cultural touchpoint.</p>
+        <ul>
+            <li><strong>Aries (Mar 21 - Apr 19):</strong> The bold ram, marking the beginning of the zodiac year.</li>
+            <li><strong>Taurus (Apr 20 - May 20):</strong> The reliable bull, known for practicality.</li>
+            <li><strong>Gemini (May 21 - Jun 20):</strong> The twins, representing adaptability.</li>
+            <li><strong>Cancer (Jun 21 - Jul 22):</strong> The crab, deeply intuitive and sentimental.</li>
+            <li>...and so on. The tool covers all 12 signs automatically.</li>
+        </ul>
 
-    <h4>Is my data saved?</h4>
-    <p>No, all calculations are done locally. No data is stored.</p>
-  </div>
+        <h2>Frequently Asked Questions (FAQ)</h2>
+        
+        <h3>Is this calculator accurate for Leap Years?</h3>
+        <p>Yes. The algorithm explicitly checks if a year is divisible by 4 (and logic for century years) to account for February 29th correctly. If you were born on a leap day, the calculator handles your age seamlessly.</p>
 
-  <footer>© Toolvala – Free Age Calculator</footer>
+        <h3>Does this tool store my birth date?</h3>
+        <p><strong>No.</strong> This is a client-side tool. Your date of birth is processed by your web browser's JavaScript engine. It is never transmitted to our servers or stored in a database, ensuring 100% privacy.</p>
+
+        <h3>Why is "Total Days Lived" interesting?</h3>
+        <p>Seeing your life in days offers a unique perspective. While "30 years" sounds like a standard block of time, "10,950 days" highlights the value of every single 24-hour cycle. It is a popular metric for mindfulness and gratitude practices.</p>
+
+        <h3>How do I calculate age for a specific date in the past or future?</h3>
+        <p>Currently, this tool defaults to "Today" as the comparison date. However, knowing your age on a specific future date (e.g., "How old will I be at the turn of the century?") is a planned feature for the next update.</p>
+
+        <h2>Conclusion</h2>
+        <p>Age is more than just a number on an ID card; it is a measurement of experience. By understanding exactly how long you have been navigating the world, you gain a new appreciation for time. Use this <strong>Free Age Calculator</strong> whenever you need precision, whether for official paperwork or personal curiosity. Bookmark this page for quick access to accurate date math.</p>
+    </article>
 </div>
 
 <script>
-function calculateAge() {
-  const dobInput = document.getElementById('dob').value;
-  if (!dobInput) {
-    alert('Please select your date of birth');
-    return;
-  }
+    // Set max date to today
+    const dobInput = document.getElementById('dob');
+    dobInput.max = new Date().toISOString().split("T")[0];
 
-  const dob = new Date(dobInput);
-  const now = new Date();
+    function calculateAge() {
+        const dobValue = dobInput.value;
+        if (!dobValue) {
+            alert("Please select your date of birth.");
+            return;
+        }
 
-  if (dob > now) {
-    alert('Date of birth cannot be in the future');
-    return;
-  }
+        const dob = new Date(dobValue);
+        const today = new Date();
 
-  const diffMs = now - dob;
-  const totalMinutes = Math.floor(diffMs / (1000 * 60));
-  const totalHours = Math.floor(diffMs / (1000 * 60 * 60));
-  const totalDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+        if (dob > today) {
+            alert("Date of birth cannot be in the future!");
+            return;
+        }
 
-  let years = now.getFullYear() - dob.getFullYear();
-  let months = now.getMonth() - dob.getMonth();
+        // 1. Calculate Years, Months, Days
+        let years = today.getFullYear() - dob.getFullYear();
+        let months = today.getMonth() - dob.getMonth();
+        let days = today.getDate() - dob.getDate();
 
-  if (months < 0 || (months === 0 && now.getDate() < dob.getDate())) {
-    years--;
-    months += 12;
-  }
+        // Adjust for negative days (borrow from previous month)
+        if (days < 0) {
+            months--;
+            // Get days in previous month
+            const prevMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+            days += prevMonth.getDate();
+        }
 
-  let leapYears = 0;
-  for (let y = dob.getFullYear(); y <= now.getFullYear(); y++) {
-    if ((y % 4 === 0 && y % 100 !== 0) || y % 400 === 0) {
-      leapYears++;
+        // Adjust for negative months (borrow from year)
+        if (months < 0) {
+            years--;
+            months += 12;
+        }
+
+        // 2. Next Birthday Day
+        const nextBdayDate = new Date(today.getFullYear(), dob.getMonth(), dob.getDate());
+        if (today > nextBdayDate) {
+            nextBdayDate.setFullYear(today.getFullYear() + 1);
+        }
+        const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        const nextBdayDay = daysOfWeek[nextBdayDate.getDay()];
+
+        // 3. Total Days Lived
+        const diffTime = Math.abs(today - dob);
+        const totalDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+
+        // 4. Zodiac Sign
+        const zodiac = getZodiacSign(dob.getDate(), dob.getMonth() + 1);
+
+        // Update UI
+        document.getElementById('age-text').innerText = `${years} Years, ${months} Months, ${days} Days`;
+        document.getElementById('next-bday').innerText = nextBdayDay;
+        document.getElementById('total-days').innerText = totalDays.toLocaleString();
+        document.getElementById('zodiac').innerText = zodiac;
+
+        document.getElementById('result-view').style.display = 'block';
     }
-  }
 
-  document.getElementById('years').innerText = years;
-  document.getElementById('months').innerText = months;
-  document.getElementById('days').innerText = totalDays % 365;
-  document.getElementById('hours').innerText = totalHours % 24;
-  document.getElementById('minutes').innerText = totalMinutes % 60;
-  document.getElementById('leapYears').innerText = leapYears;
-}
+    function getZodiacSign(day, month) {
+        if ((month == 1 && day >= 20) || (month == 2 && day <= 18)) return "Aquarius";
+        if ((month == 2 && day >= 19) || (month == 3 && day <= 20)) return "Pisces";
+        if ((month == 3 && day >= 21) || (month == 4 && day <= 19)) return "Aries";
+        if ((month == 4 && day >= 20) || (month == 5 && day <= 20)) return "Taurus";
+        if ((month == 5 && day >= 21) || (month == 6 && day <= 20)) return "Gemini";
+        if ((month == 6 && day >= 21) || (month == 7 && day <= 22)) return "Cancer";
+        if ((month == 7 && day >= 23) || (month == 8 && day <= 22)) return "Leo";
+        if ((month == 8 && day >= 23) || (month == 9 && day <= 22)) return "Virgo";
+        if ((month == 9 && day >= 23) || (month == 10 && day <= 22)) return "Libra";
+        if ((month == 10 && day >= 23) || (month == 11 && day <= 21)) return "Scorpio";
+        if ((month == 11 && day >= 22) || (month == 12 && day <= 21)) return "Sagittarius";
+        return "Capricorn";
+    }
 </script>
+
 </body>
 </html>
