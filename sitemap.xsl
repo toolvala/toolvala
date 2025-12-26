@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0"
+ xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+ xmlns:s="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+<xsl:template match="/">
+<html>
+<head>
+<title>Toolvala Sitemap</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<style>
+body{font-family:Arial;background:#f8fafc;padding:20px}
+h1{text-align:center}
+ul{max-width:1000px;margin:auto;list-style:none;padding:0}
+li{background:#fff;margin:8px 0;padding:10px;border-radius:6px}
+a{text-decoration:none;color:#2563eb;font-weight:500}
+</style>
+</head>
+
+<body>
+<h1>Toolvala HTML Sitemap</h1>
+<ul>
+<xsl:for-each select="s:urlset/s:url">
+<li>
+<a href="{s:loc}">
+<xsl:value-of select="s:loc"/>
+</a>
+</li>
+</xsl:for-each>
+</ul>
+</body>
+</html>
+</xsl:template>
+
+</xsl:stylesheet>
