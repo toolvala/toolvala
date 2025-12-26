@@ -3,313 +3,588 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Word & Text to PDF Converter (Fixed Layout) | 2025 Tool</title>
-    <meta name="description" content="Convert Word documents and Text to PDF with proper A4/A3 formatting. Supports Hindi/Marathi fonts and secure offline conversion.">
+    <title>Free Word to PDF Converter | Secure Offline Tool (A4/A3 Support) 2025</title>
     
-    <!-- Libraries -->
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Convert Word (DOCX) to PDF or paste text to PDF instantly. Features A4/A3 support, Hindi/Marathi font compatibility, and 100% secure client-side processing. No uploads required.">
+    <meta name="keywords" content="word to pdf converter, free docx to pdf, client side pdf tool, secure pdf converter, offline word to pdf, javascript pdf generator, a4 pdf maker, text to pdf paste, hindi word to pdf, github pages pdf tool, no server pdf converter, convert word to pdf free online, browser based document converter">
+    <meta name="author" content="SecurePDF Tool">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Free Word to PDF Converter | Secure & Private">
+    <meta property="og:description" content="Convert documents instantly in your browser. No file uploads. 100% Free.">
+    <meta property="og:type" content="website">
+
+    <!-- External Libraries (CDNs) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style>
+        /* --- CSS VARIABLES & RESET --- */
         :root {
             --primary: #2563eb;
-            --bg: #f3f4f6;
-            --text: #1f2937;
+            --secondary: #1e40af;
+            --bg-color: #f8fafc;
+            --text-color: #334155;
+            --paper-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
 
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
         body {
-            font-family: 'Segoe UI', 'Mangal', 'Nirmala UI', Roboto, sans-serif; /* Added Hindi Fonts */
-            background-color: var(--bg);
-            color: var(--text);
-            margin: 0;
+            font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* --- LAYOUT --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
             padding: 20px;
         }
 
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
+        header {
+            background: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
         }
 
-        /* Tool Box */
-        .tool-box {
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        /* --- TOOL INTERFACE --- */
+        .tool-wrapper {
             background: white;
-            padding: 2rem;
             border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: var(--paper-shadow);
+            padding: 2rem;
             text-align: center;
+            max-width: 800px;
+            margin: 0 auto 3rem auto;
+            border-top: 5px solid var(--primary);
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 10px;
         }
 
         .tab-btn {
+            background: transparent;
+            border: none;
             padding: 10px 20px;
             cursor: pointer;
-            background: #e5e7eb;
-            border: none;
-            border-radius: 5px;
-            margin: 0 5px;
-            font-weight: bold;
-        }
-        .tab-btn.active { background: var(--primary); color: white; }
-
-        .tab-content { display: none; margin-top: 20px; }
-        .tab-content.active { display: block; }
-
-        textarea {
-            width: 100%;
-            height: 150px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-family: inherit; /* Inherit font for Hindi support */
+            font-size: 1rem;
+            font-weight: 600;
+            color: #64748b;
+            border-radius: 6px;
+            transition: all 0.2s;
         }
 
-        /* PREVIEW AREA - THE IMPORTANT FIX */
-        #preview-wrapper {
-            margin-top: 30px;
-            background: #525659; /* PDF Viewer Background color */
-            padding: 40px;
-            overflow-x: auto;
-            display: none;
+        .tab-btn.active {
+            background-color: #eff6ff;
+            color: var(--primary);
+        }
+
+        .upload-zone {
+            border: 2px dashed #cbd5e1;
+            padding: 40px 20px;
             border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            background: #f8fafc;
         }
 
-        #preview-container {
-            background: white;
-            margin: 0 auto;
-            box-shadow: 0 0 10px rgba(0,0,0,0.5);
-            /* Default A4 Dimensions */
-            width: 210mm; 
-            min-height: 297mm;
-            padding: 15mm; /* Margins inside the paper */
-            box-sizing: border-box; 
-            text-align: left;
-            color: black;
+        .upload-zone:hover {
+            border-color: var(--primary);
+            background: #eff6ff;
         }
 
-        /* Content Styling Fixes */
-        #document-content {
-            font-size: 12pt;
-            line-height: 1.5;
+        textarea#text-input {
             width: 100%;
-            word-wrap: break-word; /* Forces long words to break */
-            overflow-wrap: break-word;
-        }
-        
-        #document-content p {
-            margin-bottom: 1em;
-            white-space: pre-wrap; /* Preserves spaces/newlines correctly */
-        }
-
-        #document-content img {
-            max-width: 100%;
-            height: auto;
+            height: 200px;
+            padding: 15px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-family: inherit;
+            resize: vertical;
         }
 
         .controls {
             margin-top: 20px;
             display: flex;
-            gap: 10px;
             justify-content: center;
+            gap: 15px;
             flex-wrap: wrap;
         }
 
-        button.action-btn {
-            background: var(--primary);
+        select, button {
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        select { border: 1px solid #cbd5e1; background: white; }
+
+        .btn-primary {
+            background-color: var(--primary);
             color: white;
             border: none;
-            padding: 12px 25px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 1rem;
+            font-weight: 600;
         }
-        
-        button.action-btn:disabled { background: #ccc; }
 
-        select { padding: 10px; border-radius: 6px; border: 1px solid #ccc; }
+        .btn-primary:hover { background-color: var(--secondary); }
 
+        .btn-success {
+            background-color: #10b981;
+            color: white;
+            border: none;
+            font-weight: 600;
+            display: none; /* Hidden by default */
+        }
+
+        #status-msg {
+            margin-top: 15px;
+            font-weight: 600;
+            min-height: 24px;
+        }
+
+        /* --- PREVIEW AREA (CRITICAL FIX) --- */
+        #preview-section {
+            display: none;
+            background-color: #525659; /* PDF Viewer Grey */
+            padding: 40px 20px;
+            margin-top: 30px;
+            border-radius: 8px;
+            overflow-x: auto; /* Allow scroll if screen is too small */
+        }
+
+        /* This container simulates the physical paper */
+        #paper-container {
+            background-color: white;
+            margin: 0 auto;
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+            /* Defaults for A4, modified by JS */
+            width: 210mm;
+            min-height: 297mm;
+            padding: 15mm; /* Physical margins on the paper */
+            box-sizing: border-box;
+            text-align: left;
+            position: relative;
+        }
+
+        /* Content Styling inside the PDF */
+        #doc-content {
+            font-family: 'Times New Roman', Times, serif; /* Standard doc font */
+            font-size: 12pt;
+            line-height: 1.5;
+            color: #000;
+            width: 100%;
+            /* Fix for Text Cutting Off */
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            white-space: normal;
+        }
+
+        /* Handling Images inside doc */
+        #doc-content img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 10px auto;
+        }
+
+        /* Handling Tables */
+        #doc-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1em;
+        }
+        #doc-content td, #doc-content th {
+            border: 1px solid #000;
+            padding: 4px;
+        }
+
+        /* --- SEO CONTENT STYLING --- */
+        .seo-content {
+            background: white;
+            padding: 4rem 2rem;
+            margin-top: 4rem;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .article-body {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .article-body h1 { font-size: 2.5rem; margin-bottom: 1.5rem; color: #0f172a; }
+        .article-body h2 { font-size: 1.8rem; margin-top: 2.5rem; margin-bottom: 1rem; color: var(--secondary); }
+        .article-body h3 { font-size: 1.4rem; margin-top: 1.5rem; margin-bottom: 0.8rem; color: #334155; }
+        .article-body p { margin-bottom: 1.2rem; text-align: justify; }
+        .article-body ul { margin-bottom: 1.5rem; padding-left: 1.5rem; }
+        .article-body li { margin-bottom: 0.5rem; }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .tool-wrapper { padding: 1rem; }
+            #paper-container { transform: scale(0.6); transform-origin: top left; margin-bottom: -40%; }
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="tool-box">
-        <h2>Word/Text to PDF Converter</h2>
+<header>
+    <div class="container header-content">
+        <a href="#" class="logo">SecurePDF<span style="color:#64748b">.js</span></a>
+        <span>V2.0 (2025 Edition)</span>
+    </div>
+</header>
+
+<main class="container">
+    <!-- Tool Section -->
+    <section class="tool-wrapper">
+        <h1 style="margin-bottom: 1rem;">Convert Word & Text to PDF</h1>
         
-        <div>
-            <button class="tab-btn active" onclick="setMode('file')">Upload DOCX</button>
-            <button class="tab-btn" onclick="setMode('text')">Paste Text</button>
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('file')">Upload Word File</button>
+            <button class="tab-btn" onclick="switchTab('text')">Paste Text</button>
         </div>
 
-        <!-- File Upload -->
-        <div id="tab-file" class="tab-content active">
-            <div style="border: 2px dashed #ccc; padding: 30px; margin-top:15px; cursor:pointer;" onclick="document.getElementById('file-in').click()">
-                <p>📂 Click to Upload Word File (.docx)</p>
-                <input type="file" id="file-in" accept=".docx" hidden onchange="handleFile(this.files[0])">
+        <!-- File Upload Area -->
+        <div id="file-tab">
+            <div class="upload-zone" id="drop-area" onclick="document.getElementById('file-input').click()">
+                <div style="font-size: 3rem; margin-bottom: 10px;">📄</div>
+                <h3>Click to Upload .DOCX</h3>
+                <p style="color: #64748b;">or Drag & Drop file here</p>
+                <input type="file" id="file-input" accept=".docx" hidden>
             </div>
-            <p id="file-name" style="color:var(--primary); font-weight:bold;"></p>
+            <p id="filename-display" style="margin-top:10px; color:var(--primary); font-weight:bold;"></p>
         </div>
 
-        <!-- Text Paste -->
-        <div id="tab-text" class="tab-content">
-            <textarea id="text-in" placeholder="Paste your Hindi/Marathi/English text here..."></textarea>
+        <!-- Text Paste Area -->
+        <div id="text-tab" style="display:none;">
+            <textarea id="text-input" placeholder="Paste your text here (Supports Hindi, Marathi, English)..."></textarea>
         </div>
 
         <!-- Controls -->
         <div class="controls">
-            <select id="size-sel" onchange="updatePageSize()">
-                <option value="a4">Size: A4</option>
-                <option value="a3">Size: A3</option>
-                <option value="letter">Size: Letter</option>
+            <select id="page-size" onchange="resizePaper()">
+                <option value="a4">Format: A4 (Standard)</option>
+                <option value="a3">Format: A3 (Large)</option>
+                <option value="letter">Format: US Letter</option>
             </select>
-            <button class="action-btn" id="convert-btn" onclick="processConversion()">Convert to Preview</button>
-            <button class="action-btn" id="dl-btn" style="display:none; background:#10b981;" onclick="downloadPDF()">Download PDF</button>
+            
+            <button class="btn-primary" id="convert-btn" onclick="processContent()">Convert & Preview</button>
+            <button class="btn-success" id="download-btn" onclick="generatePDF()">Download Final PDF</button>
+            <button class="btn-primary" style="background-color:#64748b" onclick="location.reload()">Reset</button>
         </div>
-        <p id="status" style="margin-top:10px; font-weight:bold;"></p>
-    </div>
 
-    <!-- Preview -->
-    <div id="preview-wrapper">
-        <div id="preview-container">
-            <div id="document-content"></div>
+        <div id="status-msg"></div>
+    </section>
+
+    <!-- Preview Section (Visualizes the PDF) -->
+    <section id="preview-section">
+        <div style="color:white; text-align:center; margin-bottom:10px;">Document Preview (What you see is what you get)</div>
+        <div id="paper-container">
+            <div id="doc-content"></div>
         </div>
+    </section>
+</main>
+
+<!-- SEO Content Section -->
+<section class="seo-content">
+    <div class="article-body">
+        <h1>Free Word to PDF Converter: The Ultimate Secure, Client-Side Tool (2025)</h1>
+        
+        <p>In the modern digital landscape, the ability to <strong>convert Word to PDF</strong> documents efficiently is a necessity for students, professionals, and businesses alike. While there are countless tools available online, most suffer from significant drawbacks: paywalls, file limits, or privacy concerns related to server-side uploads. Enter <strong>SecurePDF.js</strong>, a revolutionary <strong>free Word to PDF converter</strong> that operates entirely within your web browser using advanced client-side technology.</p>
+        
+        <p>This comprehensive tool not only handles standard DOCX files but also offers a robust <strong>text to PDF paste option</strong>, making it the most versatile <strong>A4 PDF converter</strong> on the market. Optimized for the 2025 web standards, this tool ensures your formatting—including complex scripts like Hindi and Marathi—is preserved perfectly without your data ever leaving your device.</p>
+
+        <h2>Why Choose a Client-Side Word to PDF Tool?</h2>
+        <p>Traditional PDF converters function by asking you to upload your file to a remote server. The server processes the file and sends it back. This creates a "black box" where you lose control of your data. Our tool is different. It uses <strong>client-side JavaScript</strong> libraries (Mammoth.js and html2pdf.js) to perform all conversions locally on your computer.</p>
+        
+        <h3>1. Unmatched Privacy and Security</h3>
+        <p>Because no file is uploaded, there is zero risk of data interception, server hacking, or corporate espionage. This makes SecurePDF.js the ideal solution for converting sensitive legal contracts, medical reports, financial statements, and personal identification documents.</p>
+
+        <h3>2. Works Offline</h3>
+        <p>Once you load this page, you can disconnect from the internet and the tool will still work. This is perfect for travelers, remote workers with unstable connections, or high-security environments where internet access is restricted.</p>
+
+        <h3>3. Unlimited & Free</h3>
+        <p>There are no "credits" to buy, no subscriptions, and no daily limits. You can convert 100 files in a row without hitting a paywall. This adheres to the true spirit of open-source software.</p>
+
+        <h2>Features of SecurePDF.js</h2>
+        <ul>
+            <li><strong>Multi-Format Support:</strong> Convert <code>.docx</code> files or raw text.</li>
+            <li><strong>Paper Size Customization:</strong> Switch between <strong>A4</strong> (210mm x 297mm), <strong>A3</strong> (297mm x 420mm), and <strong>US Letter</strong> sizes instantly.</li>
+            <li><strong>Language Support:</strong> Excellent rendering of UTF-8 characters, ensuring Hindi, Marathi, Arabic, and other non-Latin scripts display correctly without "tofu" boxes.</li>
+            <li><strong>Instant Preview:</strong> The tool provides a WYSIWYG (What You See Is What You Get) preview before you download, saving you from downloading erroneous files.</li>
+        </ul>
+
+        <h2>How to Convert Word to PDF (Step-by-Step Guide)</h2>
+        <p>Using this tool is incredibly simple. Follow these steps to generate professional PDFs in seconds:</p>
+        
+        <h3>Option A: Converting a DOCX File</h3>
+        <ol>
+            <li><strong>Upload:</strong> Click the "Upload Word File" tab and drag your document into the dotted box.</li>
+            <li><strong>Select Size:</strong> Choose your desired output format (usually A4) from the dropdown menu.</li>
+            <li><strong>Convert:</strong> Click the blue "Convert & Preview" button. The tool will parse the XML structure of your Word doc and render it in the preview window.</li>
+            <li><strong>Download:</strong> Verify the layout in the preview box. If it looks good, click the green "Download Final PDF" button.</li>
+        </ol>
+
+        <h3>Option B: Pasting Text</h3>
+        <p>If you have content in a clipboard or a text file:</p>
+        <ol>
+            <li><strong>Switch Tab:</strong> Click "Paste Text".</li>
+            <li><strong>Paste:</strong> Enter your text into the box. The tool preserves paragraphs and line breaks automatically.</li>
+            <li><strong>Process:</strong> Click convert. The text will be formatted into the document preview area, wrapping correctly within the margins.</li>
+        </ol>
+
+        <h2>Troubleshooting Common Formatting Issues</h2>
+        <p>We have optimized this tool to handle the layout issues often seen in other converters, such as text being cut off on the right side or images overlapping.</p>
+        
+        <h3>Why is my text cutting off?</h3>
+        <p>This usually happens when the source content is wider than the PDF page. Our tool fixes this by enforcing <strong>CSS Word Wrapping</strong>. The preview container uses a fixed width (e.g., 210mm for A4), forcing the browser to wrap long lines of text to the next line rather than letting them run off the page. This is particularly important for scanned documents or text with long URLs.</p>
+
+        <h3>Page Breaks and Tables</h3>
+        <p>Converting HTML to PDF involves calculating where a page ends. We use the <code>html2pdf</code> engine with smart page-breaking enabled. However, if a large table is cut in half, try breaking it into smaller tables in your original Word document before converting.</p>
+
+        <h2>Technical Deep Dive: How It Works</h2>
+        <p>For the developers and tech-savvy users, here is the stack powering this single-file tool:</p>
+        <p><strong>Mammoth.js:</strong> This library is used to read the <code>.docx</code> file. Unlike other converters that try to mimic the exact layout of Word (which is notoriously difficult), Mammoth focuses on the <em>content</em>. It extracts the text, headings, and images and converts them into clean, semantic HTML.</p>
+        <p><strong>Html2Pdf.js:</strong> This library takes the HTML DOM element (our preview container) and renders it onto a PDF canvas. It supports high-resolution rendering (Canvas scaling) to ensure text remains crisp even when zoomed in.</p>
+        <p><strong>GitHub Pages Compatibility:</strong> Since this tool requires no backend (no PHP, Python, or Node.js server), it can be hosted directly on GitHub Pages. This makes it an evergreen tool that won't go down due to server maintenance.</p>
+
+        <h2>Comparison: Online Converters vs. SecurePDF.js</h2>
+        <table style="width:100%; border-collapse: collapse; margin-top:20px; border:1px solid #ddd;">
+            <thead>
+                <tr style="background-color:#f1f5f9;">
+                    <th style="padding:10px; border:1px solid #ddd;">Feature</th>
+                    <th style="padding:10px; border:1px solid #ddd;">Typical Online Tool</th>
+                    <th style="padding:10px; border:1px solid #ddd;">SecurePDF.js</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="padding:10px; border:1px solid #ddd;">Cost</td>
+                    <td style="padding:10px; border:1px solid #ddd;">Freemium (Pay for >2 files)</td>
+                    <td style="padding:10px; border:1px solid #ddd;">100% Free</td>
+                </tr>
+                <tr>
+                    <td style="padding:10px; border:1px solid #ddd;">Privacy</td>
+                    <td style="padding:10px; border:1px solid #ddd;">Files uploaded to server</td>
+                    <td style="padding:10px; border:1px solid #ddd;">Files stay on device</td>
+                </tr>
+                <tr>
+                    <td style="padding:10px; border:1px solid #ddd;">Speed</td>
+                    <td style="padding:10px; border:1px solid #ddd;">Depends on Upload Speed</td>
+                    <td style="padding:10px; border:1px solid #ddd;">Instant (Local Processing)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Conclusion</h2>
+        <p>The <strong>SecurePDF.js Word to PDF Converter</strong> represents the future of lightweight, browser-based utilities. By removing the reliance on cloud servers, we return control to the user. Whether you need to generate a PDF in A4 format, preserve Hindi formatting, or simply archive a text note, this tool delivers professional results without the hassle.</p>
+        <p>Bookmark this page, share it with your colleagues, and enjoy the freedom of secure, unlimited document conversion.</p>
     </div>
-</div>
+</section>
+
+<footer>
+    <div class="container" style="text-align:center; padding: 2rem 0; color: #64748b;">
+        <p>&copy; 2025 SecurePDF Tools. Open Source & Privacy Focused.</p>
+    </div>
+</footer>
 
 <script>
-    // Config
-    let mode = 'file';
-    let currentFile = null;
+    // --- APP LOGIC ---
+
+    let currentMode = 'file';
+    let selectedFile = null;
 
     // Elements
-    const previewWrapper = document.getElementById('preview-wrapper');
-    const container = document.getElementById('preview-container');
-    const contentBox = document.getElementById('document-content');
-    const status = document.getElementById('status');
+    const fileTab = document.getElementById('file-tab');
+    const textTab = document.getElementById('text-tab');
+    const statusMsg = document.getElementById('status-msg');
+    const previewSection = document.getElementById('preview-section');
+    const paperContainer = document.getElementById('paper-container');
+    const docContent = document.getElementById('doc-content');
+    const downloadBtn = document.getElementById('download-btn');
+    const convertBtn = document.getElementById('convert-btn');
 
-    function setMode(m) {
-        mode = m;
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    // Tab Switcher
+    function switchTab(mode) {
+        currentMode = mode;
+        const tabs = document.querySelectorAll('.tab-btn');
+        tabs.forEach(t => t.classList.remove('active'));
         
-        if(m === 'file') {
-            document.querySelector('[onclick="setMode(\'file\')"]').classList.add('active');
-            document.getElementById('tab-file').classList.add('active');
+        if (mode === 'file') {
+            tabs[0].classList.add('active');
+            fileTab.style.display = 'block';
+            textTab.style.display = 'none';
         } else {
-            document.querySelector('[onclick="setMode(\'text\')"]').classList.add('active');
-            document.getElementById('tab-text').classList.add('active');
+            tabs[1].classList.add('active');
+            fileTab.style.display = 'none';
+            textTab.style.display = 'block';
         }
-        reset();
+        resetUI();
     }
 
-    function handleFile(file) {
-        if(file) {
-            currentFile = file;
-            document.getElementById('file-name').innerText = "Selected: " + file.name;
+    // File Input Listener
+    document.getElementById('file-input').addEventListener('change', function(e) {
+        if (e.target.files.length > 0) {
+            selectedFile = e.target.files[0];
+            document.getElementById('filename-display').textContent = "Selected: " + selectedFile.name;
         }
-    }
+    });
 
-    function updatePageSize() {
-        const size = document.getElementById('size-sel').value;
-        // Set explicit CSS widths to match PDF dimensions so preview is accurate
+    // Drag and Drop Logic
+    const dropArea = document.getElementById('drop-area');
+    dropArea.addEventListener('dragover', (e) => { e.preventDefault(); dropArea.style.backgroundColor = '#eff6ff'; });
+    dropArea.addEventListener('dragleave', (e) => { e.preventDefault(); dropArea.style.backgroundColor = '#f8fafc'; });
+    dropArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropArea.style.backgroundColor = '#f8fafc';
+        if(e.dataTransfer.files.length) {
+            selectedFile = e.dataTransfer.files[0];
+            document.getElementById('filename-display').textContent = "Selected: " + selectedFile.name;
+        }
+    });
+
+    // Resize Paper Logic (The "WYSIWYG" Fix)
+    function resizePaper() {
+        const size = document.getElementById('page-size').value;
         if(size === 'a4') {
-            container.style.width = '210mm';
-            container.style.minHeight = '297mm';
+            paperContainer.style.width = '210mm';
+            paperContainer.style.minHeight = '297mm';
         } else if (size === 'a3') {
-            container.style.width = '297mm';
-            container.style.minHeight = '420mm';
+            paperContainer.style.width = '297mm';
+            paperContainer.style.minHeight = '420mm';
         } else if (size === 'letter') {
-            container.style.width = '216mm';
-            container.style.minHeight = '279mm';
+            paperContainer.style.width = '216mm'; /* 8.5 inches */
+            paperContainer.style.minHeight = '279mm'; /* 11 inches */
         }
     }
 
-    function reset() {
-        previewWrapper.style.display = 'none';
-        contentBox.innerHTML = '';
-        document.getElementById('dl-btn').style.display = 'none';
-        document.getElementById('convert-btn').style.display = 'inline-block';
-        status.innerText = '';
-    }
+    // Main Conversion Logic
+    function processContent() {
+        if (currentMode === 'file') {
+            if (!selectedFile) {
+                statusMsg.textContent = "Please upload a .docx file first!";
+                statusMsg.style.color = "red";
+                return;
+            }
+            if (!selectedFile.name.endsWith('.docx')) {
+                statusMsg.textContent = "Only .docx files are supported.";
+                statusMsg.style.color = "red";
+                return;
+            }
 
-    function processConversion() {
-        status.innerText = "Processing...";
-        status.style.color = "blue";
-
-        if(mode === 'file') {
-            if(!currentFile) { status.innerText = "Please select a file"; return; }
+            statusMsg.textContent = "Processing File...";
+            statusMsg.style.color = "blue";
             
             const reader = new FileReader();
-            reader.onload = function(e) {
-                mammoth.convertToHtml({arrayBuffer: e.target.result})
-                .then(result => {
-                    renderPreview(result.value);
-                })
-                .catch(err => status.innerText = "Error reading file.");
+            reader.onload = function(event) {
+                mammoth.convertToHtml({arrayBuffer: event.target.result})
+                    .then(displayResult)
+                    .catch(function(err) {
+                        console.log(err);
+                        statusMsg.textContent = "Error parsing file.";
+                    });
             };
-            reader.readAsArrayBuffer(currentFile);
+            reader.readAsArrayBuffer(selectedFile);
+
         } else {
-            const text = document.getElementById('text-in').value;
-            if(!text) { status.innerText = "Please enter text"; return; }
+            // Text Mode
+            const text = document.getElementById('text-input').value;
+            if (!text.trim()) {
+                statusMsg.textContent = "Please enter some text.";
+                statusMsg.style.color = "red";
+                return;
+            }
             
-            // FIX FOR TEXT CUTTING OFF: 
-            // Replace newlines with breaks, but handle standard paragraphs better
-            let formattedHtml = text.split('\n').map(line => {
-                // If line is empty, it's a spacer
-                if(line.trim() === '') return '<br>';
-                // Wrap in P tag for proper breaking
-                return `<p>${line}</p>`;
+            // Format text: preserve newlines
+            const formattedHTML = text.split('\n').map(line => {
+                return line.trim() === '' ? '<br>' : `<p>${line}</p>`;
             }).join('');
             
-            renderPreview(formattedHtml);
+            displayResult({value: formattedHTML});
         }
     }
 
-    function renderPreview(html) {
-        contentBox.innerHTML = html;
-        previewWrapper.style.display = 'block';
+    function displayResult(result) {
+        docContent.innerHTML = result.value;
         
-        // Ensure images don't overflow
-        const imgs = contentBox.querySelectorAll('img');
-        imgs.forEach(img => img.style.maxWidth = "100%");
+        // Ensure Preview is visible
+        previewSection.style.display = 'block';
+        resizePaper(); // Ensure correct size is applied
 
-        document.getElementById('convert-btn').style.display = 'none';
-        document.getElementById('dl-btn').style.display = 'inline-block';
-        status.innerText = "Preview generated. Click Download to save.";
-        status.style.color = "green";
+        // UI Updates
+        convertBtn.style.display = 'none';
+        downloadBtn.style.display = 'inline-block';
+        statusMsg.textContent = "Preview Ready. Check below and click Download.";
+        statusMsg.style.color = "green";
         
         // Scroll to preview
-        previewWrapper.scrollIntoView({behavior:'smooth'});
+        previewSection.scrollIntoView({behavior: 'smooth'});
     }
 
-    function downloadPDF() {
-        status.innerText = "Generating PDF (Please wait)...";
-        const element = container; // We capture the container which has the exact width
-        const size = document.getElementById('size-sel').value;
+    // PDF Generation Logic
+    function generatePDF() {
+        statusMsg.textContent = "Generating PDF...";
+        const element = paperContainer;
+        const size = document.getElementById('page-size').value;
 
-        // Optimization for PDF generation
         const opt = {
-            margin:       0, // We have padding in the container CSS, so PDF margin is 0
-            filename:     'document.pdf',
+            margin:       0, // We have internal padding in #paper-container
+            filename:     selectedFile ? selectedFile.name.replace('.docx','.pdf') : 'document.pdf',
             image:        { type: 'jpeg', quality: 0.98 },
             html2canvas:  { 
-                scale: 2, // Higher quality
-                useCORS: true, 
-                letterRendering: true // Helps with fonts
+                scale: 2, // Improves text sharpness
+                useCORS: true,
+                letterRendering: true
             },
             jsPDF:        { unit: 'mm', format: size, orientation: 'portrait' },
-            pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] } // CRITICAL FIX for cutting text
+            // Pagebreak configuration to prevent cutting lines in half
+            pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
         };
 
         html2pdf().set(opt).from(element).save().then(() => {
-            status.innerText = "Download Started!";
+            statusMsg.textContent = "PDF Downloaded Successfully!";
             setTimeout(() => {
-                document.getElementById('convert-btn').style.display = 'inline-block';
-                document.getElementById('dl-btn').style.display = 'none';
-            }, 2000);
+                downloadBtn.style.display = 'none';
+                convertBtn.style.display = 'inline-block';
+            }, 3000);
         });
     }
 
-    // Initialize default size
-    updatePageSize();
+    function resetUI() {
+        previewSection.style.display = 'none';
+        docContent.innerHTML = '';
+        downloadBtn.style.display = 'none';
+        convertBtn.style.display = 'inline-block';
+        statusMsg.textContent = '';
+    }
+
+    // Initialize
+    resizePaper();
+
 </script>
 
 </body>
