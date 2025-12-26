@@ -4,78 +4,64 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Live Word & Character Counter | Word to PDF Tool – Toolvala</title>
+<title>Word to PDF Converter Online (Hindi + English) | Toolvala</title>
 
-<meta name="description" content="Free Live Word Counter & Character Counter with Hindi support. Convert Word DOCX to PDF with accurate word count, characters, headers & logos. 100% client-side.">
+<meta name="description" content="Free Word to PDF converter with live word count and character counter. Convert DOCX to PDF online. Supports Hindi & English. 100% secure & browser-based.">
 
 <link rel="canonical" href="https://www.toolvala.in/word-to-pdf.html">
 
-<!-- DOCX Libraries -->
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet">
+
+<!-- Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<!-- DOCX -->
 <script src="https://unpkg.com/jszip/dist/jszip.min.js"></script>
 <script src="https://unpkg.com/docx-preview/dist/docx-preview.min.js"></script>
 
-<!-- Hindi Font -->
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet">
-
 <style>
 body{
-    font-family: 'Segoe UI', 'Noto Sans Devanagari', sans-serif;
-    background:#f1f5f9;
     margin:0;
-    padding:20px;
+    font-family:'Segoe UI','Noto Sans Devanagari',sans-serif;
+    background:#f1f5f9;
     color:#0f172a;
 }
-.container{max-width:1000px;margin:auto}
+.container{max-width:1200px;margin:auto;padding:20px}
 .card{
     background:#fff;
-    padding:20px;
-    border-radius:12px;
-    box-shadow:0 6px 15px rgba(0,0,0,.08);
+    padding:25px;
+    border-radius:16px;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
 }
-.btn-upload{
-    display:block;
+h1,h2,h3{color:#1e3a8a}
+.upload-box{
     border:2px dashed #2563eb;
-    padding:15px;
-    border-radius:10px;
+    padding:20px;
+    border-radius:14px;
     text-align:center;
     cursor:pointer;
     font-weight:700;
     color:#2563eb;
-    margin:15px 0;
 }
-button{
-    width:100%;
-    padding:14px;
-    background:#16a34a;
-    color:#fff;
-    border:none;
-    border-radius:8px;
-    font-size:1.05rem;
-    cursor:pointer;
-    font-weight:700;
-}
-button:disabled{background:#cbd5e1;cursor:not-allowed}
-
-.counter-box{
-    display:flex;
+.stats{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
     gap:15px;
-    flex-wrap:wrap;
-    margin-top:15px;
+    margin-top:20px;
 }
-.counter{
-    flex:1;
+.stat{
     background:#eff6ff;
-    padding:12px;
-    border-radius:8px;
+    padding:15px;
+    border-radius:12px;
     text-align:center;
     font-weight:700;
 }
-
-.preview{
+.preview-wrap{
     background:#475569;
     padding:20px;
-    border-radius:10px;
-    margin-top:20px;
+    border-radius:14px;
+    margin-top:25px;
     overflow:auto;
 }
 #doc{
@@ -85,144 +71,169 @@ button:disabled{background:#cbd5e1;cursor:not-allowed}
     margin:auto;
     padding:40px;
 }
+button{
+    width:100%;
+    margin-top:15px;
+    padding:15px;
+    background:#16a34a;
+    color:#fff;
+    border:none;
+    border-radius:12px;
+    font-size:1.1rem;
+    font-weight:700;
+    cursor:pointer;
+}
+button:disabled{background:#cbd5e1}
 article{
     background:#fff;
-    margin-top:30px;
-    padding:30px;
-    border-radius:12px;
+    margin-top:40px;
+    padding:35px;
+    border-radius:16px;
 }
-h1,h2,h3{color:#1e3a8a}
 p{text-align:justify;line-height:1.8;font-size:1.05rem}
+ul{line-height:1.9}
+@media print{
+    body *{visibility:hidden}
+    #doc,#doc *{visibility:visible}
+    #doc{position:absolute;left:0;top:0}
+}
 </style>
 </head>
 
 <body>
 <div class="container">
 
-<!-- TOOL CARD -->
+<!-- TOOL -->
 <div class="card">
-<h1>Live Word & Character Counter (DOCX + Hindi)</h1>
-<p>Upload Word file or preview content to get real-time word & character count.</p>
+<h1><i class="fa-solid fa-file-pdf"></i> Word to PDF Converter</h1>
+<p>Convert Word documents into high-quality PDFs with live word counting.</p>
 
-<label class="btn-upload">
-📂 Select Word (.docx)
+<label class="upload-box">
+<i class="fa-solid fa-upload fa-2x"></i><br><br>
+Upload Word File (.docx)
 <input type="file" id="fileInput" accept=".docx" hidden>
 </label>
 
-<div class="counter-box">
-<div class="counter" id="wordCount">Words: 0</div>
-<div class="counter" id="charCount">Characters: 0</div>
-<div class="counter" id="charNoSpace">Characters (No Spaces): 0</div>
+<div class="stats">
+<div class="stat"><i class="fa-solid fa-font"></i><br>Words<br><span id="wordCount">0</span></div>
+<div class="stat"><i class="fa-solid fa-keyboard"></i><br>Characters<br><span id="charCount">0</span></div>
+<div class="stat"><i class="fa-solid fa-ban"></i><br>No-Space Characters<br><span id="charNoSpace">0</span></div>
 </div>
 
-<button id="printBtn" disabled>🖨️ Save as PDF</button>
+<button id="pdfBtn" disabled><i class="fa-solid fa-print"></i> Convert to PDF</button>
 </div>
 
 <!-- PREVIEW -->
-<div class="preview">
-<div id="doc">Document preview will appear here</div>
+<div class="preview-wrap">
+<div id="doc">Word document preview will appear here…</div>
 </div>
 
 <!-- SEO CONTENT -->
 <article>
 
-<h2>Live Word Counter & Character Counter – Accurate for Hindi & English</h2>
+<h2>Online Word to PDF Converter – Free & Secure</h2>
 
 <p>
-A reliable word counter is essential for students, bloggers, teachers, government exam aspirants, and professionals. Whether you are writing a school assignment, competitive exam answer, resume, legal document, or blog article, accurate word and character counting is critical.
+A Word to PDF converter is an essential online tool for students, professionals, teachers, government employees, and business users. PDF files preserve formatting, layout, fonts, and alignment, making them ideal for sharing official documents.
 </p>
 
 <p>
-Toolvala’s Live Word & Character Counter is designed to work flawlessly with both English and Indian languages such as Hindi and Marathi. Unlike basic counters that fail on complex scripts, our tool counts words using real browser-rendered text.
+Toolvala’s Word to PDF tool allows you to convert DOCX files into PDF format instantly without installing any software. The entire conversion process runs inside your browser, ensuring complete privacy and security.
 </p>
 
-<h2>Why Accurate Word Count Matters</h2>
+<h2>Why Convert Word to PDF?</h2>
 
 <p>
-Word limits are strictly enforced in exams like UPSC, SSC, State PSCs, and university submissions. Even a few extra words can lead to penalties. Online platforms also require character limits for descriptions, forms, and applications.
+Word files can appear differently on different devices. PDFs look exactly the same everywhere. This is why PDFs are preferred for resumes, exam forms, legal documents, invoices, assignments, and official submissions.
 </p>
 
 <p>
-Our live counter updates instantly as the document loads, ensuring you always stay within the required limit.
+Our tool ensures that your Word document is rendered visually and then converted into a printable PDF without losing formatting.
 </p>
 
-<h2>Features of Toolvala Word Counter</h2>
+<h2>Key Features</h2>
 
 <ul>
-<li>✔ Live Word Counter</li>
-<li>✔ Live Character Counter</li>
-<li>✔ Hindi & Devanagari Safe</li>
-<li>✔ DOCX Preview Support</li>
-<li>✔ Convert Word to PDF</li>
-<li>✔ 100% Client-Side (No Uploads)</li>
+<li>Word (.DOCX) to PDF conversion</li>
+<li>Live word & character counter</li>
+<li>Hindi & English language support</li>
+<li>No watermark</li>
+<li>No file upload to server</li>
+<li>Works on mobile & desktop</li>
 </ul>
 
-<h2>How This Tool Works</h2>
+<h2>Hindi & English Support</h2>
 
 <p>
-Unlike server-based tools, Toolvala processes everything directly in your browser. The Word file is rendered visually and then analyzed for accurate text counting. This ensures that ligatures, matras, and combined characters in Hindi are counted correctly.
+Many online tools fail to process Indian languages correctly. Toolvala uses Unicode-safe rendering, ensuring Hindi (Devanagari) text is displayed and counted accurately.
 </p>
 
-<h2>Use Cases</h2>
+<h2>Who Can Use This Tool?</h2>
 
-<h3>Students & Teachers</h3>
+<h3>Students</h3>
 <p>
-Perfect for assignments, exam papers, and question sets with strict word limits.
-</p>
-
-<h3>Bloggers & Content Writers</h3>
-<p>
-Ensure SEO-optimized articles meet minimum and maximum word requirements.
-</p>
+Convert assignments and projects into PDF format for submission.</p>
 
 <h3>Government Exam Aspirants</h3>
 <p>
-Count words accurately in Hindi & English answers before submission.
-</p>
+Prepare answers and convert them into printable PDFs.</p>
+
+<h3>Professionals</h3>
+<p>
+Create polished resumes, reports, and proposals.</p>
 
 <h2>Privacy & Security</h2>
 
 <p>
-Your files never leave your device. There are no uploads, no tracking, and no data storage. Once you close the browser tab, everything is cleared automatically.
+Your document never leaves your device. Toolvala does not store or upload your files. Once you close the browser tab, everything is removed automatically.
 </p>
 
 <h2>Conclusion</h2>
 
 <p>
-Toolvala’s Live Word & Character Counter is the most accurate free solution for Word documents, especially for Hindi and Indian language users. Upload, preview, count, and convert — all in one secure tool.
+Toolvala’s Word to PDF converter is a fast, accurate, and secure solution for converting Word documents into professional PDFs. With live word counting and Hindi support, it is ideal for Indian users.
 </p>
 
 </article>
+
 </div>
 
 <script>
 const fileInput = document.getElementById("fileInput");
 const doc = document.getElementById("doc");
-const printBtn = document.getElementById("printBtn");
+const pdfBtn = document.getElementById("pdfBtn");
 
-function updateCounter(){
-    const text = doc.innerText.replace(/\s+/g," ").trim();
+const wordCount = document.getElementById("wordCount");
+const charCount = document.getElementById("charCount");
+const charNoSpace = document.getElementById("charNoSpace");
+
+function updateCounts(){
+    const text = doc.innerText
+        .replace(/\u00A0/g," ")
+        .replace(/\s+/g," ")
+        .trim();
+
     const words = text ? text.split(" ").length : 0;
     const chars = text.length;
-    const charsNoSpace = text.replace(/\s/g,"").length;
+    const charsNoSp = text.replace(/\s/g,"").length;
 
-    document.getElementById("wordCount").innerText = "Words: " + words;
-    document.getElementById("charCount").innerText = "Characters: " + chars;
-    document.getElementById("charNoSpace").innerText = "Characters (No Spaces): " + charsNoSpace;
+    wordCount.textContent = words;
+    charCount.textContent = chars;
+    charNoSpace.textContent = charsNoSp;
 }
 
 fileInput.addEventListener("change", async e=>{
     const file = e.target.files[0];
     if(!file) return;
 
-    const buffer = await file.arrayBuffer();
     doc.innerHTML = "Loading document...";
+    const buffer = await file.arrayBuffer();
     await docx.renderAsync(buffer, doc, null, {breakPages:true});
-    updateCounter();
-    printBtn.disabled = false;
+    updateCounts();
+    pdfBtn.disabled = false;
 });
 
-printBtn.onclick = ()=>window.print();
+pdfBtn.onclick = ()=>window.print();
 </script>
 
 </body>
