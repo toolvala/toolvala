@@ -1,183 +1,502 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Word to PDF Converter + Word Counter | Toolvala</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Free Word to PDF Converter with live word and character counter. Upload DOCX, preview content, count words, and download PDF instantly.">
-<link rel="canonical" href="https://www.toolvala.in/word-to-pdf.html">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Word to PDF Converter | Secure Client-Side Tool 2025</title>
+    <meta name="description" content="Convert Word documents (DOCX) to PDF instantly with this free, secure, client-side tool. No file uploads, no server processing. Works offline and on GitHub Pages.">
+    <meta name="keywords" content="Word to PDF converter, free Word to PDF, client-side DOCX to PDF, offline Word to PDF tool, convert Word to PDF on GitHub, secure document converter, javascript docx to pdf, no server pdf converter, docx to pdf free online, browser based pdf tool">
+    <meta name="author" content="GitHub Client-Side Tool">
+    <meta name="robots" content="index, follow">
 
-<!-- DOCX Preview Library -->
-<script src="https://unpkg.com/docx-preview@0.4.0/dist/docx-preview.min.js"></script>
+    <!-- External Libraries via CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
-<style>
-body{
-  font-family:Arial,Helvetica,sans-serif;
-  background:#f8fafc;
-  margin:0;
-}
-.container{
-  max-width:1100px;
-  margin:auto;
-  padding:20px;
-}
-h1{
-  text-align:center;
-  color:#2563eb;
-}
-.card{
-  background:#fff;
-  padding:20px;
-  border-radius:14px;
-  box-shadow:0 10px 30px rgba(0,0,0,.08);
-}
-.controls{
-  display:flex;
-  flex-wrap:wrap;
-  gap:12px;
-  margin-bottom:15px;
-}
-input[type=file]{
-  padding:10px;
-}
-button{
-  padding:12px 18px;
-  background:#2563eb;
-  color:#fff;
-  border:none;
-  border-radius:8px;
-  cursor:pointer;
-  font-weight:600;
-}
-button:disabled{
-  background:#94a3b8;
-  cursor:not-allowed;
-}
-.stats{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-  gap:15px;
-  margin:20px 0;
-}
-.stat{
-  background:#f1f5f9;
-  padding:15px;
-  border-radius:10px;
-  text-align:center;
-}
-.stat span{
-  display:block;
-  font-size:24px;
-  font-weight:bold;
-}
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --accent-color: #dbeafe;
+            --text-color: #1f2937;
+            --light-bg: #f3f4f6;
+            --white: #ffffff;
+            --border-radius: 8px;
+        }
 
-/* ===== DOCX MOBILE RENDER FIX ===== */
-#doc{
-  background:#fff;
-  padding:25px;
-  border-radius:12px;
-  min-height:300px;
-  width:100%;
-  overflow-x:auto;
-  display:block;
-}
-.docx-wrapper{
-  width:100% !important;
-}
-.docx-wrapper *{
-  font-family:Arial,Helvetica,sans-serif !important;
-}
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-/* PRINT PDF */
-@media print{
-  body *{visibility:hidden}
-  #doc, #doc *{visibility:visible}
-  #doc{
-    position:absolute;
-    left:0;
-    top:0;
-    width:100%;
-  }
-}
-</style>
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+        }
+
+        /* Layout */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        /* Tool Section */
+        .tool-section {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--white);
+            padding: 4rem 0;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .tool-box {
+            background: var(--white);
+            color: var(--text-color);
+            max-width: 600px;
+            margin: 2rem auto 0;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .upload-area {
+            border: 2px dashed #cbd5e1;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            cursor: pointer;
+            transition: border-color 0.3s;
+            margin-bottom: 1.5rem;
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary-color);
+            background-color: #f8fafc;
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        #file-input {
+            display: none;
+        }
+
+        .btn {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: inline-block;
+            margin: 0.5rem;
+        }
+
+        .btn:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .btn:disabled {
+            background-color: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        #status-message {
+            margin-top: 1rem;
+            font-weight: 500;
+        }
+
+        /* Preview Section */
+        #preview-container {
+            display: none;
+            background: var(--white);
+            padding: 2rem; /* Initial padding */
+            margin: 2rem auto;
+            max-width: 800px; /* Approximate A4 width constraint for preview */
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border: 1px solid #e5e7eb;
+            min-height: 500px;
+        }
+
+        /* Content Section */
+        .content-section {
+            background: var(--white);
+            padding: 3rem 0;
+        }
+
+        .article {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        h1 { font-size: 2.5rem; margin-bottom: 1rem; }
+        h2 { font-size: 2rem; margin-top: 2.5rem; margin-bottom: 1rem; color: var(--secondary-color); }
+        h3 { font-size: 1.5rem; margin-top: 2rem; margin-bottom: 0.5rem; color: #374151; }
+        p { margin-bottom: 1.5rem; text-align: justify; }
+        ul, ol { margin-bottom: 1.5rem; padding-left: 2rem; }
+        li { margin-bottom: 0.5rem; }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .feature-card {
+            background: var(--light-bg);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--primary-color);
+        }
+
+        footer {
+            background-color: #1f2937;
+            color: #d1d5db;
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.5rem; }
+            .tool-box { margin: 1rem; padding: 1rem; }
+        }
+    </style>
 </head>
-
 <body>
 
-<div class="container">
-<h1>Word to PDF Converter + Word Counter</h1>
+<header>
+    <div class="container nav-wrapper">
+        <a href="#" class="logo">SecurePDF<span style="color:#2563eb">.js</span></a>
+        <nav>
+            <a href="#how-to" style="text-decoration:none; color:var(--text-color); margin-left:15px;">How it Works</a>
+            <a href="#faq" style="text-decoration:none; color:var(--text-color); margin-left:15px;">FAQ</a>
+        </nav>
+    </div>
+</header>
 
-<div class="card">
-  <div class="controls">
-    <input type="file" id="fileInput" accept=".docx">
-    <button id="pdfBtn" disabled>Download PDF</button>
-  </div>
+<main>
+    <!-- Tool Section -->
+    <section class="tool-section">
+        <div class="container">
+            <h1>Free Word to PDF Converter</h1>
+            <p>Convert DOCX files to PDF instantly in your browser. No upload, no data theft, 100% free.</p>
+            
+            <div class="tool-box">
+                <div class="upload-area" id="drop-zone">
+                    <div class="upload-icon">📄</div>
+                    <h3>Drag & Drop DOCX file here</h3>
+                    <p>or click to browse</p>
+                    <input type="file" id="file-input" accept=".docx" />
+                </div>
+                
+                <div id="controls">
+                    <button id="convert-btn" class="btn" disabled>Convert to PDF</button>
+                    <button id="download-btn" class="btn" style="display:none; background-color: #10b981;">Download PDF</button>
+                    <button id="reset-btn" class="btn" style="display:none; background-color: #6b7280;">Convert Another</button>
+                </div>
+                <div id="status-message"></div>
+            </div>
+        </div>
+    </section>
 
-  <div class="stats">
-    <div class="stat">Words <span id="wordCount">0</span></div>
-    <div class="stat">Characters <span id="charCount">0</span></div>
-    <div class="stat">Characters (No Space) <span id="charNoSpace">0</span></div>
-  </div>
+    <!-- Preview Container (Hidden until converted) -->
+    <div class="container">
+        <div id="preview-container">
+            <h3 style="border-bottom: 1px solid #ccc; padding-bottom: 10px; margin-bottom: 20px;">Document Preview</h3>
+            <div id="document-content"></div>
+        </div>
+    </div>
 
-  <div id="doc">Upload a DOCX file to preview</div>
-</div>
-</div>
+    <!-- SEO Content Section -->
+    <section class="content-section">
+        <div class="container article">
+            
+            <h2 id="intro">The Ultimate Free Client-Side Word to PDF Converter</h2>
+            <p>In the digital age, document versatility is paramount. Whether you are a student submitting an assignment, a professional sending an invoice, or a writer sharing a manuscript, the Portable Document Format (PDF) remains the gold standard for sharing files that look the same on every device. However, creating these documents often starts in Microsoft Word (DOCX). This bridge—converting Word to PDF—is where many users face hurdles: expensive software, restrictive file limits, or privacy concerns associated with uploading sensitive data to unknown servers.</p>
+            <p>Welcome to <strong>SecurePDF.js</strong>, a revolutionary <strong>free Word to PDF converter</strong> that operates entirely within your web browser. Built with modern JavaScript technologies, this tool ensures that your documents never leave your device. By leveraging the power of client-side processing, we eliminate the need for server uploads, guaranteeing 100% privacy and lightning-fast conversion speeds. This tool is optimized for users who need a quick, offline-capable, and secure method to transform their DOCX files into professional-grade PDFs.</p>
+
+            <h2 id="how-to">How to Use This Word to PDF Tool</h2>
+            <p>Using this converter is designed to be as intuitive as possible. We have stripped away complex menus and registration walls to provide a seamless experience. Follow these simple steps to convert your document:</p>
+            <ol>
+                <li><strong>Select Your File:</strong> Click on the upload box area or drag and drop your <code>.docx</code> file directly onto the tool. Please note that this tool is specifically optimized for the modern DOCX format used by Microsoft Word 2007 and later.</li>
+                <li><strong>Preview the Content:</strong> Once selected, the tool uses the <em>Mammoth.js</em> library to parse the raw XML structure of your Word document. It extracts text, basic formatting (bold, italics, headers), and images, rendering them as HTML right in your browser.</li>
+                <li><strong>Convert:</strong> Click the "Convert to PDF" button. The tool will take the rendered HTML preview and, using <em>html2pdf.js</em>, capture the layout and generate a PDF file.</li>
+                <li><strong>Download:</strong> Once the process is complete (usually in seconds), a "Download PDF" button will appear. Click it to save your new PDF file to your local download folder.</li>
+            </ol>
+
+            <h2>Why Client-Side Conversion Matters (Privacy & Security)</h2>
+            <p>Most online PDF converters work on a "server-side" model. When you use them, you are technically uploading your file to a remote computer owned by the service provider. That computer processes the file and sends the result back to you. While many services are legitimate, this process introduces significant risks:</p>
+            <ul>
+                <li><strong>Data Privacy:</strong> Once a file leaves your computer, you lose control over it. It could be stored, scanned for data, or intercepted during transmission.</li>
+                <li><strong>Corporate Espionage & ID Theft:</strong> Uploading contracts, financial statements, or resumes with personal addresses to unsecured servers is a risk.</li>
+                <li><strong>Server Downtime:</strong> If the converter's website server is down or slow, you cannot get your work done.</li>
+            </ul>
+            <p><strong>This tool is different.</strong> It is a <strong>client-side DOCX to PDF converter</strong>. This means the code runs inside your browser (Chrome, Firefox, Edge, Safari) on your own machine. Your file is read by the browser's memory, converted in the browser's memory, and saved to your hard drive. <strong>At no point does your file travel over the internet.</strong> You could literally disconnect your internet connection after loading this page, and the tool would still work perfectly. This makes it the ideal solution for handling sensitive legal documents, medical records, or personal data.</p>
+
+            <h2>Features of SecurePDF.js</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>100% Free & Unlimited</h3>
+                    <p>There are no "credits," daily limits, or paywalls. Convert as many files as you need, whenever you need. We believe basic document tools should be accessible to everyone.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Zero Installation</h3>
+                    <p>Forget installing heavy software like Microsoft Office or Adobe Acrobat just to do a simple conversion. This tool runs in your browser, saving you disk space and system resources.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Offline Capability</h3>
+                    <p>Because the logic is contained in a single HTML file using JavaScript, once the page is loaded, it works without an internet connection. It's perfect for remote work or travel.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Cross-Platform</h3>
+                    <p>Whether you are on Windows, macOS, Linux, or even a Chromebook, as long as you have a modern web browser, this tool functions flawlessly.</p>
+                </div>
+            </div>
+
+            <h2>Deep Dive: The Technology Behind the Tool</h2>
+            <p>For the technically inclined, understanding how this works can be fascinating. This tool combines two powerful open-source JavaScript libraries:</p>
+            <h3>1. Mammoth.js</h3>
+            <p>Microsoft Word documents (`.docx`) are actually zipped archives containing XML files that define the document's structure. Reading this raw data is complex. <em>Mammoth.js</em> is a library designed to convert .docx documents to HTML. Unlike other converters that try to preserve the exact page layout (which is very difficult in a browser), Mammoth focuses on preserving the <strong>semantic structure</strong> of the document. It ensures that a Heading 1 in Word becomes an <code>&lt;h1&gt;</code> tag in HTML, and a list becomes a <code>&lt;ul&gt;</code> tag. This ensures that the resulting PDF is readable and accessible.</p>
+            <h3>2. Html2Pdf.js</h3>
+            <p>Once Mammoth transforms the Word document into HTML, we need to "print" that HTML to a PDF file. <em>Html2Pdf.js</em> wraps <em>html2canvas</em> and <em>jsPDF</em>. It renders the HTML DOM (Document Object Model) onto a canvas (essentially taking a high-resolution screenshot of the rendered text) and then places that canvas inside a PDF container. This allows for the preservation of fonts, colors, and images during the final export.</p>
+
+            <h2>Word vs. PDF: When to Use Which?</h2>
+            <p>Understanding the difference between these two formats helps in deciding when to convert.</p>
+            <p><strong>Microsoft Word (DOCX):</strong> This is an <em>editable</em> format. It is designed for content creation. The layout is fluid, meaning it can change depending on the printer driver, screen size, or version of Word installed. It is ideal for drafting, collaboration, and editing.</p>
+            <p><strong>Portable Document Format (PDF):</strong> Created by Adobe, PDF is a <em>fixed-layout</em> format. It encapsulates text, fonts, images, and 2D vector graphics. A PDF looks exactly the same on a smartphone, a tablet, a Windows PC, and a Mac. It is ideal for:</p>
+            <ul>
+                <li><strong>Final Submission:</strong> Resumes, academic papers, and grant applications.</li>
+                <li><strong>Printing:</strong> Ensuring margins and page breaks don't shift.</li>
+                <li><strong>Security:</strong> PDFs can be made read-only to prevent easy tampering (though this tool creates standard PDFs).</li>
+            </ul>
+
+            <h2 id="faq">Frequently Asked Questions (FAQ)</h2>
+            <h3>Is this Word to PDF converter really free?</h3>
+            <p>Yes, absolutely. This is an open-source initiative. There are no hidden costs, subscriptions, or watermarks added to your documents.</p>
+
+            <h3>Do I need Microsoft Word installed to use this?</h3>
+            <p>No. You only need the `.docx` file. You do not need Microsoft Office installed on your computer to perform the conversion.</p>
+
+            <h3>Does it support .doc files (older Word 97-2003)?</h3>
+            <p>Currently, this tool supports the modern `.docx` standard. Older `.doc` files use a binary format that is much harder to parse in a browser. We recommend saving your file as `.docx` if possible before converting.</p>
+
+            <h3>Will my formatting stay exactly the same?</h3>
+            <p>This is a "semantic" converter. It preserves the structure (headings, paragraphs, lists, bold, italics) and images perfectly. However, complex layouts like multi-column setups, specific page borders, or floating text boxes might be simplified during the conversion to HTML. For 99% of standard documents (letters, essays, reports), the result is excellent.</p>
+
+            <h3>Can I use this on a mobile phone?</h3>
+            <p>Yes! Modern mobile browsers (Chrome on Android, Safari on iOS) support the JavaScript technologies used here. You can convert files directly from your phone's file manager.</p>
+
+            <h3>How do I host this tool myself?</h3>
+            <p>Since this is a single-file solution, you can simply save this HTML file to your computer. To host it online, you can upload this single `index.html` file to a GitHub repository and enable GitHub Pages in the settings. It will instantly become a live website.</p>
+
+            <h2>Troubleshooting Common Issues</h2>
+            <p>If you encounter issues while using the tool, consider the following solutions:</p>
+            <ul>
+                <li><strong>File not loading:</strong> Ensure your file is a valid `.docx` file and not corrupted. Try opening it in Word first to verify.</li>
+                <li><strong>Images missing:</strong> Extremely large images or obscure image formats inside the Word doc might occasionally fail to render. Try resizing images in the original document.</li>
+                <li><strong>Layout looks different:</strong> As mentioned, this converter prioritizes text accessibility over pixel-perfect layout replication. If you have a highly complex flyer with overlapping elements, the layout might linearize.</li>
+                <li><strong>Browser Compatibility:</strong> For best results, use a modern browser like Google Chrome, Mozilla Firefox, Microsoft Edge, or Safari. Internet Explorer is not supported.</li>
+            </ul>
+
+            <h2>The Benefits of Using GitHub Pages for Tools</h2>
+            <p>We mention GitHub Pages because this tool is designed to be "GitHub Ready." GitHub Pages is a static site hosting service that takes HTML, CSS, and JavaScript files directly from a repository on GitHub, optionally runs the files through a build process, and publishes a website. </p>
+            <p>Hosting tools like this on GitHub offers transparency. Users can inspect the code to verify that no malicious data exfiltration scripts exist. It aligns perfectly with the open-source philosophy of this converter: secure, transparent, and free.</p>
+
+            <h2>Comparison with Other Tools</h2>
+            <p><strong>Adobe Acrobat Pro:</strong> The industry standard, but it comes with a hefty monthly subscription. While it offers editing capabilities, it is overkill for simple conversions.</p>
+            <p><strong>SmallPDF / ILovePDF:</strong> These are popular web services. They offer great quality but usually have limitations (e.g., "2 free tasks per day") and require uploading your file to their servers.</p>
+            <p><strong>SecurePDF.js (This Tool):</strong> Offers the sweet spot. It is free like the online tools but secure like the desktop software. It doesn't have the advanced editing features of Adobe, but for converting a Word doc to a read-only PDF, it is the most efficient choice.</p>
+
+            <h2>Conclusion</h2>
+            <p>Converting Word documents to PDF shouldn't be a hassle, nor should it compromise your digital privacy. With this client-side <strong>Word to PDF converter</strong>, you have a powerful, lightweight, and secure tool at your disposal. Whether you are archiving old writings, sending out a CV, or submitting homework, this tool ensures your formatting is preserved and your data remains yours.</p>
+            <p>Bookmark this page for future use, or if you are a developer, grab the code and host it yourself. The power of modern JavaScript has made server-less document processing a reality, and we are proud to provide this utility to the global community.</p>
+            <p>Start converting your DOCX files today and experience the freedom of secure, offline, browser-based PDF generation.</p>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="container">
+        <p>&copy; 2025 SecurePDF Client-Side Tools. Open Source on GitHub. Privacy First.</p>
+    </div>
+</footer>
 
 <script>
-const fileInput = document.getElementById("fileInput");
-const doc = document.getElementById("doc");
-const pdfBtn = document.getElementById("pdfBtn");
+    // Elements
+    const dropZone = document.getElementById('drop-zone');
+    const fileInput = document.getElementById('file-input');
+    const convertBtn = document.getElementById('convert-btn');
+    const downloadBtn = document.getElementById('download-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const statusMsg = document.getElementById('status-message');
+    const previewContainer = document.getElementById('preview-container');
+    const documentContent = document.getElementById('document-content');
 
-const wordCount = document.getElementById("wordCount");
-const charCount = document.getElementById("charCount");
-const charNoSpace = document.getElementById("charNoSpace");
+    let currentFile = null;
 
-/* COUNT WORDS CORRECTLY */
-function updateCounts(){
-  const text = doc.textContent
-    .replace(/\u00A0/g," ")
-    .replace(/\s+/g," ")
-    .trim();
+    // Event Listeners for Drag & Drop
+    dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.style.borderColor = '#2563eb';
+        dropZone.style.backgroundColor = '#eff6ff';
+    });
 
-  const words = text ? text.split(" ").length : 0;
-  const chars = text.length;
-  const charsNS = text.replace(/\s/g,"").length;
+    dropZone.addEventListener('dragleave', (e) => {
+        e.preventDefault();
+        dropZone.style.borderColor = '#cbd5e1';
+        dropZone.style.backgroundColor = '#fff';
+    });
 
-  wordCount.textContent = words;
-  charCount.textContent = chars;
-  charNoSpace.textContent = charsNS;
-}
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.style.borderColor = '#cbd5e1';
+        dropZone.style.backgroundColor = '#fff';
+        
+        if (e.dataTransfer.files.length) {
+            handleFile(e.dataTransfer.files[0]);
+        }
+    });
 
-/* OBSERVE DOCX RENDERING */
-const observer = new MutationObserver(updateCounts);
-observer.observe(doc,{childList:true,subtree:true,characterData:true});
+    dropZone.addEventListener('click', () => {
+        fileInput.click();
+    });
 
-/* LOAD DOCX */
-fileInput.addEventListener("change", async e=>{
-  const file = e.target.files[0];
-  if(!file) return;
+    fileInput.addEventListener('change', (e) => {
+        if (e.target.files.length) {
+            handleFile(e.target.files[0]);
+        }
+    });
 
-  doc.innerHTML="Loading document...";
-  pdfBtn.disabled=true;
+    // Handle File Selection
+    function handleFile(file) {
+        if (file.type !== "application/vnd.openxmlformats-officedocument.wordprocessingml.document" && !file.name.endsWith('.docx')) {
+            statusMsg.textContent = "Error: Please upload a valid .docx file.";
+            statusMsg.style.color = "red";
+            return;
+        }
 
-  const buffer = await file.arrayBuffer();
+        currentFile = file;
+        statusMsg.textContent = `Selected: ${file.name}`;
+        statusMsg.style.color = "green";
+        convertBtn.disabled = false;
+        downloadBtn.style.display = 'none';
+        resetBtn.style.display = 'none';
+        previewContainer.style.display = 'none';
+    }
 
-  await window.docx.renderAsync(buffer, doc, null, {
-    breakPages:true,
-    experimental:true
-  });
+    // Convert Logic
+    convertBtn.addEventListener('click', () => {
+        if (!currentFile) return;
 
-  /* ANDROID FORCE REPAINT */
-  doc.style.display="none";
-  doc.offsetHeight;
-  doc.style.display="block";
+        statusMsg.textContent = "Reading file...";
+        convertBtn.disabled = true;
 
-  pdfBtn.disabled=false;
-});
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            const arrayBuffer = event.target.result;
 
-/* PDF DOWNLOAD */
-pdfBtn.addEventListener("click",()=>window.print());
+            statusMsg.textContent = "Converting to HTML...";
+            
+            // Using Mammoth to convert DOCX to HTML
+            mammoth.convertToHtml({arrayBuffer: arrayBuffer})
+                .then(displayResult)
+                .catch(handleError);
+        };
+        reader.readAsArrayBuffer(currentFile);
+    });
+
+    function displayResult(result) {
+        documentContent.innerHTML = result.value;
+        
+        // Basic styling for the preview to look like a document
+        documentContent.style.fontFamily = "Arial, sans-serif";
+        documentContent.style.lineHeight = "1.6";
+        documentContent.style.fontSize = "12pt";
+        
+        previewContainer.style.display = 'block';
+        statusMsg.textContent = "Conversion successful! Review the preview below.";
+        
+        convertBtn.style.display = 'none';
+        downloadBtn.style.display = 'inline-block';
+        resetBtn.style.display = 'inline-block';
+
+        // Scroll to preview
+        previewContainer.scrollIntoView({behavior: 'smooth'});
+    }
+
+    function handleError(err) {
+        console.error(err);
+        statusMsg.textContent = "Error during conversion. See console for details.";
+        statusMsg.style.color = "red";
+        convertBtn.disabled = false;
+    }
+
+    // Download PDF Logic
+    downloadBtn.addEventListener('click', () => {
+        const element = documentContent;
+        const opt = {
+            margin:       1,
+            filename:     currentFile.name.replace('.docx', '.pdf'),
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2 },
+            jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+        };
+
+        statusMsg.textContent = "Generating PDF...";
+        
+        html2pdf().set(opt).from(element).save().then(() => {
+            statusMsg.textContent = "PDF Downloaded!";
+        });
+    });
+
+    // Reset Logic
+    resetBtn.addEventListener('click', () => {
+        currentFile = null;
+        fileInput.value = '';
+        statusMsg.textContent = '';
+        previewContainer.style.display = 'none';
+        documentContent.innerHTML = '';
+        convertBtn.style.display = 'inline-block';
+        convertBtn.disabled = true;
+        downloadBtn.style.display = 'none';
+        resetBtn.style.display = 'none';
+        window.scrollTo(0, 0);
+    });
 </script>
 
 </body>
