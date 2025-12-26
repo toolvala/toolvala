@@ -1,1066 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Word Counter Tool | Free Online Word & Character Counter</title>
-    <link rel="canonical"href="https://www.toolvala.in/word-counter-tool.html">
-    <meta name="description" content="Free online word counter tool that counts words, characters, sentences, paragraphs, and reading time. Perfect for writers, students, and professionals.">
-    <meta name="keywords" content="word counter, character counter, sentence counter, paragraph counter, reading time calculator, writing tools">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary-blue: #2563eb;
-            --primary-indigo: #4f46e5;
-            --accent-green: #10b981;
-            --dark: #1e293b;
-            --light: #f8fafc;
-            --gray: #64748b;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-            color: var(--dark);
-            line-height: 1.6;
-            min-height: 100vh;
-            padding: 0;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        /* Header */
-        header {
-            background: white;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            padding: 20px 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .logo-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--primary-blue), var(--primary-indigo));
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.2rem;
-        }
-        
-        .logo h1 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--dark);
-        }
-        
-        .nav-links a {
-            margin-left: 30px;
-            text-decoration: none;
-            color: var(--gray);
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-        
-        .nav-links a:hover {
-            color: var(--primary-blue);
-        }
-        
-        /* Main Tool Section */
-        .tool-section {
-            padding: 60px 0 40px;
-        }
-        
-        .tool-header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-        
-        .tool-header h1 {
-            font-size: 2.8rem;
-            font-weight: 800;
-            margin-bottom: 15px;
-            background: linear-gradient(135deg, var(--primary-blue), var(--primary-indigo));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .tool-header p {
-            color: var(--gray);
-            font-size: 1.1rem;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-        
-        .tool-container {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            margin-bottom: 40px;
-        }
-        
-        .text-input-container {
-            padding: 30px;
-            border-bottom: 1px solid #e2e8f0;
-        }
-        
-        .text-input-container textarea {
-            width: 100%;
-            min-height: 300px;
-            padding: 20px;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            font-size: 1rem;
-            line-height: 1.6;
-            resize: vertical;
-            transition: all 0.3s ease;
-        }
-        
-        .text-input-container textarea:focus {
-            outline: none;
-            border-color: var(--primary-blue);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        }
-        
-        .action-buttons {
-            display: flex;
-            gap: 15px;
-            margin-top: 20px;
-        }
-        
-        .action-btn {
-            padding: 12px 25px;
-            border-radius: 8px;
-            border: none;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .action-btn.primary {
-            background: linear-gradient(135deg, var(--primary-blue), var(--primary-indigo));
-            color: white;
-        }
-        
-        .action-btn.secondary {
-            background: #f1f5f9;
-            color: var(--dark);
-        }
-        
-        .action-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-        }
-        
-        .stats-container {
-            padding: 30px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 25px;
-        }
-        
-        .stat-box {
-            background: #f8fafc;
-            border-radius: 12px;
-            padding: 25px;
-            text-align: center;
-            border: 1px solid #e2e8f0;
-            transition: all 0.3s ease;
-        }
-        
-        .stat-box:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-            border-color: var(--primary-blue);
-        }
-        
-        .stat-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--primary-blue), var(--primary-indigo));
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.3rem;
-            margin: 0 auto 15px;
-        }
-        
-        .stat-value {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: var(--dark);
-            margin-bottom: 5px;
-        }
-        
-        .stat-label {
-            color: var(--gray);
-            font-size: 0.95rem;
-            font-weight: 500;
-        }
-        
-        /* SEO Content Section */
-        .seo-section {
-            padding: 60px 0;
-            background: white;
-            border-radius: 20px;
-            margin-bottom: 40px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-        }
-        
-        .seo-container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        
-        .seo-title {
-            font-size: 2.2rem;
-            font-weight: 700;
-            margin-bottom: 30px;
-            color: var(--dark);
-            text-align: center;
-        }
-        
-        .seo-content {
-            color: var(--dark);
-            font-size: 1.1rem;
-            line-height: 1.8;
-        }
-        
-        .seo-content h2 {
-            font-size: 1.8rem;
-            margin: 30px 0 15px;
-            color: var(--primary-blue);
-        }
-        
-        .seo-content h3 {
-            font-size: 1.4rem;
-            margin: 25px 0 12px;
-            color: var(--dark);
-        }
-        
-        .seo-content p {
-            margin-bottom: 20px;
-        }
-        
-        .seo-content ul, .seo-content ol {
-            margin-bottom: 25px;
-            padding-left: 25px;
-        }
-        
-        .seo-content li {
-            margin-bottom: 10px;
-        }
-        
-        .highlight-box {
-            background: linear-gradient(135deg, rgba(37, 99, 235, 0.05), rgba(79, 70, 229, 0.05));
-            border-left: 4px solid var(--primary-blue);
-            padding: 25px;
-            border-radius: 8px;
-            margin: 30px 0;
-        }
-        
-        .highlight-box h3 {
-            margin-top: 0;
-            color: var(--primary-blue);
-        }
-        
-        /* Related Tools */
-        .related-tools {
-            padding: 60px 0;
-        }
-        
-        .section-title {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 40px;
-            text-align: center;
-            color: var(--dark);
-        }
-        
-        .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
-        }
-        
-        .tool-card {
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
-            transition: all 0.3s ease;
-            text-decoration: none;
-            color: var(--dark);
-            display: block;
-        }
-        
-        .tool-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-        }
-        
-        .tool-card-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--primary-blue), var(--primary-indigo));
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.3rem;
-            margin-bottom: 20px;
-        }
-        
-        .tool-card h3 {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-        }
-        
-        .tool-card p {
-            color: var(--gray);
-            font-size: 0.95rem;
-            line-height: 1.5;
-        }
-        
-        /* Footer */
-        footer {
-            background: linear-gradient(135deg, var(--dark), #0f172a);
-            color: white;
-            padding: 60px 0 30px;
-            margin-top: 60px;
-        }
-        
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-        
-        .footer-logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-        
-        .footer-logo-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--primary-blue), var(--primary-indigo));
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.2rem;
-        }
-        
-        .footer-logo h3 {
-            font-size: 1.5rem;
-            font-weight: 700;
-        }
-        
-        .footer-links h4 {
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-            color: #e2e8f0;
-        }
-        
-        .footer-links ul {
-            list-style: none;
-        }
-        
-        .footer-links li {
-            margin-bottom: 12px;
-        }
-        
-        .footer-links a {
-            color: #94a3b8;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        
-        .footer-links a:hover {
-            color: white;
-        }
-        
-        .contact-info {
-            margin-top: 20px;
-        }
-        
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-            color: #94a3b8;
-        }
-        
-        .copyright {
-            text-align: center;
-            padding-top: 30px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: #94a3b8;
-            font-size: 0.9rem;
-        }
-        
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                gap: 20px;
-            }
-            
-            .nav-links {
-                display: flex;
-                gap: 20px;
-                margin-left: 0;
-            }
-            
-            .nav-links a {
-                margin-left: 0;
-            }
-            
-            .tool-header h1 {
-                font-size: 2.2rem;
-            }
-            
-            .stats-container {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .action-buttons {
-                flex-direction: column;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .stats-container {
-                grid-template-columns: 1fr;
-            }
-            
-            .tool-header h1 {
-                font-size: 1.8rem;
-            }
-            
-            .seo-title {
-                font-size: 1.8rem;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Live Word & Character Counter (Hindi + English) | Toolvala</title>
+
+<meta name="description" content="Free live word counter & character counter tool supporting Hindi and English. Count words, characters, sentences, paragraphs & reading time instantly.">
+
+<link rel="canonical" href="https://www.toolvala.in/word-counter.html">
+
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+body{
+    margin:0;
+    font-family:'Segoe UI','Noto Sans Devanagari',sans-serif;
+    background:#f1f5f9;
+    color:#0f172a;
+}
+.container{max-width:1100px;margin:auto;padding:20px}
+.card{
+    background:#fff;
+    padding:25px;
+    border-radius:14px;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+textarea{
+    width:100%;
+    min-height:220px;
+    padding:15px;
+    border-radius:10px;
+    border:1px solid #cbd5e1;
+    font-size:1.05rem;
+    resize:vertical;
+}
+.stats{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:15px;
+    margin-top:15px;
+}
+.stat{
+    background:#eff6ff;
+    padding:15px;
+    border-radius:10px;
+    text-align:center;
+    font-weight:700;
+}
+article{
+    background:#fff;
+    padding:30px;
+    margin-top:30px;
+    border-radius:14px;
+}
+h1,h2,h3{color:#1e3a8a}
+p{text-align:justify;line-height:1.8;font-size:1.05rem}
+ul{line-height:1.8}
+</style>
 </head>
+
 <body>
-    <header>
-        <div class="container">
-            <div class="header-content">
-                <div class="logo">
-                    <div class="logo-icon">
-                        <i class="fas fa-font"></i>
-                    </div>
-                    <h1>WordCounter</h1>
-                </div>
-                <div class="nav-links">
-                    <a href="#tool">Tool</a>
-                    <a href="#how-it-works">How It Works</a>
-                    <a href="#importance">Importance</a>
-                    <a href="#contact">Contact</a>
-                </div>
-            </div>
-        </div>
-    </header>
-    
-    <main>
-        <section id="tool" class="tool-section">
-            <div class="container">
-                <div class="tool-header">
-                    <h1>Free Word Counter Tool</h1>
-                    <p>Count words, characters, sentences, paragraphs, and reading time instantly. Perfect for writers, students, bloggers, and professionals.</p>
-                </div>
-                
-                <div class="tool-container">
-                    <div class="text-input-container">
-                        <!-- REMOVED THE SAMPLE TEXT - NOW JUST PLACEHOLDER -->
-                        <textarea id="textInput" placeholder="Start typing or paste your text here..."></textarea>
-                        
-                        <div class="action-buttons">
-                            <button class="action-btn primary" id="countBtn">
-                                <i class="fas fa-calculator"></i> Count Words
-                            </button>
-                            <button class="action-btn secondary" id="clearBtn">
-                                <i class="fas fa-trash"></i> Clear Text
-                            </button>
-                            <button class="action-btn secondary" id="pasteBtn">
-                                <i class="fas fa-paste"></i> Paste Text
-                            </button>
-                            <button class="action-btn secondary" id="copyBtn">
-                                <i class="fas fa-copy"></i> Copy Results
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="stats-container">
-                        <div class="stat-box">
-                            <div class="stat-icon">
-                                <i class="fas fa-font"></i>
-                            </div>
-                            <div class="stat-value" id="wordCount">0</div>
-                            <div class="stat-label">Words</div>
-                        </div>
-                        
-                        <div class="stat-box">
-                            <div class="stat-icon">
-                                <i class="fas fa-text-width"></i>
-                            </div>
-                            <div class="stat-value" id="charCount">0</div>
-                            <div class="stat-label">Characters</div>
-                        </div>
-                        
-                        <div class="stat-box">
-                            <div class="stat-icon">
-                                <i class="fas fa-sentence"></i>
-                            </div>
-                            <div class="stat-value" id="sentenceCount">0</div>
-                            <div class="stat-label">Sentences</div>
-                        </div>
-                        
-                        <div class="stat-box">
-                            <div class="stat-icon">
-                                <i class="fas fa-paragraph"></i>
-                            </div>
-                            <div class="stat-value" id="paragraphCount">0</div>
-                            <div class="stat-label">Paragraphs</div>
-                        </div>
-                        
-                        <div class="stat-box">
-                            <div class="stat-icon">
-                                <i class="fas fa-clock"></i>
-                            </div>
-                            <div class="stat-value" id="readingTime">0</div>
-                            <div class="stat-label">Minutes to Read</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <section id="how-it-works" class="seo-section">
-            <div class="container">
-                <div class="seo-container">
-                    <h2 class="seo-title">How Our Word Counter Tool Works</h2>
-                    
-                    <div class="seo-content">
-                        <p>Our Word Counter tool is designed to provide accurate and instant text analysis with a simple, user-friendly interface. Here's how it works:</p>
-                        
-                        <h3>1. Text Input</h3>
-                        <p>Simply type your text directly into the text box or paste content from any source (documents, websites, emails, etc.). The tool automatically starts counting as you type.</p>
-                        
-                        <h3>2. Real-Time Analysis</h3>
-                        <p>As you type or paste text, our algorithm instantly analyzes your content and displays:</p>
-                        <ul>
-                            <li><strong>Word Count:</strong> Total number of words (excluding numbers and special characters)</li>
-                            <li><strong>Character Count:</strong> Total characters including spaces and punctuation</li>
-                            <li><strong>Sentence Count:</strong> Number of complete sentences (based on punctuation)</li>
-                            <li><strong>Paragraph Count:</strong> Number of text paragraphs</li>
-                            <li><strong>Reading Time:</strong> Estimated time to read the content (based on average reading speed of 200-250 words per minute)</li>
-                        </ul>
-                        
-                        <div class="highlight-box">
-                            <h3>Advanced Counting Algorithm</h3>
-                            <p>Our tool uses sophisticated algorithms to ensure accurate counting:</p>
-                            <ul>
-                                <li>Handles multiple languages and special characters</li>
-                                <li>Correctly identifies word boundaries in complex text</li>
-                                <li>Filters out extra spaces and line breaks</li>
-                                <li>Recognizes various sentence structures and punctuation</li>
-                            </ul>
-                        </div>
-                        
-                        <h3>3. Additional Features</h3>
-                        <p>The tool also includes useful features to enhance your experience:</p>
-                        <ul>
-                            <li><strong>Clear Text:</strong> Instantly clear the text box with one click</li>
-                            <li><strong>Paste Text:</strong> Easily paste content from clipboard</li>
-                            <li><strong>Copy Results:</strong> Copy your word count statistics to share or save</li>
-                            <li><strong>Auto-save:</strong> Your text is automatically saved in your browser (no server storage)</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <section id="importance" class="seo-section">
-            <div class="container">
-                <div class="seo-container">
-                    <h2 class="seo-title">Why Word Count Matters in Our Lives</h2>
-                    
-                    <div class="seo-content">
-                        <p>Word count is more than just a number—it's a crucial metric that affects various aspects of our personal and professional lives. Here's why it matters:</p>
-                        
-                        <h3>For Students and Academics</h3>
-                        <p>Word limits are essential in academic writing. Essays, research papers, theses, and assignments often have strict word count requirements. Meeting these limits demonstrates:</p>
-                        <ul>
-                            <li>Ability to express ideas concisely</li>
-                            <li>Understanding of assignment requirements</li>
-                            <li>Time management and planning skills</li>
-                            <li>Attention to detail and following instructions</li>
-                        </ul>
-                        
-                        <h3>For Content Creators and Bloggers</h3>
-                        <p>In the digital age, word count directly impacts SEO, reader engagement, and content quality:</p>
-                        <ul>
-                            <li><strong>SEO Optimization:</strong> Search engines favor comprehensive content (typically 1,000+ words for in-depth articles)</li>
-                            <li><strong>Reader Engagement:</strong> Appropriate length keeps readers interested without overwhelming them</li>
-                            <li><strong>Content Structure:</strong> Word count helps plan headings, subheadings, and content flow</li>
-                            <li><strong>Social Media:</strong> Different platforms have ideal text lengths for maximum engagement</li>
-                        </ul>
-                        
-                        <div class="highlight-box">
-                            <h3>Professional Applications</h3>
-                            <p>In professional settings, word count ensures clarity and efficiency:</p>
-                            <ul>
-                                <li><strong>Business Reports:</strong> Concise yet comprehensive reporting</li>
-                                <li><strong>Email Communication:</strong> Appropriate length for different contexts</li>
-                                <li><strong>Proposals and Pitches:</strong> Meeting client or investor requirements</li>
-                                <li><strong>Legal Documents:</strong> Precision and clarity in wording</li>
-                            </ul>
-                        </div>
-                        
-                        <h3>For Personal Development</h3>
-                        <p>Tracking word count can boost personal growth:</p>
-                        <ul>
-                            <li><strong>Writing Habits:</strong> Daily word count goals for authors and journal writers</li>
-                            <li><strong>Language Learning:</strong> Measuring progress in writing practice</li>
-                            <li><strong>Communication Skills:</strong> Learning to express ideas with appropriate detail</li>
-                            <li><strong>Time Management:</strong> Estimating how long writing tasks will take</li>
-                        </ul>
-                        
-                        <h3>Digital Communication Standards</h3>
-                        <p>Different platforms have optimal word counts:</p>
-                        <ul>
-                            <li><strong>Twitter/X:</strong> 280 characters maximum</li>
-                            <li><strong>Instagram Captions:</strong> 125-150 characters for optimal engagement</li>
-                            <li><strong>Email Subject Lines:</strong> 6-10 words for highest open rates</li>
-                            <li><strong>Blog Posts:</strong> 1,500-2,500 words for comprehensive coverage</li>
-                            <li><strong>Academic Abstracts:</strong> 150-300 words typically</li>
-                        </ul>
-                        
-                        <p>Our Word Counter tool helps you meet these standards effortlessly, ensuring your content is always appropriately sized for its purpose and audience.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <section class="related-tools">
-            <div class="container">
-                <h2 class="section-title">Related Text Analysis Tools</h2>
-                
-                <div class="tools-grid">
-                    <a href="#" class="tool-card">
-                        <div class="tool-card-icon">
-                            <i class="fas fa-text-width"></i>
-                        </div>
-                        <h3>Character Counter</h3>
-                        <p>Count characters with and without spaces for social media, SEO meta descriptions, and more.</p>
-                    </a>
-                    
-                    <a href="#" class="tool-card">
-                        <div class="tool-card-icon">
-                            <i class="fas fa-sentence"></i>
-                        </div>
-                        <h3>Sentence Counter</h3>
-                        <p>Analyze sentence structure, length, and complexity for better writing flow.</p>
-                    </a>
-                    
-                    <a href="#" class="tool-card">
-                        <div class="tool-card-icon">
-                            <i class="fas fa-clock"></i>
-                        </div>
-                        <h3>Reading Time Calculator</h3>
-                        <p>Calculate estimated reading time for articles, blogs, and documents.</p>
-                    </a>
-                    
-                    <a href="#" class="tool-card">
-                        <div class="tool-card-icon">
-                            <i class="fas fa-percentage"></i>
-                        </div>
-                        <h3>Keyword Density Checker</h3>
-                        <p>Analyze keyword usage and density for SEO optimization.</p>
-                    </a>
-                </div>
-            </div>
-        </section>
-    </main>
-    
-    <footer id="contact">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-about">
-                    <div class="footer-logo">
-                        <div class="footer-logo-icon">
-                            <i class="fas fa-font"></i>
-                        </div>
-                        <h3>WordCounter</h3>
-                    </div>
-                    <p>Free online word counter tool for writers, students, bloggers, and professionals. Count words, characters, sentences, paragraphs, and reading time instantly.</p>
-                    
-                    <div class="contact-info">
-                        <div class="contact-item">
-                            <i class="fas fa-envelope"></i>
-                            <span>toolvala@gmail.com</span>
-                        </div>
-                        <div class="contact-item">
-                            <i class="fas fa-globe"></i>
-                            
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="footer-links">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="#tool">Word Counter Tool</a></li>
-                        <li><a href="#how-it-works">How It Works</a></li>
-                        <li><a href="#importance">Importance of Word Count</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Service</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-links">
-                    <h4>Popular Tools</h4>
-                    <ul>
-                        <li><a href="#">Character Counter</a></li>
-                        <li><a href="#">Sentence Counter</a></li>
-                        <li><a href="#">Reading Time Calculator</a></li>
-                        <li><a href="#">Plagiarism Checker</a></li>
-                        
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="copyright">
-                
-            </div>
-        </div>
-    </footer>
-    
-    <script>
-        // DOM Elements
-        const textInput = document.getElementById('textInput');
-        const wordCount = document.getElementById('wordCount');
-        const charCount = document.getElementById('charCount');
-        const sentenceCount = document.getElementById('sentenceCount');
-        const paragraphCount = document.getElementById('paragraphCount');
-        const readingTime = document.getElementById('readingTime');
-        const countBtn = document.getElementById('countBtn');
-        const clearBtn = document.getElementById('clearBtn');
-        const pasteBtn = document.getElementById('pasteBtn');
-        const copyBtn = document.getElementById('copyBtn');
-        
-        // Initialize the tool with zero values
-        function initializeTool() {
-            wordCount.textContent = "0";
-            charCount.textContent = "0";
-            sentenceCount.textContent = "0";
-            paragraphCount.textContent = "0";
-            readingTime.textContent = "0";
-            textInput.value = "";
-            updateStatColors();
-        }
-        
-        // Initial count on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeTool();
-            
-            // Add auto-save functionality
-            if (localStorage.getItem('savedText')) {
-                textInput.value = localStorage.getItem('savedText');
-                countWords();
-            }
-            
-            // Add placeholder text for empty state
-            textInput.addEventListener('focus', function() {
-                if (this.value === "") {
-                    this.style.color = "#1e293b";
-                }
-            });
-            
-            textInput.addEventListener('blur', function() {
-                if (this.value === "") {
-                    this.style.color = "#1e293b";
-                }
-            });
-        });
-        
-        // Count words on button click
-        countBtn.addEventListener('click', countWords);
-        
-        // Count words automatically as user types
-        textInput.addEventListener('input', function() {
-            countWords();
-            // Auto-save text
-            localStorage.setItem('savedText', textInput.value);
-        });
-        
-        // Clear text
-        clearBtn.addEventListener('click', function() {
-            textInput.value = '';
-            countWords();
-            localStorage.removeItem('savedText');
-            showNotification('Text cleared successfully!');
-        });
-        
-        // Paste text from clipboard
-        pasteBtn.addEventListener('click', function() {
-            if (navigator.clipboard && navigator.clipboard.readText) {
-                navigator.clipboard.readText()
-                    .then(text => {
-                        textInput.value = text;
-                        countWords();
-                        showNotification('Text pasted from clipboard!');
-                    })
-                    .catch(err => {
-                        console.error('Failed to read clipboard:', err);
-                        // Fallback for browsers that don't support Clipboard API
-                        textInput.focus();
-                        document.execCommand('paste');
-                        setTimeout(countWords, 100);
-                        showNotification('Text pasted!');
-                    });
-            } else {
-                // Fallback for older browsers
-                textInput.focus();
-                document.execCommand('paste');
-                setTimeout(countWords, 100);
-                showNotification('Text pasted!');
-            }
-        });
-        
-        // Copy results
-        copyBtn.addEventListener('click', function() {
-            const results = `Word Count Results:\nWords: ${wordCount.textContent}\nCharacters: ${charCount.textContent}\nSentences: ${sentenceCount.textContent}\nParagraphs: ${paragraphCount.textContent}\nReading Time: ${readingTime.textContent} minutes`;
-            
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(results)
-                    .then(() => {
-                        showNotification('Results copied to clipboard!');
-                    })
-                    .catch(err => {
-                        console.error('Failed to copy:', err);
-                        copyToClipboardFallback(results);
-                    });
-            } else {
-                copyToClipboardFallback(results);
-            }
-        });
-        
-        // Fallback copy method for older browsers
-        function copyToClipboardFallback(text) {
-            const textArea = document.createElement('textarea');
-            textArea.value = text;
-            document.body.appendChild(textArea);
-            textArea.select();
-            
-            try {
-                const successful = document.execCommand('copy');
-                if (successful) {
-                    showNotification('Results copied to clipboard!');
-                } else {
-                    showNotification('Unable to copy results. Please copy manually.');
-                }
-            } catch (err) {
-                console.error('Fallback copy failed:', err);
-                showNotification('Unable to copy results. Please copy manually.');
-            }
-            
-            document.body.removeChild(textArea);
-        }
-        
-        // Main counting function - FIXED VERSION
-        function countWords() {
-            const text = textInput.value;
-            
-            // Word count (improved regex)
-            const words = text.trim() === "" ? [] : text.match(/\b[\w']+\b/g) || [];
-            wordCount.textContent = words.length;
-            
-            // Character count (including spaces)
-            charCount.textContent = text.length;
-            
-            // Sentence count (improved to handle multiple punctuations)
-            const sentences = text.trim() === "" ? [] : text.split(/[.!?]+/).filter(s => s.trim().length > 0);
-            sentenceCount.textContent = sentences.length;
-            
-            // Paragraph count
-            const paragraphs = text.trim() === "" ? [] : text.split(/\n+/).filter(p => p.trim().length > 0);
-            paragraphCount.textContent = paragraphs.length;
-            
-            // Reading time (average 200 words per minute)
-            const readingTimeMinutes = Math.ceil(words.length / 200);
-            readingTime.textContent = readingTimeMinutes;
-            
-            // Update statistics colors based on values
-            updateStatColors();
-        }
-        
-        // Update stat colors for visual feedback
-        function updateStatColors() {
-            const stats = [
-                { element: wordCount, value: parseInt(wordCount.textContent) || 0, thresholds: [0, 100, 500, 1000] },
-                { element: charCount, value: parseInt(charCount.textContent) || 0, thresholds: [0, 500, 2000, 5000] },
-                { element: sentenceCount, value: parseInt(sentenceCount.textContent) || 0, thresholds: [0, 5, 20, 50] },
-                { element: paragraphCount, value: parseInt(paragraphCount.textContent) || 0, thresholds: [0, 3, 10, 20] },
-                { element: readingTime, value: parseInt(readingTime.textContent) || 0, thresholds: [0, 2, 5, 10] }
-            ];
-            
-            stats.forEach(stat => {
-                let color = '#10b981'; // Green (default)
-                
-                if (stat.value > stat.thresholds[3]) color = '#ef4444'; // Red (very high)
-                else if (stat.value > stat.thresholds[2]) color = '#f59e0b'; // Orange (high)
-                else if (stat.value > stat.thresholds[1]) color = '#3b82f6'; // Blue (medium)
-                
-                stat.element.style.color = color;
-            });
-        }
-        
-        // Show notification
-        function showNotification(message) {
-            // Remove existing notification
-            const existingNotification = document.querySelector('.notification');
-            if (existingNotification) {
-                existingNotification.remove();
-            }
-            
-            // Create new notification
-            const notification = document.createElement('div');
-            notification.className = 'notification';
-            notification.innerHTML = `
-                <div style="
-                    position: fixed;
-                    top: 20px;
-                    right: 20px;
-                    background: linear-gradient(135deg, #10b981, #3b82f6);
-                    color: white;
-                    padding: 15px 25px;
-                    border-radius: 10px;
-                    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-                    z-index: 1000;
-                    font-weight: 600;
-                    animation: slideIn 0.5s ease;
-                ">
-                    <i class="fas fa-check-circle" style="margin-right: 10px;"></i>
-                    ${message}
-                </div>
-            `;
-            
-            document.body.appendChild(notification);
-            
-            // Add CSS for animation if not already added
-            if (!document.querySelector('#notification-style')) {
-                const style = document.createElement('style');
-                style.id = 'notification-style';
-                style.textContent = `
-                    @keyframes slideIn {
-                        from { transform: translateX(100%); opacity: 0; }
-                        to { transform: translateX(0); opacity: 1; }
-                    }
-                    @keyframes slideOut {
-                        from { transform: translateX(0); opacity: 1; }
-                        to { transform: translateX(100%); opacity: 0; }
-                    }
-                `;
-                document.head.appendChild(style);
-            }
-            
-            // Remove notification after 3 seconds
-            setTimeout(() => {
-                if (notification.parentNode) {
-                    const notificationDiv = notification.querySelector('div');
-                    notificationDiv.style.animation = 'slideOut 0.5s ease forwards';
-                    setTimeout(() => {
-                        if (notification.parentNode) {
-                            notification.remove();
-                        }
-                    }, 500);
-                }
-            }, 3000);
-        }
-        
-        // Add smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
-                
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-        
-        // Add keyboard shortcuts
-        document.addEventListener('keydown', function(e) {
-            // Ctrl + Enter to count words
-            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-                countWords();
-                e.preventDefault();
-            }
-            
-            // Ctrl + L to clear text
-            if ((e.ctrlKey || e.metaKey) && e.key === 'l') {
-                textInput.value = '';
-                countWords();
-                showNotification('Text cleared!');
-                e.preventDefault();
-            }
-            
-            // Ctrl + V to paste (but allow normal paste in textarea)
-            if ((e.ctrlKey || e.metaKey) && e.key === 'v' && document.activeElement !== textInput) {
-                pasteBtn.click();
-                e.preventDefault();
-            }
-        });
-    </script>
+<div class="container">
+
+<!-- TOOL -->
+<div class="card">
+<h1>Live Word & Character Counter (Hindi + English)</h1>
+<p>Type or paste text below. Word count updates instantly.</p>
+
+<textarea id="textInput" placeholder="यहाँ लिखें या paste करें / Type or paste text here..."></textarea>
+
+<div class="stats">
+<div class="stat">Words<br><span id="wordCount">0</span></div>
+<div class="stat">Characters<br><span id="charCount">0</span></div>
+<div class="stat">Characters (No Spaces)<br><span id="charNoSpace">0</span></div>
+<div class="stat">Sentences<br><span id="sentenceCount">0</span></div>
+<div class="stat">Paragraphs<br><span id="paragraphCount">0</span></div>
+<div class="stat">Reading Time<br><span id="readingTime">0</span> min</div>
+</div>
+</div>
+
+<!-- SEO CONTENT -->
+<article>
+
+<h2>Free Live Word Counter Tool by Toolvala</h2>
+
+<p>
+A word counter is one of the most essential tools for writers, students, teachers, bloggers, journalists, and government exam aspirants. Many platforms enforce strict word and character limits, and exceeding or falling short of these limits can lead to rejection or penalties.
+</p>
+
+<p>
+Toolvala’s Live Word & Character Counter is designed to give instant and accurate results for both English and Indian languages like Hindi. Unlike basic tools that fail on complex scripts, this tool uses Unicode-safe logic that correctly counts Hindi words written in Devanagari script.
+</p>
+
+<h2>Why Accurate Word Counting Is Important</h2>
+
+<p>
+In competitive exams such as UPSC, SSC, State PSCs, and university examinations, word limits are strictly monitored. Even five extra words can impact evaluation. Bloggers and SEO writers also rely on minimum word counts to rank better on search engines.
+</p>
+
+<p>
+Our tool updates word count live as you type, ensuring complete control over your content length.
+</p>
+
+<h2>Features of Toolvala Word Counter</h2>
+
+<ul>
+<li>Live word counter</li>
+<li>Character count with and without spaces</li>
+<li>Sentence and paragraph counter</li>
+<li>Reading time estimation</li>
+<li>Hindi & English language support</li>
+<li>100% browser-based & privacy-safe</li>
+</ul>
+
+<h2>How This Tool Works</h2>
+
+<p>
+The tool first normalizes all whitespace and line breaks. It then counts words based on real visual separation instead of unreliable regular expressions. This ensures accurate results for Hindi matras, combined characters, and mixed-language text.
+</p>
+
+<h2>Use Cases</h2>
+
+<h3>Students</h3>
+<p>
+Perfect for assignments, essays, and exam answers with strict limits.</p>
+
+<h3>Bloggers & SEO Writers</h3>
+<p>
+Ensure articles meet SEO word-count requirements.</p>
+
+<h3>Government Exam Aspirants</h3>
+<p>
+Accurate counting for Hindi & English answers.</p>
+
+<h2>Privacy Guarantee</h2>
+
+<p>
+All processing happens in your browser. No text is uploaded or stored. Your content remains 100% private.
+</p>
+
+<h2>Conclusion</h2>
+
+<p>
+Toolvala’s Live Word & Character Counter is a reliable, fast, and accurate solution for anyone who needs precise content length measurement. Whether you write in Hindi or English, this tool delivers professional-grade accuracy.
+</p>
+
+</article>
+</div>
+
+<script>
+const textInput = document.getElementById("textInput");
+
+const wordCount = document.getElementById("wordCount");
+const charCount = document.getElementById("charCount");
+const charNoSpace = document.getElementById("charNoSpace");
+const sentenceCount = document.getElementById("sentenceCount");
+const paragraphCount = document.getElementById("paragraphCount");
+const readingTime = document.getElementById("readingTime");
+
+function countText(){
+    const text = textInput.value;
+
+    const cleaned = text
+        .replace(/\u00A0/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+
+    const words = cleaned === "" ? 0 : cleaned.split(" ").filter(w => w.length > 0).length;
+    const chars = text.length;
+    const charsNoSp = text.replace(/\s/g,"").length;
+    const sentences = cleaned === "" ? 0 : cleaned.split(/[.!?।]+/).filter(s => s.trim().length > 0).length;
+    const paragraphs = text === "" ? 0 : text.split(/\n+/).filter(p => p.trim().length > 0).length;
+    const readTime = words === 0 ? 0 : Math.ceil(words / 200);
+
+    wordCount.textContent = words;
+    charCount.textContent = chars;
+    charNoSpace.textContent = charsNoSp;
+    sentenceCount.textContent = sentences;
+    paragraphCount.textContent = paragraphs;
+    readingTime.textContent = readTime;
+}
+
+textInput.addEventListener("input", countText);
+</script>
+
 </body>
 </html>
+
