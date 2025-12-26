@@ -1,2 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>HTML Sitemap – Toolvala</title>
 
-<div id="mysitemapgenerator_loadcorsdata" data-token="5b31d89465b22bbdfe3ff97931ab083f" data-domain="www.mysitemapgenerator.com"></div><script src="https://cdn.mysitemapgenerator.com/api/embedmap.m.js"></script>
+<meta name="description" content="Browse all free online tools on Toolvala. This HTML sitemap lists every available tool automatically.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="canonical" href="https://www.toolvala.in/sitemap.html">
+
+<style>
+body{
+  font-family:Arial, sans-serif;
+  background:#f9fafb;
+  margin:0;
+  padding:20px;
+}
+h1{
+  text-align:center;
+}
+.sitemap{
+  max-width:1100px;
+  margin:auto;
+}
+ul{
+  list-style:none;
+  padding:0;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:10px;
+}
+li{
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:6px;
+  padding:10px;
+}
+a{
+  text-decoration:none;
+  color:#2563eb;
+  font-weight:500;
+}
+a:hover{
+  text-decoration:underline;
+}
+.loader{
+  text-align:center;
+  color:#666;
+}
+</style>
+</head>
+
+<body>
+
+<div class="sitemap">
+<h1>Toolvala HTML Sitemap</h1>
+<p class="loader" id="status">Loading tools…</p>
+<ul id="sitemap-list"></ul>
+</div>
+
+<script>
+const SITEMAP_URL = "https://www.toolvala.in/sitemap.xml";
+
+fetch(SITEMAP_URL)
+  .then(res => res.text())
+  .then(xmlText => {
+    const parser = new DOMParser();
+    const xml = parser.parseFromString(xmlText, "text/xml");
+    const urls = xml.getElementsByTagName("loc");
+
+    const list = document.getElementById("sitemap-list");
+    document.getElementById("status").style.display = "none";
+
+    for (let i = 0; i < urls.length; i++) {
+      const url = urls[i].textContent;
+      const slug = url.replace("https://www.toolvala.in/", "")
+                      .replace(".html","")
+                      .replace(/-/g," ")
+                      .replace(/\b\w/g, c => c.toUpperCase()) || "Home";
+
+      const li = document.createElement("li");
+      li.innerHTML = `<a href="${url}">${slug}</a>`;
+      list.appendChild(li);
+    }
+  })
+  .catch(() => {
+    document.getElementById("status").textContent =
+      "Unable to load sitemap.";
+  });
+</script>
+
+</body>
+</html>
+
