@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>HTML Sitemap – Toolvala</title>
 
-<meta name="description" content="Browse all free online tools on Toolvala. This HTML sitemap lists every available tool automatically.">
+<meta name="description" content="Browse all free online tools on Toolvala. This HTML sitemap is auto-generated from our sitemap.xml.">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="canonical" href="https://www.toolvala.in/sitemap.html">
 
@@ -15,9 +15,7 @@ body{
   margin:0;
   padding:20px;
 }
-h1{
-  text-align:center;
-}
+h1{text-align:center;}
 .sitemap{
   max-width:1100px;
   margin:auto;
@@ -40,12 +38,11 @@ a{
   color:#2563eb;
   font-weight:500;
 }
-a:hover{
-  text-decoration:underline;
-}
-.loader{
+a:hover{text-decoration:underline;}
+#status{
   text-align:center;
   color:#666;
+  margin-bottom:15px;
 }
 </style>
 </head>
@@ -54,7 +51,7 @@ a:hover{
 
 <div class="sitemap">
 <h1>Toolvala HTML Sitemap</h1>
-<p class="loader" id="status">Loading tools…</p>
+<p id="status">Loading tools…</p>
 <ul id="sitemap-list"></ul>
 </div>
 
@@ -63,29 +60,37 @@ const SITEMAP_URL = "https://www.toolvala.in/sitemap.xml";
 
 fetch(SITEMAP_URL)
   .then(res => res.text())
-  .then(xmlText => {
+  .then(text => {
     const parser = new DOMParser();
-    const xml = parser.parseFromString(xmlText, "text/xml");
-    const urls = xml.getElementsByTagName("loc");
+    const xml = parser.parseFromString(text, "text/xml");
+
+    // ✅ Namespace-safe selector
+    const urls = xml.querySelectorAll("loc");
 
     const list = document.getElementById("sitemap-list");
-    document.getElementById("status").style.display = "none";
+    const status = document.getElementById("status");
+    status.style.display = "none";
 
-    for (let i = 0; i < urls.length; i++) {
-      const url = urls[i].textContent;
-      const slug = url.replace("https://www.toolvala.in/", "")
-                      .replace(".html","")
-                      .replace(/-/g," ")
-                      .replace(/\b\w/g, c => c.toUpperCase()) || "Home";
+    urls.forEach(loc => {
+      const url = loc.textContent.trim();
+
+      let title = url
+        .replace("https://www.toolvala.in/", "")
+        .replace(".html","")
+        .replace(/-/g," ")
+        .replace(/\b\w/g, c => c.toUpperCase());
+
+      if (title === "") title = "Home";
 
       const li = document.createElement("li");
-      li.innerHTML = `<a href="${url}">${slug}</a>`;
+      li.innerHTML = `<a href="${url}">${title}</a>`;
       list.appendChild(li);
-    }
+    });
   })
-  .catch(() => {
+  .catch(err => {
     document.getElementById("status").textContent =
       "Unable to load sitemap.";
+    console.error(err);
   });
 </script>
 
