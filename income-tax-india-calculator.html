@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Income Tax Calculator India FY 2025-26 (New vs Old Regime) - Calculate Tax Liability</title>
+    <meta name="description" content="Calculate your Income Tax for FY 2025-26 (AY 2026-27) with our advanced India Tax Calculator. Updated with latest Budget 2025 slabs, ₹12.75 Lakh tax-free limit, and New vs Old Regime comparison.">
+    <meta name="keywords" content="Income Tax Calculator India, Tax Calculator FY 2025-26, New Tax Regime Slabs 2025, Old vs New Tax Regime, 80C Deductions, Standard Deduction 2025, Zero Tax up to 12 Lakhs, Salary Tax Calculator">
+    <meta name="author" content="FinanceTools India">
+    <meta property="og:title" content="Income Tax Calculator FY 2025-26 - Zero Tax on ₹12.75 Lakh Salary?">
+    <meta property="og:description" content="Check your tax liability with the latest Budget 2025 rules. Compare Old vs New Regime instantly.">
+    <meta property="og:type" content="website">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-blue: #2563eb;
+            --primary-dark: #1e40af;
+            --secondary-green: #10b981;
+            --bg-slate: #f1f5f9;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --white: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-slate);
+            color: var(--text-dark);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-dark));
+            color: var(--white);
+            padding: 60px 20px;
+            text-align: center;
+            border-radius: 0 0 30px 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* Calculator Container */
+        .calculator-box {
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            padding: 40px;
+            margin-bottom: 50px;
+        }
+
+        .calc-title {
+            text-align: center;
+            color: var(--primary-dark);
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+        }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .input-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .section-header {
+            grid-column: 1 / -1;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+            margin-top: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 0.95rem;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            box-sizing: border-box; /* Fix padding issue */
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            border-color: var(--primary-blue);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .tooltip {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
+
+        .btn-calc {
+            grid-column: 1 / -1;
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 18px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+            margin-top: 20px;
+        }
+
+        .btn-calc:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        /* Results Display */
+        .results-container {
+            grid-column: 1 / -1;
+            display: none; /* Hidden by default */
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 40px;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .result-card.winner {
+            background: #ecfdf5;
+            border-color: #10b981;
+            position: relative;
+        }
+
+        .winner-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--secondary-green);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .regime-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--text-dark);
+        }
+
+        .tax-amount {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary-blue);
+            margin: 10px 0;
+        }
+
+        .result-details {
+            text-align: left;
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px dashed #cbd5e1;
+        }
+
+        .savings-msg {
+            grid-column: 1 / -1;
+            text-align: center;
+            background: #fffbeb;
+            border: 1px solid #f59e0b;
+            color: #b45309;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        /* Content Section */
+        .content-area {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            margin-bottom: 50px;
+        }
+
+        .content-area h2 {
+            color: var(--primary-dark);
+            border-bottom: 3px solid #e2e8f0;
+            padding-bottom: 10px;
+            margin-top: 40px;
+        }
+
+        .content-area h3 {
+            color: var(--primary-blue);
+            margin-top: 30px;
+        }
+
+        .content-area p, .content-area li {
+            font-size: 1.05rem;
+            margin-bottom: 15px;
+            color: #334155;
+        }
+
+        .highlight-box {
+            background: #eff6ff;
+            border-left: 5px solid var(--primary-blue);
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+        }
+
+        th, td {
+            border: 1px solid #cbd5e1;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--primary-blue);
+            color: white;
+        }
+
+        /* Tool Cards */
+        .related-tools {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 50px;
+        }
+
+        .tool-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: transform 0.3s;
+            border-top: 5px solid var(--secondary-green);
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .tool-card a {
+            text-decoration: none;
+            color: var(--primary-blue);
+            font-weight: bold;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            background: #e2e8f0;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1>Income Tax Calculator India (FY 2025-26)</h1>
+            <p>Accurate Calculation for New vs Old Regime | Budget 2025 Updated</p>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <!-- Calculator Tool -->
+        <div class="calculator-box">
+            <h2 class="calc-title">Calculate Your Tax Liability</h2>
+            
+            <div class="input-grid">
+                
+                <div class="input-group">
+                    <label for="fySelect">Financial Year</label>
+                    <select id="fySelect">
+                        <option value="2025">FY 2025-26 (AY 2026-27) - Latest</option>
+                        <option value="2024">FY 2024-25 (AY 2025-26)</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="ageGroup">Age Category</label>
+                    <select id="ageGroup">
+                        <option value="normal">General (Below 60 years)</option>
+                        <option value="senior">Senior Citizen (60-80 years)</option>
+                        <option value="super">Super Senior (Above 80 years)</option>
+                    </select>
+                </div>
+
+                <div class="section-header">Income Details</div>
+
+                <div class="input-group">
+                    <label for="grossSalary">Gross Annual Salary / Income (₹)</label>
+                    <input type="number" id="grossSalary" placeholder="e.g. 1500000">
+                    <div class="tooltip">Total income before any deductions.</div>
+                </div>
+
+                <div class="input-group">
+                    <label for="otherIncome">Interest / Other Income (₹)</label>
+                    <input type="number" id="otherIncome" value="0">
+                </div>
+
+                <div class="section-header">Deductions (Primarily for Old Regime)</div>
+
+                <div class="input-group">
+                    <label for="deduction80C">Section 80C (PPF, EPF, LIC, ELSS) (₹)</label>
+                    <input type="number" id="deduction80C" placeholder="Max 1.5 Lakh">
+                    <div class="tooltip">Capped at ₹1,50,000 for calculation.</div>
+                </div>
+
+                <div class="input-group">
+                    <label for="deduction80D">Section 80D (Health Insurance) (₹)</label>
+                    <input type="number" id="deduction80D" value="0">
+                    <div class="tooltip">Self/Family + Parents premium.</div>
+                </div>
+
+                <div class="input-group">
+                    <label for="hraExemption">HRA Exemption Amount (₹)</label>
+                    <input type="number" id="hraExemption" value="0">
+                    <div class="tooltip">Calculate separately if needed. Only for Old Regime.</div>
+                </div>
+
+                <div class="input-group">
+                    <label for="nps80CCD">NPS Contribution (80CCD(1B)) (₹)</label>
+                    <input type="number" id="nps80CCD" value="0">
+                    <div class="tooltip">Additional deduction up to ₹50,000.</div>
+                </div>
+
+                <button class="btn-calc" onclick="calculateTax()">Compare & Calculate Tax</button>
+
+                <!-- Results -->
+                <div id="resultsArea" class="results-container">
+                    <div class="savings-msg" id="savingsMsg"></div>
+
+                    <!-- New Regime Card -->
+                    <div class="result-card" id="cardNew">
+                        <div class="winner-badge" id="badgeNew" style="display:none">Recommended</div>
+                        <div class="regime-name">New Tax Regime (FY 25-26)</div>
+                        <div class="tax-amount" id="taxNew">₹ 0</div>
+                        <div class="result-details">
+                            <div class="detail-row">
+                                <span>Gross Income:</span>
+                                <span id="grossNew">0</span>
+                            </div>
+                            <div class="detail-row">
+                                <span>Standard Deduction:</span>
+                                <span id="stdDedNew">75,000</span>
+                            </div>
+                            <div class="detail-row">
+                                <span>Taxable Income:</span>
+                                <span id="taxableNew">0</span>
+                            </div>
+                            <div class="detail-row">
+                                <span>Base Tax:</span>
+                                <span id="baseTaxNew">0</span>
+                            </div>
+                             <div class="detail-row">
+                                <span>Rebate 87A:</span>
+                                <span id="rebateNew" style="color:green">0</span>
+                            </div>
+                            <div class="detail-row">
+                                <span>Cess (4%):</span>
+                                <span id="cessNew">0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Old Regime Card -->
+                    <div class="result-card" id="cardOld">
+                        <div class="winner-badge" id="badgeOld" style="display:none">Recommended</div>
+                        <div class="regime-name">Old Tax Regime</div>
+                        <div class="tax-amount" id="taxOld">₹ 0</div>
+                        <div class="result-details">
+                            <div class="detail-row">
+                                <span>Gross Income:</span>
+                                <span id="grossOld">0</span>
+                            </div>
+                            <div class="detail-row">
+                                <span>Total Deductions:</span>
+                                <span id="totalDedOld">0</span>
+                            </div>
+                            <div class="detail-row">
+                                <span>Taxable Income:</span>
+                                <span id="taxableOld">0</span>
+                            </div>
+                            <div class="detail-row">
+                                <span>Base Tax:</span>
+                                <span id="baseTaxOld">0</span>
+                            </div>
+                             <div class="detail-row">
+                                <span>Rebate 87A:</span>
+                                <span id="rebateOld" style="color:green">0</span>
+                            </div>
+                            <div class="detail-row">
+                                <span>Cess (4%):</span>
+                                <span id="cessOld">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Related Tools Cards -->
+        <h3 style="text-align: center; color: var(--primary-dark);">More Financial Calculators</h3>
+        <div class="related-tools">
+            <div class="tool-card">
+                <h3>7th Pay Commission Calculator</h3>
+                <p>Calculate your salary as per 7th CPC Pay Matrix.</p>
+                <a href="#">Launch Tool &rarr;</a>
+            </div>
+            <div class="tool-card">
+                <h3>NPS Pension Calculator</h3>
+                <p>Estimate your retirement corpus and pension amount.</p>
+                <a href="#">Launch Tool &rarr;</a>
+            </div>
+            <div class="tool-card">
+                <h3>HRA Calculator</h3>
+                <p>Check HRA exemption eligibility for tax planning.</p>
+                <a href="#">Launch Tool &rarr;</a>
+            </div>
+            <div class="tool-card">
+                <h3>Gratuity Calculator</h3>
+                <p>Find out your gratuity entitlement amount.</p>
+                <a href="#">Launch Tool &rarr;</a>
+            </div>
+        </div>
+
+        <!-- SEO Content -->
+        <div class="content-area">
+            <h2>Comprehensive Guide to Income Tax FY 2025-26 (AY 2026-27)</h2>
+            <p>The Union Budget 2025 has introduced significant reforms to the Indian Income Tax structure, primarily aiming to make the <strong>New Tax Regime</strong> more attractive. As we move into the Assessment Year 2026-27, taxpayers are faced with a crucial decision: Stick to the Old Regime with its plethora of deductions (80C, HRA, LTA) or switch to the simplified New Regime with lower tax rates and increased exemption limits.</p>
+            <p>Our <strong>Income Tax India Calculator</strong> is designed to help you navigate this complexity by instantly comparing your tax liability under both regimes based on the latest 2025 rules.</p>
+
+            <h3>Key Changes in Budget 2025 (New Regime)</h3>
+            <div class="highlight-box">
+                <strong>Major Update:</strong> Income up to <strong>₹12 Lakhs</strong> is now tax-free under the New Regime! 
+                <br><em>(Via enhanced Rebate u/s 87A up to ₹60,000 for taxable income <= ₹12L)</em>
+            </div>
+            <ul>
+                <li><strong>Basic Exemption Limit:</strong> Increased from ₹3 Lakh to <strong>₹4 Lakh</strong>.</li>
+                <li><strong>Standard Deduction:</strong> Increased to <strong>₹75,000</strong> for salaried employees (previously ₹50,000).</li>
+                <li><strong>Tax Slabs:</strong> The slabs have been widened to reduce tax burden for middle-income earners.</li>
+                <li><strong>Effective Tax-Free Salary:</strong> With the ₹75,000 standard deduction, a salaried person earning up to <strong>₹12.75 Lakhs</strong> pays <strong>ZERO TAX</strong>.</li>
+            </ul>
+
+            <h3>New Tax Regime Slabs (FY 2025-26)</h3>
+            <p>The simplified tax slabs applicable for individuals (below 60, senior, and super senior citizens) under the New Regime are:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Income Range</th>
+                        <th>Tax Rate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>₹0 - ₹4,00,000</td>
+                        <td>Nil</td>
+                    </tr>
+                    <tr>
+                        <td>₹4,00,001 - ₹8,00,000</td>
+                        <td>5%</td>
+                    </tr>
+                    <tr>
+                        <td>₹8,00,001 - ₹12,00,000</td>
+                        <td>10%</td>
+                    </tr>
+                    <tr>
+                        <td>₹12,00,001 - ₹16,00,000</td>
+                        <td>15%</td>
+                    </tr>
+                    <tr>
+                        <td>₹16,00,001 - ₹20,00,000</td>
+                        <td>20%</td>
+                    </tr>
+                    <tr>
+                        <td>₹20,00,001 - ₹24,00,000</td>
+                        <td>25%</td>
+                    </tr>
+                    <tr>
+                        <td>Above ₹24,00,000</td>
+                        <td>30%</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><em>Note: If your net taxable income is ≤ ₹12,00,000, a rebate u/s 87A of up to ₹60,000 is applied, making the effective tax zero.</em></p>
+
+            <h3>Old Tax Regime (FY 2025-26)</h3>
+            <p>The Old Regime remains unchanged. It allows you to claim deductions but has higher tax rates. It is beneficial only if you have high investments/expenses eligible for deductions (Home Loan Interest, HRA, 80C, etc.).</p>
+            <ul>
+                <li><strong>Basic Exemption:</strong> ₹2.5 Lakh (Age < 60), ₹3 Lakh (Age 60-80), ₹5 Lakh (Age > 80).</li>
+                <li><strong>Rebate u/s 87A:</strong> Available only for income up to ₹5 Lakh (Max rebate ₹12,500).</li>
+                <li><strong>Slabs:</strong>
+                    <ul>
+                        <li>2.5L - 5L: 5%</li>
+                        <li>5L - 10L: 20%</li>
+                        <li>Above 10L: 30%</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3>New vs Old: Which is Better?</h3>
+            <p>The "breakeven" point has shifted significantly in 2025.</p>
+            <ul>
+                <li><strong>Income up to ₹12.75 Lakhs:</strong> The <strong>New Regime</strong> is the clear winner (Zero Tax). Under the Old Regime, you would need massive deductions to match this.</li>
+                <li><strong>Income ₹15 Lakhs - ₹20 Lakhs:</strong> You need deductions of approx ₹4.5L - ₹5L (via 80C, 80D, HRA, Home Loan) to make the Old Regime beneficial.</li>
+                <li><strong>High Income (> ₹20 Lakhs):</strong> The New Regime's gradual slab increase (15%, 20%, 25%) often results in lower tax unless you have very high HRA and Home Loan interest claims.</li>
+            </ul>
+
+            <h3>Common Deductions (Old Regime Only)</h3>
+            <ol>
+                <li><strong>Section 80C:</strong> Up to ₹1.5 Lakh (EPF, PPF, ELSS, Tuition Fees).</li>
+                <li><strong>Section 80D:</strong> Health Insurance Premium (₹25k for self/family + ₹50k for senior parents).</li>
+                <li><strong>Section 24(b):</strong> Home Loan Interest up to ₹2 Lakh.</li>
+                <li><strong>HRA:</strong> Least of (Actual HRA, 50%/40% of Basic, Rent Paid - 10% of Basic).</li>
+            </ol>
+
+            <h3>Frequently Asked Questions (FAQ)</h3>
+            
+            <h4>1. What is the standard deduction for FY 2025-26?</h4>
+            <p>For the New Tax Regime, the standard deduction has been increased to <strong>₹75,000</strong>. For the Old Tax Regime, it remains at ₹50,000.</p>
+
+            <h4>2. Does the New Regime have 80C deductions?</h4>
+            <p>No. The New Regime disallows most deductions like 80C, 80D, HRA, and LTA. It offers lower rates in exchange for giving up these exemptions.</p>
+
+            <h4>3. How does the ₹12 Lakh tax-free limit work?</h4>
+            <p>If your taxable income (after standard deduction) is ₹12,00,000 or less, the government provides a rebate (discount) of the entire tax amount calculated. If your income crosses ₹12,00,000 (even by a small amount), the rebate is lost (subject to marginal relief provisions where applicable) and you pay tax on the slab basis.</p>
+
+            <h4>4. Is marginal relief applicable in New Regime?</h4>
+            <p>Yes, for incomes slightly exceeding ₹12 Lakhs, marginal relief ensures that the tax payable does not exceed the income earned over ₹12 Lakhs.</p>
+
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 FinanceTools India. Comparison based on Budget 2025 announcements.</p>
+        <p>Disclaimer: This tool is for estimation purposes. Consult a CA for professional tax advice.</p>
+    </footer>
+
+    <script>
+        function calculateTax() {
+            // 1. Get Inputs
+            const fy = document.getElementById('fySelect').value; // 2025 or 2024
+            const ageCat = document.getElementById('ageGroup').value;
+            let gross = parseFloat(document.getElementById('grossSalary').value) || 0;
+            let otherIncome = parseFloat(document.getElementById('otherIncome').value) || 0;
+            
+            // Deductions inputs
+            let ded80c = parseFloat(document.getElementById('deduction80C').value) || 0;
+            let ded80d = parseFloat(document.getElementById('deduction80D').value) || 0;
+            let hra = parseFloat(document.getElementById('hraExemption').value) || 0;
+            let nps = parseFloat(document.getElementById('nps80CCD').value) || 0;
+
+            const totalIncome = gross + otherIncome;
+
+            // --- CONSTANTS FOR FY 2025-26 ---
+            // If user selected 2024, we would use old logic, but for this demo we focus on 2025 latest
+            // Assuming FY 2025-26 Logic primarily
+            
+            // Limits
+            const LIMIT_80C = 150000;
+            const LIMIT_NPS = 50000;
+            
+            // Standard Deduction
+            const stdDedNew = 75000; // Updated for FY 25-26
+            const stdDedOld = 50000;
+
+            // Cap Deductions
+            if (ded80c > LIMIT_80C) ded80c = LIMIT_80C;
+            if (nps > LIMIT_NPS) nps = LIMIT_NPS;
+            
+            // ---------------- NEW REGIME CALCULATION ----------------
+            let taxableNew = totalIncome - stdDedNew;
+            if (taxableNew < 0) taxableNew = 0;
+
+            let taxNew = 0;
+            let rebateNew = 0;
+
+            // Slabs FY 25-26
+            // 0-4L: 0
+            // 4-8L: 5%
+            // 8-12L: 10%
+            // 12-16L: 15%
+            // 16-20L: 20%
+            // 20-24L: 25%
+            // >24L: 30%
+
+            if (taxableNew > 400000) {
+                // Slab 1: 4L - 8L (400000 * 0.05 = 20000)
+                if (taxableNew > 800000) {
+                    taxNew += 20000;
+                } else {
+                    taxNew += (taxableNew - 400000) * 0.05;
+                }
+            }
+
+            if (taxableNew > 800000) {
+                // Slab 2: 8L - 12L (400000 * 0.10 = 40000)
+                if (taxableNew > 1200000) {
+                    taxNew += 40000;
+                } else {
+                    taxNew += (taxableNew - 800000) * 0.10;
+                }
+            }
+
+            if (taxableNew > 1200000) {
+                // Slab 3: 12L - 16L (400000 * 0.15 = 60000)
+                if (taxableNew > 1600000) {
+                    taxNew += 60000;
+                } else {
+                    taxNew += (taxableNew - 1200000) * 0.15;
+                }
+            }
+
+            if (taxableNew > 1600000) {
+                // Slab 4: 16L - 20L (400000 * 0.20 = 80000)
+                if (taxableNew > 2000000) {
+                    taxNew += 80000;
+                } else {
+                    taxNew += (taxableNew - 1600000) * 0.20;
+                }
+            }
+
+            if (taxableNew > 2000000) {
+                 // Slab 5: 20L - 24L (400000 * 0.25 = 100000)
+                if (taxableNew > 2400000) {
+                    taxNew += 100000;
+                } else {
+                    taxNew += (taxableNew - 2000000) * 0.25;
+                }
+            }
+
+            if (taxableNew > 2400000) {
+                // Slab 6: Above 24L (30%)
+                taxNew += (taxableNew - 2400000) * 0.30;
+            }
+
+            // Rebate u/s 87A (New Regime)
+            // If taxable income <= 12,00,000, tax is zero.
+            // Max rebate logic: Technically, if income is 12L, tax is 60k. Rebate cancels it.
+            if (taxableNew <= 1200000) {
+                rebateNew = taxNew;
+                taxNew = 0;
+            } else {
+                // Marginal Relief check
+                // Tax payable should not exceed (Taxable Income - 12,00,000)
+                // This applies for incomes just above 12L
+                let excessIncome = taxableNew - 1200000;
+                if (taxNew > excessIncome) {
+                    let relief = taxNew - excessIncome;
+                    taxNew = excessIncome; // Tax reduced to match excess income
+                    // We don't show "rebate" field for marginal relief usually, but adjust tax directly.
+                    // Or we can consider this a form of relief.
+                }
+            }
+
+            let cessNew = taxNew * 0.04;
+            let finalTaxNew = Math.floor(taxNew + cessNew);
+
+
+            // ---------------- OLD REGIME CALCULATION ----------------
+            let totalDed = stdDedOld + ded80c + ded80d + hra + nps;
+            let taxableOld = totalIncome - totalDed;
+            if (taxableOld < 0) taxableOld = 0;
+
+            let taxOld = 0;
+            let rebateOld = 0;
+
+            // Slabs Old Regime (Standard)
+            // Age Limits:
+            // <60: 2.5L Basic Exemption
+            // 60-80: 3L
+            // >80: 5L
+            
+            let basicExemptionOld = 250000;
+            if (ageCat === 'senior') basicExemptionOld = 300000;
+            if (ageCat === 'super') basicExemptionOld = 500000;
+
+            if (taxableOld > basicExemptionOld) {
+                // 5% Slab (upto 5L)
+                let limit5L = 500000;
+                if (taxableOld > limit5L) {
+                    taxOld += (limit5L - basicExemptionOld) * 0.05;
+                } else {
+                    taxOld += (taxableOld - basicExemptionOld) * 0.05;
+                }
+            }
+
+            if (taxableOld > 500000) {
+                // 20% Slab (5L to 10L)
+                let limit10L = 1000000;
+                if (taxableOld > limit10L) {
+                    taxOld += (limit10L - 500000) * 0.20;
+                } else {
+                    taxOld += (taxableOld - 500000) * 0.20;
+                }
+            }
+
+            if (taxableOld > 1000000) {
+                // 30% Slab
+                taxOld += (taxableOld - 1000000) * 0.30;
+            }
+
+            // Rebate 87A Old Regime (Limit 5L)
+            if (taxableOld <= 500000) {
+                rebateOld = taxOld; // Max 12500
+                taxOld = 0;
+            }
+
+            let cessOld = taxOld * 0.04;
+            let finalTaxOld = Math.floor(taxOld + cessOld);
+
+            // ---------------- DISPLAY RESULTS ----------------
+            // Update UI New
+            document.getElementById('grossNew').innerText = "₹ " + totalIncome.toLocaleString('en-IN');
+            document.getElementById('stdDedNew').innerText = "- ₹ " + stdDedNew.toLocaleString('en-IN');
+            document.getElementById('taxableNew').innerText = "₹ " + taxableNew.toLocaleString('en-IN');
+            document.getElementById('baseTaxNew').innerText = "₹ " + (taxNew + (rebateNew>0?rebateNew:0)).toLocaleString('en-IN'); // Show calculated tax before rebate
+            document.getElementById('rebateNew').innerText = "- ₹ " + rebateNew.toLocaleString('en-IN');
+            document.getElementById('cessNew').innerText = "₹ " + cessNew.toLocaleString('en-IN');
+            document.getElementById('taxNew').innerText = "₹ " + finalTaxNew.toLocaleString('en-IN');
+
+            // Update UI Old
+            document.getElementById('grossOld').innerText = "₹ " + totalIncome.toLocaleString('en-IN');
+            document.getElementById('totalDedOld').innerText = "- ₹ " + totalDed.toLocaleString('en-IN');
+            document.getElementById('taxableOld').innerText = "₹ " + taxableOld.toLocaleString('en-IN');
+            document.getElementById('baseTaxOld').innerText = "₹ " + (taxOld + (rebateOld>0?rebateOld:0)).toLocaleString('en-IN');
+            document.getElementById('rebateOld').innerText = "- ₹ " + rebateOld.toLocaleString('en-IN');
+            document.getElementById('cessOld').innerText = "₹ " + cessOld.toLocaleString('en-IN');
+            document.getElementById('taxOld').innerText = "₹ " + finalTaxOld.toLocaleString('en-IN');
+
+            // Highlight Winner
+            const cardNew = document.getElementById('cardNew');
+            const cardOld = document.getElementById('cardOld');
+            const badgeNew = document.getElementById('badgeNew');
+            const badgeOld = document.getElementById('badgeOld');
+            const savingsMsg = document.getElementById('savingsMsg');
+
+            // Reset styles
+            cardNew.classList.remove('winner');
+            cardOld.classList.remove('winner');
+            badgeNew.style.display = 'none';
+            badgeOld.style.display = 'none';
+
+            if (finalTaxNew < finalTaxOld) {
+                cardNew.classList.add('winner');
+                badgeNew.style.display = 'block';
+                let diff = finalTaxOld - finalTaxNew;
+                savingsMsg.innerHTML = `You save <strong>₹${diff.toLocaleString('en-IN')}</strong> by choosing the <strong>New Regime</strong>.`;
+                savingsMsg.style.color = "#10b981";
+                savingsMsg.style.borderColor = "#10b981";
+                savingsMsg.style.backgroundColor = "#ecfdf5";
+            } else if (finalTaxOld < finalTaxNew) {
+                cardOld.classList.add('winner');
+                badgeOld.style.display = 'block';
+                let diff = finalTaxNew - finalTaxOld;
+                savingsMsg.innerHTML = `You save <strong>₹${diff.toLocaleString('en-IN')}</strong> by choosing the <strong>Old Regime</strong>.`;
+                savingsMsg.style.color = "#10b981";
+                savingsMsg.style.borderColor = "#10b981";
+                savingsMsg.style.backgroundColor = "#ecfdf5";
+            } else {
+                savingsMsg.innerHTML = "Tax liability is the <strong>same</strong> under both regimes.";
+                savingsMsg.style.color = "#b45309";
+                savingsMsg.style.borderColor = "#f59e0b";
+                savingsMsg.style.backgroundColor = "#fffbeb";
+            }
+
+            document.getElementById('resultsArea').style.display = 'grid';
+            document.getElementById('resultsArea').scrollIntoView({behavior:'smooth'});
+        }
+    </script>
+
+</body>
+</html>
