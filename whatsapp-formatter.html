@@ -1,118 +1,194 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WhatsApp Message Formatter | Bold, Italic, Strikethrough & Monospace Generator</title>
-    <meta name="description" content="Free WhatsApp Message Formatter tool. Convert text to Bold, Italic, Strikethrough, or Monospace for WhatsApp. Includes live preview, copy to clipboard, and direct send features.">
-    <meta name="keywords" content="WhatsApp font generator, whatsapp bold text, whatsapp italic, whatsapp strikethrough, monospace whatsapp, whatsapp text formatter, whatsapp chat styler, social media text tool">
-    <meta name="author" content="Your Brand Name">
+    <title>WhatsApp Message Formatter & Font Generator | Bold, Italic, Strikethrough</title>
+    <meta name="description" content="Free WhatsApp Message Formatter tool. Convert text to Bold, Italic, Strikethrough, or Monospace for WhatsApp. Includes live preview, smart toggling, and direct send features.">
+    <meta name="keywords" content="WhatsApp font generator, whatsapp bold text, whatsapp italic, whatsapp strikethrough, monospace whatsapp, whatsapp text formatter, whatsapp chat styler, social media text tool, whatsapp formatting guide">
+    <meta name="author" content="Tools Collection">
+    <meta property="og:title" content="WhatsApp Message Formatter Tool">
+    <meta property="og:description" content="Style your WhatsApp messages easily with this free online tool.">
+    <meta property="og:type" content="website">
     
     <style>
         :root {
             --primary: #25D366;
-            --primary-dark: #128C7E;
-            --dark: #075E54;
+            --primary-dark: #075E54;
+            --accent: #128C7E;
             --light: #DCF8C6;
             --bg: #f0f2f5;
-            --text: #333;
+            --text: #111b21;
+            --gray: #8696a0;
             --white: #ffffff;
-            --border: #ddd;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; background-color: var(--bg); color: var(--text); }
+        
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            line-height: 1.6; 
+            background-color: var(--bg); 
+            color: var(--text); 
+        }
         
         /* Layout */
-        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
-        header { text-align: center; margin-bottom: 30px; padding: 20px 0; }
-        h1 { color: var(--dark); font-size: 2.5rem; margin-bottom: 10px; }
-        .subtitle { color: #666; font-size: 1.1rem; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+        
+        header { 
+            text-align: center; 
+            padding: 40px 0; 
+            background: linear-gradient(135deg, var(--primary-dark), var(--accent));
+            color: white;
+            border-radius: 0 0 20px 20px;
+            margin-bottom: 40px;
+            box-shadow: var(--shadow);
+        }
+        
+        header h1 { font-size: 2.5rem; margin-bottom: 10px; }
+        header p { font-size: 1.2rem; opacity: 0.9; }
 
-        /* Tool Section */
-        .tool-wrapper {
+        /* Main Tool Box */
+        .tool-box {
             background: var(--white);
             border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
             padding: 30px;
-            margin-bottom: 50px;
-            border-top: 5px solid var(--primary);
+            margin-bottom: 60px;
+            border: 1px solid #e9edef;
         }
 
-        .editor-container { display: flex; flex-direction: column; gap: 20px; }
-        
         .toolbar {
             display: flex;
             gap: 10px;
+            margin-bottom: 15px;
             flex-wrap: wrap;
-            padding-bottom: 15px;
-            border-bottom: 1px solid var(--border);
         }
 
-        .btn-tool {
-            padding: 8px 16px;
-            border: 1px solid var(--border);
-            background: #f9f9f9;
+        .btn-format {
+            padding: 10px 20px;
+            border: 1px solid #d1d7db;
+            background: #f0f2f5;
+            border-radius: 24px;
             cursor: pointer;
-            border-radius: 6px;
-            font-weight: 600;
+            font-size: 1rem;
             transition: all 0.2s;
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 8px;
+            color: var(--text);
+            font-weight: 500;
         }
 
-        .btn-tool:hover { background: var(--light); border-color: var(--primary); }
-        .btn-tool.active { background: var(--primary); color: white; border-color: var(--primary-dark); }
+        .btn-format:hover { background: #e9edef; border-color: var(--primary); }
+        .btn-format:active { transform: translateY(1px); }
+        
+        /* Specific Button Styles */
+        .btn-bold strong { font-weight: 900; }
+        .btn-italic em { font-family: serif; }
+        .btn-mono code { font-family: monospace; background: rgba(0,0,0,0.1); padding: 0 4px; border-radius: 4px;}
 
-        .input-area {
+        .editor-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .editor-wrapper { grid-template-columns: 1fr; }
+        }
+
+        textarea {
             width: 100%;
-            height: 150px;
+            height: 250px;
             padding: 15px;
-            border: 2px solid var(--border);
+            border: 2px solid #e9edef;
             border-radius: 8px;
             font-size: 16px;
             font-family: inherit;
             resize: vertical;
+            transition: border-color 0.2s;
         }
-        .input-area:focus { outline: none; border-color: var(--primary); }
+        textarea:focus { outline: none; border-color: var(--primary); }
 
-        .preview-label { font-weight: bold; margin-bottom: 5px; color: var(--dark); display: block; }
-        .preview-box {
-            background: #e5ddd5; /* WhatsApp BG color */
-            padding: 15px;
+        .preview-container {
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23929fa6' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+            background-color: #e5ddd5;
             border-radius: 8px;
-            min-height: 60px;
-            border-left: 5px solid var(--primary);
-            white-space: pre-wrap;
+            padding: 20px;
+            height: 250px;
+            overflow-y: auto;
             position: relative;
         }
-        
-        /* WhatsApp Specific Styling in Preview */
+
+        .preview-bubble {
+            background: var(--light);
+            padding: 8px 12px;
+            border-radius: 7.5px;
+            border-top-right-radius: 0;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            display: inline-block;
+            max-width: 100%;
+            min-width: 100px;
+            position: relative;
+            float: right;
+            clear: both;
+            color: #111b21;
+            overflow-wrap: break-word;
+            white-space: pre-wrap;
+        }
+
+        .preview-label {
+            position: absolute;
+            top: 5px;
+            left: 10px;
+            font-size: 0.8rem;
+            color: #555;
+            font-weight: bold;
+            background: rgba(255,255,255,0.8);
+            padding: 2px 6px;
+            border-radius: 4px;
+            z-index: 2;
+        }
+
+        /* WhatsApp Styles */
         .wa-bold { font-weight: bold; }
         .wa-italic { font-style: italic; }
         .wa-strike { text-decoration: line-through; }
-        .wa-mono { font-family: 'Courier New', Courier, monospace; background: rgba(0,0,0,0.1); padding: 2px 4px; border-radius: 3px; }
+        .wa-mono { font-family: 'Courier New', Courier, monospace; color: #444; }
 
-        .action-buttons { display: flex; gap: 15px; flex-wrap: wrap; margin-top: 20px; }
-        .btn-action {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            border-radius: 6px;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            text-align: center;
-            text-decoration: none;
-            transition: opacity 0.2s;
+        /* Action Buttons */
+        .actions {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+            margin-top: 10px;
         }
-        .btn-copy { background: var(--dark); color: white; }
-        .btn-whatsapp { background: var(--primary); color: white; }
-        .btn-clear { background: #dc3545; color: white; max-width: 100px;}
-        .btn-action:hover { opacity: 0.9; }
+        
+        .btn-action {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 24px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
 
-        /* Notification Toast */
+        .btn-copy { background: #333; color: white; }
+        .btn-copy:hover { background: #000; }
+        
+        .btn-wa { background: var(--primary); color: white; }
+        .btn-wa:hover { background: var(--primary-dark); }
+        
+        .btn-clear { background: #ff3b30; color: white; }
+        .btn-clear:hover { background: #d63025; }
+
+        /* Toast */
         #toast {
             visibility: hidden;
             min-width: 250px;
@@ -122,61 +198,53 @@
             border-radius: 4px;
             padding: 16px;
             position: fixed;
-            z-index: 1;
-            bottom: 30px;
+            z-index: 100;
             left: 50%;
+            bottom: 30px;
             transform: translateX(-50%);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
         #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
 
-        @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
-        @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
-
         /* Content Section */
-        .content-section { background: var(--white); padding: 40px; border-radius: 12px; margin-bottom: 50px; }
-        .content-section h2 { color: var(--dark); margin-top: 30px; margin-bottom: 15px; font-size: 1.8rem; }
-        .content-section h3 { color: var(--primary-dark); margin-top: 25px; margin-bottom: 10px; font-size: 1.4rem; }
-        .content-section p { margin-bottom: 15px; color: #444; }
-        .content-section ul, .content-section ol { margin-left: 20px; margin-bottom: 20px; }
-        .content-section li { margin-bottom: 8px; }
-        .highlight { background-color: var(--light); padding: 2px 5px; border-radius: 3px; font-family: monospace; }
+        .content { background: white; padding: 40px; border-radius: 12px; margin-bottom: 50px; }
+        .content h2 { color: var(--primary-dark); margin: 30px 0 15px; font-size: 1.8rem; border-bottom: 2px solid #e9edef; padding-bottom: 10px; }
+        .content h3 { margin: 25px 0 10px; color: #333; font-size: 1.4rem; }
+        .content p { margin-bottom: 15px; color: #444; font-size: 1.05rem; }
+        .content ul, .content ol { margin: 0 0 20px 20px; color: #444; }
+        .content li { margin-bottom: 8px; }
+        .example-box { background: #f0f2f5; padding: 15px; border-left: 5px solid var(--primary); font-family: monospace; margin: 15px 0; }
 
-        /* Related Tools Cards */
-        .related-tools { margin-top: 50px; }
-        .section-title { text-align: center; margin-bottom: 30px; color: var(--dark); }
+        /* Tool Cards Grid */
+        .grid-section { margin-top: 60px; }
+        .grid-title { text-align: center; margin-bottom: 30px; color: var(--primary-dark); }
         .tools-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
             gap: 20px;
         }
         .tool-card {
-            background: var(--white);
+            background: white;
             padding: 20px;
             border-radius: 10px;
+            border: 1px solid #eee;
             text-align: center;
             text-decoration: none;
             color: var(--text);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
             transition: transform 0.2s, box-shadow 0.2s;
-            border: 1px solid #eee;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100%;
         }
         .tool-card:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); border-color: var(--primary); }
-        .tool-icon { font-size: 2rem; margin-bottom: 10px; color: var(--primary-dark); }
-        .tool-title { font-weight: 600; font-size: 1rem; }
+        .card-icon { font-size: 2.5rem; margin-bottom: 10px; }
+        .card-name { font-weight: 600; }
 
-        /* Footer */
-        footer { text-align: center; padding: 40px 0; color: #777; font-size: 0.9rem; border-top: 1px solid #ddd; margin-top: 50px;}
+        footer { text-align: center; padding: 30px; color: #666; font-size: 0.9rem; border-top: 1px solid #eee; margin-top: 40px; }
 
-        @media (max-width: 600px) {
-            .toolbar { justify-content: space-between; }
-            .btn-tool { flex: 1; justify-content: center; }
-            .content-section { padding: 20px; }
-        }
+        @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
+        @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
     </style>
 </head>
 <body>
@@ -184,315 +252,348 @@
 <div class="container">
     <header>
         <h1>WhatsApp Message Formatter</h1>
-        <p class="subtitle">Style your chat messages with Bold, Italic, Strikethrough, and Monospace effortlessly.</p>
+        <p>Expertly style your chats with Bold, Italic, Strikethrough & Monospace.</p>
     </header>
 
-    <!-- MAIN TOOL -->
-    <div class="tool-wrapper">
-        <div class="editor-container">
-            <div class="toolbar">
-                <button class="btn-tool" onclick="formatText('*')" title="Bold (Ctrl+B)"><strong>B</strong> Bold</button>
-                <button class="btn-tool" onclick="formatText('_')" title="Italic (Ctrl+I)"><em>I</em> Italic</button>
-                <button class="btn-tool" onclick="formatText('~')" title="Strikethrough (Ctrl+S)"><del>S</del> Strike</button>
-                <button class="btn-tool" onclick="formatText('```')" title="Monospace"><code>M</code> Mono</button>
-            </div>
+    <!-- TOOL SECTION -->
+    <div class="tool-box">
+        <div class="toolbar">
+            <button class="btn-format btn-bold" onclick="toggleFormat('*')" title="Bold (Ctrl+B)">
+                <strong>B</strong> Bold
+            </button>
+            <button class="btn-format btn-italic" onclick="toggleFormat('_')" title="Italic (Ctrl+I)">
+                <em>I</em> Italic
+            </button>
+            <button class="btn-format btn-strike" onclick="toggleFormat('~')" title="Strikethrough">
+                <del>S</del> Strike
+            </button>
+            <button class="btn-format btn-mono" onclick="toggleFormat('```')" title="Monospace">
+                <code>&lt;/&gt;</code> Mono
+            </button>
+        </div>
 
-            <textarea id="inputText" class="input-area" placeholder="Type your message here... Select text and click buttons above to format." oninput="updatePreview()"></textarea>
-
+        <div class="editor-wrapper">
             <div>
-                <span class="preview-label">Live Preview:</span>
-                <div id="previewBox" class="preview-box"></div>
+                <textarea id="input" placeholder="Type your message here... Select text and click buttons above." oninput="updatePreview()" spellcheck="false"></textarea>
             </div>
-
-            <div class="action-buttons">
-                <button class="btn-action btn-clear" onclick="clearText()">Clear</button>
-                <button class="btn-action btn-copy" onclick="copyText()">Copy Text</button>
-                <button class="btn-action btn-whatsapp" onclick="sendToWhatsApp()">Send on WhatsApp</button>
+            <div class="preview-container">
+                <span class="preview-label">WhatsApp Live Preview</span>
+                <div id="preview" class="preview-bubble"></div>
             </div>
         </div>
+
+        <div class="actions">
+            <button class="btn-action btn-clear" onclick="clearAll()">Clear</button>
+            <button class="btn-action btn-copy" onclick="copyText()">Copy Text</button>
+            <button class="btn-action btn-wa" onclick="sendToWhatsApp()">🚀 Send to WhatsApp</button>
+        </div>
     </div>
+
+    <!-- RELATED TOOLS -->
+    <div class="grid-section">
+        <h2 class="grid-title">Explore Related Tools</h2>
+        <div class="tools-grid">
+            <a href="upi-id-payment-link-converter.html" class="tool-card">
+                <span class="card-icon">💸</span>
+                <span class="card-name">UPI Link Converter</span>
+            </a>
+            <a href="word-counter-tool.html" class="tool-card">
+                <span class="card-icon">📝</span>
+                <span class="card-name">Word Counter Tool</span>
+            </a>
+            <a href="digital-detox-calculator.html" class="tool-card">
+                <span class="card-icon">📵</span>
+                <span class="card-name">Digital Detox Calc</span>
+            </a>
+            <a href="reading-time-calculator.html" class="tool-card">
+                <span class="card-icon">⏱️</span>
+                <span class="card-name">Reading Time Calc</span>
+            </a>
+            <a href="image-compressor.html" class="tool-card">
+                <span class="card-icon">🖼️</span>
+                <span class="card-name">Image Compressor</span>
+            </a>
+            <a href="image-to-pdf-converter.html" class="tool-card">
+                <span class="card-icon">📄</span>
+                <span class="card-name">Image to PDF</span>
+            </a>
+            <a href="birthday-countdown-calculator.html" class="tool-card">
+                <span class="card-icon">🎂</span>
+                <span class="card-name">Birthday Countdown</span>
+            </a>
+            <a href="biodata-maker.html" class="tool-card">
+                <span class="card-icon">👤</span>
+                <span class="card-name">Biodata Maker</span>
+            </a>
+            <a href="delete-pdf-pages.html" class="tool-card">
+                <span class="card-icon">🗑️</span>
+                <span class="card-name">Delete PDF Pages</span>
+            </a>
+            <a href="barbell-plate-calculator.html" class="tool-card">
+                <span class="card-icon">🏋️</span>
+                <span class="card-name">Plate Calculator</span>
+            </a>
+            <a href="pdf-merger.html" class="tool-card">
+                <span class="card-icon">🔗</span>
+                <span class="card-name">PDF Merger</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- CONTENT SECTION -->
+    <article class="content">
+        <h2>The Ultimate Guide to WhatsApp Text Formatting (2025 Edition)</h2>
+        <p>In the digital age, communication is more than just exchanging words; it is about conveying tone, emotion, and clarity. WhatsApp, the world's most popular messaging application with over 2 billion active users, offers a hidden power that many users overlook: <strong>Rich Text Formatting</strong>. While WhatsApp does not have a "What You See Is What You Get" (WYSIWYG) editor like Microsoft Word built directly into the text bar, it supports a Markdown-style syntax that allows you to transform plain text into expressive messages.</p>
+        
+        <p>This comprehensive guide and our <strong>WhatsApp Message Formatter Tool</strong> are designed to help you master these features. Whether you are a business owner sending product catalogs, a student sharing code snippets, or just someone who wants to emphasize a joke in a group chat, this tool is for you.</p>
+
+        <h3>Why Formatting Matters in Instant Messaging</h3>
+        <p>You might wonder, "Why bother formatting a text message?" The answer lies in readability and impact. A wall of plain text is difficult to digest. By using formatting, you can:</p>
+        <ul>
+            <li><strong>Highlight Key Information:</strong> Use <strong>Bold</strong> text for dates, prices, or urgent instructions.</li>
+            <li><strong>Convey Tone:</strong> Use <em>Italics</em> for emphasis, sarcasm, or quoting someone.</li>
+            <li><strong>Structure Content:</strong> Use lists and bold headers to break down complex information.</li>
+            <li><strong>Correct Mistakes:</strong> Use <del>Strikethrough</del> to humorously correct a typo or update a status (e.g., "Sold Out").</li>
+            <li><strong>Share Technical Data:</strong> Use <code>Monospace</code> for passwords, keys, or code, ensuring characters are easy to distinguish.</li>
+        </ul>
+
+        <h2>Deep Dive: How to Use WhatsApp Formatting</h2>
+        <p>Below is a detailed breakdown of every formatting option available in WhatsApp, how to do it manually, and best practices.</p>
+
+        <h3>1. Bold Text (Strong Emphasis)</h3>
+        <p>Bold text is the most commonly used format. It thickens the font weight, making it stand out immediately against the standard grey/black text.</p>
+        <div class="example-box">
+            <strong>Manual Syntax:</strong> *text*<br>
+            <strong>Input:</strong> I will be there at *5:00 PM* sharp.<br>
+            <strong>Output:</strong> I will be there at <strong>5:00 PM</strong> sharp.
+        </div>
+        <p><strong>Common Mistake:</strong> Do not put a space between the asterisk and the text. <code>* Bold *</code> will not work. It must be <code>*Bold*</code>.</p>
+
+        <h3>2. Italic Text (Soft Emphasis)</h3>
+        <p>Italics are used for titles of books/movies, foreign words, or to denote a softer tone of voice. In chat etiquette, italics often imply a whisper or an aside comment.</p>
+        <div class="example-box">
+            <strong>Manual Syntax:</strong> _text_<br>
+            <strong>Input:</strong> I am _really_ not sure about this.<br>
+            <strong>Output:</strong> I am <em>really</em> not sure about this.
+        </div>
+        <p><strong>Note:</strong> WhatsApp uses underscores <code>_</code> for italics, unlike some other Markdown parsers that allow asterisks.</p>
+
+        <h3>3. Strikethrough (Corrections)</h3>
+        <p>Strikethrough places a horizontal line through the text. It is widely used to denote completed items in a to-do list or to make a correction visible without deleting the context.</p>
+        <div class="example-box">
+            <strong>Manual Syntax:</strong> ~text~<br>
+            <strong>Input:</strong> ~Price: $50~ Now: $25!<br>
+            <strong>Output:</strong> <del>Price: $50</del> Now: $25!
+        </div>
+
+        <h3>4. Monospace (Fixed-Width / Code)</h3>
+        <p>Monospace applies a font similar to "Courier New" where every character takes up the same amount of horizontal space. This is critical for alignment, ASCII art, or sharing codes (like UPI IDs or Banking IFSC codes) so that similar-looking characters (like I and l) are distinguishable.</p>
+        <div class="example-box">
+            <strong>Manual Syntax:</strong> ```text```<br>
+            <strong>Input:</strong> Please send payment to ```john@upi```<br>
+            <strong>Output:</strong> Please send payment to <code style="font-family:monospace; background:#eee">john@upi</code>
+        </div>
+        <p><strong>Pro Tip:</strong> You need three backticks, not single quotes. The backtick key is usually found under the Escape key on keyboards.</p>
+
+        <h2>Advanced Formatting: Nesting and Lists</h2>
+        <p>WhatsApp allows you to combine formats. This is called "nesting." However, the order in which you open and close the tags matters (First In, Last Out).</p>
+        
+        <h3>Correct Nesting</h3>
+        <p>To make text Bold and Italic:</p>
+        <ul>
+            <li><strong>Syntax:</strong> <code>*_Text_*</code> or <code>_*Text*_</code></li>
+            <li><strong>Result:</strong> <strong><em>Text</em></strong></li>
+        </ul>
+
+        <h3>Bullet Lists</h3>
+        <p>While WhatsApp doesn't have a specific "bullet point" button, you can create manual lists. Our tool helps you draft these easily. Use a hyphen followed by a space.</p>
+        <div class="example-box">
+            *Shopping List:*<br>
+            - Milk<br>
+            - Eggs<br>
+            - Bread
+        </div>
+
+        <h2>How Our WhatsApp Formatter Tool Works</h2>
+        <p>Manual typing is prone to error. If you miss one asterisk in a long paragraph, the entire formatting fails. Our tool eliminates this frustration using a client-side JavaScript engine.</p>
+        
+        <ol>
+            <li><strong>Smart Selection:</strong> When you highlight text and click a button (e.g., Bold), the tool checks if it's already bold. If it is, it removes the stars. If not, it adds them.</li>
+            <li><strong>Real-Time Preview:</strong> The preview box uses Regular Expressions (Regex) to mimic WhatsApp's rendering engine. It handles newlines, emojis, and nested tags exactly how the app does.</li>
+            <li><strong>Privacy First:</strong> This tool runs 100% in your browser. No text you type is sent to our servers. Your private messages remain private.</li>
+            <li><strong>Universal Compatibility:</strong> The generated text works on Android, iOS, WhatsApp Web, and WhatsApp Desktop.</li>
+        </ol>
+
+        <h2>Business Use Cases for WhatsApp Formatting</h2>
+        <h3>1. Real Estate Listings</h3>
+        <p>Agents can use bold headers to separate property features:</p>
+        <p><code>*NEW LISTING* 🏡<br>*Location:* _Downtown_<br>*Price:* ~$500k~ *$480k*<br>Details below...</code></p>
+
+        <h3>2. E-Commerce & Retail</h3>
+        <p>Shop owners can announce sales effectively:</p>
+        <p><code>*FLASH SALE* ⚡<br>Buy 1 Get 1 *FREE* on all items.<br>Valid until: _Midnight_</code></p>
+
+        <h3>3. Event Invitations</h3>
+        <p>Make your party or webinar invites look professional:</p>
+        <p><code>*You are invited!* 🎉<br>When: *Sunday, 5 PM*<br>Where: _Zoom Link Below_</code></p>
+
+        <h2>Troubleshooting Common Issues</h2>
+        <p><strong>Q: Why did my bold text not work?</strong><br>
+        A: Check for spaces. <code>* Hello *</code> fails. <code>*Hello*</code> works. Also, ensure you haven't used a specialized keyboard that inserts "fancy" asterisks instead of standard ASCII ones.</p>
+
+        <p><strong>Q: Can I change the font color or size?</strong><br>
+        A: No. WhatsApp currently does not support changing text color (e.g., red or blue) or font size (e.g., headers). You are limited to Bold, Italic, Strikethrough, and Monospace.</p>
+
+        <p><strong>Q: Does this work on Instagram or Facebook?</strong><br>
+        A: Not exactly. While Facebook supports some Markdown in comments, Instagram captions generally do not render `*bold*` text. This syntax is specific to WhatsApp.</p>
+
+        <h2>Conclusion</h2>
+        <p>Mastering WhatsApp formatting transforms you from a casual texter to a communication pro. Whether you are correcting a typo with a strikethrough or emphasizing a deadline with bold text, these small details make a massive difference in how your message is received. Bookmark this <strong>WhatsApp Message Formatter</strong> tool to ensure your messages are always perfect before you hit send.</p>
+        
+        <p style="text-align:center; margin-top:40px; font-weight:bold;">Start formatting your messages now and experience the difference!</p>
+    </article>
 
     <div id="toast">Text copied to clipboard!</div>
 
-    <!-- RELATED TOOLS SECTION -->
-    <div class="related-tools">
-        <h2 class="section-title">More Free Tools</h2>
-        <div class="tools-grid">
-            <a href="upi-id-payment-link-converter.html" class="tool-card">
-                <span class="tool-icon">₹</span>
-                <span class="tool-title">UPI Payment Link Generator</span>
-            </a>
-            <a href="word-counter-tool.html" class="tool-card">
-                <span class="tool-icon">📝</span>
-                <span class="tool-title">Word Counter Tool</span>
-            </a>
-            <a href="digital-detox-calculator.html" class="tool-card">
-                <span class="tool-icon">📵</span>
-                <span class="tool-title">Digital Detox Calculator</span>
-            </a>
-            <a href="reading-time-calculator.html" class="tool-card">
-                <span class="tool-icon">⏱️</span>
-                <span class="tool-title">Reading Time Calculator</span>
-            </a>
-            <a href="image-compressor.html" class="tool-card">
-                <span class="tool-icon">🖼️</span>
-                <span class="tool-title">Image Compressor</span>
-            </a>
-            <a href="image-to-pdf-converter.html" class="tool-card">
-                <span class="tool-icon">📄</span>
-                <span class="tool-title">Image to PDF Converter</span>
-            </a>
-            <a href="birthday-countdown-calculator.html" class="tool-card">
-                <span class="tool-icon">🎂</span>
-                <span class="tool-title">Birthday Countdown</span>
-            </a>
-            <a href="biodata-maker.html" class="tool-card">
-                <span class="tool-icon">👤</span>
-                <span class="tool-title">Biodata Maker</span>
-            </a>
-            <a href="delete-pdf-pages.html" class="tool-card">
-                <span class="tool-icon">🗑️</span>
-                <span class="tool-title">Delete PDF Pages</span>
-            </a>
-            <a href="barbell-plate-calculator.html" class="tool-card">
-                <span class="tool-icon">🏋️</span>
-                <span class="tool-title">Barbell Plate Calculator</span>
-            </a>
-            <a href="pdf-merger.html" class="tool-card">
-                <span class="tool-icon">🔗</span>
-                <span class="tool-title">PDF Merger</span>
-            </a>
-        </div>
-    </div>
-
-    <!-- CONTENT SECTION (SEO OPTIMIZED) -->
-    <div class="content-section">
-        <h2>Ultimate Guide to WhatsApp Message Formatting</h2>
-        <p>WhatsApp is the most popular messaging app globally, used by billions for personal communication and business dealings. However, many users stick to plain text, unaware that WhatsApp supports rich text formatting. Our <strong>WhatsApp Message Formatter</strong> tool helps you style your messages effortlessly, making your chats stand out.</p>
-
-        <p>Whether you want to highlight an important point, correct a mistake playfully with strikethrough, or send code snippets, mastering WhatsApp formatting is essential. Below is a comprehensive guide on how to use these features manually and why you should use our tool.</p>
-
-        <h3>Why Format Your WhatsApp Messages?</h3>
-        <p>Formatting isn't just about aesthetics; it is about communication clarity. Here is why you should start formatting today:</p>
-        <ul>
-            <li><strong>Emphasis:</strong> Use <strong>Bold</strong> to make headlines or key dates pop out in a long message.</li>
-            <li><strong>Tone:</strong> Use <em>Italics</em> for sarcastic comments, book titles, or soft emphasis.</li>
-            <li><strong>Corrections:</strong> Use <del>Strikethrough</del> to show changes in plans or prices without deleting the original context.</li>
-            <li><strong>Technical Data:</strong> Use <span class="highlight">Monospace</span> for sharing bank account numbers, UPI IDs, or coding snippets, as it makes characters distinct and easier to copy.</li>
-        </ul>
-
-        <h2>How to Format WhatsApp Text Manually</h2>
-        <p>If you don't have our tool handy, you can type special characters to format text. Here is the cheat sheet:</p>
-
-        <h3>1. Bold Text</h3>
-        <p>To make text bold, place an asterisk <code>*</code> on both sides of the text.</p>
-        <ul>
-            <li>Type: <code>*Hello World*</code></li>
-            <li>Result: <strong>Hello World</strong></li>
-        </ul>
-
-        <h3>2. Italic Text</h3>
-        <p>To italicize your message, place an underscore <code>_</code> on both sides of the text.</p>
-        <ul>
-            <li>Type: <code>_Hello World_</code></li>
-            <li>Result: <em>Hello World</em></li>
-        </ul>
-
-        <h3>3. Strikethrough Text</h3>
-        <p>To strike through text, place a tilde <code>~</code> on both sides of the text.</p>
-        <ul>
-            <li>Type: <code>~Hello World~</code></li>
-            <li>Result: <del>Hello World</del></li>
-        </ul>
-
-        <h3>4. Monospace Text</h3>
-        <p>To apply the typewriter font (Monospace), place three backticks <code>```</code> on both sides of the text.</p>
-        <ul>
-            <li>Type: <code>```Hello World```</code></li>
-            <li>Result: <span style="font-family: monospace;">Hello World</span></li>
-        </ul>
-
-        <h3>5. Combining Formats</h3>
-        <p>You can combine formats by nesting the symbols. Always remember to close the symbols in the reverse order you opened them.</p>
-        <ul>
-            <li>Type: <code>*_Bold and Italic_*</code></li>
-            <li>Result: <strong><em>Bold and Italic</em></strong></li>
-        </ul>
-
-        <h2>Using the WhatsApp Message Formatter Tool</h2>
-        <p>While manual typing works, it is prone to errors. If you forget a closing asterisk or put a space in the wrong place, the formatting won't work. Our tool solves this problem.</p>
-
-        <h3>Step-by-Step Instructions:</h3>
-        <ol>
-            <li><strong>Type:</strong> Enter your message in the main text box.</li>
-            <li><strong>Select:</strong> Highlight the specific word or sentence you want to style.</li>
-            <li><strong>Click:</strong> Press the styling buttons (<strong>B</strong>, <em>I</em>, <del>S</del>, <code>M</code>) in the toolbar.</li>
-            <li><strong>Preview:</strong> Watch the "Live Preview" box to see exactly how it will look in the app.</li>
-            <li><strong>Send:</strong> Click "Copy Text" to paste it manually, or "Send on WhatsApp" to open the app directly with your pre-filled message.</li>
-        </ol>
-
-        <h2>Advanced Tips for Business & Marketing</h2>
-        <p>If you use WhatsApp Business, formatting is a game-changer. It allows you to structure catalogs, announcements, and support messages professionally.</p>
-
-        <h3>Structuring a Sales Message</h3>
-        <p>Instead of a wall of text, use bolding for headers:</p>
-        <div style="background:#f9f9f9; padding:15px; border-left:4px solid var(--primary); font-family:monospace; margin-bottom:20px;">
-            *FLASH SALE ALERT!* 🚨<br><br>
-            Get _50% OFF_ on all shoes today.<br><br>
-            ~Price: $100~<br>
-            *Now: $50 Only!*<br><br>
-            Order here: www.example.com
-        </div>
-
-        <h3>Sharing Code or Keys</h3>
-        <p>When sending API keys, passwords, or tracking IDs, always use Monospace. It ensures that characters like 'l' (lowercase L) and '1' (one) are distinguishable.</p>
-
-        <h2>Frequently Asked Questions (FAQ)</h2>
-        
-        <h4>Can I use these formats on WhatsApp Web?</h4>
-        <p>Yes, WhatsApp formatting works seamlessly on Android, iOS, WhatsApp Web, and the Desktop App. The syntax remains exactly the same across all platforms.</p>
-
-        <h4>Does this tool store my messages?</h4>
-        <p>No. This tool runs entirely in your browser (client-side). We do not save, record, or transmit your messages to any server. Your privacy is 100% secure.</p>
-
-        <h4>Why isn't my formatting working in WhatsApp?</h4>
-        <p>Common reasons include:</p>
-        <ul>
-            <li>Putting a space between the symbol and the text (e.g., <code>* Bold *</code> will not work; <code>*Bold*</code> will).</li>
-            <li>Forgetting to close the tag.</li>
-            <li>Using unsupported special characters inside the tags.</li>
-        </ul>
-
-        <h4>Is there a limit to how much text I can format?</h4>
-        <p>WhatsApp has a character limit of around 65,536 characters per message. Our tool can handle large blocks of text within reason, but keep your messages concise for better readability.</p>
-
-        <h4>Does this work for WhatsApp Status?</h4>
-        <p>Yes, you can use Bold, Italic, Strikethrough, and Monospace formatting in text-based WhatsApp Status updates as well.</p>
-        
-        <p>Start styling your messages today with our <strong>WhatsApp Message Formatter</strong> and communicate with impact!</p>
-    </div>
-
     <footer>
-        <p>&copy; 2025 WhatsApp Tools Collection. All rights reserved.</p>
+        &copy; 2025 Tools Collection. All rights reserved. <br>
+        <small>This tool is not affiliated with WhatsApp Inc.</small>
     </footer>
 </div>
 
 <script>
-    const textarea = document.getElementById('inputText');
-    const previewBox = document.getElementById('previewBox');
+    const textarea = document.getElementById('input');
+    const preview = document.getElementById('preview');
 
-    // Formatting Logic
-    function formatText(symbol) {
+    function toggleFormat(symbol) {
         const start = textarea.selectionStart;
         const end = textarea.selectionEnd;
-        const text = textarea.value;
-        const selectedText = text.substring(start, end);
-        
-        if (!selectedText) return; // Do nothing if no text selected
+        const value = textarea.value;
+        const symLen = symbol.length;
 
-        // Logic to toggle format (simple implementation) or add format
-        // For simplicity in this tool, we just wrap the text.
-        // A more advanced version would check if it's already wrapped.
-        
-        let before = text.substring(0, start);
-        let after = text.substring(end);
-        
-        const newText = before + symbol + selectedText + symbol + after;
-        
-        textarea.value = newText;
-        updatePreview();
-        
-        // Restore selection including symbols
+        // If no text selected, just insert the symbols and place cursor in between
+        if (start === end) {
+            const before = value.substring(0, start);
+            const after = value.substring(end);
+            textarea.value = before + symbol + symbol + after;
+            textarea.selectionStart = textarea.selectionEnd = start + symLen;
+            textarea.focus();
+            updatePreview();
+            return;
+        }
+
+        const selectedText = value.substring(start, end);
+        const beforeSelection = value.substring(0, start);
+        const afterSelection = value.substring(end);
+
+        // Check if the selected text is SURROUNDED by the symbol (e.g., *text*)
+        // We look at the characters immediately before 'start' and immediately after 'end'
+        const possiblePre = beforeSelection.slice(-symLen);
+        const possiblePost = afterSelection.slice(0, symLen);
+
+        if (possiblePre === symbol && possiblePost === symbol) {
+            // It is already formatted, REMOVE formatting
+            const newText = beforeSelection.slice(0, -symLen) + selectedText + afterSelection.slice(symLen);
+            textarea.value = newText;
+            // Restore selection
+            textarea.setSelectionRange(start - symLen, end - symLen);
+        } else {
+            // It is not formatted, ADD formatting
+            const newText = beforeSelection + symbol + selectedText + symbol + afterSelection;
+            textarea.value = newText;
+            // Restore selection covering the new symbols
+            textarea.setSelectionRange(start, end + (symLen * 2));
+        }
+
         textarea.focus();
-        textarea.selectionStart = start;
-        textarea.selectionEnd = end + (symbol.length * 2);
+        updatePreview();
     }
 
-    // Live Preview Logic using Regex
     function updatePreview() {
         let text = textarea.value;
-        
-        // Escape HTML to prevent XSS in preview
+
+        // 1. Escape HTML first to prevent XSS and render literal < >
         text = text.replace(/&/g, "&amp;")
                    .replace(/</g, "&lt;")
                    .replace(/>/g, "&gt;");
 
-        // Apply formatting regex
-        // Note: Order matters. Monospace first.
+        // 2. Apply formatting replacers. 
+        // Note: We use specific regex that mimics WhatsApp's strictness.
+        // WhatsApp generally requires *text* (no space after opening *, no space before closing *)
         
-        // Monospace ```text```
-        text = text.replace(/```(.*?)```/gs, '<span class="wa-mono">$1</span>');
-        
+        // Monospace ```text``` (Block level, handle first)
+        text = text.replace(/```([\s\S]*?)```/g, '<span class="wa-mono">$1</span>');
+
         // Bold *text*
-        text = text.replace(/\*(.*?)\*/g, '<span class="wa-bold">$1</span>');
-        
+        // Regex explanation: \* matches literal *, ([^\s*].*?[^\s*]) matches content that doesn't start/end with space
+        text = text.replace(/\*([^\s][\s\S]*?[^\s])\*/g, '<span class="wa-bold">$1</span>');
+        text = text.replace(/\*([^\s])\*/g, '<span class="wa-bold">$1</span>'); // Single char case
+
         // Italic _text_
-        text = text.replace(/_(.*?)_/g, '<span class="wa-italic">$1</span>');
-        
+        text = text.replace(/_([^\s][\s\S]*?[^\s])_/g, '<span class="wa-italic">$1</span>');
+        text = text.replace(/_([^\s])_/g, '<span class="wa-italic">$1</span>');
+
         // Strikethrough ~text~
-        text = text.replace(/~(.*?)~/g, '<span class="wa-strike">$1</span>');
-        
-        // Convert newlines to <br>
+        text = text.replace(/~([^\s][\s\S]*?[^\s])~/g, '<span class="wa-strike">$1</span>');
+        text = text.replace(/~([^\s])~/g, '<span class="wa-strike">$1</span>');
+
+        // 3. Line breaks
         text = text.replace(/\n/g, '<br>');
 
-        previewBox.innerHTML = text;
+        preview.innerHTML = text;
     }
 
-    // Copy to Clipboard
     function copyText() {
+        if (!textarea.value) return;
+        
         textarea.select();
-        textarea.setSelectionRange(0, 99999); /* For mobile devices */
+        textarea.setSelectionRange(0, 99999); /* Mobile */
         
         navigator.clipboard.writeText(textarea.value).then(() => {
             showToast();
+        }).catch(err => {
+            console.error('Failed to copy', err);
         });
     }
 
-    // Send to WhatsApp
     function sendToWhatsApp() {
-        let text = textarea.value;
-        if(!text.trim()) {
+        const text = textarea.value;
+        if (!text) {
             alert("Please type a message first.");
             return;
         }
-        let encodedText = encodeURIComponent(text);
-        window.open(`https://wa.me/?text=${encodedText}`, '_blank');
+        // Encode appropriately
+        const encoded = encodeURIComponent(text);
+        window.open(`https://wa.me/?text=${encoded}`, '_blank');
     }
 
-    function clearText() {
-        textarea.value = "";
-        updatePreview();
+    function clearAll() {
+        if(confirm("Are you sure you want to clear the text?")) {
+            textarea.value = '';
+            updatePreview();
+        }
     }
 
-    // Toast Notification
     function showToast() {
-        var x = document.getElementById("toast");
-        x.className = "show";
-        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+        const t = document.getElementById("toast");
+        t.className = "show";
+        setTimeout(() => { t.className = t.className.replace("show", ""); }, 3000);
     }
 
-    // Handle Keyboard Shortcuts
+    // Keyboard Shortcuts
     textarea.addEventListener('keydown', function(e) {
-        if (e.ctrlKey || e.metaKey) {
+        if ((e.ctrlKey || e.metaKey) && !e.altKey) {
+            let handled = false;
             switch(e.key.toLowerCase()) {
-                case 'b':
-                    e.preventDefault();
-                    formatText('*');
-                    break;
-                case 'i':
-                    e.preventDefault();
-                    formatText('_');
-                    break;
-                // 's' is often save, but let's try for strike
-                // case 's': 
-                //    e.preventDefault();
-                //    formatText('~');
-                //    break;
+                case 'b': toggleFormat('*'); handled = true; break;
+                case 'i': toggleFormat('_'); handled = true; break;
+                case 's': /* prevent save */ e.preventDefault(); toggleFormat('~'); handled = true; break;
             }
+            if(handled) e.preventDefault();
         }
     });
 
-    // Initial call
+    // Initial render
     updatePreview();
 </script>
 
