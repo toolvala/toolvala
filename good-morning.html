@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Good Morning Wish Generator | Personalized Image & Quote Creator</title>
+    <meta name="description" content="Create personalized Good Morning wishes with names and quotes. Download HD morning images, generate inspirational, romantic, or funny messages for WhatsApp and Instagram.">
+    <meta name="keywords" content="good morning wish generator, morning quotes maker, personalized good morning images, whatsapp morning status tool, good morning message with name, daily morning motivation, morning greetings creator">
+    <meta name="author" content="Tools Collection">
+    
+    <!-- Open Graph Tags -->
+    <meta property="og:title" content="Good Morning Wish Generator Tool">
+    <meta property="og:description" content="Create unique, personalized Good Morning images with quotes and names instantly.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.example.com/good-morning-generator.html">
+    <meta property="og:image" content="https://cdn-icons-png.flaticon.com/512/2928/2928919.png">
+
+    <!-- JSON-LD Schema for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "SoftwareApplication",
+          "name": "Good Morning Wish Generator",
+          "operatingSystem": "Web Browser",
+          "applicationCategory": "DesignApplication",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "description": "A free online tool to generate personalized good morning wishes with custom names, quotes, and beautiful backgrounds."
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "How do I create a personalized Good Morning image?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Simply enter your name, select a category (Inspirational, Romantic, Funny, etc.), and click 'Generate'. You can then download the image or share it on WhatsApp."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is this tool free to use?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, this Good Morning Wish Generator is 100% free and requires no signup."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+
+    <!-- Fonts & Libraries -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #FF9800;
+            --primary-dark: #F57C00;
+            --secondary: #4CAF50;
+            --dark: #333;
+            --light: #fff;
+            --bg: #f9f9f9;
+            --shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+
+        /* HEADER */
+        header {
+            text-align: center;
+            padding: 40px 0;
+            margin-bottom: 20px;
+        }
+        header h1 {
+            color: var(--primary-dark);
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+        }
+        header p { color: #666; font-size: 1.1rem; }
+
+        /* TOOL SECTION */
+        .tool-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            background: var(--light);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            margin-bottom: 60px;
+            justify-content: center;
+        }
+
+        /* Controls (Left) */
+        .controls {
+            flex: 1;
+            min-width: 300px;
+            max-width: 450px;
+        }
+
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; color: #555; }
+        
+        input[type="text"], select {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #eee;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            font-family: inherit;
+        }
+        input[type="text"]:focus, select:focus { border-color: var(--primary); }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-gen {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+        .btn-gen:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255, 152, 0, 0.3); }
+
+        .action-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .btn-wa { background: #25D366; color: white; }
+        .btn-dl { background: #333; color: white; }
+        .btn-copy { background: #008CBA; color: white; grid-column: span 2; }
+
+        /* Preview (Right) */
+        .preview-area {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-width: 320px;
+        }
+
+        #wishCard {
+            width: 350px;
+            height: 500px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 15px;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            text-align: center;
+            padding: 25px;
+            color: white;
+            overflow: hidden;
+            transition: background 0.5s ease;
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .card-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            line-height: 1.2;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin-bottom: 10px;
+        }
+
+        .card-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: #FFD700;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+            margin-bottom: 25px;
+            font-weight: bold;
+        }
+
+        .card-quote {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1rem;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(5px);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.3);
+            font-style: italic;
+        }
+
+        .card-footer {
+            margin-top: auto;
+            font-size: 2.5rem;
+            animation: float 3s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* LOADING SPINNER */
+        .loader {
+            display: none;
+            text-align: center;
+            margin: 10px 0;
+            font-weight: 500;
+            color: #555;
+        }
+
+        /* RELATED TOOLS */
+        .related-tools { margin-top: 50px; }
+        .section-title { text-align: center; margin-bottom: 30px; color: var(--dark); font-size: 1.8rem; }
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+        .tool-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            text-decoration: none;
+            color: var(--dark);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid #eee;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100%;
+            justify-content: center;
+        }
+        .tool-card:hover { transform: translateY(-5px); border-color: var(--primary); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .tool-icon { font-size: 2rem; margin-bottom: 10px; }
+        .tool-name { font-weight: 600; font-size: 0.95rem; }
+
+        /* SEO CONTENT ARTICLE */
+        .content-section {
+            background: var(--light);
+            padding: 40px;
+            border-radius: 15px;
+            margin-top: 60px;
+            box-shadow: var(--shadow);
+        }
+        .content-section h2 { color: var(--primary-dark); margin-top: 30px; margin-bottom: 15px; font-size: 1.8rem; }
+        .content-section h3 { color: #444; margin-top: 20px; margin-bottom: 10px; font-size: 1.4rem; }
+        .content-section p { margin-bottom: 15px; color: #555; }
+        .content-section ul { margin-left: 20px; margin-bottom: 20px; color: #555; }
+        .content-section li { margin-bottom: 8px; }
+
+        footer { text-align: center; padding: 40px 0; color: #777; margin-top: 40px; border-top: 1px solid #ddd; }
+
+        @media (max-width: 768px) {
+            .tool-wrapper { flex-direction: column; align-items: center; }
+            .preview-area { width: 100%; }
+            #wishCard { width: 100%; max-width: 350px; }
+            .content-section { padding: 25px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>☀️ Good Morning Wish Generator</h1>
+        <p>Create personalized, beautiful morning quotes & images in seconds.</p>
+    </header>
+
+    <!-- TOOL -->
+    <div class="tool-wrapper">
+        <div class="controls">
+            <div class="form-group">
+                <label for="nameInput">Your Name / Receiver's Name</label>
+                <input type="text" id="nameInput" placeholder="Enter name here..." maxlength="20">
+            </div>
+
+            <div class="form-group">
+                <label for="categorySelect">Select Message Category</label>
+                <select id="categorySelect">
+                    <option value="inspirational">Inspirational & Motivating 🚀</option>
+                    <option value="romantic">Romantic & Love ❤️</option>
+                    <option value="funny">Funny & Witty 😂</option>
+                    <option value="spiritual">Spiritual & Blessed 🙏</option>
+                    <option value="friendship">Friendship & Fun 🤝</option>
+                    <option value="simple">Simple & Sweet ☕</option>
+                </select>
+            </div>
+
+            <button class="btn btn-gen" onclick="generateWish()">
+                <span>✨ Create New Wish</span>
+            </button>
+
+            <div class="loader" id="loader">Processing Image...</div>
+
+            <div class="action-grid">
+                <button class="btn btn-wa" onclick="shareWhatsapp()">
+                    <span>Share WhatsApp</span>
+                </button>
+                <button class="btn btn-dl" onclick="downloadImage()">
+                    <span>Download HD</span>
+                </button>
+                <button class="btn btn-copy" onclick="copyText()">
+                    <span>Copy Text</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="preview-area">
+            <div id="wishCard">
+                <div style="position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.3); z-index:1;"></div>
+                <div class="card-content">
+                    <div class="card-title">Good Morning</div>
+                    <div class="card-name" id="cardName">My Friend</div>
+                    <div class="card-quote" id="cardQuote">
+                        "The sun is a daily reminder that we too can rise again from the darkness, that we too can shine our own light."
+                    </div>
+                    <div class="card-footer" id="cardEmoji">☕</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- RELATED TOOLS -->
+    <div class="related-tools">
+        <h2 class="section-title">Explore More Free Tools</h2>
+        <div class="tools-grid">
+            <a href="upi-id-payment-link-converter.html" class="tool-card">
+                <span class="tool-icon">💸</span>
+                <span class="tool-name">UPI Payment Link Generator</span>
+            </a>
+            <a href="word-counter-tool.html" class="tool-card">
+                <span class="tool-icon">📝</span>
+                <span class="tool-name">Word Counter Tool</span>
+            </a>
+            <a href="digital-detox-calculator.html" class="tool-card">
+                <span class="tool-icon">📵</span>
+                <span class="tool-name">Digital Detox Calculator</span>
+            </a>
+            <a href="reading-time-calculator.html" class="tool-card">
+                <span class="tool-icon">⏱️</span>
+                <span class="tool-name">Reading Time Calculator</span>
+            </a>
+            <a href="image-compressor.html" class="tool-card">
+                <span class="tool-icon">🖼️</span>
+                <span class="tool-name">Image Compressor</span>
+            </a>
+            <a href="image-to-pdf-converter.html" class="tool-card">
+                <span class="tool-icon">📄</span>
+                <span class="tool-name">Image to PDF Converter</span>
+            </a>
+            <a href="birthday-countdown-calculator.html" class="tool-card">
+                <span class="tool-icon">🎂</span>
+                <span class="tool-name">Birthday Countdown</span>
+            </a>
+            <a href="biodata-maker.html" class="tool-card">
+                <span class="tool-icon">👤</span>
+                <span class="tool-name">Biodata Maker</span>
+            </a>
+            <a href="delete-pdf-pages.html" class="tool-card">
+                <span class="tool-icon">🗑️</span>
+                <span class="tool-name">Delete PDF Pages</span>
+            </a>
+            <a href="barbell-plate-calculator.html" class="tool-card">
+                <span class="tool-icon">🏋️</span>
+                <span class="tool-name">Barbell Plate Calculator</span>
+            </a>
+            <a href="pdf-merger.html" class="tool-card">
+                <span class="tool-icon">🔗</span>
+                <span class="tool-name">PDF Merger</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- SEO CONTENT -->
+    <article class="content-section">
+        <h2>The Ultimate Guide to Sending Personalized Good Morning Wishes</h2>
+        <p>In the digital age, a simple text message has the power to transform someone's entire day. The tradition of sending <strong>Good Morning wishes</strong> has evolved from simple verbal greetings to elaborate, personalized digital cards shared across platforms like WhatsApp, Instagram, and Facebook. Using our <strong>Good Morning Wish Generator</strong>, you can create custom messages that resonate with your loved ones.</p>
+
+        <h3>Why Personalized Morning Messages Matter</h3>
+        <p>A generic "Good Morning" forward often gets ignored. However, a message that includes the recipient's name or a quote tailored to their current mood stands out. It shows effort, mindfulness, and genuine care. Personalized wishes can:</p>
+        <ul>
+            <li><strong>Boost Morale:</strong> An inspirational quote can provide the motivation needed to tackle a tough workday.</li>
+            <li><strong>Strengthen Bonds:</strong> Romantic or friendship-themed messages reinforce emotional connections.</li>
+            <li><strong>Spread Positivity:</strong> Spiritual or funny quotes can bring peace or laughter right at the start of the day.</li>
+        </ul>
+
+        <h2>Categories of Good Morning Wishes</h2>
+        <p>Our tool offers various categories to suit every relationship and mood. Here is how to choose the right one:</p>
+
+        <h3>1. Inspirational & Motivational</h3>
+        <p>Best for colleagues, students, or friends facing challenges. These quotes focus on success, new beginnings, and resilience. Examples include quotes about the rising sun, seizing opportunities, and the power of a fresh start.</p>
+
+        <h3>2. Romantic & Love</h3>
+        <p>Designed for partners and spouses. These wishes are intimate and warm, often comparing the loved one to sunshine or expressing gratitude for their presence in your life. Perfect for keeping the spark alive.</p>
+
+        <h3>3. Funny & Witty</h3>
+        <p>Great for best friends and siblings. If you know someone who hates waking up early or needs coffee before conversation, a funny meme-style quote is the best way to wake them up with a smile.</p>
+
+        <h3>4. Spiritual & Blessed</h3>
+        <p>Ideal for family groups and elders. These messages invoke blessings, gratitude to the Almighty, and prayers for a peaceful and safe day.</p>
+
+        <h2>How to Use the Good Morning Wish Generator</h2>
+        <p>Creating a custom image is incredibly simple with our tool:</p>
+        <ol>
+            <li><strong>Enter Name:</strong> Type your name (as the sender) or the recipient's name in the input box.</li>
+            <li><strong>Select Category:</strong> Choose the mood of the message from the dropdown menu.</li>
+            <li><strong>Generate:</strong> Click the "Create New Wish" button. The tool will instantly select a relevant quote and a matching background gradient.</li>
+            <li><strong>Share:</strong> Use the direct WhatsApp button to share the text, or click "Download HD" to save the card as an image to your gallery.</li>
+        </ol>
+
+        <h2>Best Practices for WhatsApp Status Updates</h2>
+        <p>Many users utilize this tool to create daily <strong>WhatsApp Status</strong> updates. To get the most engagement:</p>
+        <ul>
+            <li>Post between 6:00 AM and 8:00 AM when most people check their phones.</li>
+            <li>Use the "Inspirational" category for general audiences.</li>
+            <li>Download the image for high-quality status uploads rather than taking a screenshot.</li>
+        </ul>
+
+        <h3>Frequently Asked Questions (FAQ)</h3>
+        
+        <h4>Can I use these images for commercial purposes?</h4>
+        <p>The images generated are intended for personal use, sharing on social media, and messaging apps. They utilize open-source fonts and CSS gradients.</p>
+
+        <h4>Does the tool work on mobile devices?</h4>
+        <p>Yes! This tool is fully responsive and optimized for Android and iOS devices. You can generate and download images directly to your phone.</p>
+
+        <h4>Are the quotes updated?</h4>
+        <p>We have a vast library of quotes that are randomized every time you click "Create New Wish", ensuring you rarely get the same message twice.</p>
+
+        <p>Start your day right and spread positivity with a customized greeting today!</p>
+    </article>
+
+    <footer>
+        <p>&copy; 2025 Tools Collection. All rights reserved.</p>
+    </footer>
+</div>
+
+<script>
+    // --- DATA ---
+    const quotesData = {
+        inspirational: [
+            "Every morning is a canvas. It is your chance to paint it with beautiful colors.",
+            "Rise up, start fresh see the bright opportunity in each day.",
+            "Success is not final; failure is not fatal: It is the courage to continue that counts.",
+            "Your future is created by what you do today, not tomorrow.",
+            "Wake up with determination. Go to bed with satisfaction.",
+            "The sun is a daily reminder that we too can rise again from the darkness."
+        ],
+        romantic: [
+            "Good morning, my love. You are the sun that warms my life.",
+            "Every morning reminds me of all the wrong dreams I had been chasing until I found you.",
+            "Just thinking of you brightens my morning.",
+            "Waking up next to you is the best start to any day.",
+            "Sending you a little box of sunshine to brighten your day as you have brightened mine."
+        ],
+        funny: [
+            "Good Morning! I see you're still alive. Congratulations.",
+            "I need coffee before I can form a coherent sentence. Good Morning!",
+            "Morning! If you think you're having a bad day, remember, I'm not a morning person either.",
+            "Rise and shine! Or... rise and whine. Your choice.",
+            "My bed and I love each other, but my alarm clock is jealous."
+        ],
+        spiritual: [
+            "May God's blessings be upon you today. Good Morning.",
+            "Let your faith be bigger than your fear. Have a blessed morning.",
+            "Every morning is a gift from the Almighty. Use it wisely.",
+            "Gratitude turns what we have into enough. Have a grateful day.",
+            "Pray, wait, and trust. God has a plan for you today."
+        ],
+        friendship: [
+            "A morning text does not only mean good morning. It also means I think about you when I wake up.",
+            "Good morning bestie! Let's make today amazing.",
+            "Coffee and friends make the perfect blend. Good Morning!",
+            "Friendship is the wine of life. Cheers to a new day!",
+            "Wake up! We have adventures to plan."
+        ],
+        simple: [
+            "Have a wonderful day ahead!",
+            "Wishing you a day full of sunny smiles.",
+            "Sending you positive vibes for the day.",
+            "Hope your day is as amazing as you are.",
+            "Smile! It's a brand new day."
+        ]
+    };
+
+    const backgrounds = {
+        inspirational: "linear-gradient(135deg, #fce38a 0%, #f38181 100%)",
+        romantic: "linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%)",
+        funny: "linear-gradient(120deg, #d4fc79 0%, #96e6a1 100%)",
+        spiritual: "linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%)",
+        friendship: "linear-gradient(to top, #fff1eb 0%, #ace0f9 100%)",
+        simple: "linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%)"
+    };
+
+    const emojis = {
+        inspirational: "🚀",
+        romantic: "❤️",
+        funny: "🤪",
+        spiritual: "🕊️",
+        friendship: "👯",
+        simple: "☕"
+    };
+
+    // --- FUNCTIONS ---
+    function getRandomItem(arr) {
+        return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function generateWish() {
+        const nameInput = document.getElementById('nameInput').value.trim();
+        const category = document.getElementById('categorySelect').value;
+        const cardName = document.getElementById('cardName');
+        const cardQuote = document.getElementById('cardQuote');
+        const cardEmoji = document.getElementById('cardEmoji');
+        const wishCard = document.getElementById('wishCard');
+
+        // Update Text
+        cardName.innerText = nameInput ? nameInput : "My Friend";
+        
+        // Update Quote
+        const randomQuote = getRandomItem(quotesData[category]);
+        cardQuote.innerText = `"${randomQuote}"`;
+
+        // Update Emoji
+        cardEmoji.innerText = emojis[category];
+
+        // Update Background
+        wishCard.style.backgroundImage = backgrounds[category];
+    }
+
+    function copyText() {
+        const text = `Good Morning ${document.getElementById('cardName').innerText}!\n\n${document.getElementById('cardQuote').innerText}\n\nHave a great day!`;
+        navigator.clipboard.writeText(text).then(() => {
+            alert("Message copied to clipboard!");
+        });
+    }
+
+    function shareWhatsapp() {
+        const text = `Good Morning ${document.getElementById('cardName').innerText}!\n\n${document.getElementById('cardQuote').innerText}`;
+        const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
+        window.open(url, '_blank');
+    }
+
+    function downloadImage() {
+        const loader = document.getElementById('loader');
+        const card = document.getElementById('wishCard');
+        
+        loader.style.display = 'block';
+        
+        // Ensure fonts are loaded before capture
+        setTimeout(() => {
+            html2canvas(card, {
+                scale: 3, // High quality
+                useCORS: true,
+                backgroundColor: null
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `good-morning-wish.png`;
+                link.href = canvas.toDataURL("image/png");
+                link.click();
+                loader.style.display = 'none';
+            }).catch(err => {
+                console.error(err);
+                alert("Error generating image.");
+                loader.style.display = 'none';
+            });
+        }, 100);
+    }
+
+    // Initial Load
+    window.onload = generateWish;
+
+</script>
+
+</body>
+</html>
