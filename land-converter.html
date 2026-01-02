@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indian Land Unit Converter | Sq Ft, Dismil, Katha, Bigha, Acre</title>
+    <meta name="description" content="All-in-one Land Area Converter for India. Convert Square Feet to Dismil, Katha, Bigha, Acre, Cent, Ground, and Are. Accurate calculator with adjustable precision.">
+    <meta name="keywords" content="square feet to dismil, 1000 sq ft to dismil, land converter india, bigha calculator, katha to sqft, ground to cent converter, dismil vs decimal, real estate calculator bihar bengal, land measurement tool">
+    <meta name="author" content="Tools Collection">
+    <meta property="og:title" content="Indian Land Area Converter Tool">
+    <meta property="og:description" content="Convert between SQFT, Dismil, Acre, Bigha, Katha, and more.">
+    <meta property="og:type" content="website">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Indian Land Area Converter",
+      "applicationCategory": "Utility",
+      "operatingSystem": "Any",
+      "description": "A comprehensive tool to convert land area units commonly used in India like Dismil, Katha, Bigha, and Ground.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "INR"
+      }
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary: #00897b; /* Teal Green like the screenshot */
+            --primary-dark: #00695c;
+            --bg: #f5f5f5;
+            --white: #ffffff;
+            --text: #333;
+            --border: #ddd;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Roboto', 'Segoe UI', Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+
+        /* HEADER */
+        header {
+            text-align: center;
+            background: var(--white);
+            padding: 30px 20px;
+            margin-bottom: 30px;
+            border-bottom: 3px solid var(--primary);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        header h1 { color: var(--primary-dark); font-size: 2.2rem; margin-bottom: 5px; }
+        header p { color: #666; font-size: 1rem; }
+
+        /* CALCULATOR CARD */
+        .converter-card {
+            background: var(--white);
+            max-width: 600px;
+            margin: 0 auto 50px auto;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border: 1px solid #e0e0e0;
+        }
+
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-weight: 600; color: #555; margin-bottom: 8px; }
+
+        .select-row {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        /* Inputs & Selects styling to match app feel */
+        select, input {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #eee;
+            border-radius: 8px;
+            font-size: 16px;
+            background: #fff;
+            transition: border-color 0.3s;
+        }
+        select:focus, input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        /* Swap Button */
+        .swap-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--primary);
+            padding: 0 10px;
+            transition: transform 0.3s;
+        }
+        .swap-btn:hover { transform: rotate(180deg); }
+
+        /* Result Area */
+        .result-area {
+            background: #e0f2f1;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 25px;
+            border: 1px solid #b2dfdb;
+        }
+        .result-label { font-size: 0.9rem; color: #00695c; text-transform: uppercase; letter-spacing: 1px; }
+        .result-val { font-size: 2.5rem; color: var(--primary-dark); font-weight: 700; margin: 5px 0; }
+        .result-unit { font-size: 1.2rem; color: #004d40; }
+
+        /* Precision Control */
+        .settings-row {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 15px;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        .precision-select {
+            width: auto;
+            padding: 5px 10px;
+            font-size: 0.85rem;
+        }
+
+        /* Action Buttons */
+        .btn-row { display: flex; gap: 10px; margin-top: 20px; }
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-dark); }
+        .btn-reset { background: #ffebee; color: #c62828; }
+        .btn-reset:hover { background: #ffcdd2; }
+
+        /* CONTENT */
+        .content-section {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .content-section h2 { color: var(--primary-dark); margin-top: 30px; font-size: 1.8rem; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px; }
+        .content-section h3 { color: #333; margin-top: 25px; font-size: 1.4rem; }
+        .content-section p, .content-section li { color: #555; margin-bottom: 15px; }
+        .content-section ul { margin-left: 20px; }
+
+        /* TABLES */
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background: var(--primary); color: white; }
+        tr:nth-child(even) { background: #f9f9f9; }
+
+        /* RELATED TOOLS */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .tool-card {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            text-decoration: none;
+            color: var(--text);
+            border: 1px solid #eee;
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+        .tool-card:hover { transform: translateY(-5px); border-color: var(--primary); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .tool-icon { font-size: 2rem; margin-bottom: 10px; }
+        .tool-name { font-weight: 700; }
+
+        @media (max-width: 600px) {
+            .select-row { flex-direction: column; }
+            .swap-btn { transform: rotate(90deg); margin: 10px 0; }
+            .swap-btn:hover { transform: rotate(270deg); }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <h1>Indian Land Unit Converter</h1>
+        <p>Convert Sq. Ft., Dismil, Katha, Bigha, Acre, Guntha, Ground & more.</p>
+    </div>
+</header>
+
+<div class="container">
+
+    <!-- CALCULATOR -->
+    <div class="converter-card">
+        
+        <div class="settings-row">
+            <label for="precision" style="margin:0; font-weight:normal;">Decimal Precision:</label>
+            <select id="precision" class="precision-select" onchange="convert()">
+                <option value="2">2 Digits (e.g. 2.30)</option>
+                <option value="4">4 Digits (e.g. 2.2957)</option>
+                <option value="6" selected>6 Digits (e.g. 2.295684)</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Value to Convert</label>
+            <input type="number" id="inputValue" placeholder="Enter number (e.g. 1000)" oninput="convert()">
+        </div>
+
+        <div class="select-row">
+            <div style="flex:1">
+                <label>From Unit</label>
+                <select id="fromUnit" onchange="convert()">
+                    <option value="sqft" selected>Square Feet (sq ft)</option>
+                    <option value="dismil">Dismil (Decimal)</option>
+                    <option value="acre">Acres</option>
+                    <option value="cent">Cents</option>
+                    <option value="ground">Ground</option>
+                    <option value="guntha">Guntha</option>
+                    <option value="are">Are</option>
+                    <option value="hectare">Hectare</option>
+                    <option value="bigha">Bigha (Standard)</option>
+                    <option value="katha">Katha (Standard)</option>
+                    <option value="sqmeter">Square Meter</option>
+                    <option value="sqyard">Square Yard (Gaj)</option>
+                </select>
+            </div>
+
+            <button class="swap-btn" onclick="swapUnits()" title="Swap Units">⇄</button>
+
+            <div style="flex:1">
+                <label>To Unit</label>
+                <select id="toUnit" onchange="convert()">
+                    <option value="sqft">Square Feet (sq ft)</option>
+                    <option value="dismil" selected>Dismil (Decimal)</option>
+                    <option value="acre">Acres</option>
+                    <option value="cent">Cents</option>
+                    <option value="ground">Ground</option>
+                    <option value="guntha">Guntha</option>
+                    <option value="are">Are</option>
+                    <option value="hectare">Hectare</option>
+                    <option value="bigha">Bigha (Standard)</option>
+                    <option value="katha">Katha (Standard)</option>
+                    <option value="sqmeter">Square Meter</option>
+                    <option value="sqyard">Square Yard (Gaj)</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="result-area" id="resultArea" style="display:none;">
+            <div class="result-label">Result</div>
+            <div class="result-val" id="outputValue">0</div>
+            <div class="result-unit" id="outputUnit">Dismil</div>
+        </div>
+
+        <div class="btn-row">
+            <button class="btn btn-reset" onclick="resetForm()">Reset</button>
+        </div>
+        
+        <div style="margin-top: 15px; font-size: 0.85rem; color: #777; text-align: center;">
+            <p><strong>Note on 1000 Sq Ft to Dismil:</strong><br>
+            Precise: <strong>2.295684</strong> | Rounded: <strong>2.2957</strong><br>
+            (Change precision in top right corner)</p>
+        </div>
+
+    </div>
+
+    <!-- RELATED TOOLS -->
+    <div style="margin-bottom: 60px;">
+        <h2 style="text-align:center; color:var(--primary-dark);">More Useful Tools</h2>
+        <div class="tools-grid">
+            <a href="upi-id-payment-link-converter.html" class="tool-card">
+                <span class="tool-icon">💸</span>
+                <span class="tool-name">UPI Link Generator</span>
+            </a>
+            <a href="word-counter-tool.html" class="tool-card">
+                <span class="tool-icon">📝</span>
+                <span class="tool-name">Word Counter</span>
+            </a>
+            <a href="digital-detox-calculator.html" class="tool-card">
+                <span class="tool-icon">📵</span>
+                <span class="tool-name">Digital Detox</span>
+            </a>
+            <a href="reading-time-calculator.html" class="tool-card">
+                <span class="tool-icon">⏱️</span>
+                <span class="tool-name">Reading Time</span>
+            </a>
+            <a href="image-compressor.html" class="tool-card">
+                <span class="tool-icon">🖼️</span>
+                <span class="tool-name">Image Compressor</span>
+            </a>
+            <a href="image-to-pdf-converter.html" class="tool-card">
+                <span class="tool-icon">📄</span>
+                <span class="tool-name">Image to PDF</span>
+            </a>
+            <a href="birthday-countdown-calculator.html" class="tool-card">
+                <span class="tool-icon">🎂</span>
+                <span class="tool-name">Birthday Timer</span>
+            </a>
+            <a href="biodata-maker.html" class="tool-card">
+                <span class="tool-icon">👤</span>
+                <span class="tool-name">Biodata Maker</span>
+            </a>
+            <a href="delete-pdf-pages.html" class="tool-card">
+                <span class="tool-icon">🗑️</span>
+                <span class="tool-name">Delete PDF Pages</span>
+            </a>
+            <a href="barbell-plate-calculator.html" class="tool-card">
+                <span class="tool-icon">🏋️</span>
+                <span class="tool-name">Plate Calculator</span>
+            </a>
+            <a href="pdf-merger.html" class="tool-card">
+                <span class="tool-icon">🔗</span>
+                <span class="tool-name">PDF Merger</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- SEO CONTENT -->
+    <article class="content-section">
+        <h2>The Ultimate Guide to Indian Land Measurement Units</h2>
+        <p>In the world of Indian real estate, navigating through land measurement units can feel like traveling through different countries. Every region has its own specific unit. While measuring a flat in Mumbai uses "Square Feet," buying agricultural land in Bihar uses "Dismil" and "Katha," and purchasing a plot in Chennai involves "Grounds."</p>
+        
+        <p>This tool is designed to unify these confusing units into one simple interface. Below, we break down the most common units used in India and answer the specific confusion about rounding numbers.</p>
+
+        <h3>1000 Square Feet to Dismil: Solving the Precision Confusion</h3>
+        <p>Many users ask: <em>"Is 1000 sq ft equal to 2.295684 Dismil or 2.2957 Dismil?"</em></p>
+        <p>The confusion arises from <strong>rounding</strong>. Let's look at the math:</p>
+        <ul>
+            <li><strong>The Constant:</strong> 1 Dismil = 435.6 Square Feet.</li>
+            <li><strong>The Calculation:</strong> 1000 ÷ 435.6.</li>
+            <li><strong>The Raw Result:</strong> 2.295684113865932...</li>
+        </ul>
+        <p><strong>So, which is correct?</strong></p>
+        <ul>
+            <li><strong>2.295684</strong> is the <em>precise</em> answer (rounded to 6 decimal places). Use this for official surveys where high accuracy is needed.</li>
+            <li><strong>2.2957</strong> is the <em>standard</em> answer (rounded to 4 decimal places). This is generally acceptable for buying/selling land as the difference (0.00001 Dismil) is physically negligible (less than a square inch).</li>
+        </ul>
+        <p>Our tool allows you to select the precision you prefer using the dropdown menu at the top right of the calculator.</p>
+
+        <h2>Definitions of Common Units</h2>
+
+        <h3>1. Dismil (Decimal)</h3>
+        <p>Commonly used in <strong>Bihar, Jharkhand, West Bengal, Odisha, and Bangladesh</strong>.</p>
+        <ul>
+            <li><strong>Definition:</strong> 1/100th of an Acre.</li>
+            <li><strong>Conversion:</strong> 1 Dismil = 435.6 Sq Ft.</li>
+        </ul>
+
+        <h3>2. Cent</h3>
+        <p>Commonly used in <strong>Kerala, Tamil Nadu, and Karnataka</strong>.</p>
+        <ul>
+            <li><strong>Definition:</strong> Mathematically identical to Dismil.</li>
+            <li><strong>Conversion:</strong> 1 Cent = 435.6 Sq Ft.</li>
+            <li><strong>Note:</strong> 100 Cents = 1 Acre.</li>
+        </ul>
+
+        <h3>3. Katha (Cottah)</h3>
+        <p>Used in <strong>Bihar, West Bengal, and Assam</strong>.</p>
+        <p><em>Warning:</em> The size of a Katha varies significantly by district. However, the "Standard" measurement usually accepted in Eastern India is:</p>
+        <ul>
+            <li><strong>Conversion:</strong> 1 Katha ≈ 1361.25 Sq Ft (Standard).</li>
+            <li><strong>In Dismil:</strong> 1 Katha ≈ 3.125 Dismil.</li>
+        </ul>
+
+        <h3>4. Bigha</h3>
+        <p>Used across <strong>North India (UP, Bihar, Punjab, Haryana)</strong>.</p>
+        <p>Like Katha, Bigha varies wildly. In Punjab, a Bigha is small; in Bihar, it is large.</p>
+        <ul>
+            <li><strong>Standard (East India):</strong> 1 Bigha = 20 Katha.</li>
+            <li><strong>Conversion:</strong> 1 Bigha ≈ 27,225 Sq Ft.</li>
+        </ul>
+
+        <h3>5. Ground</h3>
+        <p>Exclusively used in <strong>Tamil Nadu (Chennai real estate)</strong>.</p>
+        <ul>
+            <li><strong>Conversion:</strong> 1 Ground = 2,400 Sq Ft.</li>
+            <li><strong>Usage:</strong> Often used for residential plots. A "Half Ground" is 1,200 Sq Ft.</li>
+        </ul>
+
+        <h3>6. Guntha</h3>
+        <p>Used in <strong>Maharashtra, Karnataka, and Andhra Pradesh</strong>.</p>
+        <ul>
+            <li><strong>Conversion:</strong> 1 Guntha = 1,089 Sq Ft.</li>
+            <li><strong>Relation:</strong> 40 Gunthas = 1 Acre.</li>
+        </ul>
+
+        <h3>7. Are</h3>
+        <p>Used in <strong>Maharashtra</strong> and government records (Metric System).</p>
+        <ul>
+            <li><strong>Conversion:</strong> 1 Are = 100 Square Meters ≈ 1,076.39 Sq Ft.</li>
+            <li><strong>Relation:</strong> 100 Are = 1 Hectare.</li>
+        </ul>
+
+        <h2>Conversion Cheat Sheet</h2>
+        <p>Here is a quick reference table based on the Standard Square Foot.</p>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Unit</th>
+                    <th>Equivalent in Sq Ft</th>
+                    <th>Equivalent in Dismil</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>1 Dismil</td><td>435.6</td><td>1</td></tr>
+                <tr><td>1 Cent</td><td>435.6</td><td>1</td></tr>
+                <tr><td>1 Guntha</td><td>1,089</td><td>2.5</td></tr>
+                <tr><td>1 Katha (Std)</td><td>1,361.25</td><td>3.125</td></tr>
+                <tr><td>1 Ground</td><td>2,400</td><td>5.51</td></tr>
+                <tr><td>1 Acre</td><td>43,560</td><td>100</td></tr>
+                <tr><td>1 Hectare</td><td>107,639</td><td>247.1</td></tr>
+            </tbody>
+        </table>
+
+        <h2>Why Use This Calculator?</h2>
+        <p>Manual calculation of land area is prone to error, especially when dealing with constants like 435.6 or 1361.25. A small decimal error can lead to a difference of several feet in physical land, which translates to significant financial loss in real estate transactions.</p>
+        <p>This tool runs locally in your browser, ensuring instant results without needing to refresh the page. Whether you are a Patwari, a Real Estate Agent, or a Buyer, this tool provides the flexibility to check "Dismil to Sq Ft", "Ground to Cent", or "Acre to Bigha" instantly.</p>
+
+        <h3>How to Measure Irregular Land?</h3>
+        <p>Most land plots are not perfect rectangles. To get the Square Feet value to enter into this calculator:</p>
+        <ol>
+            <li>Divide the land map into geometric shapes (Triangles and Rectangles).</li>
+            <li>Calculate the area of each shape individually.</li>
+            <li>Add them together to get total Square Feet.</li>
+            <li>Enter that total into our tool to convert it to your local unit (Dismil/Katha).</li>
+        </ol>
+
+    </article>
+
+    <footer style="text-align:center; padding: 20px 0; color: #888; border-top: 1px solid #ddd;">
+        <p>&copy; 2026 Tools Collection. All rights reserved.</p>
+    </footer>
+
+</div>
+
+<script>
+    // Conversion Factors (Base Unit: Square Feet)
+    const factors = {
+        sqft: 1,
+        dismil: 435.6,
+        cent: 435.6,
+        acre: 43560,
+        ground: 2400,
+        guntha: 1089,
+        are: 1076.39,
+        hectare: 107639,
+        bigha: 27225, // Standard Bigha (20 Katha)
+        katha: 1361.25, // Standard Katha
+        sqmeter: 10.7639,
+        sqyard: 9
+    };
+
+    const inputField = document.getElementById('inputValue');
+    const fromSelect = document.getElementById('fromUnit');
+    const toSelect = document.getElementById('toUnit');
+    const resultArea = document.getElementById('resultArea');
+    const outputValue = document.getElementById('outputValue');
+    const outputUnit = document.getElementById('outputUnit');
+    const precisionSelect = document.getElementById('precision');
+
+    function convert() {
+        const val = parseFloat(inputField.value);
+        if (isNaN(val)) {
+            resultArea.style.display = 'none';
+            return;
+        }
+
+        const fromUnit = fromSelect.value;
+        const toUnit = toSelect.value;
+        const precision = parseInt(precisionSelect.value);
+
+        // Convert From unit to SqFt (Base)
+        const inSqFt = val * factors[fromUnit];
+
+        // Convert SqFt to Target Unit
+        let result = inSqFt / factors[toUnit];
+
+        // Apply precision
+        // If result is huge integer, don't use decimal, otherwise use fixed
+        if (!Number.isInteger(result)) {
+            result = result.toFixed(precision);
+            // Remove trailing zeros if any (optional, but requested precision usually implies keeping them)
+            // To stick strictly to user request of 2.295684 vs 2.2957, we keep the zeros defined by toFixed
+        }
+
+        outputValue.innerText = result;
+        outputUnit.innerText = toSelect.options[toSelect.selectedIndex].text;
+        resultArea.style.display = 'block';
+    }
+
+    function swapUnits() {
+        const temp = fromSelect.value;
+        fromSelect.value = toSelect.value;
+        toSelect.value = temp;
+        convert();
+    }
+
+    function resetForm() {
+        inputField.value = '';
+        resultArea.style.display = 'none';
+        fromSelect.value = 'sqft';
+        toSelect.value = 'dismil';
+    }
+</script>
+
+</body>
+</html>
