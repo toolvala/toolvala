@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Age Calculator Online – Exact Age in Years, Months & Days</title>
+
+<meta name="description" content="Free Age Calculator Online. Calculate your exact age in years, months and days. Useful for TET, CTET, government exams and job eligibility.">
+<meta name="keywords" content="age calculator, exact age calculator, age calculator for exam, TET age calculator, DOB to age calculator">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{font-family:Arial, sans-serif;background:#f4f6f8;margin:0}
+.container{max-width:700px;margin:auto;background:#fff;padding:20px}
+h1,h2{color:#2c3e50}
+label{font-weight:bold;margin-top:10px;display:block}
+input,button{width:100%;padding:10px;margin-top:5px}
+button{background:#0a7cff;color:#fff;border:none;font-size:16px;cursor:pointer}
+.result{margin-top:20px;padding:15px;border-radius:6px}
+.success{background:#e8f8f5;color:#0b5345}
+.tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px;margin-top:30px}
+.tool-card{border:1px solid #ddd;padding:15px;text-align:center;border-radius:8px}
+.tool-card a{text-decoration:none;color:#0a7cff;font-weight:bold}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<h1>Age Calculator – Calculate Exact Age Online</h1>
+<p>Use this free <strong>Age Calculator</strong> to find your exact age in <strong>years, months and days</strong>. This tool is helpful for <strong>TET, CTET, government exams and job eligibility</strong>.</p>
+
+<hr>
+
+<h2>Enter Date of Birth</h2>
+
+<label>Date of Birth</label>
+<input type="date" id="dob">
+
+<button onclick="calculateAge()">Calculate Age</button>
+
+<div id="output"></div>
+
+<script>
+function calculateAge(){
+let dobInput=document.getElementById("dob").value;
+let output=document.getElementById("output");
+
+if(dobInput===""){
+output.innerHTML="<div class='result'>Please select your date of birth.</div>";
+return;
+}
+
+let dob=new Date(dobInput);
+let today=new Date();
+
+let years=today.getFullYear()-dob.getFullYear();
+let months=today.getMonth()-dob.getMonth();
+let days=today.getDate()-dob.getDate();
+
+if(days<0){
+months--;
+let prevMonth=new Date(today.getFullYear(), today.getMonth(), 0);
+days+=prevMonth.getDate();
+}
+
+if(months<0){
+years--;
+months+=12;
+}
+
+let eligibility = years >= 18 
+? "✅ Eligible for TET / Government Exams (Age 18+)" 
+: "❌ Not eligible for TET (Below 18 years)";
+
+output.innerHTML=`
+<div class='result success'>
+<strong>Your Exact Age:</strong><br>
+${years} Years, ${months} Months, ${days} Days<br><br>
+<strong>Exam Eligibility:</strong><br>
+${eligibility}
+</div>`;
+}
+</script>
+
+<hr>
+
+<h2>Related Tools</h2>
+<div class="tools">
+<div class="tool-card"><a href="tet-eligibility-checker.html">TET Eligibility Checker</a></div>
+<div class="tool-card"><a href="#">TET Marks Calculator</a></div>
+<div class="tool-card"><a href="#">CTET Mock Test</a></div>
+<div class="tool-card"><a href="#">Study Planner Tool</a></div>
+</div>
+
+<hr>
+
+<h2>About Age Calculator Tool</h2>
+<p>The <strong>Age Calculator Online</strong> helps users calculate their exact age from date of birth to today’s date. Many competitive exams in India such as <strong>TET, CTET, UPSC, SSC, Banking and State government jobs</strong> have age-based eligibility criteria.</p>
+
+<p>This tool removes confusion by giving accurate age in years, months and days.</p>
+
+<h2>Why Age Calculation is Important for Exams?</h2>
+<ul>
+<li>Check minimum age eligibility</li>
+<li>Avoid application rejection</li>
+<li>Useful for TET & teaching exams</li>
+<li>Helpful for job forms</li>
+</ul>
+
+<h2>Frequently Asked Questions</h2>
+
+<h3>Is this age calculator accurate?</h3>
+<p>Yes, it calculates age based on current date and standard calendar rules.</p>
+
+<h3>Can I use it for TET eligibility?</h3>
+<p>Yes. TET minimum age is usually 18 years.</p>
+
+<h3>Is this tool free?</h3>
+<p>Yes, 100% free and no registration required.</p>
+
+<h2>Conclusion</h2>
+<p>This free <strong>Age Calculator</strong> is a must-use tool for students, job seekers and exam aspirants across India.</p>
+
+</div>
+</body>
+</html>
