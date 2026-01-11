@@ -2,15 +2,15 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Tea Bag Calculator – Perfect Tea Brewing Guide | Toolvala</title>
+<title>Tea Bag Calculator – Perfect Tea Brewing Timer | Toolvala</title>
 
-<meta name="description" content="Free Tea Bag Calculator to calculate exact tea bags, water temperature and brewing time for black tea, green tea, chai, herbal tea and more. Perfect cup every time.">
-<meta name="keywords" content="tea bag calculator, tea brewing calculator, how many tea bags per cup, chai tea calculator, tea temperature chart, tea steeping time">
+<meta name="description" content="Free Tea Bag Calculator with live brewing timer. Calculate exact tea bags, water temperature, and steeping time for black tea, green tea, chai and more.">
+<meta name="keywords" content="tea bag calculator, tea brewing timer, tea steeping time, chai calculator, tea temperature chart">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link rel="canonical" href="https://www.toolvala.in/tea-bag-calculator.html">
 
-<!-- Schema: Web Application -->
+<!-- Schema: WebApplication -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -18,8 +18,7 @@
   "name": "Tea Bag Calculator",
   "url": "https://www.toolvala.in/tea-bag-calculator.html",
   "applicationCategory": "FoodApplication",
-  "operatingSystem": "All",
-  "description": "Calculate the exact number of tea bags, water temperature, and brewing time for different tea types."
+  "operatingSystem": "All"
 }
 </script>
 
@@ -33,14 +32,14 @@
     "name": "How many tea bags should I use per cup?",
     "acceptedAnswer": {
       "@type": "Answer",
-      "text": "Typically one tea bag per cup (200ml) is ideal, but strength and tea type can change the quantity."
+      "text": "Usually one tea bag per 200ml cup gives perfect strength, depending on tea type."
     }
   },{
     "@type": "Question",
-    "name": "What is the correct temperature for brewing tea?",
+    "name": "What is the correct steeping time for tea?",
     "acceptedAnswer": {
       "@type": "Answer",
-      "text": "Black tea needs boiling water (95–100°C), green tea needs cooler water (70–80°C)."
+      "text": "Black tea needs 3–5 minutes, green tea 2–3 minutes, and herbal tea up to 7 minutes."
     }
   }]
 }
@@ -65,18 +64,11 @@ body{
   box-shadow:0 4px 15px rgba(0,0,0,.08);
   margin-bottom:20px;
 }
-h1,h2,h3{
-  color:#1a2b4c;
-}
+h1,h2,h3{color:#1a2b4c;}
 select,input[type=range]{
   width:100%;
   padding:10px;
   margin:10px 0;
-}
-.result{
-  background:#eef6ff;
-  padding:15px;
-  border-radius:8px;
 }
 button{
   background:#2563eb;
@@ -89,16 +81,27 @@ button{
   width:100%;
 }
 button:hover{background:#1d4ed8;}
+.result{
+  background:#eef6ff;
+  padding:15px;
+  border-radius:8px;
+}
+.timer{
+  text-align:center;
+}
+.timer h3{
+  font-size:36px;
+  margin:10px 0;
+}
 .tools-grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
   gap:15px;
 }
 .tool-card{
-  display:block;
   text-decoration:none;
-  padding:15px;
   background:#f1f5f9;
+  padding:15px;
   border-radius:10px;
   text-align:center;
   color:#000;
@@ -114,8 +117,9 @@ footer{
 <body>
 <div class="container">
 
-<h1>Tea Bag Calculator – Brew the Perfect Cup of Tea</h1>
+<h1>Tea Bag Calculator with Live Brewing Timer</h1>
 
+<!-- CALCULATOR -->
 <div class="card">
 <h2>Tea Bag Calculator</h2>
 
@@ -138,6 +142,20 @@ footer{
 <div class="result" id="output"></div>
 </div>
 
+<!-- TIMER -->
+<div class="card timer">
+<h2>Live Brewing Timer ⏱️</h2>
+
+<p><strong>Recommended Steeping Time:</strong>
+<span id="recommendedTime">—</span></p>
+
+<h3 id="timerDisplay">00:00</h3>
+
+<button onclick="startTimer()">Start Brewing</button>
+<button onclick="pauseTimer()" style="background:#64748b;margin-top:10px;">Pause</button>
+<button onclick="resetTimer()" style="background:#dc2626;margin-top:10px;">Reset</button>
+</div>
+
 <script>
 const teaData={
  black:{bags:1,temp:"95–100°C",time:"3–5 minutes"},
@@ -151,63 +169,66 @@ const teaData={
 const cups=document.getElementById("cups");
 cups.oninput=()=>document.getElementById("cupCount").innerText=cups.value;
 
+let timerInterval;
+let remainingSeconds=0;
+
+function parseTimeToSeconds(timeStr){
+ const nums=timeStr.match(/\d+/g);
+ if(!nums) return 180;
+ const avg=nums.reduce((a,b)=>a+parseInt(b),0)/nums.length;
+ return Math.round(avg*60);
+}
+
 function calculateTea(){
  const type=document.getElementById("teaType").value;
  const count=parseInt(cups.value);
  const data=teaData[type];
+
  document.getElementById("output").innerHTML=
  `<p>🫖 <strong>Tea Bags:</strong> ${count * data.bags}</p>
   <p>🌡️ <strong>Water Temperature:</strong> ${data.temp}</p>
   <p>⏱️ <strong>Steeping Time:</strong> ${data.time}</p>`;
+
+ document.getElementById("recommendedTime").innerText=data.time;
+ remainingSeconds=parseTimeToSeconds(data.time);
+ updateTimerDisplay();
+}
+
+function startTimer(){
+ if(remainingSeconds<=0){
+   alert("Please calculate tea first ☕");
+   return;
+ }
+ if(timerInterval) return;
+ timerInterval=setInterval(()=>{
+   if(remainingSeconds<=0){
+     clearInterval(timerInterval);
+     timerInterval=null;
+     document.getElementById("timerDisplay").innerText="Done ☕";
+     alert("Your tea is ready! 🍵");
+     return;
+   }
+   remainingSeconds--;
+   updateTimerDisplay();
+ },1000);
+}
+
+function pauseTimer(){
+ clearInterval(timerInterval);
+ timerInterval=null;
+}
+
+function resetTimer(){
+ pauseTimer();
+ updateTimerDisplay();
+}
+
+function updateTimerDisplay(){
+ const m=String(Math.floor(remainingSeconds/60)).padStart(2,'0');
+ const s=String(remainingSeconds%60).padStart(2,'0');
+ document.getElementById("timerDisplay").innerText=`${m}:${s}`;
 }
 </script>
-
-<!-- SEO CONTENT -->
-<div class="card">
-<h2>What Is a Tea Bag Calculator?</h2>
-<p>
-A tea bag calculator is a smart online tool that helps you determine the exact number of tea bags required to brew tea based on the number of cups and tea type. Many people either overuse or underuse tea bags, which affects flavor, aroma, and strength. This calculator removes guesswork and ensures consistency.
-</p>
-
-<h2>Why Tea Brewing Accuracy Matters</h2>
-<p>
-Tea brewing is both an art and a science. Different tea leaves react differently to water temperature and steeping time. Black tea requires boiling water, while green tea becomes bitter if brewed too hot. Using the correct number of tea bags improves taste and health benefits.
-</p>
-
-<h2>Tea Types and Brewing Guide</h2>
-<h3>Black Tea</h3>
-<p>
-Black tea is bold and robust. It requires higher temperature and longer steeping. Using one tea bag per cup is ideal.
-</p>
-
-<h3>Green Tea</h3>
-<p>
-Green tea is delicate and refreshing. Cooler water preserves antioxidants and prevents bitterness.
-</p>
-
-<h3>Herbal Tea</h3>
-<p>
-Herbal teas are caffeine-free and require longer steeping for full flavor extraction.
-</p>
-
-<h3>Chai</h3>
-<p>
-Chai is an Indian spiced tea brewed with milk and water. Strong boiling enhances spice infusion.
-</p>
-
-<h2>Benefits of Using a Tea Bag Calculator</h2>
-<ul>
-<li>Perfect taste every time</li>
-<li>No tea wastage</li>
-<li>Consistent strength</li>
-<li>Ideal for homes, offices, and events</li>
-</ul>
-
-<h2>Who Should Use This Tool?</h2>
-<p>
-This tea bag calculator is ideal for tea lovers, cafes, offices, hotels, and households preparing tea for multiple people.
-</p>
-</div>
 
 <!-- RELATED TOOLS -->
 <div class="card">
