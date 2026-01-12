@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Sleep Cycle Calculator | Best Time to Sleep & Wake Up</title>
+<meta name="description" content="Sleep Cycle Calculator helps you find the best time to sleep and wake up based on 90-minute sleep cycles. Improve sleep quality, productivity, and health.">
+<meta name="keywords" content="sleep cycle calculator, best time to sleep, best time to wake up, sleep calculator, healthy sleep cycle">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.toolvala.in/sleep-cycle-calculator.html">
+
+<style>
+body{font-family:Arial,sans-serif;background:#f4f6f8;margin:0;padding:20px}
+.container{max-width:900px;background:#fff;margin:auto;padding:20px;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,.1)}
+h1{text-align:center}
+.tool-box{max-width:420px;margin:auto}
+label{display:block;margin-top:12px}
+input{width:100%;padding:10px;margin-top:5px}
+button{width:100%;margin-top:15px;padding:12px;background:#4f46e5;color:#fff;border:none;border-radius:5px;cursor:pointer}
+.result{margin-top:15px;font-weight:bold;text-align:center}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px;margin-top:30px}
+.card{border:1px solid #ddd;padding:15px;border-radius:8px;text-align:center;text-decoration:none;color:#000}
+.card:hover{background:#eef2ff}
+.content{margin-top:40px;line-height:1.7}
+.time-box{background:#f1f5f9;padding:10px;border-radius:5px;margin:5px 0}
+</style>
+
+</head>
+<body>
+<div class="container">
+<h1>Sleep Cycle Calculator</h1>
+
+<div class="tool-box">
+<label>Wake Up Time</label>
+<input type="time" id="wake">
+<button onclick="calcSleep()">Calculate Best Sleep Times</button>
+<div class="result" id="res"></div>
+</div>
+
+<h2>Related Tools</h2>
+<div class="cards">
+<a class="card" href="attendance-percentage-calculator.html">Attendance Percentage Calculator</a>
+<a class="card" href="study-hours-planner.html">Study Hours Planner</a>
+<a class="card" href="digital-detox-calculator.html">Digital Detox Calculator</a>
+<a class="card" href="daily-water-intake-calculator.html">Water Intake Calculator</a>
+</div>
+
+<div class="content">
+<h2>What Is a Sleep Cycle?</h2>
+<p>A sleep cycle is a complete progression through different stages of sleep, including light sleep, deep sleep, and REM sleep. On average, one sleep cycle lasts about 90 minutes. Waking up at the end of a sleep cycle helps you feel refreshed, energetic, and alert.</p>
+
+<h2>How the Sleep Cycle Calculator Works</h2>
+<p>This Sleep Cycle Calculator uses scientific sleep cycle timing to calculate the best times to fall asleep based on your desired wake-up time. It assumes an average of 15 minutes to fall asleep and calculates multiple 90-minute cycles backward.</p>
+
+<h2>Why Sleep Cycles Matter</h2>
+<p>Waking up in the middle of a sleep cycle often causes grogginess and fatigue, commonly known as sleep inertia. Aligning your sleep with natural cycles improves concentration, memory, mood, and overall health.</p>
+
+<h2>Best Sleep Duration</h2>
+<ul>
+<li>4 cycles ≈ 6 hours</li>
+<li>5 cycles ≈ 7.5 hours (ideal)</li>
+<li>6 cycles ≈ 9 hours</li>
+</ul>
+
+<h2>Who Should Use This Calculator</h2>
+<ul>
+<li>Students preparing for exams</li>
+<li>Working professionals</li>
+<li>Night shift workers</li>
+<li>People with irregular sleep schedules</li>
+<li>Anyone wanting better sleep quality</li>
+</ul>
+
+<h2>Benefits of Using Toolvala Sleep Calculator</h2>
+<ul>
+<li>Improves sleep quality</li>
+<li>Reduces morning fatigue</li>
+<li>Boosts productivity and focus</li>
+<li>Easy to use and free</li>
+<li>Mobile-friendly</li>
+</ul>
+
+<h2>Frequently Asked Questions</h2>
+<p><strong>Q. How long is one sleep cycle?</strong><br>About 90 minutes.</p>
+<p><strong>Q. How many sleep cycles are best?</strong><br>5 cycles (7.5 hours) is ideal for most adults.</p>
+<p><strong>Q. Does this tool work for everyone?</strong><br>It provides an average guideline; individual sleep needs may vary.</p>
+
+<h2>Conclusion</h2>
+<p>The Sleep Cycle Calculator is a simple yet powerful tool to improve your daily energy and health. By sleeping and waking at the right times, you can dramatically improve your quality of life. Use this free tool by Toolvala to build a healthier sleep routine.</p>
+</div>
+</div>
+
+<script>
+function calcSleep(){
+var wake=document.getElementById('wake').value;
+if(!wake){document.getElementById('res').innerHTML='❌ Please select wake up time';return;}
+var parts=wake.split(':');
+var wakeMin=parseInt(parts[0])*60+parseInt(parts[1]);
+var result='Best times to fall asleep:<br>';
+for(var i=6;i>=4;i--){
+var sleepMin=wakeMin-(i*90)-15;
+while(sleepMin<0) sleepMin+=1440;
+var h=Math.floor(sleepMin/60)%24;
+var m=sleepMin%60;
+result+='<div class="time-box">'+h.toString().padStart(2,'0')+':'+m.toString().padStart(2,'0')+' ('+i+' cycles)</div>';
+}
+document.getElementById('res').innerHTML=result;
+}
+</script>
+
+</body>
+</html>
