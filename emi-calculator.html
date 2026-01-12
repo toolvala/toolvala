@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EMI Calculator | Loan EMI Calculator Online</title>
+<meta name="description" content="Free EMI Calculator to calculate loan EMI online. Calculate home loan EMI, personal loan EMI, car loan EMI with interest rate and tenure.">
+<meta name="keywords" content="emi calculator, loan emi calculator, home loan emi calculator, personal loan emi calculator, car loan emi calculator, monthly emi calculation">
+<link rel="canonical" href="https://www.toolvala.in/emi-calculator.html">
+<meta name="robots" content="index, follow">
+<style>
+body{font-family:Arial,Helvetica,sans-serif;background:#f5f7fa;margin:0;padding:0;line-height:1.6}
+.container{max-width:1100px;margin:auto;background:#fff;padding:20px}
+h1,h2,h3{color:#1f2937}
+.calculator{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:30px}
+label{font-weight:bold}
+input{width:100%;padding:10px;margin-top:5px;margin-bottom:15px}
+button{background:#dc2626;color:#fff;border:none;padding:12px 20px;font-size:16px;cursor:pointer}
+button:hover{background:#b91c1c}
+.result{background:#f1f5f9;padding:20px;margin-top:20px}
+.table{width:100%;border-collapse:collapse;margin-top:10px}
+.table th,.table td{border:1px solid #ccc;padding:8px;text-align:left}
+.tool-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px;margin-top:30px}
+.card{border:1px solid #e5e7eb;padding:15px;border-radius:6px}
+footer{margin-top:40px;padding:20px;background:#f9fafb;text-align:center}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>EMI Calculator</h1>
+<p>The <strong>EMI Calculator</strong> is a free online tool that helps you calculate your monthly loan EMI quickly and accurately. Whether you are planning a home loan, car loan, or personal loan, this EMI calculator gives instant results.</p>
+
+<h2>Calculate Your Loan EMI</h2>
+<div class="calculator">
+<div>
+<label>Loan Amount (₹)</label>
+<input type="number" id="loan" placeholder="Enter loan amount">
+
+<label>Interest Rate (% per year)</label>
+<input type="number" id="rate" placeholder="Enter interest rate">
+</div>
+<div>
+<label>Loan Tenure (Years)</label>
+<input type="number" id="tenure" placeholder="Enter tenure in years">
+</div>
+</div>
+<button onclick="calculateEMI()">Calculate EMI</button>
+
+<div class="result" id="result" style="display:none">
+<h2>EMI Result</h2>
+<table class="table">
+<tr><th>Loan Amount</th><td id="rLoan"></td></tr>
+<tr><th>Interest Rate</th><td id="rRate"></td></tr>
+<tr><th>Tenure</th><td id="rTenure"></td></tr>
+<tr><th>Monthly EMI</th><td id="rEmi"></td></tr>
+<tr><th>Total Interest</th><td id="rInterest"></td></tr>
+<tr><th>Total Payable Amount</th><td id="rTotal"></td></tr>
+</table>
+</div>
+
+<h2>What is EMI?</h2>
+<p>EMI stands for <strong>Equated Monthly Installment</strong>. It is the fixed amount paid by a borrower to the lender every month until the loan is fully repaid. EMI includes both principal and interest components.</p>
+
+<h2>EMI Calculation Formula</h2>
+<p><strong>EMI = [P × R × (1+R)^N] / [(1+R)^N − 1]</strong></p>
+<p>Where P is loan amount, R is monthly interest rate, and N is number of monthly installments.</p>
+
+<h2>Benefits of Using EMI Calculator</h2>
+<ul>
+<li>Instant and accurate EMI calculation</li>
+<li>Helps in loan planning and budgeting</li>
+<li>Works for all types of loans</li>
+<li>Free and easy to use</li>
+<li>Mobile and desktop friendly</li>
+</ul>
+
+<h2>Types of Loans You Can Calculate</h2>
+<ul>
+<li>Home Loan EMI Calculator</li>
+<li>Car Loan EMI Calculator</li>
+<li>Personal Loan EMI Calculator</li>
+<li>Education Loan EMI Calculator</li>
+</ul>
+
+<h2>Related Tools</h2>
+<div class="tool-cards">
+<div class="card"><h3>Home Loan Calculator</h3><p>Calculate home loan EMI easily.</p><a href="home-loan-calculator.html">Use Tool</a></div>
+<div class="card"><h3>Personal Loan Calculator</h3><p>Estimate personal loan EMI.</p><a href="personal-loan-calculator.html">Use Tool</a></div>
+<div class="card"><h3>Loan Interest Calculator</h3><p>Calculate total interest on loan.</p><a href="loan-interest-calculator.html">Use Tool</a></div>
+<div class="card"><h3>Simple Interest Calculator</h3><p>Find simple interest easily.</p><a href="simple-interest-calculator.html">Use Tool</a></div>
+</div>
+
+<h2>Frequently Asked Questions</h2>
+<h3>Is this EMI calculator free?</h3>
+<p>Yes, this EMI calculator is completely free.</p>
+<h3>Is EMI amount accurate?</h3>
+<p>The EMI result is accurate based on the inputs provided.</p>
+<h3>Can I use this for any loan?</h3>
+<p>Yes, you can calculate EMI for any type of loan.</p>
+
+<footer>
+<p>© 2026 Toolvala.in – Free Online Financial Calculators</p>
+</footer>
+</div>
+
+<script>
+function calculateEMI(){
+let P = +document.getElementById('loan').value || 0;
+let annualRate = +document.getElementById('rate').value || 0;
+let years = +document.getElementById('tenure').value || 0;
+if(P<=0 || annualRate<=0 || years<=0){alert('Please enter valid values');return;}
+let R = annualRate / 12 / 100;
+let N = years * 12;
+let EMI = (P * R * Math.pow(1+R,N)) / (Math.pow(1+R,N) - 1);
+let totalPayable = EMI * N;
+let interest = totalPayable - P;
+document.getElementById('result').style.display='block';
+document.getElementById('rLoan').innerText = '₹ ' + P.toFixed(2);
+document.getElementById('rRate').innerText = annualRate + ' %';
+document.getElementById('rTenure').innerText = years + ' Years';
+document.getElementById('rEmi').innerText = '₹ ' + EMI.toFixed(2);
+document.getElementById('rInterest').innerText = '₹ ' + interest.toFixed(2);
+document.getElementById('rTotal').innerText = '₹ ' + totalPayable.toFixed(2);
+}
+</script>
+</body>
+</html>
