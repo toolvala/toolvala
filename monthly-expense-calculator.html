@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monthly Expense Calculator | Track Monthly Expenses Online</title>
+<meta name="description" content="Free Monthly Expense Calculator to track your monthly expenses. Calculate total expenses, savings, and manage your budget easily online.">
+<meta name="keywords" content="monthly expense calculator, expense tracker, monthly budget calculator, household expense calculator, personal finance tool">
+<link rel="canonical" href="https://www.toolvala.in/monthly-expense-calculator.html">
+<meta name="robots" content="index, follow">
+<style>
+body{font-family:Arial,Helvetica,sans-serif;background:#f5f7fa;margin:0;padding:0;line-height:1.6}
+.container{max-width:1100px;margin:auto;background:#fff;padding:20px}
+h1,h2,h3{color:#1f2937}
+.calculator{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:30px}
+label{font-weight:bold}
+input{width:100%;padding:10px;margin-top:5px;margin-bottom:15px}
+button{background:#0f766e;color:#fff;border:none;padding:12px 20px;font-size:16px;cursor:pointer}
+button:hover{background:#115e59}
+.result{background:#f1f5f9;padding:20px;margin-top:20px}
+.table{width:100%;border-collapse:collapse;margin-top:10px}
+.table th,.table td{border:1px solid #ccc;padding:8px;text-align:left}
+.tool-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px;margin-top:30px}
+.card{border:1px solid #e5e7eb;padding:15px;border-radius:6px}
+footer{margin-top:40px;padding:20px;background:#f9fafb;text-align:center}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>Monthly Expense Calculator</h1>
+<p>The <strong>Monthly Expense Calculator</strong> helps you track and calculate your monthly expenses easily. This tool is useful for budgeting, saving money, and managing personal or household finances.</p>
+
+<h2>Enter Your Monthly Expenses</h2>
+<div class="calculator">
+<div>
+<label>House Rent (₹)</label>
+<input type="number" id="rent" placeholder="Enter house rent">
+
+<label>Groceries (₹)</label>
+<input type="number" id="grocery" placeholder="Enter grocery expenses">
+
+<label>Electricity & Water (₹)</label>
+<input type="number" id="utilities" placeholder="Enter utility bills">
+
+<label>Transportation (₹)</label>
+<input type="number" id="transport" placeholder="Enter transport cost">
+</div>
+<div>
+<label>Mobile & Internet (₹)</label>
+<input type="number" id="internet" placeholder="Enter mobile & internet cost">
+
+<label>Education / Fees (₹)</label>
+<input type="number" id="education" placeholder="Enter education expenses">
+
+<label>Entertainment (₹)</label>
+<input type="number" id="entertainment" placeholder="Enter entertainment expenses">
+
+<label>Other Expenses (₹)</label>
+<input type="number" id="other" placeholder="Enter other expenses">
+</div>
+</div>
+<button onclick="calculateExpense()">Calculate Monthly Expense</button>
+
+<div class="result" id="result" style="display:none">
+<h2>Expense Summary</h2>
+<table class="table">
+<tr><th>Category</th><th>Amount (₹)</th></tr>
+<tr><td>House Rent</td><td id="rRent"></td></tr>
+<tr><td>Groceries</td><td id="rGrocery"></td></tr>
+<tr><td>Utilities</td><td id="rUtilities"></td></tr>
+<tr><td>Transportation</td><td id="rTransport"></td></tr>
+<tr><td>Mobile & Internet</td><td id="rInternet"></td></tr>
+<tr><td>Education</td><td id="rEducation"></td></tr>
+<tr><td>Entertainment</td><td id="rEntertainment"></td></tr>
+<tr><td>Other</td><td id="rOther"></td></tr>
+<tr><th>Total Monthly Expense</th><th id="total"></th></tr>
+</table>
+</div>
+
+<h2>Why Use Monthly Expense Calculator?</h2>
+<p>This calculator helps you understand where your money goes every month. By tracking expenses, you can reduce unnecessary spending and improve your savings.</p>
+
+<h2>Benefits of Expense Tracking</h2>
+<ul>
+<li>Better financial planning</li>
+<li>Control overspending</li>
+<li>Increase savings</li>
+<li>Useful for families and individuals</li>
+<li>Simple and fast calculations</li>
+</ul>
+
+<h2>Related Tools</h2>
+<div class="tool-cards">
+<div class="card"><h3>Daily Expense Calculator</h3><p>Track daily spending easily.</p><a href="daily-expense-calculator.html">Use Tool</a></div>
+<div class="card"><h3>Budget Planner</h3><p>Plan your monthly budget.</p><a href="budget-planner.html">Use Tool</a></div>
+<div class="card"><h3>Savings Calculator</h3><p>Calculate monthly savings.</p><a href="savings-calculator.html">Use Tool</a></div>
+<div class="card"><h3>EMI Calculator</h3><p>Manage loan EMI expenses.</p><a href="emi-calculator.html">Use Tool</a></div>
+</div>
+
+<footer>
+<p>© 2026 Toolvala.in – Personal Finance Tools</p>
+</footer>
+</div>
+
+<script>
+function calculateExpense(){
+let rent = +document.getElementById('rent').value || 0;
+let grocery = +document.getElementById('grocery').value || 0;
+let utilities = +document.getElementById('utilities').value || 0;
+let transport = +document.getElementById('transport').value || 0;
+let internet = +document.getElementById('internet').value || 0;
+let education = +document.getElementById('education').value || 0;
+let entertainment = +document.getElementById('entertainment').value || 0;
+let other = +document.getElementById('other').value || 0;
+
+let total = rent + grocery + utilities + transport + internet + education + entertainment + other;
+
+document.getElementById('result').style.display='block';
+document.getElementById('rRent').innerText = '₹ ' + rent;
+document.getElementById('rGrocery').innerText = '₹ ' + grocery;
+document.getElementById('rUtilities').innerText = '₹ ' + utilities;
+document.getElementById('rTransport').innerText = '₹ ' + transport;
+document.getElementById('rInternet').innerText = '₹ ' + internet;
+document.getElementById('rEducation').innerText = '₹ ' + education;
+document.getElementById('rEntertainment').innerText = '₹ ' + entertainment;
+document.getElementById('rOther').innerText = '₹ ' + other;
+document.getElementById('total').innerText = '₹ ' + total;
+}
+</script>
+</body>
+</html>
