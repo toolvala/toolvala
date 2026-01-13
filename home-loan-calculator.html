@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home Loan Calculator | EMI, Interest & Total Amount</title>
+
+<!-- SEO Meta Tags -->
+<meta name="description" content="Free Home Loan Calculator to calculate EMI, total interest and total payment. Easy housing loan EMI calculator with instant results.">
+<meta name="keywords" content="home loan calculator, housing loan emi calculator, home loan emi, house loan calculator, mortgage calculator">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.yoursite.com/home-loan-calculator.html">
+
+<!-- Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Home Loan Calculator",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "All",
+  "description": "Calculate home loan EMI, interest and total payment easily"
+}
+</script>
+
+<style>
+body{font-family:Arial, sans-serif;background:#f8fafc;margin:0}
+header{background:#1e3a8a;color:#fff;padding:20px;text-align:center}
+main{max-width:1100px;margin:auto;padding:20px}
+h1,h2,h3{color:#1e3a8a}
+.calculator{background:#fff;padding:20px;border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,.1)}
+label{display:block;margin-top:10px;font-weight:bold}
+input{width:100%;padding:8px;margin-top:5px}
+button{margin-top:15px;padding:10px 20px;background:#2563eb;color:#fff;border:none;border-radius:5px;cursor:pointer}
+button:hover{background:#1d4ed8}
+.result{margin-top:20px;background:#eff6ff;padding:15px;border-left:5px solid #2563eb}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px;margin-top:30px}
+.card{background:#fff;padding:15px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+footer{background:#020617;color:#fff;text-align:center;padding:15px;margin-top:40px}
+</style>
+</head>
+<body>
+
+<header>
+<h1>Home Loan Calculator</h1>
+<p>Calculate EMI, Interest & Total Home Loan Amount</p>
+</header>
+
+<main>
+<section class="calculator">
+<h2>Calculate Home Loan EMI</h2>
+
+<label>Loan Amount (₹)</label>
+<input type="number" id="loan" placeholder="Enter loan amount">
+
+<label>Interest Rate (% per year)</label>
+<input type="number" id="rate" placeholder="Enter annual interest rate">
+
+<label>Loan Tenure (Years)</label>
+<input type="number" id="years" placeholder="Enter loan tenure in years">
+
+<button onclick="calculateEMI()">Calculate EMI</button>
+
+<div id="output" class="result" style="display:none"></div>
+</section>
+
+<section>
+<h2>What is a Home Loan Calculator?</h2>
+<p>A Home Loan Calculator is a financial tool that helps you calculate the monthly EMI (Equated Monthly Installment), total interest payable, and total loan amount for a housing loan. It allows borrowers to plan finances effectively before applying for a home loan.</p>
+
+<h3>Why Use a Home Loan EMI Calculator?</h3>
+<ul>
+<li>Know your monthly EMI in advance</li>
+<li>Compare different loan offers</li>
+<li>Plan monthly budget easily</li>
+<li>Understand total interest payable</li>
+</ul>
+</section>
+
+<section>
+<h2>Related Tools</h2>
+<div class="cards">
+<div class="card">
+<h3>Loan EMI Calculator</h3>
+<p>Calculate EMI for any type of loan.</p>
+<a href="loan-emi-calculator.html">Use Tool</a>
+</div>
+<div class="card">
+<h3>Simple Interest Calculator</h3>
+<p>Calculate simple interest easily.</p>
+<a href="simple-interest-calculator.html">Use Tool</a>
+</div>
+<div class="card">
+<h3>Monthly Budget Calculator</h3>
+<p>Plan your income, expenses and savings.</p>
+<a href="monthly-budget-calculator.html">Use Tool</a>
+</div>
+</div>
+</section>
+</main>
+
+<footer>
+<p>© 2026 YourSite.com | Home Loan & EMI Calculator</p>
+</footer>
+
+<script>
+function calculateEMI(){
+  const P = Number(document.getElementById('loan').value) || 0;
+  const annualRate = Number(document.getElementById('rate').value) || 0;
+  const years = Number(document.getElementById('years').value) || 0;
+
+  const r = annualRate / (12 * 100);
+  const n = years * 12;
+
+  let emi = 0;
+  if(r > 0 && n > 0){
+    emi = (P * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+  }
+
+  const totalPayment = emi * n;
+  const interest = totalPayment - P;
+
+  const output = document.getElementById('output');
+  output.style.display = 'block';
+  output.innerHTML = `
+    <h3>Loan Summary</h3>
+    <p><strong>Monthly EMI:</strong> ₹${emi.toFixed(2)}</p>
+    <p><strong>Total Interest:</strong> ₹${interest.toFixed(2)}</p>
+    <p><strong>Total Payment:</strong> ₹${totalPayment.toFixed(2)}</p>
+  `;
+}
+</script>
+
+</body>
+</html>
