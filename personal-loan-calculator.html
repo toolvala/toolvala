@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Personal Loan Calculator | EMI, Interest & Total Amount</title>
+
+<!-- SEO Meta Tags -->
+<meta name="description" content="Free Personal Loan Calculator to calculate EMI, total interest and total repayment. Instant personal loan EMI calculator online.">
+<meta name="keywords" content="personal loan calculator, personal loan emi calculator, emi calculator, loan interest calculator, finance calculator">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.toolvala.in/personal-loan-calculator.html">
+
+<!-- Schema Markup -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Personal Loan Calculator",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "All",
+  "description": "Calculate personal loan EMI, interest and total repayment easily"
+}
+</script>
+
+<style>
+body{font-family:Arial, sans-serif;background:#f8fafc;margin:0}
+header{background:#7c2d12;color:#fff;padding:20px;text-align:center}
+main{max-width:1100px;margin:auto;padding:20px}
+h1,h2,h3{color:#7c2d12}
+.calculator{background:#fff;padding:20px;border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,.1)}
+label{display:block;margin-top:10px;font-weight:bold}
+input{width:100%;padding:8px;margin-top:5px}
+button{margin-top:15px;padding:10px 20px;background:#ea580c;color:#fff;border:none;border-radius:5px;cursor:pointer}
+button:hover{background:#c2410c}
+.result{margin-top:20px;background:#fff7ed;padding:15px;border-left:5px solid #ea580c}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px;margin-top:30px}
+.card{background:#fff;padding:15px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+footer{background:#431407;color:#fff;text-align:center;padding:15px;margin-top:40px}
+</style>
+</head>
+<body>
+
+<header>
+<h1>Personal Loan Calculator</h1>
+<p>Calculate EMI, Interest & Total Personal Loan Amount</p>
+</header>
+
+<main>
+<section class="calculator">
+<h2>Calculate Personal Loan EMI</h2>
+
+<label>Loan Amount (₹)</label>
+<input type="number" id="loan" placeholder="Enter loan amount">
+
+<label>Interest Rate (% per year)</label>
+<input type="number" id="rate" placeholder="Enter annual interest rate">
+
+<label>Loan Tenure (Years)</label>
+<input type="number" id="years" placeholder="Enter loan tenure in years">
+
+<button onclick="calculateEMI()">Calculate EMI</button>
+
+<div id="output" class="result" style="display:none"></div>
+</section>
+
+<section>
+<h2>What is a Personal Loan Calculator?</h2>
+<p>A Personal Loan Calculator is an online financial tool that helps you calculate the monthly EMI, total interest payable, and total repayment amount for a personal loan. It is useful for salaried employees, self-employed individuals, and anyone planning a personal loan.</p>
+
+<h3>Benefits of Using Personal Loan EMI Calculator</h3>
+<ul>
+<li>Know EMI before applying for a loan</li>
+<li>Compare interest rates easily</li>
+<li>Plan monthly budget better</li>
+<li>Avoid financial stress</li>
+</ul>
+</section>
+
+<section>
+<h2>Related Tools</h2>
+<div class="cards">
+<div class="card">
+<h3>Home Loan Calculator</h3>
+<p>Calculate EMI for housing loans.</p>
+<a href="home-loan-calculator.html">Use Tool</a>
+</div>
+<div class="card">
+<h3>Loan EMI Calculator</h3>
+<p>Universal EMI calculator for all loans.</p>
+<a href="loan-emi-calculator.html">Use Tool</a>
+</div>
+<div class="card">
+<h3>Monthly Budget Calculator</h3>
+<p>Manage expenses and savings.</p>
+<a href="monthly-budget-calculator.html">Use Tool</a>
+</div>
+</div>
+</section>
+</main>
+
+<footer>
+<p>© 2026 YourSite.com | Personal Loan EMI Calculator</p>
+</footer>
+
+<script>
+function calculateEMI(){
+  const P = Number(document.getElementById('loan').value) || 0;
+  const annualRate = Number(document.getElementById('rate').value) || 0;
+  const years = Number(document.getElementById('years').value) || 0;
+
+  const r = annualRate / (12 * 100);
+  const n = years * 12;
+
+  let emi = 0;
+  if(r > 0 && n > 0){
+    emi = (P * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+  }
+
+  const totalPayment = emi * n;
+  const interest = totalPayment - P;
+
+  const output = document.getElementById('output');
+  output.style.display = 'block';
+  output.innerHTML = `
+    <h3>Loan Summary</h3>
+    <p><strong>Monthly EMI:</strong> ₹${emi.toFixed(2)}</p>
+    <p><strong>Total Interest:</strong> ₹${interest.toFixed(2)}</p>
+    <p><strong>Total Payment:</strong> ₹${totalPayment.toFixed(2)}</p>
+  `;
+}
+</script>
+
+</body>
+</html>
