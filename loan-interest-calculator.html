@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loan Interest Calculator | Calculate Total Interest Easily</title>
+
+<!-- SEO Meta Tags -->
+<meta name="description" content="Free Loan Interest Calculator to calculate total interest payable on loans. Works for personal loan, home loan, and any EMI-based loan.">
+<meta name="keywords" content="loan interest calculator, loan interest calculation, total interest calculator, emi interest calculator, finance calculator">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.yoursite.com/loan-interest-calculator.html">
+
+<!-- Schema Markup -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Loan Interest Calculator",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "All",
+  "description": "Calculate total interest payable on any loan easily"
+}
+</script>
+
+<style>
+body{font-family:Arial, sans-serif;background:#f8fafc;margin:0}
+header{background:#0f766e;color:#fff;padding:20px;text-align:center}
+main{max-width:1100px;margin:auto;padding:20px}
+h1,h2,h3{color:#0f766e}
+.calculator{background:#fff;padding:20px;border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,.1)}
+label{display:block;margin-top:10px;font-weight:bold}
+input{width:100%;padding:8px;margin-top:5px}
+button{margin-top:15px;padding:10px 20px;background:#14b8a6;color:#fff;border:none;border-radius:5px;cursor:pointer}
+button:hover{background:#0d9488}
+.result{margin-top:20px;background:#ecfeff;padding:15px;border-left:5px solid #14b8a6}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px;margin-top:30px}
+.card{background:#fff;padding:15px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+footer{background:#042f2e;color:#fff;text-align:center;padding:15px;margin-top:40px}
+</style>
+</head>
+<body>
+
+<header>
+<h1>Loan Interest Calculator</h1>
+<p>Calculate Total Interest Payable on Your Loan</p>
+</header>
+
+<main>
+<section class="calculator">
+<h2>Calculate Loan Interest</h2>
+
+<label>Loan Amount (₹)</label>
+<input type="number" id="loan" placeholder="Enter loan amount">
+
+<label>Interest Rate (% per year)</label>
+<input type="number" id="rate" placeholder="Enter annual interest rate">
+
+<label>Loan Tenure (Years)</label>
+<input type="number" id="years" placeholder="Enter loan tenure in years">
+
+<button onclick="calculateInterest()">Calculate Interest</button>
+
+<div id="output" class="result" style="display:none"></div>
+</section>
+
+<section>
+<h2>What is a Loan Interest Calculator?</h2>
+<p>A Loan Interest Calculator is a financial tool that helps you calculate the total interest payable on a loan over its entire tenure. It is useful for personal loans, home loans, education loans, and car loans.</p>
+
+<h3>Why Use a Loan Interest Calculator?</h3>
+<ul>
+<li>Understand total interest cost</li>
+<li>Compare loan offers easily</li>
+<li>Plan finances better</li>
+<li>Avoid hidden interest surprises</li>
+</ul>
+</section>
+
+<section>
+<h2>Related Tools</h2>
+<div class="cards">
+<div class="card">
+<h3>Personal Loan Calculator</h3>
+<p>Calculate EMI and total repayment.</p>
+<a href="personal-loan-calculator.html">Use Tool</a>
+</div>
+<div class="card">
+<h3>Home Loan Calculator</h3>
+<p>Calculate housing loan EMI.</p>
+<a href="home-loan-calculator.html">Use Tool</a>
+</div>
+<div class="card">
+<h3>Simple Interest Calculator</h3>
+<p>Calculate simple interest easily.</p>
+<a href="simple-interest-calculator.html">Use Tool</a>
+</div>
+</div>
+</section>
+</main>
+
+<footer>
+<p>© 2026 YourSite.com | Loan Interest Calculator</p>
+</footer>
+
+<script>
+function calculateInterest(){
+  const P = Number(document.getElementById('loan').value) || 0;
+  const annualRate = Number(document.getElementById('rate').value) || 0;
+  const years = Number(document.getElementById('years').value) || 0;
+
+  const r = annualRate / (12 * 100);
+  const n = years * 12;
+
+  let emi = 0;
+  if(r > 0 && n > 0){
+    emi = (P * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+  }
+
+  const totalPayment = emi * n;
+  const totalInterest = totalPayment - P;
+
+  const output = document.getElementById('output');
+  output.style.display = 'block';
+  output.innerHTML = `
+    <h3>Interest Details</h3>
+    <p><strong>Total Interest Payable:</strong> ₹${totalInterest.toFixed(2)}</p>
+    <p><strong>Total Loan Payment:</strong> ₹${totalPayment.toFixed(2)}</p>
+  `;
+}
+</script>
+
+</body>
+</html>
