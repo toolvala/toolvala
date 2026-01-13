@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monthly Budget Calculator | Plan Expenses & Savings Easily</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Free Monthly Budget Calculator to plan expenses, manage income, track savings, and control monthly spending. Easy, fast, and SEO optimized tool.">
+  <meta name="keywords" content="monthly budget calculator, budget planner, monthly expense planner, money management tool, personal finance calculator">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://www.yoursite.com/monthly-budget-calculator.html">
+
+  <!-- Schema Markup -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Monthly Budget Calculator",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "All",
+    "description": "Plan monthly income, expenses and savings using this free Monthly Budget Calculator"
+  }
+  </script>
+
+  <style>
+    body {font-family: Arial, sans-serif; background:#f9fafb; margin:0; padding:0;}
+    header {background:#1e40af; color:#fff; padding:20px; text-align:center;}
+    main {max-width:1100px; margin:auto; padding:20px;}
+    h1,h2,h3 {color:#1e3a8a;}
+    .calculator {background:#fff; padding:20px; border-radius:10px; box-shadow:0 2px 10px rgba(0,0,0,0.1);}
+    label {display:block; margin-top:10px; font-weight:bold;}
+    input {width:100%; padding:8px; margin-top:5px;}
+    button {margin-top:15px; padding:10px 20px; background:#2563eb; color:#fff; border:none; border-radius:5px; cursor:pointer;}
+    button:hover {background:#1d4ed8;}
+    .result {margin-top:20px; padding:15px; background:#ecfeff; border-left:5px solid #0891b2;}
+    .cards {display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:15px; margin-top:30px;}
+    .card {background:#fff; padding:15px; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.08);}
+    footer {background:#020617; color:#fff; text-align:center; padding:15px; margin-top:40px;}
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Monthly Budget Calculator</h1>
+  <p>Plan your monthly expenses, savings, and income smartly</p>
+</header>
+
+<main>
+
+<section class="calculator">
+  <h2>Calculate Your Monthly Budget</h2>
+
+  <label>Monthly Income (₹)</label>
+  <input type="number" id="income" placeholder="Enter total monthly income">
+
+  <label>Rent / House Expense (₹)</label>
+  <input type="number" id="rent" placeholder="Enter rent">
+
+  <label>Food & Groceries (₹)</label>
+  <input type="number" id="food" placeholder="Enter food expense">
+
+  <label>Transport (₹)</label>
+  <input type="number" id="transport" placeholder="Enter transport cost">
+
+  <label>Utilities & Bills (₹)</label>
+  <input type="number" id="bills" placeholder="Electricity, water, internet">
+
+  <label>Other Expenses (₹)</label>
+  <input type="number" id="others" placeholder="Other expenses">
+
+  <button onclick="calculateBudget()">Calculate Budget</button>
+
+  <div id="output" class="result" style="display:none"></div>
+</section>
+
+<section>
+  <h2>What is a Monthly Budget Calculator?</h2>
+  <p>A Monthly Budget Calculator is a personal finance tool that helps you plan how much money you should spend and save every month. By allocating income to different expense categories, you gain better control over your finances and avoid overspending.</p>
+
+  <h3>Why Use a Budget Planner?</h3>
+  <ul>
+    <li>Helps manage monthly expenses</li>
+    <li>Improves savings habit</li>
+    <li>Avoids unnecessary spending</li>
+    <li>Supports financial goals</li>
+  </ul>
+
+  <p>This free monthly budget calculator works instantly and is suitable for students, salaried employees, families, and freelancers.</p>
+</section>
+
+<section>
+  <h2>Related Tools</h2>
+  <div class="cards">
+    <div class="card">
+      <h3>Monthly Expense Calculator</h3>
+      <p>Track your actual monthly expenses easily.</p>
+      <a href="monthly-expense-calculator.html">Use Tool</a>
+    </div>
+    <div class="card">
+      <h3>Salary Calculator</h3>
+      <p>Calculate in-hand salary after deductions.</p>
+      <a href="salary-calculator.html">Use Tool</a>
+    </div>
+    <div class="card">
+      <h3>Savings Goal Calculator</h3>
+      <p>Plan and achieve your savings target.</p>
+      <a href="savings-goal-calculator.html">Use Tool</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <p>© 2026 YourSite.com | Free Financial Calculators</p>
+</footer>
+
+<script>
+function calculateBudget() {
+  const income = Number(document.getElementById('income').value) || 0;
+  const rent = Number(document.getElementById('rent').value) || 0;
+  const food = Number(document.getElementById('food').value) || 0;
+  const transport = Number(document.getElementById('transport').value) || 0;
+  const bills = Number(document.getElementById('bills').value) || 0;
+  const others = Number(document.getElementById('others').value) || 0;
+
+  const totalExpense = rent + food + transport + bills + others;
+  const savings = income - totalExpense;
+
+  const output = document.getElementById('output');
+  output.style.display = 'block';
+  output.innerHTML = `
+    <h3>Budget Summary</h3>
+    <p><strong>Total Income:</strong> ₹${income}</p>
+    <p><strong>Total Expenses:</strong> ₹${totalExpense}</p>
+    <p><strong>Remaining / Savings:</strong> ₹${savings}</p>
+  `;
+}
+
+// Save to localStorage
+localStorage.setItem('monthlyBudget', JSON.stringify({income, rent, food, transport, bills, others, totalExpense, savings}));
+}
+
+// Load saved data
+window.onload = function(){
+  const data = JSON.parse(localStorage.getItem('monthlyBudget'));
+  if(data){
+    ['income','rent','food','transport','bills','others'].forEach(id=>{
+      if(data[id] !== undefined) document.getElementById(id).value = data[id];
+    });
+  }
+}
+
+function exportCSV(){
+  const rows = [
+    ['Category','Amount'],
+    ['Income', document.getElementById('income').value],
+    ['Rent', document.getElementById('rent').value],
+    ['Food', document.getElementById('food').value],
+    ['Transport', document.getElementById('transport').value],
+    ['Bills', document.getElementById('bills').value],
+    ['Others', document.getElementById('others').value]
+  ];
+  let csvContent = rows.map(e=>e.join(',')).join('
+');
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = 'monthly-budget.csv';
+  link.click();
+}
+</script>
+
+<section>
+<h2>Detailed Guide: Monthly Budget Calculator</h2>
+<p>The Monthly Budget Calculator is a powerful personal finance planning tool designed to help individuals and families manage money efficiently. By entering your monthly income and categorizing expenses such as rent, food, transport, utilities, and other costs, this calculator instantly shows how much you can save each month.</p>
+<p>Budget planning is essential in today’s world of rising costs. Whether you are a salaried employee, freelancer, student, or business owner, a monthly budget planner helps you take control of your finances. Instead of wondering where your money goes, you get a clear breakdown and savings insight.</p>
+<p>This tool works as both a budget planner and savings estimator. It supports better money habits, reduces debt risk, and helps you plan future goals like buying a house, traveling, or building an emergency fund.</p>
+<h3>How to Use This Monthly Budget Planner</h3>
+<ul>
+<li>Enter your total monthly income</li>
+<li>Add fixed and variable expenses</li>
+<li>Click calculate to see savings</li>
+<li>Export data or store it locally</li>
+</ul>
+<p>Using a monthly budget calculator regularly improves financial discipline and long-term stability.</p>
+</section>
+
+<footer>
+  <button onclick="exportCSV()">Export CSV</button>
+  <p>© 2026 YourSite.com | Monthly Budget & Expense Planning Tool</p>
+</footer>
+
+</body>
+</html>
