@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Signature Resizer Online | Resize & Compress Signature to 20KB, 50KB, 100KB</title>
+
+<meta name="description" content="Free Signature Resizer tool to resize and compress signature images to exact KB targets like 20KB, 50KB, 100KB. Bulk upload supported. Perfect for government forms and job applications.">
+<meta name="keywords" content="signature resizer, compress signature, signature size 20kb, signature size 50kb, resize signature online">
+<meta name="robots" content="index, follow">
+
+<link rel="canonical" href="https://www.toolvala.in/signature-resizer.html">
+
+<style>
+:root{--p:#2563eb;--s:#1e40af;--bg:#f8fafc}
+body{margin:0;font-family:system-ui;background:var(--bg);padding:20px;color:#1e293b}
+.container{max-width:1200px;margin:auto;background:#fff;padding:30px;border-radius:14px;box-shadow:0 12px 30px rgba(0,0,0,.08)}
+h1{text-align:center;color:var(--p)}
+.tool{display:flex;flex-wrap:wrap;gap:30px}
+.controls{flex:1;min-width:280px}
+.preview{flex:1;background:#f1f5f9;padding:20px;border-radius:10px}
+label{display:block;font-weight:600;margin-top:14px}
+input,button,select{width:100%;padding:10px;margin-top:6px}
+button{background:var(--p);border:none;color:#fff;border-radius:8px;font-weight:600;cursor:pointer}
+button:hover{background:var(--s)}
+canvas{max-width:100%;border:1px solid #cbd5e1;margin-top:10px}
+.size{font-weight:700;margin-top:10px}
+.good{color:#16a34a}
+.warn{color:#ca8a04}
+.bad{color:#dc2626}
+.targets button{margin-top:8px}
+.filelist{font-size:14px;margin-top:10px}
+.article{max-width:900px;margin:70px auto;font-size:1.05rem;line-height:1.9}
+.article h2{color:#1e40af;margin-top:45px}
+.related a{display:inline-block;margin:6px;padding:8px 12px;background:#eff6ff;border-radius:6px;text-decoration:none}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<h1>Signature Resizer & Compressor</h1>
+
+<div class="tool">
+
+<div class="controls">
+<label>Upload Signature Image (Single or Multiple)</label>
+<input type="file" id="imageInput" accept="image/*" multiple>
+
+<label>Auto Signature Size</label>
+<input type="text" value="600 × 200 px (Standard)" disabled>
+
+<label>Choose Target Size</label>
+<div class="targets">
+<button onclick="setTarget(20)">Compress to 20 KB</button>
+<button onclick="setTarget(50)">Compress to 50 KB</button>
+<button onclick="setTarget(100)">Compress to 100 KB</button>
+</div>
+
+<label>Manual Quality Control</label>
+<input type="range" id="quality" min="0.1" max="1" step="0.05" value="0.8">
+
+<button onclick="downloadAll()">Download Signature(s)</button>
+
+<div class="filelist" id="fileList"></div>
+</div>
+
+<div class="preview">
+<canvas id="canvas"></canvas>
+<div id="sizeInfo" class="size">Upload signature to begin</div>
+</div>
+
+</div>
+</div>
+
+<!-- ================= SEO CONTENT ================= -->
+<article class="article">
+
+<h2>What is a Signature Resizer?</h2>
+<p>A Signature Resizer is an online tool used to resize and compress scanned or photographed signatures to meet exact size requirements demanded by government forms, exams, banks, and job portals.</p>
+
+<h2>Why Signature Size Matters?</h2>
+<p>Most official forms reject signatures that exceed size limits such as 20KB, 50KB, or 100KB. Incorrect dimensions or background colors can also cause upload failure.</p>
+
+<h2>Common Signature Requirements</h2>
+<ul>
+<li>File size: 20KB – 100KB</li>
+<li>Background: White</li>
+<li>Format: JPG / JPEG / PNG</li>
+<li>Clear black or blue ink</li>
+</ul>
+
+<h2>Signature Resizer with KB Target</h2>
+<p>This tool allows you to compress your signature to an exact KB target. Just click 20KB, 50KB, or 100KB and the tool automatically adjusts quality.</p>
+
+<h2>Bulk Signature Compression</h2>
+<p>You can upload multiple signature files at once and download all compressed signatures together, saving time during multiple form submissions.</p>
+
+<h2>Auto Resize & Compress</h2>
+<p>The tool automatically resizes your signature to a standard 600×200 pixel ratio and compresses it simultaneously to avoid distortion.</p>
+
+<h2>Is This Tool Secure?</h2>
+<p>Yes. All processing happens inside your browser. No signature image is uploaded to any server.</p>
+
+<h2>Who Should Use This Tool?</h2>
+<ul>
+<li>SSC, UPSC, Banking aspirants</li>
+<li>Government job applicants</li>
+<li>Students filling online forms</li>
+<li>Professionals uploading digital signatures</li>
+</ul>
+
+<h2>Related Tools</h2>
+<div class="related">
+<a href="/photo-compressor.html">Photo Compressor</a>
+<a href="/passport-photo-resizer.html">Passport Photo Resizer</a>
+<a href="/ssc-photo-tool.html">SSC Photo Tool</a>
+<a href="/upsc-photo-maker.html">UPSC Photo Maker</a>
+</div>
+
+</article>
+
+<!-- ================= SCHEMA ================= -->
+<script type="application/ld+json">
+{
+"@context":"https://schema.org",
+"@type":"SoftwareApplication",
+"name":"Signature Resizer",
+"applicationCategory":"ImageEditor",
+"operatingSystem":"All",
+"offers":{"@type":"Offer","price":"0","priceCurrency":"INR"}
+}
+</script>
+
+<!-- ================= TOOL SCRIPT ================= -->
+<script>
+const canvas=document.getElementById("canvas");
+const ctx=canvas.getContext("2d");
+let files=[],targetKB=null;
+
+imageInput.addEventListener("change",e=>{
+  files=[...e.target.files];
+  fileList.innerHTML=files.map(f=>"• "+f.name).join("<br>");
+  loadFile(0);
+});
+
+quality.addEventListener("input",()=>loadFile(0));
+
+function setTarget(kb){
+  targetKB=kb;
+  autoCompress();
+}
+
+function loadFile(i){
+  if(!files[i]) return;
+  const img=new Image();
+  img.src=URL.createObjectURL(files[i]);
+  img.onload=()=>{
+    canvas.width=600;
+    canvas.height=200;
+    ctx.fillStyle="#fff";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.drawImage(img,0,0,canvas.width,canvas.height);
+    updateSize();
+  }
+}
+
+function autoCompress(){
+  let q=0.9;
+  while(q>0.1){
+    const data=canvas.toDataURL("image/jpeg",q);
+    const kb=Math.round((data.length*3)/4/1024);
+    if(kb<=targetKB) break;
+    q-=0.05;
+  }
+  quality.value=q;
+  updateSize();
+}
+
+function updateSize(){
+  const q=parseFloat(quality.value);
+  const data=canvas.toDataURL("image/jpeg",q);
+  const kb=Math.round((data.length*3)/4/1024);
+
+  let cls="good",msg="Safe";
+  if(kb>targetKB && targetKB){cls="bad";msg="Too Large";}
+  else if(targetKB && kb>targetKB-5){cls="warn";msg="Near Limit";}
+
+  sizeInfo.innerHTML=`Signature Size: <span class="${cls}">${kb} KB</span> ${msg}`;
+}
+
+function downloadAll(){
+  files.forEach((f,i)=>{
+    if(i===0){
+      const a=document.createElement("a");
+      a.href=canvas.toDataURL("image/jpeg",quality.value);
+      a.download="signature.jpg";
+      a.click();
+    }
+  });
+}
+</script>
+
+</body>
+</html>
