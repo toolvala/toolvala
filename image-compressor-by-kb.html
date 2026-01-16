@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Image Compressor by KB | 20KB 50KB 100KB Bulk Photo Compressor</title>
+
+<meta name="description" content="Compress images to exact KB size like 20KB, 50KB, 100KB. Bulk image compressor with auto resize and smart quality control. Free & online.">
+<meta name="keywords" content="image compressor by kb, 20kb image compressor, 50kb image compressor, bulk photo compressor, auto resize image">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.toolvala.in/image-compressor-by-kb.html">
+
+<style>
+:root{--p:#2563eb;--s:#1e40af;--bg:#f8fafc}
+body{margin:0;font-family:system-ui;background:var(--bg);padding:20px;color:#1e293b}
+.container{max-width:1200px;margin:auto;background:#fff;padding:30px;border-radius:14px;box-shadow:0 12px 30px rgba(0,0,0,.08)}
+h1{text-align:center;color:var(--p)}
+.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+label{font-weight:600}
+input,select,button{width:100%;padding:10px;margin-top:6px}
+button{background:var(--p);color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer}
+button:hover{background:var(--s)}
+.preview{margin-top:30px}
+.item{display:flex;align-items:center;gap:15px;background:#f1f5f9;padding:10px;border-radius:10px;margin-bottom:10px}
+.item img{width:70px;height:70px;object-fit:cover;border-radius:6px}
+.good{color:#16a34a;font-weight:700}
+.warn{color:#ca8a04;font-weight:700}
+.bad{color:#dc2626;font-weight:700}
+.info{background:#e0f2fe;padding:10px;border-left:4px solid #0284c7;margin:15px 0;font-size:14px}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<h1>Image Compressor by KB (Bulk + Auto Resize)</h1>
+
+<div class="info">
+✔ Compress to exact KB &nbsp; ✔ Bulk upload &nbsp; ✔ Auto resize + compress &nbsp; ✔ Offline & Private
+</div>
+
+<div class="controls">
+<div>
+<label>Select Images (Bulk)</label>
+<input type="file" id="images" accept="image/*" multiple>
+</div>
+
+<div>
+<label>Target Size</label>
+<select id="targetKB">
+<option value="20">20 KB</option>
+<option value="50">50 KB</option>
+<option value="100">100 KB</option>
+<option value="150">150 KB</option>
+<option value="custom">Custom</option>
+</select>
+</div>
+
+<div>
+<label>Custom KB (optional)</label>
+<input type="number" id="customKB" placeholder="Enter KB">
+</div>
+
+<div>
+<label>Auto Resize</label>
+<select id="resize">
+<option value="on">ON (Recommended)</option>
+<option value="off">OFF</option>
+</select>
+</div>
+
+<div>
+<label>&nbsp;</label>
+<button onclick="startCompression()">Compress Images</button>
+</div>
+</div>
+
+<div class="preview" id="output"></div>
+
+</div>
+
+<!-- ================= SCRIPT ================= -->
+<script>
+const output=document.getElementById("output");
+
+function startCompression(){
+  output.innerHTML="";
+  const files=[...images.files];
+  if(!files.length) return alert("Please select images");
+
+  files.forEach((file,i)=>compressImage(file,i));
+}
+
+function compressImage(file,index){
+  const img=new Image();
+  img.src=URL.createObjectURL(file);
+
+  img.onload=async()=>{
+    let target=targetKB.value==="custom"
+      ? parseInt(customKB.value||100)
+      : parseInt(targetKB.value);
+
+    let canvas=document.createElement("canvas");
+    let ctx=canvas.getContext("2d");
+
+    let scale=1;
+    let w=img.width,h=img.height;
+
+    if(resize.value==="on"){
+      if(w>1200){scale=1200/w}
+      w=Math.round(w*scale);
+      h=Math.round(h*scale);
+    }
+
+    canvas.width=w;
+    canvas.height=h;
+    ctx.drawImage(img,0,0,w,h);
+
+    let q=0.9,data,kb;
+
+    for(let i=0;i<15;i++){
+      data=canvas.toDataURL("image/jpeg",q);
+      kb=(data.length*3)/4/1024;
+      if(kb<=target) break;
+      q-=0.05;
+    }
+
+    let status="good",msg="Perfect";
+    if(kb>target+10){status="bad";msg="Too Large";}
+    else if(kb>target){status="warn";msg="Near Limit";}
+
+    const div=document.createElement("div");
+    div.className="item";
+    div.innerHTML=`
+      <img src="${data}">
+      <div>
+        <div><strong>${file.name}</strong></div>
+        <div class="${status}">${Math.round(kb)} KB (${msg})</div>
+        <button onclick="download('${data}','${file.name}')">Download</button>
+      </div>
+    `;
+    output.appendChild(div);
+  };
+}
+
+function download(data,name){
+  const a=document.createElement("a");
+  a.href=data;
+  a.download="compressed-"+name;
+  a.click();
+}
+</script>
+
+<!-- ================= SCHEMA ================= -->
+<script type="application/ld+json">
+{
+"@context":"https://schema.org",
+"@type":"SoftwareApplication",
+"name":"Image Compressor by KB",
+"applicationCategory":"ImageEditor",
+"operatingSystem":"All",
+"offers":{"@type":"Offer","price":"0","priceCurrency":"INR"}
+}
+</script>
+
+</body>
+</html>
