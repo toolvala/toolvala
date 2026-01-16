@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Passport Photo Resizer Online | Resize Passport Size Photo Free</title>
+
+<meta name="description" content="Free Passport Photo Resizer online. Resize photo to passport size for India, UPSC, SSC, visa & international standards. Control KB, pixels & background instantly.">
+<meta name="keywords" content="passport photo resizer, resize passport size photo, passport photo size india, upsc passport photo, ssc passport photo size">
+<meta name="robots" content="index, follow">
+
+<link rel="canonical" href="https://www.toolvala.in/passport-photo-resizer.html">
+
+<style>
+:root{--p:#2563eb;--s:#1e40af;--bg:#f8fafc}
+body{font-family:system-ui;background:var(--bg);margin:0;padding:20px;color:#1e293b}
+.container{max-width:1100px;margin:auto;background:#fff;padding:30px;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.08)}
+h1{text-align:center;color:var(--p)}
+.tool{display:flex;flex-wrap:wrap;gap:30px}
+.controls{flex:1;min-width:280px}
+.preview{flex:1;text-align:center;background:#f1f5f9;padding:20px;border-radius:10px}
+label{font-weight:600}
+input,select,button{width:100%;padding:10px;margin-top:6px}
+button{background:var(--p);color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer}
+button:hover{background:var(--s)}
+canvas{max-width:100%;border:1px solid #cbd5e1;margin-top:10px}
+.info{background:#e0f2fe;padding:10px;border-left:4px solid #0284c7;font-size:14px;margin:10px 0}
+.article{max-width:900px;margin:60px auto;font-size:1.05rem;line-height:1.9}
+.article h2{color:#1e40af;margin-top:40px}
+.related a{display:inline-block;margin:6px;padding:8px 12px;background:#eff6ff;border-radius:6px;text-decoration:none}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<h1>Passport Photo Resizer Online (UPSC / SSC / Visa)</h1>
+
+<div class="tool">
+<div class="controls">
+
+<input type="file" id="imageInput" accept="image/*">
+
+<div class="info">🔒 Your image is processed locally. No upload to server.</div>
+
+<label>Passport Size Preset</label>
+<select id="preset">
+  <option value="india">India Passport (35×45 mm)</option>
+  <option value="upsc">UPSC / SSC (3.5×4.5 cm)</option>
+  <option value="us">USA Visa (2×2 inch)</option>
+  <option value="custom">Custom Size</option>
+</select>
+
+<label>Width (px)</label>
+<input type="number" id="width" value="413">
+
+<label>Height (px)</label>
+<input type="number" id="height" value="531">
+
+<label>Image Quality (KB Control)</label>
+<input type="range" id="quality" min="0.2" max="1" step="0.05" value="0.9">
+
+<button onclick="downloadImage()">Download Passport Photo</button>
+
+</div>
+
+<div class="preview">
+<canvas id="canvas"></canvas>
+<p>Preview resized passport photo</p>
+</div>
+</div>
+</div>
+
+<!-- ================= SEO CONTENT ================= -->
+<article class="article">
+
+<h2>What is Passport Photo Resizer?</h2>
+<p>A Passport Photo Resizer is an online tool that allows users to resize their photo to exact passport size dimensions required for passport applications, government exams, visas, and official documents.</p>
+
+<h2>Why Passport Photo Size Matters?</h2>
+<p>Incorrect photo dimensions are the most common reason for passport and exam application rejection. Every authority like UPSC, SSC, Indian Passport Office, and foreign embassies requires specific photo dimensions.</p>
+
+<h2>Indian Passport Photo Size Requirements</h2>
+<ul>
+<li>Size: 35 mm × 45 mm</li>
+<li>Pixel size: 413 × 531 px (approx)</li>
+<li>Background: White</li>
+<li>Face coverage: 70–80%</li>
+</ul>
+
+<h2>UPSC & SSC Passport Photo Size</h2>
+<p>UPSC and SSC require recent passport size photos with correct dimensions and file size. Using a passport photo resizer ensures your image meets the upload guidelines.</p>
+
+<h2>USA Visa Passport Photo Size</h2>
+<ul>
+<li>Size: 2 × 2 inches</li>
+<li>Pixels: 600 × 600</li>
+<li>Background: Plain white</li>
+</ul>
+
+<h2>How to Resize Passport Photo Online?</h2>
+<ol>
+<li>Upload your photo</li>
+<li>Select passport size preset</li>
+<li>Adjust width & height if needed</li>
+<li>Control image quality for KB limits</li>
+<li>Download resized photo</li>
+</ol>
+
+<h2>Passport Photo KB Limits</h2>
+<ul>
+<li>UPSC: 20 KB – 300 KB</li>
+<li>SSC: 20 KB – 50 KB</li>
+<li>Visa: Up to 240 KB</li>
+</ul>
+
+<h2>Is This Tool Safe?</h2>
+<p>Yes. This passport photo resizer works entirely in your browser. Your photo is never uploaded or stored.</p>
+
+<h2>Related Photo Tools</h2>
+<div class="related">
+<a href="/add-name-and-date-on-photo.html">Add Name & Date on Photo</a>
+<a href="/photo-compressor.html">Photo Compressor</a>
+<a href="/signature-resizer.html">Signature Resizer</a>
+<a href="/ssc-photo-tool.html">SSC Photo Tool</a>
+</div>
+
+</article>
+
+<!-- ================= SCHEMA ================= -->
+<script type="application/ld+json">
+{
+"@context":"https://schema.org",
+"@type":"SoftwareApplication",
+"name":"Passport Photo Resizer",
+"applicationCategory":"ImageEditor",
+"operatingSystem":"All",
+"offers":{"@type":"Offer","price":"0","priceCurrency":"INR"}
+}
+</script>
+
+<!-- ================= TOOL SCRIPT ================= -->
+<script>
+const canvas=document.getElementById("canvas");
+const ctx=canvas.getContext("2d");
+const img=new Image();
+
+document.getElementById("imageInput").addEventListener("change",e=>{
+  img.src=URL.createObjectURL(e.target.files[0]);
+  img.onload=()=>resize();
+});
+
+document.getElementById("preset").addEventListener("change",()=>{
+  let p=document.getElementById("preset").value;
+  if(p==="india"||p==="upsc"){width.value=413;height.value=531;}
+  if(p==="us"){width.value=600;height.value=600;}
+});
+
+["width","height","quality"].forEach(id=>{
+  document.getElementById(id).addEventListener("input",resize);
+});
+
+function resize(){
+  if(!img.src) return;
+  canvas.width=width.value;
+  canvas.height=height.value;
+  ctx.drawImage(img,0,0,canvas.width,canvas.height);
+}
+
+function downloadImage(){
+  const q=parseFloat(document.getElementById("quality").value);
+  const a=document.createElement("a");
+  a.href=canvas.toDataURL("image/jpeg",q);
+  a.download="passport-photo.jpg";
+  a.click();
+}
+</script>
+
+</body>
+</html>
