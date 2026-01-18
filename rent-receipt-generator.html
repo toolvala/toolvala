@@ -46,6 +46,40 @@ textarea{resize:vertical; height:80px;}
 button.generate-btn{width:100%; padding:15px; background:#6f42c1; color:#fff; border:none; border-radius:5px; font-size:18px; font-weight:bold; cursor:pointer; margin-top:20px; transition:0.3s;}
 button.generate-btn:hover{background:#59339d;}
 
+/* ========== DOWNLOAD CARD STYLE (OPTION 1) ========== */
+.pdf-download-card {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 100%;
+  margin: 20px auto;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+.pdf-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.pdf-icon {
+  font-size: 32px;
+}
+.pdf-text h4 { margin: 0; font-size: 16px; color: #333; }
+.pdf-text span { font-size: 12px; color: #777; }
+.download-btn-small {
+  background: #6f42c1;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.download-btn-small:hover { background: #59339d; }
+
 /* ========== RECEIPT PREVIEW ========== */
 .receipt-wrapper{margin-top:40px; display:none;} /* Hidden until generated */
 .receipt{
@@ -61,8 +95,6 @@ button.generate-btn:hover{background:#59339d;}
   display:flex; align-items:center; justify-content:center; 
   font-size:12px; color:#999; margin-bottom:10px; margin-left:auto; margin-right:auto;
 }
-.print-actions{text-align:center; margin-bottom:20px;}
-.print-actions button{background:#28a745; color:white; border:none; padding:10px 20px; font-size:16px; border-radius:5px; cursor:pointer;}
 
 /* ========== RELATED TOOLS GRID ========== */
 .related-tools-section {margin-top:60px; padding-top:20px; border-top:1px solid #eee;}
@@ -87,14 +119,58 @@ button.generate-btn:hover{background:#59339d;}
 footer{text-align:center; padding:30px; background:#222; color:#ccc; margin-top:50px;}
 footer a{color:#fff; text-decoration:none;}
 
-/* ========== PRINT FIX (CRITICAL) ========== */
+/* ========== PRINT FIX (FIXED BLANK PAGE ISSUE) ========== */
 @media print {
-  body * {visibility: hidden;}
-  .receipt-wrapper, .receipt-wrapper * {visibility: visible;}
-  .receipt-wrapper {position: absolute; left: 0; top: 0; width: 100%; margin: 0; padding: 0;}
-  .receipt {border: 1px solid #000; width: 100%; max-width: 100%; box-shadow: none;}
-  .print-actions, .no-print, header, footer, .tool-box, .seo-content, .container {display: none !important;}
-  @page {size: A4; margin: 20mm;}
+  /* 1. Hide everything by default */
+  header, .tool-box, .related-tools-section, .seo-content, footer, .pdf-download-card, .print-actions, .no-print {
+    display: none !important;
+  }
+
+  /* 2. Reset Body properties */
+  body, html {
+    background: #fff;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: auto;
+  }
+
+  /* 3. Make Container Transparent and Full Width */
+  .container {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+    border: none;
+  }
+
+  /* 4. Ensure Output and Receipt are Visible */
+  #output {
+    display: block !important;
+    width: 100%;
+  }
+
+  .receipt-wrapper {
+    display: block !important;
+    width: 100%;
+    margin: 0;
+    position: static;
+  }
+
+  .receipt {
+    width: 100%;
+    max-width: 100%;
+    border: 1px solid #000; /* Keep border for print */
+    padding: 20px;
+    box-sizing: border-box; /* Prevents overflow */
+    page-break-inside: avoid;
+  }
+  
+  @page {
+    size: A4;
+    margin: 10mm;
+  }
 }
 </style>
 </head>
@@ -301,8 +377,18 @@ function generateReceipt(){
   // Build HTML
   output.innerHTML = `
   <div class="receipt-wrapper" style="display:block">
+    
     <div class="print-actions">
-      <button onclick="window.print()">🖨️ Print / Download PDF</button>
+      <div class="pdf-download-card">
+        <div class="pdf-info">
+          <div class="pdf-icon">📄</div>
+          <div class="pdf-text">
+            <h4>Rent_Receipt_${m}.pdf</h4>
+            <span>A4 Format • Ready to Print</span>
+          </div>
+        </div>
+        <button class="download-btn-small" onclick="window.print()">Download ⬇</button>
+      </div>
     </div>
 
     <div class="receipt">
