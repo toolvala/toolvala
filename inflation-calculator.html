@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Inflation Calculator – Calculate Future Value of Money | Toolvala</title>
+
+  <!-- SEO META -->
+  <meta name="description" content="Free Inflation Calculator to calculate future value of money and inflation impact. Know how inflation reduces purchasing power over time.">
+  <meta name="keywords" content="inflation calculator, future value calculator, inflation rate india, purchasing power calculator, money value calculator">
+  <meta name="robots" content="index, follow">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- CANONICAL -->
+  <link rel="canonical" href="https://www.toolvala.in/inflation-calculator.html">
+
+  <style>
+    body{
+      font-family: Arial, sans-serif;
+      background:#f4f6f9;
+      margin:0;
+      padding:0;
+      color:#333;
+      line-height:1.6;
+    }
+    header{
+      background:#198754;
+      color:#fff;
+      text-align:center;
+      padding:20px;
+    }
+    .container{
+      max-width:1100px;
+      margin:auto;
+      background:#fff;
+      padding:20px;
+    }
+    h1,h2,h3{
+      color:#198754;
+    }
+    .calculator{
+      background:#e9f7ef;
+      padding:20px;
+      border-radius:8px;
+      margin-bottom:30px;
+    }
+    label{
+      font-weight:bold;
+    }
+    input,button{
+      width:100%;
+      padding:10px;
+      margin:8px 0 15px;
+      font-size:16px;
+    }
+    button{
+      background:#198754;
+      color:#fff;
+      border:none;
+      cursor:pointer;
+    }
+    button:hover{
+      background:#146c43;
+    }
+    .result{
+      background:#fff3cd;
+      padding:15px;
+      border-radius:6px;
+    }
+    .related-tools a{
+      display:inline-block;
+      margin:8px 12px 0 0;
+      font-weight:bold;
+      color:#198754;
+      text-decoration:none;
+    }
+    footer{
+      background:#111;
+      color:#fff;
+      text-align:center;
+      padding:20px;
+      margin-top:30px;
+    }
+    footer a{
+      color:#0d6efd;
+      margin:0 10px;
+      text-decoration:none;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>Inflation Calculator</h1>
+  <p>Calculate the future value of money and understand inflation impact</p>
+</header>
+
+<div class="container">
+
+  <!-- CALCULATOR -->
+  <section class="calculator">
+    <h2>Inflation Rate Calculator</h2>
+
+    <label>Current Amount (₹)</label>
+    <input type="number" id="amount" placeholder="Enter current amount">
+
+    <label>Annual Inflation Rate (%)</label>
+    <input type="number" id="inflationRate" placeholder="Enter inflation rate">
+
+    <label>Number of Years</label>
+    <input type="number" id="years" placeholder="Enter number of years">
+
+    <button onclick="calculateInflation()">Calculate Inflation</button>
+
+    <div class="result" id="result"></div>
+  </section>
+
+  <!-- SEO CONTENT -->
+  <section>
+    <h2>What is an Inflation Calculator?</h2>
+    <p>
+      An <strong>Inflation Calculator</strong> helps you understand how inflation
+      affects the value of money over time. Inflation reduces purchasing power,
+      meaning the same amount of money buys fewer goods and services in the future.
+    </p>
+
+    <p>
+      Using this inflation calculator, you can estimate the future value of your
+      savings, salary, or investment after accounting for inflation.
+    </p>
+
+    <h2>Why Inflation Matters?</h2>
+    <p>
+      Inflation plays a crucial role in financial planning. Ignoring inflation
+      can lead to poor savings decisions and lower real returns.
+    </p>
+
+    <ul>
+      <li>Reduces purchasing power</li>
+      <li>Affects salary growth</li>
+      <li>Impacts long-term savings</li>
+      <li>Influences investment returns</li>
+    </ul>
+
+    <h2>Inflation Calculator Formula</h2>
+    <p>
+      <strong>Future Value = Present Value × (1 + Inflation Rate)<sup>Years</sup></strong>
+    </p>
+
+    <h2>Who Should Use This Tool?</h2>
+    <ul>
+      <li>Employees planning salary growth</li>
+      <li>Investors evaluating returns</li>
+      <li>Students learning economics</li>
+      <li>Financial planners</li>
+      <li>Anyone saving money</li>
+    </ul>
+
+    <h2>Inflation in India</h2>
+    <p>
+      In India, inflation is measured using CPI (Consumer Price Index).
+      Average inflation typically ranges between 4% to 7% annually.
+      Understanding inflation helps in better financial decision-making.
+    </p>
+
+    <h2>Frequently Asked Questions</h2>
+
+    <h3>Is inflation bad?</h3>
+    <p>
+      Moderate inflation is normal, but high inflation reduces purchasing power
+      and savings value.
+    </p>
+
+    <h3>Does salary increase beat inflation?</h3>
+    <p>
+      Only if salary growth is higher than inflation rate.
+    </p>
+
+    <h3>Is inflation calculation accurate?</h3>
+    <p>
+      This tool provides an estimate based on average inflation rate.
+    </p>
+  </section>
+
+  <!-- RELATED TOOLS -->
+  <section class="related-tools">
+    <h2>Related Tools</h2>
+    <a href="work-hours-calculator.html">Work Hours Calculator</a>
+    <a href="date-difference.html">Date Difference Calculator</a>
+    <a href="salary-converter.html">Salary Converter</a>
+    <a href="overtime-calculator.html">Overtime Calculator</a>
+  </section>
+
+</div>
+
+<footer>
+  <p>© 2026 Toolvala.in – Smart Financial & Utility Tools</p>
+  <p>
+    <a href="sitemap.html">Sitemap</a> |
+    <a href="all-tools.html">All Tools</a>
+  </p>
+</footer>
+
+<script>
+function calculateInflation(){
+  const amount = parseFloat(document.getElementById("amount").value);
+  const rate = parseFloat(document.getElementById("inflationRate").value)/100;
+  const years = parseInt(document.getElementById("years").value);
+
+  if(isNaN(amount) || isNaN(rate) || isNaN(years)){
+    document.getElementById("result").innerHTML = "❌ Please enter valid values.";
+    return;
+  }
+
+  const futureValue = amount * Math.pow((1 + rate), years);
+  const loss = futureValue - amount;
+
+  document.getElementById("result").innerHTML = `
+    <strong>Future Value:</strong> ₹${futureValue.toFixed(2)}<br>
+    <strong>Inflation Impact:</strong> ₹${loss.toFixed(2)}<br>
+    <strong>Purchasing Power Reduced Over:</strong> ${years} years
+  `;
+}
+</script>
+
+</body>
+</html>
