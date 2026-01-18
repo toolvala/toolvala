@@ -3,45 +3,58 @@
 <head>
 <meta charset="UTF-8">
 <title>Rent Receipt Generator – A4 PDF for HRA | Toolvala</title>
+
+<meta name="description" content="Free Rent Receipt Generator to create A4 printable rent receipt PDF for HRA exemption and income tax in India.">
+<meta name="keywords" content="rent receipt generator, rent receipt pdf, hra rent receipt, rent receipt format india, printable rent receipt">
+<meta name="robots" content="index, follow">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="canonical" href="https://www.toolvala.in/rent-receipt-generator.html">
-<meta name="robots" content="index, follow">
 
 <style>
+/* ================= BASE ================= */
 body{
   font-family: Arial, sans-serif;
-  background:#f2f2f2;
   margin:0;
+  background:#f4f6f9;
+  color:#333;
+  line-height:1.7;
+}
+header{
+  background:#6f42c1;
+  color:#fff;
+  text-align:center;
   padding:20px;
 }
 .container{
-  max-width:900px;
+  max-width:1000px;
   margin:auto;
   background:#fff;
   padding:20px;
+}
+h1,h2,h3{color:#6f42c1}
+
+/* ================= FORM ================= */
+.tool{
+  background:#f3edff;
+  padding:20px;
   border-radius:8px;
 }
-h1{
-  text-align:center;
-}
-label{
-  font-weight:bold;
-}
-input, textarea{
+label{font-weight:bold}
+input,textarea,button{
   width:100%;
-  padding:8px;
-  margin:6px 0 15px;
+  padding:10px;
+  margin:8px 0 15px;
+  font-size:16px;
 }
 button{
-  padding:10px 20px;
-  cursor:pointer;
-  background:#007bff;
+  background:#6f42c1;
   color:#fff;
   border:none;
-  border-radius:5px;
+  cursor:pointer;
 }
+button:hover{background:#59339d}
 
-/* ===== RECEIPT VIEW ===== */
+/* ================= RECEIPT ================= */
 .receipt-wrapper{
   margin-top:30px;
 }
@@ -62,12 +75,38 @@ button{
   text-align:right;
   margin-top:60px;
 }
-.print-buttons{
+.print-actions{
   text-align:center;
-  margin-top:20px;
+  margin:20px 0;
+}
+.print-actions button{
+  width:auto;
+  margin:0 10px;
 }
 
-/* ===== PRINT / PDF FIX ===== */
+/* ================= SEO CONTENT ================= */
+.seo-content{
+  margin-top:60px;
+}
+.seo-content ul{
+  padding-left:20px;
+}
+
+/* ================= FOOTER ================= */
+footer{
+  background:#111;
+  color:#fff;
+  text-align:center;
+  padding:20px;
+  margin-top:40px;
+}
+footer a{
+  color:#0d6efd;
+  text-decoration:none;
+  margin:0 8px;
+}
+
+/* ================= PRINT (FINAL FIX) ================= */
 @page{
   size:A4;
   margin:20mm;
@@ -85,12 +124,12 @@ button{
   }
   .receipt{
     width:100%;
-    min-height:auto;
     border:none;
-    page-break-after:avoid;
+    page-break-inside:avoid;
   }
-  .print-buttons{
-    display:none;
+  .print-actions,
+  .no-print{
+    display:none !important;
   }
 }
 </style>
@@ -98,239 +137,161 @@ button{
 
 <body>
 
-<div class="container">
+<header>
 <h1>Rent Receipt Generator</h1>
+<p>Create A4 Printable Rent Receipt for HRA & Income Tax</p>
+</header>
+
+<div class="container">
+
+<!-- ================= TOOL ================= -->
+<section class="tool">
+<h2>Generate Rent Receipt</h2>
 
 <label>Tenant Name</label>
-<input id="tenant" placeholder="Tenant Name">
+<input id="tenant">
 
 <label>Landlord Name</label>
-<input id="landlord" placeholder="Landlord Name">
+<input id="landlord">
 
-<label>Monthly Rent (₹)</label>
-<input id="amount" type="number">
+<label>Landlord PAN (Optional)</label>
+<input id="pan">
 
-<label>Month & Year</label>
-<input id="month" placeholder="01/2025">
-
-<label>Property Address</label>
+<label>Rental Property Address</label>
 <textarea id="address"></textarea>
 
+<label>Monthly Rent Amount (₹)</label>
+<input id="rent" type="number">
+
+<label>Rent Month & Year</label>
+<input id="month" type="month">
+
 <button onclick="generateReceipt()">Generate Receipt</button>
+</section>
 
-<div class="receipt-wrapper" id="receiptWrapper" style="display:none">
+<div id="output"></div>
 
-<div class="receipt" id="receipt">
-<div class="receipt-header">
-  <div>RENT RECEIPT</div>
-  <div>Date: <span id="rDate"></span></div>
-</div>
+<!-- ================= SEO CONTENT (NO PRINT) ================= -->
+<section class="seo-content no-print">
 
-<p>
-Received a sum of <b>₹<span id="rAmount"></span></b> from
-<b><span id="rTenant"></span></b> towards house rent for the month of
-<b><span id="rMonth"></span></b>.
-</p>
-
-<p>
-<b>Rental Property Address:</b><br>
-<span id="rAddress"></span>
-</p>
-
-<p>
-<b>Landlord Name:</b> <span id="rLandlord"></span>
-</p>
-
-<div class="signature">
-_________________________<br>
-Landlord Signature
-</div>
-</div>
-
-<div class="print-buttons">
-<button onclick="window.print()">Download / Print A4 PDF</button>
-</div>
-
-</div>
-</div>
-<section class="seo-content" style="margin-top:60px;line-height:1.8;">
 <h2>Rent Receipt Generator – Complete Guide</h2>
-
 <p>
-A <strong>Rent Receipt Generator</strong> is an online tool that helps tenants
-create legally valid rent receipts instantly. In India, rent receipts are
-primarily used for claiming <strong>House Rent Allowance (HRA)</strong> exemption
-under the Income Tax Act. Employers and payroll departments require monthly
-rent receipts as proof of rent payment.
+A <strong>Rent Receipt Generator</strong> is an online tool that allows tenants to
+create legally valid rent receipts instantly. In India, rent receipts are mainly
+required for claiming <strong>House Rent Allowance (HRA)</strong> exemption under
+the Income Tax Act.
 </p>
 
 <p>
-This free Rent Receipt Generator by Toolvala allows you to create
-<strong>A4 printable rent receipt PDFs</strong> in seconds without registration.
-The generated format is accepted by most private companies, government
-organizations, and chartered accountants across India.
+This free tool by Toolvala helps salaried employees generate A4 printable rent
+receipt PDFs in seconds without registration. The format is accepted by most
+employers, HR departments, and tax consultants.
 </p>
 
-<h2>What Is a Rent Receipt?</h2>
-<p>
-A rent receipt is a written acknowledgment issued by a landlord to a tenant
-confirming that rent has been received for a specific month. It acts as legal
-proof of payment and is often required for income tax and accounting purposes.
-</p>
-
-<p>
-A standard rent receipt in India includes tenant name, landlord name,
-property address, rent amount, rent period, date of issue, and landlord
-signature.
-</p>
-
-<h2>Why Rent Receipt Is Required for HRA Exemption</h2>
-<p>
-House Rent Allowance (HRA) is a salary component provided to salaried employees.
-To claim HRA exemption under Section 10(13A) of the Income Tax Act, employees
-must submit rent receipts to their employer.
-</p>
-
+<h2>Why Rent Receipt Is Important</h2>
 <ul>
-<li>Proof of actual rent paid</li>
-<li>Mandatory for payroll HRA calculation</li>
-<li>Required during income tax assessment</li>
-<li>Helps avoid tax penalties</li>
+<li>Mandatory for HRA exemption</li>
+<li>Proof of rent payment</li>
+<li>Required for payroll processing</li>
+<li>Helps during income tax scrutiny</li>
 </ul>
-
-<h2>Is Rent Receipt Mandatory?</h2>
-<p>
-Yes. If you are claiming HRA exemption, submitting rent receipts is mandatory.
-If your annual rent exceeds ₹1,00,000, you must also provide your landlord’s
-PAN number as per income tax rules.
-</p>
 
 <h2>Valid Rent Receipt Format in India</h2>
 <p>
-A valid rent receipt format must contain:
-</p>
-
-<ul>
-<li>Tenant full name</li>
-<li>Landlord full name</li>
-<li>Rental property address</li>
-<li>Rent amount in INR</li>
-<li>Month and year of rent</li>
-<li>Date of issue</li>
-<li>Landlord signature</li>
-</ul>
-
-<p>
-The Toolvala Rent Receipt Generator automatically structures the receipt
-in an employer-approved A4 format.
+A valid rent receipt must include tenant name, landlord name, property address,
+rent amount, rent period, date, and landlord signature. If annual rent exceeds
+₹1,00,000, landlord PAN is mandatory.
 </p>
 
 <h2>A4 Printable Rent Receipt PDF</h2>
 <p>
-This tool generates a perfectly formatted <strong>A4 size rent receipt</strong>.
-The PDF is optimized for both mobile and desktop printing without extra blank
-pages. This ensures hassle-free submission to employers and tax consultants.
+This rent receipt generator creates a perfectly formatted A4 PDF that prints
+cleanly on mobile and desktop without extra pages or blank space.
 </p>
-
-<h2>Is Digital Rent Receipt Accepted?</h2>
-<p>
-Yes. Digitally generated rent receipts are accepted by most organizations.
-You can print the receipt and sign it manually if a physical signature is
-required.
-</p>
-
-<h2>Who Should Use This Rent Receipt Generator?</h2>
-<ul>
-<li>Salaried employees claiming HRA</li>
-<li>Tenants paying house rent</li>
-<li>HR and payroll teams</li>
-<li>Chartered accountants</li>
-<li>Tax consultants</li>
-<li>Freelancers and professionals</li>
-</ul>
-
-<h2>Benefits of Using Toolvala Rent Receipt Generator</h2>
-<ul>
-<li>100% free online tool</li>
-<li>No login or signup required</li>
-<li>Mobile-friendly and fast</li>
-<li>A4 PDF download</li>
-<li>Employer-accepted format</li>
-<li>Privacy-friendly (no data saved)</li>
-</ul>
 
 <h2>Frequently Asked Questions</h2>
 
-<h3>Can I generate old rent receipts?</h3>
-<p>
-Yes. You can generate rent receipts for previous months by selecting the
-required month and year.
-</p>
-
-<h3>Is landlord PAN mandatory?</h3>
-<p>
-PAN is mandatory only if your annual rent exceeds ₹1,00,000.
-</p>
-
-<h3>Do I need stamp duty?</h3>
-<p>
-No stamp duty is required for rent receipts used for HRA exemption.
-</p>
+<h3>Is digital rent receipt valid?</h3>
+<p>Yes. Most employers accept digitally generated receipts.</p>
 
 <h3>Is landlord signature compulsory?</h3>
-<p>
-Most employers require landlord signature. You can print the receipt and
-sign it manually.
-</p>
+<p>Many employers require it. You can print and sign manually.</p>
 
-<h2>Why Choose Toolvala?</h2>
-<p>
-Toolvala provides free, simple, and accurate online calculators and generators
-for salary, tax, and daily utility needs. Our tools are designed for Indian
-users with employer-accepted formats and mobile compatibility.
-</p>
+<h3>Can I generate old rent receipts?</h3>
+<p>Yes. You can select any previous month and year.</p>
 
-<p>
-Along with the Rent Receipt Generator, Toolvala also offers:
-</p>
-
+<h2>Why Use Toolvala?</h2>
 <ul>
-<li>HRA Exemption Calculator</li>
-<li>Income Tax Calculator (India)</li>
-<li>Salary Calculators</li>
-<li>Pay Commission Tools</li>
-<li>Utility & Productivity Calculators</li>
+<li>100% free tools</li>
+<li>No signup required</li>
+<li>Indian tax compliant</li>
+<li>Mobile-friendly</li>
 </ul>
 
-<h2>Conclusion</h2>
-<p>
-Using an online Rent Receipt Generator saves time, avoids formatting mistakes,
-and ensures compliance with Indian income tax rules. With Toolvala’s A4 PDF
-rent receipt generator, you can create, print, and download rent receipts
-anytime, anywhere.
-</p>
-
-<p>
-Start generating your rent receipts today and simplify your HRA tax filing
-process.
-</p>
 </section>
 
-<footer style="text-align:center;margin-top:30px;">
+</div>
+
+<footer class="no-print">
+<p>© 2026 Toolvala.in – Smart Salary & Tax Tools</p>
+<p>
 <a href="sitemap.html">Sitemap</a> |
 <a href="all-tools.html">All Tools</a>
+</p>
 </footer>
 
 <script>
+function formatDate(d){
+  return String(d.getDate()).padStart(2,'0') + "." +
+         String(d.getMonth()+1).padStart(2,'0') + "." +
+         d.getFullYear();
+}
+
 function generateReceipt(){
-  document.getElementById("receiptWrapper").style.display="block";
-  document.getElementById("rTenant").innerText = tenant.value;
-  document.getElementById("rLandlord").innerText = landlord.value;
-  document.getElementById("rAmount").innerText = amount.value;
-  document.getElementById("rMonth").innerText = month.value;
-  document.getElementById("rAddress").innerText = address.value;
-  document.getElementById("rDate").innerText =
-    new Date().toLocaleDateString("en-IN");
+  const t=tenant.value.trim();
+  const l=landlord.value.trim();
+  const a=address.value.trim();
+  const r=rent.value;
+  const m=month.value;
+  const p=pan.value.trim();
+
+  if(!t||!l||!a||!r||!m){
+    alert("Please fill all required fields");
+    return;
+  }
+
+  const [y,mo]=m.split("-");
+  const today=formatDate(new Date());
+
+  output.innerHTML = `
+  <div class="receipt-wrapper">
+    <div class="print-actions">
+      <button onclick="window.print()">🖨 Print</button>
+      <button onclick="window.print()">⬇ Download PDF (A4)</button>
+    </div>
+
+    <div class="receipt">
+      <div class="receipt-header">
+        <span>RENT RECEIPT</span>
+        <span>Date: ${today}</span>
+      </div>
+
+      <p>
+        Received a sum of <strong>₹${r}</strong> from
+        <strong>${t}</strong> towards house rent for the month of
+        <strong>${mo}.${y}</strong>.
+      </p>
+
+      <p><strong>Rental Property Address:</strong><br>${a}</p>
+      <p><strong>Landlord Name:</strong> ${l}</p>
+      ${p?`<p><strong>PAN:</strong> ${p}</p>`:''}
+
+      <div class="signature">
+        __________________________<br>
+        Landlord Signature
+      </div>
+    </div>
+  </div>`;
 }
 </script>
 
