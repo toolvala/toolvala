@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date Difference Calculator | Calculate Days Between Dates</title>
+    <meta name="description" content="Free Date Difference Calculator. Accurately count the number of days, weeks, months, and years between two dates. Includes business day calculation options.">
+    <meta name="keywords" content="date difference calculator, days between dates, time duration calculator, calendar calculator, business days counter, date span">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Canonical Tag - REPLACE URL with your actual domain -->
+    <link rel="canonical" href="https://www.yourwebsite.com/date-difference-calculator">
+    
+    <!-- Open Graph for Social Media -->
+    <meta property="og:title" content="Date Difference Calculator - Count Days & Weeks">
+    <meta property="og:description" content="Calculate the exact duration between two dates in years, months, and days. Perfect for planning and scheduling.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.yourwebsite.com/date-difference-calculator">
+    <meta property="og:image" content="https://www.yourwebsite.com/images/date-calc-thumb.jpg">
+
+    <!-- JSON-LD Schema Markup: Software Application -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Date Difference Calculator",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A free online tool to calculate the duration between two dates, showing results in days, weeks, months, and years.",
+      "featureList": "Total days calculation, Business days filter, Detailed breakdown, Leap year support",
+      "author": {
+        "@type": "Organization",
+        "name": "CalcTools Suite"
+      }
+    }
+    </script>
+    
+    <!-- JSON-LD Schema Markup: FAQ -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [{
+        "@type": "Question",
+        "name": "Does this calculator include the end date?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "By default, date difference calculations usually calculate the duration 'between' dates, meaning the start date is included but the end date is the boundary. Our tool provides the total day count spanning the duration."
+        }
+      }, {
+        "@type": "Question",
+        "name": "How are leap years handled?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The calculator uses standard Gregorian calendar logic, automatically accounting for 29 days in February during leap years (e.g., 2024, 2028)."
+        }
+      }]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary: #8b5cf6; /* Violet theme for this tool */
+            --primary-dark: #7c3aed;
+            --secondary: #f3f4f6;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --bg: #ffffff;
+            --border: #e5e7eb;
+            --success: #10b981;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+        
+        body { background-color: #f9fafb; color: var(--text); line-height: 1.6; }
+
+        /* Navigation */
+        nav { background: var(--bg); border-bottom: 1px solid var(--border); padding: 1rem 2rem; position: sticky; top: 0; z-index: 100; }
+        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: bold; color: var(--primary); text-decoration: none; }
+        
+        /* Layout */
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; display: grid; grid-template-columns: 1fr; gap: 2rem; }
+        
+        @media(min-width: 1024px) {
+            .container { grid-template-columns: 2fr 1fr; }
+        }
+
+        /* Calculator Styles */
+        .calculator-card {
+            background: var(--bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-top: 6px solid var(--primary);
+        }
+
+        .calc-header { margin-bottom: 1.5rem; border-bottom: 2px solid var(--secondary); padding-bottom: 1rem; }
+        
+        .input-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        @media(max-width: 600px) {
+            .input-grid { grid-template-columns: 1fr; }
+        }
+
+        label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text); }
+        
+        input[type="date"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 1rem;
+            background: var(--secondary);
+        }
+
+        .checkbox-group { margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; }
+        .checkbox-group input { width: 18px; height: 18px; cursor: pointer; }
+
+        .controls { display: flex; gap: 1rem; margin-top: 1rem; }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-size: 1rem;
+        }
+        
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-dark); }
+        .btn-outline { background: transparent; border: 1px solid var(--text-light); color: var(--text); }
+        .btn-outline:hover { background: var(--secondary); }
+
+        .results-section {
+            background: #f5f3ff;
+            border: 1px solid #ddd6fe;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            display: none;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .main-result { font-size: 2.5rem; font-weight: bold; color: var(--primary); margin-bottom: 0.5rem; line-height: 1.2; }
+        .sub-result { font-size: 1.1rem; color: var(--text-light); margin-bottom: 1.5rem; }
+        
+        .breakdown-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; }
+        .breakdown-card { background: white; padding: 1rem; border-radius: 6px; border: 1px solid var(--border); text-align: center; }
+        .bc-val { font-size: 1.5rem; font-weight: bold; color: var(--text); }
+        .bc-label { font-size: 0.85rem; text-transform: uppercase; color: var(--text-light); letter-spacing: 0.5px; }
+
+        /* Content Styles */
+        article { grid-column: 1 / -1; background: var(--bg); padding: 2.5rem; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        h1 { font-size: 2.5rem; margin-bottom: 1.5rem; color: var(--text); line-height: 1.2; }
+        h2 { font-size: 1.8rem; margin: 2.5rem 0 1rem; color: var(--text); border-left: 4px solid var(--primary); padding-left: 1rem; }
+        h3 { font-size: 1.4rem; margin: 1.5rem 0 1rem; font-weight: 600; }
+        p { margin-bottom: 1.2rem; color: #374151; font-size: 1.05rem; }
+        ul, ol { margin-bottom: 1.5rem; padding-left: 2rem; }
+        li { margin-bottom: 0.8rem; }
+        
+        /* Sidebar/Related Tools */
+        .sidebar { grid-column: 1 / -1; } 
+        @media(min-width: 1024px) { .sidebar { grid-column: 2; grid-row: 1; } }
+
+        .tool-card {
+            background: var(--bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            margin-bottom: 1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+        }
+        .tool-card:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); border-color: var(--primary); }
+        .tool-card h3 { margin-top: 0; font-size: 1.2rem; color: var(--primary); }
+        .tool-card a { text-decoration: none; color: inherit; display: block; }
+        
+        footer { background: #1f2937; color: white; padding: 3rem 1rem; margin-top: 4rem; text-align: center; }
+        footer a { color: #9ca3af; text-decoration: none; transition: color 0.2s; }
+        footer a:hover { color: white; }
+
+        .error-msg { color: #dc2626; font-size: 0.9rem; margin-top: 0.5rem; display: none; }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="nav-container">
+        <a href="#" class="logo">CalcTools</a>
+        <div>
+            <a href="#content" style="color: var(--text); text-decoration: none; margin-left: 1rem; font-weight: 500;">Guide</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    
+    <!-- Main Calculator Area -->
+    <div class="calculator-section" style="grid-column: 1 / -1; max-width: 800px; margin: 0 auto; width: 100%;">
+        <div class="calculator-card">
+            <div class="calc-header">
+                <h2>Date Difference Calculator</h2>
+                <p>Select two dates to calculate the number of days, weeks, and years between them.</p>
+            </div>
+
+            <form id="dateForm">
+                <div class="input-grid">
+                    <div>
+                        <label for="startDate">Start Date</label>
+                        <input type="date" id="startDate" required>
+                    </div>
+                    <div>
+                        <label for="endDate">End Date</label>
+                        <input type="date" id="endDate" required>
+                    </div>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="excludeWeekends">
+                    <label for="excludeWeekends" style="margin:0; font-weight:400;">Exclude Weekends (Saturday & Sunday)</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="includeEndDate">
+                    <label for="includeEndDate" style="margin:0; font-weight:400;">Include End Date (+1 Day)</label>
+                </div>
+
+                <div class="error-msg" id="errorMsg">Please select both dates.</div>
+
+                <div class="controls">
+                    <button type="button" class="btn btn-primary" onclick="calculateDifference()">Calculate Duration</button>
+                    <button type="button" class="btn btn-outline" onclick="resetForm()">Reset</button>
+                </div>
+            </form>
+
+            <div class="results-section" id="results">
+                <div class="main-result" id="daysResult">0 Days</div>
+                <div class="sub-result" id="fullTextResult">0 years, 0 months, 0 days</div>
+                
+                <div class="breakdown-grid">
+                    <div class="breakdown-card">
+                        <div class="bc-val" id="resYears">0</div>
+                        <div class="bc-label">Years</div>
+                    </div>
+                    <div class="breakdown-card">
+                        <div class="bc-val" id="resMonths">0</div>
+                        <div class="bc-label">Months</div>
+                    </div>
+                    <div class="breakdown-card">
+                        <div class="bc-val" id="resWeeks">0</div>
+                        <div class="bc-label">Weeks</div>
+                    </div>
+                    <div class="breakdown-card">
+                        <div class="bc-val" id="resHours">0</div>
+                        <div class="bc-label">Hours</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SEO Content Section -->
+    <article id="content">
+        <h1>Date Difference Calculator: The Ultimate Time Duration Tool</h1>
+        
+        <p>Time is our most valuable resource, yet calculating it accurately across the Gregorian calendar is notoriously difficult. Whether you are a project manager tracking milestones, a bride-to-be counting down to the big day, or an HR professional calculating employee tenure, our <strong>Date Difference Calculator</strong> eliminates the guesswork.</p>
+
+        <p>This comprehensive tool allows you to instantly determine the number of days, weeks, months, and years between two specific dates. It also features advanced options to calculate "Business Days" by excluding weekends, making it an indispensable utility for professional and personal planning.</p>
+
+        <h2>How to Use the Date Difference Tool</h2>
+        <p>We designed this interface to be as intuitive as possible. Follow these simple steps to get your results:</p>
+        <ol>
+            <li><strong>Select Start Date:</strong> Click the calendar icon to pick your starting point. This is usually the earlier date.</li>
+            <li><strong>Select End Date:</strong> Choose your target date. If this date is before the start date, the tool will still calculate the duration but indicate it as a past event.</li>
+            <li><strong>Customize Settings:</strong>
+                <ul>
+                    <li><em>Exclude Weekends:</em> Check this box if you want to calculate "Working Days" (e.g., for project delivery timelines).</li>
+                    <li><em>Include End Date:</em> By default, most calculations measure the time <em>between</em> dates. Check this if you want to include the final day in the total count (e.g., if you are working on the end date as well).</li>
+                </ul>
+            </li>
+            <li><strong>Calculate:</strong> Hit the button to see a detailed breakdown of the time span.</li>
+        </ol>
+
+        <h2>Why Is Calculating Dates So Complicated?</h2>
+        <p>You might wonder why you need a tool for this. Can't you just do the math in your head? The reality is that the calendar system is full of irregularities that make mental math error-prone.</p>
+
+        <h3>1. Variable Month Lengths</h3>
+        <p>Months do not have a standard length. They fluctuate between 28, 30, and 31 days. If you are calculating the duration from January 15th to March 15th, simply saying "2 months" is easy, but calculating the exact number of days requires remembering that February is short.</p>
+
+        <h3>2. Leap Years</h3>
+        <p>Every four years (with some exceptions), February gains an extra day (the 29th). If your date range spans across a leap day, a manual calculation will be off by one day unless you account for it. Our calculator automatically detects leap years (like 2024, 2028) and adjusts the total count accordingly.</p>
+
+        <h3>3. Business Days vs. Calendar Days</h3>
+        <p>In the corporate world, "10 days" rarely means 10 calendar days. It usually means 10 <em>business</em> days, which equates to two full weeks. Manually skimming a calendar to skip Saturdays and Sundays is tedious. This tool automates that process in a fraction of a second.</p>
+
+        <h2>Common Use Cases</h2>
+
+        <h3>Project Management & Logistics</h3>
+        <p>Deadlines are strict. If a client gives you a 45-day deadline, does that include weekends? Use this tool to find the exact date difference to ensure your Gantt charts and sprint plans are accurate.</p>
+
+        <h3>Visa and Travel Calculations</h3>
+        <p>Many countries stick to strict "90-day within 180-day" rules for tourist visas (like the Schengen Zone). Overstaying by even one day can result in fines or bans. Travelers use date calculators to ensure they leave the country before their allowance expires.</p>
+
+        <h3> HR and Payroll</h3>
+        <p>Calculating an employee's final settlement often requires knowing the exact number of days they worked in their final month. This tool helps derive the pro-rated salary figures quickly.</p>
+
+        <h3>Personal Milestones</h3>
+        <ul>
+            <li><strong>Age Calculation:</strong> Find out exactly how many days you have been alive.</li>
+            <li><strong>Pregnancy Tracking:</strong> Calculate how many weeks along you are or days until the due date.</li>
+            <li><strong>Event Planning:</strong> Know exactly how many weekends you have left to prepare for a wedding or anniversary.</li>
+        </ul>
+
+        <h2>Understanding the Results</h2>
+        <p>The calculator provides two types of results:</p>
+        <ul>
+            <li><strong>Total Days:</strong> The absolute count of 24-hour periods between the two timestamps.</li>
+            <li><strong>Descriptive Duration:</strong> A human-readable format like "1 Year, 3 Months, 2 Days." This is calculated by subtracting years first, then months, then remaining days.</li>
+        </ul>
+
+        <h2>Frequently Asked Questions (FAQ)</h2>
+        
+        <h3>Does the calculator include public holidays?</h3>
+        <p>Currently, the "Exclude Weekends" feature removes Saturdays and Sundays. However, it does not automatically deduct public holidays (like Christmas or Independence Day) as these vary by country. You should subtract those manually from the "Business Days" total.</p>
+
+        <h3>How do I calculate a date in the past?</h3>
+        <p>Simply enter the past date as the "Start Date" and today's date as the "End Date." The result will tell you how much time has elapsed since that event.</p>
+
+        <h3>Is the "End Date" included in the count?</h3>
+        <p>By default, no. We calculate the duration <em>between</em> the dates. For example, from Monday to Tuesday is 1 day. However, we have added a checkbox labeled "Include End Date" if you wish to count it (making Monday to Tuesday 2 days).</p>
+
+        <h2>Technical Details</h2>
+        <p>This tool is built using high-precision JavaScript `Date` objects. It calculates the time difference in milliseconds and converts it into larger units. It runs entirely in your browser, ensuring your data remains private and the calculation happens instantly without reloading the page.</p>
+
+        <p>Start managing your time better today. Bookmark this page for the next time you need to answer the question: "How long until...?"</p>
+    </article>
+
+    <!-- Related Tools / Sidebar -->
+    <aside class="sidebar">
+        <h2 style="font-size: 1.5rem; margin-bottom: 1rem;">More Free Tools</h2>
+        
+        <div class="tool-card" onclick="location.href='index.html'">
+            <a href="index.html">
+                <h3>⏱️ Work Hours Calculator</h3>
+                <p style="font-size: 0.9rem; margin:0;">Calculate weekly work hours, deduct breaks, and estimate gross pay.</p>
+            </a>
+        </div>
+
+        <div class="tool-card">
+            <a href="age-calculator.html">
+                <h3>📅 Age Calculator</h3>
+                <p style="font-size: 0.9rem; margin:0;">Calculate your exact age in years, months, and minutes.</p>
+            </a>
+        </div>
+
+        <div class="tool-card">
+            <a href="#">
+                <h3>💰 Salary Converter</h3>
+                <p style="font-size: 0.9rem; margin:0;">Convert hourly wages to annual salary and monthly income.</p>
+            </a>
+        </div>
+
+        <div style="background: #ede9fe; padding: 1.5rem; border-radius: 8px; margin-top: 2rem;">
+            <h3>Did you know?</h3>
+            <p style="font-size: 0.9rem;">The Gregorian calendar repeats itself every 400 years. This tool can handle dates centuries into the future or past!</p>
+        </div>
+    </aside>
+
+</div>
+
+<footer>
+    <p>&copy; 2026 Toolvala.in. All rights reserved.</p>
+    <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+        <a href="privacy-policy.html">Privacy Policy</a> | <a href="terms-of-service.html">Terms of Service</a> | <a href="#">Contact</a> |<a href="sitemap.html">Sitemap</a>
+    </p>
+</footer>
+
+<script>
+    // Set default dates (Today and Tomorrow)
+    window.onload = function() {
+        const today = new Date();
+        const tomorrow = new Date(today);
+        tomorrow.setDate(today.getDate() + 1);
+
+        document.getElementById('startDate').valueAsDate = today;
+        document.getElementById('endDate').valueAsDate = tomorrow;
+    };
+
+    function calculateDifference() {
+        const startInput = document.getElementById('startDate').value;
+        const endInput = document.getElementById('endDate').value;
+        const excludeWeekends = document.getElementById('excludeWeekends').checked;
+        const includeEnd = document.getElementById('includeEndDate').checked;
+        const errorMsg = document.getElementById('errorMsg');
+
+        if (!startInput || !endInput) {
+            errorMsg.style.display = 'block';
+            return;
+        }
+        errorMsg.style.display = 'none';
+
+        let start = new Date(startInput);
+        let end = new Date(endInput);
+        
+        // Swap if start is after end
+        if (start > end) {
+            [start, end] = [end, start];
+        }
+
+        // Calculate raw time difference
+        let timeDiff = end.getTime() - start.getTime();
+        
+        // Calculate Total Days
+        let totalDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+        
+        // Handle Business Days
+        if (excludeWeekends) {
+            let workingDays = 0;
+            let tempDate = new Date(start);
+            while (tempDate < end) {
+                const day = tempDate.getDay();
+                if (day !== 0 && day !== 6) { // 0 is Sunday, 6 is Saturday
+                    workingDays++;
+                }
+                tempDate.setDate(tempDate.getDate() + 1);
+            }
+            totalDays = workingDays;
+        }
+
+        if (includeEnd) {
+            // Check if end date itself is a weekend if excluding weekends
+            if (excludeWeekends) {
+                const day = end.getDay();
+                if (day !== 0 && day !== 6) {
+                    totalDays++;
+                }
+            } else {
+                totalDays++;
+            }
+        }
+
+        // Calculate Breakdown (Years, Months, Days) logic
+        // We use a separate logic for the descriptive text, ignoring the business day filter for the textual description
+        // usually, breakdown makes most sense for calendar days.
+        let descStart = new Date(startInput);
+        let descEnd = new Date(endInput);
+        if (descStart > descEnd) [descStart, descEnd] = [descEnd, descStart];
+        
+        // Add one day if includeEnd is checked for the breakdown calculation
+        if (includeEnd) {
+             descEnd.setDate(descEnd.getDate() + 1);
+        }
+
+        let years = descEnd.getFullYear() - descStart.getFullYear();
+        let months = descEnd.getMonth() - descStart.getMonth();
+        let days = descEnd.getDate() - descStart.getDate();
+
+        if (days < 0) {
+            months--;
+            // Get days in previous month
+            let prevMonth = new Date(descEnd.getFullYear(), descEnd.getMonth(), 0);
+            days += prevMonth.getDate();
+        }
+        if (months < 0) {
+            years--;
+            months += 12;
+        }
+
+        // Update UI
+        document.getElementById('daysResult').innerText = totalDays + (totalDays === 1 ? " Day" : " Days");
+        
+        if (excludeWeekends) {
+            document.getElementById('fullTextResult').innerText = "Business Days Only";
+        } else {
+            document.getElementById('fullTextResult').innerText = `${years} years, ${months} months, ${days} days`;
+        }
+
+        // Breakdown Cards
+        document.getElementById('resYears').innerText = years; // Only relevant for calendar duration
+        document.getElementById('resMonths').innerText = (years * 12) + months; // Total months
+        document.getElementById('resWeeks').innerText = Math.floor(totalDays / 7);
+        document.getElementById('resHours').innerText = (totalDays * 24).toLocaleString();
+
+        // Show Results
+        const results = document.getElementById('results');
+        results.style.display = 'block';
+        results.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function resetForm() {
+        document.getElementById('dateForm').reset();
+        document.getElementById('results').style.display = 'none';
+        
+        // Reset to today/tomorrow
+        const today = new Date();
+        const tomorrow = new Date(today);
+        tomorrow.setDate(today.getDate() + 1);
+        document.getElementById('startDate').valueAsDate = today;
+        document.getElementById('endDate').valueAsDate = tomorrow;
+    }
+</script>
+
+</body>
+</html>
