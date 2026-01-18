@@ -244,20 +244,22 @@ function monthName(yearMonth){
 }
 
 function generateReceipt(){
-  const t=tenant.value.trim();
-  const l=landlord.value.trim();
-  const a=address.value.trim();
-  const r=rent.value;
-  const m=month.value;
-  const p=pan.value.trim();
+  const t = document.getElementById("tenant").value.trim();
+  const l = document.getElementById("landlord").value.trim();
+  const a = document.getElementById("address").value.trim();
+  const r = document.getElementById("rent").value;
+  const m = document.getElementById("month").value;
+  const p = document.getElementById("pan").value.trim();
+  const output = document.getElementById("output");
 
   if(!t||!l||!a||!r||!m){
     alert("Please fill all required fields");
     return;
   }
 
-  const today=formatDate(new Date());
-  const rentMonth=monthName(m);
+  const today = formatDate(new Date());
+  const rentMonth = monthName(m);
+  const formattedRent = Number(r).toLocaleString('en-IN');
 
   output.innerHTML = `
   <div class="receipt-wrapper">
@@ -272,8 +274,8 @@ function generateReceipt(){
       </div>
 
       <p>
-        Received with thanks a sum of <strong>₹${r}</strong>
-        (Rupees ${r} only) from <strong>${t}</strong>
+        Received with thanks a sum of <strong>₹${formattedRent}</strong>
+        (Rupees ${formattedRent} only) from <strong>${t}</strong>
         towards house rent for the month of
         <strong>${rentMonth}</strong>.
       </p>
