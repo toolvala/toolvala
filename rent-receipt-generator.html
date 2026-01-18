@@ -2,248 +2,280 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Rent Receipt Generator – A4 PDF for HRA | Toolvala</title>
-
-<meta name="description" content="Free Rent Receipt Generator to create A4 printable rent receipt PDF for HRA exemption and income tax in India.">
-<meta name="keywords" content="rent receipt generator, rent receipt pdf, hra rent receipt, rent receipt format india, printable rent receipt">
-<meta name="robots" content="index, follow">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<!-- ===== SEO META TAGS ===== -->
+<title>Free Rent Receipt Generator (PDF) - HRA Exemption Tool India</title>
+<meta name="description" content="Generate monthly or yearly Rent Receipts for HRA exemption in India. Free PDF download, revenue stamp support, and automatic number-to-words conversion. Compliant with Income Tax Section 10(13A).">
+<meta name="keywords" content="rent receipt generator, rent receipt format india, hra rent receipt, rent receipt pdf, revenue stamp rent receipt, landlord pan card limit, rent receipt for income tax proof, printable rent receipt a4">
+<meta name="robots" content="index, follow">
 <link rel="canonical" href="https://www.toolvala.in/rent-receipt-generator.html">
 
+<!-- ===== SCHEMA MARKUP (JSON-LD) ===== -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Rent Receipt Generator India",
+  "url": "https://www.toolvala.in/rent-receipt-generator.html",
+  "description": "A free tool to generate printable rent receipts for HRA tax exemption in India.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "INR"
+  },
+  "featureList": "PDF Generation, Number to Words, Revenue Stamp Placeholder, Indian Tax Compliant"
+}
+</script>
+
 <style>
-/* ========== BASE ========== */
-body{
-  font-family: Arial, sans-serif;
-  margin:0;
-  background:#f4f6f9;
-  color:#333;
-  line-height:1.7;
-}
-header{
-  background:#6f42c1;
-  color:#fff;
-  text-align:center;
-  padding:20px;
-}
-.container{
-  max-width:1000px;
-  margin:auto;
-  background:#fff;
-  padding:20px;
-}
-h1,h2,h3{color:#6f42c1}
+/* ========== BASE & THEME ========== */
+body{font-family:'Segoe UI', Arial, sans-serif; margin:0; background:#f4f6f9; color:#333; line-height:1.7;}
+header{background:#6f42c1; color:#fff; text-align:center; padding:30px 20px;}
+h1{margin:0; font-size:28px;}
+h2, h3{color:#6f42c1; margin-top:30px;}
+.container{max-width:900px; margin:auto; background:#fff; padding:40px; box-shadow:0 0 20px rgba(0,0,0,0.05); margin-top:-30px; border-radius:8px;}
 
-/* ========== FORM ========== */
-.tool{
-  background:#f3edff;
-  padding:20px;
-  border-radius:8px;
-}
-label{font-weight:bold}
-input,textarea,button{
-  width:100%;
-  padding:10px;
-  margin:8px 0 15px;
-  font-size:16px;
-}
-button{
-  background:#6f42c1;
-  color:#fff;
-  border:none;
-  cursor:pointer;
-}
-button:hover{background:#59339d}
+/* ========== TOOL FORM ========== */
+.tool-box{background:#f3edff; padding:30px; border-radius:10px; border:1px solid #e0d4fc;}
+label{font-weight:600; display:block; margin-top:15px; color:#444;}
+input, textarea, select{width:100%; padding:12px; margin:8px 0; border:1px solid #ccc; border-radius:5px; font-size:16px; box-sizing:border-box;}
+textarea{resize:vertical; height:80px;}
+button.generate-btn{width:100%; padding:15px; background:#6f42c1; color:#fff; border:none; border-radius:5px; font-size:18px; font-weight:bold; cursor:pointer; margin-top:20px; transition:0.3s;}
+button.generate-btn:hover{background:#59339d;}
 
-/* ========== RECEIPT ========== */
-.receipt-wrapper{margin-top:30px}
+/* ========== RECEIPT PREVIEW ========== */
+.receipt-wrapper{margin-top:40px; display:none;} /* Hidden until generated */
 .receipt{
-  max-width:800px;
-  margin:auto;
-  padding:30px;
-  border:1px solid #000;
-  background:#fff;
+  max-width:800px; margin:auto; padding:40px; 
+  border:2px solid #333; background:#fff; position:relative;
 }
-.receipt-header{
-  display:flex;
-  justify-content:space-between;
-  font-weight:bold;
-  margin-bottom:20px;
+.receipt-header{display:flex; justify-content:space-between; font-weight:bold; font-size:18px; border-bottom:2px solid #333; padding-bottom:10px; margin-bottom:20px;}
+.receipt-body p{font-size:18px; line-height:1.8; margin-bottom:20px;}
+.receipt-footer{margin-top:60px; display:flex; justify-content:space-between; align-items:flex-end;}
+.signature-area{text-align:center;}
+.revenue-stamp-box{
+  width:80px; height:80px; border:1px dashed #999; 
+  display:flex; align-items:center; justify-content:center; 
+  font-size:12px; color:#999; margin-bottom:10px; margin-left:auto; margin-right:auto;
 }
-.signature{
-  text-align:right;
-  margin-top:60px;
-}
-.print-actions{
-  text-align:center;
-  margin:20px 0;
-}
-.print-actions button{
-  width:auto;
-}
+.print-actions{text-align:center; margin-bottom:20px;}
+.print-actions button{background:#28a745; color:white; border:none; padding:10px 20px; font-size:16px; border-radius:5px; cursor:pointer;}
 
-/* ========== SEO CONTENT ========== */
-.seo-content{
-  margin-top:60px;
+/* ========== RELATED TOOLS GRID ========== */
+.related-tools-section {margin-top:60px; padding-top:20px; border-top:1px solid #eee;}
+.tools-grid {display:grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap:20px;}
+.tool-card {
+  background:#fff; padding:20px; border-radius:10px; text-decoration:none; color:#333;
+  box-shadow:0 4px 6px rgba(0,0,0,0.05); border:1px solid #e0e0e0; transition:0.2s; display:block;
 }
-.seo-content ul{
-  padding-left:20px;
-}
+.tool-card:hover {transform:translateY(-5px); border-color:#6f42c1;}
+.card-icon {font-size:24px; display:block; margin-bottom:10px;}
+.tool-card h3 {margin:0 0 5px 0; font-size:16px; color:#6f42c1;}
+.tool-card p {margin:0; font-size:13px; color:#666;}
+
+/* ========== SEO CONTENT TEXT ========== */
+.seo-content{margin-top:50px; font-size:16px; color:#444;}
+.seo-content p {margin-bottom:15px;}
+.seo-content ul {margin-bottom:20px;}
+.seo-content li {margin-bottom:8px;}
+.alert-box {background:#fff3cd; color:#856404; padding:15px; border-left:4px solid #ffeeba; margin:20px 0;}
 
 /* ========== FOOTER ========== */
-footer{
-  background:#111;
-  color:#fff;
-  text-align:center;
-  padding:20px;
-  margin-top:40px;
-}
-footer a{
-  color:#0d6efd;
-  text-decoration:none;
-  margin:0 8px;
-}
+footer{text-align:center; padding:30px; background:#222; color:#ccc; margin-top:50px;}
+footer a{color:#fff; text-decoration:none;}
 
-/* ========== PRINT FIX (ONE PAGE ONLY) ========== */
-@page{
-  size:A4;
-  margin:20mm;
-}
-@media print{
-  body *{visibility:hidden}
-  .receipt-wrapper,
-  .receipt-wrapper *{visibility:visible}
-  .receipt-wrapper{position:static}
-  .receipt{
-    width:100%;
-    border:none;
-    page-break-inside:avoid;
-  }
-  .print-actions,
-  .no-print{
-    display:none !important;
-  }
+/* ========== PRINT FIX (CRITICAL) ========== */
+@media print {
+  body * {visibility: hidden;}
+  .receipt-wrapper, .receipt-wrapper * {visibility: visible;}
+  .receipt-wrapper {position: absolute; left: 0; top: 0; width: 100%; margin: 0; padding: 0;}
+  .receipt {border: 1px solid #000; width: 100%; max-width: 100%; box-shadow: none;}
+  .print-actions, .no-print, header, footer, .tool-box, .seo-content, .container {display: none !important;}
+  @page {size: A4; margin: 20mm;}
 }
 </style>
 </head>
-
 <body>
 
 <header>
-<h1>Rent Receipt Generator</h1>
-<p>Create A4 Printable Rent Receipt for HRA & Income Tax</p>
+  <h1>Rent Receipt Generator India</h1>
+  <p>Create Free PDF Receipts for HRA Exemption</p>
 </header>
 
 <div class="container">
 
-<!-- ===== TOOL ===== -->
-<section class="tool">
-<h2>Generate Rent Receipt</h2>
+  <!-- ===== TOOL SECTION ===== -->
+  <section class="tool-box no-print">
+    <h2>Generate Your Receipt</h2>
+    <p>Fill in the details below to generate a legally valid rent receipt.</p>
+    
+    <label>Tenant Name (Your Name)</label>
+    <input type="text" id="tenant" placeholder="e.g. Rahul Sharma">
 
-<label>Tenant Name</label>
-<input id="tenant" placeholder="Enter tenant name">
+    <label>Landlord Name (Owner)</label>
+    <input type="text" id="landlord" placeholder="e.g. Amit Verma">
 
-<label>Landlord Name</label>
-<input id="landlord" placeholder="Enter landlord name">
+    <label>Landlord PAN (Optional but recommended if rent > ₹8,333/mo)</label>
+    <input type="text" id="pan" placeholder="e.g. ABCDE1234F" style="text-transform:uppercase">
 
-<label>Landlord PAN (Optional)</label>
-<input id="pan" placeholder="Enter PAN if applicable">
+    <label>Rental Property Address</label>
+    <textarea id="address" placeholder="Flat No, Building, Area, City, Pincode"></textarea>
 
-<label>Rental Property Address</label>
-<textarea id="address" placeholder="Enter full rental address"></textarea>
+    <label>Monthly Rent Amount (₹)</label>
+    <input type="number" id="rent" placeholder="e.g. 15000">
 
-<label>Monthly Rent Amount (₹)</label>
-<input id="rent" type="number" placeholder="Enter rent amount">
+    <label>Select Month & Year</label>
+    <input type="month" id="month">
 
-<label>Rent Month & Year</label>
-<input id="month" type="month">
+    <button class="generate-btn" onclick="generateReceipt()">Generate Receipt</button>
+  </section>
 
-<button onclick="generateReceipt()">Generate Receipt</button>
-</section>
+  <!-- ===== OUTPUT SECTION ===== -->
+  <div id="output"></div>
 
-<div id="output"></div>
+  <!-- ===== RELATED TOOLS CARDS ===== -->
+  <section class="related-tools-section no-print">
+    <h2 style="text-align:center; margin-bottom:20px;">Other Useful Financial Tools</h2>
+    <div class="tools-grid">
+      
+      <a href="8th-pay-commission-salary-calculator.html" class="tool-card">
+        <span class="card-icon">💰</span>
+        <h3>8th Pay Commission Calc</h3>
+        <p>Project your future salary based on expected fitment factors.</p>
+      </a>
 
-<!-- ===== SEO CONTENT (NOT PRINTED) ===== -->
-<section class="seo-content no-print">
+      <a href="7th-pay-commission-salary-calculator.html" class="tool-card">
+        <span class="card-icon">🇮🇳</span>
+        <h3>7th Pay Salary Calculator</h3>
+        <p>Calculate in-hand salary for Central Govt employees.</p>
+      </a>
 
-<h2>Rent Receipt Generator – Complete Guide</h2>
-<p>
-A <strong>Rent Receipt Generator</strong> is an online tool that helps tenants create
-legally valid rent receipts instantly. In India, rent receipts are mainly required
-for claiming <strong>House Rent Allowance (HRA)</strong> exemption under the Income Tax Act.
-</p>
+      <a href="income-tax-india-calculator.html" class="tool-card">
+        <span class="card-icon">📄</span>
+        <h3>Income Tax Calculator</h3>
+        <p>Compare New Regime vs Old Regime for FY 2025-26.</p>
+      </a>
 
-<p>
-This free rent receipt generator by Toolvala allows you to create
-<strong>A4 printable rent receipt PDFs</strong> that are accepted by employers,
-HR departments, and tax consultants.
-</p>
+      <a href="hra-exemption-calculator.html" class="tool-card">
+        <span class="card-icon">🏠</span>
+        <h3>HRA Exemption Tool</h3>
+        <p>Calculate tax-exempt House Rent Allowance accurately.</p>
+      </a>
 
-<h2>Why Rent Receipt Is Important</h2>
-<ul>
-<li>Mandatory for HRA exemption</li>
-<li>Proof of rent payment</li>
-<li>Required for payroll processing</li>
-<li>Helps during income tax scrutiny</li>
-</ul>
+      <a href="nps-pension-calculator.html" class="tool-card">
+        <span class="card-icon">👴</span>
+        <h3>NPS Pension Calculator</h3>
+        <p>Estimate your retirement corpus and monthly pension.</p>
+      </a>
 
-<h2>Valid Rent Receipt Format in India</h2>
-<p>
-A valid rent receipt should include tenant name, landlord name, rental property
-address, rent amount, rent month, date, and landlord signature. If annual rent
-exceeds ₹1,00,000, landlord PAN is mandatory.
-</p>
+      <a href="digital-detox-calculator.html" class="tool-card">
+        <span class="card-icon">📵</span>
+        <h3>Digital Detox Calculator</h3>
+        <p>See how many years of your life are wasted on screens.</p>
+      </a>
 
-<h2>Is Digital Rent Receipt Accepted?</h2>
-<p>
-Yes. Digitally generated rent receipts are accepted by most employers.
-You can print and sign the receipt manually if required.
-</p>
+    </div>
+  </section>
 
-<h2>Who Should Use This Tool?</h2>
-<ul>
-<li>Salaried employees claiming HRA</li>
-<li>Tenants paying house rent</li>
-<li>HR & payroll teams</li>
-<li>Chartered accountants</li>
-<li>Tax consultants</li>
-</ul>
+  <!-- ===== SEO CONTENT ===== -->
+  <article class="seo-content no-print">
+    <h2>Comprehensive Guide to Rent Receipts & HRA Exemption</h2>
+    
+    <h3>What is a Rent Receipt?</h3>
+    <p>A rent receipt is a document acting as proof of payment of rent by a tenant to a landlord. For salaried employees in India, submitting rent receipts to their employer is mandatory to claim <strong>House Rent Allowance (HRA) exemption</strong> under Section 10(13A) of the Income Tax Act, 1961.</p>
 
-<h2>Why Choose Toolvala?</h2>
-<ul>
-<li>100% free tools</li>
-<li>No signup required</li>
-<li>Indian tax compliant</li>
-<li>Mobile-friendly</li>
-</ul>
+    <h3>Why Do You Need This Tool?</h3>
+    <p>While you can buy manual receipt booklets from stationery shops, they are often tedious to fill out. The <strong>Toolvala Rent Receipt Generator</strong> simplifies this by allowing you to create digital, standardized receipts instantly. These computer-generated receipts are widely accepted by HR departments and the Income Tax Department of India.</p>
 
-</section>
+    <div class="alert-box">
+      <strong>⚠️ Important Rule:</strong> If your monthly rent exceeds ₹3,000, you must keep revenue stamped rent receipts as proof. If your annual rent payment exceeds ₹1,00,000 (₹8,333/month), quoting the Landlord's PAN is mandatory.
+    </div>
+
+    <h3>Components of a Valid Rent Receipt</h3>
+    <ul>
+      <li><strong>Date of Payment:</strong> The date when the rent was paid.</li>
+      <li><strong>Tenant Name:</strong> The person paying the rent (Employee).</li>
+      <li><strong>Landlord Name:</strong> The owner of the property.</li>
+      <li><strong>Property Address:</strong> The full address of the rented accommodation.</li>
+      <li><strong>Amount:</strong> The rent amount in figures and words.</li>
+      <li><strong>Signature:</strong> The landlord must sign the receipt.</li>
+      <li><strong>Revenue Stamp:</strong> Required if cash payment > ₹5,000.</li>
+    </ul>
+
+    <h3>Revenue Stamp Rules for Rent Receipts</h3>
+    <p>According to the Indian Stamp Act, 1899, a <strong>Revenue Stamp (worth ₹1)</strong> must be affixed on the rent receipt if the cash payment exceeds ₹5,000 per receipt. The landlord must sign across the stamp (cross-signature) to cancel it. However, if you pay rent via Cheque or Bank Transfer (NEFT/UPI), a revenue stamp is generally not required, though many companies still insist on it as a best practice.</p>
+
+    <h3>Landlord PAN Card Requirements</h3>
+    <p>If the total rent paid in a financial year exceeds <strong>₹1,00,000</strong>, you must provide the Landlord's PAN to your employer. If the landlord does not have a PAN, they must provide a declaration to that effect. Failure to provide PAN may result in your employer deducting TDS at a higher rate or denying your HRA claim.</p>
+
+    <h3>How to Claim HRA Exemption?</h3>
+    <p>HRA exemption is calculated as the minimum of the following three components:</p>
+    <ol>
+      <li>Actual HRA received from the employer.</li>
+      <li>Actual Rent paid minus 10% of Basic Salary (+ DA).</li>
+      <li>50% of Basic Salary (for Metro cities) or 40% (for Non-Metro cities).</li>
+    </ol>
+    <p>You can use our <a href="hra-exemption-calculator.html">HRA Exemption Calculator</a> to determine exactly how much tax you can save.</p>
+
+    <h3>Frequently Asked Questions (FAQ)</h3>
+    
+    <h4>1. Can I submit one receipt for the whole year?</h4>
+    <p>Yes, but it is risky. It is safer to submit monthly receipts or at least one receipt per quarter. Most employers accept a consolidated receipt for the financial year, but it must clearly state the period (e.g., "April 2025 to March 2026").</p>
+
+    <h4>2. Is a digital signature valid?</h4>
+    <p>Yes, digitally generated receipts are valid. However, for tax audits, a physical signature by the landlord on the printout is considered the gold standard of proof.</p>
+
+    <h4>3. Can I claim HRA if I live with my parents?</h4>
+    <p>Yes, you can pay rent to your parents and claim HRA. However, the parents must declare this rent as "Income from House Property" in their Income Tax Returns. You cannot be a co-owner of that property.</p>
+
+    <h4>4. What if my landlord refuses to give a PAN?</h4>
+    <p>If rent exceeds ₹1 Lakh/year and the landlord refuses to give PAN, you cannot claim HRA through your employer. You may try to claim it directly while filing your ITR, but you risk receiving a notice from the IT department.</p>
+
+  </article>
 
 </div>
 
 <footer class="no-print">
-<p>© 2026 Toolvala.in – Smart Salary & Tax Tools</p>
-<p>
-<a href="sitemap.html">Sitemap</a> |
-<a href="all-tools.html">All Tools</a>
-</p>
+  <p>© 2026 Toolvala.in – Financial Tools for India</p>
 </footer>
 
 <script>
+// Format Date: DD.MM.YYYY
 function formatDate(d){
   return String(d.getDate()).padStart(2,'0') + "." +
          String(d.getMonth()+1).padStart(2,'0') + "." +
          d.getFullYear();
 }
 
+// Get Month Name
 function monthName(yearMonth){
+  if(!yearMonth) return "";
   const [y,m]=yearMonth.split("-");
   const months=["January","February","March","April","May","June",
   "July","August","September","October","November","December"];
   return months[parseInt(m)-1] + " " + y;
 }
 
+// Convert Number to Words (Indian Numbering System)
+function numToWords(n) {
+    const a = ['','One ','Two ','Three ','Four ', 'Five ','Six ','Seven ','Eight ','Nine ','Ten ','Eleven ','Twelve ','Thirteen ','Fourteen ','Fifteen ','Sixteen ','Seventeen ','Eighteen ','Nineteen '];
+    const b = ['', '', 'Twenty','Thirty','Forty','Fifty', 'Sixty','Seventy','Eighty','Ninety'];
+    
+    if ((n = n.toString()).length > 9) return 'overflow';
+    n = ('000000000' + n).substr(-9);
+    
+    return (n.substr(0, 2) != 0 ? (a[Number(n.substr(0, 2))] || b[n.substr(0, 1)] + ' ' + a[n.substr(1, 1)]) + 'Crore ' : '') +
+           (n.substr(2, 2) != 0 ? (a[Number(n.substr(2, 2))] || b[n.substr(2, 1)] + ' ' + a[n.substr(3, 1)]) + 'Lakh ' : '') +
+           (n.substr(4, 2) != 0 ? (a[Number(n.substr(4, 2))] || b[n.substr(4, 1)] + ' ' + a[n.substr(5, 1)]) + 'Thousand ' : '') +
+           (n.substr(6, 1) != 0 ? (a[Number(n.substr(6, 1))] || b[n.substr(6, 1)] + ' ' + a[n.substr(7, 1)]) + 'Hundred ' : '') +
+           (n.substr(7, 2) != 0 ? ((n.substr(6, 1) != 0) ? 'and ' : '') + (a[Number(n.substr(7, 2))] || b[n.substr(7, 1)] + ' ' + a[n.substr(8, 1)]) : '');
+}
+
 function generateReceipt(){
+  // Get Values
   const t = document.getElementById("tenant").value.trim();
   const l = document.getElementById("landlord").value.trim();
   const a = document.getElementById("address").value.trim();
@@ -252,19 +284,25 @@ function generateReceipt(){
   const p = document.getElementById("pan").value.trim();
   const output = document.getElementById("output");
 
+  // Basic Validation
   if(!t||!l||!a||!r||!m){
-    alert("Please fill all required fields");
+    alert("Please fill all fields (Tenant, Landlord, Address, Rent, Month)");
     return;
   }
 
   const today = formatDate(new Date());
   const rentMonth = monthName(m);
   const formattedRent = Number(r).toLocaleString('en-IN');
+  
+  // Convert words
+  let words = numToWords(parseInt(r)).trim(); 
+  if(words) words = words + " Only";
 
+  // Build HTML
   output.innerHTML = `
-  <div class="receipt-wrapper">
+  <div class="receipt-wrapper" style="display:block">
     <div class="print-actions">
-      <button onclick="window.print()">⬇ Download PDF (A4)</button>
+      <button onclick="window.print()">🖨️ Print / Download PDF</button>
     </div>
 
     <div class="receipt">
@@ -273,26 +311,39 @@ function generateReceipt(){
         <span>Date: ${today}</span>
       </div>
 
-      <p>
-        Received with thanks a sum of <strong>₹${formattedRent}</strong>
-        (Rupees ${formattedRent} only) from <strong>${t}</strong>
-        towards house rent for the month of
-        <strong>${rentMonth}</strong>.
-      </p>
+      <div class="receipt-body">
+        <p>
+          Received with thanks a sum of <strong>₹${formattedRent}</strong>
+          (Rupees ${words}) from <strong>${t}</strong>
+          towards house rent for the month of
+          <strong>${rentMonth}</strong>.
+        </p>
 
-      <p><strong>Rental Property Address:</strong><br>${a}</p>
+        <p><strong>Rental Property Address:</strong><br>${a}</p>
 
-      <p>
-        <strong>Landlord Name:</strong> ${l}<br>
-        ${p ? `<strong>PAN:</strong> ${p}` : ``}
-      </p>
+        <p>
+          <strong>Landlord Name:</strong> ${l}<br>
+          ${p ? `<strong>Landlord PAN:</strong> ${p}` : ``}
+        </p>
+      </div>
 
-      <div class="signature">
-        __________________________<br>
-        <strong>Landlord Signature</strong>
+      <div class="receipt-footer">
+        <div style="font-size:12px; color:#555;">
+           Generated via Toolvala.in
+        </div>
+        <div class="signature-area">
+          <div class="revenue-stamp-box">
+             Affix<br>Revenue<br>Stamp
+          </div>
+          __________________________<br>
+          <strong>Signature of Landlord</strong>
+        </div>
       </div>
     </div>
   </div>`;
+  
+  // Scroll to result
+  output.scrollIntoView({behavior: "smooth"});
 }
 </script>
 
