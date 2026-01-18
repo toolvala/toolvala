@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Work Hours Calculator | Calculate Weekly Hours & Pay</title>
+    <meta name="description" content="Accurate Work Hours Calculator. Easily calculate daily and weekly work hours, deduct breaks, and estimate gross pay. Perfect for employees and freelancers.">
+    <meta name="keywords" content="work hours calculator, time card calculator, weekly hours calculator, calculate work time, payroll calculator, timesheet calculator, work log">
+    <meta name="robots" content="index, follow">
+    <!-- Canonical Tag - REPLACE URL with your actual domain -->
+    <link rel="canonical" href="https://www.toolvala.in/work-hours-calculator">
+    
+    <!-- Open Graph for Social Media -->
+    <meta property="og:title" content="Free Work Hours Calculator">
+    <meta property="og:description" content="Calculate your weekly hours and gross pay instantly with our free time card tool.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.yourwebsite.com/work-hours-calculator">
+    <meta property="og:image" content="https://www.yourwebsite.com/images/calculator-thumb.jpg">
+
+    <!-- JSON-LD Schema Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Work Hours Calculator",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A free online tool to calculate daily and weekly work hours, including break deductions and gross pay estimation.",
+      "featureList": "Weekly totals, Pay calculation, Break deduction, Mobile friendly",
+      "author": {
+        "@type": "Organization",
+        "name": "YourBrandName"
+      }
+    }
+    </script>
+    
+    <!-- FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [{
+        "@type": "Question",
+        "name": "How do I calculate my work hours?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "To calculate work hours, subtract your start time from your end time. Then, subtract any unpaid break time. Do this for each day of the week and sum the totals."
+        }
+      }, {
+        "@type": "Question",
+        "name": "How do I convert minutes to decimal hours?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Divide the number of minutes by 60. For example, 30 minutes divided by 60 equals 0.5 hours."
+        }
+      }]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #f3f4f6;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --bg: #ffffff;
+            --border: #e5e7eb;
+            --success: #10b981;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+        
+        body { background-color: #f9fafb; color: var(--text); line-height: 1.6; }
+
+        /* Navigation */
+        nav { background: var(--bg); border-bottom: 1px solid var(--border); padding: 1rem 2rem; position: sticky; top: 0; z-index: 100; }
+        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: bold; color: var(--primary); text-decoration: none; }
+        
+        /* Layout */
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; display: grid; grid-template-columns: 1fr; gap: 2rem; }
+        
+        @media(min-width: 1024px) {
+            .container { grid-template-columns: 2fr 1fr; }
+        }
+
+        /* Calculator Styles */
+        .calculator-card {
+            background: var(--bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .calc-header { margin-bottom: 1.5rem; border-bottom: 2px solid var(--secondary); padding-bottom: 1rem; }
+        
+        .day-row {
+            display: grid;
+            grid-template-columns: 100px 1fr 1fr 80px;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            background: var(--secondary);
+            border-radius: 6px;
+        }
+
+        @media(max-width: 600px) {
+            .day-row { grid-template-columns: 1fr 1fr; gap: 15px; }
+            .day-label { grid-column: 1 / -1; font-weight: bold; }
+        }
+
+        input[type="time"], input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .day-label { font-weight: 600; }
+
+        .controls { display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap; }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-dark); }
+        .btn-outline { background: transparent; border: 1px solid var(--text-light); color: var(--text); }
+        .btn-outline:hover { background: var(--secondary); }
+
+        .results-section {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .result-row { display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 1.1rem; }
+        .total-highlight { font-weight: bold; font-size: 1.4rem; color: var(--primary); }
+
+        /* Content Styles */
+        article { grid-column: 1 / -1; background: var(--bg); padding: 2rem; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        h1 { font-size: 2.5rem; margin-bottom: 1rem; color: var(--text); }
+        h2 { font-size: 1.8rem; margin: 2rem 0 1rem; color: var(--text); }
+        h3 { font-size: 1.4rem; margin: 1.5rem 0 1rem; }
+        p { margin-bottom: 1.2rem; color: #374151; }
+        ul, ol { margin-bottom: 1.5rem; padding-left: 2rem; }
+        li { margin-bottom: 0.5rem; }
+        
+        /* Sidebar/Related Tools */
+        .sidebar { grid-column: 1 / -1; } 
+        @media(min-width: 1024px) { .sidebar { grid-column: 2; grid-row: 1; } }
+
+        .tool-card {
+            background: var(--bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            margin-bottom: 1rem;
+            transition: transform 0.2s;
+        }
+        .tool-card:hover { transform: translateY(-2px); border-color: var(--primary); }
+        .tool-card h3 { margin-top: 0; font-size: 1.2rem; }
+        .tool-card a { text-decoration: none; color: inherit; display: block; }
+        
+        footer { background: #111827; color: white; padding: 3rem 1rem; margin-top: 4rem; text-align: center; }
+        footer a { color: #9ca3af; text-decoration: none; }
+
+        .rate-input-group {
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="nav-container">
+        <a href="#" class="logo">CalcTools</a>
+        <div>
+            <a href="#content" style="color: var(--text); text-decoration: none; margin-left: 1rem;">How to Use</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    
+    <!-- Main Calculator Area -->
+    <div class="calculator-section" style="grid-column: 1 / -1; max-width: 800px; margin: 0 auto; width: 100%;">
+        <div class="calculator-card">
+            <div class="calc-header">
+                <h2>Weekly Work Hours Calculator</h2>
+                <p>Enter your start time, end time, and break duration (in minutes) for each day.</p>
+            </div>
+
+            <form id="timeCardForm">
+                <!-- Days Generator -->
+                <div id="daysContainer">
+                    <!-- JS will populate Mon-Sun here -->
+                </div>
+
+                <div class="rate-input-group">
+                    <label><strong>Hourly Rate ($):</strong></label>
+                    <input type="number" id="hourlyRate" placeholder="0.00" step="0.01" style="max-width: 150px;">
+                </div>
+
+                <div class="controls">
+                    <button type="button" class="btn btn-primary" onclick="calculateHours()">Calculate Hours</button>
+                    <button type="button" class="btn btn-outline" onclick="resetForm()">Reset</button>
+                    <button type="button" class="btn btn-outline" onclick="window.print()">Print Result</button>
+                </div>
+            </form>
+
+            <div class="results-section" id="results" style="display:none;">
+                <div class="result-row">
+                    <span>Total Hours (Decimal):</span>
+                    <span id="totalDecimal">0.00 h</span>
+                </div>
+                <div class="result-row">
+                    <span>Total Hours (Time):</span>
+                    <span id="totalTime">00:00</span>
+                </div>
+                <div class="result-row" style="margin-top: 1rem; border-top: 1px solid #bfdbfe; padding-top: 0.5rem;">
+                    <span class="total-highlight">Estimated Pay:</span>
+                    <span class="total-highlight" id="totalPay">$0.00</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SEO Content Section -->
+    <article id="content">
+        <h1>The Ultimate Work Hours Calculator: Manage Your Time & Money</h1>
+        
+        <p>In today's fast-paced gig economy, keeping accurate track of your work hours is more critical than ever. Whether you are a freelancer billing hourly, an employee verifying your timesheets, or an employer managing payroll, accuracy is key. Our <strong>Work Hours Calculator</strong> is designed to simplify this process, eliminating the math errors that often come with manual timekeeping.</p>
+
+        <h2>Why Use an Online Work Hours Calculator?</h2>
+        <p>Manually calculating hours—especially when dealing with odd minutes like 8:43 AM start times—can be tedious and prone to error. A "time card calculator" automates the conversion of standard clock time into decimal hours, which is the format required for payroll processing.</p>
+        <ul>
+            <li><strong>Accuracy:</strong> Eliminate human error in subtracting times.</li>
+            <li><strong>Speed:</strong> Calculate an entire week's timesheet in seconds.</li>
+            <li><strong>Transparency:</strong> Ensure you are paid for every minute you work.</li>
+            <li><strong>Planning:</strong> Estimate your weekly income before payday.</li>
+        </ul>
+
+        <h2>How to Use This Tool</h2>
+        <p>Using our weekly hours calculator is straightforward. Follow these steps to get your totals:</p>
+        <ol>
+            <li><strong>Enter Start & End Times:</strong> Input the time you arrived and left work for each day of the week. You can use the time picker or type it in.</li>
+            <li><strong>Deduct Breaks:</strong> Enter the total minutes taken for unpaid breaks (e.g., 30 for a half-hour lunch). This ensures your "net" working hours are accurate.</li>
+            <li><strong>Set Hourly Rate:</strong> (Optional) If you want to calculate your gross pay, enter your hourly wage.</li>
+            <li><strong>Calculate:</strong> Click the "Calculate Hours" button. The tool will provide your total hours in both decimal format (for payroll) and hours:minutes format (for your own tracking).</li>
+        </ol>
+
+        <h2>Understanding Time Formats: Decimal Hours vs. Minutes</h2>
+        <p>One of the most confusing aspects of payroll is converting minutes to decimals. Most accounting software uses <strong>decimal hours</strong>.</p>
+        
+        <h3>The Conversion Logic</h3>
+        <p>There are 60 minutes in an hour. To convert minutes to a decimal, you divide the minutes by 60.</p>
+        <ul>
+            <li>15 minutes = 15 / 60 = <strong>0.25 hours</strong></li>
+            <li>30 minutes = 30 / 60 = <strong>0.50 hours</strong></li>
+            <li>45 minutes = 45 / 60 = <strong>0.75 hours</strong></li>
+            <li>10 minutes = 10 / 60 = <strong>0.17 hours</strong></li>
+        </ul>
+        <p>This calculator automatically handles this conversion for you, ensuring that when you see "40.5 hours," you know it means 40 hours and 30 minutes, not 40 hours and 50 minutes.</p>
+
+        <h2>Who Is This Calculator For?</h2>
+        
+        <h3>1. Freelancers and Contractors</h3>
+        <p>If you bill clients by the hour, accurate logs are your lifeblood. Use this tool to sum up hours spent on a specific project over a week. You can print the results to attach to your invoice as proof of work.</p>
+
+        <h3>2. Shift Workers</h3>
+        <p>For those with fluctuating schedules, tracking hours daily is essential to ensure you aren't underpaid. This is particularly useful for checking if you have crossed the overtime threshold (usually 40 hours in the US).</p>
+
+        <h3>3. Small Business Owners</h3>
+        <p>If you don't have expensive HR software, this free tool allows you to quickly calculate pay for a handful of employees without using complex spreadsheets.</p>
+
+        <h2>Tips for Better Time Management</h2>
+        <p>Tracking time isn't just about getting paid; it's about productivity. By logging your start and end times, you become more aware of your work habits.</p>
+        <ul>
+            <li><strong>Stick to a Schedule:</strong> Try to start and end at the same time daily to regulate your body clock.</li>
+            <li><strong>Take Your Breaks:</strong> This calculator includes a break field for a reason. Studies show that regular breaks improve sustained concentration.</li>
+            <li><strong>Review Weekly Totals:</strong> Are you consistently working 50+ hours? It might be time to discuss workload or overtime pay with your employer.</li>
+        </ul>
+
+        <h2>Frequently Asked Questions (FAQ)</h2>
+        
+        <h3>Does this calculator support 24-hour format?</h3>
+        <p>Yes, the input fields adapt to your device settings. If your computer or phone is set to 24-hour time (military time), the calculator will use that format automatically.</p>
+
+        <h3>How is overtime calculated?</h3>
+        <p>Currently, this calculator provides <em>total</em> hours. To calculate overtime, take the "Total Decimal Hours" result. Any amount over 40 (or your local statutory limit) is usually considered overtime and paid at time-and-a-half (1.5x).</p>
+
+        <h3>Is my data saved?</h3>
+        <p>No. For your privacy, all calculations happen in your browser. No data is sent to our servers. If you refresh the page, the data will be reset.</p>
+
+        <h2>Conclusion</h2>
+        <p>Don't let manual math errors cost you money. Use our <strong>Work Hours Calculator</strong> to streamline your weekly administrative tasks. Bookmark this page for quick access every Friday when filling out your timesheets.</p>
+    </article>
+
+    <!-- Related Tools / Sidebar -->
+    <aside class="sidebar">
+        <h2 style="font-size: 1.5rem; margin-bottom: 1rem;">Related Tools</h2>
+        
+        <div class="tool-card">
+            <a href="salary-slip-calculator.html">
+                <h3>💰 Salary Calculator</h3>
+                <p style="font-size: 0.9rem; margin:0;">Convert hourly wage to yearly salary and vice versa.</p>
+            </a>
+        </div>
+
+        <div class="tool-card">
+            <a href="#">
+                <h3>📅 Date Difference Tool</h3>
+                <p style="font-size: 0.9rem; margin:0;">Calculate the number of days between two dates.</p>
+            </a>
+        </div>
+
+        <div class="tool-card">
+            <a href="#">
+                <h3>⏱️ Overtime Calculator</h3>
+                <p style="font-size: 0.9rem; margin:0;">Calculate time-and-a-half and double-time pay rates.</p>
+            </a>
+        </div>
+
+        <div style="background: #e0f2fe; padding: 1.5rem; border-radius: 8px; margin-top: 2rem;">
+            <h3>Need Help?</h3>
+            <p style="font-size: 0.9rem;">Understanding labor laws can be tricky. Always refer to your local Department of Labor for specific overtime rules.</p>
+        </div>
+    </aside>
+
+</div>
+
+<footer>
+    <p>&copy; 2026 Toolvala.in. All rights reserved.</p>
+    <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+        <a href="privacy-policy.html">Privacy Policy</a> | <a href="terms-of-service.html">Terms of Service</a> | <a href="#">Contact</a>
+    </p>
+</footer>
+
+<script>
+    // Constants
+    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+    // Initialize UI
+    window.onload = function() {
+        const container = document.getElementById('daysContainer');
+        
+        days.forEach(day => {
+            const row = document.createElement('div');
+            row.className = 'day-row';
+            row.innerHTML = `
+                <div class="day-label">${day}</div>
+                <div>
+                    <input type="time" name="${day}_start" aria-label="${day} Start Time">
+                </div>
+                <div>
+                    <input type="time" name="${day}_end" aria-label="${day} End Time">
+                </div>
+                <div>
+                    <input type="number" name="${day}_break" placeholder="Break (min)" min="0" aria-label="${day} Break Minutes">
+                </div>
+            `;
+            container.appendChild(row);
+        });
+    };
+
+    function calculateHours() {
+        let totalMinutes = 0;
+        const inputs = document.getElementById('daysContainer').getElementsByClassName('day-row');
+        
+        for (let row of inputs) {
+            const startVal = row.querySelector('input[name$="_start"]').value;
+            const endVal = row.querySelector('input[name$="_end"]').value;
+            const breakVal = row.querySelector('input[name$="_break"]').value;
+
+            if (startVal && endVal) {
+                let start = new Date(`1970-01-01T${startVal}:00`);
+                let end = new Date(`1970-01-01T${endVal}:00`);
+                
+                // Handle overnight shifts (if end time is before start time, assume next day)
+                if (end < start) {
+                    end.setDate(end.getDate() + 1);
+                }
+
+                let diffMs = end - start;
+                let diffMins = Math.floor(diffMs / 60000);
+
+                // Deduct break
+                if (breakVal) {
+                    diffMins -= parseInt(breakVal);
+                }
+
+                if (diffMins > 0) {
+                    totalMinutes += diffMins;
+                }
+            }
+        }
+
+        // Calculations
+        const decimalHours = totalMinutes / 60;
+        const hours = Math.floor(totalMinutes / 60);
+        const minutes = totalMinutes % 60;
+
+        // Display Hours
+        document.getElementById('totalDecimal').innerText = decimalHours.toFixed(2) + " h";
+        document.getElementById('totalTime').innerText = `${hours}h ${minutes}m`;
+
+        // Calculate Pay
+        const rate = parseFloat(document.getElementById('hourlyRate').value);
+        if (!isNaN(rate)) {
+            const totalPay = decimalHours * rate;
+            document.getElementById('totalPay').innerText = "$" + totalPay.toFixed(2);
+        } else {
+            document.getElementById('totalPay').innerText = "$0.00";
+        }
+
+        // Show Results
+        document.getElementById('results').style.display = 'block';
+        document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function resetForm() {
+        document.getElementById('timeCardForm').reset();
+        document.getElementById('results').style.display = 'none';
+        document.getElementById('totalPay').innerText = "$0.00";
+    }
+</script>
+
+</body>
+</html>
