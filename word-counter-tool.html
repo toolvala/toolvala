@@ -1,353 +1,367 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Favicon -->
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"> 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"> 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Live Word & Character Counter (Hindi + English) | Toolvala</title>
+    <title>Live Word & Character Counter (Hindi + English) | Toolvala</title>
 
-<meta name="description" content="Free live word counter & character counter tool supporting Hindi and English. Count words, characters, sentences, paragraphs & reading time instantly.">
+    <meta name="description" content="Free live word counter & character counter tool supporting Hindi and English. Count words, characters, sentences, paragraphs & reading time instantly.">
+    <link rel="canonical" href="https://www.toolvala.in/word-counter.html">
+    <meta name="robots" content="index, follow">
 
-<link rel="canonical" href="https://www.toolvala.in/word-counter.html">
-<meta name="robots" content="index, follow">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet">
 
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', 'Noto Sans Devanagari', sans-serif;
+            background: #f1f5f9;
+            color: #0f172a;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
 
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet">
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            margin: auto;
+            padding: 20px;
+            box-sizing: border-box;
+            flex: 1; /* Pushes footer down */
+        }
 
-<style>
-body{
-    margin:0;
-    font-family:'Segoe UI','Noto Sans Devanagari',sans-serif;
-    background:#f1f5f9;
-    color:#0f172a;
-}
-.container{max-width:1100px;margin:auto;padding:20px}
-.card{
-    background:#fff;
-    padding:25px;
-    border-radius:14px;
-    box-shadow:0 8px 20px rgba(0,0,0,.08);
-}
-textarea{
-    width:100%;
-    min-height:220px;
-    padding:15px;
-    border-radius:10px;
-    border:1px solid #cbd5e1;
-    font-size:1.05rem;
-    resize:vertical;
-}
-.stats{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-    gap:15px;
-    margin-top:15px;
-}
-.stat{
-    background:#eff6ff;
-    padding:15px;
-    border-radius:10px;
-    text-align:center;
-    font-weight:700;
-}
-article{
-    background:#fff;
-    padding:30px;
-    margin-top:30px;
-    border-radius:14px;
-}
-h1,h2,h3{color:#1e3a8a}
-p{text-align:justify;line-height:1.8;font-size:1.05rem}
-ul{line-height:1.8}
-</style>
+        h1, h2, h3 { color: #1e3a8a; }
+        p { text-align: justify; line-height: 1.8; font-size: 1.05rem; }
+        ul { line-height: 1.8; }
+
+        /* Card Styles */
+        .card {
+            background: #fff;
+            padding: 25px;
+            border-radius: 14px;
+            box-shadow: 0 8px 20px rgba(0,0,0,.08);
+        }
+
+        article {
+            background: #fff;
+            padding: 30px;
+            margin-top: 30px;
+            border-radius: 14px;
+        }
+
+        /* Tool Styles */
+        textarea {
+            width: 100%;
+            min-height: 220px;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #cbd5e1;
+            font-size: 1.05rem;
+            resize: vertical;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+
+        textarea:focus {
+            outline: 2px solid #1e3a8a;
+            border-color: transparent;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .stat {
+            background: #eff6ff;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 700;
+            color: #1e3a8a;
+        }
+
+        .stat span {
+            display: block;
+            font-size: 1.5rem;
+            margin-top: 5px;
+            color: #0f172a;
+        }
+
+        /* Related Tools Section */
+        .related-tools {
+            margin: 40px 0;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 14px;
+        }
+
+        .section-heading {
+            font-size: 1.6rem;
+            margin-bottom: 18px;
+            font-weight: 700;
+            color: #1a237e;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 14px;
+        }
+
+        .tool-card {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px;
+            background: #f5f8ff;
+            border-radius: 12px;
+            text-decoration: none;
+            color: #222;
+            font-weight: 500;
+            transition: all 0.25s ease;
+            border: 1px solid #e2e8ff;
+        }
+
+        .tool-card:hover {
+            background: #eaf0ff;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+        }
+
+        .tool-icon { font-size: 1.4rem; }
+        .tool-name { font-size: 0.95rem; }
+
+        /* Footer Styles */
+        .site-footer {
+            text-align: center;
+            padding: 30px 12px;
+            background: #ffffff;
+            color: #555;
+            font-size: 14px;
+            border-top: 1px solid #e5e5e5;
+            margin-top: 40px;
+        }
+
+        .site-footer .footer-links {
+            margin-bottom: 15px;
+        }
+
+        .site-footer .footer-links a {
+            color: #333;
+            text-decoration: none;
+            margin: 0 8px;
+            font-weight: 500;
+        }
+
+        .site-footer .footer-links a:hover {
+            color: #1e3a8a;
+            text-decoration: underline;
+        }
+
+        .site-footer .footer-links span {
+            color: #bbb;
+        }
+
+        .site-footer p {
+            margin: 0;
+            font-size: 13px;
+            color: #666;
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body>
+
 <div class="container">
 
-<!-- TOOL -->
-<div class="card">
-<h1>Live Word & Character Counter (Hindi + English)</h1>
-<p>Type or paste text below.Word count updates instantly.</p>
+    <!-- MAIN TOOL -->
+    <div class="card">
+        <h1>Live Word & Character Counter (Hindi + English)</h1>
+        <p>Type or paste text below. Word count updates instantly.</p>
 
-<textarea id="textInput" placeholder="यहाँ लिखें या paste करें / Type or paste text here..."></textarea>
+        <textarea id="textInput" placeholder="यहाँ लिखें या paste करें / Type or paste text here..."></textarea>
 
-<div class="stats">
-<div class="stat">Words<br><span id="wordCount">0</span></div>
-<div class="stat">Characters<br><span id="charCount">0</span></div>
-<div class="stat">Characters (No Spaces)<br><span id="charNoSpace">0</span></div>
-<div class="stat">Sentences<br><span id="sentenceCount">0</span></div>
-<div class="stat">Paragraphs<br><span id="paragraphCount">0</span></div>
-<div class="stat">Reading Time<br><span id="readingTime">0</span> min</div>
-</div>
-</div>
-   <!-- RELATED TOOLS -->
-<style>
-.related-tools {
-  margin: 40px 0;
-  padding: 20px;
-  background: #ffffff;
-  border-radius: 14px;
-}
+        <div class="stats">
+            <div class="stat">Words<br><span id="wordCount">0</span></div>
+            <div class="stat">Characters<br><span id="charCount">0</span></div>
+            <div class="stat">Chars (No Spaces)<br><span id="charNoSpace">0</span></div>
+            <div class="stat">Sentences<br><span id="sentenceCount">0</span></div>
+            <div class="stat">Paragraphs<br><span id="paragraphCount">0</span></div>
+            <div class="stat">Reading Time<br><span id="readingTime">0</span> min</div>
+        </div>
+    </div>
 
-.section-heading {
-  font-size: 1.6rem;
-  margin-bottom: 18px;
-  font-weight: 700;
-  color: #1a237e;
-}
+    <!-- RELATED TOOLS -->
+    <section class="related-tools">
+        <h2 class="section-heading">More Text Tools</h2>
+        <div class="tools-grid">
+            <!-- Requested Links -->
+            <a href="reverse-text.html" class="tool-card">
+                <span class="tool-icon">🔄</span>
+                <span class="tool-name">Reverse Text</span>
+            </a>
 
-.tools-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 14px;
-}
+            <a href="reverse-words.html" class="tool-card">
+                <span class="tool-icon">🔀</span>
+                <span class="tool-name">Reverse Words</span>
+            </a>
 
-.tool-card {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 14px;
-  background: #f5f8ff;
-  border-radius: 12px;
-  text-decoration: none;
-  color: #222;
-  font-weight: 500;
-  transition: all 0.25s ease;
-  border: 1px solid #e2e8ff;
-}
+            <a href="reverse-sentences.html" class="tool-card">
+                <span class="tool-icon">📝</span>
+                <span class="tool-name">Reverse Sentences</span>
+            </a>
 
-.tool-card:hover {
-  background: #eaf0ff;
-  transform: translateY(-3px);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
-}
+            <a href="reverse-paragraphs-in-text.html" class="tool-card">
+                <span class="tool-icon">¶</span>
+                <span class="tool-name">Reverse Paragraphs</span>
+            </a>
 
-.tool-icon {
-  font-size: 1.4rem;
-}
+            <a href="swap-letters.html" class="tool-card">
+                <span class="tool-icon">🔠</span>
+                <span class="tool-name">Swap Letters</span>
+            </a>
 
-.tool-name {
-  font-size: 0.95rem;
-}
-</style>
+            <a href="unindent-tool.html" class="tool-card">
+                <span class="tool-icon">⬅️</span>
+                <span class="tool-name">Unindent Text</span>
+            </a>
+            
+            <!-- Kept a few existing ones for variety -->
+            <a href="whatsapp-formatter.html" class="tool-card">
+                <span class="tool-icon">💬</span>
+                <span class="tool-name">WhatsApp Formatter</span>
+            </a>
 
-<section class="related-tools">
-  <h2 class="section-heading">More Free Tools</h2>
+            <a href="reading-time-calculator.html" class="tool-card">
+                <span class="tool-icon">⏱️</span>
+                <span class="tool-name">Reading Time Calc</span>
+            </a>
+        </div>
+    </section>
 
-  <div class="tools-grid">
-    <a href="whatsapp-formatter.html" class="tool-card">
-      <span class="tool-icon">🔠</span>
-      <span class="tool-name">WhatsApp Formatter</span>
-    </a>
+    <!-- SEO CONTENT -->
+    <article>
+        <h2>Free Live Word Counter Tool by Toolvala</h2>
+        <p>
+            A word counter is one of the most essential tools for writers, students, teachers, bloggers, journalists, and government exam aspirants. Many platforms enforce strict word and character limits, and exceeding or falling short of these limits can lead to rejection or penalties.
+        </p>
+        <p>
+            Toolvala’s Live Word & Character Counter is designed to give instant and accurate results for both English and Indian languages like Hindi. Unlike basic tools that fail on complex scripts, this tool uses Unicode-safe logic that correctly counts Hindi words written in Devanagari script.
+        </p>
 
-    <a href="upi-id-payment-link-converter.html" class="tool-card">
-      <span class="tool-icon">💸</span>
-      <span class="tool-name">UPI Payment Link</span>
-    </a>
+        <h2>Why Accurate Word Counting Is Important</h2>
+        <p>
+            In competitive exams such as UPSC, SSC, State PSCs, and university examinations, word limits are strictly monitored. Even five extra words can impact evaluation. Bloggers and SEO writers also rely on minimum word counts to rank better on search engines.
+        </p>
+        <p>
+            Our tool updates word count live as you type, ensuring complete control over your content length.
+        </p>
 
-    <a href="digital-detox-calculator.html" class="tool-card">
-      <span class="tool-icon">📵</span>
-      <span class="tool-name">Digital Detox Calculator</span>
-    </a>
+        <h2>Features of Toolvala Word Counter</h2>
+        <ul>
+            <li>Live word counter</li>
+            <li>Character count with and without spaces</li>
+            <li>Sentence and paragraph counter</li>
+            <li>Reading time estimation</li>
+            <li>Hindi & English language support</li>
+            <li>100% browser-based & privacy-safe</li>
+        </ul>
 
-    <a href="reading-time-calculator.html" class="tool-card">
-      <span class="tool-icon">⏱️</span>
-      <span class="tool-name">Reading Time Calculator</span>
-    </a>
+        <h2>How This Tool Works</h2>
+        <p>
+            The tool first normalizes all whitespace and line breaks. It then counts words based on real visual separation instead of unreliable regular expressions. This ensures accurate results for Hindi matras, combined characters, and mixed-language text.
+        </p>
 
-    <a href="image-compressor.html" class="tool-card">
-      <span class="tool-icon">🖼️</span>
-      <span class="tool-name">Image Compressor</span>
-    </a>
+        <h2>Use Cases</h2>
+        <h3>Students</h3>
+        <p>Perfect for assignments, essays, and exam answers with strict limits.</p>
 
-    <a href="image-to-pdf-converter.html" class="tool-card">
-      <span class="tool-icon">📄</span>
-      <span class="tool-name">Image to PDF</span>
-    </a>
+        <h3>Bloggers & SEO Writers</h3>
+        <p>Ensure articles meet SEO word-count requirements.</p>
 
-    <a href="delete-pdf-pages.html" class="tool-card">
-      <span class="tool-icon">🗑️</span>
-      <span class="tool-name">Delete PDF Pages</span>
-    </a>
+        <h3>Government Exam Aspirants</h3>
+        <p>Accurate counting for Hindi & English answers.</p>
 
-    <a href="pdf-merger.html" class="tool-card">
-      <span class="tool-icon">🔗</span>
-      <span class="tool-name">PDF Merger</span>
-    </a>
-  </div>
-</section>
- 
+        <h2>Privacy Guarantee</h2>
+        <p>
+            All processing happens in your browser. No text is uploaded or stored. Your content remains 100% private.
+        </p>
 
-<!-- SEO CONTENT -->
-<article>
+        <h2>Conclusion</h2>
+        <p>
+            Toolvala’s Live Word & Character Counter is a reliable, fast, and accurate solution for anyone who needs precise content length measurement. Whether you write in Hindi or English, this tool delivers professional-grade accuracy.
+        </p>
+    </article>
 
-<h2>Free Live Word Counter Tool by Toolvala</h2>
-
-<p>
-A word counter is one of the most essential tools for writers, students,teachers, bloggers,journalists,and government exam aspirants.Many platforms enforce strict word and character limits, and exceeding or falling short of these limits can lead to rejection or penalties.
-</p>
-
-<p>
-Toolvala’s Live Word & Character Counter is designed to give instant and accurate results for both English and Indian languages like Hindi. Unlike basic tools that fail on complex scripts,this tool uses Unicode-safe logic that correctly counts Hindi words written in Devanagari script.
-</p>
-
-<h2>Why Accurate Word Counting Is Important</h2>
-
-<p>
-In competitive exams such as UPSC,SSC,State PSCs,and university examinations,word limits are strictly monitored.Even five extra words can impact evaluation.Bloggers and SEO writers also rely on minimum word counts to rank better on search engines.
-</p>
-
-<p>
-Our tool updates word count live as you type,ensuring complete control over your content length.
-</p>
-
-<h2>Features of Toolvala Word Counter</h2>
-
-<ul>
-<li>Live word counter</li>
-<li>Character count with and without spaces</li>
-<li>Sentence and paragraph counter</li>
-<li>Reading time estimation</li>
-<li>Hindi & English language support</li>
-<li>100% browser-based & privacy-safe</li>
-</ul>
-
-<h2>How This Tool Works</h2>
-
-<p>
-The tool first normalizes all whitespace and line breaks.It then counts words based on real visual separation instead of unreliable regular expressions.This ensures accurate results for Hindi matras,combined characters,and mixed-language text.
-</p>
-
-<h2>Use Cases</h2>
-
-<h3>Students</h3>
-<p>
-Perfect for assignments,essays,and exam answers with strict limits.</p>
-
-<h3>Bloggers & SEO Writers</h3>
-<p>
-Ensure articles meet SEO word-count requirements.</p>
-
-<h3>Government Exam Aspirants</h3>
-<p>
-Accurate counting for Hindi & English answers.</p>
-
-<h2>Privacy Guarantee</h2>
-
-<p>
-All processing happens in your browser.No text is uploaded or stored.Your content remains 100% private.
-</p>
-
-<h2>Conclusion</h2>
-
-<p>
-Toolvala’s Live Word & Character Counter is a reliable,fast,and accurate solution for anyone who needs precise content length measurement.Whether you write in Hindi or English,this tool delivers professional-grade accuracy.
-</p>
-
-</article>
 </div>
 
-<script>
-const textInput = document.getElementById("textInput");
-
-const wordCount = document.getElementById("wordCount");
-const charCount = document.getElementById("charCount");
-const charNoSpace = document.getElementById("charNoSpace");
-const sentenceCount = document.getElementById("sentenceCount");
-const paragraphCount = document.getElementById("paragraphCount");
-const readingTime = document.getElementById("readingTime");
-
-function countText(){
-    const text = textInput.value;
-
-    const cleaned = text
-        .replace(/\u00A0/g, " ")
-        .replace(/\s+/g, " ")
-        .trim();
-
-    const words = cleaned === "" ? 0 : cleaned.split(" ").filter(w => w.length > 0).length;
-    const chars = text.length;
-    const charsNoSp = text.replace(/\s/g,"").length;
-    const sentences = cleaned === "" ? 0 : cleaned.split(/[.!?।]+/).filter(s => s.trim().length > 0).length;
-    const paragraphs = text === "" ? 0 : text.split(/\n+/).filter(p => p.trim().length > 0).length;
-    const readTime = words === 0 ? 0 : Math.ceil(words / 200);
-
-    wordCount.textContent = words;
-    charCount.textContent = chars;
-    charNoSpace.textContent = charsNoSp;
-    sentenceCount.textContent = sentences;
-    paragraphCount.textContent = paragraphs;
-    readingTime.textContent = readTime;
-}
-
-textInput.addEventListener("input", countText);
-</script>
-    
-<!-- Footer -->  
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>Footer</title>
-
-<style>
-/* Clean Center Footer */
-.site-footer {
-  text-align: center;
-  padding: 20px 12px;
-  background: #f8f9fa;
-  color: #555;
-  font-size: 14px;
-  border-top: 1px solid #e5e5e5;
-}
-
-.site-footer .footer-links {
-  margin-bottom: 8px;
-}
-
-.site-footer .footer-links a {
-  color: #333;
-  text-decoration: none;
-  margin: 0 6px;
-  font-weight: 500;
-}
-
-.site-footer .footer-links a:hover {
-  color: #0d6efd;
-  text-decoration: underline;
-}
-
-.site-footer .footer-links span {
-  color: #bbb;
-}
-
-.site-footer p {
-  margin: 0;
-  font-size: 13px;
-  color: #666;
-}
-</style>
-</head>
-
-<body>
-
-<!-- Footer -->
+<!-- FOOTER -->
 <footer class="site-footer">
-  <div class="footer-links">
-    <a href="about-us.html">About Us</a>
-    <span>•</span>
-    <a href="sitemap.html">Sitemap</a>
-    <span>•</span>
-    <a href="privacy-policy.html">Privacy Policy</a>
-  </div>
-        
+    <div class="footer-links">
+        <a href="about-us.html">About Us</a>
+        <span>•</span>
+        <a href="sitemap.html">Sitemap</a>
+        <span>•</span>
+        <a href="privacy-policy.html">Privacy Policy</a>
+    </div>
+    <p>© 2026 <strong>Toolvala.in</strong> · All rights reserved</p>
 </footer>
 
-</body>
-</html>
-</body>
-</html>
+<!-- SCRIPT -->
+<script>
+    const textInput = document.getElementById("textInput");
+    const wordCount = document.getElementById("wordCount");
+    const charCount = document.getElementById("charCount");
+    const charNoSpace = document.getElementById("charNoSpace");
+    const sentenceCount = document.getElementById("sentenceCount");
+    const paragraphCount = document.getElementById("paragraphCount");
+    const readingTime = document.getElementById("readingTime");
 
+    function countText(){
+        const text = textInput.value;
+
+        // Normalize text
+        const cleaned = text
+            .replace(/\u00A0/g, " ")
+            .replace(/\s+/g, " ")
+            .trim();
+
+        // Count Words
+        const words = cleaned === "" ? 0 : cleaned.split(" ").filter(w => w.length > 0).length;
+        
+        // Count Characters
+        const chars = text.length;
+        const charsNoSp = text.replace(/\s/g,"").length;
+
+        // Count Sentences (Split by . ! ? and Hindi Purna Viram ।)
+        const sentences = cleaned === "" ? 0 : cleaned.split(/[.!?।]+/).filter(s => s.trim().length > 0).length;
+
+        // Count Paragraphs
+        const paragraphs = text === "" ? 0 : text.split(/\n+/).filter(p => p.trim().length > 0).length;
+
+        // Reading Time (Avg 200 wpm)
+        const readTime = words === 0 ? 0 : Math.ceil(words / 200);
+
+        // Update DOM
+        wordCount.textContent = words;
+        charCount.textContent = chars;
+        charNoSpace.textContent = charsNoSp;
+        sentenceCount.textContent = sentences;
+        paragraphCount.textContent = paragraphs;
+        readingTime.textContent = readTime;
+    }
+
+    textInput.addEventListener("input", countText);
+</script>
+
+</body>
+</html>
