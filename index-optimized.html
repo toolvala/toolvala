@@ -1,1260 +1,550 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- =========================================
+         SEO & META DATA
+         ========================================= -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Toolvala - Free Online Tools, Calculators & TET Preparation Resources</title>
     
-    <!-- Primary Meta Tags -->
-    <meta name="description" content="Toolvala offers 150+ free online tools including calculators, TET preparation tools, text utilities, PDF tools, and more. Complete TET eligibility checker, mock tests, and study planner. No login required.">
-    <meta name="keywords" content="TET preparation, TET tools, teacher eligibility test, online TET calculator, CTET mock test, TET eligibility checker, free TET tools, TET study planner, TET marks calculator, TET cutoff checker, online calculators, text tools, PDF tools, image compressor, word counter">
-    <meta name="author" content="Toolvala">
-    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-    <link rel="canonical" href="https://www.toolvala.in/">
+    <!-- PRIMARY KEYWORDS -->
+    <title>Free PDF Signer Online | Sign Documents Securely (No Uploads)</title>
+    <meta name="description" content="Sign PDF documents online for free without uploading files to a server. 100% private, secure client-side electronic signature tool. Draw your signature and download instantly.">
+    <meta name="keywords" content="sign pdf online, free pdf signer, electronic signature, no upload pdf signer, client side pdf tool, draw signature on pdf, sign pdf free">
     
-    <!-- Open Graph / Facebook -->
+    <!-- ROBOTS & INDEXING -->
+    <meta name="robots" content="index, follow">
+    <!-- IMPORTANT: Replace the URL below with your actual GitHub Pages URL or Custom Domain -->
+    <link rel="canonical" href="https://yourusername.github.io/your-repo-name/">
+
+    <!-- OPEN GRAPH (Social Media) -->
+    <meta property="og:title" content="Free PDF Signer - Secure & Private">
+    <meta property="og:description" content="Sign your PDF documents directly in your browser. No server uploads. 100% Free.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.toolvala.in/">
-    <meta property="og:title" content="Toolvala - Free Online Tools & TET Preparation Resources">
-    <meta property="og:description" content="Access 150+ free online tools including TET preparation resources, calculators, converters, and productivity tools. No registration required.">
-    <meta property="og:site_name" content="Toolvala">
+    <meta property="og:url" content="https://yourusername.github.io/your-repo-name/">
     
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Toolvala - Free TET Tools & Online Calculators">
-    <meta name="twitter:description" content="150+ free online tools including TET preparation tools, calculators, text utilities, and PDF tools.">
-    
-    <!-- Additional SEO Tags -->
-    <meta name="theme-color" content="#0066cc">
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-    <meta name="application-name" content="Toolvala">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-title" content="Toolvala">
-    
-    <!-- Structured Data for Educational Tools -->
+    <!-- LIBRARIES & FONTS -->
+    <!-- PDF-Lib for local PDF processing -->
+    <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+    <!-- Inter Font for modern UI -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- JSON-LD SCHEMA (Google Rich Results) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "Toolvala",
-      "url": "https://www.toolvala.in/",
-      "description": "Free online tools, calculators, and TET preparation resources",
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": "https://www.toolvala.in/search?q={search_term_string}",
-        "query-input": "required name=search_term_string"
+      "@type": "SoftwareApplication",
+      "name": "Secure Online PDF Signer",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
       },
-      "publisher": {
-        "@type": "Organization",
-        "name": "Toolvala",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "https://www.toolvala.in/logo.png"
-        }
-      }
+      "description": "A browser-based tool to electronically sign PDF documents without uploading data to a server.",
+      "featureList": "Client-side privacy, Draw signature, PDF manipulation, No registration required"
     }
     </script>
-    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [{
+        "@type": "Question",
+        "name": "Is this PDF signer safe to use?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. This tool uses client-side JavaScript technology. Your PDF document never leaves your device and is never uploaded to any server, ensuring 100% privacy."
+        }
+      }, {
+        "@type": "Question",
+        "name": "Is it free to sign PDFs online?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, this tool is completely free with no limits on the number of documents you can sign."
+        }
+      }]
+    }
+    </script>
+
+    <!-- =========================================
+         CSS STYLES
+         ========================================= -->
     <style>
-        /* Reset and base styles */
-        * {
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg-color: #f8fafc;
+            --surface: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --success: #16a34a;
+            --error: #dc2626;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
             line-height: 1.6;
-            color: #333;
-            background-color: #f9f9f9;
         }
-        
+
+        /* Layout */
         .container {
-            max-width: 1200px;
+            max-width: 1000px;
             margin: 0 auto;
-            padding: 0 15px;
-        }
-        
-        /* Header styles */
-        header {
-            background: #ffffff;
-            border-bottom: 1px solid #e0e0e0;
-            padding: 15px 0;
-            margin-bottom: 20px;
-        }
-        
-        .logo {
-            font-size: 28px;
-            font-weight: bold;
-            color: #0066cc;
-            text-decoration: none;
-        }
-        
-        .logo span {
-            color: #ff6600;
-        }
-        
-        /* Main calculator widget */
-        .calculator-widget {
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 8px;
             padding: 20px;
-            margin-bottom: 30px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
-        
-        .calc-display {
-            background: #f8f8f8;
-            border: 1px solid #ddd;
-            padding: 15px;
-            font-family: 'Courier New', monospace;
-            font-size: 24px;
-            text-align: right;
-            margin-bottom: 15px;
-            border-radius: 4px;
-            min-height: 60px;
-            overflow-x: auto;
-            white-space: nowrap;
-        }
-        
-        .calc-buttons {
-            display: grid;
-            grid-template-columns: repeat(8, 1fr);
-            gap: 8px;
-        }
-        
-        @media (max-width: 768px) {
-            .calc-buttons {
-                grid-template-columns: repeat(5, 1fr);
-            }
-        }
-        
-        .calc-btn {
-            padding: 12px 5px;
-            border: 1px solid #ddd;
-            background: #f8f8f8;
-            cursor: pointer;
-            font-size: 14px;
-            border-radius: 4px;
-            text-align: center;
-            user-select: none;
-            transition: all 0.2s;
-        }
-        
-        .calc-btn:hover {
-            background: #e8e8e8;
-        }
-        
-        .calc-btn.operator {
-            background: #e6f2ff;
-            font-weight: bold;
-        }
-        
-        .calc-btn.special {
-            background: #fff0e6;
-        }
-        
-        .calc-btn.equals {
-            background: #0066cc;
-            color: white;
-            font-weight: bold;
-        }
-        
-        /* Category sections */
-        .category-section {
-            margin-bottom: 30px;
-        }
-        
-        .category-title {
-            background: linear-gradient(135deg, #0066cc 0%, #0099ff 100%);
-            color: white;
-            padding: 12px 15px;
-            font-size: 18px;
-            margin-bottom: 10px;
-            border-radius: 4px;
-        }
-        
-        .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 15px;
-        }
-        
-        @media (max-width: 768px) {
-            .tools-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        .tool-card {
-            background: white;
-            border: 1px solid #e0e0e0;
-            padding: 15px;
-            border-radius: 4px;
-            transition: all 0.3s;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-        
-        .tool-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,102,204,0.15);
-            border-color: #0066cc;
-        }
-        
-        .tool-card a {
-            color: #0066cc;
-            text-decoration: none;
-            font-weight: bold;
-            display: block;
-            margin-bottom: 5px;
-            font-size: 16px;
-        }
-        
-        .tool-card a:hover {
-            text-decoration: underline;
-        }
-        
-        .tool-card p {
-            color: #666;
-            font-size: 14px;
-            margin-bottom: 10px;
-        }
-        
-        .tool-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 5px;
-            margin-top: 10px;
-        }
-        
-        .tag {
-            background: #f0f7ff;
-            padding: 3px 10px;
+
+        /* Tool Container */
+        .tool-box {
+            background: var(--surface);
             border-radius: 12px;
-            font-size: 11px;
-            color: #0066cc;
-            border: 1px solid #d1e6ff;
-        }
-        
-        .tag.education {
-            background: #e6f7ff;
-            color: #0066cc;
-        }
-        
-        .tag.government {
-            background: #fff0e6;
-            color: #cc5500;
-        }
-        
-        /* TET Special Section */
-        .tet-special {
-            background: linear-gradient(135deg, #ff6600 0%, #ff9900 100%);
-            color: white;
-            padding: 12px 15px;
-            font-size: 18px;
-            margin: 20px 0 10px 0;
-            border-radius: 4px;
-            text-align: center;
-        }
-        
-        /* Scheme Info Cards */
-        .scheme-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin: 20px 0;
-        }
-        
-        .scheme-card {
-            background: white;
-            border: 1px solid #e0e0e0;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-        
-        .scheme-card h4 {
-            color: #0066cc;
-            margin-bottom: 10px;
-            font-size: 18px;
-        }
-        
-        .scheme-card ul {
-            margin-left: 20px;
-            color: #666;
-            font-size: 14px;
-        }
-        
-        .scheme-card li {
-            margin-bottom: 8px;
-        }
-        
-        /* Search box */
-        .search-container {
-            margin: 20px 0;
-        }
-        
-        .search-box {
-            width: 100%;
-            padding: 14px 20px;
-            border: 1px solid #ddd;
-            border-radius: 25px;
-            font-size: 16px;
-            background: white;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-        
-        .search-box:focus {
-            outline: none;
-            border-color: #0066cc;
-            box-shadow: 0 2px 8px rgba(0,102,204,0.1);
-        }
-        
-        /* View all button */
-        .view-all {
-            text-align: center;
-            margin: 30px 0;
-        }
-        
-        .view-all-btn {
-            display: inline-block;
-            padding: 12px 30px;
-            background: linear-gradient(135deg, #0066cc 0%, #0099ff 100%);
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-            font-weight: bold;
-            font-size: 16px;
-            transition: all 0.3s;
-        }
-        
-        .view-all-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,102,204,0.2);
-        }
-        
-        .tet-btn {
-            background: linear-gradient(135deg, #ff6600 0%, #ff9900 100%);
-        }
-        
-        .tet-btn:hover {
-            box-shadow: 0 4px 12px rgba(255,102,0,0.2);
-        }
-        
-        /* SEO Content Section */
-        .seo-content {
-            background: white;
-            border: 1px solid #e0e0e0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border);
             padding: 30px;
-            margin: 40px 0;
+            margin-bottom: 50px;
+        }
+
+        .seo-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding-bottom: 50px;
+        }
+
+        /* Typography */
+        h1 { font-size: 2.5rem; color: var(--primary); margin-bottom: 10px; text-align: center; line-height: 1.2; }
+        h1 span { color: var(--text-main); font-size: 1.5rem; display: block; margin-top: 10px; font-weight: 400; }
+        h2 { color: var(--text-main); margin-top: 40px; font-size: 1.8rem; }
+        h3 { color: var(--text-main); margin-top: 25px; font-size: 1.3rem; }
+        p { color: #334155; margin-bottom: 15px; }
+        
+        /* Tool UI Steps */
+        .step { margin-bottom: 30px; border-bottom: 1px solid var(--border); padding-bottom: 25px; }
+        .step:last-child { border-bottom: none; }
+        
+        .step-header { display: flex; align-items: center; gap: 12px; margin-bottom: 15px; font-weight: 700; font-size: 1.2rem; }
+        .badge { background: var(--primary); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; }
+
+        /* File Upload Area */
+        .upload-area {
+            border: 2px dashed #94a3b8;
+            background: #f1f5f9;
+            padding: 40px;
+            text-align: center;
             border-radius: 8px;
-            line-height: 1.8;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: 0.2s;
         }
-        
-        .seo-content h2 {
-            color: #0066cc;
-            margin-bottom: 20px;
-            font-size: 24px;
+        .upload-area:hover { border-color: var(--primary); background: #eff6ff; }
+        .upload-icon { font-size: 2.5rem; display: block; margin-bottom: 10px; }
+
+        /* Signature Canvas */
+        .canvas-wrapper {
+            position: relative;
+            background: #fff;
+            border: 2px solid #cbd5e1;
+            border-radius: 6px;
+            height: 200px;
+            cursor: crosshair;
+            background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+            background-size: 20px 20px;
         }
-        
-        .seo-content h3 {
-            color: #333;
-            margin: 25px 0 15px 0;
-            font-size: 20px;
-        }
-        
-        .seo-content p {
-            margin-bottom: 15px;
-            color: #444;
-            font-size: 16px;
-        }
-        
-        .seo-content ul {
-            margin: 15px 0 15px 30px;
-        }
-        
-        .seo-content li {
-            margin-bottom: 8px;
-            color: #444;
-        }
-        
-        /* Footer */
-        footer {
-            background: #333;
-            color: white;
-            padding: 30px 0;
-            margin-top: 40px;
-        }
-        
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-        
-        .footer-links a {
-            color: #ddd;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        
-        .footer-links a:hover {
-            color: white;
-        }
-        
-        /* Social Media Links */
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin: 25px 0;
-        }
-        
-        .social-link {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: #444;
-            color: white;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-        
-        .social-link:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-        
-        .social-link.x {
-            background: #000000;
-        }
-        
-        .social-link.x:hover {
-            background: #1a1a1a;
-        }
-        
-        .social-link.facebook {
-            background: #1877f2;
-        }
-        
-        .social-link.facebook:hover {
-            background: #0d65d9;
-        }
-        
-        .social-link.instagram {
-            background: linear-gradient(45deg, #405de6, #5851db, #833ab4, #c13584, #e1306c, #fd1d1d);
-        }
-        
-        .social-link.instagram:hover {
-            background: linear-gradient(45deg, #2d4bd4, #473dcf, #6c2699, #a0225f, #c21a4d, #e00a0a);
-        }
-        
-        .social-link svg {
-            width: 20px;
-            height: 20px;
-            fill: currentColor;
-        }
-        
-        .copyright {
-            text-align: center;
-            color: #999;
-            font-size: 14px;
-        }
-        
-        /* Tool counter */
-        .tool-counter {
-            text-align: center;
-            margin: 20px 0;
-            font-size: 18px;
-            color: #666;
-        }
-        
-        .counter {
-            font-weight: bold;
-            color: #0066cc;
-            font-size: 24px;
-        }
-        
-        /* Quick access tools */
-        .quick-tools {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin: 20px 0;
-            justify-content: center;
-        }
-        
-        .quick-tool {
-            background: white;
-            border: 1px solid #ddd;
-            padding: 10px 15px;
-            border-radius: 20px;
-            font-size: 14px;
-            color: #0066cc;
-            text-decoration: none;
-            transition: all 0.3s;
-        }
-        
-        .quick-tool:hover {
-            background: #f0f7ff;
-            transform: translateY(-2px);
-            box-shadow: 0 2px 8px rgba(0,102,204,0.1);
-        }
-        
-        .quick-tool.tet {
-            background: #fff0e6;
-            color: #cc5500;
-            border-color: #ffcc99;
-        }
-        
-        /* Stats section */
-        .stats {
+        canvas { width: 100%; height: 100%; touch-action: none; /* Prevents scrolling while drawing on mobile */ }
+
+        /* Form Controls */
+        .controls-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
-            margin: 30px 0;
+            margin-top: 20px;
         }
         
-        .stat-card {
-            background: white;
-            border: 1px solid #e0e0e0;
-            padding: 20px;
-            border-radius: 8px;
-            text-align: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        label { display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 5px; color: var(--text-main); }
+        select, input[type="number"], input[type="range"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            box-sizing: border-box;
         }
-        
-        .stat-number {
-            font-size: 36px;
-            font-weight: bold;
-            color: #0066cc;
-            margin-bottom: 10px;
+
+        /* Buttons */
+        .btn {
+            background: var(--primary); color: white; border: none; padding: 12px 24px;
+            border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 1rem; width: 100%;
+            transition: 0.2s;
         }
+        .btn:hover { background: var(--primary-hover); }
+        .btn:disabled { background: #94a3b8; cursor: not-allowed; }
         
-        .stat-label {
-            color: #666;
-            font-size: 14px;
-        }
-        
-        /* Light header */
-        .light-header {
-            text-align: center;
-            padding: 20px;
-            margin: 20px 0;
-        }
-        
-        .light-header h1 {
-            color: #0066cc;
-            font-size: 32px;
-            margin-bottom: 10px;
-            line-height: 1.2;
-        }
-        
-        .light-header p {
-            color: #666;
-            max-width: 600px;
-            margin: 0 auto;
-            font-size: 18px;
-        }
-        
-        /* Breadcrumb for SEO */
-        .breadcrumb {
-            margin: 10px 0 20px 0;
-            font-size: 14px;
-            color: #666;
-        }
-        
-        .breadcrumb a {
-            color: #0066cc;
-            text-decoration: none;
-        }
-        
-        .breadcrumb a:hover {
-            text-decoration: underline;
+        .btn-text { background: transparent; color: var(--error); border: 1px solid var(--error); width: auto; font-size: 0.9rem; padding: 5px 15px; border-radius: 4px; cursor: pointer;}
+        .btn-text:hover { background: #fef2f2; }
+
+        /* Status Messages */
+        .status { margin-top: 10px; font-weight: 600; min-height: 24px; font-size: 0.9rem; }
+        .text-success { color: var(--success); }
+        .text-error { color: var(--error); }
+
+        /* Info Boxes */
+        .info-box { background: #eff6ff; padding: 20px; border-left: 4px solid var(--primary); margin: 20px 0; border-radius: 4px; }
+        ul { padding-left: 20px; color: #334155; }
+        li { margin-bottom: 10px; }
+
+        /* Mobile Adjustments */
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            .tool-box { padding: 15px; }
         }
     </style>
 </head>
 <body>
-    <!-- Header with Schema.org markup -->
-    <header itemscope itemtype="http://schema.org/WPHeader">
-        <div class="container">
-            <a href="/" class="logo" itemprop="url">Tool<span itemprop="name">vala</span></a>
-            <span style="margin-left: 20px; color: #666; font-size: 14px;">Free Online Tools, Calculators & TET Preparation</span>
-        </div>
+
+    <!-- HERO HEADER -->
+    <header class="container">
+        <h1>
+            Free PDF Signer Online
+            <span>Securely Sign Documents without Uploading</span>
+        </h1>
+        <p style="text-align: center; max-width: 600px; margin: 0 auto 30px auto; color: var(--text-muted);">
+            Draw your signature and add it to any PDF page instantly. Your files run 100% in your browser (Client-Side).
+        </p>
     </header>
 
-    <div class="container">
-        <!-- Breadcrumb for SEO -->
-        <div class="breadcrumb">
-            <a href="/">Home</a> &gt; <span>Free Online Tools & TET Resources</span>
-        </div>
+    <!-- MAIN APP INTERFACE -->
+    <main class="container">
+        <div class="tool-box">
+            
+            <!-- STEP 1: UPLOAD -->
+            <div class="step">
+                <div class="step-header"><span class="badge">1</span> Upload PDF</div>
+                <div class="upload-area" onclick="document.getElementById('pdfInput').click()">
+                    <span class="upload-icon">📄</span>
+                    <strong>Click here to Select PDF</strong>
+                    <p style="margin: 5px 0 0 0; font-size: 0.85rem; color: #64748b;">Accepts standard PDF files</p>
+                </div>
+                <input type="file" id="pdfInput" accept="application/pdf" style="display: none">
+                <div id="fileStatus" class="status"></div>
+            </div>
 
-        <!-- Main Header -->
-        <div class="light-header">
-            <h1>150+ Free Online Tools & TET Preparation Resources</h1>
-            <p>Access our comprehensive collection of calculators, TET preparation tools, converters, text tools, image editors, PDF tools, and more. No registration required, 100% free forever.</p>
-        </div>
+            <!-- STEP 2: DRAW -->
+            <div class="step">
+                <div class="step-header">
+                    <span class="badge">2</span> Draw Signature
+                    <button class="btn-text" id="clearBtn" style="margin-left: auto;">Clear & Retry</button>
+                </div>
+                <div class="canvas-wrapper" id="canvasContainer">
+                    <canvas id="sigCanvas"></canvas>
+                </div>
+                <p style="font-size: 0.85rem; color: #64748b; margin-top: 5px;">Tip: Use a mobile or tablet for easier drawing.</p>
+            </div>
 
-        <!-- Stats Section -->
-        <div class="stats">
-            <div class="stat-card">
-                <div class="stat-number">150+</div>
-                <div class="stat-label">Online Tools</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">24/7</div>
-                <div class="stat-label">Availability</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">0</div>
-                <div class="stat-label">Registration</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">100%</div>
-                <div class="stat-label">Free Forever</div>
-            </div>
-        </div>
-
-        <!-- Calculator Widget -->
-        <div class="calculator-widget">
-            <div class="calc-display" id="calcDisplay">0</div>
-            <div class="calc-buttons">
-                <!-- Row 1 -->
-                <div class="calc-btn" onclick="calcInput('sin(')">sin</div>
-                <div class="calc-btn" onclick="calcInput('cos(')">cos</div>
-                <div class="calc-btn" onclick="calcInput('tan(')">tan</div>
-                <div class="calc-btn" onclick="calcInput('Deg')">Deg</div>
-                <div class="calc-btn" onclick="calcInput('Rad')">Rad</div>
-                <div class="calc-btn" onclick="calcInput('7')">7</div>
-                <div class="calc-btn" onclick="calcInput('8')">8</div>
-                <div class="calc-btn" onclick="calcInput('9')">9</div>
+            <!-- STEP 3: CUSTOMIZE & DOWNLOAD -->
+            <div class="step">
+                <div class="step-header"><span class="badge">3</span> Customize & Download</div>
                 
-                <!-- Row 2 -->
-                <div class="calc-btn" onclick="calcInput('asin(')">sin⁻¹</div>
-                <div class="calc-btn" onclick="calcInput('acos(')">cos⁻¹</div>
-                <div class="calc-btn" onclick="calcInput('atan(')">tan⁻¹</div>
-                <div class="calc-btn" onclick="calcInput('π')">π</div>
-                <div class="calc-btn" onclick="calcInput('e')">e</div>
-                <div class="calc-btn" onclick="calcInput('4')">4</div>
-                <div class="calc-btn" onclick="calcInput('5')">5</div>
-                <div class="calc-btn" onclick="calcInput('6')">6</div>
-                
-                <!-- Row 3 -->
-                <div class="calc-btn" onclick="calcInput('^2')">x²</div>
-                <div class="calc-btn" onclick="calcInput('^3')">x³</div>
-                <div class="calc-btn" onclick="calcInput('^')">xʸ</div>
-                <div class="calc-btn" onclick="calcInput('exp(')">eˣ</div>
-                <div class="calc-btn" onclick="calcInput('10^')">10ˣ</div>
-                <div class="calc-btn" onclick="calcInput('1')">1</div>
-                <div class="calc-btn" onclick="calcInput('2')">2</div>
-                <div class="calc-btn" onclick="calcInput('3')">3</div>
-                
-                <!-- Row 4 -->
-                <div class="calc-btn" onclick="calcInput('/')">/</div>
-                <div class="calc-btn" onclick="calcInput('sqrt(')">√x</div>
-                <div class="calc-btn" onclick="calcInput('log(')">log</div>
-                <div class="calc-btn" onclick="calcInput('ln(')">ln</div>
-                <div class="calc-btn" onclick="calcInput('0')">0</div>
-                <div class="calc-btn" onclick="calcInput('.')">.</div>
-                <div class="calc-btn" onclick="calcInput('(')">(</div>
-                <div class="calc-btn" onclick="calcInput(')')">)</div>
-                
-                <!-- Row 5 -->
-                <div class="calc-btn operator" onclick="calcInput('+')">+</div>
-                <div class="calc-btn operator" onclick="calcInput('-')">-</div>
-                <div class="calc-btn operator" onclick="calcInput('*')">×</div>
-                <div class="calc-btn" onclick="calcInput('1/')">1/x</div>
-                <div class="calc-btn" onclick="calcInput('%')">%</div>
-                <div class="calc-btn" onclick="calcInput('!')">n!</div>
-                <div class="calc-btn" onclick="calcInput('±')">±</div>
-                <div class="calc-btn" onclick="clearCalc()">AC</div>
-                
-                <!-- Row 6 -->
-                <div class="calc-btn equals" onclick="calculate()" style="grid-column: span 2;">=</div>
-                <div class="calc-btn" onclick="backspace()">Back</div>
-                <div class="calc-btn" onclick="calcInput('Ans')">Ans</div>
-                <div class="calc-btn" onclick="calcInput('M+')">M+</div>
-                <div class="calc-btn" onclick="calcInput('MR')">MR</div>
-                <div class="calc-btn" onclick="calcInput('EXP')">EXP</div>
-                <div class="calc-btn" onclick="calcInput('RND')">RND</div>
-            </div>
-            <div style="text-align: center; margin-top: 15px;">
-                <a href="scientific-calculator.html" style="color: #0066cc; font-size: 14px; text-decoration: none; font-weight: bold;">
-                    <span style="background: #f0f7ff; padding: 5px 10px; border-radius: 4px;">Open Full Scientific Calculator →</span>
-                </a>
-            </div>
-        </div>
+                <div class="controls-grid">
+                    <div>
+                        <label>Page Number</label>
+                        <input type="number" id="pageNumber" min="1" value="1">
+                        <small style="color: #64748b;" id="pageCountDisplay">Pages: 0</small>
+                    </div>
+                    <div>
+                        <label>Signature Position</label>
+                        <select id="positionPreset">
+                            <option value="br">Bottom Right</option>
+                            <option value="bl">Bottom Left</option>
+                            <option value="bc">Bottom Center</option>
+                            <option value="c">Center Page</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Size / Scale</label>
+                        <input type="range" id="sigScale" min="0.1" max="1.5" step="0.1" value="0.4">
+                    </div>
+                    <div>
+                        <label>Vertical Offset (Up/Down)</label>
+                        <input type="range" id="yOffset" min="-300" max="300" value="0">
+                    </div>
+                </div>
 
-        <!-- Quick Access Tools with TET Tools -->
-        <div class="quick-tools">
-            <a href="word-counter-tool.html" class="quick-tool">Word Counter</a>
-            <a href="tet-eligibility-checker.html" class="quick-tool tet">TET Eligibility</a>
-            <a href="password-generator.html" class="quick-tool">Password Generator</a>
-            <a href="pdf-merger.html" class="quick-tool">PDF Merger</a>
-            <a href="image-compressor.html" class="quick-tool">Image Compressor</a>
-            <a href="json-formatter.html" class="quick-tool">JSON Formatter</a>
-            <a href="age-calculator.html" class="quick-tool">Age Calculator</a>
-            <a href="tithi-converter.html" class="quick-tool">Tithi Converter</a>
-            <a href="ctet-mock-test.html" class="quick-tool tet">CTET Mock Test</a>
-            <a href="qr-code-generator.html" class="quick-tool">QR Code Generator</a>
-        </div>
-
-        <!-- Search Box -->
-        <div class="search-container">
-            <input type="text" class="search-box" placeholder="Search for tools (e.g., 'TET eligibility', 'PDF compressor', 'salary calculator')" id="searchInput">
-        </div>
-
-        <!-- Tool Counter -->
-        <div class="tool-counter">
-            Currently showcasing <span class="counter">150+</span> tools including TET preparation resources, calculators, converters, text processing, and more.
-        </div>
-
-        <!-- Special TET Section -->
-        <div class="tet-special">
-            <h3 style="margin: 0; font-size: 22px;">TET Preparation Tools & Resources</h3>
-            <p style="margin: 5px 0 0 0; font-size: 14px; opacity: 0.9;">Complete suite of tools for Teacher Eligibility Test preparation</p>
-        </div>
-
-        <!-- TET Scheme Information Cards -->
-        <div class="scheme-cards">
-            <div class="scheme-card">
-                <h4>What is TET?</h4>
-                <ul>
-                    <li>Teacher Eligibility Test (TET) is a mandatory qualification</li>
-                    <li>Required for teaching positions in schools</li>
-                    <li>Conducted at both central (CTET) and state levels</li>
-                    <li>Tests pedagogical knowledge and subject expertise</li>
-                </ul>
-            </div>
-            <div class="scheme-card">
-                <h4>TET Eligibility Criteria</h4>
-                <ul>
-                    <li>Minimum 50% marks in graduation</li>
-                    <li>B.Ed or equivalent teaching degree</li>
-                    <li>Age limits vary by state</li>
-                    <li>Reservation benefits as per government norms</li>
-                </ul>
-            </div>
-            <div class="scheme-card">
-                <h4>Exam Pattern</h4>
-                <ul>
-                    <li>Two Papers: I & II</li>
-                    <li>Multiple Choice Questions (MCQs)</li>
-                    <li>150 marks each paper</li>
-                    <li>No negative marking</li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Category: TET Preparation Tools -->
-        <div class="category-section">
-            <div class="category-title">TET Preparation Tools</div>
-            <div class="tools-grid">
-                <div class="tool-card">
-                    <a href="tet-eligibility-checker.html">TET Eligibility Checker</a>
-                    <p>Check your eligibility for Teacher Eligibility Test based on educational qualifications and age criteria</p>
-                    <div class="tool-tags">
-                        <span class="tag education">Education</span>
-                        <span class="tag government">Government</span>
-                        <span class="tag">Eligibility</span>
-                    </div>
-                </div>
-                <div class="tool-card">
-                    <a href="tet-age-calculator.html">TET Age Calculator</a>
-                    <p>Calculate age eligibility for TET exams as per government norms and reservation categories</p>
-                    <div class="tool-tags">
-                        <span class="tag education">Age</span>
-                        <span class="tag">Calculator</span>
-                        <span class="tag government">Government</span>
-                    </div>
-                </div>
-                <div class="tool-card">
-                    <a href="tet-cutoff-checker.html">TET Cutoff Checker</a>
-                    <p>Check expected and previous year cutoffs for TET exams across different categories</p>
-                    <div class="tool-tags">
-                        <span class="tag education">Cutoff</span>
-                        <span class="tag">Analysis</span>
-                        <span class="tag">Results</span>
-                    </div>
-                </div>
-                <div class="tool-card">
-                    <a href="ctet-mock-test.html">CTET Mock Test</a>
-                    <p>Practice mock tests for Central Teacher Eligibility Test with instant scoring and solutions</p>
-                    <div class="tool-tags">
-                        <span class="tag education">Mock Test</span>
-                        <span class="tag">Practice</span>
-                        <span class="tag">CTET</span>
-                    </div>
-                </div>
-                <div class="tool-card">
-                    <a href="tet-marks-calculator.html">TET Marks Calculator</a>
-                    <p>Calculate your TET exam scores, percentage, and predict rank based on performance</p>
-                    <div class="tool-tags">
-                        <span class="tag education">Marks</span>
-                        <span class="tag">Calculator</span>
-                        <span class="tag">Result</span>
-                    </div>
-                </div>
-                <div class="tool-card">
-                    <a href="tet-study-planner.html">TET Study Planner</a>
-                    <p>Plan your study schedule for TET exams with personalized timetable and progress tracker</p>
-                    <div class="tool-tags">
-                        <span class="tag education">Study</span>
-                        <span class="tag">Planner</span>
-                        <span class="tag">Schedule</span>
-                    </div>
-                </div>
-                <div class="tool-card">
-                    <a href="exam-rank-predictor.html">Exam Rank Predictor</a>
-                    <p>Predict your expected rank in TET exams based on marks and category</p>
-                    <div class="tool-tags">
-                        <span class="tag education">Rank</span>
-                        <span class="tag">Prediction</span>
-                        <span class="tag">Analysis</span>
-                    </div>
-                </div>
-                <div class="tool-card">
-                    <a href="study-hours-planner.html">Study Hours Planner</a>
-                    <p>Create optimized study schedules with time allocation for different TET subjects</p>
-                    <div class="tool-tags">
-                        <span class="tag education">Study</span>
-                        <span class="tag">Time Management</span>
-                        <span class="tag">Planning</span>
-                    </div>
+                <div style="margin-top: 30px;">
+                    <button id="downloadBtn" class="btn" disabled>Waiting for PDF...</button>
+                    <div id="processStatus" class="status" style="text-align: center;"></div>
                 </div>
             </div>
         </div>
+    </main>
 
-        <!-- Category: Calculator Tools -->
-        <div class="category-section">
-            <div class="category-title">Calculator Tools</div>
-            <div class="tools-grid">
-                <div class="tool-card">
-                    <a href="scientific-calculator.html">Scientific Calculator</a>
-                    <p>Advanced calculator with scientific functions for complex calculations</p>
-                    <div class="tool-tags">
-                        <span class="tag">Math</span>
-                        <span class="tag">Scientific</span>
-                        <span class="tag">Trigonometry</span>
-                    </div>
-                </div>
-                <div class="tool-card">
-                    <a href="age-calculator.html">Age Calculator</a>
-                    <p>Calculate exact age in years, months, and days from birth date</p>
-                    <div class="tool-tags">
-                        <span class="tag">Date</span>
-                        <span class="tag">Time</span>
-                        <span class="tag">Personal</span>
-                    </div>
-                </div>
-                <div class="tool-card">
-                    <a href="compound-interest-calculator.html">Compound Interest Calculator</a>
-                    <p>Calculate compound interest for investments and savings</p>
-                    <div class="tool-tags">
-                        <span class="tag">Finance</span>
-                        <span class="tag">Investment</span>
-                        <span class="tag">Savings</span>
-                    </div>
-                </div>
-                <div class="tool-card">
-                    <a href="percentage-calculator.html">Percentage Calculator</a>
-                    <p>Calculate percentages, percentage increase/decrease, and ratios</p>
-                    <div class="tool-tags">
-                        <span class="tag">Math</span>
-                        <span class="tag">Basic</span>
-                        <span class="tag">Education</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Category: Text & Writing Tools -->
-        <div class="category-section">
-            <div class="category-title">Text & Writing Tools</div>
-            <div class="tools-grid">
-                <div class="tool-card">
-                    <a href="word-counter-tool.html">Word Counter</a>
-                    <p>Count words, characters, sentences, and paragraphs with detailed statistics</p>
-                    <div class="tool-tags">
-                        <span class="tag">Writing</span>
-                        <span class="tag">SEO</span>
-                        <span class="tag">Editing</span>
-                    </div>
-                </div>
-                <div class="tool-card">
-                    <a href="case-converter.html">Case Converter</a>
-                    <p>Convert text between uppercase, lowercase, title case, and sentence case</p>
-                    <div class="tool-tags">
-                        <span class="tag">Text</span>
-                        <span class="tag">Format</span>
-                        <span class="tag">Productivity</span>
-                    </div>
-                </div>
-                <div class="tool-card">
-                    <a href="reverse-text.html">Reverse Text</a>
-                    <p>Reverse text, sentences, or paragraphs with one click</p>
-                    <div class="tool-tags">
-                        <span class="tag">Fun</span>
-                        <span class="tag">Text</span>
-                        <span class="tag">Encoding</span>
-                    </div>
-                </div>
-                <div class="tool-card">
-                    <a href="whatsapp-formatter.html">WhatsApp Formatter</a>
-                    <p>Format text for WhatsApp messages with bold, italic, and strikethrough</p>
-                    <div class="tool-tags">
-                        <span class="tag">Social</span>
-                        <span class="tag">Formatting</span>
-                        <span class="tag">Messaging</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Category: Indian Tools -->
-        <div class="category-section">
-            <div class="category-title">Indian Tools</div>
-            <div class="tools-grid">
-                <div class="tool-card">
-                    <a href="tithi-converter.html">Tithi Converter</a>
-                    <p>Convert Hindu calendar Tithi to English dates and vice versa</p>
-                    <div class="tool-tags">
-                        <span class="tag">Calendar</span>
-                        <span class="tag">Converter</span>
-                        <span class="tag">Cultural</span>
-                    </div>
-                </div>
-                <div class="tool-card">
-                    <a href="upi-id-payment-link-converter.html">UPI Payment Link Converter</a>
-                    <p>Convert UPI IDs to payment links for easy money transfers</p>
-                    <div class="tool-tags">
-                        <span class="tag">Payment</span>
-                        <span class="tag">Finance</span>
-                        <span class="tag">Digital India</span>
-                    </div>
-                </div>
-                <div class="tool-card">
-                    <a href="8th-pay-commission-salary-calculator.html">8th Pay Commission Calculator</a>
-                    <p>Calculate salary and allowances as per 8th Pay Commission rules</p>
-                    <div class="tool-tags">
-                        <span class="tag">Salary</span>
-                        <span class="tag">Government</span>
-                        <span class="tag">Employees</span>
-                    </div>
-                </div>
-                <div class="tool-card">
-                    <a href="income-tax-india-calculator.html">Income Tax India Calculator</a>
-                    <p>Calculate income tax for Indian residents with latest tax slabs</p>
-                    <div class="tool-tags">
-                        <span class="tag">Tax</span>
-                        <span class="tag">Finance</span>
-                        <span class="tag">India</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- View All Button -->
-        <div class="view-all">
-            <a href="all-tools.html" class="view-all-btn">Browse All 150+ Tools</a>
-            <a href="all-tools.html#tet" class="view-all-btn tet-btn" style="margin-left: 15px;">View All TET Tools</a>
-        </div>
-
-        <!-- SEO Optimized Content Section (500+ words) -->
-        <div class="seo-content">
-            <h2>Toolvala: Your Complete Resource for Online Tools & TET Preparation</h2>
-            
-            <p>Toolvala is a comprehensive platform offering 150+ free online tools designed to simplify your daily tasks, calculations, digital needs, and TET exam preparation. Our extensive collection includes everything from TET eligibility checkers and mock tests to basic calculators, advanced text processing utilities, image optimization tools, PDF editors, and specialized converters. Whether you're an aspiring teacher preparing for TET exams, a student, professional, developer, or casual user, Toolvala provides the perfect solution for your requirements.</p>
-            
-            <h3>Complete TET Preparation Suite</h3>
-            
-            <p><strong>TET Eligibility Checker:</strong> Our comprehensive TET eligibility checker helps aspiring teachers determine their qualification status for Teacher Eligibility Tests. The tool considers educational qualifications, age limits, reservation categories, and state-specific requirements to provide accurate eligibility assessment.</p>
-            
-            <p><strong>TET Age Calculator:</strong> Calculate exact age eligibility for TET exams with our specialized age calculator. The tool accounts for different age relaxation norms based on categories (SC/ST/OBC/General) and provides precise eligibility status according to government guidelines.</p>
-            
-            <p><strong>CTET Mock Tests:</strong> Practice with our comprehensive CTET mock tests that simulate the actual exam environment. These tests include questions from Child Development & Pedagogy, Language I & II, Mathematics, Environmental Studies, and Social Studies/Science, helping you identify strengths and areas for improvement.</p>
-            
-            <p><strong>TET Study Planner:</strong> Create personalized study schedules with our TET study planner. The tool helps allocate time effectively across different subjects, tracks progress, and ensures comprehensive coverage of the TET syllabus before exam day.</p>
-            
-            <h3>Why Choose Toolvala for Your TET Preparation?</h3>
-            
-            <p><strong>Completely Free Forever:</strong> Unlike many TET preparation platforms that charge hefty fees, all Toolvala TET tools are 100% free with no hidden costs, registration requirements, or premium tiers. We believe in making quality education resources accessible to every aspiring teacher.</p>
-            
-            <p><strong>Accurate & Updated Information:</strong> Our TET tools are regularly updated with the latest exam patterns, syllabus changes, and government notifications. We ensure that all eligibility criteria and exam requirements reflect current norms and regulations.</p>
-            
-            <p><strong>Privacy-First Approach:</strong> Your privacy matters. Toolvala tools run client-side in your browser, meaning your personal information and test results never leave your device. We don't track your usage, collect personal information, or store your data on our servers.</p>
-            
-            <h3>TET Exam Scheme & Pattern</h3>
-            
-            <p>The Teacher Eligibility Test (TET) is conducted in two papers: Paper I for teachers of classes I-V and Paper II for teachers of classes VI-VIII. Both papers consist of 150 multiple-choice questions with no negative marking. The exam tests candidates on Child Development & Pedagogy, Language I & II, Mathematics, Environmental Studies (for Paper I), and Mathematics & Science or Social Studies (for Paper II).</p>
-            
-            <h3>Comprehensive Tool Categories</h3>
-            
-            <p><strong>TET Preparation Tools:</strong> Our specialized TET section includes eligibility checkers, age calculators, cutoff analyzers, mock tests, marks calculators, study planners, and rank predictors. These tools are specifically designed for aspiring teachers preparing for central and state TET exams.</p>
-            
-            <p><strong>Calculator Tools:</strong> Our calculator section includes scientific calculators, age calculators, compound interest calculators, percentage calculators, and specialized financial tools. Perfect for students, accountants, and anyone needing mathematical assistance.</p>
-            
-            <p><strong>Text & Writing Tools:</strong> Enhance your writing with our word counter, case converter, text reverser, and WhatsApp formatter. These tools are essential for writers, bloggers, content creators, and students working on assignments.</p>
-            
-            <p><strong>Indian Tools:</strong> Specifically designed for Indian users, our collection includes Tithi converters, UPI payment link generators, salary calculators as per Indian pay commissions, and income tax calculators for Indian residents.</p>
-            
-            <h3>Key Features That Set Toolvala Apart</h3>
-            
-            <ul>
-                <li><strong>150+ Evergreen Tools:</strong> Carefully curated tools that remain useful for years, including specialized TET preparation resources</li>
-                <li><strong>Mobile-Optimized Design:</strong> All tools work perfectly on smartphones, tablets, and desktop computers</li>
-                <li><strong>Instant Results:</strong> Fast processing with no waiting times or delays</li>
-                <li><strong>Regular Updates:</strong> We continuously add new tools and improve existing ones based on user feedback</li>
-                <li><strong>Clean Interface:</strong> No distracting ads or popups interrupting your workflow</li>
-                <li><strong>24/7 Availability:</strong> Access tools anytime, anywhere with no downtime</li>
-            </ul>
-            
-            <h3>Who Can Benefit from Toolvala?</h3>
-            
-            <p><strong>Aspiring Teachers:</strong> For TET exam preparation, eligibility checking, mock tests, study planning, and cutoff analysis</p>
-            <p><strong>Students:</strong> For calculations, writing assistance, PDF handling, and study tools</p>
-            <p><strong>Professionals:</strong> For financial calculations, document processing, image optimization, and productivity tools</p>
-            <p><strong>Writers & Content Creators:</strong> For word counting, text formatting, and content optimization tools</p>
-            <p><strong>Developers:</strong> For coding utilities, data formatting, and web development tools</p>
-            <p><strong>Indian Users:</strong> For specialized tools like Tithi conversion, UPI payments, and Indian tax calculations</p>
-            
-            <p>Toolvala's mission is to provide fast, reliable, and completely free online tools that simplify your digital life and educational journey. With our growing collection of 150+ tools including comprehensive TET preparation resources and commitment to user privacy, we're becoming the go-to destination for millions of users worldwide. Try Toolvala today and experience the convenience of having all your essential tools in one place.</p>
-        </div>
-    </div>
-
-    <footer itemscope itemtype="http://schema.org/WPFooter">
-        <div class="container">
-            <div class="footer-links">
-                <a href="about-us.html">about us</a>
-                <a href="sitemap.html">sitemap</a>
-                <a href="terms-of-use.html">terms of use</a>
-                <a href="privacy-policy.html">privacy policy</a>
-                <a href="mailto:toolvala@gmail.com">contact us</a>
-            </div>
-            
-            <!-- Social Media Links -->
-            <div class="social-links">
-                <a href="https://twitter.com/toolvala" class="social-link x" target="_blank" rel="noopener noreferrer" aria-label="Follow us on X (Twitter)">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                    </svg>
-                </a>
-                <a href="https://facebook.com/toolvala" class="social-link facebook" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Facebook">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                    </svg>
-                </a>
-                <a href="https://instagram.com/toolvala" class="social-link instagram" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Instagram">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                    </svg>
-                </a>
-            </div>
-            
-            <div class="copyright">
-                © 2023 - <script>document.write(new Date().getFullYear())</script> toolvala.in | All tools are 100% free | TET preparation resources included
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        // Calculator functionality
-        let calcDisplay = document.getElementById('calcDisplay');
-        let currentInput = '0';
-        let previousInput = '';
-        let operation = null;
-        let resetDisplay = false;
-
-        function calcInput(value) {
-            if (currentInput === '0' || resetDisplay) {
-                currentInput = value;
-                resetDisplay = false;
-            } else {
-                currentInput += value;
-            }
-            updateDisplay();
-        }
-
-        function updateDisplay() {
-            calcDisplay.textContent = currentInput;
-        }
-
-        function clearCalc() {
-            currentInput = '0';
-            previousInput = '';
-            operation = null;
-            updateDisplay();
-        }
-
-        function backspace() {
-            if (currentInput.length > 1) {
-                currentInput = currentInput.slice(0, -1);
-            } else {
-                currentInput = '0';
-            }
-            updateDisplay();
-        }
-
-        function calculate() {
-            try {
-                // Replace mathematical symbols
-                let expression = currentInput
-                    .replace(/sin\(/g, 'Math.sin(')
-                    .replace(/cos\(/g, 'Math.cos(')
-                    .replace(/tan\(/g, 'Math.tan(')
-                    .replace(/asin\(/g, 'Math.asin(')
-                    .replace(/acos\(/g, 'Math.acos(')
-                    .replace(/atan\(/g, 'Math.atan(')
-                    .replace(/π/g, 'Math.PI')
-                    .replace(/e/g, 'Math.E')
-                    .replace(/sqrt\(/g, 'Math.sqrt(')
-                    .replace(/log\(/g, 'Math.log10(')
-                    .replace(/ln\(/g, 'Math.log(')
-                    .replace(/\^/g, '**')
-                    .replace(/!/g, ''); // Note: factorial not implemented
-                
-                // Evaluate the expression
-                let result = eval(expression);
-                
-                // Round to 10 decimal places to avoid floating point errors
-                result = Math.round(result * 10000000000) / 10000000000;
-                
-                currentInput = result.toString();
-                updateDisplay();
-                resetDisplay = true;
-            } catch (error) {
-                currentInput = 'Error';
-                updateDisplay();
-                setTimeout(() => {
-                    currentInput = '0';
-                    updateDisplay();
-                }, 1500);
-            }
-        }
-
-        // Search functionality
-        document.getElementById('searchInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                const searchTerm = this.value.trim();
-                if (searchTerm) {
-                    // Redirect to all tools page with search query
-                    window.location.href = `all-tools.html?search=${encodeURIComponent(searchTerm)}`;
-                }
-            }
-        });
-
-        // Tool cards hover effect
-        document.querySelectorAll('.tool-card').forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-4px)';
-                this.style.boxShadow = '0 8px 16px rgba(0,102,204,0.15)';
-            });
-            
-            card.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(-2px)';
-                this.style.boxShadow = '0 4px 12px rgba(0,102,204,0.15)';
-            });
-        });
-
-        // Quick tools hover effect
-        document.querySelectorAll('.quick-tool').forEach(tool => {
-            tool.addEventListener('mouseenter', function() {
-                this.style.backgroundColor = this.classList.contains('tet') ? '#ffe6cc' : '#e6f2ff';
-                this.style.transform = 'translateY(-2px)';
-                this.style.boxShadow = this.classList.contains('tet') ? '0 4px 8px rgba(255,102,0,0.1)' : '0 4px 8px rgba(0,102,204,0.1)';
-            });
-            
-            tool.addEventListener('mouseleave', function() {
-                this.style.backgroundColor = this.classList.contains('tet') ? '#fff0e6' : 'white';
-                this.style.transform = '';
-                this.style.boxShadow = '';
-            });
-        });
-
-        // Initialize display
-        updateDisplay();
-
-        // Add keyboard support for calculator
-        document.addEventListener('keydown', function(e) {
-            if (e.key >= '0' && e.key <= '9') {
-                calcInput(e.key);
-            } else if (e.key === '+') {
-                calcInput('+');
-            } else if (e.key === '-') {
-                calcInput('-');
-            } else if (e.key === '*') {
-                calcInput('*');
-            } else if (e.key === '/') {
-                e.preventDefault();
-                calcInput('/');
-            } else if (e.key === 'Enter') {
-                calculate();
-            } else if (e.key === 'Escape') {
-                clearCalc();
-            } else if (e.key === 'Backspace') {
-                backspace();
-            } else if (e.key === '.') {
-                calcInput('.');
-            } else if (e.key === '(') {
-                calcInput('(');
-            } else if (e.key === ')') {
-                calcInput(')');
-            } else if (e.key === '%') {
-                calcInput('%');
-            }
-        });
-
-        // Simple animation for tool counter
-        const counter = document.querySelector('.counter');
-        if (counter) {
-            let count = 0;
-            const target = 150;
-            const increment = target / 30;
-            
-            const timer = setInterval(() => {
-                count += increment;
-                if (count >= target) {
-                    count = target;
-                    clearInterval(timer);
-                }
-                counter.textContent = Math.floor(count) + '+';
-            }, 50);
-        }
-
-        // Focus search box on '/' key press
-        document.addEventListener('keydown', function(e) {
-            if (e.key === '/' && e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
-                e.preventDefault();
-                document.getElementById('searchInput').focus();
-            }
-        });
-
-        // TET tools special highlighting
-        document.querySelectorAll('.quick-tool.tet').forEach(tool => {
-            tool.addEventListener('click', function() {
-                // Track TET tool usage (for analytics in real implementation)
-                console.log('TET tool clicked:', this.textContent);
-            });
-        });
+    <!-- SEO CONTENT -->
+    <article class="container seo-content">
+        <h2>Why Use This Client-Side PDF Signer?</h2>
+        <p>In today's digital workflow, printing, signing, scanning, and emailing documents is obsolete. However, many online tools require you to upload your sensitive contracts to unknown servers. This creates a security risk.</p>
         
-        // Social media links interaction
-        document.querySelectorAll('.social-link').forEach(link => {
-            link.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-3px) scale(1.1)';
-            });
+        <div class="info-box">
+            <strong>The Privacy Advantage:</strong> Unlike other services, this tool runs 100% in your browser using HTML5 and JavaScript. Your PDF file <em>never</em> leaves your computer or phone. You can even use this tool while disconnected from the internet!
+        </div>
+
+        <h3>Key Features</h3>
+        <ul>
+            <li><strong>No Watermarks:</strong> The signed PDF is clean and professional.</li>
+            <li><strong>Cross-Platform:</strong> Works on Windows, Mac, Linux, iPhone (iOS), and Android.</li>
+            <li><strong>Instant Processing:</strong> No waiting for uploads or downloads. The signing happens in milliseconds.</li>
+            <li><strong>Legally Binding:</strong> Creates a standard electronic signature (eSign) valid for most agreements, leases, and invoices.</li>
+        </ul>
+
+        <h2>How to Sign a PDF Without Adobe Acrobat</h2>
+        <p>You don't need expensive software to add a signature to a PDF. Follow these simple steps:</p>
+        <ol>
+            <li><strong>Upload:</strong> Select your file in the box above.</li>
+            <li><strong>Draw:</strong> Use your mouse or finger to draw your signature in the canvas area.</li>
+            <li><strong>Adjust:</strong> Select which page needs the signature. Use the sliders to change the size or move the signature up/down to align with the signature line.</li>
+            <li><strong>Download:</strong> Click the button to save your signed document immediately.</li>
+        </ol>
+
+        <h2>Frequently Asked Questions (FAQ)</h2>
+        
+        <h3>Is this free PDF signer safe?</h3>
+        <p>Yes. Because it uses <strong>Client-Side processing</strong>, your data is not stored on our servers. It is the safest way to sign bank forms, tax documents, or NDAs online without specialized software.</p>
+
+        <h3>Can I use this on my mobile phone?</h3>
+        <p>Absolutely. The signature pad supports touch events, making it easy to sign with your finger or a stylus on smartphones and tablets.</p>
+
+        <h3>What is the difference between eSign and Digital Signatures?</h3>
+        <p>This tool creates an <strong>Electronic Signature (eSign)</strong>, which places an image of your signature on the file. This is widely accepted for business contracts. A <em>Digital Signature</em> involves cryptographic certificates, which are required for specific government procedures but are not needed for everyday use.</p>
+    </article>
+
+    <!-- =========================================
+         JAVASCRIPT LOGIC
+         ========================================= -->
+    <script>
+        const { PDFDocument } = PDFLib;
+
+        // UI References
+        const pdfInput = document.getElementById('pdfInput');
+        const fileStatus = document.getElementById('fileStatus');
+        const canvas = document.getElementById('sigCanvas');
+        const ctx = canvas.getContext('2d');
+        const container = document.getElementById('canvasContainer');
+        const clearBtn = document.getElementById('clearBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const processStatus = document.getElementById('processStatus');
+        
+        // Control References
+        const pageNumInput = document.getElementById('pageNumber');
+        const pageCountLabel = document.getElementById('pageCountDisplay');
+        const posPreset = document.getElementById('positionPreset');
+        const sigScale = document.getElementById('sigScale');
+        const yOffset = document.getElementById('yOffset');
+
+        // App State
+        let pdfBuffer = null;
+        let isDrawing = false;
+        let hasSignature = false;
+        let totalPages = 0;
+
+        // 1. SETUP CANVAS & RESIZING
+        function resizeCanvas() {
+            // Match canvas resolution to display size for sharp lines
+            canvas.width = container.offsetWidth;
+            canvas.height = container.offsetHeight;
             
-            link.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0) scale(1)';
-            });
+            // Drawing styles
+            ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.strokeStyle = '#000';
+        }
+        window.addEventListener('resize', resizeCanvas);
+        // Initialize after DOM load
+        setTimeout(resizeCanvas, 100);
+
+        // 2. DRAWING LOGIC (Mouse & Touch)
+        function getCoords(e) {
+            const rect = canvas.getBoundingClientRect();
+            let clientX, clientY;
+            
+            if (e.touches && e.touches.length > 0) {
+                clientX = e.touches[0].clientX;
+                clientY = e.touches[0].clientY;
+            } else {
+                clientX = e.clientX;
+                clientY = e.clientY;
+            }
+            return { x: clientX - rect.left, y: clientY - rect.top };
+        }
+
+        // Start Drawing
+        const startDraw = (e) => {
+            isDrawing = true;
+            const {x, y} = getCoords(e);
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            // Prevent scrolling on touch devices while drawing
+            if(e.type === 'touchstart') e.preventDefault();
+        };
+
+        // Move Drawing
+        const moveDraw = (e) => {
+            if(!isDrawing) return;
+            const {x, y} = getCoords(e);
+            ctx.lineTo(x, y);
+            ctx.stroke();
+            hasSignature = true;
+            updateButtonState();
+            if(e.type === 'touchmove') e.preventDefault();
+        };
+
+        // Stop Drawing
+        const stopDraw = () => {
+            isDrawing = false;
+        };
+
+        // Add Event Listeners
+        canvas.addEventListener('mousedown', startDraw);
+        canvas.addEventListener('touchstart', startDraw, {passive: false});
+
+        canvas.addEventListener('mousemove', moveDraw);
+        canvas.addEventListener('touchmove', moveDraw, {passive: false});
+
+        canvas.addEventListener('mouseup', stopDraw);
+        canvas.addEventListener('mouseleave', stopDraw);
+        canvas.addEventListener('touchend', stopDraw);
+
+        // Clear Canvas
+        clearBtn.addEventListener('click', () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            hasSignature = false;
+            updateButtonState();
+        });
+
+        // 3. FILE UPLOAD LOGIC
+        pdfInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if(!file) return;
+
+            if(file.type !== 'application/pdf') {
+                fileStatus.innerHTML = '<span class="text-error">❌ Invalid file. Please upload a PDF.</span>';
+                return;
+            }
+
+            try {
+                fileStatus.innerHTML = '⏳ Loading PDF...';
+                const buffer = await file.arrayBuffer();
+                pdfBuffer = buffer;
+                
+                // Read PDF metadata to get page count
+                const pdfDoc = await PDFDocument.load(buffer);
+                totalPages = pdfDoc.getPageCount();
+                
+                // Update UI
+                pageNumInput.max = totalPages;
+                pageCountLabel.textContent = `Pages: ${totalPages}`;
+                fileStatus.innerHTML = `<span class="text-success">✅ Loaded: ${file.name}</span>`;
+                updateButtonState();
+            } catch (err) {
+                console.error(err);
+                fileStatus.innerHTML = '<span class="text-error">❌ Error loading PDF. Is it password protected?</span>';
+            }
+        });
+
+        // 4. CHECK READINESS
+        function updateButtonState() {
+            if(pdfBuffer && hasSignature) {
+                downloadBtn.disabled = false;
+                downloadBtn.textContent = "⬇ Download Signed PDF";
+                downloadBtn.style.opacity = "1";
+            } else {
+                downloadBtn.disabled = true;
+                downloadBtn.style.opacity = "0.7";
+                if(!pdfBuffer) downloadBtn.textContent = "Waiting for PDF...";
+                else if(!hasSignature) downloadBtn.textContent = "Draw Signature First...";
+            }
+        }
+
+        // 5. PROCESS & DOWNLOAD LOGIC
+        downloadBtn.addEventListener('click', async () => {
+            if(!pdfBuffer || !hasSignature) return;
+            
+            processStatus.innerText = "⏳ Processing... (Client-Side)";
+            
+            try {
+                // A. Convert Canvas to PNG image bytes
+                const pngDataUrl = canvas.toDataURL('image/png');
+                const pngImageBytes = await fetch(pngDataUrl).then(res => res.arrayBuffer());
+
+                // B. Load PDF & Embed PNG
+                const pdfDoc = await PDFDocument.load(pdfBuffer);
+                const pngImage = await pdfDoc.embedPng(pngImageBytes);
+                
+                // C. Scale Image
+                const scaleVal = parseFloat(sigScale.value);
+                const pngDims = pngImage.scale(scaleVal);
+                
+                // D. Determine Page
+                let pageIndex = parseInt(pageNumInput.value) - 1;
+                // Safety bounds
+                if(pageIndex < 0) pageIndex = 0;
+                if(pageIndex >= totalPages) pageIndex = totalPages - 1;
+                
+                const page = pdfDoc.getPages()[pageIndex];
+                const { width, height } = page.getSize();
+
+                // E. Calculate Position (X, Y)
+                // Note: PDF coordinates usually start at Bottom-Left
+                const margin = 50;
+                let x = 0, y = 0;
+                const preset = posPreset.value;
+
+                // Horizontal
+                if(preset === 'bl' || preset === 'bc') {
+                    if(preset === 'bc') x = (width - pngDims.width) / 2;
+                    else x = margin;
+                } else if (preset === 'br') {
+                    x = width - pngDims.width - margin;
+                } else if (preset === 'c') {
+                    x = (width - pngDims.width) / 2;
+                }
+
+                // Vertical
+                const offset = parseInt(yOffset.value);
+                if(preset === 'c') {
+                    y = ((height - pngDims.height) / 2) + offset;
+                } else {
+                    // Default to bottom margin plus offset
+                    y = margin + offset; 
+                }
+
+                // F. Draw on Page
+                page.drawImage(pngImage, {
+                    x: x,
+                    y: y,
+                    width: pngDims.width,
+                    height: pngDims.height,
+                });
+
+                // G. Save PDF to Bytes
+                const pdfBytes = await pdfDoc.save();
+
+                // H. Trigger Download (Browser Memory Blob)
+                const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = `signed_document_${Date.now()}.pdf`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                processStatus.innerHTML = '<span class="text-success">✅ Downloaded Successfully!</span>';
+                
+            } catch(e) {
+                console.error(e);
+                processStatus.innerHTML = '<span class="text-error">❌ Error processing file.</span>';
+            }
         });
     </script>
 </body>
