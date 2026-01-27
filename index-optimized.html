@@ -1,651 +1,441 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- =========================================
-         SEO & META DATA
-         ========================================= -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toolvala.in - Free Online Tools, Calculators & Converters</title>
     
-    <title>Free PDF Signer Online | Sign Documents Securely - Toolvala</title>
+    <!-- External CSS for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
-    <meta name="description" content="Sign PDF documents online for free with Toolvala. Draw your electronic signature and sign contracts instantly. 100% Client-Side secure, no server uploads required.">
-    <meta name="keywords" content="sign pdf online, toolvala pdf signer, free electronic signature, sign pdf without adobe, client side pdf tool, draw signature on pdf, sign pdf mobile, pdf signer india">
-    
-    <!-- CANONICAL URL -->
-    <link rel="canonical" href="https://www.toolvala.in/sign-pdf.html">
-    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Toolvala.in is your one-stop destination for 100+ free online tools including PDF converters, salary calculators, TET preparation, image tools, and coding utilities. Fast, secure, and no login required.">
+    <meta name="keywords" content="Toolvala.in, free online tools, PDF merger, salary calculator India, image compressor, age calculator, TET eligibility, word counter, qr code generator">
     <meta name="robots" content="index, follow">
-
-    <!-- OPEN GRAPH (Social Media) -->
-    <meta property="og:site_name" content="Toolvala">
-    <meta property="og:title" content="Free PDF Signer - Secure & Private | Toolvala">
-    <meta property="og:description" content="Sign your PDF documents directly in your browser. No server uploads. 100% Free and Secure.">
+    <link rel="canonical" href="https://www.toolvala.in/">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Toolvala.in - All-in-One Digital Tool Suite">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.toolvala.in/sign-pdf.html">
-    <meta property="og:image" content="https://www.toolvala.in/assets/og-signer.jpg">
+    <meta property="og:url" content="https://www.toolvala.in/">
+    <meta property="og:description" content="Access free calculators, converters, and utility tools instantly.">
 
-    <!-- LIBRARIES -->
-    <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-
-    <!-- SCHEMA MARKUP -->
+    <!-- Schema.org -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      "name": "Toolvala PDF Signer",
-      "url": "https://www.toolvala.in/sign-pdf.html",
-      "applicationCategory": "BusinessApplication",
-      "operatingSystem": "Web",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "INR"
-      },
-      "description": "A browser-based tool to electronically sign PDF documents without uploading data to a server."
+      "@type": "WebSite",
+      "name": "Toolvala.in",
+      "url": "https://www.toolvala.in/",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://www.toolvala.in/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
     }
     </script>
 
     <style>
         :root {
-            --brand: #2563eb;         /* Royal Blue */
-            --brand-dark: #1e40af;
-            --accent: #f59e0b;        /* Amber */
-            --bg: #f8fafc;
-            --surface: #ffffff;
-            --text-main: #0f172a;
-            --text-light: #64748b;
-            --border: #e2e8f0;
-            --success: #16a34a;
-            --error: #dc2626;
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --secondary: #f3f4f6;
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+            --bg-white: #ffffff;
+            --border: #e5e7eb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg);
-            color: var(--text-main);
-            margin: 0;
-            padding: 0;
-            line-height: 1.7;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f9fafb;
+            color: var(--text-dark);
+            line-height: 1.6;
         }
 
-        /* --- NAVIGATION --- */
-        .navbar {
-            background: var(--surface);
+        /* --- Navigation --- */
+        nav {
+            background: var(--bg-white);
             border-bottom: 1px solid var(--border);
-            padding: 15px 0;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
-        .nav-container {
-            max-width: 1100px;
+
+        .container {
+            max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
+        }
+
+        .nav-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
+
         .logo {
             font-size: 1.5rem;
             font-weight: 800;
-            color: var(--brand);
+            color: var(--primary);
             text-decoration: none;
             letter-spacing: -0.5px;
         }
-        .logo span { color: var(--text-main); }
         
-        /* --- LAYOUT --- */
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+        .logo span { color: var(--text-dark); }
 
-        /* --- HERO --- */
+        /* --- Hero Section (Visual Representation) --- */
         .hero {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: white;
+            padding: 4rem 0;
             text-align: center;
-            padding: 40px 20px;
-        }
-        h1 { font-size: 2.8rem; color: var(--text-main); margin-bottom: 15px; line-height: 1.1; font-weight: 800; }
-        h1 span { color: var(--brand); }
-        .hero-sub { font-size: 1.2rem; color: var(--text-light); max-width: 700px; margin: 0 auto 30px; }
-
-        /* --- TOOL BOX --- */
-        .tool-wrapper {
-            background: var(--surface);
-            border-radius: 16px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-            border: 1px solid var(--border);
-            padding: 30px;
-            margin-bottom: 60px;
-        }
-
-        .step-row {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-        .step-col { flex: 1; min-width: 280px; }
-
-        .section-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .badge { background: var(--brand); color: white; width: 24px; height: 24px; border-radius: 50%; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; }
-
-        /* Upload */
-        .upload-zone {
-            border: 2px dashed #cbd5e1;
-            background: #f1f5f9;
-            padding: 30px;
-            text-align: center;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: 0.2s;
-            height: 140px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-        .upload-zone:hover { border-color: var(--brand); background: #eff6ff; }
-        
-        /* Canvas */
-        .canvas-container {
             position: relative;
-            background: white;
-            border: 2px solid #cbd5e1;
-            border-radius: 8px;
-            height: 200px;
-            cursor: crosshair;
-            background-image: radial-gradient(#e2e8f0 1px, transparent 1px);
-            background-size: 20px 20px;
+            overflow: hidden;
         }
-        canvas { width: 100%; height: 100%; touch-action: none; }
 
-        /* Controls */
-        .control-panel {
-            background: #f8fafc;
-            padding: 20px;
-            border-radius: 8px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 15px;
-            border: 1px solid var(--border);
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
         }
-        label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 5px; color: var(--text-main); }
-        select, input { width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px; box-sizing: border-box; }
 
-        /* Buttons */
-        .btn-primary {
-            background: var(--brand); color: white; border: none; padding: 15px 30px;
-            border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 1.1rem; width: 100%;
-            transition: all 0.2s;
-            box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+        .hero p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto 2rem auto;
         }
-        .btn-primary:hover { background: var(--brand-dark); transform: translateY(-1px); }
-        .btn-primary:disabled { background: #94a3b8; cursor: not-allowed; transform: none; box-shadow: none; }
-        
-        .btn-ghost { background: transparent; color: var(--error); border: 1px solid var(--error); padding: 5px 10px; border-radius: 4px; font-size: 0.8rem; cursor: pointer; float: right; }
-        .btn-ghost:hover { background: #fef2f2; }
 
-        /* --- RELATED TOOLS --- */
-        .related-tools {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin: 40px 0 60px 0;
+        /* Decorative Background Icons */
+        .bg-icon {
+            position: absolute;
+            color: rgba(255,255,255,0.05);
+            font-size: 8rem;
+            z-index: 0;
         }
-        .tool-card {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            text-align: center;
-            text-decoration: none;
-            color: var(--text-main);
-            transition: 0.2s;
-        }
-        .tool-card:hover { border-color: var(--brand); transform: translateY(-3px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-        .tool-icon { font-size: 2rem; display: block; margin-bottom: 10px; }
-        .tool-name { font-weight: 700; display: block; }
+        .bg-icon.one { top: -20px; left: -20px; transform: rotate(-15deg); }
+        .bg-icon.two { bottom: -20px; right: -20px; transform: rotate(15deg); }
 
-        /* --- SEO CONTENT --- */
-        .content-area {
-            max-width: 800px;
+        /* Search Bar */
+        .search-wrapper {
+            position: relative;
+            max-width: 600px;
             margin: 0 auto;
-            background: white;
-            padding: 40px;
-            border-radius: 12px;
-            border: 1px solid var(--border);
+            z-index: 10;
         }
-        .content-area h2 { color: var(--brand-dark); font-size: 1.8rem; margin-top: 40px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px; }
-        .content-area h3 { color: var(--text-main); font-size: 1.4rem; margin-top: 30px; }
-        .content-area p { margin-bottom: 20px; color: #334155; }
-        .content-area ul, .content-area ol { margin-bottom: 25px; padding-left: 25px; color: #334155; }
-        .content-area li { margin-bottom: 10px; }
-        
-        .alert-box {
-            background: #ecfdf5; border-left: 4px solid var(--success); padding: 20px; margin: 30px 0; border-radius: 4px;
-        }
-        .status-msg { margin-top: 10px; font-weight: 600; font-size: 0.9rem; text-align: center; }
 
+        .search-input {
+            width: 100%;
+            padding: 15px 25px;
+            border-radius: 50px;
+            border: none;
+            font-size: 1rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            outline: none;
+        }
+
+        /* --- Tool Categories --- */
+        .section-title {
+            font-size: 1.5rem;
+            color: var(--text-dark);
+            margin: 3rem 0 1.5rem 0;
+            border-left: 5px solid var(--primary);
+            padding-left: 15px;
+            font-weight: 700;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 2rem;
+        }
+
+        .tool-card {
+            background: var(--bg-white);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary);
+        }
+
+        .tool-icon {
+            width: 45px;
+            height: 45px;
+            background: var(--secondary);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .tool-info h3 {
+            font-size: 1rem;
+            color: var(--text-dark);
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .tool-info p {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        /* --- SEO Article Section --- */
+        .seo-container {
+            background: var(--bg-white);
+            padding: 3rem 2rem;
+            border-radius: 16px;
+            margin: 4rem auto;
+            border: 1px solid var(--border);
+            max-width: 1000px;
+        }
+
+        .seo-container h2 { color: var(--primary-dark); margin-bottom: 1rem; }
+        .seo-container h3 { color: var(--text-dark); margin: 1.5rem 0 0.5rem 0; }
+        .seo-container p { margin-bottom: 1rem; color: #4b5563; }
+        .seo-container ul { margin-left: 20px; margin-bottom: 1rem; color: #4b5563; }
+
+        /* Responsive */
         @media (max-width: 768px) {
-            h1 { font-size: 2rem; }
-            .step-row { flex-direction: column; }
-            .content-area { padding: 20px; }
+            .hero h1 { font-size: 2rem; }
+            .tools-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-    <!-- NAVIGATION -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="https://www.toolvala.in" class="logo">Tool<span>vala</span></a>
-            <div style="font-size: 0.9rem; color: var(--text-light);">Free Online PDF Tools</div>
+    <!-- Navigation -->
+    <nav>
+        <div class="container nav-content">
+            <a href="index.html" class="logo">Toolvala<span>.in</span></a>
+            <div style="font-weight: 500; color: var(--text-light);">Free Online Utilities</div>
         </div>
     </nav>
 
-    <!-- HEADER -->
-    <header class="container hero">
-        <h1>Sign PDF <span>Online Free</span></h1>
-        <p class="hero-sub">Securely add your handwritten signature to PDF documents. No software installation, no server uploads—100% private.</p>
+    <!-- Hero Section -->
+    <header class="hero">
+        <i class="fa-solid fa-screwdriver-wrench bg-icon one"></i>
+        <i class="fa-solid fa-calculator bg-icon two"></i>
+        
+        <div class="container">
+            <h1>All Your Digital Tools in One Place</h1>
+            <p>Calculate, Convert, Compress, and Create with Toolvala.in. <br>100+ Free tools designed for students, professionals, and developers.</p>
+            
+            <div class="search-wrapper">
+                <input type="text" class="search-input" id="toolSearch" placeholder="Search for tools (e.g., Salary, PDF, TET)..." onkeyup="filterTools()">
+            </div>
+        </div>
     </header>
 
-    <!-- MAIN APP -->
     <main class="container">
-        <div class="tool-wrapper">
-            
-            <div class="step-row">
-                <!-- Step 1: Upload -->
-                <div class="step-col">
-                    <div class="section-title"><span class="badge">1</span> Upload Document</div>
-                    <div class="upload-zone" onclick="document.getElementById('pdfInput').click()">
-                        <div style="font-size: 2.5rem; margin-bottom: 10px;">📄</div>
-                        <strong>Select PDF File</strong>
-                        <div style="font-size: 0.8rem; color: #64748b; margin-top: 5px;">(Processed locally on device)</div>
-                    </div>
-                    <input type="file" id="pdfInput" accept="application/pdf" style="display: none">
-                    <div id="fileStatus" class="status-msg"></div>
-                </div>
 
-                <!-- Step 2: Draw -->
-                <div class="step-col">
-                    <div class="section-title">
-                        <span class="badge">2</span> Draw Signature
-                        <button class="btn-ghost" id="clearBtn">Clear</button>
-                    </div>
-                    <div class="canvas-container" id="canvasContainer">
-                        <canvas id="sigCanvas"></canvas>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Step 3: Settings -->
-            <div class="section-title"><span class="badge">3</span> Customize Position</div>
-            <div class="control-panel">
-                <div>
-                    <label>Page Number</label>
-                    <input type="number" id="pageNumber" min="1" value="1">
-                    <small id="pageCountDisplay" style="color: #64748b;">Pages: 0</small>
-                </div>
-                <div>
-                    <label>Position Preset</label>
-                    <select id="positionPreset">
-                        <option value="br">Bottom Right</option>
-                        <option value="bl">Bottom Left</option>
-                        <option value="bc">Bottom Center</option>
-                        <option value="c">Center</option>
-                    </select>
-                </div>
-                <div>
-                    <label>Signature Size</label>
-                    <input type="range" id="sigScale" min="0.1" max="1.5" step="0.1" value="0.4">
-                </div>
-                <div>
-                    <label>Vertical Adjust</label>
-                    <input type="range" id="yOffset" min="-300" max="300" value="0">
-                </div>
-            </div>
-
-            <!-- Action -->
-            <div style="margin-top: 30px; text-align: center;">
-                <button id="downloadBtn" class="btn-primary" disabled>⬇ Download Signed PDF</button>
-                <div id="processStatus" class="status-msg"></div>
-            </div>
-
+        <!-- Finance & Salary Tools -->
+        <h2 class="section-title">Finance & Salary Calculators (India)</h2>
+        <div class="tools-grid">
+            <a href="8th-pay-commission-salary-calculator.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-indian-rupee-sign"></i></div><div class="tool-info"><h3>8th Pay Commission</h3><p>Salary Calculator</p></div></a>
+            <a href="7th-pay-commission-salary-calculator.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-money-bill-wave"></i></div><div class="tool-info"><h3>7th Pay Commission</h3><p>Salary Calculator</p></div></a>
+            <a href="income-tax-india-calculator.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-file-invoice-dollar"></i></div><div class="tool-info"><h3>Income Tax India</h3><p>Tax Calculator</p></div></a>
+            <a href="salary-hike-calculator.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-chart-line"></i></div><div class="tool-info"><h3>Salary Hike</h3><p>Percentage Calculator</p></div></a>
+            <a href="salary-slip-calculator.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-receipt"></i></div><div class="tool-info"><h3>Salary Slip</h3><p>Generator</p></div></a>
+            <a href="hra-exemption-calculator.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-house-chimney"></i></div><div class="tool-info"><h3>HRA Exemption</h3><p>Tax Benefit</p></div></a>
+            <a href="nps-pension-calculator.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-piggy-bank"></i></div><div class="tool-info"><h3>NPS Pension</h3><p>Calculator</p></div></a>
+            <a href="gratuity-calculator.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-hand-holding-dollar"></i></div><div class="tool-info"><h3>Gratuity</h3><p>Calculator</p></div></a>
+            <a href="emi-calculator.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-percent"></i></div><div class="tool-info"><h3>EMI Calculator</h3><p>Loan Planner</p></div></a>
+            <a href="home-loan-calculator.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-house"></i></div><div class="tool-info"><h3>Home Loan</h3><p>Calculator</p></div></a>
+            <a href="personal-loan-calculator.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-user-tag"></i></div><div class="tool-info"><h3>Personal Loan</h3><p>Calculator</p></div></a>
+            <a href="compound-interest-calculator.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-coins"></i></div><div class="tool-info"><h3>Compound Interest</h3><p>Grow your money</p></div></a>
+            <a href="simple-interest-calculator.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-calculator"></i></div><div class="tool-info"><h3>Simple Interest</h3><p>Basic Calculator</p></div></a>
+            <a href="upi-id-payment-link-converter.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-qrcode"></i></div><div class="tool-info"><h3>UPI Link Maker</h3><p>Payment Generator</p></div></a>
+            <a href="daily-expense-calculator.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-wallet"></i></div><div class="tool-info"><h3>Daily Expense</h3><p>Tracker</p></div></a>
+            <a href="monthly-budget-calculator.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-chart-pie"></i></div><div class="tool-info"><h3>Monthly Budget</h3><p>Planner</p></div></a>
+            <a href="savings-goal-calculator.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-bullseye"></i></div><div class="tool-info"><h3>Savings Goal</h3><p>Target Calculator</p></div></a>
+            <a href="notes-to-coins-calculator.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-money-bill"></i></div><div class="tool-info"><h3>Cash Counter</h3><p>Notes to Coins</p></div></a>
+            <a href="salary-converter.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-arrows-rotate"></i></div><div class="tool-info"><h3>Salary Converter</h3><p>Hourly/Monthly/Yearly</p></div></a>
+            <a href="inflation-calculator.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-arrow-trend-up"></i></div><div class="tool-info"><h3>Inflation</h3><p>Value Calculator</p></div></a>
+            <a href="rent-receipt-generator.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-file-invoice"></i></div><div class="tool-info"><h3>Rent Receipt</h3><p>Generator</p></div></a>
         </div>
 
-        <!-- RELATED TOOLS LINKS -->
-        <h3 style="text-align: center; color: var(--text-light);">More Free Tools from Toolvala</h3>
-        <div class="related-tools">
-            <a href="pdf-compressor.html" class="tool-card">
-                <span class="tool-icon">🗜️</span>
-                <span class="tool-name">Compress PDF</span>
-            </a>
-            <a href="pdf-merger.html" class="tool-card">
-                <span class="tool-icon">🔗</span>
-                <span class="tool-name">Merge PDFs</span>
-            </a>
-            <a href="pdf-to-image-converter.html" class="tool-card">
-                <span class="tool-icon">🖼️</span>
-                <span class="tool-name">PDF to Image</span>
-            </a>
+        <!-- TET & Education Tools -->
+        <h2 class="section-title">TET & Education Tools</h2>
+        <div class="tools-grid">
+            <a href="tet-eligibility-checker.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-check-double"></i></div><div class="tool-info"><h3>TET Eligibility</h3><p>Check Status</p></div></a>
+            <a href="tet-age-calculator.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-calendar-day"></i></div><div class="tool-info"><h3>TET Age</h3><p>Calculator</p></div></a>
+            <a href="tet-cutoff-checker.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-scissors"></i></div><div class="tool-info"><h3>TET Cutoff</h3><p>Checker</p></div></a>
+            <a href="ctet-mock-test.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-laptop-code"></i></div><div class="tool-info"><h3>CTET Mock Test</h3><p>Practice Exam</p></div></a>
+            <a href="tet-marks-calculator.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-marker"></i></div><div class="tool-info"><h3>TET Marks</h3><p>Calculator</p></div></a>
+            <a href="tet-study-planner.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-book-open"></i></div><div class="tool-info"><h3>Study Planner</h3><p>For TET</p></div></a>
+            <a href="exam-rank-predictor.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-ranking-star"></i></div><div class="tool-info"><h3>Rank Predictor</h3><p>Exam Estimator</p></div></a>
+            <a href="study-hours-planner.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-clock"></i></div><div class="tool-info"><h3>Study Hours</h3><p>Planner</p></div></a>
+            <a href="attendance-percentage-calculator.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-percent"></i></div><div class="tool-info"><h3>Attendance</h3><p>Percentage Calc</p></div></a>
+            <a href="marks-needed-to-pass-calculator.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-graduation-cap"></i></div><div class="tool-info"><h3>Marks Needed</h3><p>To Pass</p></div></a>
+            <a href="reading-time-calculator.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-book-reader"></i></div><div class="tool-info"><h3>Reading Time</h3><p>Estimator</p></div></a>
         </div>
+
+        <!-- PDF & Document Tools -->
+        <h2 class="section-title">PDF & Document Utilities</h2>
+        <div class="tools-grid">
+            <a href="pdf-merger.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-file-pdf"></i></div><div class="tool-info"><h3>PDF Merger</h3><p>Combine Files</p></div></a>
+            <a href="pdf-compressor.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-file-zipper"></i></div><div class="tool-info"><h3>PDF Compressor</h3><p>Reduce Size</p></div></a>
+            <a href="pdf-to-image-converter.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-image"></i></div><div class="tool-info"><h3>PDF to Image</h3><p>Converter</p></div></a>
+            <a href="image-to-pdf-converter.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-images"></i></div><div class="tool-info"><h3>Image to PDF</h3><p>Converter</p></div></a>
+            <a href="word-to-pdf.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-file-word"></i></div><div class="tool-info"><h3>Word to PDF</h3><p>Converter</p></div></a>
+            <a href="delete-pdf-pages.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-trash-can"></i></div><div class="tool-info"><h3>Delete Pages</h3><p>From PDF</p></div></a>
+            <a href="sign-pdf.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-signature"></i></div><div class="tool-info"><h3>Sign PDF</h3><p>Digital Signature</p></div></a>
+            <a href="resume-maker.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-file-lines"></i></div><div class="tool-info"><h3>Resume Maker</h3><p>CV Builder</p></div></a>
+            <a href="biodata-maker.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-address-card"></i></div><div class="tool-info"><h3>Biodata Maker</h3><p>Create Biodata</p></div></a>
+            <a href="cv-maker.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-id-card-clip"></i></div><div class="tool-info"><h3>CV Maker</h3><p>Professional</p></div></a>
+        </div>
+
+        <!-- Image & Photo Tools -->
+        <h2 class="section-title">Image & Photo Editors</h2>
+        <div class="tools-grid">
+            <a href="image-compressor.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-compress"></i></div><div class="tool-info"><h3>Image Compressor</h3><p>Optimize Size</p></div></a>
+            <a href="image-compressor-by-kb.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-minimize"></i></div><div class="tool-info"><h3>Compress by KB</h3><p>Target Size</p></div></a>
+            <a href="image-resizer.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-up-right-and-down-left-from-center"></i></div><div class="tool-info"><h3>Image Resizer</h3><p>Dimensions</p></div></a>
+            <a href="passport-photo-resizer.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-user-tie"></i></div><div class="tool-info"><h3>Passport Photo</h3><p>Resizer</p></div></a>
+            <a href="ssc-photo-tool.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-clipboard-user"></i></div><div class="tool-info"><h3>SSC Photo Tool</h3><p>Format Exam Photo</p></div></a>
+            <a href="upsc-photo-maker.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-building-columns"></i></div><div class="tool-info"><h3>UPSC Photo</h3><p>Maker</p></div></a>
+            <a href="photo-compressor.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-file-image"></i></div><div class="tool-info"><h3>Photo Compressor</h3><p>Reduce Size</p></div></a>
+            <a href="add-name-and-dob-on-photo.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-id-badge"></i></div><div class="tool-info"><h3>Add Name/DOB</h3><p>On Photo</p></div></a>
+            <a href="photo-and-signature-merger.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-object-group"></i></div><div class="tool-info"><h3>Merger</h3><p>Photo & Signature</p></div></a>
+            <a href="signature-resizer.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-pen-nib"></i></div><div class="tool-info"><h3>Sig Resizer</h3><p>Resize Signature</p></div></a>
+            <a href="signature-generator.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-pen-fancy"></i></div><div class="tool-info"><h3>Sig Generator</h3><p>Create Signature</p></div></a>
+            <a href="text-to-image.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-font"></i></div><div class="tool-info"><h3>Text to Image</h3><p>Converter</p></div></a>
+        </div>
+
+        <!-- Text & String Tools -->
+        <h2 class="section-title">Text & String Utilities</h2>
+        <div class="tools-grid">
+            <a href="word-counter-tool.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-list-ol"></i></div><div class="tool-info"><h3>Word Counter</h3><p>Count Words/Chars</p></div></a>
+            <a href="case-converter.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-text-height"></i></div><div class="tool-info"><h3>Case Converter</h3><p>Upper/Lower Case</p></div></a>
+            <a href="duplicate-remover.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-clone"></i></div><div class="tool-info"><h3>Duplicate Remover</h3><p>Lines</p></div></a>
+            <a href="duplicate-words-remover.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-eraser"></i></div><div class="tool-info"><h3>Word Remover</h3><p>Remove Duplicates</p></div></a>
+            <a href="reverse-text.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-rotate-left"></i></div><div class="tool-info"><h3>Reverse Text</h3><p>String Reverser</p></div></a>
+            <a href="reverse-words.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-arrow-left"></i></div><div class="tool-info"><h3>Reverse Words</h3><p>Order</p></div></a>
+            <a href="reverse-sentences.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-paragraph"></i></div><div class="tool-info"><h3>Reverse Sentence</h3><p>Order</p></div></a>
+            <a href="reverse-paragraphs-in-text.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-align-justify"></i></div><div class="tool-info"><h3>Rev Paragraphs</h3><p>Order</p></div></a>
+            <a href="emoji-remover.html" class="tool-card"><div class="tool-icon"><i class="fa-regular fa-face-smile"></i></div><div class="tool-info"><h3>Emoji Remover</h3><p>Clean Text</p></div></a>
+            <a href="replace-tool.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-rotate"></i></div><div class="tool-info"><h3>Find & Replace</h3><p>Text Tool</p></div></a>
+            <a href="whatsapp-formatter.html" class="tool-card"><div class="tool-icon"><i class="fa-brands fa-whatsapp"></i></div><div class="tool-info"><h3>WhatsApp Format</h3><p>Bold/Italic</p></div></a>
+            <a href="whatsapp-blank-message.html" class="tool-card"><div class="tool-icon"><i class="fa-regular fa-paper-plane"></i></div><div class="tool-info"><h3>Blank Message</h3><p>For WhatsApp</p></div></a>
+            <a href="title-generator.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-heading"></i></div><div class="tool-info"><h3>Title Generator</h3><p>Ideas</p></div></a>
+            <a href="center-text.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-align-center"></i></div><div class="tool-info"><h3>Center Text</h3><p>Formatter</p></div></a>
+            <a href="left-align.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-align-left"></i></div><div class="tool-info"><h3>Left Align</h3><p>Formatter</p></div></a>
+            <a href="normalize-text.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-check"></i></div><div class="tool-info"><h3>Normalize Text</h3><p>Cleaner</p></div></a>
+            <a href="unindent-tool.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-outdent"></i></div><div class="tool-info"><h3>Unindent</h3><p>Code/Text</p></div></a>
+            <a href="swap-letters.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-shuffle"></i></div><div class="tool-info"><h3>Swap Letters</h3><p>Text Tool</p></div></a>
+        </div>
+
+        <!-- Math, Time & Scientific -->
+        <h2 class="section-title">Math, Time & Scientific</h2>
+        <div class="tools-grid">
+            <a href="scientific-calculator.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-flask"></i></div><div class="tool-info"><h3>Scientific Calc</h3><p>Advanced Math</p></div></a>
+            <a href="percentage-calculator.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-percent"></i></div><div class="tool-info"><h3>Percentage Calc</h3><p>Basic Math</p></div></a>
+            <a href="age-calculator.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-cake-candles"></i></div><div class="tool-info"><h3>Age Calculator</h3><p>Date of Birth</p></div></a>
+            <a href="date-difference.html" class="tool-card"><div class="tool-icon"><i class="fa-regular fa-calendar-minus"></i></div><div class="tool-info"><h3>Date Difference</h3><p>Duration Calc</p></div></a>
+            <a href="time-converter.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-clock-rotate-left"></i></div><div class="tool-info"><h3>Time Converter</h3><p>Zones/Units</p></div></a>
+            <a href="hours-and-minutes-adder.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-stopwatch"></i></div><div class="tool-info"><h3>Time Adder</h3><p>Hours + Mins</p></div></a>
+            <a href="decimal-to-time-converter.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-hourglass-half"></i></div><div class="tool-info"><h3>Decimal to Time</h3><p>Converter</p></div></a>
+            <a href="birthday-countdown-calculator.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-gift"></i></div><div class="tool-info"><h3>B-Day Countdown</h3><p>Days Left</p></div></a>
+            <a href="roman-numeral-converter.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-i"></i></div><div class="tool-info"><h3>Roman Numeral</h3><p>Converter</p></div></a>
+            <a href="round-off-decimal-calculator.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-circle-dot"></i></div><div class="tool-info"><h3>Round Off</h3><p>Decimal Tool</p></div></a>
+            <a href="tithi-converter.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-calendar-alt"></i></div><div class="tool-info"><h3>Tithi Converter</h3><p>Indian Calendar</p></div></a>
+            <a href="square-feet-to-dismil.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-ruler-combined"></i></div><div class="tool-info"><h3>Sq Ft to Dismil</h3><p>Land Area</p></div></a>
+            <a href="land-converter.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-map-location-dot"></i></div><div class="tool-info"><h3>Land Converter</h3><p>Area Units</p></div></a>
+            <a href="barbell-plate-calculator.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-dumbbell"></i></div><div class="tool-info"><h3>Barbell Plate</h3><p>Gym Calc</p></div></a>
+        </div>
+
+        <!-- Developers & Web Tools -->
+        <h2 class="section-title">Developer & Web Utilities</h2>
+        <div class="tools-grid">
+            <a href="qr-code-generator.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-qrcode"></i></div><div class="tool-info"><h3>QR Generator</h3><p>Create Codes</p></div></a>
+            <a href="json-formatter.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-code"></i></div><div class="tool-info"><h3>JSON Formatter</h3><p>Beautify/Minify</p></div></a>
+            <a href="json-to-sql.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-database"></i></div><div class="tool-info"><h3>JSON to SQL</h3><p>Converter</p></div></a>
+            <a href="base64%20Encoder/Decoder.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-shield-halved"></i></div><div class="tool-info"><h3>Base64</h3><p>Encode/Decode</p></div></a>
+            <a href="hex-to-rgba-converter.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-palette"></i></div><div class="tool-info"><h3>Hex to RGBA</h3><p>Color Converter</p></div></a>
+            <a href="password-generator.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-key"></i></div><div class="tool-info"><h3>Password Gen</h3><p>Secure Keys</p></div></a>
+            <a href="random-number-generator.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-dice"></i></div><div class="tool-info"><h3>Random Number</h3><p>Generator</p></div></a>
+            <a href="left-pad.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-align-left"></i></div><div class="tool-info"><h3>Left Pad</h3><p>String Tool</p></div></a>
+        </div>
+
+        <!-- Lifestyle & Miscellaneous -->
+        <h2 class="section-title">Lifestyle & Misc</h2>
+        <div class="tools-grid">
+            <a href="good-morning.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-sun"></i></div><div class="tool-info"><h3>Good Morning</h3><p>Wishes</p></div></a>
+            <a href="mood-to-emoji-converter.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-face-laugh-beam"></i></div><div class="tool-info"><h3>Mood to Emoji</h3><p>Converter</p></div></a>
+            <a href="digital-detox-calculator.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-mobile-screen-button"></i></div><div class="tool-info"><h3>Digital Detox</h3><p>Screen Time</p></div></a>
+            <a href="work-hours-calculator.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-briefcase"></i></div><div class="tool-info"><h3>Work Hours</h3><p>Tracker</p></div></a>
+            <a href="overtime-calculator.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-business-time"></i></div><div class="tool-info"><h3>Overtime</h3><p>Pay Calculator</p></div></a>
+            <a href="sleep-cycle-calculator.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-bed"></i></div><div class="tool-info"><h3>Sleep Cycle</h3><p>Wake up fresh</p></div></a>
+            <a href="mobile-recharge-validity-calculator.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-sim-card"></i></div><div class="tool-info"><h3>Recharge Validity</h3><p>Calculator</p></div></a>
+            <a href="saving-challenge-calculator.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-jar"></i></div><div class="tool-info"><h3>Saving Challenge</h3><p>Tracker</p></div></a>
+            <a href="tea-break-time-calculator.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-mug-hot"></i></div><div class="tool-info"><h3>Tea Break</h3><p>Calculator</p></div></a>
+            <a href="state-wise-tea-calculator.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-map"></i></div><div class="tool-info"><h3>State Tea</h3><p>Stats</p></div></a>
+            <a href="lifetime-tea-consumption-calculator.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-infinity"></i></div><div class="tool-info"><h3>Lifetime Tea</h3><p>Stats</p></div></a>
+            <a href="tea-bag-calculator.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-bag-shopping"></i></div><div class="tool-info"><h3>Tea Bag</h3><p>Calculator</p></div></a>
+            <a href="all-tools.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-bars"></i></div><div class="tool-info"><h3>View All Tools</h3><p>Full List</p></div></a>
+            <a href="about-us.html" class="tool-card"><div class="tool-icon"><i class="fa-solid fa-info"></i></div><div class="tool-info"><h3>About Us</h3><p>Information</p></div></a>
+        </div>
+
+        <!-- SEO Content -->
+        <article class="seo-container">
+            <h2>Simplifying Your Digital Life with Toolvala.in</h2>
+            <p>In today's fast-paced digital world, having access to reliable, quick, and free online utilities is essential. <strong>Toolvala.in</strong> is your comprehensive solution, offering a diverse suite of tools ranging from financial planning and education to image editing and developer utilities.</p>
+
+            <h3>Why Choose Toolvala.in?</h3>
+            <p>Toolvala.in stands out by providing <strong>100% free</strong> access to premium-grade tools without the need for registration or software installation. Our platform is built on modern web technologies ensuring that most tasks—like compressing images, generating passwords, or calculating age—happen <strong>client-side</strong> directly in your browser. This guarantees both lightning-fast performance and data privacy, as your files often never leave your device.</p>
+
+            <h3>Comprehensive Categories</h3>
+            <ul>
+                <li><strong>Finance & Salary:</strong> Specifically tailored for Indian users, we offer the latest 7th and 8th Pay Commission calculators, Income Tax tools, and EMI planners to help you manage your wealth effectively.</li>
+                <li><strong>Education & TET:</strong> Aspiring teachers can leverage our TET Eligibility Checkers, Cutoff analyzers, and Mock Tests to prepare smarter for competitive exams.</li>
+                <li><strong>PDF & Imaging:</strong> Handle documents with ease using our PDF Merger, Compressor, and Converter tools. Resize photos for SSC/UPSC exams or passports instantly.</li>
+                <li><strong>Developer Utilities:</strong> Coders can utilize our JSON formatters, Base64 encoders, and SQL converters to streamline their development workflow.</li>
+            </ul>
+
+            <p>Whether you are a student calculating your grades, a professional planning a home loan, or a developer debugging code, Toolvala.in provides the precise utility you need. Bookmark us today and experience the convenience of an all-in-one digital toolkit.</p>
+        </article>
+
     </main>
 
-    <!-- SEO CONTENT ARTICLE (2000 Words Strategy) -->
-    <article class="container content-area">
-        
-        <h2>The Ultimate Guide to Signing PDFs Online with Toolvala</h2>
-        <p>In the modern digital landscape, the ability to <strong>sign PDF documents online</strong> is not just a convenience—it is a necessity. Gone are the days of the archaic "Print, Sign, Scan, and Send" workflow that wastes paper, ink, and valuable time. Whether you are a freelancer closing a deal, a tenant securing a lease, or a business owner approving an invoice, <strong>Toolvala</strong> provides a seamless, secure, and free solution to execute your documents electronically.</p>
-
-        <p>This comprehensive guide explores everything you need to know about electronic signatures, the technology behind our secure client-side tool, and why Toolvala is your best choice for PDF manipulation.</p>
-
-        <div class="alert-box">
-            <strong>🔒 Security Guarantee:</strong> Toolvala uses advanced HTML5 and WebAssembly technology. Your documents are processed <strong>locally in your browser</strong>. We do not have servers that store, view, or analyze your files. Your data remains 100% private on your device.
-        </div>
-
-        <h3>Why Choose Toolvala for PDF Signing?</h3>
-        <p>There are hundreds of PDF tools on the internet. However, many of them come with hidden costs, watermarks, or questionable privacy policies. Here is why Toolvala stands out:</p>
-        <ul>
-            <li><strong>Zero Cost:</strong> Our tool is completely free. There are no "Pro" subscriptions required to download your signed file.</li>
-            <li><strong>No Watermarks:</strong> We believe your documents should look professional. We do not stamp our logo on your contracts.</li>
-            <li><strong>No Registration:</strong> You do not need to create an account, provide an email address, or sign up for a newsletter to use this tool.</li>
-            <li><strong>Cross-Platform Compatibility:</strong> Because Toolvala runs in the browser, it works perfectly on Windows, macOS, Linux, Android, and iOS (iPhone/iPad).</li>
-            <li><strong>Instant Speed:</strong> Since there is no file upload to a remote server, large files (contracts, blueprints, thesis papers) load and save instantly.</li>
-        </ul>
-
-        <h2>Step-by-Step: How to Sign a PDF Document</h2>
-        <p>Using the Toolvala PDF Signer is intuitive. Follow this detailed walkthrough to ensure a perfect result every time.</p>
-
-        <h4>Step 1: Document Upload</h4>
-        <p>Click on the "Upload Document" area at the top of the tool. You can select any standard PDF file from your computer or mobile device. Once selected, the tool reads the file structure to determine the number of pages. You will see a "Loaded" confirmation message.</p>
-
-        <h4>Step 2: Create Your Signature</h4>
-        <p>This is the fun part. In the "Draw Signature" canvas box:</p>
-        <ul>
-            <li><strong>Desktop Users:</strong> Click and hold your left mouse button to draw your signature. Move your mouse smoothly to create curves.</li>
-            <li><strong>Mobile/Tablet Users:</strong> This is where Toolvala shines. Use your finger or a stylus (like an Apple Pencil) to draw on the screen. This usually results in the most natural-looking signature.</li>
-        </ul>
-        <p><em>Mistake?</em> No problem. Click the "Clear" button to wipe the canvas and try again until you are satisfied.</p>
-
-        <h4>Step 3: Placement and Customization</h4>
-        <p>Unlike basic tools that just slap an image in the corner, Toolvala gives you control:</p>
-        <ol>
-            <li><strong>Select Page:</strong> If your contract is 15 pages long, but you only need to sign page 15, enter "15" in the Page Number box.</li>
-            <li><strong>Position Preset:</strong> Choose a starting point. "Bottom Right" is standard for most contracts.</li>
-            <li><strong>Fine Tuning:</strong> Use the "Vertical Adjust" slider. This moves the signature up or down by pixels. Use this to align your drawn name exactly on the dotted line (e.g., Signature: _________).</li>
-            <li><strong>Scaling:</strong> Is the signature too big? Use the "Size" slider to shrink it down to fit the space.</li>
-        </ol>
-
-        <h4>Step 4: Download</h4>
-        <p>Click the "Download Signed PDF" button. Your browser will instantly generate a new PDF file containing your signature image embedded into the document. Save it to your device and you are ready to email it.</p>
-
-        <h2>Electronic Signatures vs. Digital Signatures</h2>
-        <p>It is important to understand the terminology in the world of digital documentation. Toolvala provides an <strong>Electronic Signature (eSignature)</strong>.</p>
-
-        <h3>Electronic Signature (eSign)</h3>
-        <p>An electronic signature is a visual representation of a person's intent to agree to the content of a document. In the eyes of many legal frameworks (such as the US ESIGN Act of 2000 and the EU eIDAS regulation), an electronic signature is legally binding for the vast majority of business transactions. This includes:</p>
-        <ul>
-            <li>Sales contracts and purchase orders.</li>
-            <li>Employment offer letters.</li>
-            <li>Rental and lease agreements.</li>
-            <li>Non-Disclosure Agreements (NDAs).</li>
-            <li>Permission slips and liability waivers.</li>
-        </ul>
-
-        <h3>Digital Signature (Cryptographic)</h3>
-        <p>A "Digital Signature" refers to a specific technical implementation involving cryptographic keys and digital certificates issued by a Certificate Authority (CA). These are often required for highly regulated government filings or specific banking procedures. Toolvala provides the visual eSignature, which covers 99% of everyday use cases for freelancers, students, and small businesses.</p>
-
-        <h2>The Importance of Client-Side Security</h2>
-        <p>Security is the number one concern when uploading files to the internet. Standard online PDF converters work by sending your file to a cloud server (often hosted in a different country). That server processes the file and sends it back. While many services are reputable, this process introduces risk:</p>
-        <ul>
-            <li><strong>Data Breaches:</strong> If the server is hacked, your documents could be exposed.</li>
-            <li><strong>Data Retention:</strong> Even if they promise to delete files, errors happen.</li>
-            <li><strong>Man-in-the-Middle Attacks:</strong> Interception during the upload process.</li>
-        </ul>
-        <p><strong>The Toolvala Solution:</strong> We utilize WebAssembly and JavaScript libraries (like PDF-Lib) that run strictly inside your Chrome, Firefox, Safari, or Edge browser. When you "upload" a file to Toolvala, it is actually just being loaded into your computer's RAM. It never travels over the internet. You can technically load the page, turn off your Wi-Fi, and the tool will still work perfectly.</p>
-
-        <h2>Common Use Cases for Toolvala</h2>
-
-        <h3>1. Real Estate Professionals</h3>
-        <p>Real estate agents need to get leases and addendums signed quickly. With Toolvala, an agent can open a contract on their iPad, sign it immediately while standing in the property, and email it to the landlord. No office visit required.</p>
-
-        <h3>2. Human Resources (HR)</h3>
-        <p>Onboarding new employees involves mountains of paperwork. Sending PDFs that employees can sign on their phones reduces the friction of printing and scanning, leading to faster hiring turnaround times.</p>
-
-        <h3>3. Freelancers and Contractors</h3>
-        <p>Sending a Statement of Work (SOW) or an Invoice? Sign it professionally before sending. A signed invoice often looks more authoritative and can sometimes lead to faster payment processing compared to a plain text document.</p>
-
-        <h3>4. Education and Academic Research</h3>
-        <p>Students often need to submit signed declarations with their thesis or assignments. Toolvala allows students to sign these documents from the library or dorm room without hunting for a scanner.</p>
-
-        <h2>Frequently Asked Questions (FAQ)</h2>
-
-        <h3>Is Toolvala really free?</h3>
-        <p>Yes. We provide this tool as a free utility. There are no paywalls for the signing feature.</p>
-
-        <h3>Can I change the color of the signature ink?</h3>
-        <p>Currently, the tool uses standard black ink, which is the most professional standard for legal documents. We may add blue ink options in future updates.</p>
-
-        <h3>Does the signature have a transparent background?</h3>
-        <p>Yes! Our drawing algorithm automatically handles transparency. This means you can place your signature over lines or lightly colored backgrounds without a white box blocking the text behind it.</p>
-
-        <h3>Why can't I edit the text in the PDF?</h3>
-        <p>This tool is specifically designed as a "Signer." Editing existing text in a PDF is a much more complex process involving font matching and layout reconstruction. If you need to merge files or compress them, please check our <a href="pdf-merger.html">PDF Merger</a> or <a href="pdf-compressor.html">PDF Compressor</a> tools.</p>
-
-        <h3>Can I sign multiple pages at once?</h3>
-        <p>Currently, the tool places the signature on one page at a time to ensure precision. If you need to sign multiple pages, you can sign one, download the file, re-upload the signed file, and sign the next page.</p>
-
-        <h3>My PDF is password protected. Can I sign it?</h3>
-        <p>If your PDF is encrypted with a user password, you will need to unlock it first. Browser-based tools generally cannot modify encrypted files without the password being removed first for security reasons.</p>
-
-        <h2>Conclusion</h2>
-        <p>Toolvala is dedicated to making PDF management easy, secure, and free. By using our <strong>Online PDF Signer</strong>, you are saving time, saving trees, and keeping your data secure on your own device. Bookmark <strong>toolvala.in</strong> for all your future document needs, including compression, merging, and conversion.</p>
-
-    </article>
-
-    <!-- FOOTER REMOVED AS REQUESTED -->
-
-    <!-- LOGIC SCRIPT -->
     <script>
-        const { PDFDocument } = PDFLib;
+        // Simple search filter
+        function filterTools() {
+            let input = document.getElementById('toolSearch').value.toUpperCase();
+            let cards = document.getElementsByClassName('tool-card');
 
-        // --- DOM Elements ---
-        const pdfInput = document.getElementById('pdfInput');
-        const fileStatus = document.getElementById('fileStatus');
-        const canvas = document.getElementById('sigCanvas');
-        const ctx = canvas.getContext('2d');
-        const container = document.getElementById('canvasContainer');
-        const clearBtn = document.getElementById('clearBtn');
-        const downloadBtn = document.getElementById('downloadBtn');
-        const processStatus = document.getElementById('processStatus');
-        
-        // --- Inputs ---
-        const pageNumInput = document.getElementById('pageNumber');
-        const pageCountDisplay = document.getElementById('pageCountDisplay');
-        const posPreset = document.getElementById('positionPreset');
-        const sigScale = document.getElementById('sigScale');
-        const yOffset = document.getElementById('yOffset');
-
-        // --- State ---
-        let pdfBuffer = null;
-        let isDrawing = false;
-        let hasSignature = false;
-        let totalPages = 0;
-
-        // 1. Canvas Setup
-        function resizeCanvas() {
-            // Set canvas resolution to match display size
-            canvas.width = container.offsetWidth;
-            canvas.height = container.offsetHeight;
-            
-            // Style
-            ctx.lineWidth = 2;
-            ctx.lineCap = 'round';
-            ctx.lineJoin = 'round';
-            ctx.strokeStyle = '#000';
-        }
-        window.addEventListener('resize', resizeCanvas);
-        setTimeout(resizeCanvas, 100);
-
-        // 2. Draw Events
-        function getPos(e) {
-            const rect = canvas.getBoundingClientRect();
-            let cx, cy;
-            if(e.touches && e.touches.length > 0) {
-                cx = e.touches[0].clientX;
-                cy = e.touches[0].clientY;
-            } else {
-                cx = e.clientX;
-                cy = e.clientY;
-            }
-            return { x: cx - rect.left, y: cy - rect.top };
-        }
-
-        const startDraw = (e) => {
-            isDrawing = true;
-            const {x, y} = getPos(e);
-            ctx.beginPath();
-            ctx.moveTo(x, y);
-            if(e.type === 'touchstart') e.preventDefault();
-        };
-
-        const moveDraw = (e) => {
-            if(!isDrawing) return;
-            const {x, y} = getPos(e);
-            ctx.lineTo(x, y);
-            ctx.stroke();
-            hasSignature = true;
-            checkReady();
-            if(e.type === 'touchmove') e.preventDefault();
-        };
-
-        const endDraw = () => { isDrawing = false; };
-
-        canvas.addEventListener('mousedown', startDraw);
-        canvas.addEventListener('touchstart', startDraw, {passive: false});
-        canvas.addEventListener('mousemove', moveDraw);
-        canvas.addEventListener('touchmove', moveDraw, {passive: false});
-        canvas.addEventListener('mouseup', endDraw);
-        canvas.addEventListener('touchend', endDraw);
-        canvas.addEventListener('mouseleave', endDraw);
-
-        clearBtn.addEventListener('click', () => {
-            ctx.clearRect(0,0, canvas.width, canvas.height);
-            hasSignature = false;
-            checkReady();
-        });
-
-        // 3. File Upload
-        pdfInput.addEventListener('change', async (e) => {
-            const file = e.target.files[0];
-            if(!file) return;
-            
-            if(file.type !== 'application/pdf') {
-                fileStatus.innerHTML = '<span style="color:var(--error)">❌ Valid PDF Required</span>';
-                return;
-            }
-
-            try {
-                fileStatus.innerHTML = '⏳ Processing...';
-                const buffer = await file.arrayBuffer();
-                pdfBuffer = buffer;
-                
-                const doc = await PDFDocument.load(buffer);
-                totalPages = doc.getPageCount();
-                
-                pageNumInput.max = totalPages;
-                pageCountDisplay.innerText = `Total Pages: ${totalPages}`;
-                fileStatus.innerHTML = `<span style="color:var(--success)">✅ Ready: ${file.name}</span>`;
-                checkReady();
-            } catch (err) {
-                console.error(err);
-                fileStatus.innerHTML = '<span style="color:var(--error)">❌ Error reading PDF</span>';
-            }
-        });
-
-        // 4. Check Ready
-        function checkReady() {
-            if(pdfBuffer && hasSignature) {
-                downloadBtn.disabled = false;
-                downloadBtn.style.opacity = "1";
-                downloadBtn.innerText = "⬇ Download Signed PDF";
-            } else {
-                downloadBtn.disabled = true;
-                downloadBtn.style.opacity = "0.6";
-                downloadBtn.innerText = pdfBuffer ? "Draw Signature First..." : "Upload PDF First...";
+            for (let i = 0; i < cards.length; i++) {
+                let text = cards[i].innerText.toUpperCase();
+                if (text.indexOf(input) > -1) {
+                    cards[i].style.display = "flex";
+                } else {
+                    cards[i].style.display = "none";
+                }
             }
         }
-
-        // 5. Download Logic
-        downloadBtn.addEventListener('click', async () => {
-            if(!pdfBuffer || !hasSignature) return;
-            processStatus.innerText = "Processing...";
-
-            try {
-                // Get Image
-                const imgUrl = canvas.toDataURL('image/png');
-                const imgBytes = await fetch(imgUrl).then(r => r.arrayBuffer());
-
-                // Load Doc
-                const doc = await PDFDocument.load(pdfBuffer);
-                const img = await doc.embedPng(imgBytes);
-                
-                // Get Page
-                let pNum = parseInt(pageNumInput.value) - 1;
-                if(pNum < 0) pNum = 0;
-                if(pNum >= totalPages) pNum = totalPages - 1;
-                const page = doc.getPages()[pNum];
-                
-                // Calc Pos
-                const { width, height } = page.getSize();
-                const scale = parseFloat(sigScale.value);
-                const dims = img.scale(scale);
-                
-                const margin = 50;
-                let x, y;
-                const preset = posPreset.value;
-
-                if(preset.includes('r')) x = width - dims.width - margin;
-                else if(preset.includes('l')) x = margin;
-                else x = (width - dims.width) / 2;
-
-                const vOffset = parseInt(yOffset.value);
-                // PDF coords: 0,0 is bottom left
-                if(preset === 'c') y = (height - dims.height)/2 + vOffset;
-                else y = margin + vOffset;
-
-                // Draw
-                page.drawImage(img, {
-                    x: x, y: y,
-                    width: dims.width,
-                    height: dims.height
-                });
-
-                // Save
-                const pdfBytes = await doc.save();
-                const blob = new Blob([pdfBytes], {type: 'application/pdf'});
-                const link = document.createElement('a');
-                link.href = URL.createObjectURL(blob);
-                link.download = 'Toolvala-Signed.pdf';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                
-                processStatus.innerHTML = '<span style="color:var(--success)">✅ Download Started!</span>';
-            } catch(e) {
-                console.error(e);
-                processStatus.innerHTML = '<span style="color:var(--error)">❌ Processing Failed</span>';
-            }
-        });
     </script>
 </body>
 </html>
