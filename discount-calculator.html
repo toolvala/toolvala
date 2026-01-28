@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discount Calculator | Calculate Sale Price & Savings - Toolvala.in</title>
+    <link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Calculate the final sale price and savings instantly with Toolvala.in's Discount Calculator. Supports percentage off, fixed amount off, and double discounts.">
+    <meta name="keywords" content="discount calculator, sale price calculator, percentage off calculator, calculate discount, price after discount, double discount calculator, shopping calculator, toolvala">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.toolvala.in/discount-calculator.html">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Discount Calculator - Toolvala.in">
+    <meta property="og:description" content="Find out exactly how much you save during sales. Calculate final price instantly.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolvala.in/discount-calculator.html">
+
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Schema Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Discount Calculator",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "INR"
+      },
+      "description": "A tool to calculate final price after applying percentage or fixed discounts."
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --secondary: #f8fafc;
+            --text-main: #0f172a;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --success: #16a34a;
+            --danger: #dc2626;
+            --white: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--secondary);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        .logo span { color: var(--text-main); }
+
+        /* Main Layout */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .tool-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .tool-header h1 {
+            font-size: 2.5rem;
+            color: var(--text-main);
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+        .tool-header p { color: var(--text-light); font-size: 1.1rem; }
+
+        /* Calculator Box */
+        .calculator-box {
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            padding: 30px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .form-group { margin-bottom: 20px; }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+        
+        .input-group {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .input-icon {
+            position: absolute;
+            left: 12px;
+            color: var(--text-light);
+            font-weight: 600;
+        }
+        .input-suffix {
+            position: absolute;
+            right: 12px;
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 35px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border 0.2s;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .btn-calculate {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 10px;
+        }
+        .btn-calculate:hover { background: var(--primary-dark); }
+
+        /* Toggle Switch */
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+        .toggle-checkbox { display: none; }
+        .toggle-label {
+            font-size: 0.9rem;
+            color: var(--text-main);
+            margin-left: 10px;
+            font-weight: 600;
+        }
+        .toggle-switch {
+            width: 40px;
+            height: 20px;
+            background: #cbd5e1;
+            border-radius: 20px;
+            position: relative;
+            transition: 0.3s;
+        }
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: 0.3s;
+        }
+        .toggle-checkbox:checked + .toggle-switch { background: var(--primary); }
+        .toggle-checkbox:checked + .toggle-switch::after { left: 22px; }
+
+        /* Result Display */
+        .result-box {
+            margin-top: 25px;
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            display: none;
+        }
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+            color: var(--text-light);
+        }
+        .result-row.final {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #bae6fd;
+            color: var(--primary-dark);
+            font-weight: 700;
+            font-size: 1.2rem;
+            align-items: center;
+        }
+        .savings-badge {
+            background: var(--success);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        /* Related Tools */
+        .related-tools {
+            margin-top: 60px;
+        }
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            border-left: 5px solid var(--primary);
+            padding-left: 15px;
+        }
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+        .tool-link {
+            display: block;
+            background: var(--white);
+            padding: 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            transition: transform 0.2s, border-color 0.2s;
+            text-align: center;
+            font-weight: 600;
+        }
+        .tool-link:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        .tool-link i { display: block; font-size: 1.5rem; margin-bottom: 10px; color: var(--primary); }
+
+        /* Content Article */
+        .content-article {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin-top: 60px;
+        }
+        .content-article h2 { color: var(--primary-dark); margin-top: 30px; margin-bottom: 15px; font-size: 1.8rem; }
+        .content-article h3 { color: var(--text-main); margin-top: 25px; margin-bottom: 10px; font-size: 1.4rem; }
+        .content-article p { margin-bottom: 15px; color: #334155; text-align: justify; }
+        .content-article ul { margin-left: 20px; margin-bottom: 20px; color: #334155; }
+        .content-article li { margin-bottom: 8px; }
+        .highlight-box {
+            background: #eff6ff;
+            border-left: 4px solid var(--primary);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        @media (max-width: 768px) {
+            .tool-header h1 { font-size: 2rem; }
+            .content-article { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">Toolvala<span>.in</span></a>
+        </div>
+    </nav>
+
+    <div class="container">
+        
+        <header class="tool-header">
+            <h1>Discount Calculator</h1>
+            <p>Calculate the final sale price and your total savings instantly.</p>
+        </header>
+
+        <div class="calculator-box">
+            <div class="form-group">
+                <label for="originalPrice">Original Price</label>
+                <div class="input-group">
+                    <span class="input-icon">₹</span>
+                    <input type="number" id="originalPrice" class="form-control" placeholder="e.g. 1000">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="discount">Discount</label>
+                <div class="input-group">
+                    <input type="number" id="discount" class="form-control" placeholder="e.g. 20">
+                    <span class="input-suffix">%</span>
+                </div>
+            </div>
+
+            <label class="toggle-container">
+                <input type="checkbox" class="toggle-checkbox" id="doubleDiscountToggle" onchange="toggleDoubleDiscount()">
+                <div class="toggle-switch"></div>
+                <span class="toggle-label">Add Extra Discount (Double Discount)</span>
+            </label>
+
+            <div class="form-group" id="extraDiscountGroup" style="display: none;">
+                <label for="extraDiscount">Extra Discount</label>
+                <div class="input-group">
+                    <input type="number" id="extraDiscount" class="form-control" placeholder="e.g. 10">
+                    <span class="input-suffix">%</span>
+                </div>
+            </div>
+
+            <button class="btn-calculate" onclick="calculateDiscount()">Calculate Price</button>
+
+            <div id="resultBox" class="result-box">
+                <div class="savings-badge">You Save: <span id="savingsResult">₹0</span></div>
+                
+                <div class="result-row">
+                    <span>Original Price:</span>
+                    <span id="originalResult">₹0</span>
+                </div>
+                <div class="result-row">
+                    <span>Discount:</span>
+                    <span id="discountPercentResult">0%</span>
+                </div>
+                <div class="result-row final">
+                    <span>Final Price:</span>
+                    <span id="finalPriceResult">₹0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Related Tools -->
+        <div class="related-tools">
+            <h2 class="section-title">Related Financial Tools</h2>
+            <div class="tools-grid">
+                <a href="percentage-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-percent"></i>
+                    Percentage Calc
+                </a>
+                <a href="simple-interest-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-calculator"></i>
+                    Simple Interest
+                </a>
+                <a href="compound-interest-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-coins"></i>
+                    Compound Interest
+                </a>
+                <a href="emi-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-house-chimney"></i>
+                    EMI Calculator
+                </a>
+                <a href="inflation-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-arrow-trend-up"></i>
+                    Inflation Calc
+                </a>
+                <a href="salary-slip-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-file-invoice-dollar"></i>
+                    Salary Slip
+                </a>
+            </div>
+        </div>
+
+        <!-- SEO Content -->
+        <article class="content-article">
+            <h2>The Ultimate Guide to Discounts: How to Calculate and Save Money</h2>
+            <p>In a world driven by consumerism, sales, and special offers, understanding how discounts work is a vital life skill. Whether you are shopping for clothes during a festive sale, buying electronics on Black Friday, or negotiating a business deal, the ability to quickly calculate the final price after a discount can save you a significant amount of money. <strong>Toolvala.in's Discount Calculator</strong> is designed to help you do just that—accurately and instantly.</p>
+
+            <p>This comprehensive guide will walk you through everything you need to know about discounts, the mathematics behind them, the psychology of sales, and how to use our tool to ensure you never overpay again.</p>
+
+            <h3>What is a Discount?</h3>
+            <p>A discount is a reduction in the basic price of a product or service. It is usually offered by sellers to increase sales, clear old inventory, or reward loyal customers. Discounts are typically expressed in two ways:</p>
+            <ul>
+                <li><strong>Percentage Discount (%):</strong> A specific percentage is deducted from the original price (e.g., "20% Off").</li>
+                <li><strong>Fixed Amount Discount:</strong> A specific currency amount is deducted (e.g., "₹500 Off").</li>
+            </ul>
+
+            <h3>How to Calculate Discount Manually?</h3>
+            <p>While our calculator does the heavy lifting, knowing the formula is useful for mental math while shopping.</p>
+
+            <h4>The Basic Formula</h4>
+            <div class="highlight-box">
+                <strong>Discount Amount = (Original Price × Discount Rate) / 100</strong><br>
+                <strong>Final Price = Original Price - Discount Amount</strong>
+            </div>
+
+            <p><strong>Example:</strong><br>
+            You want to buy a pair of shoes priced at ₹2,000 with a 15% discount.</p>
+            <ol>
+                <li>Calculate the discount amount: (2000 × 15) / 100 = ₹300.</li>
+                <li>Subtract from original price: 2000 - 300 = ₹1,700.</li>
+                <li><strong>Final Price: ₹1,700.</strong></li>
+            </ol>
+
+            <h3>Understanding Double Discounts (Stacked Discounts)</h3>
+            <p>This is where many shoppers get confused. You often see signs saying "50% + 20% Off". Does this mean a flat 70% discount? <strong>No.</strong></p>
+            <p>Double discounts are applied sequentially, not additively. Here is how it works:</p>
+            <ol>
+                <li>The first discount is applied to the original price.</li>
+                <li>The second discount is applied to the <em>new, reduced</em> price (not the original).</li>
+            </ol>
+
+            <div class="highlight-box">
+                <strong>Example of Double Discount:</strong><br>
+                Item Price: ₹1,000<br>
+                Offer: 50% + 20% Off<br><br>
+                <strong>Step 1:</strong> Apply 50% on ₹1,000.<br>
+                Discount = ₹500. New Price = ₹500.<br><br>
+                <strong>Step 2:</strong> Apply 20% on the <em>new price</em> of ₹500.<br>
+                Discount = (500 × 20) / 100 = ₹100.<br><br>
+                <strong>Final Price:</strong> ₹500 - ₹100 = ₹400.<br>
+                <strong>Total Savings:</strong> ₹600 (which is effectively a 60% discount, not 70%).
+            </div>
+            <p>Our calculator features a "Double Discount" toggle to handle this exact scenario effortlessly.</p>
+
+            <h3>Common Types of Discounts</h3>
+            
+            <h4>1. Trade Discount</h4>
+            <p>This is a reduction granted by a manufacturer to a retailer. It is usually a percentage off the list price to allow the retailer to make a profit when selling to the end consumer.</p>
+
+            <h4>2. Quantity Discount (Bulk)</h4>
+            <p>Offered to customers who purchase in large quantities. For example, "Buy 10, get 5% off." This encourages bulk buying.</p>
+
+            <h4>3. Cash Discount</h4>
+            <p>A reduction in price offered for immediate payment or payment within a specific time frame. Common in B2B transactions (e.g., "2/10 net 30" means a 2% discount if paid within 10 days).</p>
+
+            <h4>4. Seasonal Discount</h4>
+            <p>Reductions offered on out-of-season merchandise, such as winter jackets sold in summer or air conditioners sold in winter.</p>
+
+            <h4>5. BOGO (Buy One Get One)</h4>
+            <p>"Buy One Get One Free" is effectively a 50% discount if both items are the same price. "Buy One Get One 50% Off" is effectively a 25% discount on the total purchase.</p>
+
+            <h3>The Psychology of Discounts</h3>
+            <p>Retailers use discounts as a powerful psychological trigger. The "Anchor Price" (the original high price) makes the discounted price seem like a steal, triggering a fear of missing out (FOMO). Understanding the math helps you look past the marketing hype and evaluate the true value of the deal.</p>
+
+            <h3>How to Use Toolvala.in Discount Calculator</h3>
+            <ol>
+                <li><strong>Enter Original Price:</strong> Input the tag price of the item.</li>
+                <li><strong>Enter Discount %:</strong> Input the percentage off (e.g., 25).</li>
+                <li><strong>Double Discount (Optional):</strong> If there is an additional coupon or extra sale discount, toggle the switch and enter the second percentage.</li>
+                <li><strong>Calculate:</strong> Click the button to see the final price and exactly how much money you are keeping in your pocket.</li>
+            </ol>
+
+            <h3>Why Use an Online Calculator?</h3>
+            <ul>
+                <li><strong>Speed:</strong> No need to do mental gymnastics in the middle of a store.</li>
+                <li><strong>Accuracy:</strong> Avoid costly calculation errors.</li>
+                <li><strong>Comparison:</strong> Quickly compare two different deals to see which one saves you more money.</li>
+                <li><strong>Complex Deals:</strong> Easily handle stacked discounts which are hard to calculate mentally.</li>
+            </ul>
+
+            <h3>Tips for Smart Shopping</h3>
+            <ul>
+                <li><strong>Check the Base Price:</strong> Sometimes retailers inflate the original price before applying a discount to make the deal look better than it is.</li>
+                <li><strong>Calculate Unit Price:</strong> For bulk items, calculate the price per unit/kg/liter to ensure the bulk discount is actually cheaper than buying smaller packs.</li>
+                <li><strong>Factor in Tax:</strong> Remember that sales tax (GST/VAT) is usually applied to the <em>final discounted price</em>, not the original price.</li>
+            </ul>
+
+            <p>Bookmark <strong>Toolvala.in</strong> for your next shopping trip. Whether you are calculating simple percentages or complex compound interest, our suite of financial tools is here to help you make informed decisions.</p>
+        </article>
+    </div>
+
+    <script>
+        function toggleDoubleDiscount() {
+            const checkBox = document.getElementById('doubleDiscountToggle');
+            const extraGroup = document.getElementById('extraDiscountGroup');
+            if (checkBox.checked) {
+                extraGroup.style.display = 'block';
+            } else {
+                extraGroup.style.display = 'none';
+                document.getElementById('extraDiscount').value = '';
+            }
+        }
+
+        function calculateDiscount() {
+            const originalPrice = parseFloat(document.getElementById('originalPrice').value);
+            const discount1 = parseFloat(document.getElementById('discount').value);
+            const isDouble = document.getElementById('doubleDiscountToggle').checked;
+            const discount2 = parseFloat(document.getElementById('extraDiscount').value);
+            const resultBox = document.getElementById('resultBox');
+
+            // Validation
+            if (isNaN(originalPrice) || originalPrice < 0) {
+                alert("Please enter a valid original price.");
+                return;
+            }
+            if (isNaN(discount1) || discount1 < 0) {
+                alert("Please enter a valid discount percentage.");
+                return;
+            }
+
+            let finalPrice = originalPrice;
+            let totalSavings = 0;
+
+            // First Discount
+            let save1 = (originalPrice * discount1) / 100;
+            finalPrice = finalPrice - save1;
+
+            // Second Discount (if active)
+            if (isDouble && !isNaN(discount2) && discount2 > 0) {
+                let save2 = (finalPrice * discount2) / 100;
+                finalPrice = finalPrice - save2;
+            }
+
+            totalSavings = originalPrice - finalPrice;
+
+            // Display Results
+            document.getElementById('savingsResult').innerText = formatCurrency(totalSavings);
+            document.getElementById('originalResult').innerText = formatCurrency(originalPrice);
+            document.getElementById('finalPriceResult').innerText = formatCurrency(finalPrice);
+
+            // Format Discount Text
+            let discountText = discount1 + "%";
+            if (isDouble && !isNaN(discount2) && discount2 > 0) {
+                discountText += " + " + discount2 + "%";
+            }
+            document.getElementById('discountPercentResult').innerText = discountText;
+
+            resultBox.style.display = 'block';
+            resultBox.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function formatCurrency(num) {
+            return new Intl.NumberFormat('en-IN', {
+                style: 'currency',
+                currency: 'INR',
+                maximumFractionDigits: 2
+            }).format(num);
+        }
+    </script>
+  <div id="footer"></div>
+<script>
+fetch("/footer.html")
+  .then(r => r.text())
+  .then(d => {
+    document.getElementById("footer").innerHTML = d;
+    document.getElementById("year").textContent = new Date().getFullYear();
+  });
+</script>
+</body>
+</html>
