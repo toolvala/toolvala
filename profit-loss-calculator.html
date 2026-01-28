@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profit & Loss Calculator | Calculate Profit % and Loss % - Toolvala.in</title>
+    <link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Calculate Profit or Loss amount and percentage instantly with Toolvala.in. Enter Cost Price (CP) and Selling Price (SP) to know your exact returns. Ideal for students and businesses.">
+    <meta name="keywords" content="profit loss calculator, profit percentage calculator, loss percentage calculator, cp sp calculator, business profit calculator, calculate roi, toolvala">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.toolvala.in/profit-loss-calculator.html">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Profit & Loss Calculator - Toolvala.in">
+    <meta property="og:description" content="Instantly calculate Profit/Loss amount and percentage. Free online financial tool.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolvala.in/profit-loss-calculator.html">
+
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Schema Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Profit Loss Calculator",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "INR"
+      },
+      "description": "A tool to calculate profit or loss percentage based on cost price and selling price."
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --secondary: #f8fafc;
+            --text-main: #0f172a;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --success: #16a34a;
+            --danger: #dc2626;
+            --white: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--secondary);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        .logo span { color: var(--text-main); }
+
+        /* Main Layout */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .tool-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .tool-header h1 {
+            font-size: 2.5rem;
+            color: var(--text-main);
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+        .tool-header p { color: var(--text-light); font-size: 1.1rem; }
+
+        /* Calculator Box */
+        .calculator-box {
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            padding: 30px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .form-group { margin-bottom: 20px; }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+        
+        .input-group {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .input-icon {
+            position: absolute;
+            left: 12px;
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 12px 12px 35px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border 0.2s;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .btn-calculate {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 10px;
+        }
+        .btn-calculate:hover { background: var(--primary-dark); }
+        .btn-reset {
+            width: 100%;
+            background: transparent;
+            color: var(--text-light);
+            border: 1px solid var(--border);
+            padding: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .btn-reset:hover { background: #f1f5f9; }
+
+        /* Result Display */
+        .result-box {
+            margin-top: 25px;
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            display: none;
+        }
+        .result-status {
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+        .result-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+        }
+        .result-percentage {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 5px;
+            padding: 5px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            color: white;
+        }
+        
+        .profit-theme { color: var(--success); border-color: #bbf7d0; background: #f0fdf4; }
+        .loss-theme { color: var(--danger); border-color: #fecaca; background: #fef2f2; }
+        .neutral-theme { color: var(--text-light); border-color: var(--border); background: #f8fafc; }
+
+        /* Related Tools */
+        .related-tools {
+            margin-top: 60px;
+        }
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            border-left: 5px solid var(--primary);
+            padding-left: 15px;
+        }
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+        .tool-link {
+            display: block;
+            background: var(--white);
+            padding: 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            transition: transform 0.2s, border-color 0.2s;
+            text-align: center;
+            font-weight: 600;
+        }
+        .tool-link:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        .tool-link i { display: block; font-size: 1.5rem; margin-bottom: 10px; color: var(--primary); }
+
+        /* Content Article */
+        .content-article {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin-top: 60px;
+        }
+        .content-article h2 { color: var(--primary-dark); margin-top: 30px; margin-bottom: 15px; font-size: 1.8rem; }
+        .content-article h3 { color: var(--text-main); margin-top: 25px; margin-bottom: 10px; font-size: 1.4rem; }
+        .content-article p { margin-bottom: 15px; color: #334155; text-align: justify; }
+        .content-article ul { margin-left: 20px; margin-bottom: 20px; color: #334155; }
+        .content-article li { margin-bottom: 8px; }
+        .highlight-box {
+            background: #eff6ff;
+            border-left: 4px solid var(--primary);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        @media (max-width: 768px) {
+            .tool-header h1 { font-size: 2rem; }
+            .content-article { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">Toolvala<span>.in</span></a>
+        </div>
+    </nav>
+
+    <div class="container">
+        
+        <header class="tool-header">
+            <h1>Profit & Loss Calculator</h1>
+            <p>Determine your financial gains or losses instantly with accurate percentage calculations.</p>
+        </header>
+
+        <div class="calculator-box">
+            <div class="form-group">
+                <label for="cp">Cost Price (CP)</label>
+                <div class="input-group">
+                    <span class="input-icon">₹</span>
+                    <input type="number" id="cp" class="form-control" placeholder="e.g. 500">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="sp">Selling Price (SP)</label>
+                <div class="input-group">
+                    <span class="input-icon">₹</span>
+                    <input type="number" id="sp" class="form-control" placeholder="e.g. 650">
+                </div>
+            </div>
+
+            <button class="btn-calculate" onclick="calculateProfitLoss()">Calculate</button>
+            <button class="btn-reset" onclick="resetCalculator()">Reset</button>
+
+            <div id="resultBox" class="result-box">
+                <div class="result-status" id="statusText">PROFIT</div>
+                <div class="result-value" id="amountResult">₹0</div>
+                <div class="result-percentage" id="percentResult">0%</div>
+            </div>
+        </div>
+
+        <!-- Related Tools -->
+        <div class="related-tools">
+            <h2 class="section-title">Related Financial Tools</h2>
+            <div class="tools-grid">
+                <a href="discount-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-tags"></i>
+                    Discount Calculator
+                </a>
+                <a href="percentage-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-percent"></i>
+                    Percentage Calc
+                </a>
+                <a href="gst-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-file-invoice"></i>
+                    GST Calculator
+                </a>
+                <a href="margin-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-chart-line"></i>
+                    Margin Calculator
+                </a>
+                <a href="simple-interest-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-calculator"></i>
+                    Simple Interest
+                </a>
+                <a href="inflation-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-arrow-trend-up"></i>
+                    Inflation Calc
+                </a>
+            </div>
+        </div>
+
+        <!-- SEO Content -->
+        <article class="content-article">
+            <h2>Mastering Profit and Loss: The Ultimate Guide</h2>
+            <p>In the world of business, trade, and even personal finance, two words dictate success or failure: <strong>Profit</strong> and <strong>Loss</strong>. Whether you are a shopkeeper selling goods, a student solving math problems, or an investor tracking stocks, understanding how to calculate profit and loss accurately is fundamental. <strong>Toolvala.in's Profit & Loss Calculator</strong> simplifies this process, giving you instant results for both the amount and the percentage.</p>
+
+            <p>This comprehensive guide explores the concepts of Cost Price, Selling Price, and the formulas used to determine financial outcomes.</p>
+
+            <h3>Key Terminology</h3>
+            <p>Before diving into calculations, let's define the core terms:</p>
+            <ul>
+                <li><strong>Cost Price (CP):</strong> The price at which goods are purchased. This includes the base price plus any overheads like transportation, repair, or installation costs.</li>
+                <li><strong>Selling Price (SP):</strong> The price at which goods are sold to the customer.</li>
+                <li><strong>Profit (Gain):</strong> The financial benefit realized when the revenue generated from a business activity exceeds the expenses, costs, and taxes involved. (SP > CP)</li>
+                <li><strong>Loss:</strong> The decrease in net worth when the expenses exceed the revenues. (CP > SP)</li>
+            </ul>
+
+            <h3>Profit and Loss Formulas</h3>
+            <p>The logic behind our calculator is based on standard mathematical formulas used globally in accounting and mathematics.</p>
+
+            <div class="highlight-box">
+                <strong>1. To Find Amount:</strong><br>
+                Profit = Selling Price (SP) - Cost Price (CP)<br>
+                Loss = Cost Price (CP) - Selling Price (SP)<br><br>
+                <strong>2. To Find Percentage:</strong><br>
+                Profit % = (Profit / Cost Price) × 100<br>
+                Loss % = (Loss / Cost Price) × 100
+            </div>
+
+            <h4>Example Calculation:</h4>
+            <p>Imagine you bought a smartphone for ₹10,000 (CP) and sold it for ₹12,500 (SP).</p>
+            <ul>
+                <li>Since SP > CP, it is a Profit.</li>
+                <li>Profit Amount = 12,500 - 10,000 = ₹2,500.</li>
+                <li>Profit Percentage = (2,500 / 10,000) × 100 = <strong>25%</strong>.</li>
+            </ul>
+
+            <h3>Why is Calculating Percentage Important?</h3>
+            <p>While the absolute profit amount tells you how much cash you made, the <strong>Profit Percentage</strong> tells you how <em>efficient</em> the transaction was. It allows you to compare transactions of different sizes.</p>
+            <p><em>Example:</em> Making ₹100 profit on a ₹100 item (100% profit) is much better performance than making ₹100 profit on a ₹10,000 item (1% profit), even though the cash amount is the same.</p>
+
+            <h3>Profit vs. Margin</h3>
+            <p>A common confusion in business is the difference between Profit (Markup) and Margin.</p>
+            <ul>
+                <li><strong>Profit % (Markup):</strong> Calculated on Cost Price. Formula: (Profit / CP) × 100.</li>
+                <li><strong>Margin %:</strong> Calculated on Selling Price. Formula: (Profit / SP) × 100.</li>
+            </ul>
+            <p>This tool calculates <strong>Profit Percentage</strong>. If you need to calculate margins for retail pricing, check out our Margin Calculator.</p>
+
+            <h3>Real-World Applications</h3>
+            
+            <h4>1. Retail and E-commerce</h4>
+            <p>Shop owners use these calculations daily to set prices. If they buy a product for ₹50 and want a 20% profit, they need to calculate the selling price accordingly.</p>
+
+            <h4>2. Stock Market Trading</h4>
+            <p>Traders calculate P&L (Profit and Loss) to track the performance of their portfolio. If a stock bought at ₹500 falls to ₹450, calculating the loss percentage helps in deciding whether to hold or sell (Stop Loss).</p>
+
+            <h4>3. Academic Use</h4>
+            <p>Profit and Loss is a staple topic in school mathematics (CBSE, ICSE) and competitive exams like SSC CGL, IBPS PO, and CAT. This tool serves as a great verification method for students practicing these problems.</p>
+
+            <h3>How to Use Toolvala.in Profit Loss Calculator</h3>
+            <ol>
+                <li><strong>Enter Cost Price:</strong> Input the total cost incurred to acquire the product.</li>
+                <li><strong>Enter Selling Price:</strong> Input the price at which the product is sold.</li>
+                <li><strong>Calculate:</strong> Click the button. The tool will automatically detect if it's a profit or loss.</li>
+                <li><strong>Analyze:</strong> View the absolute amount and the percentage value instantly.</li>
+            </ol>
+
+            <h3>Frequently Asked Questions (FAQs)</h3>
+            
+            <h4>1. Can Profit Percentage be more than 100%?</h4>
+            <p>Yes! If you sell an item for more than double its cost price, the profit percentage will exceed 100%. For example, buying for ₹10 and selling for ₹30 gives a ₹20 profit, which is 200%.</p>
+
+            <h4>2. Can Loss Percentage be more than 100%?</h4>
+            <p>No. The maximum you can lose is the cost price itself (assuming you give the item away for free), which results in a 100% loss. You cannot lose more than what you invested in a simple transaction context.</p>
+
+            <h4>3. What if CP equals SP?</h4>
+            <p>This is known as the <strong>Break-Even Point</strong>. There is no profit and no loss (0%).</p>
+
+            <p>Use <strong>Toolvala.in</strong> for all your financial calculations. Don't forget to check our <a href="discount-calculator.html" style="color: var(--primary); text-decoration: none;">Discount Calculator</a> if you are planning a sale!</p>
+        </article>
+    </div>
+
+    <script>
+        function calculateProfitLoss() {
+            const cp = parseFloat(document.getElementById('cp').value);
+            const sp = parseFloat(document.getElementById('sp').value);
+            const resultBox = document.getElementById('resultBox');
+            const statusText = document.getElementById('statusText');
+            const amountResult = document.getElementById('amountResult');
+            const percentResult = document.getElementById('percentResult');
+
+            // Validation
+            if (isNaN(cp) || isNaN(sp)) {
+                alert("Please enter valid numbers for Cost Price and Selling Price.");
+                return;
+            }
+            if (cp < 0 || sp < 0) {
+                alert("Prices cannot be negative.");
+                return;
+            }
+
+            // Reset Classes
+            resultBox.className = 'result-box';
+            percentResult.style.backgroundColor = '';
+
+            if (sp > cp) {
+                // Profit
+                const profit = sp - cp;
+                const percent = (profit / cp) * 100;
+                
+                statusText.innerText = "PROFIT";
+                amountResult.innerText = formatCurrency(profit);
+                percentResult.innerText = percent.toFixed(2) + "%";
+                
+                resultBox.classList.add('profit-theme');
+                percentResult.style.backgroundColor = 'var(--success)';
+            } 
+            else if (cp > sp) {
+                // Loss
+                const loss = cp - sp;
+                const percent = (loss / cp) * 100;
+                
+                statusText.innerText = "LOSS";
+                amountResult.innerText = "-" + formatCurrency(loss);
+                percentResult.innerText = percent.toFixed(2) + "%";
+                
+                resultBox.classList.add('loss-theme');
+                percentResult.style.backgroundColor = 'var(--danger)';
+            } 
+            else {
+                // Break Even
+                statusText.innerText = "NO PROFIT NO LOSS";
+                amountResult.innerText = "₹0";
+                percentResult.innerText = "0%";
+                
+                resultBox.classList.add('neutral-theme');
+                percentResult.style.backgroundColor = 'var(--text-light)';
+            }
+
+            resultBox.style.display = 'block';
+            resultBox.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function resetCalculator() {
+            document.getElementById('cp').value = '';
+            document.getElementById('sp').value = '';
+            document.getElementById('resultBox').style.display = 'none';
+        }
+
+        function formatCurrency(num) {
+            return new Intl.NumberFormat('en-IN', {
+                style: 'currency',
+                currency: 'INR',
+                maximumFractionDigits: 2
+            }).format(num);
+        }
+    </script>
+  <div id="footer"></div>
+<script>
+fetch("/footer.html")
+  .then(r => r.text())
+  .then(d => {
+    document.getElementById("footer").innerHTML = d;
+    document.getElementById("year").textContent = new Date().getFullYear();
+  });
+</script>
+
+</body>
+</html>
