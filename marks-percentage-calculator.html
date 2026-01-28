@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marks Percentage Calculator | Convert Marks & CGPA to % - Toolvala.in</title>
+    <link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Calculate your exam marks percentage instantly with Toolvala.in. Convert subject-wise marks, total scores, or CGPA into percentage. Accurate grading tool for students.">
+    <meta name="keywords" content="marks percentage calculator, calculate percentage of marks, exam percentage calculator, cgpa to percentage, marks to percentage converter, 10th percentage calculator, 12th percentage calculator, toolvala">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.toolvala.in/marks-percentage-calculator.html">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Marks Percentage Calculator - Toolvala.in">
+    <meta property="og:description" content="Convert exam marks and CGPA to percentage instantly. Free online tool for students.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolvala.in/marks-percentage-calculator.html">
+
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Schema Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Marks Percentage Calculator",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "INR"
+      },
+      "description": "A comprehensive tool to calculate percentage from marks obtained or CGPA."
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --secondary: #f8fafc;
+            --text-main: #0f172a;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --success: #16a34a;
+            --danger: #dc2626;
+            --white: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--secondary);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        .logo span { color: var(--text-main); }
+
+        /* Main Layout */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .tool-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .tool-header h1 {
+            font-size: 2.5rem;
+            color: var(--text-main);
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+        .tool-header p { color: var(--text-light); font-size: 1.1rem; }
+
+        /* Calculator Box */
+        .calculator-box {
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            padding: 30px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            margin-bottom: 25px;
+            background: #f1f5f9;
+            padding: 5px;
+            border-radius: 10px;
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 12px;
+            background: none;
+            border: none;
+            font-weight: 600;
+            color: var(--text-light);
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        .tab-btn.active {
+            background: var(--white);
+            color: var(--primary);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        /* Form Elements */
+        .form-group { margin-bottom: 20px; }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border 0.2s;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .btn-calculate {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 10px;
+        }
+        .btn-calculate:hover { background: var(--primary-dark); }
+
+        /* Result Display */
+        .result-box {
+            margin-top: 25px;
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            display: none;
+        }
+        .result-value {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--primary);
+            line-height: 1;
+        }
+        .result-label {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 5px;
+        }
+        .grade-badge {
+            display: inline-block;
+            background: var(--success);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        /* Subject Rows (Advanced Mode) */
+        .subject-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr auto;
+            gap: 10px;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+        .btn-add {
+            background: var(--secondary);
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+            width: 100%;
+        }
+        .btn-remove {
+            color: var(--danger);
+            background: #fee2e2;
+            border: none;
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Related Tools */
+        .related-tools {
+            margin-top: 60px;
+        }
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            border-left: 5px solid var(--primary);
+            padding-left: 15px;
+        }
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+        .tool-link {
+            display: block;
+            background: var(--white);
+            padding: 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            transition: transform 0.2s, border-color 0.2s;
+            text-align: center;
+            font-weight: 600;
+        }
+        .tool-link:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        .tool-link i { display: block; font-size: 1.5rem; margin-bottom: 10px; color: var(--primary); }
+
+        /* Content Article */
+        .content-article {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin-top: 60px;
+        }
+        .content-article h2 { color: var(--primary-dark); margin-top: 30px; margin-bottom: 15px; font-size: 1.8rem; }
+        .content-article h3 { color: var(--text-main); margin-top: 25px; margin-bottom: 10px; font-size: 1.4rem; }
+        .content-article p { margin-bottom: 15px; color: #334155; text-align: justify; }
+        .content-article ul { margin-left: 20px; margin-bottom: 20px; color: #334155; }
+        .content-article li { margin-bottom: 8px; }
+        .highlight-box {
+            background: #eff6ff;
+            border-left: 4px solid var(--primary);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .table-responsive { overflow-x: auto; margin: 20px 0; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 12px; border: 1px solid var(--border); text-align: left; }
+        th { background: #f1f5f9; font-weight: 600; }
+
+        @media (max-width: 768px) {
+            .tool-header h1 { font-size: 2rem; }
+            .content-article { padding: 20px; }
+            .subject-row { grid-template-columns: 1fr 1fr; gap: 5px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+            .subject-row input:first-child { grid-column: span 2; }
+            .btn-remove { grid-column: span 2; width: 100%; margin-top: 5px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">Toolvala<span>.in</span></a>
+        </div>
+    </nav>
+
+    <div class="container">
+        
+        <header class="tool-header">
+            <h1>Marks Percentage Calculator</h1>
+            <p>Calculate exam percentage, aggregate marks, and convert CGPA to percentage instantly.</p>
+        </header>
+
+        <div class="calculator-box">
+            <div class="tabs">
+                <button class="tab-btn active" onclick="switchTab('simple')">Total Marks</button>
+                <button class="tab-btn" onclick="switchTab('advanced')">Subject-wise</button>
+                <button class="tab-btn" onclick="switchTab('cgpa')">CGPA to %</button>
+            </div>
+
+            <!-- Simple Mode -->
+            <div id="simpleMode">
+                <div class="form-group">
+                    <label for="marksObtained">Marks Obtained</label>
+                    <input type="number" id="marksObtained" class="form-control" placeholder="e.g. 450">
+                </div>
+                <div class="form-group">
+                    <label for="totalMarks">Total Marks (Max Marks)</label>
+                    <input type="number" id="totalMarks" class="form-control" placeholder="e.g. 500">
+                </div>
+                <button class="btn-calculate" onclick="calculateSimple()">Calculate Percentage</button>
+            </div>
+
+            <!-- Advanced Mode -->
+            <div id="advancedMode" style="display: none;">
+                <div id="subjectsContainer">
+                    <div class="subject-row">
+                        <input type="text" class="form-control" placeholder="Subject 1">
+                        <input type="number" class="form-control sub-obtained" placeholder="Obt">
+                        <input type="number" class="form-control sub-total" placeholder="Max" value="100">
+                        <button class="btn-remove" onclick="removeRow(this)"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                    <div class="subject-row">
+                        <input type="text" class="form-control" placeholder="Subject 2">
+                        <input type="number" class="form-control sub-obtained" placeholder="Obt">
+                        <input type="number" class="form-control sub-total" placeholder="Max" value="100">
+                        <button class="btn-remove" onclick="removeRow(this)"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                    <div class="subject-row">
+                        <input type="text" class="form-control" placeholder="Subject 3">
+                        <input type="number" class="form-control sub-obtained" placeholder="Obt">
+                        <input type="number" class="form-control sub-total" placeholder="Max" value="100">
+                        <button class="btn-remove" onclick="removeRow(this)"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                </div>
+                <button class="btn-add" onclick="addSubject()"><i class="fa-solid fa-plus"></i> Add Subject</button>
+                <button class="btn-calculate" onclick="calculateAdvanced()">Calculate Aggregate %</button>
+            </div>
+
+            <!-- CGPA Mode -->
+            <div id="cgpaMode" style="display: none;">
+                <div class="form-group">
+                    <label for="cgpaInput">Enter CGPA</label>
+                    <input type="number" id="cgpaInput" class="form-control" placeholder="e.g. 8.5" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label for="cgpaScale">Multiplier (Standard is 9.5)</label>
+                    <input type="number" id="cgpaScale" class="form-control" value="9.5">
+                </div>
+                <button class="btn-calculate" onclick="calculateCGPA()">Convert to Percentage</button>
+            </div>
+
+            <!-- Result -->
+            <div id="resultBox" class="result-box">
+                <div class="result-label">Your Percentage</div>
+                <div class="result-value" id="percentageResult">0%</div>
+                <div class="grade-badge" id="gradeResult">Grade: -</div>
+                <div style="margin-top: 15px; font-size: 0.9rem; color: #64748b;">
+                    <span id="summaryText"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Related Tools -->
+        <div class="related-tools">
+            <h2 class="section-title">Related Education Tools</h2>
+            <div class="tools-grid">
+                <a href="exam-rank-predictor.html" class="tool-link">
+                    <i class="fa-solid fa-ranking-star"></i>
+                    Rank Predictor
+                </a>
+                <a href="study-hours-planner.html" class="tool-link">
+                    <i class="fa-solid fa-clock"></i>
+                    Study Planner
+                </a>
+                <a href="tet-eligibility-checker.html" class="tool-link">
+                    <i class="fa-solid fa-check-double"></i>
+                    TET Eligibility
+                </a>
+                <a href="tet-age-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-calendar-day"></i>
+                    TET Age Calc
+                </a>
+                <a href="tet-cutoff-checker.html" class="tool-link">
+                    <i class="fa-solid fa-scissors"></i>
+                    TET Cutoff
+                </a>
+                <a href="ctet-mock-test.html" class="tool-link">
+                    <i class="fa-solid fa-laptop-code"></i>
+                    CTET Mock Test
+                </a>
+            </div>
+        </div>
+
+        <!-- SEO Content -->
+        <article class="content-article">
+            <h2>The Ultimate Guide to Calculating Marks Percentage</h2>
+            <p>In the academic world, percentages are the universal language of performance. Whether you are a 10th-grade student waiting for board results, a university graduate applying for a master's degree, or a job seeker filling out an application form, knowing how to accurately calculate your <strong>marks percentage</strong> is essential. Toolvala.in brings you a versatile <strong>Marks Percentage Calculator</strong> that handles everything from simple totals to complex subject-wise aggregates and CGPA conversions.</p>
+
+            <h3>How to Calculate Percentage of Marks?</h3>
+            <p>The fundamental formula for calculating percentage is simple arithmetic. It represents a part of a whole expressed in hundredths.</p>
+            
+            <div class="highlight-box">
+                <strong>Formula:</strong><br>
+                Percentage (%) = (Marks Obtained ÷ Total Maximum Marks) × 100
+            </div>
+
+            <h4>Example Calculation:</h4>
+            <p>Let's say you appeared for 5 subjects in your final exams. The total marks for each subject were 100, making the grand total 500. You scored a total of 425 marks.</p>
+            <ul>
+                <li><strong>Step 1:</strong> Divide obtained marks by total marks: 425 ÷ 500 = 0.85</li>
+                <li><strong>Step 2:</strong> Multiply the result by 100: 0.85 × 100 = 85%</li>
+            </ul>
+
+            <h3>Calculating Aggregate Percentage (Subject-wise)</h3>
+            <p>Often, students need to calculate the percentage based on individual subject scores, especially when different subjects have different weightage (e.g., Math is out of 100, but Science Practical is out of 50). Our <strong>Subject-wise Mode</strong> handles this automatically:</p>
+            <ol>
+                <li>Add the marks obtained in all subjects.</li>
+                <li>Add the maximum marks of all subjects.</li>
+                <li>Apply the standard formula to these totals.</li>
+            </ol>
+
+            <h3>Converting CGPA to Percentage</h3>
+            <p>Many educational boards, including CBSE (Central Board of Secondary Education) in India, issue results in <strong>CGPA (Cumulative Grade Point Average)</strong> rather than percentages. To convert this, a standard multiplier is used.</p>
+            
+            <p><strong>The 9.5 Rule:</strong> For CBSE Class 10, the standard multiplier is 9.5.</p>
+            <div class="highlight-box">
+                <strong>Formula:</strong> Percentage = CGPA × 9.5
+            </div>
+            <p><em>Example:</em> If your CGPA is 8.0, your percentage is 8.0 × 9.5 = 76%.</p>
+            <p><em>Note:</em> Some universities (like Mumbai University or VTU) use different multipliers (like 7.1 or 10). Our tool allows you to customize this multiplier in the "CGPA to %" tab.</p>
+
+            <h3>Understanding Grading Systems</h3>
+            <p>Percentages often correspond to specific grades. While grading systems vary by institution, here is a general reference table used widely in India:</p>
+
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Percentage Range</th>
+                            <th>Grade</th>
+                            <th>Performance Level</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>90% - 100%</td>
+                            <td>O / A+</td>
+                            <td>Outstanding</td>
+                        </tr>
+                        <tr>
+                            <td>80% - 89%</td>
+                            <td>A</td>
+                            <td>Excellent</td>
+                        </tr>
+                        <tr>
+                            <td>70% - 79%</td>
+                            <td>B+</td>
+                            <td>Very Good</td>
+                        </tr>
+                        <tr>
+                            <td>60% - 69%</td>
+                            <td>B</td>
+                            <td>Good (First Class)</td>
+                        </tr>
+                        <tr>
+                            <td>50% - 59%</td>
+                            <td>C</td>
+                            <td>Average (Second Class)</td>
+                        </tr>
+                        <tr>
+                            <td>40% - 49%</td>
+                            <td>D</td>
+                            <td>Pass</td>
+                        </tr>
+                        <tr>
+                            <td>Below 40%</td>
+                            <td>F</td>
+                            <td>Fail</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>Why Accuracy Matters?</h3>
+            <p>A small error in calculation can lead to big problems. For example:</p>
+            <ul>
+                <li><strong>College Admissions:</strong> Cut-offs for top colleges (like DU) often go as high as 98-99%. A calculation error of 0.5% can cost you a seat.</li>
+                <li><strong>Eligibility Criteria:</strong> Many competitive exams (like CAT, UPSC, Banking) require a minimum of 50% or 60% graduation marks.</li>
+                <li><strong>Resume Building:</strong> Stating an incorrect percentage on your CV can be seen as dishonesty during background checks.</li>
+            </ul>
+
+            <h3>Frequently Asked Questions (FAQs)</h3>
+            
+            <h4>1. How do I calculate percentage for "Best of 5" subjects?</h4>
+            <p>In many boards (like ICSE or CBSE), you can choose the best 5 subjects out of 6. Simply enter the marks of the 5 subjects with the highest scores in our Subject-wise tool and leave out the 6th one.</p>
+
+            <h4>2. What is the difference between SGPA and CGPA?</h4>
+            <p><strong>SGPA</strong> (Semester Grade Point Average) is the grade for a single semester. <strong>CGPA</strong> is the cumulative average of all semesters completed so far. To convert SGPA to percentage, the formula usually involves subtracting 0.75 and multiplying by 10, but check your university guidelines.</p>
+
+            <h4>3. Can I calculate percentage if total marks are not 100?</h4>
+            <p>Yes! Our calculator allows you to input any value for "Total Marks". If your exam was out of 75 or 1200, simply enter that value, and the tool will handle the math.</p>
+
+            <p>Use <strong>Toolvala.in</strong> for all your academic calculations. Check out our <a href="exam-rank-predictor.html" style="color: var(--primary); text-decoration: none;">Rank Predictor</a> and <a href="study-hours-planner.html" style="color: var(--primary); text-decoration: none;">Study Planner</a> to stay ahead in your education journey.</p>
+        </article>
+    </div>
+
+    <script>
+        // Tab Switching Logic
+        function switchTab(mode) {
+            const simpleMode = document.getElementById('simpleMode');
+            const advancedMode = document.getElementById('advancedMode');
+            const cgpaMode = document.getElementById('cgpaMode');
+            const btns = document.querySelectorAll('.tab-btn');
+            const resultBox = document.getElementById('resultBox');
+
+            resultBox.style.display = 'none'; // Hide result on switch
+
+            // Reset active classes
+            btns.forEach(btn => btn.classList.remove('active'));
+
+            // Hide all sections
+            simpleMode.style.display = 'none';
+            advancedMode.style.display = 'none';
+            cgpaMode.style.display = 'none';
+
+            // Show selected
+            if (mode === 'simple') {
+                simpleMode.style.display = 'block';
+                btns[0].classList.add('active');
+            } else if (mode === 'advanced') {
+                advancedMode.style.display = 'block';
+                btns[1].classList.add('active');
+            } else {
+                cgpaMode.style.display = 'block';
+                btns[2].classList.add('active');
+            }
+        }
+
+        // Simple Calculation
+        function calculateSimple() {
+            const obtained = parseFloat(document.getElementById('marksObtained').value);
+            const total = parseFloat(document.getElementById('totalMarks').value);
+
+            if (validateInput(obtained, total)) {
+                displayResult(obtained, total);
+            }
+        }
+
+        // Advanced Calculation (Subject-wise)
+        function calculateAdvanced() {
+            const obtainedInputs = document.querySelectorAll('.sub-obtained');
+            const totalInputs = document.querySelectorAll('.sub-total');
+            
+            let totalObtained = 0;
+            let totalMax = 0;
+            let isValid = true;
+
+            for (let i = 0; i < obtainedInputs.length; i++) {
+                const obt = parseFloat(obtainedInputs[i].value);
+                const tot = parseFloat(totalInputs[i].value);
+
+                if (!isNaN(obt) && !isNaN(tot)) {
+                    if (obt > tot) {
+                        alert(`Marks obtained cannot be greater than total marks in row ${i+1}`);
+                        isValid = false;
+                        break;
+                    }
+                    totalObtained += obt;
+                    totalMax += tot;
+                }
+            }
+
+            if (isValid && totalMax > 0) {
+                displayResult(totalObtained, totalMax);
+            } else if (isValid && totalMax === 0) {
+                alert("Please enter marks for at least one subject.");
+            }
+        }
+
+        // CGPA Calculation
+        function calculateCGPA() {
+            const cgpa = parseFloat(document.getElementById('cgpaInput').value);
+            const scale = parseFloat(document.getElementById('cgpaScale').value);
+
+            if (isNaN(cgpa) || isNaN(scale)) {
+                alert("Please enter valid CGPA and Scale.");
+                return;
+            }
+
+            const percentage = cgpa * scale;
+            
+            // Display for CGPA
+            const resultBox = document.getElementById('resultBox');
+            document.getElementById('percentageResult').innerText = percentage.toFixed(2) + "%";
+            document.getElementById('summaryText').innerText = `CGPA: ${cgpa} | Multiplier: ${scale}`;
+            
+            // Grade logic for CGPA
+            updateGrade(percentage);
+
+            resultBox.style.display = 'block';
+            resultBox.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Add Subject Row
+        function addSubject() {
+            const container = document.getElementById('subjectsContainer');
+            const div = document.createElement('div');
+            div.className = 'subject-row';
+            div.innerHTML = `
+                <input type="text" class="form-control" placeholder="Subject Name">
+                <input type="number" class="form-control sub-obtained" placeholder="Obt">
+                <input type="number" class="form-control sub-total" placeholder="Max" value="100">
+                <button class="btn-remove" onclick="removeRow(this)"><i class="fa-solid fa-trash"></i></button>
+            `;
+            container.appendChild(div);
+        }
+
+        // Remove Row
+        function removeRow(btn) {
+            const rows = document.querySelectorAll('.subject-row');
+            if(rows.length > 1) {
+                btn.parentElement.remove();
+            } else {
+                alert("At least one subject is required.");
+            }
+        }
+
+        // Validation Helper
+        function validateInput(obtained, total) {
+            if (isNaN(obtained) || isNaN(total)) {
+                alert("Please enter valid numbers.");
+                return false;
+            }
+            if (total <= 0) {
+                alert("Total marks must be greater than 0.");
+                return false;
+            }
+            if (obtained > total) {
+                alert("Marks obtained cannot be greater than total marks.");
+                return false;
+            }
+            return true;
+        }
+
+        // Display Logic
+        function displayResult(obtained, total) {
+            const percentage = (obtained / total) * 100;
+            const resultBox = document.getElementById('resultBox');
+            
+            document.getElementById('percentageResult').innerText = percentage.toFixed(2) + "%";
+            document.getElementById('summaryText').innerText = `Total Obtained: ${obtained} / ${total}`;
+
+            updateGrade(percentage);
+
+            resultBox.style.display = 'block';
+            resultBox.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function updateGrade(percentage) {
+            let grade = "";
+            let color = "";
+            if (percentage >= 90) { grade = "Outstanding (O)"; color = "#16a34a"; }
+            else if (percentage >= 80) { grade = "Excellent (A)"; color = "#16a34a"; }
+            else if (percentage >= 70) { grade = "Very Good (B+)"; color = "#2563eb"; }
+            else if (percentage >= 60) { grade = "Good (B)"; color = "#2563eb"; }
+            else if (percentage >= 50) { grade = "Average (C)"; color = "#ca8a04"; }
+            else if (percentage >= 40) { grade = "Pass (D)"; color = "#ca8a04"; }
+            else { grade = "Fail (F)"; color = "#dc2626"; }
+
+            const gradeEl = document.getElementById('gradeResult');
+            gradeEl.innerText = "Grade: " + grade;
+            gradeEl.style.backgroundColor = color;
+        }
+    </script>
+  <div id="footer"></div>
+<script>
+fetch("/footer.html")
+  .then(r => r.text())
+  .then(d => {
+    document.getElementById("footer").innerHTML = d;
+    document.getElementById("year").textContent = new Date().getFullYear();
+  });
+</script>
+</body>
+</html>
