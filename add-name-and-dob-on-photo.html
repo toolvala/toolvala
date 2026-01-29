@@ -1,178 +1,462 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Add Name & Date on Photo Online | Free UPSC & SSC Tool</title>
-<meta name="description" content="Add Name and Date of Photo (DOP) or Date of Birth (DOB) on passport size photos for UPSC, SSC, IBPS & RRB exams. Free, private & instant tool.">
-<meta name="keywords" content="add name and date on photo, dop on photo, dob on photo, upsc photo date tool, ssc photo dop">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://www.toolvala.in/add-name-and-date-on-photo.html">
-<link rel="stylesheet"
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Name & Date on Photo Online | Free UPSC & SSC Tool</title>
+    <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Add Name and Date of Photo (DOP) or Date of Birth (DOB) on passport size photos for UPSC, SSC, IBPS & RRB exams. Free, private & instant tool.">
+    <meta name="keywords" content="add name and date on photo, dop on photo, dob on photo, upsc photo date tool, ssc photo dop, passport photo editor, toolvala">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.toolvala.in/add-name-and-date-on-photo.html">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Add Name & Date on Photo Tool - Toolvala.in">
+    <meta property="og:description" content="Add Name and Date on passport photos for competitive exams instantly.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolvala.in/add-name-and-date-on-photo.html">
 
-<style>
-:root{--p:#2563eb;--s:#1e40af;--bg:#f8fafc}
-body{font-family:system-ui;background:var(--bg);margin:0;padding:20px;color:#1e293b}
-.container{max-width:1100px;margin:auto;background:#fff;padding:30px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.08)}
-h1{text-align:center;color:var(--p)}
-.tool{display:flex;flex-wrap:wrap;gap:30px}
-.controls{flex:1;min-width:280px}
-.preview{flex:1;text-align:center;background:#f1f5f9;padding:20px;border-radius:10px}
-input,select,button{width:100%;padding:10px;margin-top:6px}
-button{background:var(--p);color:#fff;border:none;border-radius:6px;font-weight:600;cursor:pointer}
-button:hover{background:var(--s)}
-canvas{max-width:100%;border:1px solid #ccc;margin-top:10px}
-.info{background:#e0f2fe;padding:10px;border-left:4px solid #0284c7;font-size:14px;margin:10px 0}
-.article{max-width:900px;margin:60px auto;font-size:1.05rem;line-height:1.9}
-.article h2{color:#1e40af;margin-top:40px}
-.related a{display:inline-block;margin:6px;padding:8px 12px;background:#eff6ff;border-radius:6px;text-decoration:none}
-</style>
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Corrected Schema Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Add Name and Date on Photo Tool",
+      "applicationCategory": "PhotoEditor",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "INR"
+      },
+      "description": "A tool to add name and date (DOP/DOB) on passport size photos for exam applications."
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --secondary: #f8fafc;
+            --text-main: #0f172a;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --success: #16a34a;
+            --white: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--secondary);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        .logo span { color: var(--text-main); }
+
+        /* Main Layout */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .tool-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .tool-header h1 {
+            font-size: 2.5rem;
+            color: var(--text-main);
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+        .tool-header p { color: var(--text-light); font-size: 1.1rem; }
+
+        /* Tool Wrapper */
+        .tool-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            background: var(--white);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .controls {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .preview-area {
+            flex: 1;
+            min-width: 300px;
+            background: #f1f5f9;
+            padding: 20px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #cbd5e1;
+        }
+
+        /* Form Elements */
+        .form-group { margin-bottom: 20px; }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border 0.2s;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .btn-download {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 10px;
+        }
+        .btn-download:hover { background: var(--primary-dark); }
+
+        /* Canvas */
+        canvas {
+            max-width: 100%;
+            height: auto;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .info-box {
+            background: #e0f2fe;
+            padding: 12px;
+            border-left: 4px solid #0284c7;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        /* Related Tools */
+        .related-tools {
+            margin-top: 60px;
+        }
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            border-left: 5px solid var(--primary);
+            padding-left: 15px;
+        }
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+        .tool-link {
+            display: block;
+            background: var(--white);
+            padding: 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            transition: transform 0.2s, border-color 0.2s;
+            text-align: center;
+            font-weight: 600;
+        }
+        .tool-link:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Content Article */
+        .content-article {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin-top: 60px;
+        }
+        .content-article h2 { color: var(--primary-dark); margin-top: 30px; margin-bottom: 15px; font-size: 1.8rem; }
+        .content-article h3 { color: var(--text-main); margin-top: 25px; margin-bottom: 10px; font-size: 1.4rem; }
+        .content-article p { margin-bottom: 15px; color: #334155; text-align: justify; }
+        .content-article ul, .content-article ol { margin-left: 20px; margin-bottom: 20px; color: #334155; }
+        .content-article li { margin-bottom: 8px; }
+
+        @media (max-width: 768px) {
+            .tool-header h1 { font-size: 2rem; }
+            .content-article { padding: 20px; }
+            .tool-wrapper { flex-direction: column; }
+        }
+    </style>
 </head>
 <body>
-<div class="container">
-<h1>Add Name & Date on Photo (UPSC / SSC Ready)</h1>
 
-<div class="tool">
-<div class="controls">
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">Toolvala<span>.in</span></a>
+        </div>
+    </nav>
 
-<input type="file" id="imageInput" accept="image/*">
+    <div class="container">
+        
+        <header class="tool-header">
+            <h1>Add Name & Date on Photo</h1>
+            <p>Prepare your passport photos for UPSC, SSC, and other competitive exams instantly.</p>
+        </header>
 
-<div class="info">🔒 100% Private – Your photo never leaves your device</div>
+        <div class="tool-wrapper">
+            <!-- Controls -->
+            <div class="controls">
+                <div class="info-box">
+                    <i class="fa-solid fa-lock"></i> <strong>100% Private:</strong> Your photo is processed locally in your browser and never uploaded to any server.
+                </div>
 
-<label>Name</label>
-<input type="text" id="name" placeholder="RAHUL KUMAR">
+                <div class="form-group">
+                    <label for="imageInput">Upload Photo</label>
+                    <input type="file" id="imageInput" class="form-control" accept="image/*">
+                </div>
 
-<label>Date Type</label>
-<select id="dateType">
-  <option value="DOP">Date of Photo (DOP)</option>
-  <option value="DOB">Date of Birth (DOB)</option>
-</select>
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" class="form-control" placeholder="e.g. RAHUL KUMAR">
+                </div>
 
-<label>Select Date</label>
-<input type="date" id="date">
+                <div class="form-group">
+                    <label for="dateType">Date Label Type</label>
+                    <select id="dateType" class="form-control">
+                        <option value="DOP">Date of Photo (DOP)</option>
+                        <option value="DOB">Date of Birth (DOB)</option>
+                        <option value="NONE">Date Only (No Label)</option>
+                    </select>
+                </div>
 
-<label>Image Quality (KB Control)</label>
-<input type="range" id="quality" min="0.2" max="1" step="0.1" value="0.9">
+                <div class="form-group">
+                    <label for="date">Select Date</label>
+                    <input type="date" id="date" class="form-control">
+                </div>
 
-<button onclick="downloadImage()">Download Photo</button>
+                <div class="form-group">
+                    <label for="quality">Image Quality (Compression)</label>
+                    <input type="range" id="quality" class="form-control" min="0.1" max="1" step="0.1" value="0.9">
+                </div>
 
-</div>
+                <button class="btn-download" onclick="downloadImage()">Download Photo</button>
+            </div>
 
-<div class="preview">
-<canvas id="canvas"></canvas>
-<p>Upload image to preview</p>
-</div>
-</div>
-</div>
+            <!-- Preview -->
+            <div class="preview-area">
+                <canvas id="canvas"></canvas>
+                <p style="margin-top: 15px; color: #64748b; font-size: 0.9rem;">Preview will appear here</p>
+            </div>
+        </div>
 
-<!-- ===== SEO CONTENT ===== -->
-<article class="article">
+        <!-- Related Tools -->
+        <div class="related-tools">
+            <h2 class="section-title">Related Photo Tools</h2>
+            <div class="tools-grid">
+                <a href="passport-photo-resizer.html" class="tool-link">
+                    <i class="fa-solid fa-id-card"></i><br>Passport Photo Resizer
+                </a>
+                <a href="photo-compressor.html" class="tool-link">
+                    <i class="fa-solid fa-compress"></i><br>Photo Compressor
+                </a>
+                <a href="ssc-photo-tool.html" class="tool-link">
+                    <i class="fa-solid fa-user-tie"></i><br>SSC Photo Tool
+                </a>
+                <a href="upsc-photo-maker.html" class="tool-link">
+                    <i class="fa-solid fa-building-columns"></i><br>UPSC Photo Maker
+                </a>
+            </div>
+        </div>
 
-<h2>What is Add Name and Date on Photo Tool?</h2>
-<p>This free online tool allows candidates to add their <strong>Name</strong> and <strong>Date of Photo (DOP)</strong> or <strong>Date of Birth (DOB)</strong> on passport-size photos required for UPSC, SSC, IBPS, RRB and other government exams.</p>
+        <!-- SEO Content -->
+        <article class="content-article">
+            <h2>Why Do You Need Name and Date on Photos?</h2>
+            <p>For many government competitive exams in India, such as <strong>SSC (Staff Selection Commission)</strong>, <strong>UPSC (Union Public Service Commission)</strong>, <strong>IBPS</strong>, and <strong>RRB (Railway Recruitment Board)</strong>, uploading a passport-size photograph with the candidate's name and the date the photo was taken (DOP) is mandatory.</p>
+            
+            <p>Failing to adhere to this specific format often leads to the rejection of the application form. This tool simplifies the process by allowing you to add these details digitally without needing expensive photo editing software like Photoshop.</p>
 
-<h2>Why Date on Photo is Mandatory for SSC & UPSC?</h2>
-<p>SSC and UPSC require a recent photograph. Printing the date ensures authenticity and prevents impersonation during exam verification.</p>
+            <h3>Key Features of This Tool</h3>
+            <ul>
+                <li><strong>Instant Processing:</strong> No waiting time. The text is added immediately.</li>
+                <li><strong>Privacy Focused:</strong> Since it runs on client-side JavaScript, your personal photo never leaves your device.</li>
+                <li><strong>Customizable:</strong> Choose between DOP (Date of Photo) or DOB (Date of Birth) as per exam requirements.</li>
+                <li><strong>Quality Control:</strong> Adjust the quality slider to ensure the file size meets the KB limits (e.g., 20KB - 50KB for SSC).</li>
+            </ul>
 
-<h2>How to Add Name & Date on Photo Online</h2>
-<ol>
-<li>Upload your passport-size photo</li>
-<li>Enter your full name</li>
-<li>Select Date Type (DOP or DOB)</li>
-<li>Select date</li>
-<li>Adjust image quality</li>
-<li>Download instantly</li>
-</ol>
+            <h3>Difference Between DOP and DOB</h3>
+            <p><strong>DOP (Date of Photo):</strong> This indicates when the photograph was clicked. Most exams require the photo to be not older than 3 months from the date of notification.</p>
+            <p><strong>DOB (Date of Birth):</strong> This is your birth date. Some specific forms might ask for this, but DOP is more common for identification purposes.</p>
 
-<h2>Photo Size & KB Limits</h2>
-<ul>
-<li>SSC: 20 KB – 50 KB</li>
-<li>UPSC: 20 KB – 300 KB</li>
-<li>RRB: 15 KB – 40 KB</li>
-</ul>
+            <h3>How to Use This Tool?</h3>
+            <ol>
+                <li>Click on "Upload Photo" and select your passport-size image.</li>
+                <li>Enter your full name in the text box.</li>
+                <li>Select the date from the calendar.</li>
+                <li>Choose whether you want "DOP", "DOB", or just the date printed.</li>
+                <li>The tool automatically places a white strip at the bottom with black text.</li>
+                <li>Click "Download Photo" to save the edited image.</li>
+            </ol>
 
-<h2>DOP vs DOB</h2>
-<p><strong>DOP</strong> means Date of Photo taken. <strong>DOB</strong> means Date of Birth. Most competitive exams require DOP.</p>
+            <h3>Photo Specifications for Major Exams</h3>
+            <ul>
+                <li><strong>SSC CGL/CHSL:</strong> Date on photo is mandatory. Size: 20KB to 50KB. Format: JPEG.</li>
+                <li><strong>UPSC Civil Services:</strong> Name and Date are usually not mandatory on the photo itself unless specified in the notification, but the photo must be recent.</li>
+                <li><strong>Railways (RRB):</strong> Often requires name and date of photo.</li>
+            </ul>
+        </article>
+    </div>
 
-<h2>Related Tools</h2>
-<div class="related">
-<a href="/passport-photo-resizer.html">Passport Photo Resizer</a>
-<a href="/photo-compressor.html">Photo Compressor</a>
-<a href="/ssc-photo-tool.html">SSC Photo Tool</a>
-<a href="/upsc-photo-tool.html">UPSC Photo Maker</a>
-</div>
+    <script>
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+        const img = new Image();
 
-</article>
+        // Load Image
+        document.getElementById("imageInput").addEventListener("change", e => {
+            if (e.target.files && e.target.files[0]) {
+                img.src = URL.createObjectURL(e.target.files[0]);
+                img.onload = () => {
+                    // Set canvas dimensions to match image
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    draw();
+                };
+            }
+        });
 
-<!-- ===== SCHEMA ===== -->
-<script type="application/ld+json">
-{
-"@context":"https://schema.org",
-"@type":"SoftwareApplication",
-"name":"Add Name and Date on Photo Tool",
-"applicationCategory":"PhotoEditor",
-"operatingSystem":"All",
-"offers":{"@type":"Offer","price":"0","priceCurrency":"INR"}
-}
-</script>
+        // Event Listeners for Inputs
+        ["name", "date", "dateType"].forEach(id => {
+            document.getElementById(id).addEventListener("input", draw);
+        });
 
-<!-- ===== TOOL SCRIPT ===== -->
+        // Format Date Function (DD-MM-YYYY)
+        function formatDate(value) {
+            if (!value) return "";
+            let d = new Date(value);
+            let formatted = 
+                String(d.getDate()).padStart(2, "0") + "-" + 
+                String(d.getMonth() + 1).padStart(2, "0") + "-" + 
+                d.getFullYear();
+            
+            let type = document.getElementById("dateType").value;
+            if (type === "NONE") return formatted;
+            return type + ": " + formatted;
+        }
+
+        // Draw Function
+        function draw() {
+            if (!img.src) return;
+
+            // 1. Draw Original Image
+            ctx.drawImage(img, 0, 0);
+
+            // 2. Settings for Text Strip
+            const stripHeight = img.height * 0.15; // 15% of image height
+            const fontSize = img.height * 0.06; // 6% of image height
+            const nameText = document.getElementById("name").value.toUpperCase();
+            const dateText = formatDate(document.getElementById("date").value);
+
+            // 3. Draw White Background Strip
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(0, canvas.height - stripHeight, canvas.width, stripHeight);
+
+            // 4. Draw Text
+            ctx.fillStyle = "#000000";
+            ctx.textAlign = "center";
+            ctx.font = `bold ${fontSize}px Arial`;
+
+            // Positioning logic
+            if (nameText && dateText) {
+                // Both Name and Date
+                ctx.fillText(nameText, canvas.width / 2, canvas.height - (stripHeight * 0.6));
+                ctx.fillText(dateText, canvas.width / 2, canvas.height - (stripHeight * 0.15));
+            } else if (nameText) {
+                // Only Name
+                ctx.fillText(nameText, canvas.width / 2, canvas.height - (stripHeight * 0.35));
+            } else if (dateText) {
+                // Only Date
+                ctx.fillText(dateText, canvas.width / 2, canvas.height - (stripHeight * 0.35));
+            }
+        }
+
+        // Download Function
+        function downloadImage() {
+            if (!img.src) {
+                alert("Please upload an image first.");
+                return;
+            }
+            const quality = parseFloat(document.getElementById("quality").value);
+            const link = document.createElement("a");
+            link.href = canvas.toDataURL("image/jpeg", quality);
+            link.download = "photo-with-date.jpg";
+            link.click();
+        }
+    </script>
+    <div id="footer"></div>
 <script>
-const canvas=document.getElementById("canvas");
-const ctx=canvas.getContext("2d");
-const img=new Image();
-
-document.getElementById("imageInput").addEventListener("change",e=>{
-  img.src=URL.createObjectURL(e.target.files[0]);
-  img.onload=()=>{
-    canvas.width=img.width;
-    canvas.height=img.height;
-    draw();
-  };
-});
-
-["name","date","quality","dateType"].forEach(id=>{
-  document.getElementById(id).addEventListener("input",draw);
-});
-
-function formatDate(value){
-  if(!value) return "";
-  let d=new Date(value);
-  let formatted=
-    String(d.getDate()).padStart(2,"0")+"-"+
-    String(d.getMonth()+1).padStart(2,"0")+"-"+
-    d.getFullYear();
-  let type=document.getElementById("dateType").value;
-  return type + ": " + formatted;
-}
-
-function draw(){
-  if(!img.src) return;
-  ctx.drawImage(img,0,0);
-
-  ctx.fillStyle="#fff";
-  ctx.fillRect(0,canvas.height-80,canvas.width,80);
-
-  ctx.fillStyle="#000";
-  ctx.textAlign="center";
-
-  ctx.font="bold 40px Arial";
-  ctx.fillText(document.getElementById("name").value.toUpperCase(),canvas.width/2,canvas.height-45);
-
-  ctx.font="30px Arial";
-  ctx.fillText(formatDate(document.getElementById("date").value),canvas.width/2,canvas.height-15);
-}
-
-function downloadImage(){
-  const q=parseFloat(document.getElementById("quality").value);
-  const a=document.createElement("a");
-  a.href=canvas.toDataURL("image/jpeg",q);
-  a.download="photo-with-name-date.jpg";
-  a.click();
-}
+fetch("/footer.html")
+  .then(r => r.text())
+  .then(d => {
+    document.getElementById("footer").innerHTML = d;
+    document.getElementById("year").textContent = new Date().getFullYear();
+  });
 </script>
-<div id="footer"></div>
+  <div id="footer"></div>
 <script>
 fetch("/footer.html")
   .then(r => r.text())
