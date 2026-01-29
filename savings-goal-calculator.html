@@ -1,187 +1,434 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Savings Goal Calculator | Plan Your Savings Smartly – Toolvala</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Savings Goal Calculator | Plan Your Savings Smartly – Toolvala.in</title>
+    <link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Free Savings Goal Calculator by Toolvala.in. Calculate monthly savings required to reach your financial goals faster. Simple, accurate and SEO optimized.">
+    <meta name="keywords" content="savings goal calculator, savings calculator, monthly savings calculator, financial goal planner, money saving calculator, Toolvala">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.toolvala.in/savings-goal-calculator.html">
 
-<!-- SEO Meta Tags -->
-<meta name="description" content="Free Savings Goal Calculator by Toolvala. Calculate monthly savings required to reach your financial goals faster. Simple, accurate and SEO optimized.">
-<meta name="keywords" content="savings goal calculator, savings calculator, monthly savings calculator, financial goal planner, money saving calculator, Toolvala">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://www.toolvala.in/savings-goal-calculator.html">
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
-<!-- Schema Markup -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  "name": "Savings Goal Calculator",
-  "applicationCategory": "FinanceApplication",
-  "operatingSystem": "All",
-  "description": "Calculate monthly savings required to achieve your financial goals"
-}
-</script>
+    <!-- Corrected Schema Markup (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Savings Goal Calculator",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "INR"
+      },
+      "description": "A tool to calculate monthly savings required to achieve your financial goals."
+    }
+    </script>
 
-<style>
-body{font-family:Arial, sans-serif;background:#f9fafb;margin:0;line-height:1.6}
-header{background:#1e40af;color:#fff;padding:20px;text-align:center}
-main{max-width:1200px;margin:auto;padding:20px}
-h1,h2,h3{color:#1e3a8a}
-.calculator{background:#fff;padding:20px;border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,.1)}
-label{display:block;margin-top:10px;font-weight:bold}
-input{width:100%;padding:8px;margin-top:5px}
-button{margin-top:15px;padding:10px 20px;background:#2563eb;color:#fff;border:none;border-radius:5px;cursor:pointer}
-button:hover{background:#1d4ed8}
-.result{margin-top:20px;background:#eff6ff;padding:15px;border-left:5px solid #2563eb}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px;margin-top:30px}
-.card{background:#fff;padding:15px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
-footer{background:#020617;color:#fff;text-align:center;padding:15px;margin-top:40px}
-</style>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --secondary: #f8fafc;
+            --text-main: #0f172a;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --success: #16a34a;
+            --danger: #dc2626;
+            --white: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--secondary);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        .logo span { color: var(--text-main); }
+
+        /* Main Layout */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .tool-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .tool-header h1 {
+            font-size: 2.5rem;
+            color: var(--text-main);
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+        .tool-header p { color: var(--text-light); font-size: 1.1rem; }
+
+        /* Calculator Box */
+        .calculator-box {
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            padding: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-main);
+        }
+        .form-group i { color: var(--primary); margin-right: 5px; }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border 0.2s;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .btn-calculate {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-calculate:hover { background: var(--primary-dark); }
+
+        /* Result Display */
+        .result-box {
+            margin-top: 35px;
+            background: #eff6ff;
+            border-left: 5px solid var(--primary);
+            padding: 30px;
+            border-radius: 12px;
+            display: none; /* Hidden initially */
+        }
+        .result-box h3 { margin-top: 0; color: var(--text-main); }
+        .result-content { font-size: 1.05rem; color: var(--text-main); }
+        .highlight-score { font-weight: 800; font-size: 1.2rem; }
+
+        /* Related Tools */
+        .related-tools {
+            margin-top: 60px;
+        }
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            border-left: 5px solid var(--primary);
+            padding-left: 15px;
+        }
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+        .tool-link {
+            display: block;
+            background: var(--white);
+            padding: 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            transition: transform 0.2s, border-color 0.2s;
+            text-align: center;
+            font-weight: 600;
+        }
+        .tool-link:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        .tool-link i { display: block; font-size: 1.5rem; margin-bottom: 10px; color: var(--primary); }
+
+        /* Content Article */
+        .content-article {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin-top: 60px;
+        }
+        .content-article h2 { color: var(--primary-dark); margin-top: 30px; margin-bottom: 15px; font-size: 1.8rem; }
+        .content-article h3 { color: var(--text-main); margin-top: 25px; margin-bottom: 10px; font-size: 1.4rem; }
+        .content-article p { margin-bottom: 15px; color: #334155; text-align: justify; }
+        .content-article ul, .content-article ol { margin-left: 20px; margin-bottom: 20px; color: #334155; }
+        .content-article li { margin-bottom: 8px; }
+        
+        /* FAQ Section */
+        .faq-item { border-bottom: 1px solid var(--border); padding: 15px 0; }
+        .faq-question { font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; }
+        .faq-answer { margin-top: 10px; display: none; color: var(--text-light); }
+        .faq-visible { display: block; }
+
+        @media (max-width: 768px) {
+            .input-grid { grid-template-columns: 1fr; }
+            .tool-header h1 { font-size: 2rem; }
+            .content-article { padding: 20px; }
+        }
+    </style>
 </head>
 <body>
 
-<header>
-<h1>Savings Goal Calculator</h1>
-<p>Plan, track and achieve your financial goals with Toolvala</p>
-</header>
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">Toolvala<span>.in</span></a>
+        </div>
+    </nav>
 
-<main>
+    <div class="container">
+        
+        <header class="tool-header">
+            <h1>Savings Goal Calculator</h1>
+            <p>Plan, track and achieve your financial goals with Toolvala.in</p>
+        </header>
 
-<section class="calculator">
-<h2>Calculate Your Savings Goal</h2>
+        <div class="calculator-box">
+            <div class="input-grid">
+                <div class="form-group">
+                    <label for="goal"><i class="fa-solid fa-bullseye"></i> Target Amount (₹)</label>
+                    <input type="number" id="goal" class="form-control" placeholder="e.g. 100000">
+                </div>
+                <div class="form-group">
+                    <label for="current"><i class="fa-solid fa-wallet"></i> Current Savings (₹)</label>
+                    <input type="number" id="current" class="form-control" placeholder="e.g. 20000">
+                </div>
+                <div class="form-group">
+                    <label for="months"><i class="fa-solid fa-calendar-days"></i> Time Period (Months)</label>
+                    <input type="number" id="months" class="form-control" placeholder="e.g. 12">
+                </div>
+            </div>
 
-<label>Target Amount (₹)</label>
-<input type="number" id="goal" placeholder="Enter your savings goal">
+            <button class="btn-calculate" onclick="calculateSavings()">Calculate Monthly Savings</button>
 
-<label>Current Savings (₹)</label>
-<input type="number" id="current" placeholder="Enter current savings">
+            <div class="result-box" id="output"></div>
+        </div>
 
-<label>Time Period (Months)</label>
-<input type="number" id="months" placeholder="Enter number of months">
+        <!-- Related Tools -->
+        <div class="related-tools">
+            <h2 class="section-title">Related Financial Tools</h2>
+            <div class="tools-grid">
+                <a href="monthly-budget-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    Budget Planner
+                </a>
+                <a href="personal-loan-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-hand-holding-dollar"></i>
+                    Loan Calculator
+                </a>
+                <a href="simple-interest-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-calculator"></i>
+                    Interest Calc
+                </a>
+                <a href="compound-interest-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-coins"></i>
+                    Compound Interest
+                </a>
+            </div>
+        </div>
 
-<button onclick="calculateSavings()">Calculate Monthly Savings</button>
+        <!-- SEO Content -->
+        <article class="content-article">
+            <h2>What is a Savings Goal Calculator?</h2>
+            <p>A <strong>Savings Goal Calculator</strong> is a personal finance tool that helps you determine how much money you need to save every month to reach a specific financial goal. Whether your goal is buying a house, planning a wedding, building an emergency fund, or going on a vacation, this calculator provides a clear monthly savings plan.</p>
 
-<div id="output" class="result" style="display:none"></div>
-</section>
+            <p>At <strong>Toolvala.in</strong>, we designed this calculator to be simple, fast, and accurate. You only need to enter your target amount, current savings, and time duration. The tool instantly calculates the monthly savings required.</p>
 
-<section>
-<h2>What is a Savings Goal Calculator?</h2>
-<p>A <strong>Savings Goal Calculator</strong> is a personal finance tool that helps you determine how much money you need to save every month to reach a specific financial goal. Whether your goal is buying a house, planning a wedding, building an emergency fund, or going on a vacation, this calculator provides a clear monthly savings plan.</p>
+            <h3>Why Saving with a Goal is Important</h3>
+            <p>Saving money without a clear goal often leads to inconsistency. A defined savings goal keeps you motivated and disciplined. It helps you prioritize spending, reduce unnecessary expenses, and build long-term financial security.</p>
 
-<p>At <strong>Toolvala</strong>, we designed this calculator to be simple, fast, and accurate. You only need to enter your target amount, current savings, and time duration. The tool instantly calculates the monthly savings required.</p>
+            <p>Goal-based saving is one of the most effective ways to achieve financial success. It transforms vague intentions like "I want to save money" into actionable plans such as "I need to save ₹5,000 every month for the next 12 months".</p>
 
-<h3>Why Saving with a Goal is Important</h3>
-<p>Saving money without a clear goal often leads to inconsistency. A defined savings goal keeps you motivated and disciplined. It helps you prioritize spending, reduce unnecessary expenses, and build long-term financial security.</p>
+            <h3>How This Savings Goal Calculator Works</h3>
+            <p>The calculator uses a simple formula:</p>
+            <p><strong>Monthly Savings = (Target Amount − Current Savings) ÷ Number of Months</strong></p>
 
-<p>Goal-based saving is one of the most effective ways to achieve financial success. It transforms vague intentions like "I want to save money" into actionable plans such as "I need to save ₹5,000 every month for the next 12 months".</p>
+            <p>This straightforward approach ensures clarity and transparency. There are no hidden assumptions, making it ideal for beginners as well as experienced savers.</p>
 
-<h3>How This Savings Goal Calculator Works</h3>
-<p>The calculator uses a simple formula:</p>
-<p><strong>Monthly Savings = (Target Amount − Current Savings) ÷ Number of Months</strong></p>
+            <h3>Example Calculation</h3>
+            <p>Suppose you want to save ₹1,20,000 for a vacation. You already have ₹20,000 saved and you want to achieve this goal in 10 months.</p>
+            <ul>
+                <li>Target Amount = ₹1,20,000</li>
+                <li>Current Savings = ₹20,000</li>
+                <li>Time = 10 months</li>
+            </ul>
+            <p>Monthly Savings Required = (1,20,000 − 20,000) ÷ 10 = ₹10,000</p>
 
-<p>This straightforward approach ensures clarity and transparency. There are no hidden assumptions, making it ideal for beginners as well as experienced savers.</p>
+            <h3>Benefits of Using Toolvala.in Savings Goal Calculator</h3>
+            <ul>
+                <li>Clear monthly savings target</li>
+                <li>Improves financial discipline</li>
+                <li>Helps achieve short-term and long-term goals</li>
+                <li>Simple and user-friendly interface</li>
+                <li>100% free and online</li>
+            </ul>
 
-<h3>Example Calculation</h3>
-<p>Suppose you want to save ₹1,20,000 for a vacation. You already have ₹20,000 saved and you want to achieve this goal in 10 months.</p>
-<ul>
-<li>Target Amount = ₹1,20,000</li>
-<li>Current Savings = ₹20,000</li>
-<li>Time = 10 months</li>
-</ul>
-<p>Monthly Savings Required = (1,20,000 − 20,000) ÷ 10 = ₹10,000</p>
+            <h3>Who Should Use a Savings Goal Calculator?</h3>
+            <p>This calculator is useful for:</p>
+            <ul>
+                <li>Students planning education expenses</li>
+                <li>Salaried employees saving for emergencies</li>
+                <li>Families planning major purchases</li>
+                <li>Freelancers managing irregular income</li>
+                <li>Anyone serious about saving money</li>
+            </ul>
 
-<h3>Benefits of Using Toolvala Savings Goal Calculator</h3>
-<ul>
-<li>Clear monthly savings target</li>
-<li>Improves financial discipline</li>
-<li>Helps achieve short-term and long-term goals</li>
-<li>Simple and user-friendly interface</li>
-<li>100% free and online</li>
-</ul>
+            <h3>Short-Term vs Long-Term Savings Goals</h3>
+            <p>Short-term goals usually range from a few months to one year, such as buying a gadget or planning a trip. Long-term goals may span several years, like purchasing a house or retirement planning.</p>
 
-<h3>Who Should Use a Savings Goal Calculator?</h3>
-<p>This calculator is useful for:</p>
-<ul>
-<li>Students planning education expenses</li>
-<li>Salaried employees saving for emergencies</li>
-<li>Families planning major purchases</li>
-<li>Freelancers managing irregular income</li>
-<li>Anyone serious about saving money</li>
-</ul>
+            <p>The Savings Goal Calculator by Toolvala.in works perfectly for both types of goals. For long-term goals, you can break them into smaller milestones to stay motivated.</p>
 
-<h3>Short-Term vs Long-Term Savings Goals</h3>
-<p>Short-term goals usually range from a few months to one year, such as buying a gadget or planning a trip. Long-term goals may span several years, like purchasing a house or retirement planning.</p>
+            <h3>Tips to Achieve Your Savings Goals Faster</h3>
+            <ul>
+                <li>Create a realistic budget</li>
+                <li>Track your monthly expenses</li>
+                <li>Automate your savings</li>
+                <li>Avoid unnecessary spending</li>
+                <li>Review and adjust goals regularly</li>
+            </ul>
 
-<p>The Savings Goal Calculator by Toolvala works perfectly for both types of goals. For long-term goals, you can break them into smaller milestones to stay motivated.</p>
+            <h3>Frequently Asked Questions</h3>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">Is the Savings Goal Calculator free? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">Yes, it is completely free to use on Toolvala.in.</div>
+            </div>
 
-<h3>Tips to Achieve Your Savings Goals Faster</h3>
-<ul>
-<li>Create a realistic budget</li>
-<li>Track your monthly expenses</li>
-<li>Automate your savings</li>
-<li>Avoid unnecessary spending</li>
-<li>Review and adjust goals regularly</li>
-</ul>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">Can I use this calculator for long-term goals? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">Yes, you can use it for both short-term and long-term financial goals.</div>
+            </div>
 
-<h3>Frequently Asked Questions</h3>
-<p><strong>Is the Savings Goal Calculator free?</strong><br>Yes, it is completely free to use on Toolvala.</p>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">Does this calculator consider interest? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">This basic version does not include interest. It is ideal for simple and clear savings planning.</div>
+            </div>
 
-<p><strong>Can I use this calculator for long-term goals?</strong><br>Yes, you can use it for both short-term and long-term financial goals.</p>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">Is my data saved? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">No, Toolvala.in respects your privacy. No data is stored.</div>
+            </div>
 
-<p><strong>Does this calculator consider interest?</strong><br>This basic version does not include interest. It is ideal for simple and clear savings planning.</p>
+            <p>In conclusion, the <strong>Savings Goal Calculator by Toolvala.in</strong> is an essential tool for anyone looking to build better saving habits. With clear monthly targets and easy calculations, achieving your financial dreams becomes simpler and more realistic.</p>
+        </article>
+    </div>
 
-<p><strong>Is my data saved?</strong><br>No, Toolvala respects your privacy. No data is stored.</p>
+    <script>
+        function calculateSavings() {
+            const goal = Number(document.getElementById('goal').value) || 0;
+            const current = Number(document.getElementById('current').value) || 0;
+            const months = Number(document.getElementById('months').value) || 0;
 
-<p>In conclusion, the <strong>Savings Goal Calculator by Toolvala</strong> is an essential tool for anyone looking to build better saving habits. With clear monthly targets and easy calculations, achieving your financial dreams becomes simpler and more realistic.</p>
-</section>
+            const remaining = goal - current;
+            const monthly = months > 0 ? remaining / months : 0;
 
-<section>
-<h2>Related Tools</h2>
-<div class="cards">
-<div class="card">
-<h3>Monthly Budget Calculator</h3>
-<p>Plan your income and expenses efficiently.</p>
-<a href="monthly-budget-calculator.html">Use Tool</a>
-</div>
-<div class="card">
-<h3>Personal Loan Calculator</h3>
-<p>Calculate EMI and interest for personal loans.</p>
-<a href="personal-loan-calculator.html">Use Tool</a>
-</div>
-<div class="card">
-<h3>Simple Interest Calculator</h3>
-<p>Calculate simple interest instantly.</p>
-<a href="simple-interest-calculator.html">Use Tool</a>
-</div>
-</div>
-</section>
+            const output = document.getElementById('output');
+            output.style.display = 'block';
+            output.innerHTML = `
+                <h3>Savings Plan</h3>
+                <p><strong>Total Goal:</strong> ₹${goal.toLocaleString()}</p>
+                <p><strong>Remaining Amount:</strong> ₹${remaining.toLocaleString()}</p>
+                <p><strong>Monthly Savings Required:</strong> <span class="highlight-score">₹${monthly.toFixed(2)}</span></p>
+            `;
+            
+            // Smooth scroll to result
+            output.scrollIntoView({behavior: "smooth"});
+        }
 
-</main>
-
-<footer>
-<p>© 2026 Toolvala | Smart Online Calculators</p>
-</footer>
-
+        // FAQ Toggle Function
+        function toggleFaq(element) {
+            const answer = element.nextElementSibling;
+            const icon = element.querySelector('i');
+            
+            if (answer.style.display === "block") {
+                answer.style.display = "none";
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+            } else {
+                answer.style.display = "block";
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-up');
+            }
+        }
+    </script>
+    <div id="footer"></div>
 <script>
-function calculateSavings(){
-  const goal = Number(document.getElementById('goal').value) || 0;
-  const current = Number(document.getElementById('current').value) || 0;
-  const months = Number(document.getElementById('months').value) || 0;
-
-  const remaining = goal - current;
-  const monthly = months > 0 ? remaining / months : 0;
-
-  const output = document.getElementById('output');
-  output.style.display = 'block';
-  output.innerHTML = `
-    <h3>Savings Plan</h3>
-    <p><strong>Total Goal:</strong> ₹${goal}</p>
-    <p><strong>Remaining Amount:</strong> ₹${remaining}</p>
-    <p><strong>Monthly Savings Required:</strong> ₹${monthly.toFixed(2)}</p>
-  `;
-}
+fetch("/footer.html")
+  .then(r => r.text())
+  .then(d => {
+    document.getElementById("footer").innerHTML = d;
+    document.getElementById("year").textContent = new Date().getFullYear();
+  });
 </script>
-
+  <div id="footer"></div>
+<script>
+fetch("/footer.html")
+  .then(r => r.text())
+  .then(d => {
+    document.getElementById("footer").innerHTML = d;
+    document.getElementById("year").textContent = new Date().getFullYear();
+  });
+</script>
 </body>
 </html>
