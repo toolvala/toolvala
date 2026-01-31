@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscription Validity & Budget Calculator | Track Mobile, DTH, OTT Expenses</title>
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">.
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Manage all your recharges in one place. Calculate expiry dates and total monthly budget for Mobile, DTH (TV), Broadband, and OTT subscriptions. Free financial tool.">
+    <meta name="keywords" content="dth recharge calculator, ott subscription manager, monthly recharge budget, tv recharge validity, broadband bill tracker, subscription expiry tracker, digital expense calculator, toolvala">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.toolvala.in/subscription-budget-calculator.html">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Subscription & Recharge Manager - Toolvala.in">
+    <meta property="og:description" content="Track Mobile, TV, and OTT expiries and calculate your total monthly digital spend.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolvala.in/subscription-budget-calculator.html">
+
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Schema Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Subscription Budget Calculator",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "INR"
+      },
+      "description": "A tool to track expiry dates and calculate monthly budgets for DTH, Mobile, and OTT subscriptions."
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary: #0891b2; /* Cyan-700 */
+            --primary-dark: #0e7490;
+            --secondary: #ecfeff;
+            --text-main: #0f172a;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --success: #16a34a;
+            --warning: #f59e0b;
+            --danger: #dc2626;
+            --white: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        .logo span { color: var(--text-main); }
+
+        /* Main Layout */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .tool-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .tool-header h1 {
+            font-size: 2.5rem;
+            color: var(--text-main);
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+        .tool-header p { color: var(--text-light); font-size: 1.1rem; }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+        }
+
+        /* Input Card */
+        .input-card {
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            padding: 25px;
+            height: fit-content;
+        }
+
+        .form-group { margin-bottom: 15px; }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(8, 145, 178, 0.1);
+        }
+
+        .btn-add {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-add:hover { background: var(--primary-dark); }
+
+        /* List Card */
+        .list-card {
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            padding: 25px;
+            min-height: 400px;
+        }
+
+        .summary-box {
+            background: var(--secondary);
+            border: 1px solid #cffafe;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .summary-item h4 { font-size: 0.9rem; color: var(--text-light); margin-bottom: 5px; }
+        .summary-item p { font-size: 1.5rem; font-weight: 800; color: var(--primary-dark); }
+
+        .sub-list {
+            list-style: none;
+        }
+        .sub-item {
+            display: grid;
+            grid-template-columns: auto 1fr auto auto auto;
+            gap: 15px;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid var(--border);
+            transition: background 0.2s;
+        }
+        .sub-item:hover { background: #f8fafc; }
+        .sub-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+        .icon-mobile { background: #3b82f6; }
+        .icon-dth { background: #f97316; }
+        .icon-broadband { background: #8b5cf6; }
+        .icon-ott { background: #ef4444; }
+
+        .sub-details h4 { font-size: 1rem; margin-bottom: 2px; }
+        .sub-details span { font-size: 0.85rem; color: var(--text-light); }
+        
+        .sub-expiry { text-align: right; }
+        .days-left { font-weight: 700; font-size: 0.9rem; }
+        .status-badge { font-size: 0.75rem; padding: 2px 8px; border-radius: 12px; }
+        .status-ok { background: #dcfce7; color: #166534; }
+        .status-warn { background: #fef9c3; color: #854d0e; }
+        .status-danger { background: #fee2e2; color: #991b1b; }
+
+        .btn-delete {
+            background: none; border: none; color: #94a3b8; cursor: pointer; font-size: 1.1rem;
+        }
+        .btn-delete:hover { color: var(--danger); }
+
+        /* Related Tools */
+        .related-tools { margin-top: 60px; }
+        .section-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 20px; border-left: 5px solid var(--primary); padding-left: 15px; }
+        .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+        .tool-link {
+            display: block;
+            background: var(--white);
+            padding: 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            transition: transform 0.2s, border-color 0.2s;
+            text-align: center;
+            font-weight: 600;
+        }
+        .tool-link:hover { transform: translateY(-3px); border-color: var(--primary); color: var(--primary); }
+        .tool-link i { display: block; font-size: 1.5rem; margin-bottom: 10px; color: var(--primary); }
+
+        /* Content Article */
+        .content-article {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin-top: 60px;
+        }
+        .content-article h2 { color: var(--primary-dark); margin-top: 30px; margin-bottom: 15px; font-size: 1.8rem; }
+        .content-article h3 { color: var(--text-main); margin-top: 25px; margin-bottom: 10px; font-size: 1.4rem; }
+        .content-article p { margin-bottom: 15px; color: #334155; text-align: justify; }
+        .content-article ul { margin-left: 20px; margin-bottom: 20px; color: #334155; }
+        .content-article li { margin-bottom: 8px; }
+        .highlight-box {
+            background: #ecfeff;
+            border-left: 4px solid var(--primary);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* FAQ */
+        .faq-item { border-bottom: 1px solid var(--border); padding: 15px 0; }
+        .faq-question { font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; color: var(--text-main); }
+        .faq-answer { margin-top: 10px; display: none; color: var(--text-light); }
+
+        @media (max-width: 768px) {
+            .dashboard-grid { grid-template-columns: 1fr; }
+            .sub-item { grid-template-columns: auto 1fr auto; gap: 10px; }
+            .sub-item .sub-cost { display: none; } /* Hide cost on mobile list to save space */
+            .tool-header h1 { font-size: 2rem; }
+            .content-article { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">Toolvala<span>.in</span></a>
+        </div>
+    </nav>
+
+    <div class="container">
+        
+        <header class="tool-header">
+            <h1>Subscription & Recharge Manager</h1>
+            <p>Track Mobile, DTH, Broadband, and OTT expiries. Calculate your total monthly digital budget.</p>
+        </header>
+
+        <div class="dashboard-grid">
+            <!-- Input Section -->
+            <div class="input-card">
+                <h3 style="margin-bottom: 20px;">Add New Subscription</h3>
+                
+                <div class="form-group">
+                    <label>Category</label>
+                    <select id="category" class="form-control">
+                        <option value="mobile">Mobile Recharge</option>
+                        <option value="dth">TV / DTH</option>
+                        <option value="broadband">Broadband / WiFi</option>
+                        <option value="ott">OTT (Netflix, etc.)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Service Name</label>
+                    <input type="text" id="serviceName" class="form-control" placeholder="e.g. Jio, Tata Sky, Netflix">
+                </div>
+
+                <div class="form-group">
+                    <label>Amount (₹)</label>
+                    <input type="number" id="amount" class="form-control" placeholder="e.g. 666">
+                </div>
+
+                <div class="form-group">
+                    <label>Validity (Days)</label>
+                    <input type="number" id="validity" class="form-control" placeholder="e.g. 84">
+                </div>
+
+                <div class="form-group">
+                    <label>Recharge Date</label>
+                    <input type="date" id="startDate" class="form-control">
+                </div>
+
+                <button class="btn-add" onclick="addSubscription()">Add to List</button>
+            </div>
+
+            <!-- List Section -->
+            <div class="list-card">
+                <div class="summary-box">
+                    <div class="summary-item">
+                        <h4>Active Services</h4>
+                        <p id="totalCount">0</p>
+                    </div>
+                    <div class="summary-item" style="text-align: right;">
+                        <h4>Monthly Budget</h4>
+                        <p id="monthlyTotal">₹0</p>
+                    </div>
+                </div>
+
+                <ul class="sub-list" id="subscriptionList">
+                    <!-- Items will be added here -->
+                    <li style="text-align: center; padding: 40px; color: #94a3b8;">
+                        No subscriptions added yet. Add one to start tracking!
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Related Tools -->
+        <div class="related-tools">
+            <h2 class="section-title">Related Financial Tools</h2>
+            <div class="tools-grid">
+                <a href="mobile-recharge-validity-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-mobile-screen"></i>
+                    Mobile Validity
+                </a>
+                <a href="savings-goal-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-bullseye"></i>
+                    Savings Goal
+                </a>
+                <a href="saving-challenge-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-piggy-bank"></i>
+                    Saving Challenge
+                </a>
+                <a href="pf-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-money-bill-wave"></i>
+                    PF Calculator
+                </a>
+                <a href="margin-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-chart-line"></i>
+                    Margin Calc
+                </a>
+                <a href="inflation-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-arrow-trend-up"></i>
+                    Inflation Calc
+                </a>
+                <a href="overtime-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-clock"></i>
+                    Overtime Calc
+                </a>
+            </div>
+        </div>
+
+        <!-- SEO Content -->
+        <article class="content-article">
+            <h2>Managing the Chaos of Modern Subscriptions</h2>
+            <p>Gone are the days when we only had to worry about a single electricity bill and a landline connection. Today, the average Indian household juggles multiple digital subscriptions: separate mobile plans for every family member, a DTH (TV) connection, high-speed Broadband, and a plethora of OTT apps like Netflix, Prime, and Hotstar. Keeping track of when each plan expires and how much you are actually spending per month can be a nightmare.</p>
+
+            <p><strong>Toolvala.in's Subscription & Recharge Manager</strong> is designed to bring order to this chaos. Unlike a simple validity calculator, this tool acts as a comprehensive dashboard for your digital life.</p>
+
+            <h3>Why DTH (TV) Recharge Logic is Different</h3>
+            <p>While mobile plans usually have fixed validity (28, 56, 84 days), DTH recharges work differently. Most DTH providers (Tata Play, Airtel Digital TV, Dish TV) operate on a <strong>Daily Burn Rate</strong>.</p>
+            <ul>
+                <li><strong>Balance Based:</strong> You load money into your wallet (e.g., ₹500).</li>
+                <li><strong>Daily Deduction:</strong> The provider deducts a specific amount daily based on your selected channels and NCF (Network Capacity Fee).</li>
+                <li><strong>Flexibility:</strong> If you remove a channel, your daily burn rate drops, and your validity extends automatically.</li>
+            </ul>
+            <p>Our tool allows you to input your recharge amount and estimated validity to calculate the <strong>Monthly Equivalent Cost</strong>, helping you compare DTH vs. OTT spending.</p>
+
+            <h3>The "Subscription Fatigue" Problem</h3>
+            <p>Are you paying for subscriptions you don't use? Many users sign up for an annual plan and forget about it. By listing all your active services in our tool, you get a clear picture of your <strong>Total Monthly Digital Budget</strong>. You might be surprised to find you are spending ₹2,000+ per month just on entertainment!</p>
+
+            <h3>Bundled Plans vs. Individual Subscriptions</h3>
+            <p>Telecom operators like Airtel (Black) and Jio (Fiber) now offer bundled plans that combine Fiber, DTH, and OTT. Use our calculator to sum up your individual costs. If your total individual spend is ₹1,500 but a bundled plan offers the same for ₹1,099, it’s time to switch.</p>
+
+            <h3>How to Use This Tool</h3>
+            <ol>
+                <li><strong>Select Category:</strong> Choose between Mobile, DTH, Broadband, or OTT.</li>
+                <li><strong>Enter Details:</strong> Input the service name (e.g., "Dad's Jio"), the amount paid, and the validity in days.</li>
+                <li><strong>Set Date:</strong> Enter the date you last recharged.</li>
+                <li><strong>Analyze:</strong> The tool instantly calculates the expiry date and adds the amortized monthly cost to your total budget.</li>
+            </ol>
+
+            <h3>Frequently Asked Questions (FAQs)</h3>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">1. How is the "Monthly Budget" calculated? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">We use an amortization formula: <code>(Recharge Amount / Validity Days) * 30</code>. This gives you a standardized monthly cost even for annual or quarterly plans.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">2. Does this tool connect to my bank? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">No. This is a client-side calculator. No data is sent to any server or bank. Your data is lost if you refresh the page (unless you use the browser's local storage features in future updates).</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">3. Can I track annual Prime/Hotstar plans? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">Yes! Enter 365 days as validity. The tool will show you the expiry date next year and break down the cost to a monthly figure (e.g., ₹1499/year = ₹123/month).</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">4. What if my DTH plan doesn't have fixed days? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">Check your DTH app for "Days Left" or divide your balance by your daily deduction amount to get the estimated days. Enter that number here.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">5. Why is 28 days the standard for mobile? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">Telecom companies use 28-day cycles to fit 13 billing cycles into a 12-month year, effectively gaining one extra month of revenue from every user.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">6. How do I know which plan expires first? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">Our tool automatically sorts your list or highlights plans expiring within 7 days in yellow/red, so you never face a disconnection.</div>
+            </div>
+
+            <p>Take control of your digital expenses with <strong>Toolvala.in</strong>. Smart tracking leads to smart savings!</p>
+        </article>
+    </div>
+
+    <script>
+        // Set default date
+        document.getElementById('startDate').valueAsDate = new Date();
+
+        let subscriptions = [];
+
+        function addSubscription() {
+            const category = document.getElementById('category').value;
+            const name = document.getElementById('serviceName').value;
+            const amount = parseFloat(document.getElementById('amount').value);
+            const validity = parseInt(document.getElementById('validity').value);
+            const startDateVal = document.getElementById('startDate').value;
+
+            if (!name || isNaN(amount) || isNaN(validity) || !startDateVal) {
+                alert("Please fill all fields correctly.");
+                return;
+            }
+
+            // Calculate Expiry
+            const start = new Date(startDateVal);
+            const expiry = new Date(start);
+            expiry.setDate(start.getDate() + validity - 1);
+
+            // Calculate Monthly Cost
+            const monthlyCost = (amount / validity) * 30;
+
+            const sub = {
+                id: Date.now(),
+                category,
+                name,
+                amount,
+                validity,
+                expiry,
+                monthlyCost
+            };
+
+            subscriptions.push(sub);
+            renderList();
+            
+            // Clear inputs
+            document.getElementById('serviceName').value = '';
+            document.getElementById('amount').value = '';
+            document.getElementById('validity').value = '';
+        }
+
+        function deleteSub(id) {
+            subscriptions = subscriptions.filter(sub => sub.id !== id);
+            renderList();
+        }
+
+        function renderList() {
+            const list = document.getElementById('subscriptionList');
+            list.innerHTML = '';
+
+            let totalMonthly = 0;
+            const today = new Date();
+            today.setHours(0,0,0,0);
+
+            // Sort by expiry date (soonest first)
+            subscriptions.sort((a, b) => a.expiry - b.expiry);
+
+            subscriptions.forEach(sub => {
+                totalMonthly += sub.monthlyCost;
+
+                // Calculate Days Left
+                const diffTime = sub.expiry - today;
+                const daysLeft = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                // Determine Status
+                let statusClass = 'status-ok';
+                let statusText = 'Active';
+                
+                if (daysLeft < 0) {
+                    statusClass = 'status-danger';
+                    statusText = 'Expired';
+                } else if (daysLeft <= 7) {
+                    statusClass = 'status-warn';
+                    statusText = 'Expiring Soon';
+                }
+
+                // Icon Class
+                let iconClass = '';
+                switch(sub.category) {
+                    case 'mobile': iconClass = 'icon-mobile fa-mobile-screen'; break;
+                    case 'dth': iconClass = 'icon-dth fa-tv'; break;
+                    case 'broadband': iconClass = 'icon-broadband fa-wifi'; break;
+                    case 'ott': iconClass = 'icon-ott fa-play'; break;
+                }
+
+                const li = document.createElement('li');
+                li.className = 'sub-item';
+                li.innerHTML = `
+                    <div class="sub-icon ${sub.category === 'mobile' ? 'icon-mobile' : sub.category === 'dth' ? 'icon-dth' : sub.category === 'broadband' ? 'icon-broadband' : 'icon-ott'}">
+                        <i class="fa-solid ${iconClass}"></i>
+                    </div>
+                    <div class="sub-details">
+                        <h4>${sub.name}</h4>
+                        <span>₹${sub.amount} for ${sub.validity} days</span>
+                    </div>
+                    <div class="sub-cost" style="text-align:right;">
+                        <div style="font-weight:700; color:var(--text-light);">₹${sub.monthlyCost.toFixed(0)}</div>
+                        <span style="font-size:0.75rem;">/mo</span>
+                    </div>
+                    <div class="sub-expiry">
+                        <div class="days-left" style="color:${daysLeft < 0 ? 'var(--danger)' : 'var(--text-main)'}">
+                            ${daysLeft < 0 ? Math.abs(daysLeft) + ' days ago' : daysLeft + ' days left'}
+                        </div>
+                        <span class="status-badge ${statusClass}">${statusText}</span>
+                    </div>
+                    <button class="btn-delete" onclick="deleteSub(${sub.id})"><i class="fa-solid fa-trash"></i></button>
+                `;
+                list.appendChild(li);
+            });
+
+            if (subscriptions.length === 0) {
+                list.innerHTML = '<li style="text-align: center; padding: 40px; color: #94a3b8;">No subscriptions added yet. Add one to start tracking!</li>';
+            }
+
+            // Update Summary
+            document.getElementById('totalCount').innerText = subscriptions.length;
+            document.getElementById('monthlyTotal').innerText = "₹" + totalMonthly.toFixed(0);
+        }
+
+        function toggleFaq(element) {
+            const answer = element.nextElementSibling;
+            const icon = element.querySelector('i');
+            
+            if (answer.style.display === "block") {
+                answer.style.display = "none";
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+            } else {
+                answer.style.display = "block";
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-up');
+            }
+        }
+    </script>
+    <div id="footer"></div>
+<script>
+fetch("/footer.html")
+  .then(r => r.text())
+  .then(d => {
+    document.getElementById("footer").innerHTML = d;
+    document.getElementById("year").textContent = new Date().getFullYear();
+  });
+</script>
+ <div id="footer"></div>
+<script>
+fetch("/footer.html")
+  .then(r => r.text())
+  .then(d => {
+    document.getElementById("footer").innerHTML = d;
+    document.getElementById("year").textContent = new Date().getFullYear();
+  });
+</script>
+</body>
+</html>
