@@ -1,113 +1,667 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Mobile Recharge Validity Calculator | Toolvala</title>
-<meta name="description" content="Mobile Recharge Validity Calculator helps you find recharge expiry date, remaining validity days, and next recharge date for prepaid mobile plans in India.">
-<meta name="keywords" content="mobile recharge validity calculator, recharge expiry date calculator, prepaid validity checker, mobile plan validity tool">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://www.toolvala.in/mobile-recharge-validity-calculator.html">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Recharge Validity Calculator | Plan Expiry & Cost Per Day - Toolvala.in</title>
+    <link rel="stylesheet"
+     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">.
 
-<style>
-body{font-family:Arial,sans-serif;background:#f4f6f8;margin:0;padding:20px}
-.container{max-width:900px;background:#fff;margin:auto;padding:20px;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,.1)}
-h1{text-align:center}
-.tool-box{max-width:420px;margin:auto}
-label{display:block;margin-top:12px}
-input,select{width:100%;padding:10px;margin-top:5px}
-button{width:100%;margin-top:15px;padding:12px;background:#dc2626;color:#fff;border:none;border-radius:5px;cursor:pointer}
-.result{margin-top:15px;font-weight:bold;text-align:center}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px;margin-top:30px}
-.card{border:1px solid #ddd;padding:15px;border-radius:8px;text-align:center;text-decoration:none;color:#000}
-.card:hover{background:#fef2f2}
-.content{margin-top:40px;line-height:1.7}
-</style>
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Calculate your mobile recharge plan expiry date and cost per day instantly. Compare Jio, Airtel, Vi, and BSNL plans to find the best value for money. Free online tool.">
+    <meta name="keywords" content="mobile recharge calculator, plan validity calculator, recharge expiry date, cost per day calculator, jio plan calculator, airtel validity check, best mobile plan comparator, telecom plan calculator, toolvala">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.toolvala.in/mobile-recharge-validity-calculator.html">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Mobile Recharge Validity Calculator - Toolvala.in">
+    <meta property="og:description" content="Find out exactly when your plan expires and how much you are paying per day. Compare plans instantly.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolvala.in/mobile-recharge-validity-calculator.html">
 
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Schema Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Mobile Recharge Validity Calculator",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "INR"
+      },
+      "description": "A tool to calculate mobile plan expiry dates and cost-per-day efficiency."
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary: #8b5cf6; /* Violet */
+            --primary-dark: #7c3aed;
+            --secondary: #f5f3ff;
+            --text-main: #0f172a;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --success: #16a34a;
+            --danger: #dc2626;
+            --white: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--secondary);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        .logo span { color: var(--text-main); }
+
+        /* Main Layout */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .tool-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .tool-header h1 {
+            font-size: 2.5rem;
+            color: var(--text-main);
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+        .tool-header p { color: var(--text-light); font-size: 1.1rem; }
+
+        /* Calculator Box */
+        .calculator-box {
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            padding: 30px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            margin-bottom: 25px;
+            background: #f3f4f6;
+            padding: 5px;
+            border-radius: 10px;
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 12px;
+            background: none;
+            border: none;
+            font-weight: 600;
+            color: var(--text-light);
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        .tab-btn.active {
+            background: var(--white);
+            color: var(--primary);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .form-group { margin-bottom: 20px; }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+        .input-group {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .input-icon {
+            position: absolute;
+            left: 12px;
+            color: var(--text-light);
+        }
+        .form-control {
+            width: 100%;
+            padding: 12px 12px 12px 35px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border 0.2s;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+
+        .btn-calculate {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-calculate:hover { background: var(--primary-dark); }
+
+        /* Result Display */
+        .result-box {
+            margin-top: 25px;
+            background: #f5f3ff;
+            border: 1px solid #ddd6fe;
+            padding: 25px;
+            border-radius: 12px;
+            display: none;
+        }
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 1rem;
+            color: var(--text-main);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding-bottom: 8px;
+        }
+        .result-row:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .result-label { color: var(--text-light); }
+        .result-value { font-weight: 700; color: var(--primary-dark); }
+        
+        .highlight-val {
+            font-size: 1.5rem;
+            color: var(--primary);
+            display: block;
+            text-align: center;
+            margin-top: 5px;
+        }
+
+        /* Comparison Mode Styles */
+        .compare-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        .winner-badge {
+            background: var(--success);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 5px;
+        }
+
+        /* Related Tools */
+        .related-tools {
+            margin-top: 60px;
+        }
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            border-left: 5px solid var(--primary);
+            padding-left: 15px;
+        }
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+        .tool-link {
+            display: block;
+            background: var(--white);
+            padding: 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            transition: transform 0.2s, border-color 0.2s;
+            text-align: center;
+            font-weight: 600;
+        }
+        .tool-link:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        .tool-link i { display: block; font-size: 1.5rem; margin-bottom: 10px; color: var(--primary); }
+
+        /* Content Article */
+        .content-article {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin-top: 60px;
+        }
+        .content-article h2 { color: var(--primary-dark); margin-top: 30px; margin-bottom: 15px; font-size: 1.8rem; }
+        .content-article h3 { color: var(--text-main); margin-top: 25px; margin-bottom: 10px; font-size: 1.4rem; }
+        .content-article p { margin-bottom: 15px; color: #334155; text-align: justify; }
+        .content-article ul { margin-left: 20px; margin-bottom: 20px; color: #334155; }
+        .content-article li { margin-bottom: 8px; }
+        .highlight-box {
+            background: #f5f3ff;
+            border-left: 4px solid var(--primary);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        /* FAQ Section */
+        .faq-item {
+            border-bottom: 1px solid var(--border);
+            padding: 15px 0;
+        }
+        .faq-question {
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-main);
+        }
+        .faq-answer {
+            margin-top: 10px;
+            display: none;
+            color: var(--text-light);
+        }
+        .faq-visible { display: block; }
+
+        @media (max-width: 768px) {
+            .tool-header h1 { font-size: 2rem; }
+            .content-article { padding: 20px; }
+            .compare-grid { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body>
-<div class="container">
-<h1>Mobile Recharge Validity Calculator</h1>
 
-<div class="tool-box">
-<label>Last Recharge Date</label>
-<input type="date" id="date">
-<label>Plan Validity (Days)</label>
-<input type="number" id="days" placeholder="Example: 28">
-<button onclick="calcValidity()">Check Validity</button>
-<div class="result" id="res"></div>
-</div>
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">Toolvala<span>.in</span></a>
+        </div>
+    </nav>
 
-<h2>Related Tools</h2>
-<div class="cards">
-<a class="card" href="digital-detox-calculator.html">Digital Detox Calculator</a>
-<a class="card" href="sleep-cycle-calculator.html">Sleep Cycle Calculator</a>
-<a class="card" href="daily-expense-calculator.html">Daily Expense Calculator</a>
-<a class="card" href="monthly-saving-challenge.html">Saving Challenge Calculator</a>
-</div>
+    <div class="container">
+        
+        <header class="tool-header">
+            <h1>Mobile Recharge Validity Calculator</h1>
+            <p>Calculate plan expiry dates, cost per day, and compare plans to find the best value.</p>
+        </header>
 
-<div class="content">
-<h2>What Is Mobile Recharge Validity?</h2>
-<p>Mobile recharge validity refers to the number of days a prepaid mobile plan remains active after recharge. Once validity expires, outgoing services may stop unless a new recharge is done.</p>
+        <div class="calculator-box">
+            <div class="tabs">
+                <button class="tab-btn active" onclick="switchTab('validity')">Check Validity</button>
+                <button class="tab-btn" onclick="switchTab('compare')">Compare Plans</button>
+            </div>
 
-<h2>How Mobile Recharge Validity Calculator Works</h2>
-<p>This calculator adds your plan validity days to the last recharge date and shows the exact expiry date along with remaining days. It helps users avoid service interruption.</p>
+            <!-- Mode 1: Validity & Cost -->
+            <div id="validityMode">
+                <div class="form-group">
+                    <label>Recharge Amount (₹)</label>
+                    <div class="input-group">
+                        <span class="input-icon">₹</span>
+                        <input type="number" id="amount" class="form-control" placeholder="e.g. 299">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Validity (Days)</label>
+                    <div class="input-group">
+                        <span class="input-icon"><i class="fa-regular fa-calendar"></i></span>
+                        <input type="number" id="days" class="form-control" placeholder="e.g. 28">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Recharge Date</label>
+                    <div class="input-group">
+                        <span class="input-icon"><i class="fa-solid fa-calendar-day"></i></span>
+                        <input type="date" id="startDate" class="form-control">
+                    </div>
+                </div>
+                <button class="btn-calculate" onclick="calculateValidity()">Calculate</button>
+                
+                <div id="validityResult" class="result-box">
+                    <div class="result-row">
+                        <span class="result-label">Plan Expires On:</span>
+                        <span class="result-value highlight-val" id="expiryDate">-</span>
+                    </div>
+                    <div class="result-row">
+                        <span class="result-label">Cost Per Day:</span>
+                        <span class="result-value" id="costPerDay">₹0</span>
+                    </div>
+                    <div class="result-row">
+                        <span class="result-label">Cost Per Month (30 Days):</span>
+                        <span class="result-value" id="costPerMonth">₹0</span>
+                    </div>
+                </div>
+            </div>
 
-<h2>Why This Calculator Is Useful</h2>
-<p>Many users forget their recharge expiry date, leading to service disruption. This tool ensures you stay connected by planning recharges in advance.</p>
+            <!-- Mode 2: Compare Plans -->
+            <div id="compareMode" style="display: none;">
+                <div class="compare-grid">
+                    <div>
+                        <h4 style="margin-bottom:10px; color:var(--primary);">Plan A</h4>
+                        <div class="form-group">
+                            <input type="number" id="amountA" class="form-control" placeholder="Price (₹)">
+                        </div>
+                        <div class="form-group">
+                            <input type="number" id="daysA" class="form-control" placeholder="Days">
+                        </div>
+                    </div>
+                    <div>
+                        <h4 style="margin-bottom:10px; color:var(--primary);">Plan B</h4>
+                        <div class="form-group">
+                            <input type="number" id="amountB" class="form-control" placeholder="Price (₹)">
+                        </div>
+                        <div class="form-group">
+                            <input type="number" id="daysB" class="form-control" placeholder="Days">
+                        </div>
+                    </div>
+                </div>
+                <button class="btn-calculate" onclick="comparePlans()">Compare Value</button>
 
-<h2>Who Can Use This Tool</h2>
-<ul>
-<li>Prepaid mobile users</li>
-<li>Students and professionals</li>
-<li>Senior citizens</li>
-<li>People managing multiple SIM cards</li>
-</ul>
+                <div id="compareResult" class="result-box">
+                    <div class="result-row">
+                        <span class="result-label">Plan A Cost/Day:</span>
+                        <span class="result-value" id="cpdA">₹0</span>
+                    </div>
+                    <div class="result-row">
+                        <span class="result-label">Plan B Cost/Day:</span>
+                        <span class="result-value" id="cpdB">₹0</span>
+                    </div>
+                    <div style="text-align: center; margin-top: 15px; border-top: 1px solid #ddd; padding-top: 10px;">
+                        <span id="winner" style="font-weight: 700; color: var(--success); font-size: 1.1rem;"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-<h2>Benefits of Using Toolvala Recharge Calculator</h2>
-<ul>
-<li>Instant expiry date calculation</li>
-<li>No app installation needed</li>
-<li>Works for all telecom operators</li>
-<li>Free and easy to use</li>
-<li>Mobile-friendly interface</li>
-</ul>
+        <!-- Related Tools -->
+        <div class="related-tools">
+            <h2 class="section-title">Related Financial Tools</h2>
+            <div class="tools-grid">
+                <a href="savings-goal-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-bullseye"></i>
+                    Savings Goal
+                </a>
+                <a href="saving-challenge-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-piggy-bank"></i>
+                    Saving Challenge
+                </a>
+                <a href="pf-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-money-bill-wave"></i>
+                    PF Calculator
+                </a>
+                <a href="margin-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-chart-line"></i>
+                    Margin Calc
+                </a>
+                <a href="inflation-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-arrow-trend-up"></i>
+                    Inflation Calc
+                </a>
+                <a href="overtime-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-clock"></i>
+                    Overtime Calc
+                </a>
+            </div>
+        </div>
 
-<h2>Examples</h2>
-<p>If your last recharge date is 1 January and validity is 28 days, your plan expires on 28 January. This calculator shows remaining days accurately.</p>
+        <!-- SEO Content -->
+        <article class="content-article">
+            <h2>Mastering Mobile Recharges: The Ultimate Guide to Validity and Cost Efficiency</h2>
+            <p>In today's digital age, a mobile connection is as essential as electricity or water. With telecom operators like Jio, Airtel, Vi, and BSNL constantly updating their tariffs, finding the best value for money can be confusing. Is the ₹2999 annual plan actually cheaper than the ₹299 monthly plan? When exactly will your current plan expire? <strong>Toolvala.in's Mobile Recharge Validity Calculator</strong> answers these questions instantly.</p>
 
-<h2>Frequently Asked Questions</h2>
-<p><strong>Q. Does this tool support all telecom companies?</strong><br>Yes, it works for all prepaid plans.</p>
-<p><strong>Q. Is recharge date counted as day one?</strong><br>Yes, validity starts from recharge date.</p>
-<p><strong>Q. Is this calculator free?</strong><br>Yes, completely free on Toolvala.</p>
+            <p>This comprehensive guide will help you understand telecom pricing strategies, how to calculate the true cost of your plan, and tips to save money on your mobile bills.</p>
 
-<h2>Conclusion</h2>
-<p>The Mobile Recharge Validity Calculator is a must-have utility for prepaid mobile users. It helps you track plan expiry dates accurately and avoid last-minute recharge stress. Use this free Toolvala calculator to stay connected effortlessly.</p>
-</div>
-</div>
+            <h3>Why Calculate Cost Per Day?</h3>
+            <p>Telecom companies often market plans based on total benefits (e.g., "2GB/Day for 84 Days"). However, the upfront cost can be misleading. To truly compare plans, you need to look at the <strong>Cost Per Day (CPD)</strong>.</p>
 
+            <div class="highlight-box">
+                <strong>Formula:</strong><br>
+                Cost Per Day = Total Recharge Amount ÷ Validity Days
+            </div>
+
+            <p><strong>Example:</strong><br>
+            Plan A: ₹299 for 28 Days -> 299 / 28 = <strong>₹10.67 per day</strong><br>
+            Plan B: ₹719 for 84 Days -> 719 / 84 = <strong>₹8.55 per day</strong><br>
+            <em>Result: Plan B is significantly cheaper in the long run, saving you over ₹700 a year!</em></p>
+
+            <h3>Understanding "Telecom Months" (28 Days vs. 30 Days)</h3>
+            <p>Have you noticed that most monthly plans are valid for only 28 days, not 30 or 31? This is a strategic move by telecom operators.</p>
+            <ul>
+                <li><strong>The Math:</strong> There are 365 days in a year.</li>
+                <li><strong>28-Day Cycle:</strong> 365 / 28 = <strong>13.03 recharges per year</strong>.</li>
+                <li><strong>30-Day Cycle:</strong> 365 / 30 = <strong>12.16 recharges per year</strong>.</li>
+            </ul>
+            <p>By setting validity to 28 days, companies force you to recharge <strong>13 times a year</strong> instead of 12. That's one extra month of revenue for them! Our calculator helps you visualize this hidden cost.</p>
+
+            <h3>How to Use Toolvala.in Recharge Calculator</h3>
+            <p>Our tool offers two powerful modes:</p>
+
+            <h4>Mode 1: Validity Check</h4>
+            <ol>
+                <li><strong>Enter Amount:</strong> Input the price of the recharge pack.</li>
+                <li><strong>Enter Validity:</strong> Input the number of days the plan is valid for.</li>
+                <li><strong>Select Date:</strong> Choose the date you recharged (defaults to today).</li>
+                <li><strong>Result:</strong> The tool tells you the exact date your plan expires and the daily cost.</li>
+            </ol>
+
+            <h4>Mode 2: Plan Comparison</h4>
+            <ol>
+                <li>Enter the Price and Validity for <strong>Plan A</strong> (e.g., Monthly Plan).</li>
+                <li>Enter the Price and Validity for <strong>Plan B</strong> (e.g., Annual Plan).</li>
+                <li>Click Compare. The tool highlights the "Winner" based on the lowest daily cost.</li>
+            </ol>
+
+            <h3>Tips to Save Money on Mobile Recharges</h3>
+            <ul>
+                <li><strong>Go Long-Term:</strong> Annual plans (365 days) almost always offer a lower cost per day compared to monthly plans.</li>
+                <li><strong>Check "Value" Packs:</strong> Sometimes, plans with less data (e.g., 1.5GB/day vs 2GB/day) offer the same validity for a much lower price. If you have Wi-Fi at home/office, switch to a lower data plan.</li>
+                <li><strong>Look for OTT Bundles:</strong> If you pay for Disney+ Hotstar, Netflix, or Amazon Prime separately, look for recharge plans that include these subscriptions for free.</li>
+                <li><strong>Use Wi-Fi Calling:</strong> If you travel abroad, use Wi-Fi calling to avoid expensive international roaming packs.</li>
+            </ul>
+
+            <h3>Frequently Asked Questions (FAQs)</h3>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">1. Why do plans expire at midnight? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">Most telecom systems run batch processes at midnight (00:00 hours) to reset data quotas and check for plan expiry. If your plan expires on the 15th, it usually means it works until 11:59 PM on the 15th.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">2. Does the recharge date count as Day 1? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">Yes, usually. If you recharge at 10 PM on the 1st with a 28-day plan, the 1st is counted as Day 1, and you only get 2 hours of service for that "day". It's best to recharge early in the morning.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">3. What happens if I recharge before my current plan expires? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">For most operators (Jio, Airtel), the new plan gets "queued" and automatically activates once the current plan expires. However, for some BSNL/Vi plans, it might override the existing plan. Always check the operator's terms.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">4. Is the 365-day plan actually 365 days? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">Usually, yes. However, some "annual" plans are actually 336 days (28 days * 12 cycles). Always check the specific validity days mentioned, not just the "1 Year" tag.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">5. How do I calculate data cost? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">Divide the recharge amount by the total GBs offered. Example: ₹299 for 42GB (1.5GB*28) = ₹7.11 per GB.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">6. Can I use this for DTH recharges? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">Yes! The logic of Cost Per Day and Expiry Date applies perfectly to DTH (TV) subscriptions, Netflix plans, and gym memberships too.</div>
+            </div>
+
+            <p>Use <strong>Toolvala.in</strong> to stay on top of your subscriptions. Smart calculation leads to smart savings!</p>
+        </article>
+    </div>
+
+    <script>
+        // Set default date to today
+        document.getElementById('startDate').valueAsDate = new Date();
+
+        function switchTab(mode) {
+            const validityMode = document.getElementById('validityMode');
+            const compareMode = document.getElementById('compareMode');
+            const btns = document.querySelectorAll('.tab-btn');
+
+            if (mode === 'validity') {
+                validityMode.style.display = 'block';
+                compareMode.style.display = 'none';
+                btns[0].classList.add('active');
+                btns[1].classList.remove('active');
+            } else {
+                validityMode.style.display = 'none';
+                compareMode.style.display = 'block';
+                btns[0].classList.remove('active');
+                btns[1].classList.add('active');
+            }
+        }
+
+        function calculateValidity() {
+            const amount = parseFloat(document.getElementById('amount').value);
+            const days = parseInt(document.getElementById('days').value);
+            const startDateVal = document.getElementById('startDate').value;
+            const resultBox = document.getElementById('validityResult');
+
+            if (isNaN(amount) || isNaN(days) || !startDateVal) {
+                alert("Please enter valid details.");
+                return;
+            }
+
+            // Calculate Expiry Date
+            // Note: If recharge is today (Day 1), expiry is start + (days - 1)
+            // But usually telecom apps show expiry date as the last active day.
+            // Let's assume standard addition: Date + Days
+            const startDate = new Date(startDateVal);
+            const expiryDate = new Date(startDate);
+            expiryDate.setDate(startDate.getDate() + days - 1); // -1 because start date counts as day 1
+
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const formattedDate = expiryDate.toLocaleDateString('en-IN', options);
+
+            // Calculate Costs
+            const cpd = amount / days;
+            const cpm = cpd * 30;
+
+            document.getElementById('expiryDate').innerText = formattedDate;
+            document.getElementById('costPerDay').innerText = "₹" + cpd.toFixed(2);
+            document.getElementById('costPerMonth').innerText = "₹" + cpm.toFixed(2);
+
+            resultBox.style.display = 'block';
+        }
+
+        function comparePlans() {
+            const pA = parseFloat(document.getElementById('amountA').value);
+            const dA = parseInt(document.getElementById('daysA').value);
+            const pB = parseFloat(document.getElementById('amountB').value);
+            const dB = parseInt(document.getElementById('daysB').value);
+            const resultBox = document.getElementById('compareResult');
+
+            if (isNaN(pA) || isNaN(dA) || isNaN(pB) || isNaN(dB)) {
+                alert("Please enter details for both plans.");
+                return;
+            }
+
+            const cpdA = pA / dA;
+            const cpdB = pB / dB;
+
+            document.getElementById('cpdA').innerText = "₹" + cpdA.toFixed(2);
+            document.getElementById('cpdB').innerText = "₹" + cpdB.toFixed(2);
+
+            let winnerText = "";
+            if (cpdA < cpdB) {
+                const savings = (cpdB - cpdA) * 365;
+                winnerText = `Plan A is cheaper! Saves approx ₹${savings.toFixed(0)} per year.`;
+            } else if (cpdB < cpdA) {
+                const savings = (cpdA - cpdB) * 365;
+                winnerText = `Plan B is cheaper! Saves approx ₹${savings.toFixed(0)} per year.`;
+            } else {
+                winnerText = "Both plans cost exactly the same per day.";
+            }
+
+            document.getElementById('winner').innerText = winnerText;
+            resultBox.style.display = 'block';
+        }
+
+        function toggleFaq(element) {
+            const answer = element.nextElementSibling;
+            const icon = element.querySelector('i');
+            
+            if (answer.style.display === "block") {
+                answer.style.display = "none";
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+            } else {
+                answer.style.display = "block";
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-up');
+            }
+        }
+    </script>
+    <div id="footer"></div>
 <script>
-function calcValidity(){
-var d=document.getElementById('date').value;
-var days=parseInt(document.getElementById('days').value);
-if(!d||days<=0){document.getElementById('res').innerHTML='❌ Please enter valid details';return;}
-var start=new Date(d);
-var expiry=new Date(start);
-expiry.setDate(expiry.getDate()+days-1);
-var today=new Date();
-var diff=Math.ceil((expiry-today)/(1000*60*60*24));
-var msg='Expiry Date: '+expiry.toDateString();
-msg+='<br>Remaining Days: '+(diff>=0?diff:0);
-document.getElementById('res').innerHTML=msg;
-}
+fetch("/footer.html")
+  .then(r => r.text())
+  .then(d => {
+    document.getElementById("footer").innerHTML = d;
+    document.getElementById("year").textContent = new Date().getFullYear();
+  });
 </script>
-  <div class="footer">
-<p>
-© 2026 <strong>Toolvala – Free Online Calculators & Utility Tools</strong><br>
-<a href="https://www.toolvala.in/sitemap.html">Sitemap</a>
-</p>
-</div>
-
-
+<div id="footer"></div>
+<script>
+fetch("/footer.html")
+  .then(r => r.text())
+  .then(d => {
+    document.getElementById("footer").innerHTML = d;
+    document.getElementById("year").textContent = new Date().getFullYear();
+  });
+</script>
 </body>
 </html>
