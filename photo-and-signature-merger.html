@@ -3,232 +3,524 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Photo & Signature Merger | Combine Images for Exams</title>
-    <link rel="canonical"href="https://www.toolvala.in/photo-and-signature-merger.html">
+    <title>Photo & Signature Merger | Combine Images for Exams (Free) - Toolvala.in</title>
+    <link rel="stylesheet"
+     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">.
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Merge passport photo and signature into a single image online for free with Toolvala.in. Resize, align, and compress for UPSC, SSC, IBPS, and GATE exams. 100% Client-side secure.">
+    <meta name="keywords" content="photo and signature merger, combine photo and signature, merge images for exam, join photo signature online, photo signature joiner, ssc photo signature merger, upsc photo merger, toolvala">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.toolvala.in/photo-and-signature-merger.html">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Photo & Signature Merger - Toolvala.in">
+    <meta property="og:description" content="Merge photo and signature instantly without uploading to a server. 100% Free & Secure.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolvala.in/photo-and-signature-merger.html">
 
-    <meta name="description" content="Merge passport photo and signature into a single image. Resize, align, and compress for UPSC, SSC, IBPS, and Gate exams. Free Online Tool.">
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Schema Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Photo & Signature Merger",
+      "applicationCategory": "PhotoEditor",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "INR"
+      },
+      "description": "A browser-based tool to merge passport photos and signatures into a single image file for exam applications."
+    }
+    </script>
+
     <style>
         :root {
-            --primary: #0f172a;
-            --accent: #2563eb;
-            --accent-hover: #1d4ed8;
-            --bg: #f8fafc;
-            --panel: #ffffff;
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --secondary: #f8fafc;
+            --text-main: #0f172a;
+            --text-light: #64748b;
             --border: #e2e8f0;
-            --text-main: #334155;
+            --success: #16a34a;
+            --danger: #dc2626;
+            --white: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background-color: var(--bg);
+            font-family: 'Inter', sans-serif;
+            background-color: var(--secondary);
             color: var(--text-main);
-            margin: 0;
-            padding: 20px;
+            line-height: 1.6;
         }
 
-        .main-wrapper {
+        /* Navigation */
+        nav {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        .nav-container {
             max-width: 1200px;
             margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        .logo span { color: var(--text-main); }
+
+        /* Main Layout */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .tool-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .tool-header h1 {
+            font-size: 2.5rem;
+            color: var(--text-main);
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+        .tool-header p { color: var(--text-light); font-size: 1.1rem; }
+
+        /* Merger Box */
+        .merger-box {
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            padding: 30px;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            align-items: start;
+            gap: 30px;
         }
 
-        /* Responsive stack for mobile */
-        @media (max-width: 900px) {
-            .main-wrapper { grid-template-columns: 1fr; }
-        }
-
-        h1 { grid-column: 1 / -1; text-align: center; color: var(--primary); margin-bottom: 10px; }
-        .intro-text { grid-column: 1 / -1; text-align: center; color: #64748b; margin-bottom: 30px; }
-
-        /* Card Styles */
-        .card {
-            background: var(--panel);
-            padding: 25px;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
-        }
-
-        .section-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--bg);
-            color: var(--primary);
+        /* Left Side: Controls */
+        .controls-section {
             display: flex;
-            align-items: center;
-            justify-content: space-between;
+            flex-direction: column;
+            gap: 20px;
         }
 
-        /* Inputs */
         .upload-grid {
             display: grid;
             gap: 15px;
-            margin-bottom: 20px;
         }
         
         .upload-box {
             border: 2px dashed var(--border);
-            padding: 15px;
+            padding: 20px;
             border-radius: 8px;
             text-align: center;
             transition: all 0.2s;
             background: #fafafa;
+            cursor: pointer;
         }
-        .upload-box:hover { border-color: var(--accent); background: #eff6ff; }
-        .upload-box label { font-weight: 600; cursor: pointer; display: block; color: var(--accent); }
+        .upload-box:hover { border-color: var(--primary); background: #eff6ff; }
+        .upload-box label { font-weight: 600; cursor: pointer; display: block; color: var(--primary); margin-bottom: 5px; }
         .upload-box input { display: none; }
-        .file-status { font-size: 0.8rem; margin-top: 5px; color: #16a34a; font-weight: 600; min-height: 1.2em;}
+        .file-status { font-size: 0.85rem; color: var(--success); font-weight: 600; min-height: 1.2em; }
 
-        /* Sliders */
+        .section-title-small {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--text-main);
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 5px;
+        }
+
         .control-group { margin-bottom: 15px; }
         .control-group label { display: flex; justify-content: space-between; font-size: 0.9rem; font-weight: 600; margin-bottom: 5px; }
         input[type="range"] { width: 100%; cursor: pointer; }
         
-        .radio-group { display: flex; gap: 15px; margin-bottom: 15px; }
+        .radio-group { display: flex; gap: 15px; }
         .radio-label { font-size: 0.9rem; display: flex; align-items: center; gap: 5px; cursor: pointer; }
 
-        /* Canvas & Preview */
-        .preview-container {
+        .btn-download {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1rem;
+            transition: 0.2s;
+            margin-top: 10px;
+        }
+        .btn-download:hover { background: var(--primary-dark); }
+        .btn-download:disabled { background: #94a3b8; cursor: not-allowed; }
+
+        /* Right Side: Preview */
+        .preview-section {
+            background: #f1f5f9;
+            border-radius: 12px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
-            background-size: 20px 20px;
-            padding: 20px;
-            border-radius: 8px;
             min-height: 400px;
-            background-color: #f1f5f9;
+            border: 1px solid var(--border);
+            padding: 20px;
+            position: relative;
+        }
+        
+        .preview-header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+        
+        .kb-badge {
+            background: #dcfce7;
+            color: #166534;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
         }
 
         canvas {
             max-width: 100%;
             height: auto;
-            border: 1px solid #94a3b8;
-            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             background: white;
+            border: 1px solid #ddd;
         }
 
-        .action-bar { margin-top: 20px; text-align: center; }
-        .btn {
-            background: var(--accent); color: white; border: none;
-            padding: 12px 30px; font-size: 1rem; font-weight: 600; border-radius: 6px;
-            cursor: pointer; width: 100%; box-shadow: 0 4px 6px -1px rgba(37,99,235,0.3);
-            transition: background 0.2s;
+        /* Related Tools */
+        .related-tools {
+            margin-top: 60px;
         }
-        .btn:hover { background: var(--accent-hover); }
-        .btn:disabled { background: #94a3b8; cursor: not-allowed; }
-
-        .kb-badge {
-            display: inline-block;
-            background: #fee2e2;
-            color: #b91c1c;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.85rem;
+        .section-title {
+            font-size: 1.5rem;
             font-weight: 700;
-            margin-top: 10px;
+            margin-bottom: 20px;
+            border-left: 5px solid var(--primary);
+            padding-left: 15px;
+        }
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+        .tool-link {
+            display: block;
+            background: var(--white);
+            padding: 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            transition: transform 0.2s, border-color 0.2s;
+            text-align: center;
+            font-weight: 600;
+        }
+        .tool-link:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        .tool-link i { display: block; font-size: 1.5rem; margin-bottom: 10px; color: var(--primary); }
+
+        /* Content Article */
+        .content-article {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin-top: 60px;
+        }
+        .content-article h2 { color: var(--primary-dark); margin-top: 30px; margin-bottom: 15px; font-size: 1.8rem; }
+        .content-article h3 { color: var(--text-main); margin-top: 25px; margin-bottom: 10px; font-size: 1.4rem; }
+        .content-article p { margin-bottom: 15px; color: #334155; text-align: justify; }
+        .content-article ul { margin-left: 20px; margin-bottom: 20px; color: #334155; }
+        .content-article li { margin-bottom: 8px; }
+        .highlight-box {
+            background: #eff6ff;
+            border-left: 4px solid var(--primary);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .alert-box {
+            background: #fef2f2;
+            border: 1px solid #ef4444;
+            color: #991b1b;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+        }
+        th, td {
+            border: 1px solid #d1d5db;
+            padding: 15px;
+            text-align: left;
+        }
+        th { background-color: #f1f5f9; color: var(--text-main); }
+
+        @media (max-width: 768px) {
+            .merger-box { grid-template-columns: 1fr; }
+            .tool-header h1 { font-size: 2rem; }
+            .content-article { padding: 20px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="main-wrapper">
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">Toolvala<span>.in</span></a>
+        </div>
+    </nav>
+
+    <div class="container">
         
-        <!-- Header Content -->
-        <h1>Photo & Signature Merger Tool</h1>
-        <div class="intro-text">
-            Upload your Photo and Signature separately. We will combine them into a single file for exams. <br>
-            <small>🔒 Your photos remain on your device. 100% Client-Side Processing.</small>
-        </div>
+        <header class="tool-header">
+            <h1>Photo & Signature Merger</h1>
+            <p>Combine your passport photo and signature into a single file for exam applications.</p>
+        </header>
 
-        <!-- Left Column: Inputs & Controls -->
-        <div class="card">
-            <div class="section-title">1. Upload Images</div>
-            
-            <div class="upload-grid">
-                <div class="upload-box" id="dropZone1">
-                    <label for="photoInput">📷 Upload Passport Photo</label>
-                    <input type="file" id="photoInput" accept="image/*">
-                    <div id="photoStatus" class="file-status">No file chosen</div>
+        <div class="merger-box">
+            <!-- Left: Controls -->
+            <div class="controls-section">
+                <div class="section-title-small">1. Upload Images</div>
+                <div class="upload-grid">
+                    <div class="upload-box" onclick="document.getElementById('photoInput').click()">
+                        <label><i class="fa-solid fa-camera"></i> Upload Photo</label>
+                        <input type="file" id="photoInput" accept="image/*">
+                        <div id="photoStatus" class="file-status"></div>
+                    </div>
+
+                    <div class="upload-box" onclick="document.getElementById('sigInput').click()">
+                        <label><i class="fa-solid fa-pen-nib"></i> Upload Signature</label>
+                        <input type="file" id="sigInput" accept="image/*">
+                        <div id="sigStatus" class="file-status"></div>
+                    </div>
                 </div>
 
-                <div class="upload-box" id="dropZone2">
-                    <label for="sigInput">✍️ Upload Signature</label>
-                    <input type="file" id="sigInput" accept="image/*">
-                    <div id="sigStatus" class="file-status">No file chosen</div>
+                <div class="section-title-small" style="margin-top: 20px;">2. Adjust Layout</div>
+                
+                <div class="control-group">
+                    <label>Orientation</label>
+                    <div class="radio-group">
+                        <label class="radio-label"><input type="radio" name="orientation" value="vertical" checked> Vertical (Stack)</label>
+                        <label class="radio-label"><input type="radio" name="orientation" value="horizontal"> Horizontal (Side-by-Side)</label>
+                    </div>
                 </div>
-            </div>
 
-            <div class="section-title">2. Adjust Layout</div>
-            
-            <div class="control-group">
-                <label>Merge Orientation</label>
-                <div class="radio-group">
-                    <label class="radio-label"><input type="radio" name="orientation" value="vertical" checked> Vertical (Stack)</label>
-                    <label class="radio-label"><input type="radio" name="orientation" value="horizontal"> Horizontal (Side-by-Side)</label>
+                <div class="control-group">
+                    <label>Signature Scale <span id="scaleVal">100%</span></label>
+                    <input type="range" id="sigScale" min="30" max="150" value="100">
                 </div>
+
+                <div class="control-group">
+                    <label>Gap Size <span id="gapVal">10px</span></label>
+                    <input type="range" id="gapSize" min="0" max="100" value="10">
+                </div>
+
+                <div class="section-title-small" style="margin-top: 20px;">3. Export</div>
+
+                <div class="control-group">
+                    <label>Quality <span id="qualityVal">High</span></label>
+                    <input type="range" id="quality" min="0.1" max="1.0" step="0.05" value="0.9">
+                </div>
+                
+                <div class="control-group">
+                     <label>Output Width</label>
+                     <select id="canvasWidth" style="width:100%; padding:8px; border:1px solid var(--border); border-radius:6px;">
+                         <option value="350">350px (Standard)</option>
+                         <option value="500">500px (Medium)</option>
+                         <option value="800">800px (High Res)</option>
+                     </select>
+                </div>
+
+                <button id="downloadBtn" class="btn-download" disabled>Download Merged Image</button>
             </div>
 
-            <div class="control-group">
-                <label>Signature Scaling (Resize)<span id="scaleVal">100%</span></label>
-                <input type="range" id="sigScale" min="30" max="150" value="100">
-            </div>
-
-            <div class="control-group">
-                <label>Gap between Images <span id="gapVal">10px</span></label>
-                <input type="range" id="gapSize" min="0" max="100" value="10">
-            </div>
-
-            <div class="section-title">3. Export Settings</div>
-
-            <div class="control-group">
-                <label>Compression Quality <span id="qualityVal">High</span></label>
-                <input type="range" id="quality" min="0.1" max="1.0" step="0.05" value="0.9">
-            </div>
-            
-            <div class="control-group">
-                 <label>Max Width (Output)</label>
-                 <select id="canvasWidth" style="width:100%; padding:8px;">
-                     <option value="350">350px (Standard UPSC/SSC)</option>
-                     <option value="500">500px (Medium)</option>
-                     <option value="800">800px (High Res)</option>
-                 </select>
-            </div>
-
-            <div class="action-bar">
-                <button id="downloadBtn" class="btn" disabled>⬇ Download Merged Image</button>
-            </div>
-        </div>
-
-        <!-- Right Column: Preview -->
-        <div class="card preview-card">
-            <div class="section-title">
-                Live Preview 
-                <span id="finalSize" class="kb-badge">0 KB</span>
-            </div>
-            <div class="preview-container">
+            <!-- Right: Preview -->
+            <div class="preview-section">
+                <div class="preview-header">
+                    <span>Live Preview</span>
+                    <span id="finalSize" class="kb-badge">0 KB</span>
+                </div>
                 <canvas id="canvas"></canvas>
-            </div>
-            
-            <div style="margin-top:20px; font-size:0.9rem; color:#555;">
-                <strong>Instruction:</strong>
-                <ul style="padding-left:20px; margin-top:5px;">
-                    <li>Ensure Signature image has a clean background.</li>
-                    <li>If text is blurry, increase the Output Width to 500px.</li>
-                    <li>If size > 50KB, reduce Compression Quality slider.</li>
-                </ul>
+                <p style="margin-top: 20px; font-size: 0.9rem; color: var(--text-light); text-align: center;">
+                    <i class="fa-solid fa-info-circle"></i> Ensure signature background is clean for best results.
+                </p>
             </div>
         </div>
 
+        <!-- Related Tools -->
+        <div class="related-tools">
+            <h2 class="section-title">Related Photo Tools</h2>
+            <div class="tools-grid">
+                <a href="passport-photo-resizer.html" class="tool-link">
+                    <i class="fa-solid fa-id-card"></i>
+                    Passport Photo
+                </a>
+                <a href="ssc-photo-tool.html" class="tool-link">
+                    <i class="fa-solid fa-user-tie"></i>
+                    SSC Photo Tool
+                </a>
+                <a href="upsc-photo-maker.html" class="tool-link">
+                    <i class="fa-solid fa-building-columns"></i>
+                    UPSC Photo Maker
+                </a>
+                <a href="photo-compressor.html" class="tool-link">
+                    <i class="fa-solid fa-compress"></i>
+                    Photo Compressor
+                </a>
+                <a href="image-compressor-by-kb.html" class="tool-link">
+                    <i class="fa-solid fa-file-image"></i>
+                    Compress by KB
+                </a>
+                <a href="signature-resizer.html" class="tool-link">
+                    <i class="fa-solid fa-pen-nib"></i>
+                    Signature Resizer
+                </a>
+            </div>
+        </div>
+
+        <!-- SEO Content -->
+        <article class="content-article">
+            <h2>Merge Photo and Signature Online: The Complete Guide</h2>
+            <p>In the digital age of recruitment, applying for government jobs and entrance exams in India has moved entirely online. While this is convenient, it brings a specific technical hurdle that frustrates thousands of candidates every year: <strong>Image Formatting.</strong></p>
+
+            <p>You have your passport photo ready. You have your scanned signature ready. But then, the portal asks you to upload a <strong>single image file containing both the photo and the signature</strong>. Many exam boards, including GATE, AIIMS, and certain State Public Service Commissions (PSUs), utilize this "joined" format to streamline their admit card generation process.</p>
+
+            <p>Using complex software like Photoshop or struggling with MS Paint to align two different images can be time-consuming. That is exactly why we created the free <strong>Toolvala.in Photo & Signature Merger Tool</strong>. This guide will walk you through how to use the tool, why file sizes matter, and how to create the perfect application image.</p>
+
+            <div class="highlight-box">
+                <strong>🔒 Privacy First:</strong> Unlike other websites, Toolvala.in processes your photos locally in your browser. Your personal images are <strong>never uploaded</strong> to our servers, ensuring 100% data security.
+            </div>
+
+            <h3>Why Do Some Exams Require Merged Photos?</h3>
+            <p>Most popular exams like UPSC or SSC usually provide two separate buttons: "Upload Photograph" and "Upload Signature." However, a significant number of institutions prefer a single-file upload. Why?</p>
+            <ul>
+                <li><strong>Database Efficiency:</strong> Handling one file per candidate reduces the server load compared to storing two or three distinct files.</li>
+                <li><strong>Admit Card Printing:</strong> When admit cards are generated automatically, it is easier for the software to place one image block that contains both details (Face + Sign) rather than calculating alignment for two separate elements.</li>
+            </ul>
+
+            <h3>How to Use the Photo & Signature Joiner Tool</h3>
+            <p>Our tool is designed to be the simplest, fastest, and most secure way to combine images. You don't need any graphic design skills. Just follow these steps:</p>
+
+            <h4>Step 1: Upload Your Images</h4>
+            <p>We provide two separate upload boxes. Click on <strong>"Upload Photo"</strong> to select your passport-size picture. Next, click <strong>"Upload Signature"</strong> to select your cropped signature image.</p>
+
+            <h4>Step 2: Check the Preview</h4>
+            <p>As soon as both files are selected, the tool immediately merges them on your screen. You will see a live preview. By default, it usually stacks them vertically (Photo on top, Sign at bottom), which is the standard format.</p>
+
+            <h4>Step 3: Adjust the Layout</h4>
+            <p>Photos and signatures rarely have the same width. Use the <strong>Signature Scale</strong> slider to resize the signature so it aligns perfectly with the width of the photo. You can also adjust the <strong>Gap Size</strong> to add or remove white space between the two images.</p>
+
+            <h4>Step 4: Select Quality and Download</h4>
+            <p>Government portals are strict about file sizes (e.g., <em>"Image must be less than 50KB"</em>). Use our quality slider to compress the image instantly. Once satisfied, click "Download Merged Image."</p>
+
+            <h3>Vertical vs. Horizontal: Which Alignment to Choose?</h3>
+            <p>Our tool offers a unique feature: <strong>Orientation Control</strong>. But when should you use which?</p>
+
+            <div class="highlight-box">
+                <strong>Vertical Alignment (Stacked):</strong><br>
+                This places the Photo at the top and the Signature directly underneath it.<br>
+                <em>Usage:</em> This is the most common requirement (95% of cases). It is used for Identity Cards, Admit Cards, and most Exam Application Forms.
+            </div>
+
+            <div class="highlight-box">
+                <strong>Horizontal Alignment (Side-by-Side):</strong><br>
+                This places the Photo on the left and the Signature on the right.<br>
+                <em>Usage:</em> This is rarer but is sometimes required for specific wide-format forms, bank ledgers, or attendance sheets where the vertical space is limited.
+            </div>
+
+            <h3>Understanding File Size Limits (Under 50KB)</h3>
+            <p>The biggest reason applications get rejected is <strong>File Size Mismatch</strong> or <strong>Blurriness</strong>.</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Requirement</th>
+                        <th>Recommended Quality Setting</th>
+                        <th>Result</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Max 20 KB</td>
+                        <td>Low (0.3 - 0.5)</td>
+                        <td>Small file, average quality.</td>
+                    </tr>
+                    <tr>
+                        <td>Max 50 KB</td>
+                        <td>Medium (0.6 - 0.8)</td>
+                        <td>Good balance of sharpness and size.</td>
+                    </tr>
+                    <tr>
+                        <td>Max 100 KB</td>
+                        <td>High (0.9 - 1.0)</td>
+                        <td>HD Quality, larger file size.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>How to Prepare Your Source Images</h3>
+            <p>The Merger Tool combines what you give it. For the best results, follow these tips <em>before</em> uploading:</p>
+            <ul>
+                <li><strong>Photo:</strong> Ensure your passport photo has a light background (preferably white or light blue). The lighting should be even on the face.</li>
+                <li><strong>Signature:</strong> Use a thick Black or Blue <strong>Ink Pen / Marker</strong> on a clean, bright white sheet of paper. Avoid lined paper.</li>
+            </ul>
+            
+            <div class="alert-box">
+                <strong>Important Tip:</strong> Crop your signature image tightly! If your signature image has huge white borders around the text, it will look tiny when merged with the photo.
+            </div>
+
+            <h3>Frequently Asked Questions (FAQs)</h3>
+            
+            <h4>1. Is this Photo Merger Tool free?</h4>
+            <p>Yes, it is completely free to use. There are no limits, no hidden fees, and we do not add watermarks to your merged images.</p>
+
+            <h4>2. My merged image is too blurry. What should I do?</h4>
+            <p>Blurriness usually occurs if your original source images are too small or if you set the compression too low. Try uploading higher resolution source images or sliding the "Quality" slider to the right (towards 1.0).</p>
+
+            <h4>3. Does it work on Mobile?</h4>
+            <p>Yes! The tool is mobile-responsive. You can take a photo of your signature with your phone camera, pick a selfie/passport photo from your gallery, merge them instantly, and download the result.</p>
+
+            <p>Use <strong>Toolvala.in</strong> for all your document editing needs. Check out our <a href="passport-photo-resizer.html" style="color: var(--primary); text-decoration: none;">Passport Photo Resizer</a> if you need to fix dimensions before merging.</p>
+        </article>
     </div>
 
-    <!-- Application Logic -->
     <script>
         // DOM Elements
         const photoInput = document.getElementById('photoInput');
@@ -247,6 +539,9 @@
         const canvasWidthSelect = document.getElementById('canvasWidth');
         const downloadBtn = document.getElementById('downloadBtn');
         const finalSizeBadge = document.getElementById('finalSize');
+        const scaleVal = document.getElementById('scaleVal');
+        const gapVal = document.getElementById('gapVal');
+        const qualityVal = document.getElementById('qualityVal');
 
         // State
         let photoImg = null;
@@ -255,10 +550,11 @@
         // Initial Draw (Clear)
         canvas.width = 350;
         canvas.height = 200;
-        ctx.fillStyle = '#eee';
+        ctx.fillStyle = '#f1f5f9';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = '#aaa';
+        ctx.fillStyle = '#94a3b8';
         ctx.textAlign = 'center';
+        ctx.font = '16px Inter';
         ctx.fillText("Upload both images to start", canvas.width/2, canvas.height/2);
 
         // --- Event Listeners ---
@@ -305,13 +601,12 @@
             const gap = parseInt(gapSlider.value);
             const isVertical = document.querySelector('input[name="orientation"]:checked').value === 'vertical';
 
+            // Update Labels
+            scaleVal.innerText = `${Math.round(scaleFactor*100)}%`;
+            gapVal.innerText = `${gap}px`;
+
             // 2. Calculate Dimensions
-            // Calculate scale ratios to fit images into targetWidth
-            // For Photo:
             const photoRatio = photoImg.height / photoImg.width;
-            
-            // For Vertical Mode: Both images take full width (conceptually)
-            // For Horizontal Mode: Split width roughly 50/50 or proportional
             
             let pW, pH, sW, sH, totalW, totalH;
 
@@ -320,11 +615,7 @@
                 pW = targetWidth;
                 pH = targetWidth * photoRatio;
 
-                // SIGNATURE calculations (Based on slider scale relative to photo width)
-                // If slider is 100%, sig fits width exactly.
-                // However, signatures are usually wide/short. 
-                // We keep signature aspect ratio but cap width at targetWidth * scaleFactor
-                
+                // SIGNATURE calculations
                 const sigAspectRatio = sigImg.height / sigImg.width;
                 sW = targetWidth * scaleFactor; 
                 sH = sW * sigAspectRatio;
@@ -334,17 +625,6 @@
                 
             } else {
                 // Horizontal (Side by Side)
-                // We fix Height usually for horizontal alignment, but width constraint is easier
-                // Let's alloc space based on scale slider roughly
-                
-                // Scale photo to roughly 60% of canvas? No, let's normalize heights.
-                const hT = targetWidth * 0.4; // Target height base
-                
-                // Photo Dimensions based on fixed height constraint?
-                // Easier: Photo takes left half, Sig takes right half, but Scalable
-                // Actually: Draw Photo @ width/2, Draw Sig @ width/2 adjusted by slider
-                
-                // Let's stick to user inputs:
                 pW = (targetWidth / 2);
                 pH = pW * photoRatio;
                 
@@ -353,14 +633,14 @@
                 sH = sW * sigAspectRatio;
                 
                 totalW = pW + gap + sW;
-                totalH = Math.max(pH, sH); // Height is the tallest of the two
+                totalH = Math.max(pH, sH);
             }
 
             // 3. Setup Canvas
             canvas.width = totalW;
             canvas.height = totalH;
 
-            // Fill Background White (Important for JPGs)
+            // Fill Background White
             ctx.fillStyle = '#ffffff';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -382,10 +662,6 @@
                 const sigY = (totalH - sH) / 2;
                 ctx.drawImage(sigImg, pW + gap, sigY, sW, sH);
             }
-
-            // Update UI
-            document.getElementById('scaleVal').innerText = `${Math.round(scaleFactor*100)}%`;
-            document.getElementById('gapVal').innerText = `${gap}px`;
 
             updateFileSize();
         }
@@ -410,12 +686,10 @@
             }
 
             // Update Label text
-            const qLabels = {1:'Max', 0.8:'High', 0.5:'Med', 0.2:'Low'};
-            // simple check
             let txt = 'High';
             if(quality < 0.5) txt = 'Low';
             else if(quality < 0.8) txt = 'Med';
-            document.getElementById('qualityVal').innerText = txt;
+            qualityVal.innerText = txt;
         }
 
         downloadBtn.addEventListener('click', () => {
@@ -426,316 +700,23 @@
         });
 
     </script>
-</body>
-</html>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Photo and Signature Merger Tool - The Ultimate Guide</title>
-    <meta name="description" content="Merge your passport photo and signature into a single file for online exams (UPSC, SSC, GATE). Free tool to join images, resize, and compress under 50KB.">
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.8;
-            color: #374151; /* Slate 700 */
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #ffffff;
-        }
-
-        article {
-            background: #fff;
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            color: #1e3a8a; /* Dark Blue */
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 4px solid #3b82f6; /* Blue Accent */
-            line-height: 1.2;
-        }
-
-        h2 {
-            font-size: 1.8rem;
-            color: #1e40af;
-            margin-top: 50px;
-            margin-bottom: 20px;
-            font-weight: 700;
-        }
-
-        h3 {
-            font-size: 1.35rem;
-            color: #1f2937;
-            margin-top: 30px;
-            font-weight: 600;
-        }
-
-        p {
-            margin-bottom: 20px;
-            font-size: 1.05rem;
-            text-align: justify;
-        }
-
-        ul, ol {
-            margin-bottom: 30px;
-            padding-left: 25px;
-        }
-
-        li {
-            margin-bottom: 12px;
-        }
-
-        strong {
-            color: #000;
-        }
-
-        .highlight-box {
-            background-color: #eff6ff;
-            border-left: 5px solid #2563eb;
-            padding: 25px;
-            margin: 30px 0;
-            border-radius: 6px;
-        }
-
-        .alert-box {
-            background-color: #fef2f2;
-            border: 1px solid #ef4444;
-            color: #991b1b;
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0;
-        }
-
-        .toc-container {
-            background-color: #f3f4f6;
-            padding: 25px;
-            border-radius: 8px;
-            margin-bottom: 40px;
-            border: 1px solid #e5e7eb;
-        }
-        
-        .toc-header {
-            font-weight: bold;
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-            color: #111827;
-        }
-
-        .toc-list li a {
-            text-decoration: none;
-            color: #2563eb;
-            font-weight: 500;
-        }
-        .toc-list li a:hover {
-            text-decoration: underline;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 30px 0;
-        }
-        th, td {
-            border: 1px solid #d1d5db;
-            padding: 15px;
-            text-align: left;
-        }
-        th { background-color: #1e3a8a; color: white; }
-    </style>
-</head>
-<body>
-
-<article>
-    <h1>Merge Photo and Signature Online: The Complete Guide for Exam Applications</h1>
-
-    <p>In the digital age of recruitment, applying for government jobs and entrance exams in India has moved entirely online. While this is convenient, it brings a specific technical hurdle that frustrates thousands of candidates every year: <strong>Image Formatting.</strong></p>
-
-    <p>You have your passport photo ready. You have your scanned signature ready. But then, the portal asks you to upload a <strong>single image file containing both the photo and the signature</strong>. Many exam boards, including GATE, AIIMS, and certain State Public Service Commissions (PSUs), utilize this "joined" format to streamline their admit card generation process.</p>
-
-    <p>Using complex software like Photoshop or struggling with MS Paint to align two different images can be time-consuming. That is exactly why we created the free <strong>Online Photo & Signature Merger Tool</strong>. This guide will walk you through how to use the tool, why file sizes matter, and how to create the perfect application image.</p>
-
-    <div class="toc-container">
-        <div class="toc-header">Table of Contents</div>
-        <ul class="toc-list">
-            <li><a href="#section1">Why Do Some Exams Require Merged Photos?</a></li>
-            <li><a href="#section2">How to Use the Photo & Signature Joiner Tool</a></li>
-            <li><a href="#section3">Vertical vs. Horizontal: Which Alignment to Choose?</a></li>
-            <li><a href="#section4">Understanding File Size Limits (Under 50KB)</a></li>
-            <li><a href="#section5">How to Prepare Your Source Images</a></li>
-            <li><a href="#section6">Privacy Guarantee: Client-Side Processing</a></li>
-            <li><a href="#section7">Frequently Asked Questions (FAQs)</a></li>
-        </ul>
-    </div>
-
-    <h2 id="section1">Why Do Some Exams Require Merged Photos?</h2>
-    <p>Most popular exams like UPSC or SSC usually provide two separate buttons: "Upload Photograph" and "Upload Signature." However, a significant number of institutions prefer a single-file upload. Why?</p>
-
-    <p><strong>1. Database Efficiency:</strong> Handling one file per candidate reduces the server load compared to storing two or three distinct files.</p>
-    <p><strong>2. Admit Card Printing:</strong> When admit cards are generated automatically, it is easier for the software to place one image block that contains both details (Face + Sign) rather than calculating alignment for two separate elements. This ensures your signature never overlaps your face on the final ID card.</p>
-    
-    <p><strong>Common exams/bodies that often require merged images include:</strong></p>
-    <ul>
-        <li><strong>GATE (Graduate Aptitude Test in Engineering)</strong>: Often has strict requirements on alignment.</li>
-        <li><strong>AIIMS (Nursing & MBBS)</strong>: Frequently updates guidelines requiring specific joined formats.</li>
-        <li><strong>State PSUs (Public Sector Undertakings)</strong>: Various electricity and transport departments.</li>
-        <li><strong>College Identity Cards</strong>: Universities often ask for a joined file for student ID printing.</li>
-    </ul>
-
-    <h2 id="section2">How to Use the Photo & Signature Joiner Tool</h2>
-    <p>Our tool is designed to be the simplest, fastest, and most secure way to combine images. You don't need any graphic design skills. Just follow these steps:</p>
-
-    <h3>Step 1: Upload Your Images</h3>
-    <p>We provide two separate upload boxes. Click on <strong>"Upload Photo"</strong> to select your passport-size picture. Next, click <strong>"Upload Signature"</strong> to select your cropped signature image.</p>
-
-    <h3>Step 2: Check the Preview</h3>
-    <p>As soon as both files are selected, the tool immediately merges them on your screen. You will see a live preview. By default, it usually stacks them vertically (Photo on top, Sign at bottom), which is the standard format.</p>
-
-    <h3>Step 3: Adjust the Layout (Crucial Step)</h3>
-    <p>Photos and signatures rarely have the same width. Your photo might be a square, while your signature is a wide rectangle. Use the <strong>Signature Scaling Slider</strong> to resize the signature so it aligns perfectly with the width of the photo. You can also adjust the <strong>Gap Slider</strong> to add or remove white space between the two images.</p>
-
-    <h3>Step 4: Select Quality and Download</h3>
-    <p>Government portals are strict about file sizes (e.g., <em>"Image must be less than 50KB"</em>). Use our quality slider to compress the image instantly. Once satisfied, click "Download Merged Image."</p>
-
-    <h2 id="section3">Vertical vs. Horizontal: Which Alignment to Choose?</h2>
-    <p>Our tool offers a unique feature: <strong>Orientation Control</strong>. But when should you use which?</p>
-
-    <div class="highlight-box">
-        <strong>Vertical Alignment (Stacked):</strong><br>
-        This places the Photo at the top and the Signature directly underneath it.<br>
-        <em>Usage:</em> This is the most common requirement (95% of cases). It is used for Identity Cards, Admit Cards, and most Exam Application Forms.
-    </div>
-
-    <div class="highlight-box">
-        <strong>Horizontal Alignment (Side-by-Side):</strong><br>
-        This places the Photo on the left and the Signature on the right.<br>
-        <em>Usage:</em> This is rarer but is sometimes required for specific wide-format forms, bank ledgers, or attendance sheets where the vertical space is limited.
-    </div>
-
-    <p>Always double-check your official exam notification. If it asks for a specific "Aspect Ratio" like 3.5cm x 6cm, they usually imply a Vertical stack.</p>
-
-    <h2 id="section4">Understanding File Size Limits (Under 50KB)</h2>
-    <p>The biggest reason applications get rejected is <strong>File Size Mismatch</strong> or <strong>Blurriness</strong>.</p>
-    
-    <p>If the portal says "Max Size 50KB," and you upload a 200KB file, the upload will fail. If you compress it too much to 5KB, the photo becomes pixelated and illegible, leading to rejection during document verification.</p>
-
-    <p>Our tool uses smart JPEG compression algorithms. Here is a cheat sheet for setting the quality:</p>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Requirement</th>
-                <th>Recommended Quality Setting</th>
-                <th>Result</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Max 20 KB</td>
-                <td>Low (0.3 - 0.5)</td>
-                <td>Small file, average quality.</td>
-            </tr>
-            <tr>
-                <td>Max 50 KB</td>
-                <td>Medium (0.6 - 0.8)</td>
-                <td>Good balance of sharpness and size.</td>
-            </tr>
-            <tr>
-                <td>Max 100 KB</td>
-                <td>High (0.9 - 1.0)</td>
-                <td>HD Quality, larger file size.</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <h2 id="section5">How to Prepare Your Source Images</h2>
-    <p>The Merger Tool combines what you give it. For the best results, follow these tips <em>before</em> uploading:</p>
-
-    <h3>1. Taking the Photo</h3>
-    <p>Ensure your passport photo has a light background (preferably white or light blue). The lighting should be even on the face with no strong shadows. Keep a neutral expression.</p>
-
-    <h3>2. Taking the Signature</h3>
-    <p>This is where most mistakes happen. Do <strong>not</strong> use a pencil. Use a thick Black or Blue <strong>Ink Pen / Marker</strong> on a clean, bright white sheet of paper. Avoid lined paper or grid paper.</p>
-    
-    <div class="alert-box">
-        <strong>Important Tip:</strong> Crop your signature image tightly! If your signature image has huge white borders around the text, it will look tiny when merged with the photo. Crop it as close to the handwriting as possible before uploading.
-    </div>
-
-    <h2 id="section6">Privacy Guarantee: Client-Side Processing</h2>
-    <p>We understand that uploading biometric data like your face and personal signature to a website can be scary. This is why our tool is built differently.</p>
-
-    <p><strong>What is Client-Side Processing?</strong><br>
-    Most websites upload your images to a remote "Cloud Server," process them there, and send them back. This creates a risk of your data being stored or intercepted.</p>
-
-    <p><strong>How We Do It:</strong><br>
-    Our tool uses <strong>HTML5 Canvas Technology</strong>. The image processing happens 100% inside your own web browser (Chrome/Edge/Firefox) using your device's RAM. Your photos <strong>never leave your phone or computer</strong>. We cannot see them, save them, or share them. It is as secure as editing the file in MS Paint on your desktop, but much easier.</p>
-
-    <h2 id="section7">Frequently Asked Questions (FAQs)</h2>
-
-    <div itemscope itemtype="https://schema.org/FAQPage">
-        
-        <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-            <h3><span itemprop="name">Is this Photo Merger Tool free?</span></h3>
-            <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                <p itemprop="text">Yes, it is completely free to use. There are no limits, no hidden fees, and we do not add watermarks to your merged images.</p>
-            </div>
-        </div>
-
-        <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-            <h3><span itemprop="name">My merged image is too blurry. What should I do?</span></h3>
-            <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                <p itemprop="text">Blurriness usually occurs if your original source images are too small or if you set the compression too low. Try uploading higher resolution source images or sliding the "Quality" slider to the right (towards 1.0) to increase clarity.</p>
-            </div>
-        </div>
-
-        <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-            <h3><span itemprop="name">Can I use this for SSC and UPSC forms?</span></h3>
-            <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                <p itemprop="text">Yes. While SSC and UPSC usually ask for separate files, if you have a specific requirement (like for a physical form or a specific correction window) that needs a joined file, this tool is perfectly compliant with aspect ratio standards.</p>
-            </div>
-        </div>
-
-        <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-            <h3><span itemprop="name">Does it work on Mobile?</span></h3>
-            <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                <p itemprop="text">Yes! The tool is mobile-responsive. You can take a photo of your signature with your phone camera, pick a selfie/passport photo from your gallery, merge them instantly, and download the result to your file manager.</p>
-            </div>
-        </div>
-
-    </div>
-
-    <h3>Conclusion</h3>
-    <p>Preparing for competitive exams is stressful enough without fighting with technology. Our <strong>Photo & Signature Merger</strong> eliminates the technical hassle, allowing you to create perfect, compliant, and optimized images in seconds.</p>
-    <p>Bookmark this page now so you are ready for your next application deadline!</p>
-
-</article>
-
-<!-- JSON-LD Structured Data for Rich Snippets -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "Photo & Signature Merger Tool",
-  "applicationCategory": "PhotoEditor",
-  "operatingSystem": "Web",
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "USD"
-  },
-  "description": "A secure client-side tool to merge passport photos and signatures into a single image file for exam applications.",
-  "featureList": "Combine Photo and Sign, Resize for Exam, Compress to 50KB, Vertical and Horizontal Merge",
-  "aggregateRating": {
-    "@type": "AggregateRating",
-    "ratingValue": "4.8",
-    "ratingCount": "2150"
-  }
-}
+    <div id="footer"></div>
+<script>
+fetch("/footer.html")
+  .then(r => r.text())
+  .then(d => {
+    document.getElementById("footer").innerHTML = d;
+    document.getElementById("year").textContent = new Date().getFullYear();
+  });
 </script>
-
+ <div id="footer"></div>
+<script>
+fetch("/footer.html")
+  .then(r => r.text())
+  .then(d => {
+    document.getElementById("footer").innerHTML = d;
+    document.getElementById("year").textContent = new Date().getFullYear();
+  });
+</script>
 </body>
 </html>
