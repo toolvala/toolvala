@@ -1,201 +1,306 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lifetime Tea Consumption Calculator | Track Your Chai Habit - Toolvala.in</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Calculate how much tea you have consumed in your lifetime with Toolvala.in. Find total cups, liters, and years of tea drinking habits. Fun and insightful calculator.">
+    <meta name="keywords" content="lifetime tea consumption calculator, tea calculator, chai calculator, tea drinking habits, daily tea intake, tea usage calculator, toolvala">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.toolvala.in/lifetime-tea-consumption-calculator.html">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Lifetime Tea Consumption Calculator - Toolvala.in">
+    <meta property="og:description" content="Discover your lifetime tea stats! Calculate total cups and liters consumed.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolvala.in/lifetime-tea-consumption-calculator.html">
 
-<title>Lifetime Tea Consumption Calculator | Track Your Chai Habit | Toolvala</title>
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
-<meta name="description" content="Lifetime Tea Consumption Calculator to calculate how much tea you have consumed in your life. Find total cups, liters and years of tea drinking habits.">
-<meta name="keywords" content="lifetime tea consumption calculator, tea consumption calculator, chai calculator, tea drinking habits calculator, daily tea intake calculator, tea usage calculator">
-<meta name="robots" content="index, follow">
+    <!-- Corrected Schema Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Lifetime Tea Consumption Calculator",
+      "applicationCategory": "LifestyleApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "INR"
+      },
+      "description": "A fun tool to calculate total tea consumption over a lifetime based on daily habits."
+    }
+    </script>
 
-<!-- CANONICAL TAG -->
-<link rel="canonical" href="https://www.toolvala.in/lifetime-tea-consumption-calculator.html">
+    <style>
+        :root {
+            --primary: #059669; /* Tea Green */
+            --primary-dark: #047857;
+            --secondary: #ecfdf5;
+            --text-main: #0f172a;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --success: #16a34a;
+            --white: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
 
-<style>
-body{
-  font-family:Arial, sans-serif;
-  background:#f9fafb;
-  line-height:1.7;
-}
-.container{
-  max-width:900px;
-  margin:auto;
-  background:#ffffff;
-  padding:20px;
-}
-h1,h2,h3{
-  color:#111827;
-}
-.calculator{
-  max-width:480px;
-  background:#ecfdf5;
-  padding:20px;
-  border-radius:10px;
-  margin:20px 0;
-}
-label{
-  font-weight:bold;
-}
-input,select,button{
-  width:100%;
-  padding:10px;
-  margin-top:6px;
-}
-button{
-  background:#059669;
-  color:#fff;
-  border:none;
-  font-size:16px;
-  cursor:pointer;
-  margin-top:15px;
-}
-.result{
-  background:#ffffff;
-  padding:15px;
-  border-radius:8px;
-  border:1px solid #d1fae5;
-  margin-top:15px;
-}
-.tools{
-  display:flex;
-  gap:15px;
-  flex-wrap:wrap;
-  margin:30px 0;
-}
-.tool-card{
-  flex:1;
-  min-width:220px;
-  background:#eef2ff;
-  padding:15px;
-  border-radius:8px;
-  text-decoration:none;
-  color:#1e3a8a;
-  font-weight:bold;
-}
-footer{
-  margin-top:40px;
-  padding-top:20px;
-  border-top:1px solid #e5e7eb;
-  font-size:14px;
-  color:#374151;
-}
-footer a{
-  color:#2563eb;
-  text-decoration:none;
-}
-</style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        .logo span { color: var(--text-main); }
+
+        /* Main Layout */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .tool-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .tool-header h1 {
+            font-size: 2.5rem;
+            color: var(--text-main);
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+        .tool-header p { color: var(--text-light); font-size: 1.1rem; }
+
+        /* Calculator Box */
+        .calculator-box {
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            padding: 30px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group { margin-bottom: 20px; }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border 0.2s;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
+        }
+
+        .btn-calculate {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-calculate:hover { background: var(--primary-dark); }
+
+        /* Result Display */
+        .result-box {
+            margin-top: 25px;
+            background: var(--secondary);
+            border-left: 5px solid var(--primary);
+            padding: 20px;
+            border-radius: 8px;
+            display: none;
+        }
+        .result-item {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        .result-item strong { color: var(--primary-dark); }
+
+        /* Related Tools */
+        .related-tools {
+            margin-top: 60px;
+        }
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            border-left: 5px solid var(--primary);
+            padding-left: 15px;
+        }
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+        .tool-link {
+            display: block;
+            background: var(--white);
+            padding: 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            transition: transform 0.2s, border-color 0.2s;
+            text-align: center;
+            font-weight: 600;
+        }
+        .tool-link:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        .tool-link i { display: block; font-size: 1.5rem; margin-bottom: 10px; color: var(--primary); }
+
+        /* Content Article */
+        .content-article {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin-top: 60px;
+        }
+        .content-article h2 { color: var(--primary-dark); margin-top: 30px; margin-bottom: 15px; font-size: 1.8rem; }
+        .content-article h3 { color: var(--text-main); margin-top: 25px; margin-bottom: 10px; font-size: 1.4rem; }
+        .content-article p { margin-bottom: 15px; color: #334155; text-align: justify; }
+        .content-article ul { margin-left: 20px; margin-bottom: 20px; color: #334155; }
+        .content-article li { margin-bottom: 8px; }
+
+        @media (max-width: 768px) {
+            .tool-header h1 { font-size: 2rem; }
+            .content-article { padding: 20px; }
+        }
+    </style>
 </head>
-
 <body>
-<div class="container">
 
-<h1>Lifetime Tea Consumption Calculator</h1>
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">Toolvala<span>.in</span></a>
+        </div>
+    </nav>
 
-<p>
-Tea, commonly known as <strong>chai</strong>, is one of the most consumed beverages in the world.
-In India especially, tea is not just a drink but a daily ritual.
-The <strong>Lifetime Tea Consumption Calculator</strong> helps you discover how much tea you
-have consumed throughout your life based on your habits.
-</p>
+    <div class="container">
+        
+        <header class="tool-header">
+            <h1>Lifetime Tea Consumption Calculator</h1>
+            <p>Discover your tea drinking journey! Calculate total cups, liters, and years of chai.</p>
+        </header>
 
-<p>
-This tool is designed for curiosity, awareness, and fun.
-Whether you drink one cup a day or multiple cups, this calculator gives you a clear picture
-of your tea drinking journey.
-</p>
+        <div class="calculator-box">
+            <div class="form-group">
+                <label for="startAge">Age when you started drinking tea</label>
+                <input type="number" id="startAge" class="form-control" placeholder="e.g. 12">
+            </div>
 
-<!-- CALCULATOR -->
-<div class="calculator">
-<h2>☕ Calculate Your Lifetime Tea Consumption</h2>
+            <div class="form-group">
+                <label for="currentAge">Your current age</label>
+                <input type="number" id="currentAge" class="form-control" placeholder="e.g. 45">
+            </div>
 
-<label>Age when you started drinking tea</label>
-<input type="number" id="startAge" placeholder="e.g. 12">
+            <div class="form-group">
+                <label for="cupsPerDay">Average cups per day</label>
+                <input type="number" id="cupsPerDay" class="form-control" placeholder="e.g. 3">
+            </div>
 
-<label>Your current age</label>
-<input type="number" id="currentAge" placeholder="e.g. 45">
+            <div class="form-group">
+                <label for="cupSize">Cup Size</label>
+                <select id="cupSize" class="form-control">
+                    <option value="150">Small Cup (150 ml)</option>
+                    <option value="200" selected>Standard Cup (200 ml)</option>
+                    <option value="250">Large Mug (250 ml)</option>
+                </select>
+            </div>
 
-<label>Average cups of tea per day</label>
-<input type="number" id="cupsPerDay" placeholder="e.g. 3">
+            <button class="btn-calculate" onclick="calculateTea()">Calculate My Tea Stats ☕</button>
 
-<label>Cup or Mug Size</label>
-<select id="cupSize">
-  <option value="150">Small Cup (150 ml)</option>
-  <option value="200" selected>Standard Cup (200 ml)</option>
-  <option value="250">Large Mug (250 ml)</option>
-</select>
+            <div id="resultBox" class="result-box"></div>
+        </div>
 
-<button onclick="calculateTea()">Calculate My Lifetime Tea Consumption ☕</button>
+        <!-- Related Tools -->
+        <div class="related-tools">
+            <h2 class="section-title">Related Lifestyle Tools</h2>
+            <div class="tools-grid">
+                <a href="state-wise-tea-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-map-location-dot"></i>
+                    State Tea Calc
+                </a>
+                <a href="tea-break-time-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-clock"></i>
+                    Tea Break Timer
+                </a>
+                <a href="tea-bag-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    Tea Bag Calc
+                </a>
+                <a href="digital-detox-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-mobile-screen-button"></i>
+                    Digital Detox
+                </a>
+            </div>
+        </div>
 
-<div class="result" id="output"></div>
-</div>
+        <!-- SEO Content -->
+        <article class="content-article">
+            <h2>What Is a Lifetime Tea Consumption Calculator?</h2>
+            <p>A lifetime tea consumption calculator is an online tool that estimates the total amount of tea a person has consumed over their lifetime. By entering the age when you started drinking tea, your current age, and the number of cups you drink daily, the calculator provides an estimate of total tea cups and volume.</p>
 
-<!-- SEO CONTENT START -->
+            <h3>Why Should You Calculate Lifetime Tea Consumption?</h3>
+            <p>Most tea drinkers never think about how much tea they actually consume over time. Calculating lifetime tea consumption can be eye-opening. It helps you understand long-term habits, caffeine intake awareness, and even spending patterns related to tea consumption.</p>
 
-<h2>What Is a Lifetime Tea Consumption Calculator?</h2>
-<p>
-A lifetime tea consumption calculator is an online tool that estimates the total amount
-of tea a person has consumed over their lifetime.
-By entering the age when you started drinking tea, your current age, and the number of
-cups you drink daily, the calculator provides an estimate of total tea cups and volume.
-</p>
-
-<h2>Why Should You Calculate Lifetime Tea Consumption?</h2>
-<p>
-Most tea drinkers never think about how much tea they actually consume over time.
-Calculating lifetime tea consumption can be eye-opening.
-It helps you understand long-term habits, caffeine intake awareness, and even spending
-patterns related to tea consumption.
-</p>
-
-<h2>Tea Consumption Habits in India</h2>
-<p>
-India is one of the largest tea-consuming countries in the world.
-From morning chai to evening tea breaks, millions of cups are consumed daily.
-Different regions have different tea styles, but the habit of drinking tea remains constant.
-</p>
-
-<h2>How This Tea Consumption Calculator Works</h2>
-<p>
-The calculator multiplies the number of years you have been drinking tea by the average
-number of cups you drink per day.
-It then converts the total cups into volume using the selected cup size.
-The result is shown in cups and liters.
-</p>
-
-<h2>Daily Tea Intake and Health Awareness</h2>
-<p>
-Moderate tea consumption can have benefits such as improved alertness and antioxidant intake.
-However, excessive tea consumption may lead to issues like acidity, sleep disturbances,
-or caffeine dependence.
-Tracking tea intake helps maintain balance.
-</p>
-
-<h2>Monthly and Yearly Perspective</h2>
-<p>
-When daily tea consumption is extended over months and years, the numbers become significant.
-This calculator helps visualize that long-term impact and encourages mindful consumption.
-</p>
-
-<h2>Who Can Use This Tool?</h2>
-<ul>
-<li>Individuals curious about their tea habits</li>
-<li>Families tracking household consumption</li>
-<li>Office workers and teams</li>
-<li>Tea lovers and enthusiasts</li>
-<li>Health-conscious users</li>
-</ul>
-
-<h2>Benefits of Using Toolvala Tea Consumption Calculator</h2>
-<ul>
-<li>Free and easy to use</li>
-<li>No login or registration required</li>
-<li>Instant and accurate estimates</li>
-<li>Mobile-friendly interface</li>
-<li>SEO-optimized educational content</li>
-</ul>
-
-<h2>Frequently Asked Questions</h2>
+            <h3>Tea Consumption Habits in India</h3>
+            <p>India is one of the largest tea-consuming countries in the world. From morning chai to evening tea breaks, millions of cups are consumed daily. Different regions have different tea styles, but the habit of drinking tea remains constant.</p>
+        </article>
+    </div>
+     <h2>Frequently Asked Questions</h2>
 
 <p><strong>Is this calculator accurate?</strong><br>
 The calculator provides an estimate based on average consumption values.
@@ -206,61 +311,42 @@ No, all calculations are done locally in your browser.</p>
 
 <p><strong>Can I calculate tea consumption for someone else?</strong><br>
 Yes, simply enter their details.</p>
+    <script>
+        function calculateTea() {
+            const startAge = parseInt(document.getElementById("startAge").value);
+            const currentAge = parseInt(document.getElementById("currentAge").value);
+            const cupsPerDay = parseInt(document.getElementById("cupsPerDay").value);
+            const cupSize = parseInt(document.getElementById("cupSize").value);
+            const resultBox = document.getElementById("resultBox");
 
-<h2>Related Tea Tools on Toolvala</h2>
-<p>
-If you are interested in tea-related calculations, you may also find these tools useful:
-</p>
+            if (!startAge || !currentAge || !cupsPerDay || currentAge <= startAge) {
+                alert("Please enter valid details. Current age must be greater than start age.");
+                return;
+            }
 
-<div class="tools">
-  <a href="state-wise-tea-calculator.html" class="tool-card">☕ State Wise Tea Calculator</a>
-  <a href="all-tools.html" class="tool-card">🧰 All Free Tools</a>
-</div>
+            const years = currentAge - startAge;
+            const days = years * 365;
+            const totalCups = days * cupsPerDay;
+            const totalLiters = (totalCups * cupSize / 1000).toFixed(1);
 
-<h2>Conclusion</h2>
-<p>
-The <strong>Lifetime Tea Consumption Calculator</strong> is a fun and insightful way to
-understand your tea drinking habits.
-It turns daily routines into meaningful data and helps you become more aware of long-term
-consumption.
-Whether you are a casual tea drinker or a devoted chai lover, this tool offers valuable insight.
-</p>
-
-<footer>
-<p>
-© Toolvala.in – Free Online Tools<br>
-<a href="https://www.toolvala.in/sitemap.html">Sitemap</a>
-</p>
-</footer>
-
-</div>
-
+            resultBox.innerHTML = `
+                <div class="result-item">🕒 Years of Tea Drinking: <strong>${years} Years</strong></div>
+                <div class="result-item">☕ Total Cups Consumed: <strong>${totalCups.toLocaleString()} Cups</strong></div>
+                <div class="result-item">🧴 Total Volume: <strong>${totalLiters} Liters</strong></div>
+            `;
+            
+            resultBox.style.display = 'block';
+            resultBox.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+    <div id="footer"></div>
 <script>
-function calculateTea(){
-  const startAge=parseInt(document.getElementById("startAge").value);
-  const currentAge=parseInt(document.getElementById("currentAge").value);
-  const cupsPerDay=parseInt(document.getElementById("cupsPerDay").value);
-  const cupSize=parseInt(document.getElementById("cupSize").value);
-  const out=document.getElementById("output");
-
-  if(!startAge||!currentAge||!cupsPerDay||currentAge<=startAge){
-    out.innerHTML="⚠️ Please enter valid details.";
-    return;
-  }
-
-  const years=currentAge-startAge;
-  const days=years*365;
-  const totalCups=days*cupsPerDay;
-  const totalLiters=(totalCups*cupSize/1000).toFixed(1);
-
-  out.innerHTML=`
-  <strong>Your Lifetime Tea Consumption</strong><br>
-  🕒 Years of Tea Drinking: <b>${years}</b><br>
-  ☕ Total Cups: <b>${totalCups.toLocaleString()}</b><br>
-  🧴 Total Tea Volume: <b>${totalLiters} liters</b>
-  `;
-}
+fetch("/footer.html")
+  .then(r => r.text())
+  .then(d => {
+    document.getElementById("footer").innerHTML = d;
+    document.getElementById("year").textContent = new Date().getFullYear();
+  });
 </script>
-
 </body>
 </html>
