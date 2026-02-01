@@ -3,18 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interest Calculator India | Calculate Simple & Compound Interest Online</title>
+    <title>Interest Calculator India | Simple & Compound Interest with Contributions</title>
     <link rel="stylesheet"
      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">.
+
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Calculate simple and compound interest instantly with Toolvala.in. Free online Interest Calculator for loans, FD, and savings in India. Accurate, fast, and easy to use.">
-    <meta name="keywords" content="interest calculator, simple interest calculator india, compound interest calculator monthly, bank interest calculator, loan interest rate calculator, fd interest calculator, savings account interest calculator, interest calculation formula, daily interest calculator, toolvala">
+    <meta name="description" content="Calculate Simple and Compound Interest with monthly contributions. Free Interest Calculator for FD, RD, PPF, and Loans in India. View accumulation schedules and charts.">
+    <meta name="keywords" content="interest calculator, compound interest calculator india, simple interest calculator, sip calculator, fd calculator, rd calculator, ppf interest calculator, investment calculator, interest rate calculator, toolvala">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://www.toolvala.in/interest-calculator.html">
     
     <!-- Open Graph -->
     <meta property="og:title" content="Interest Calculator - Toolvala.in">
-    <meta property="og:description" content="Calculate Simple and Compound Interest instantly. Plan your loans and investments better.">
+    <meta property="og:description" content="Advanced Financial Calculator for Indian Investments and Loans. Calculate SI, CI, and Recurring Deposits.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.toolvala.in/interest-calculator.html">
 
@@ -35,7 +36,7 @@
         "price": "0",
         "priceCurrency": "INR"
       },
-      "description": "A comprehensive tool to calculate both Simple and Compound Interest for loans and investments."
+      "description": "A comprehensive financial tool to calculate Simple and Compound interest with options for additional periodic contributions."
     }
     </script>
 
@@ -45,38 +46,24 @@
       "@type": "FAQPage",
       "mainEntity": [{
         "@type": "Question",
-        "name": "What is the difference between Simple and Compound Interest?",
+        "name": "How is Compound Interest calculated in Indian Banks?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Simple Interest is calculated only on the principal amount. Compound Interest is calculated on the principal amount plus the accumulated interest from previous periods. In short, Compound Interest earns you 'interest on interest'."
+          "text": "Most Indian banks calculate Compound Interest on Fixed Deposits (FD) on a quarterly basis. However, for Savings Accounts, interest is calculated on the daily closing balance but credited quarterly."
         }
       }, {
         "@type": "Question",
-        "name": "How do banks in India calculate interest on Savings Accounts?",
+        "name": "What is the difference between Flat Rate and Reducing Balance rate?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Indian banks calculate interest on the daily closing balance of your savings account. However, the interest is usually credited to your account quarterly (every 3 months)."
+          "text": "A Flat Rate calculates interest on the entire principal for the full tenure. A Reducing Balance rate calculates interest only on the outstanding loan amount. Reducing balance is beneficial for borrowers."
         }
       }, {
         "@type": "Question",
-        "name": "What is the formula for Simple Interest?",
+        "name": "Can I calculate PPF interest with this tool?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "The formula is SI = (P × R × T) / 100, where P is Principal, R is Rate of Interest per annum, and T is Time in years."
-        }
-      }, {
-        "@type": "Question",
-        "name": "Does this calculator work for FD (Fixed Deposit)?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Yes. For FDs, select the 'Compound Interest' mode. Most Indian banks compound FD interest quarterly. Select 'Quarterly' in the compounding frequency option."
-        }
-      }, {
-        "@type": "Question",
-        "name": "How to convert monthly interest rate to yearly?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "If you have a monthly interest rate (e.g., 1% per month), multiply it by 12 to get the annual rate (12% per annum). This tool requires the annual rate."
+          "text": "Yes. For PPF, select 'Compound Annually' and enter your annual contribution. PPF interest is compounded once a year on March 31st."
         }
       }]
     }
@@ -84,13 +71,14 @@
 
     <style>
         :root {
-            --primary: #4f46e5; /* Indigo */
-            --primary-dark: #4338ca;
-            --secondary: #eef2ff;
+            --primary: #166534; /* Green-700 */
+            --primary-dark: #14532d;
+            --secondary: #f0fdf4;
             --text-main: #0f172a;
             --text-light: #64748b;
             --border: #e2e8f0;
-            --success: #16a34a;
+            --chart-principal: #3b82f6;
+            --chart-interest: #16a34a;
             --white: #ffffff;
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
@@ -148,54 +136,29 @@
         }
         .tool-header p { color: var(--text-light); font-size: 1.1rem; }
 
-        /* Calculator Box */
-        .calculator-box {
+        /* Calculator Grid */
+        .calculator-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
             background: var(--white);
             border-radius: 16px;
             box-shadow: var(--shadow);
+            overflow: hidden;
             border: 1px solid var(--border);
+        }
+
+        /* Input Section */
+        .input-section {
             padding: 30px;
-            max-width: 800px;
-            margin: 0 auto;
+            background: #fff;
         }
-
-        /* Tabs */
-        .tabs {
-            display: flex;
-            margin-bottom: 25px;
-            background: #f1f5f9;
-            padding: 5px;
-            border-radius: 10px;
-        }
-        .tab-btn {
-            flex: 1;
-            padding: 12px;
-            background: none;
-            border: none;
-            font-weight: 600;
-            color: var(--text-light);
-            cursor: pointer;
-            border-radius: 8px;
-            transition: all 0.3s;
-        }
-        .tab-btn.active {
-            background: var(--white);
-            color: var(--primary);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-
-        .input-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-
-        .form-group { margin-bottom: 15px; }
+        .form-group { margin-bottom: 20px; }
         .form-group label {
             display: block;
             font-weight: 600;
             margin-bottom: 8px;
+            font-size: 0.95rem;
             color: var(--text-main);
         }
         .input-wrapper {
@@ -220,7 +183,7 @@
         .form-control:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+            box-shadow: 0 0 0 3px rgba(22, 101, 52, 0.1);
         }
         select.form-control { padding-left: 12px; }
 
@@ -229,7 +192,7 @@
             background: var(--primary);
             color: white;
             border: none;
-            padding: 15px;
+            padding: 14px;
             font-size: 1.1rem;
             font-weight: 700;
             border-radius: 8px;
@@ -240,24 +203,60 @@
         .btn-calculate:hover { background: var(--primary-dark); }
 
         /* Result Section */
-        .result-box {
-            margin-top: 30px;
+        .result-section {
             background: var(--secondary);
-            border: 1px solid #c7d2fe;
-            border-radius: 12px;
-            padding: 25px;
-            display: none;
+            padding: 30px;
+            border-left: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
         }
-        .result-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
+        
+        .result-header {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--primary-dark);
+            border-bottom: 2px solid #bbf7d0;
+            padding-bottom: 10px;
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+        .result-row.total {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #bbf7d0;
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: var(--primary);
+        }
+
+        /* Pie Chart */
+        .chart-container {
+            margin: 30px auto;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: conic-gradient(
+                var(--chart-principal) 0% 50%, 
+                var(--chart-interest) 50% 100%
+            );
+            position: relative;
+        }
+        .chart-legend {
+            display: flex;
+            justify-content: center;
             gap: 20px;
-            text-align: center;
+            font-size: 0.85rem;
         }
-        .result-item h4 { font-size: 0.9rem; color: var(--text-light); margin-bottom: 5px; }
-        .result-item p { font-size: 1.5rem; font-weight: 800; color: var(--text-main); }
-        .total-amount { color: var(--primary) !important; font-size: 2rem !important; }
-        .interest-amount { color: var(--success) !important; }
+        .legend-item { display: flex; align-items: center; gap: 5px; }
+        .dot { width: 10px; height: 10px; border-radius: 50%; }
+        .dot-p { background: var(--chart-principal); }
+        .dot-i { background: var(--chart-interest); }
 
         /* Related Tools */
         .related-tools { margin-top: 60px; }
@@ -292,7 +291,7 @@
         .content-article ul { margin-left: 20px; margin-bottom: 20px; color: #334155; }
         .content-article li { margin-bottom: 8px; }
         .highlight-box {
-            background: #f1f5f9;
+            background: #f0fdf4;
             border-left: 4px solid var(--primary);
             padding: 20px;
             margin: 20px 0;
@@ -305,8 +304,8 @@
         .faq-answer { margin-top: 10px; display: none; color: var(--text-light); }
 
         @media (max-width: 768px) {
-            .input-grid { grid-template-columns: 1fr; }
-            .result-grid { grid-template-columns: 1fr; }
+            .calculator-wrapper { grid-template-columns: 1fr; }
+            .result-section { border-left: none; border-top: 1px solid var(--border); }
             .tool-header h1 { font-size: 2rem; }
             .content-article { padding: 20px; }
         }
@@ -324,18 +323,14 @@
         
         <header class="tool-header">
             <h1>Interest Calculator</h1>
-            <p>Calculate Simple and Compound Interest accurately for loans, FDs, and savings.</p>
+            <p>Calculate Simple & Compound Interest with monthly contributions for Indian investments.</p>
         </header>
 
-        <div class="calculator-box">
-            <div class="tabs">
-                <button class="tab-btn active" onclick="switchTab('simple')">Simple Interest</button>
-                <button class="tab-btn" onclick="switchTab('compound')">Compound Interest</button>
-            </div>
-
-            <div class="input-grid">
+        <div class="calculator-wrapper">
+            <!-- Input Side -->
+            <div class="input-section">
                 <div class="form-group">
-                    <label>Principal Amount (₹)</label>
+                    <label>Initial Investment (Principal)</label>
                     <div class="input-wrapper">
                         <span class="input-icon">₹</span>
                         <input type="number" id="principal" class="form-control" placeholder="e.g. 100000">
@@ -343,48 +338,71 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Rate of Interest (% p.a.)</label>
+                    <label>Interest Rate (% per annum)</label>
                     <div class="input-wrapper">
                         <span class="input-icon">%</span>
-                        <input type="number" id="rate" class="form-control" placeholder="e.g. 8.5">
+                        <input type="number" id="rate" class="form-control" placeholder="e.g. 7.5">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label>Time Period (Years)</label>
+                    <label>Investment Duration (Years)</label>
                     <div class="input-wrapper">
                         <span class="input-icon"><i class="fa-regular fa-clock"></i></span>
-                        <input type="number" id="time" class="form-control" placeholder="e.g. 5">
+                        <input type="number" id="years" class="form-control" placeholder="e.g. 5">
                     </div>
                 </div>
 
-                <div class="form-group" id="compoundingGroup" style="display: none;">
+                <div class="form-group">
                     <label>Compounding Frequency</label>
-                    <select id="frequency" class="form-control">
-                        <option value="1">Annually (Yearly)</option>
-                        <option value="2">Half-Yearly</option>
-                        <option value="4">Quarterly</option>
-                        <option value="12">Monthly</option>
+                    <select id="compoundFreq" class="form-control">
+                        <option value="1">Annually (PPF/EPF)</option>
+                        <option value="2">Semi-Annually</option>
+                        <option value="4" selected>Quarterly (Bank FD)</option>
+                        <option value="12">Monthly (Savings/RD)</option>
+                        <option value="0">Simple Interest (No Compounding)</option>
                     </select>
                 </div>
-            </div>
 
-            <button class="btn-calculate" onclick="calculateInterest()">Calculate</button>
-
-            <div id="resultBox" class="result-box">
-                <div class="result-grid">
-                    <div class="result-item">
-                        <h4>Principal Amount</h4>
-                        <p id="resPrincipal">₹0</p>
-                    </div>
-                    <div class="result-item">
-                        <h4>Total Interest</h4>
-                        <p id="resInterest" class="interest-amount">₹0</p>
+                <div class="form-group">
+                    <label>Additional Contribution (Optional)</label>
+                    <div style="display: flex; gap: 10px;">
+                        <div class="input-wrapper" style="flex: 2;">
+                            <span class="input-icon">₹</span>
+                            <input type="number" id="contribution" class="form-control" placeholder="0">
+                        </div>
+                        <select id="contribFreq" class="form-control" style="flex: 1;">
+                            <option value="12">Monthly</option>
+                            <option value="1">Annually</option>
+                        </select>
                     </div>
                 </div>
-                <div style="margin-top: 20px; text-align: center; border-top: 1px solid #c7d2fe; padding-top: 15px;">
-                    <h4 style="color: var(--text-light); margin-bottom: 5px;">Total Maturity Value</h4>
-                    <p id="resTotal" class="total-amount">₹0</p>
+
+                <button class="btn-calculate" onclick="calculate()">Calculate</button>
+            </div>
+
+            <!-- Result Side -->
+            <div class="result-section">
+                <div class="result-header">Results</div>
+                
+                <div class="result-row">
+                    <span>Total Principal:</span>
+                    <span id="resPrincipal">₹0</span>
+                </div>
+                <div class="result-row">
+                    <span>Total Interest Earned:</span>
+                    <span id="resInterest" style="color: var(--primary);">₹0</span>
+                </div>
+                <div class="result-row total">
+                    <span>Maturity Value:</span>
+                    <span id="resTotal">₹0</span>
+                </div>
+
+                <!-- Chart -->
+                <div class="chart-container" id="pieChart"></div>
+                <div class="chart-legend">
+                    <div class="legend-item"><div class="dot dot-p"></div> Principal</div>
+                    <div class="legend-item"><div class="dot dot-i"></div> Interest</div>
                 </div>
             </div>
         </div>
@@ -393,6 +411,10 @@
         <div class="related-tools">
             <h2 class="section-title">Related Financial Tools</h2>
             <div class="tools-grid">
+                <a href="monthly-interest-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-calendar-check"></i>
+                    Monthly Interest
+                </a>
                 <a href="compound-interest-calculator.html" class="tool-link">
                     <i class="fa-solid fa-chart-line"></i>
                     Compound Interest
@@ -401,183 +423,228 @@
                     <i class="fa-solid fa-calculator"></i>
                     Simple Interest
                 </a>
-                <a href="loan-interest-calculator.html" class="tool-link">
-                    <i class="fa-solid fa-hand-holding-dollar"></i>
-                    Loan Calculator
-                </a>
                 <a href="monthly-budget-calculator.html" class="tool-link">
                     <i class="fa-solid fa-chart-pie"></i>
                     Budget Planner
+                </a>
+                <a href="loan-interest-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-hand-holding-dollar"></i>
+                    Loan Calculator
                 </a>
                 <a href="savings-goal-calculator.html" class="tool-link">
                     <i class="fa-solid fa-bullseye"></i>
                     Savings Goal
                 </a>
-                <a href="inflation-calculator.html" class="tool-link">
-                    <i class="fa-solid fa-arrow-trend-up"></i>
-                    Inflation Calc
-                </a>
                 <a href="overtime-calculator.html" class="tool-link">
                     <i class="fa-solid fa-clock"></i>
                     Overtime Calc
+                </a>
+                <a href="inflation-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-arrow-trend-up"></i>
+                    Inflation Calc
                 </a>
             </div>
         </div>
 
         <!-- SEO Content -->
         <article class="content-article">
-            <h2>Mastering Interest Calculations: A Guide for Every Indian</h2>
-            <p>In the world of finance, interest is the double-edged sword that can either build your wealth or drain it. Whether you are taking a home loan, investing in a Fixed Deposit (FD), or simply lending money to a friend, understanding how interest works is crucial. <strong>Toolvala.in's Interest Calculator</strong> is designed to simplify these complex calculations, offering both Simple and Compound interest modes in one easy-to-use interface.</p>
+            <h1>Interest Calculator India: Master Your Money</h1>
+            <p>In the dynamic landscape of Indian finance, understanding how your money grows is the first step toward wealth creation. Whether you are parking funds in a Fixed Deposit (FD), starting a Recurring Deposit (RD), or planning for retirement via PPF, the underlying force is <strong>Interest</strong>. Toolvala.in's advanced <strong>Interest Calculator</strong> helps you compute both Simple and Compound interest with precision, allowing for additional periodic contributions to simulate real-world investment scenarios.</p>
 
-            <p>This guide will walk you through the concepts of interest, the formulas used, and how to use this tool effectively to make smarter financial decisions.</p>
-
-            <h3>What is Interest?</h3>
-            <p>Interest is essentially the "rent" paid for the use of money. If you borrow money from a bank, you pay rent (interest) to the bank. If you deposit money in a bank, the bank pays you rent (interest) for using your funds.</p>
-
-            <h3>Simple Interest vs. Compound Interest</h3>
-            <p>The two main ways interest is calculated are Simple Interest (SI) and Compound Interest (CI). Understanding the difference can save (or earn) you lakhs of rupees over time.</p>
-
-            <h4>1. Simple Interest (SI)</h4>
-            <p>Simple Interest is calculated only on the principal amount (the original sum of money). It remains constant throughout the tenure.</p>
-            <div class="highlight-box">
-                <strong>Formula:</strong> SI = (P × R × T) / 100<br>
-                <em>Where: P = Principal, R = Rate per annum, T = Time in years.</em>
-            </div>
-            <p><strong>Use Case:</strong> Informal loans between friends, some short-term vehicle loans, and specific government bonds often use simple interest.</p>
-
-            <h4>2. Compound Interest (CI)</h4>
-            <p>Compound Interest is the "magic" of finance. Here, interest is calculated on the principal <em>plus</em> the accumulated interest from previous periods. You earn interest on interest.</p>
-            <div class="highlight-box">
-                <strong>Formula:</strong> A = P (1 + R/n)^(nt)<br>
-                <em>Where: A = Final Amount, P = Principal, R = Rate (decimal), n = compounding frequency, t = time.</em>
-            </div>
-            <p><strong>Use Case:</strong> Savings accounts, Fixed Deposits (FD), Mutual Funds, Home Loans, and Credit Card dues all work on compound interest.</p>
-
-            <h3>How to Use Toolvala.in Interest Calculator</h3>
-            <p>Our tool is designed for simplicity. Follow these steps:</p>
-
-            <h4>Step 1: Choose the Mode</h4>
-            <p>Toggle between "Simple Interest" and "Compound Interest" using the tabs at the top. Default is Simple Interest.</p>
-
-            <h4>Step 2: Enter Principal Amount</h4>
-            <p>Enter the total amount of money you are investing or borrowing. For example, ₹1,00,000.</p>
-
-            <h4>Step 3: Enter Rate of Interest</h4>
-            <p>Input the annual interest rate. For example, an FD might offer 7.5%, while a personal loan might be 12%.</p>
-
-            <h4>Step 4: Enter Time Period</h4>
-            <p>Specify the duration in years. If you want to calculate for months (e.g., 6 months), enter 0.5 years.</p>
-
-            <h4>Step 5: Select Frequency (For Compound Only)</h4>
-            <p>If you selected Compound Interest, choose how often the interest compounds.
+            <h2>Why Use an Interest Calculator?</h2>
+            <p>Manual calculations using formulas like <em>A = P(1 + r/n)^(nt)</em> are prone to errors, especially when you add monthly contributions (SIP style) to the mix. This tool automates the complex math, giving you:</p>
             <ul>
-                <li><strong>Annually:</strong> Once a year (PPF).</li>
-                <li><strong>Quarterly:</strong> Every 3 months (Most Bank FDs).</li>
-                <li><strong>Monthly:</strong> Every month (Savings Accounts/Loans).</li>
+                <li><strong>Accuracy:</strong> Precise calculations down to the decimal.</li>
+                <li><strong>Visualization:</strong> A clear pie chart showing the ratio of your investment vs. the interest earned.</li>
+                <li><strong>Flexibility:</strong> Switch between Simple Interest (for informal loans) and Compound Interest (for bank products) instantly.</li>
+            </ul>
+
+            <h2>Understanding the Components</h2>
+            
+            <h3>1. Principal Amount</h3>
+            <p>This is your starting lump sum. For an FD, it's the amount you deposit today. For a loan, it's the amount you borrow.</p>
+
+            <h3>2. Interest Rate</h3>
+            <p>The annual percentage rate (APR) offered by the bank or institution.
+            <ul>
+                <li><strong>Savings Account:</strong> ~2.7% - 3.5%</li>
+                <li><strong>Fixed Deposit (FD):</strong> ~6.5% - 7.5%</li>
+                <li><strong>PPF:</strong> ~7.1% (Compounded Annually)</li>
             </ul>
             </p>
 
-            <h4>Step 6: Calculate</h4>
-            <p>Click the button to see the Total Interest earned/payable and the Final Maturity Value.</p>
-
-            <h3>Why This Tool is Useful</h3>
+            <h3>3. Compounding Frequency</h3>
+            <p>This is the "secret sauce" of wealth. It determines how often the interest is added back to the principal.
             <ul>
-                <li><strong>Loan Planning:</strong> Before taking a loan, check how much extra you will pay in interest.</li>
-                <li><strong>Investment Growth:</strong> Visualize how your savings will grow in an FD or PPF account over 10 or 20 years.</li>
-                <li><strong>Comparison:</strong> Quickly compare returns from different schemes (e.g., Simple Interest Bond vs. Compounding FD).</li>
+                <li><strong>Quarterly:</strong> Standard for Indian Bank FDs.</li>
+                <li><strong>Annually:</strong> Standard for PPF and EPF.</li>
+                <li><strong>Monthly:</strong> Used for some corporate deposits and savings accounts (calculation basis).</li>
             </ul>
+            </p>
 
-            <h3>Common Mistakes to Avoid</h3>
+            <h3>4. Additional Contributions</h3>
+            <p>Most of us don't just invest once. We save monthly. This feature allows you to simulate an <strong>RD (Recurring Deposit)</strong> or a <strong>SIP (Systematic Investment Plan)</strong> in debt funds. By adding a small amount monthly, you can see the massive impact on the final maturity value.</p>
+
+            <h2>Simple Interest vs. Compound Interest</h2>
+            <div class="highlight-box">
+                <strong>Simple Interest (SI):</strong> Calculated only on the principal amount. The interest amount remains constant every year.<br>
+                <em>Formula: SI = (P × R × T) / 100</em>
+            </div>
+            <br>
+            <div class="highlight-box">
+                <strong>Compound Interest (CI):</strong> Calculated on the Principal + Accumulated Interest. You earn "interest on interest."<br>
+                <em>Formula: A = P (1 + r/n)^(nt)</em>
+            </div>
+
+            <h2>Real-World Examples in India</h2>
+            
+            <h3>Scenario A: Fixed Deposit (FD)</h3>
+            <p>You invest ₹1 Lakh for 5 years at 7% interest. Banks compound this <strong>Quarterly</strong>.
+            <br>Using the calculator: Select "Quarterly" frequency. The maturity value will be higher than a simple interest calculation.</p>
+
+            <h3>Scenario B: Public Provident Fund (PPF)</h3>
+            <p>You open a PPF account with ₹500 and deposit ₹1.5 Lakhs every year.
+            <br>Using the calculator: Set Principal to 500, Contribution to 150000 (Annually), Rate to 7.1%, and Frequency to "Annually".</p>
+
+            <h2>Common Mistakes to Avoid</h2>
             <ol>
-                <li><strong>Confusing Monthly vs. Yearly Rate:</strong> In India, local moneylenders often quote rates like "2 rupees interest" (2% per month). This is actually 24% per annum! Always convert to an annual rate before using this calculator.</li>
-                <li><strong>Ignoring Compounding Frequency:</strong> An FD compounding quarterly yields more than one compounding annually. Ensure you select the right frequency for accurate results.</li>
-                <li><strong>Forgetting Inflation:</strong> While this calculator shows the future value of money, remember that inflation reduces purchasing power. Use our <a href="inflation-calculator.html" style="color: var(--primary);">Inflation Calculator</a> to adjust for this.</li>
+                <li><strong>Ignoring Inflation:</strong> A 7% return might look good, but if inflation is 6%, your real return is only 1%. Use our <a href="inflation-calculator.html" style="color:var(--primary);">Inflation Calculator</a> to check the real value.</li>
+                <li><strong>Confusing Monthly vs. Yearly Rate:</strong> Informal loans in India often quote "2 rupees interest" (2% per month). This is actually <strong>24% per annum</strong>! Always convert to annual rate before entering here.</li>
+                <li><strong>Taxation:</strong> Interest earned on FDs is taxable as per your income slab. The calculator shows pre-tax returns.</li>
             </ol>
 
-            <h3>Frequently Asked Questions (FAQs)</h3>
+            <h2>Frequently Asked Questions (FAQs)</h2>
             
             <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">1. How is interest calculated on Savings Accounts? <i class="fa-solid fa-chevron-down"></i></div>
-                <div class="faq-answer">In India, banks calculate interest on the daily closing balance of your account. However, this accumulated interest is credited to your account quarterly (every 3 months).</div>
+                <div class="faq-question" onclick="toggleFaq(this)">1. How do I calculate monthly interest payout? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">For schemes like Post Office MIS where you get interest every month, use our dedicated <a href="monthly-interest-calculator.html" style="color:var(--primary);">Monthly Interest Calculator</a>. This tool focuses on cumulative growth.</div>
             </div>
 
             <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">2. What is the Rule of 72? <i class="fa-solid fa-chevron-down"></i></div>
-                <div class="faq-answer">The Rule of 72 is a quick way to estimate how long it takes to double your money. Divide 72 by the interest rate. For example, at 8% interest, money doubles in 72/8 = 9 years.</div>
+                <div class="faq-question" onclick="toggleFaq(this)">2. Does this calculator work for SIPs? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">Yes! If you enter "0" as initial principal and enter a "Monthly Contribution", it acts exactly like a SIP calculator for debt/equity funds (assuming a constant return rate).</div>
             </div>
 
             <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">3. Is interest income taxable? <i class="fa-solid fa-chevron-down"></i></div>
-                <div class="faq-answer">Yes, interest earned from FDs, RDs, and savings accounts is generally added to your income and taxed as per your slab. However, up to ₹10,000 interest from savings accounts is deductible under Section 80TTA.</div>
+                <div class="faq-question" onclick="toggleFaq(this)">3. What is the difference between Nominal and Effective Interest Rate? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">The Nominal rate is what the bank quotes (e.g., 7%). The Effective rate is what you actually get after compounding. If compounded quarterly, 7% nominal becomes approx 7.18% effective.</div>
             </div>
 
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">4. Can I calculate loan EMI here? <i class="fa-solid fa-chevron-down"></i></div>
-                <div class="faq-answer">While this tool shows total interest, loan EMIs involve reducing balance calculations. For accurate EMI figures, please use our dedicated <a href="loan-interest-calculator.html" style="color: var(--primary);">Loan Interest Calculator</a>.</div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">5. What is the difference between Flat Rate and Reducing Balance? <i class="fa-solid fa-chevron-down"></i></div>
-                <div class="faq-answer">Flat Rate calculates interest on the full principal for the entire tenure (expensive). Reducing Balance calculates interest only on the outstanding amount (cheaper). Banks use Reducing Balance; car dealers often quote Flat Rates.</div>
-            </div>
-
-            <p>Financial literacy starts with understanding the numbers. Use <strong>Toolvala.in</strong> to take control of your financial future today!</p>
+            <p>Start planning your financial future today with <strong>Toolvala.in</strong>. Smart calculations lead to smart investments!</p>
         </article>
     </div>
 
     <script>
-        let currentMode = 'simple';
+        function calculate() {
+            // 1. Get Inputs
+            const P = parseFloat(document.getElementById('principal').value) || 0;
+            const r = parseFloat(document.getElementById('rate').value) || 0;
+            const t = parseFloat(document.getElementById('years').value) || 0;
+            const n = parseInt(document.getElementById('compoundFreq').value); // 0 for Simple, else freq
+            
+            const contribution = parseFloat(document.getElementById('contribution').value) || 0;
+            const contribFreq = parseInt(document.getElementById('contribFreq').value); // 12 for monthly, 1 for annually
 
-        function switchTab(mode) {
-            currentMode = mode;
-            const simpleBtn = document.querySelectorAll('.tab-btn')[0];
-            const compoundBtn = document.querySelectorAll('.tab-btn')[1];
-            const compoundingGroup = document.getElementById('compoundingGroup');
-
-            if (mode === 'simple') {
-                simpleBtn.classList.add('active');
-                compoundBtn.classList.remove('active');
-                compoundingGroup.style.display = 'none';
-            } else {
-                simpleBtn.classList.remove('active');
-                compoundBtn.classList.add('active');
-                compoundingGroup.style.display = 'block';
-            }
-        }
-
-        function calculateInterest() {
-            const P = parseFloat(document.getElementById('principal').value);
-            const R = parseFloat(document.getElementById('rate').value);
-            const T = parseFloat(document.getElementById('time').value);
-            const resultBox = document.getElementById('resultBox');
-
-            if (isNaN(P) || isNaN(R) || isNaN(T)) {
-                alert("Please enter valid numbers for Principal, Rate, and Time.");
+            if (t <= 0) {
+                alert("Please enter a valid time period.");
                 return;
             }
 
-            let interest = 0;
-            let total = 0;
+            let totalAmount = 0;
+            let totalInvested = P;
 
-            if (currentMode === 'simple') {
-                // SI = (P * R * T) / 100
-                interest = (P * R * T) / 100;
-                total = P + interest;
+            // 2. Calculation Logic
+            if (n === 0) {
+                // --- SIMPLE INTEREST ---
+                // SI Formula: P * r * t / 100
+                // Note: Contributions in SI are tricky. Usually SI implies lump sum.
+                // If contributions exist, we calculate SI on each contribution based on time remaining.
+                // For simplicity in this "General" tool, we will treat contributions as separate SI buckets.
+                
+                const siLumpSum = (P * r * t) / 100;
+                let siContrib = 0;
+
+                if (contribution > 0) {
+                    const totalContribs = t * contribFreq;
+                    totalInvested += (contribution * totalContribs);
+                    
+                    // Calculate interest for each contribution
+                    // First contribution stays for t years (or t - 1/freq) depending on beginning/end
+                    // Assuming End of Period for simplicity
+                    for (let i = 1; i <= totalContribs; i++) {
+                        const timeRemaining = t - (i / contribFreq);
+                        if(timeRemaining > 0) {
+                            siContrib += (contribution * r * timeRemaining) / 100;
+                        }
+                    }
+                }
+                totalAmount = P + siLumpSum + (contribution * t * contribFreq) + siContrib;
+
             } else {
-                // CI = P * (1 + r/n)^(nt) - P
-                const n = parseInt(document.getElementById('frequency').value);
-                const rateDecimal = R / 100;
-                const amount = P * Math.pow((1 + (rateDecimal / n)), (n * T));
-                total = amount;
-                interest = amount - P;
+                // --- COMPOUND INTEREST ---
+                const rateDecimal = r / 100;
+                
+                // A. Lump Sum Growth
+                const amountLumpSum = P * Math.pow((1 + rateDecimal / n), (n * t));
+
+                // B. Contributions Growth (Future Value of a Series)
+                // This is complex because contrib freq might differ from compounding freq.
+                // We will iterate period by period for accuracy.
+                
+                let currentBalance = P;
+                const totalMonths = t * 12;
+                
+                // Convert everything to monthly steps for iteration
+                const monthlyRate = rateDecimal / 12; // Approximation for iteration if n=12
+                // Better approach: Iterate by compounding period
+                
+                // Let's stick to a standard iteration based on the smallest unit (Month)
+                // If compounding is Quarterly (n=4), we apply interest every 3rd month.
+                
+                let balance = P;
+                const months = t * 12;
+                const compoundInterval = 12 / n; // e.g., 12/4 = 3 months
+                const contribInterval = 12 / contribFreq; // e.g., 12/12 = 1 month
+
+                for (let m = 1; m <= months; m++) {
+                    // Add Contribution (End of month)
+                    if (m % contribInterval === 0) {
+                        balance += contribution;
+                        totalInvested += contribution;
+                    }
+
+                    // Apply Interest (End of compounding period)
+                    if (m % compoundInterval === 0) {
+                        // Rate per period = r / n
+                        const periodRate = rateDecimal / n;
+                        const interest = balance * periodRate;
+                        balance += interest;
+                    }
+                }
+                totalAmount = balance;
             }
 
-            document.getElementById('resPrincipal').innerText = formatCurrency(P);
-            document.getElementById('resInterest').innerText = formatCurrency(interest);
-            document.getElementById('resTotal').innerText = formatCurrency(total);
+            const totalInterest = totalAmount - totalInvested;
 
-            resultBox.style.display = 'block';
-            resultBox.scrollIntoView({ behavior: 'smooth' });
+            // 3. Update UI
+            document.getElementById('resPrincipal').innerText = formatCurrency(totalInvested);
+            document.getElementById('resInterest').innerText = formatCurrency(totalInterest);
+            document.getElementById('resTotal').innerText = formatCurrency(totalAmount);
+
+            // 4. Update Chart
+            updateChart(totalInvested, totalInterest);
+        }
+
+        function updateChart(principal, interest) {
+            const total = principal + interest;
+            const pPercent = (principal / total) * 100;
+            const iPercent = (interest / total) * 100;
+
+            const chart = document.getElementById('pieChart');
+            chart.style.background = `conic-gradient(
+                var(--chart-principal) 0% ${pPercent}%, 
+                var(--chart-interest) ${pPercent}% 100%
+            )`;
         }
 
         function formatCurrency(num) {
