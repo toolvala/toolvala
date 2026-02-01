@@ -6,6 +6,7 @@
     <title>Monthly Interest Calculator | Calculate Interest Per Month - Toolvala.in</title>
     <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">.
+
     <!-- SEO Meta Tags -->
     <meta name="description" content="Calculate monthly interest payout for Fixed Deposits (FD), MIS, and Loans. Convert Annual Interest Rate to Monthly Interest instantly. Supports Village Interest (2% per month) calculations.">
     <meta name="keywords" content="monthly interest calculator, interest per month calculator, 1 lakh interest per month, mis calculator, monthly interest payout, village interest calculator, bank interest per month, toolvala">
@@ -303,7 +304,7 @@
         <div class="calculator-box">
             <div class="form-group">
                 <label>Principal Amount (₹)</label>
-                <div class="input-wrapper">
+                <div class="input-group">
                     <span class="input-icon">₹</span>
                     <input type="number" id="principal" class="form-control" placeholder="e.g. 100000">
                 </div>
@@ -311,7 +312,7 @@
 
             <div class="form-group">
                 <label>Interest Rate</label>
-                <div class="input-wrapper">
+                <div class="input-group">
                     <span class="input-icon">%</span>
                     <input type="number" id="rate" class="form-control" placeholder="e.g. 7.5">
                 </div>
@@ -323,6 +324,15 @@
                     <option value="yearly">Yearly (% per annum) - Bank Standard</option>
                     <option value="monthly">Monthly (% per month) - Village Style</option>
                 </select>
+            </div>
+
+            <!-- Added Duration Input -->
+            <div class="form-group">
+                <label>Duration (Months) <span style="font-weight:normal; color:var(--text-light); font-size:0.8rem;">(Optional)</span></label>
+                <div class="input-group">
+                    <span class="input-icon"><i class="fa-regular fa-calendar"></i></span>
+                    <input type="number" id="months" class="form-control" placeholder="e.g. 6">
+                </div>
             </div>
 
             <button class="btn-calculate" onclick="calculateMonthlyInterest()">Calculate Monthly Income</button>
@@ -340,6 +350,14 @@
                     <div class="result-item">
                         <h4>Effective Annual Rate</h4>
                         <p id="effectiveRate">0%</p>
+                    </div>
+                </div>
+
+                <!-- Added Total Duration Result -->
+                <div id="durationRow" style="display:none; margin-top: 20px; border-top: 1px solid #bbf7d0; padding-top: 15px;">
+                    <div class="result-item" style="width:100%;">
+                        <h4 id="durationLabel">Total Interest</h4>
+                        <p id="totalDurationInterest" style="color:var(--primary-dark); font-size:1.8rem;">₹0</p>
                     </div>
                 </div>
             </div>
@@ -440,6 +458,7 @@
                         <li>Choose <strong>Monthly</strong> for private lenders or village loans.</li>
                     </ul>
                 </li>
+                <li><strong>Enter Duration (Optional):</strong> If you want to know the total interest for a specific period (e.g., 6 months), enter the number of months.</li>
                 <li><strong>Calculate:</strong> Click the button to see your monthly earnings/payments instantly.</li>
             </ol>
 
@@ -479,6 +498,7 @@
             const principal = parseFloat(document.getElementById('principal').value);
             const rate = parseFloat(document.getElementById('rate').value);
             const rateType = document.getElementById('rateType').value;
+            const months = parseFloat(document.getElementById('months').value) || 0;
             const resultBox = document.getElementById('resultBox');
 
             if (isNaN(principal) || isNaN(rate)) {
@@ -505,6 +525,16 @@
             document.getElementById('monthlyAmount').innerText = formatCurrency(monthlyInterest);
             document.getElementById('yearlyAmount').innerText = formatCurrency(yearlyInterest);
             document.getElementById('effectiveRate').innerText = effectiveAnnualRate.toFixed(2) + "% p.a.";
+
+            // Handle Duration Logic
+            if(months > 0) {
+                const totalInterestForDuration = monthlyInterest * months;
+                document.getElementById('totalDurationInterest').innerText = formatCurrency(totalInterestForDuration);
+                document.getElementById('durationLabel').innerText = `Total Interest (${months} Months)`;
+                document.getElementById('durationRow').style.display = 'flex';
+            } else {
+                document.getElementById('durationRow').style.display = 'none';
+            }
 
             resultBox.style.display = 'block';
             resultBox.scrollIntoView({ behavior: 'smooth' });
