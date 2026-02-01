@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Left Pad Generator & Text Aligner</title>
-    <link rel="canonical"href="https://www.toolvala.in/left-pad.html">
-    <meta name="description" content="Free online Left Pad tool. Pad text to a specific length with zeros or spaces, or add prefixes to lines. Perfect for data formatting and SQL alignment.">
+    <title>Left Pad Generator & Text Aligner - Toolvala.in</title>
+    <link rel="canonical" href="https://www.toolvala.in/left-pad.html">
+    <meta name="description" content="Free online Left Pad tool by Toolvala.in. Pad text to a specific length with zeros or spaces, or add prefixes to lines. Perfect for data formatting and SQL alignment.">
     <meta name="robots" content="index, follow">
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+    <link rel="stylesheet"
+     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">.
     <style>
         :root {
             --primary: #10b981; /* Emerald Green */
@@ -32,6 +31,32 @@
             line-height: 1.6;
         }
 
+        /* --- NAVIGATION --- */
+        nav {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        .logo span { color: var(--text-main); }
+
+        /* --- LAYOUT --- */
         .container {
             max-width: 950px;
             margin: 0 auto;
@@ -238,370 +263,323 @@
 </head>
 <body>
 
-<div class="container">
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">Toolvala<span>.in</span></a>
+        </div>
+    </nav>
 
-    <!-- ========================= -->
-    <!-- 1. THE TOOL INTERFACE -->
-    <!-- ========================= -->
-    <div class="tool-wrapper">
-        <h1>Left Pad Text Tool</h1>
-        <p class="subtitle">Pad text to a fixed length or add prefixes to every line.</p>
+    <div class="container">
 
-        <div class="controls">
-            <!-- Mode Toggle -->
-            <div class="toggle-group">
-                <button class="mode-btn active" onclick="setMode('pad')" id="btnPad">
-                    <i class="fa-solid fa-ruler-horizontal"></i> Pad to Length
-                </button>
-                <button class="mode-btn" onclick="setMode('prefix')" id="btnPrefix">
-                    <i class="fa-solid fa-plus"></i> Add Prefix
-                </button>
+        <!-- ========================= -->
+        <!-- 1. THE TOOL INTERFACE -->
+        <!-- ========================= -->
+        <div class="tool-wrapper">
+            <h1>Left Pad Text Tool</h1>
+            <p class="subtitle">Pad text to a fixed length or add prefixes to every line.</p>
+
+            <div class="controls">
+                <!-- Mode Toggle -->
+                <div class="toggle-group">
+                    <button class="mode-btn active" onclick="setMode('pad')" id="btnPad">
+                        <i class="fa-solid fa-ruler-horizontal"></i> Pad to Length
+                    </button>
+                    <button class="mode-btn" onclick="setMode('prefix')" id="btnPrefix">
+                        <i class="fa-solid fa-plus"></i> Add Prefix
+                    </button>
+                </div>
+
+                <!-- Settings -->
+                <div class="settings-grid">
+                    <!-- Pad Settings -->
+                    <div id="padSettings" style="display:flex; gap:20px;">
+                        <div class="input-wrapper">
+                            <label for="targetLen">Target Length</label>
+                            <input type="number" id="targetLen" value="10" min="1" oninput="processText()">
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="padChar">Padding Char</label>
+                            <input type="text" id="padChar" value="0" maxlength="5" oninput="processText()">
+                        </div>
+                    </div>
+
+                    <!-- Prefix Settings (Hidden by default) -->
+                    <div id="prefixSettings" style="display:none; gap:20px;">
+                        <div class="input-wrapper">
+                            <label for="prefixStr">Prefix String</label>
+                            <input type="text" id="prefixStr" placeholder='e.g. "> "' style="width:200px;" oninput="processText()">
+                        </div>
+                    </div>
+
+                    <div class="input-wrapper" style="justify-content:center; padding-bottom:5px;">
+                        <label style="cursor:pointer; display:flex; align-items:center; gap:5px; text-transform:none;">
+                            <input type="checkbox" id="skipEmpty" checked onchange="processText()"> Skip empty lines
+                        </label>
+                    </div>
+                </div>
             </div>
 
-            <!-- Settings -->
-            <div class="settings-grid">
-                <!-- Pad Settings -->
-                <div id="padSettings" style="display:flex; gap:20px;">
-                    <div class="input-wrapper">
-                        <label for="targetLen">Target Length</label>
-                        <input type="number" id="targetLen" value="10" min="1" oninput="processText()">
-                    </div>
-                    <div class="input-wrapper">
-                        <label for="padChar">Padding Char</label>
-                        <input type="text" id="padChar" value="0" maxlength="5" oninput="processText()">
-                    </div>
+            <div class="io-grid">
+                <!-- Input -->
+                <div class="input-wrapper">
+                    <label>Input Text</label>
+                    <textarea id="input" placeholder="1&#10;2&#10;300" oninput="processText()"></textarea>
                 </div>
 
-                <!-- Prefix Settings (Hidden by default) -->
-                <div id="prefixSettings" style="display:none; gap:20px;">
-                    <div class="input-wrapper">
-                        <label for="prefixStr">Prefix String</label>
-                        <input type="text" id="prefixStr" placeholder='e.g. "> "' style="width:200px;" oninput="processText()">
+                <!-- Output -->
+                <div class="input-wrapper">
+                    <label>Result</label>
+                    <textarea id="output" readonly placeholder="0000000001&#10;0000000002&#10;0000000300"></textarea>
+                    <div class="actions">
+                        <button class="action-btn btn-clear" onclick="clearAll()">
+                            <i class="fa-solid fa-trash"></i> Clear
+                        </button>
+                        <button class="action-btn btn-copy" onclick="copyToClipboard()">
+                            <i class="fa-solid fa-copy"></i> Copy Result
+                        </button>
                     </div>
-                </div>
-
-                <div class="input-wrapper" style="justify-content:center; padding-bottom:5px;">
-                    <label style="cursor:pointer; display:flex; align-items:center; gap:5px; text-transform:none;">
-                        <input type="checkbox" id="skipEmpty" checked onchange="processText()"> Skip empty lines
-                    </label>
                 </div>
             </div>
         </div>
 
-        <div class="io-grid">
-            <!-- Input -->
-            <div class="input-wrapper">
-                <label>Input Text</label>
-                <textarea id="input" placeholder="1&#10;2&#10;300" oninput="processText()"></textarea>
-            </div>
+        <!-- ========================= -->
+        <!-- 2. SEO OPTIMIZED CONTENT -->
+        <!-- ========================= -->
+        <article>
+            <h1>Left Pad Text Tool – Align, Format, and Prefix Text Online</h1>
 
-            <!-- Output -->
-            <div class="input-wrapper">
-                <label>Result</label>
-                <textarea id="output" readonly placeholder="0000000001&#10;0000000002&#10;0000000300"></textarea>
-                <div class="actions">
-                    <button class="action-btn btn-clear" onclick="clearAll()">
-                        <i class="fa-solid fa-trash"></i> Clear
-                    </button>
-                    <button class="action-btn btn-copy" onclick="copyToClipboard()">
-                        <i class="fa-solid fa-copy"></i> Copy Result
-                    </button>
+            <p>In the world of data processing, programming, and text formatting, precision is everything. A single missing zero in a CSV file or a misaligned comment in code can break an entire system. Whether you are normalizing database IDs, formatting numbers for a report, or preparing text for a legacy mainframe, you often need to ensure that every line of text meets a specific length requirement.</p>
+
+            <p>Welcome to the <strong>Left Pad Text Tool</strong> by <strong>Toolvala.in</strong>. This is a versatile, free online utility designed to solve two specific problems: <strong>padding text to a fixed length</strong> (adding characters to the start until a limit is reached) and <strong>adding prefixes</strong> (appending the same string to the start of every line). It is fast, secure, and runs entirely in your browser.</p>
+
+            <h2>What is Left Padding?</h2>
+            <p>Left padding is the process of adding specific characters—usually spaces or zeros—to the beginning (left side) of a string so that the string reaches a pre-defined total length. This is crucial for alignment and sorting.</p>
+            
+            <p>For example, if you have a list of numbers: <code>1, 20, 300</code>. <br>
+            If you sort them alphabetically, "1" comes before "20", but "100" might come before "2". This is known as lexicographical sorting issues. <br>
+            By <strong>left padding with zeros</strong> to a length of 3, you get: <code>001, 020, 300</code>. Now, they are visually aligned and sort correctly.</p>
+
+            <h2>How the Left Pad Tool Works</h2>
+            <p>This tool leverages the modern JavaScript <code>padStart()</code> method to ensure accuracy. It works in two distinct modes to cover different use cases:</p>
+
+            <h3>Mode 1: Pad to Length</h3>
+            <p>Use this mode when you need every line to be exactly $N$ characters long.</p>
+            <ul>
+                <li><strong>Target Length:</strong> You set the desired total length (e.g., 10 characters).</li>
+                <li><strong>Padding Character:</strong> You choose what to fill the empty space with (e.g., "0", "-", or " ").</li>
+                <li><strong>Logic:</strong> The tool calculates <code>Target Length - Current Length</code> and adds the necessary number of padding characters to the left. If the line is already longer than the target, it remains unchanged.</li>
+            </ul>
+
+            <h3>Mode 2: Add Prefix</h3>
+            <p>Use this mode when you simply want to add a string to the start of every line, regardless of how long the line is.</p>
+            <ul>
+                <li><strong>Prefix String:</strong> You type any text (e.g., "ID: ", "> ", or "TODO: ").</li>
+                <li><strong>Logic:</strong> The tool prepends this string to every non-empty line in your list.</li>
+            </ul>
+
+            <h2>The Famous "Left-Pad" Incident</h2>
+            <p>Left padding is such a fundamental concept in programming that it once broke the internet. In 2016, a developer removed a tiny package called <code>left-pad</code> (which consisted of only 11 lines of code) from NPM, the JavaScript package manager. This removal caused thousands of massive projects, including Facebook and Netflix, to fail because they relied on that tiny snippet of code to format strings.</p>
+            <p>This tool provides that exact functionality directly in your browser. You don't need to install a library or write a script; you can just paste your text here and get the job done instantly.</p>
+
+            <h2>Detailed Features</h2>
+
+            <h3>Custom Padding Characters</h3>
+            <p>While zeros (0) and spaces ( ) are the most common padding characters, our tool allows you to use any character. You can pad with dashes (<code>---text</code>), underscores (<code>___text</code>), or even emojis. This is useful for creating visual separators in text files or styling output for social media.</p>
+
+            <h3>Skip Empty Lines</h3>
+            <p>Data files often contain blank lines that you don't want to touch. Our tool includes a smart "Skip empty lines" checkbox. When enabled, the tool ignores blank rows, preventing it from generating lines that consist only of zeros or prefixes (e.g., preventing a blank line from becoming "0000000000").</p>
+
+            <h3>Monospace Editor for Precision</h3>
+            <p>Visual alignment requires a font where every character has the same width. We use a <strong>Monospace</strong> font (Consolas/Monaco) in the editor. This ensures that "111" looks exactly as wide as "000", allowing you to visually verify that your padding is correct before you copy the result.</p>
+
+            <h2>Real-World Use Cases</h2>
+
+            <h3>1. Fixing CSV and Excel Data</h3>
+            <p>Excel often removes leading zeros from ZIP codes or ID numbers (turning "02134" into "2134"). This ruins the data. You can paste your column of data here, set the Target Length to 5 and Padding Char to "0", and restore your ZIP codes instantly.</p>
+
+            <h3>2. Code Formatting</h3>
+            <p>Developers use the "Add Prefix" mode to bulk-comment code. By setting the prefix to <code>//</code> or <code>#</code>, you can comment out 100 lines of code in one second. Similarly, you can add 4 spaces to indent a block of code for Markdown.</p>
+
+            <h3>3. SQL and Database Preparation</h3>
+            <p>Legacy databases often use "Fixed Width" text files where the First Name must be exactly 20 characters, and the Last Name must be exactly 20 characters. This tool allows you to pad names with spaces to meet these strict schema requirements.</p>
+
+            <h3>4. Generating Sequential Lists</h3>
+            <p>If you have a list of files named <code>img1.jpg</code> to <code>img100.jpg</code>, sorting them on a computer often puts <code>img10</code> before <code>img2</code>. By padding the numbers (<code>img001.jpg</code>), you ensure the file system sorts them in the correct numerical order.</p>
+
+            <h2>Frequently Asked Questions (FAQ)</h2>
+
+            <h3>Is this tool free?</h3>
+            <p>Yes, the Left Pad Text Tool is 100% free to use for personal and commercial purposes.</p>
+
+            <h3>Does it store my data?</h3>
+            <p>No. This tool runs <strong>Client-Side</strong>. Your text is processed by your web browser and is never sent to our servers. It is completely safe for sensitive data.</p>
+
+            <h3>What happens if my text is longer than the target length?</h3>
+            <p>The tool follows standard programming behavior: if your text is longer than the target length, it is left untouched. We do not truncate (cut off) your text to avoid data loss.</p>
+
+            <h3>Can I pad with multiple characters?</h3>
+            <p>Yes. If you set the padding character to "AB", the tool will repeat that pattern (e.g., "ABABtext") until the target length is reached.</p>
+
+        </article>
+
+        <!-- ========================= -->
+        <!-- 3. TOOL CARDS -->
+        <!-- ========================= -->
+        <div class="cards-grid">
+            <a href="reverse-text.html" class="tool-card">
+                <div class="tool-left">
+                    <div class="icon" style="background:#2563eb">
+                        <i class="fa-solid fa-font"></i>
+                    </div>
+                    <div>
+                        <div class="tool-title">Reverse Text Tool</div>
+                        <div class="tool-desc">
+                            Reverse characters, words, and sentences instantly.
+                        </div>
+                    </div>
                 </div>
-            </div>
+                <i class="fa-solid fa-chevron-right arrow"></i>
+            </a>
+
+            <a href="duplicate-remover.html" class="tool-card">
+                <div class="tool-left">
+                    <div class="icon" style="background:#22c55e">
+                        <i class="fa-solid fa-copy"></i>
+                    </div>
+                    <div>
+                        <div class="tool-title">Duplicate Remover</div>
+                        <div class="tool-desc">
+                            Remove duplicate items and fix repeated words.
+                        </div>
+                    </div>
+                </div>
+                <i class="fa-solid fa-chevron-right arrow"></i>
+            </a>
+
+            <a href="unindent-tool.html" class="tool-card">
+                <div class="tool-left">
+                    <div class="icon" style="background:#14b8a6">
+                        <i class="fa-solid fa-outdent"></i>
+                    </div>
+                    <div>
+                        <div class="tool-title">Smart Unindent Tool</div>
+                        <div class="tool-desc">
+                            Remove indentation from code while preserving nesting.
+                        </div>
+                    </div>
+                </div>
+                <i class="fa-solid fa-chevron-right arrow"></i>
+            </a>
+
+            <a href="center-text.html" class="tool-card">
+                <div class="tool-left">
+                    <div class="icon" style="background:#ef4444">
+                        <i class="fa-solid fa-align-center"></i>
+                    </div>
+                    <div>
+                        <div class="tool-title">Center Text Tool</div>
+                        <div class="tool-desc">
+                            Center align text with padding for visual balance.
+                        </div>
+                    </div>
+                </div>
+                <i class="fa-solid fa-chevron-right arrow"></i>
+            </a>
         </div>
+
     </div>
 
-    <!-- ========================= -->
-    <!-- 2. SEO OPTIMIZED CONTENT -->
-    <!-- ========================= -->
-    <article>
-        <h1>Left Pad Text Tool – Align, Format, and Prefix Text Online</h1>
-
-        <p>In the world of data processing, programming, and text formatting, precision is everything. A single missing zero in a CSV file or a misaligned comment in code can break an entire system. Whether you are normalizing database IDs, formatting numbers for a report, or preparing text for a legacy mainframe, you often need to ensure that every line of text meets a specific length requirement.</p>
-
-        <p>Welcome to the <strong>Left Pad Text Tool</strong>. This is a versatile, free online utility designed to solve two specific problems: <strong>padding text to a fixed length</strong> (adding characters to the start until a limit is reached) and <strong>adding prefixes</strong> (appending the same string to the start of every line). It is fast, secure, and runs entirely in your browser.</p>
-
-        <h2>What is Left Padding?</h2>
-        <p>Left padding is the process of adding specific characters—usually spaces or zeros—to the beginning (left side) of a string so that the string reaches a pre-defined total length. This is crucial for alignment and sorting.</p>
-        
-        <p>For example, if you have a list of numbers: <code>1, 20, 300</code>. <br>
-        If you sort them alphabetically, "1" comes before "20", but "100" might come before "2". This is known as lexicographical sorting issues. <br>
-        By <strong>left padding with zeros</strong> to a length of 3, you get: <code>001, 020, 300</code>. Now, they are visually aligned and sort correctly.</p>
-
-        <h2>How the Left Pad Tool Works</h2>
-        <p>This tool leverages the modern JavaScript <code>padStart()</code> method to ensure accuracy. It works in two distinct modes to cover different use cases:</p>
-
-        <h3>Mode 1: Pad to Length</h3>
-        <p>Use this mode when you need every line to be exactly $N$ characters long.</p>
-        <ul>
-            <li><strong>Target Length:</strong> You set the desired total length (e.g., 10 characters).</li>
-            <li><strong>Padding Character:</strong> You choose what to fill the empty space with (e.g., "0", "-", or " ").</li>
-            <li><strong>Logic:</strong> The tool calculates <code>Target Length - Current Length</code> and adds the necessary number of padding characters to the left. If the line is already longer than the target, it remains unchanged.</li>
-        </ul>
-
-        <h3>Mode 2: Add Prefix</h3>
-        <p>Use this mode when you simply want to add a string to the start of every line, regardless of how long the line is.</p>
-        <ul>
-            <li><strong>Prefix String:</strong> You type any text (e.g., "ID: ", "> ", or "TODO: ").</li>
-            <li><strong>Logic:</strong> The tool prepends this string to every non-empty line in your list.</li>
-        </ul>
-
-        <h2>The Famous "Left-Pad" Incident</h2>
-        <p>Left padding is such a fundamental concept in programming that it once broke the internet. In 2016, a developer removed a tiny package called <code>left-pad</code> (which consisted of only 11 lines of code) from NPM, the JavaScript package manager. This removal caused thousands of massive projects, including Facebook and Netflix, to fail because they relied on that tiny snippet of code to format strings.</p>
-        <p>This tool provides that exact functionality directly in your browser. You don't need to install a library or write a script; you can just paste your text here and get the job done instantly.</p>
-
-        <h2>Detailed Features</h2>
-
-        <h3>Custom Padding Characters</h3>
-        <p>While zeros (0) and spaces ( ) are the most common padding characters, our tool allows you to use any character. You can pad with dashes (<code>---text</code>), underscores (<code>___text</code>), or even emojis. This is useful for creating visual separators in text files or styling output for social media.</p>
-
-        <h3>Skip Empty Lines</h3>
-        <p>Data files often contain blank lines that you don't want to touch. Our tool includes a smart "Skip empty lines" checkbox. When enabled, the tool ignores blank rows, preventing it from generating lines that consist only of zeros or prefixes (e.g., preventing a blank line from becoming "0000000000").</p>
-
-        <h3>Monospace Editor for Precision</h3>
-        <p>Visual alignment requires a font where every character has the same width. We use a <strong>Monospace</strong> font (Consolas/Monaco) in the editor. This ensures that "111" looks exactly as wide as "000", allowing you to visually verify that your padding is correct before you copy the result.</p>
-
-        <h2>Real-World Use Cases</h2>
-
-        <h3>1. Fixing CSV and Excel Data</h3>
-        <p>Excel often removes leading zeros from ZIP codes or ID numbers (turning "02134" into "2134"). This ruins the data. You can paste your column of data here, set the Target Length to 5 and Padding Char to "0", and restore your ZIP codes instantly.</p>
-
-        <h3>2. Code Formatting</h3>
-        <p>Developers use the "Add Prefix" mode to bulk-comment code. By setting the prefix to <code>//</code> or <code>#</code>, you can comment out 100 lines of code in one second. Similarly, you can add 4 spaces to indent a block of code for Markdown.</p>
-
-        <h3>3. SQL and Database Preparation</h3>
-        <p>Legacy databases often use "Fixed Width" text files where the First Name must be exactly 20 characters, and the Last Name must be exactly 20 characters. This tool allows you to pad names with spaces to meet these strict schema requirements.</p>
-
-        <h3>4. Generating Sequential Lists</h3>
-        <p>If you have a list of files named <code>img1.jpg</code> to <code>img100.jpg</code>, sorting them on a computer often puts <code>img10</code> before <code>img2</code>. By padding the numbers (<code>img001.jpg</code>), you ensure the file system sorts them in the correct numerical order.</p>
-
-        <h2>Frequently Asked Questions (FAQ)</h2>
-
-        <h3>Is this tool free?</h3>
-        <p>Yes, the Left Pad Text Tool is 100% free to use for personal and commercial purposes.</p>
-
-        <h3>Does it store my data?</h3>
-        <p>No. This tool runs <strong>Client-Side</strong>. Your text is processed by your web browser and is never sent to our servers. It is completely safe for sensitive data.</p>
-
-        <h3>What happens if my text is longer than the target length?</h3>
-        <p>The tool follows standard programming behavior: if your text is longer than the target length, it is left untouched. We do not truncate (cut off) your text to avoid data loss.</p>
-
-        <h3>Can I pad with multiple characters?</h3>
-        <p>Yes. If you set the padding character to "AB", the tool will repeat that pattern (e.g., "ABABtext") until the target length is reached.</p>
-
-    </article>
+    <div id="toast" class="toast">Copied to Clipboard!</div>
 
     <!-- ========================= -->
-    <!-- 3. TOOL CARDS -->
+    <!-- 4. JAVASCRIPT LOGIC -->
     <!-- ========================= -->
-    <div class="cards-grid">
-        <a href="reverse-text.html" class="tool-card">
-            <div class="tool-left">
-                <div class="icon" style="background:#2563eb">
-                    <i class="fa-solid fa-font"></i>
-                </div>
-                <div>
-                    <div class="tool-title">Reverse Text Tool</div>
-                    <div class="tool-desc">
-                        Reverse characters, words, and sentences instantly.
-                    </div>
-                </div>
-            </div>
-            <i class="fa-solid fa-chevron-right arrow"></i>
-        </a>
+    <script>
+        let currentMode = 'pad';
 
-        <a href="duplicate-remover.html" class="tool-card">
-            <div class="tool-left">
-                <div class="icon" style="background:#22c55e">
-                    <i class="fa-solid fa-copy"></i>
-                </div>
-                <div>
-                    <div class="tool-title">Duplicate Remover</div>
-                    <div class="tool-desc">
-                        Remove duplicate items and fix repeated words.
-                    </div>
-                </div>
-            </div>
-            <i class="fa-solid fa-chevron-right arrow"></i>
-        </a>
+        function setMode(mode) {
+            currentMode = mode;
+            
+            // UI Updates
+            document.getElementById('btnPad').classList.toggle('active', mode === 'pad');
+            document.getElementById('btnPrefix').classList.toggle('active', mode === 'prefix');
+            
+            document.getElementById('padSettings').style.display = mode === 'pad' ? 'flex' : 'none';
+            document.getElementById('prefixSettings').style.display = mode === 'prefix' ? 'flex' : 'none';
 
-        <a href="unindent-tool.html" class="tool-card">
-            <div class="tool-left">
-                <div class="icon" style="background:#14b8a6">
-                    <i class="fa-solid fa-outdent"></i>
-                </div>
-                <div>
-                    <div class="tool-title">Smart Unindent Tool</div>
-                    <div class="tool-desc">
-                        Remove indentation from code while preserving nesting.
-                    </div>
-                </div>
-            </div>
-            <i class="fa-solid fa-chevron-right arrow"></i>
-        </a>
-
-        <a href="center-text.html" class="tool-card">
-            <div class="tool-left">
-                <div class="icon" style="background:#ef4444">
-                    <i class="fa-solid fa-align-center"></i>
-                </div>
-                <div>
-                    <div class="tool-title">Center Text Tool</div>
-                    <div class="tool-desc">
-                        Center align text with padding for visual balance.
-                    </div>
-                </div>
-            </div>
-            <i class="fa-solid fa-chevron-right arrow"></i>
-        </a>
-    </div>
-
-</div>
-
-<div id="toast" class="toast">Copied to Clipboard!</div>
-
-<!-- ========================= -->
-<!-- 4. JAVASCRIPT LOGIC -->
-<!-- ========================= -->
-<script>
-    let currentMode = 'pad';
-
-    function setMode(mode) {
-        currentMode = mode;
-        
-        // UI Updates
-        document.getElementById('btnPad').classList.toggle('active', mode === 'pad');
-        document.getElementById('btnPrefix').classList.toggle('active', mode === 'prefix');
-        
-        document.getElementById('padSettings').style.display = mode === 'pad' ? 'flex' : 'none';
-        document.getElementById('prefixSettings').style.display = mode === 'prefix' ? 'flex' : 'none';
-
-        processText();
-    }
-
-    function processText() {
-        const input = document.getElementById('input').value;
-        const skipEmpty = document.getElementById('skipEmpty').checked;
-        const output = document.getElementById('output');
-
-        if (!input) {
-            output.value = '';
-            return;
+            processText();
         }
 
-        const lines = input.split(/\r?\n/);
+        function processText() {
+            const input = document.getElementById('input').value;
+            const skipEmpty = document.getElementById('skipEmpty').checked;
+            const output = document.getElementById('output');
 
-        const resultLines = lines.map(line => {
-            // Check empty line skip
-            if (skipEmpty && line.trim() === '') {
-                return line;
+            if (!input) {
+                output.value = '';
+                return;
             }
 
-            if (currentMode === 'pad') {
-                const targetLen = parseInt(document.getElementById('targetLen').value) || 0;
-                let padChar = document.getElementById('padChar').value;
-                
-                // If user deleted pad char, default to space
-                if (padChar === '') padChar = ' ';
+            const lines = input.split(/\r?\n/);
 
-                // Native JS padStart handles the logic perfectly
-                return line.padStart(targetLen, padChar);
-            } else {
-                const prefix = document.getElementById('prefixStr').value;
-                return prefix + line;
-            }
-        });
+            const resultLines = lines.map(line => {
+                // Check empty line skip
+                if (skipEmpty && line.trim() === '') {
+                    return line;
+                }
 
-        output.value = resultLines.join('\n');
-    }
+                if (currentMode === 'pad') {
+                    const targetLen = parseInt(document.getElementById('targetLen').value) || 0;
+                    let padChar = document.getElementById('padChar').value;
+                    
+                    // If user deleted pad char, default to space
+                    if (padChar === '') padChar = ' ';
 
-    function clearAll() {
-        document.getElementById('input').value = '';
-        document.getElementById('output').value = '';
-        document.getElementById('input').focus();
-    }
+                    // Native JS padStart handles the logic perfectly
+                    return line.padStart(targetLen, padChar);
+                } else {
+                    const prefix = document.getElementById('prefixStr').value;
+                    return prefix + line;
+                }
+            });
 
-    function copyToClipboard() {
-        const output = document.getElementById('output');
-        if (!output.value) return;
+            output.value = resultLines.join('\n');
+        }
 
-        output.select();
-        output.setSelectionRange(0, 99999);
-        navigator.clipboard.writeText(output.value).then(() => {
-            showToast();
-        });
-    }
+        function clearAll() {
+            document.getElementById('input').value = '';
+            document.getElementById('output').value = '';
+            document.getElementById('input').focus();
+        }
 
-    function showToast() {
-        const toast = document.getElementById('toast');
-        toast.classList.add('show');
-        setTimeout(() => {
-            toast.classList.remove('show');
-        }, 2000);
-    }
+        function copyToClipboard() {
+            const output = document.getElementById('output');
+            if (!output.value) return;
+
+            output.select();
+            output.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(output.value).then(() => {
+                showToast();
+            });
+        }
+
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+    </script>
+  <div id="footer"></div>
+<script>
+fetch("/footer.html")
+  .then(r => r.text())
+  .then(d => {
+    document.getElementById("footer").innerHTML = d;
+    document.getElementById("year").textContent = new Date().getFullYear();
+  });
 </script>
-<!-- Footer -->
-   
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>Footer</title>
-
-<style>
-/* Clean Center Footer */
-.site-footer {
-  text-align: center;
-  padding: 20px 12px;
-  background: #f8f9fa;
-  color: #555;
-  font-size: 14px;
-  border-top: 1px solid #e5e5e5;
-}
-
-.site-footer .footer-links {
-  margin-bottom: 8px;
-}
-
-.site-footer .footer-links a {
-  color: #333;
-  text-decoration: none;
-  margin: 0 6px;
-  font-weight: 500;
-}
-
-.site-footer .footer-links a:hover {
-  color: #0d6efd;
-  text-decoration: underline;
-}
-
-.site-footer .footer-links span {
-  color: #bbb;
-}
-
-.site-footer p {
-  margin: 0;
-  font-size: 13px;
-  color: #666;
-}
-</style>
-</head>
-
-<body>
-
-<!-- Footer -->
-<footer class="site-footer">
-  <div class="footer-links">
-    <a href="about-us.html">About Us</a>
-    <span>•</span>
-    <a href="sitemap.html">Sitemap</a>
-    <span>•</span>
-    <a href="privacy-policy.html">Privacy Policy</a>
-  </div>
-  <p>© 2026 <strong>Toolvala.in</strong> · All rights reserved</p>
-</footer>
-
-</body>
-</html>
 </body>
 </html>
