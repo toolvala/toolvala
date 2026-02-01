@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monthly Interest Calculator | Calculate Interest Per Month - Toolvala.in</title>
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">.
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Calculate monthly interest payout for Fixed Deposits (FD), MIS, and Loans. Convert Annual Interest Rate to Monthly Interest instantly. Supports Village Interest (2% per month) calculations.">
+    <meta name="keywords" content="monthly interest calculator, interest per month calculator, 1 lakh interest per month, mis calculator, monthly interest payout, village interest calculator, bank interest per month, toolvala">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.toolvala.in/monthly-interest-calculator.html">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Monthly Interest Calculator - Toolvala.in">
+    <meta property="og:description" content="Calculate how much interest you will earn or pay every month. Perfect for FD, MIS, and Loans.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolvala.in/monthly-interest-calculator.html">
+
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Schema Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Monthly Interest Calculator",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "INR"
+      },
+      "description": "A tool to calculate monthly interest earnings or payments based on principal and rate."
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [{
+        "@type": "Question",
+        "name": "How to calculate monthly interest from annual rate?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "To calculate monthly interest, divide the Annual Interest Rate by 12. For example, if the rate is 12% per annum, the monthly rate is 1%. Then calculate 1% of the principal."
+        }
+      }, {
+        "@type": "Question",
+        "name": "What is 2 rupees interest calculation?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "In Indian village terms, '2 rupees interest' usually means 2% per month. This translates to a whopping 24% per annum annually."
+        }
+      }, {
+        "@type": "Question",
+        "name": "Is monthly interest taxable?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, interest earned from FDs, MIS, or savings accounts is added to your total income and taxed according to your income tax slab."
+        }
+      }]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary: #059669; /* Emerald Green */
+            --primary-dark: #047857;
+            --secondary: #f0fdf4;
+            --text-main: #0f172a;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --success: #16a34a;
+            --danger: #dc2626;
+            --white: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        .logo span { color: var(--text-main); }
+
+        /* Main Layout */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .tool-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .tool-header h1 {
+            font-size: 2.5rem;
+            color: var(--text-main);
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+        .tool-header p { color: var(--text-light); font-size: 1.1rem; }
+
+        /* Calculator Box */
+        .calculator-box {
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            padding: 30px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group { margin-bottom: 20px; }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+        
+        .input-group {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .input-icon {
+            position: absolute;
+            left: 12px;
+            color: var(--text-light);
+            font-weight: 600;
+        }
+        .form-control {
+            width: 100%;
+            padding: 12px 12px 12px 35px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border 0.2s;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
+        }
+        
+        select.form-control { padding-left: 12px; }
+
+        .btn-calculate {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 10px;
+        }
+        .btn-calculate:hover { background: var(--primary-dark); }
+
+        /* Result Display */
+        .result-box {
+            margin-top: 25px;
+            background: var(--secondary);
+            border: 1px solid #bbf7d0;
+            padding: 25px;
+            border-radius: 12px;
+            display: none;
+            text-align: center;
+        }
+        
+        .result-title {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+        
+        .result-amount {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            margin: 10px 0;
+        }
+        
+        .result-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+            border-top: 1px solid #bbf7d0;
+            padding-top: 15px;
+        }
+        
+        .result-item h4 { font-size: 0.85rem; color: var(--text-light); margin-bottom: 5px; }
+        .result-item p { font-size: 1.1rem; font-weight: 700; color: var(--text-main); }
+
+        /* Related Tools */
+        .related-tools { margin-top: 60px; }
+        .section-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 20px; border-left: 5px solid var(--primary); padding-left: 15px; }
+        .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+        .tool-link {
+            display: block;
+            background: var(--white);
+            padding: 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            transition: transform 0.2s, border-color 0.2s;
+            text-align: center;
+            font-weight: 600;
+        }
+        .tool-link:hover { transform: translateY(-3px); border-color: var(--primary); color: var(--primary); }
+        .tool-link i { display: block; font-size: 1.5rem; margin-bottom: 10px; color: var(--primary); }
+
+        /* Content Article */
+        .content-article {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin-top: 60px;
+        }
+        .content-article h2 { color: var(--primary-dark); margin-top: 30px; margin-bottom: 15px; font-size: 1.8rem; }
+        .content-article h3 { color: var(--text-main); margin-top: 25px; margin-bottom: 10px; font-size: 1.4rem; }
+        .content-article p { margin-bottom: 15px; color: #334155; text-align: justify; }
+        .content-article ul { margin-left: 20px; margin-bottom: 20px; color: #334155; }
+        .content-article li { margin-bottom: 8px; }
+        .highlight-box {
+            background: #f0fdf4;
+            border-left: 4px solid var(--primary);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* FAQ */
+        .faq-item { border-bottom: 1px solid var(--border); padding: 15px 0; }
+        .faq-question { font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; color: var(--text-main); }
+        .faq-answer { margin-top: 10px; display: none; color: var(--text-light); }
+
+        @media (max-width: 768px) {
+            .tool-header h1 { font-size: 2rem; }
+            .content-article { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">Toolvala<span>.in</span></a>
+        </div>
+    </nav>
+
+    <div class="container">
+        
+        <header class="tool-header">
+            <h1>Monthly Interest Calculator</h1>
+            <p>Calculate your monthly interest income from FDs, MIS, or Loans instantly.</p>
+        </header>
+
+        <div class="calculator-box">
+            <div class="form-group">
+                <label>Principal Amount (₹)</label>
+                <div class="input-wrapper">
+                    <span class="input-icon">₹</span>
+                    <input type="number" id="principal" class="form-control" placeholder="e.g. 100000">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Interest Rate</label>
+                <div class="input-wrapper">
+                    <span class="input-icon">%</span>
+                    <input type="number" id="rate" class="form-control" placeholder="e.g. 7.5">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Rate Type</label>
+                <select id="rateType" class="form-control">
+                    <option value="yearly">Yearly (% per annum) - Bank Standard</option>
+                    <option value="monthly">Monthly (% per month) - Village Style</option>
+                </select>
+            </div>
+
+            <button class="btn-calculate" onclick="calculateMonthlyInterest()">Calculate Monthly Income</button>
+
+            <div id="resultBox" class="result-box">
+                <div class="result-title">You Will Earn / Pay</div>
+                <div class="result-amount" id="monthlyAmount">₹0</div>
+                <div class="result-title">Per Month</div>
+
+                <div class="result-grid">
+                    <div class="result-item">
+                        <h4>Yearly Interest</h4>
+                        <p id="yearlyAmount">₹0</p>
+                    </div>
+                    <div class="result-item">
+                        <h4>Effective Annual Rate</h4>
+                        <p id="effectiveRate">0%</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Related Tools -->
+        <div class="related-tools">
+            <h2 class="section-title">Related Financial Tools</h2>
+            <div class="tools-grid">
+                <a href="compound-interest-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-chart-line"></i>
+                    Compound Interest
+                </a>
+                <a href="simple-interest-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-calculator"></i>
+                    Simple Interest
+                </a>
+                <a href="loan-interest-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-hand-holding-dollar"></i>
+                    Loan Calculator
+                </a>
+                <a href="monthly-budget-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    Budget Planner
+                </a>
+                <a href="savings-goal-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-bullseye"></i>
+                    Savings Goal
+                </a>
+                <a href="inflation-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-arrow-trend-up"></i>
+                    Inflation Calc
+                </a>
+                <a href="overtime-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-clock"></i>
+                    Overtime Calc
+                </a>
+                <a href="pf-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-piggy-bank"></i>
+                    PF Calculator
+                </a>
+            </div>
+        </div>
+
+        <!-- SEO Content -->
+        <article class="content-article">
+            <h2>The Ultimate Guide to Monthly Interest Calculations</h2>
+            <p>Whether you are a retiree relying on the Post Office Monthly Income Scheme (POMIS), an investor parking funds in a Fixed Deposit (FD), or someone taking a loan from a local lender, knowing your <strong>Monthly Interest</strong> is crucial. While banks quote rates "Per Annum" (Yearly), our daily expenses happen monthly. <strong>Toolvala.in's Monthly Interest Calculator</strong> bridges this gap, helping you convert annual rates to monthly payouts instantly.</p>
+
+            <p>This guide covers everything from bank formulas to the traditional "Village Interest" system used across India.</p>
+
+            <h3>Why Calculate Monthly Interest?</h3>
+            <p>Understanding your monthly cash flow is the foundation of financial planning. Here is why you need this tool:</p>
+            <ul>
+                <li><strong>Income Planning:</strong> If you have ₹10 Lakhs in an FD, how much will it contribute to your monthly household budget?</li>
+                <li><strong>Loan Reality Check:</strong> A loan agent might say "only 1.5% interest," but if that is per month, you are paying a massive 18% per year!</li>
+                <li><strong>Investment Comparison:</strong> Compare a monthly payout scheme vs. a cumulative scheme to see which serves your liquidity needs better.</li>
+            </ul>
+
+            <h3>How to Calculate Monthly Interest? (The Formula)</h3>
+            <p>The calculation depends on how the interest rate is quoted.</p>
+
+            <h4>Scenario 1: Bank / Formal Institutions (Yearly Rate)</h4>
+            <p>Banks always quote interest per annum (p.a.). To find the monthly payout:</p>
+            <div class="highlight-box">
+                <strong>Formula:</strong> Monthly Interest = (Principal × Annual Rate) / 1200
+            </div>
+            <p><em>Example:</em> ₹1,00,000 at 12% p.a.<br>
+            Calculation: (1,00,000 × 12) / 1200 = <strong>₹1,000 per month</strong>.</p>
+
+            <h4>Scenario 2: Village / Informal Loans (Monthly Rate)</h4>
+            <p>In many parts of India, interest is quoted as "2 rupees interest" or "3% interest". This usually implies a monthly rate.</p>
+            <div class="highlight-box">
+                <strong>Formula:</strong> Monthly Interest = (Principal × Monthly Rate) / 100
+            </div>
+            <p><em>Example:</em> ₹1,00,000 at 2% per month.<br>
+            Calculation: (1,00,000 × 2) / 100 = <strong>₹2,000 per month</strong>.<br>
+            <em>Note: This is equivalent to 24% per annum!</em></p>
+
+            <h3>Popular Monthly Income Schemes in India</h3>
+            
+            <h4>1. Post Office Monthly Income Scheme (POMIS)</h4>
+            <p>A government-backed scheme where you deposit a lump sum and receive interest every month. The current rate (as of 2024) is around 7.4% p.a. Use our calculator to see exactly how much you will get for a deposit of ₹5 Lakhs or ₹9 Lakhs.</p>
+
+            <h4>2. Bank Fixed Deposits (Non-Cumulative)</h4>
+            <p>When opening an FD, you can choose the "Monthly Payout" option. However, banks often apply a "discounted rate" for monthly payouts compared to quarterly payouts. This tool helps you verify the credit amount.</p>
+
+            <h4>3. Senior Citizen Savings Scheme (SCSS)</h4>
+            <p>Designed for retirees, this scheme offers quarterly payouts, but you can use this calculator to find the monthly equivalent to plan your budget.</p>
+
+            <h3>How to Use Toolvala.in Monthly Interest Calculator</h3>
+            <ol>
+                <li><strong>Enter Principal:</strong> Input the amount you have invested or borrowed.</li>
+                <li><strong>Enter Rate:</strong> Input the interest rate number (e.g., 7.5 or 2).</li>
+                <li><strong>Select Rate Type:</strong>
+                    <ul>
+                        <li>Choose <strong>Yearly</strong> for Banks, FDs, and Housing Loans.</li>
+                        <li>Choose <strong>Monthly</strong> for private lenders or village loans.</li>
+                    </ul>
+                </li>
+                <li><strong>Calculate:</strong> Click the button to see your monthly earnings/payments instantly.</li>
+            </ol>
+
+            <h3>Frequently Asked Questions (FAQs)</h3>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">1. What is 1.5 rupee interest? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">In local Indian terminology, "1.5 rupee interest" means 1.5% interest per month. To find the annual rate, multiply by 12. So, 1.5% × 12 = 18% per annum.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">2. Is monthly interest simple or compound? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">Monthly payouts are typically calculated using <strong>Simple Interest</strong> logic on the principal amount. If you do not withdraw the interest and let it accumulate, it becomes Compound Interest.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">3. How much interest will I get for 1 Lakh in SBI? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">Assuming an FD rate of roughly 6.5% p.a., the monthly interest would be approx ₹541. Use the calculator above with the current rate for exact figures.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">4. Is TDS deducted on monthly interest? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">Yes. If your total interest income from a bank exceeds ₹40,000 (₹50,000 for seniors) in a financial year, the bank deducts TDS (usually 10%) before crediting the amount.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">5. Can I use this for EMI calculation? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">No. EMI includes both Principal repayment and Interest. This tool calculates only the Interest component. For EMI, use our <a href="loan-interest-calculator.html" style="color: var(--primary);">Loan Interest Calculator</a>.</div>
+            </div>
+
+            <p>Financial clarity is just a click away. Use <strong>Toolvala.in</strong> to manage your investments and loans smartly!</p>
+        </article>
+    </div>
+
+    <script>
+        function calculateMonthlyInterest() {
+            const principal = parseFloat(document.getElementById('principal').value);
+            const rate = parseFloat(document.getElementById('rate').value);
+            const rateType = document.getElementById('rateType').value;
+            const resultBox = document.getElementById('resultBox');
+
+            if (isNaN(principal) || isNaN(rate)) {
+                alert("Please enter valid numbers for Principal and Rate.");
+                return;
+            }
+
+            let monthlyInterest = 0;
+            let yearlyInterest = 0;
+            let effectiveAnnualRate = 0;
+
+            if (rateType === 'yearly') {
+                // Formula: (P * R) / 1200
+                monthlyInterest = (principal * rate) / 1200;
+                yearlyInterest = (principal * rate) / 100;
+                effectiveAnnualRate = rate;
+            } else {
+                // Formula: (P * R) / 100 (Since R is already monthly)
+                monthlyInterest = (principal * rate) / 100;
+                yearlyInterest = monthlyInterest * 12;
+                effectiveAnnualRate = rate * 12;
+            }
+
+            document.getElementById('monthlyAmount').innerText = formatCurrency(monthlyInterest);
+            document.getElementById('yearlyAmount').innerText = formatCurrency(yearlyInterest);
+            document.getElementById('effectiveRate').innerText = effectiveAnnualRate.toFixed(2) + "% p.a.";
+
+            resultBox.style.display = 'block';
+            resultBox.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function formatCurrency(num) {
+            return new Intl.NumberFormat('en-IN', {
+                style: 'currency',
+                currency: 'INR',
+                maximumFractionDigits: 0
+            }).format(num);
+        }
+
+        function toggleFaq(element) {
+            const answer = element.nextElementSibling;
+            const icon = element.querySelector('i');
+            
+            if (answer.style.display === "block") {
+                answer.style.display = "none";
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+            } else {
+                answer.style.display = "block";
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-up');
+            }
+        }
+    </script>
+    <div id="footer"></div>
+<script>
+fetch("/footer.html")
+  .then(r => r.text())
+  .then(d => {
+    document.getElementById("footer").innerHTML = d;
+    document.getElementById("year").textContent = new Date().getFullYear();
+  });
+</script>
+<div id="footer"></div>
+<script>
+fetch("/footer.html")
+  .then(r => r.text())
+  .then(d => {
+    document.getElementById("footer").innerHTML = d;
+    document.getElementById("year").textContent = new Date().getFullYear();
+  });
+</script>
+</body>
+</html>
