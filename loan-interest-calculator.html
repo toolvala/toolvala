@@ -2,234 +2,268 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Loan Interest Calculator – EMI & Total Interest | Toolvala.in</title>
+
+<title>Loan Interest Calculator – Calculate Monthly & Yearly Interest | Toolvala.in</title>
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">.
-<meta name="description" content="Free Loan Interest Calculator by Toolvala.in. Calculate EMI, total interest, and repayment amount for home loan, personal loan, car loan & business loan.">
-<meta name="keywords" content="loan interest calculator, emi calculator, loan calculator india, personal loan emi, home loan interest calculator, Toolvala">
+<meta name="description" content="Free Loan Interest Calculator by Toolvala.in. Calculate simple loan interest using monthly or yearly rates. Ideal for personal loans, home loans, business loans & private lending in India.">
+
 <meta name="robots" content="index, follow">
+
 <link rel="canonical" href="https://www.toolvala.in/loan-interest-calculator.html">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
-body {
-  font-family: Arial, sans-serif;
-  background:#f6f8fa;
+:root{
+  --green:#059669;
+  --green-dark:#047857;
+  --bg:#f5f7fb;
+  --border:#e5e7eb;
+  --text:#0f172a;
+  --muted:#64748b;
+}
+*{box-sizing:border-box}
+body{
   margin:0;
-  padding:0;
-  line-height:1.7;
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
 }
-.container {
-  max-width:1100px;
-  margin:auto;
-  background:#fff;
-  padding:20px;
+.site-header{
+  background:#ffffff;
+  border-bottom:1px solid var(--border);
+  padding:16px 24px;
 }
-h1,h2,h3 {
-  color:#1a1a1a;
+.brand{
+  font-size:28px;
+  font-weight:700;
+  color:#2563eb;
 }
-.calculator {
-  background:#eef3ff;
-  padding:20px;
-  border-radius:8px;
-}
-label {
-  font-weight:bold;
-}
-input, select, button {
-  width:100%;
-  padding:10px;
-  margin:8px 0 16px;
-}
-button {
-  background:#2563eb;
-  color:#fff;
-  border:none;
-  cursor:pointer;
-  font-size:16px;
-}
-button:hover {
-  background:#1d4ed8;
-}
-.result {
-  background:#fff;
-  padding:15px;
-  border-left:4px solid #2563eb;
-}
-.faq {
-  margin-bottom:15px;
-}
-.footer {
+.page-title{
+  background:#ffffff;
+  padding:60px 20px;
   text-align:center;
-  padding:20px;
-  font-size:14px;
-  color:#555;
+}
+.page-title h1{
+  font-size:40px;
+  font-weight:800;
+  margin:0;
+}
+.calculator-box{
+  max-width:520px;
+  margin:30px auto;
+  background:#ffffff;
+  border-radius:14px;
+  padding:24px;
+  box-shadow:0 8px 20px rgba(0,0,0,.06);
+  border:1px solid var(--border);
+}
+.form-group{margin-bottom:18px}
+label{font-weight:600;font-size:.95rem}
+.input-row{display:flex;gap:10px}
+input,select{
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  border:1px solid var(--border);
+  font-size:1rem;
+}
+.btn{
+  width:100%;
+  background:var(--green);
+  color:#fff;
+  font-size:1.05rem;
+  font-weight:700;
+  padding:14px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+}
+.result{
+  margin-top:20px;
+  background:#ecfdf5;
+  border-left:4px solid var(--green);
+  padding:16px;
+  border-radius:10px;
+  display:none;
+}
+.content{
+  max-width:1000px;
+  margin:60px auto;
+  background:#ffffff;
+  padding:40px;
+  border-radius:16px;
+  border:1px solid var(--border);
+}
+.content h2{color:var(--green-dark);margin-top:40px}
+.content p{line-height:1.8;color:#334155}
+.related-tools{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:15px;
+  margin-top:20px;
+}
+.related-tools a{
+  background:#f8fafc;
+  border:1px solid var(--border);
+  padding:14px;
+  border-radius:12px;
+  text-decoration:none;
+  color:#0f172a;
+  font-weight:600;
+}
+@media(max-width:768px){
+  .page-title h1{font-size:28px}
+  .content{padding:24px}
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<header class="site-header">
+  <div class="brand">Toolvala.in</div>
+</header>
 
-<h1>Loan Interest Calculator – Calculate EMI & Total Interest</h1>
+<section class="page-title">
+  <h1>Loan Interest Calculator</h1>
+</section>
 
-<p>
-Welcome to the <strong>Loan Interest Calculator by Toolvala.in</strong>. This free online tool helps you calculate
-your <strong>loan EMI, total interest payable, and total repayment amount</strong> within seconds.
-Whether you are planning a <strong>home loan, personal loan, car loan, education loan, or business loan</strong>,
-this calculator gives you instant and accurate results.
-</p>
+<div class="calculator-box">
+  <div class="form-group">
+    <label>Loan Amount (₹)</label>
+    <input type="number" id="amount" placeholder="e.g. 100000">
+  </div>
 
-<!-- Calculator -->
-<div class="calculator">
-  <h2>Loan Interest Calculator</h2>
+  <div class="form-group">
+    <label>Interest Rate</label>
+    <div class="input-row">
+      <input type="number" id="rate" placeholder="e.g. 10">
+      <select id="rateType">
+        <option value="year">Per Year</option>
+        <option value="month">Per Month</option>
+      </select>
+    </div>
+  </div>
 
-  <label>Loan Amount (₹)</label>
-  <input type="number" id="amount" placeholder="e.g. 500000">
+  <div class="form-group">
+    <label>Loan Duration</label>
+    <div class="input-row">
+      <input type="number" id="time" placeholder="e.g. 2">
+      <select id="timeType">
+        <option value="year">Years</option>
+        <option value="month">Months</option>
+      </select>
+    </div>
+  </div>
 
-  <label>Annual Interest Rate (%)</label>
-  <input type="number" id="rate" placeholder="e.g. 10">
-
-  <label>Loan Tenure (Years)</label>
-  <input type="number" id="time" placeholder="e.g. 5">
-
-  <button onclick="calculateLoan()">Calculate</button>
-
+  <button class="btn" onclick="calculateInterest()">Calculate Interest</button>
   <div class="result" id="result"></div>
 </div>
 
+<div class="content">
+
+<h2>What is a Loan Interest Calculator?</h2>
+<p>A Loan Interest Calculator is an online financial tool that helps borrowers calculate the interest payable on a loan based on the principal amount, interest rate, and loan duration. Toolvala.in’s Loan Interest Calculator is designed for Indian users who deal with banks, NBFCs, private lenders, and informal monthly interest loans.</p>
+
+<p>This calculator supports both monthly and yearly interest rates, making it extremely useful for personal loans, home loans, business loans, gold loans, and private lending scenarios commonly found in India.</p>
+
+<h2>How Loan Interest is Calculated</h2>
+<p>Loan interest is the cost you pay for borrowing money. In simple interest loans, interest is calculated only on the original principal amount. The formula used is:</p>
+
+<p><strong>Simple Interest = (Principal × Rate × Time) ÷ 100</strong></p>
+
+<p>Toolvala.in automatically converts monthly interest into yearly format when required, ensuring accurate and standardized results.</p>
+
+<h2>Monthly vs Yearly Interest Rates</h2>
+<p>Many private lenders in India quote interest on a monthly basis, such as 2% per month. Banks usually quote annual interest rates. A 2% monthly rate effectively becomes 24% per year, which significantly increases the loan cost. Our calculator helps you understand the true cost of borrowing.</p>
+
+<h2>Who Should Use This Calculator?</h2>
+<p>This tool is ideal for:</p>
+<ul>
+<li>Personal loan borrowers</li>
+<li>Home loan applicants</li>
+<li>Business owners</li>
+<li>Private lending calculations</li>
+<li>Students and finance learners</li>
+<li>Anyone comparing loan offers</li>
+</ul>
+
+<h2>Benefits of Toolvala.in Loan Interest Calculator</h2>
+<p>✔ 100% free and easy to use<br>
+✔ No registration required<br>
+✔ Supports monthly & yearly interest<br>
+✔ Mobile-friendly design<br>
+✔ Accurate and instant results</p>
+
+<h2>Frequently Asked Questions (FAQ)</h2>
+
+<h3>1. Is this calculator free?</h3>
+<p>Yes, Toolvala.in’s Loan Interest Calculator is completely free to use.</p>
+
+<h3>2. Can I calculate monthly interest loans?</h3>
+<p>Yes. You can select “Per Month” interest and “Months” duration.</p>
+
+<h3>3. Is this calculator accurate?</h3>
+<p>Yes. It uses standard financial formulas accepted by banks and financial institutions.</p>
+
+<h3>4. Does it calculate EMI?</h3>
+<p>No. This calculator calculates simple interest. For EMI, use our Home Loan or Personal Loan calculators.</p>
+
+<h3>5. Can I use it for private lending?</h3>
+<p>Absolutely. It is ideal for village, private, and informal lending calculations.</p>
+
+<h3>6. Is my data saved?</h3>
+<p>No. All calculations happen in your browser. No data is stored.</p>
+
+<h2>Related Financial Tools</h2>
+<div class="related-tools">
+  <a href="monthly-budget-calculator.html">Monthly Budget Calculator</a>
+  <a href="home-loan-calculator.html">Home Loan Calculator</a>
+  <a href="personal-loan-calculator.html">Personal Loan Calculator</a>
+  <a href="savings-goal-calculator.html">Savings Goal Calculator</a>
+  <a href="overtime-calculator.html">Overtime Calculator</a>
+  <a href="inflation-calculator.html">Inflation Calculator</a>
+  <a href="saving-challenge-calculator.html">Saving Challenge Calculator</a>
+  <a href="pf-calculator.html">PF Calculator</a>
+  <a href="discount-calculator.html">Discount Calculator</a>
+  <a href="profit-loss-calculator.html">Profit Loss Calculator</a>
+  <a href="margin-calculator.html">Margin Calculator</a>
+</div>
+
+</div>
+
 <script>
-function calculateLoan() {
-  let P = document.getElementById("amount").value;
-  let R = document.getElementById("rate").value / 12 / 100;
-  let N = document.getElementById("time").value * 12;
-
-  if(P=="" || R=="" || N==""){
-    document.getElementById("result").innerHTML="Please enter all values.";
-    return;
-  }
-
-  let EMI = (P * R * Math.pow(1 + R, N)) / (Math.pow(1 + R, N) - 1);
-  let totalPayment = EMI * N;
-  let totalInterest = totalPayment - P;
-
-  document.getElementById("result").innerHTML =
-    "<strong>Monthly EMI:</strong> ₹" + EMI.toFixed(2) + "<br>" +
-    "<strong>Total Interest:</strong> ₹" + totalInterest.toFixed(2) + "<br>" +
-    "<strong>Total Payment:</strong> ₹" + totalPayment.toFixed(2);
+function calculateInterest(){
+  const P=parseFloat(amount.value);
+  let R=parseFloat(rate.value);
+  let T=parseFloat(time.value);
+  if(!P||!R||!T){alert("Please enter all values");return;}
+  if(rateType.value==="month") R*=12;
+  if(timeType.value==="month") T/=12;
+  const interest=(P*R*T)/100;
+  const total=P+interest;
+  result.innerHTML=`<strong>Interest Amount:</strong> ₹${interest.toFixed(2)}<br><strong>Total Payable Amount:</strong> ₹${total.toFixed(2)}`;
+  result.style.display="block";
 }
 </script>
 
-<hr>
-
-<!-- SEO CONTENT -->
-<h2>What is a Loan Interest Calculator?</h2>
-<p>
-A loan interest calculator is an online financial tool that helps borrowers estimate the cost of a loan before applying.
-It calculates how much interest you will pay over the loan tenure and how much your monthly EMI will be.
-Toolvala.in provides a fast, accurate, and user-friendly loan calculator suitable for Indian financial needs.
-</p>
-
-<h2>How Does Loan Interest Work?</h2>
-<p>
-Loan interest is the cost charged by banks or lenders for borrowing money.
-It is usually calculated on a monthly reducing balance.
-Your EMI consists of two parts – principal repayment and interest.
-In the early years, interest is higher, while later EMIs include more principal repayment.
-</p>
-
-<h2>Benefits of Using Toolvala.in Loan Calculator</h2>
-<ul>
-<li>Instant EMI calculation</li>
-<li>No login required</li>
-<li>Works for all loan types</li>
-<li>Mobile-friendly design</li>
-<li>Accurate financial planning</li>
-<li>100% free to use</li>
-</ul>
-
-<h2>Types of Loans You Can Calculate</h2>
-<p>
-This calculator supports:
-</p>
-<ul>
-<li>Home Loan Interest Calculator</li>
-<li>Personal Loan EMI Calculator</li>
-<li>Car Loan Interest Calculator</li>
-<li>Education Loan Calculator</li>
-<li>Business Loan EMI Calculator</li>
-</ul>
-
-<h2>Why EMI Calculation is Important?</h2>
-<p>
-Knowing your EMI in advance helps you manage your monthly budget.
-It prevents financial stress and allows you to compare loan offers from different banks.
-Using Toolvala.in’s loan interest calculator ensures smarter borrowing decisions.
-</p>
-
-<h2>Factors Affecting Loan Interest</h2>
-<ul>
-<li>Loan amount</li>
-<li>Interest rate</li>
-<li>Loan tenure</li>
-<li>Credit score</li>
-<li>Type of loan</li>
-</ul>
-
-<h2>Loan Interest Calculator for India</h2>
-<p>
-Indian banks follow reducing balance method for EMI calculation.
-This calculator follows the same standard formula used by major Indian banks like SBI, HDFC, ICICI, Axis Bank and others.
-</p>
-
-<h2>SEO Advantages of This Tool</h2>
-<ul>
-<li>Fast loading single file</li>
-<li>Clean semantic HTML</li>
-<li>Keyword-rich headings</li>
-<li>FAQ section for rich results</li>
-<li>Mobile optimized</li>
-<li>High user engagement</li>
-</ul>
-
-<hr>
-
-<!-- FAQ -->
-<h2>Frequently Asked Questions (FAQ)</h2>
-
-<div class="faq">
-<h3>1. Is this loan interest calculator free?</h3>
-<p>Yes, Toolvala.in provides this loan calculator completely free.</p>
-</div>
-
-<div class="faq">
-<h3>2. Does this calculator work for all banks?</h3>
-<p>Yes, it follows the standard EMI formula used by most Indian banks.</p>
-</div>
-
-<div class="faq">
-<h3>3. Can I calculate personal loan EMI?</h3>
-<p>Yes, you can calculate EMI for personal, home, car, and business loans.</p>
-</div>
-
-<div class="faq">
-<h3>4. Is this calculator accurate?</h3>
-<p>It provides near-exact results. Final EMI may vary slightly depending on bank charges.</p>
-</div>
-
-<div class="faq">
-<h3>5. Can I use it on mobile?</h3>
-<p>Yes, the calculator is fully mobile-friendly.</p>
-</div>
-
-<div class="faq">
-<h3>6. Is my data stored?</h3>
-<p>No, Toolvala.in does not store any user data.</p>
-</div>
-</div>
+<!-- FAQ Schema -->
+<script type="application/ld+json">
+{
+"@context":"https://schema.org",
+"@type":"FAQPage",
+"mainEntity":[
+{"@type":"Question","name":"Is the Loan Interest Calculator free?","acceptedAnswer":{"@type":"Answer","text":"Yes, it is completely free on Toolvala.in."}},
+{"@type":"Question","name":"Can I calculate monthly interest?","acceptedAnswer":{"@type":"Answer","text":"Yes, monthly interest calculation is supported."}},
+{"@type":"Question","name":"Is EMI calculated here?","acceptedAnswer":{"@type":"Answer","text":"No, this tool calculates simple interest only."}},
+{"@type":"Question","name":"Is this suitable for private loans?","acceptedAnswer":{"@type":"Answer","text":"Yes, it is ideal for private and informal lending."}},
+{"@type":"Question","name":"Is my data stored?","acceptedAnswer":{"@type":"Answer","text":"No data is stored or shared."}},
+{"@type":"Question","name":"Is this tool mobile friendly?","acceptedAnswer":{"@type":"Answer","text":"Yes, it works perfectly on mobile devices."}}
+]
+}
+</script>
 <div id="footer"></div>
 <script>
 fetch("/footer.html")
