@@ -1,177 +1,621 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Interest Calculator | Monthly & Yearly SI Tool - Toolvala.in</title>
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">.
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Calculate Simple Interest (SI) instantly with Toolvala.in. Supports Monthly and Yearly interest rates. Ideal for bank loans, private lending, and student math problems. Free and accurate.">
+    <meta name="keywords" content="simple interest calculator, si calculator, interest calculator india, monthly interest calculator, yearly interest calculator, simple interest formula, calculate interest on loan, private loan interest calculator, toolvala.in">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.toolvala.in/simple-interest-calculator.html">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Simple Interest Calculator - Toolvala.in">
+    <meta property="og:description" content="Calculate Simple Interest for loans and investments. Supports Monthly and Yearly rates.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolvala.in/simple-interest-calculator.html">
 
-<title>Simple Interest Calculator | Monthly & Yearly SI Tool</title>
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
-<!-- SEO Meta -->
-<meta name="description" content="Free Simple Interest Calculator with monthly and yearly rate options. Calculate interest and total amount instantly. Best finance tool for students and banking.">
-<meta name="keywords" content="simple interest calculator, monthly interest calculator, yearly interest calculator, si calculator online, finance calculator">
-<meta name="robots" content="index, follow">
+    <!-- Schema Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Simple Interest Calculator",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "INR"
+      },
+      "description": "A tool to calculate simple interest based on principal, rate (monthly/yearly), and time period."
+    }
+    </script>
 
-<link rel="canonical" href="https://www.toolvala.in/simple-interest-calculator.html">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [{
+        "@type": "Question",
+        "name": "What is the formula for Simple Interest?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The formula is SI = (P × R × T) / 100. Here, P is Principal, R is Rate of Interest per year, and T is Time in years."
+        }
+      }, {
+        "@type": "Question",
+        "name": "How do I calculate monthly interest?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "If you have a monthly rate (e.g., 2% per month), multiply it by 12 to get the yearly rate (24% per annum) before using the standard formula, or use our calculator's 'Per Month' option."
+        }
+      }, {
+        "@type": "Question",
+        "name": "Is Simple Interest used for Home Loans?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. Home loans and most bank loans use Compound Interest (Reducing Balance method). Simple Interest is typically used for short-term personal loans or informal lending."
+        }
+      }]
+    }
+    </script>
 
-<!-- Schema -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  "name": "Simple Interest Calculator",
-  "applicationCategory": "FinanceApplication",
-  "operatingSystem": "All",
-  "description": "Calculate simple interest with monthly and yearly interest rate options"
-}
-</script>
+    <style>
+        :root {
+            --primary: #059669; /* Emerald Green */
+            --primary-dark: #047857;
+            --secondary: #ecfdf5;
+            --text-main: #0f172a;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --success: #16a34a;
+            --white: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
 
-<style>
-body{font-family:Arial,sans-serif;background:#f8fafc;margin:0}
-header{background:#065f46;color:#fff;padding:20px;text-align:center}
-main{max-width:1100px;margin:auto;padding:20px}
-h1,h2,h3{color:#064e3b}
-.calculator{background:#fff;padding:20px;border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,.1)}
-label{display:block;margin-top:12px;font-weight:bold}
-input,select{width:100%;padding:8px;margin-top:5px}
-button{margin-top:15px;padding:10px 20px;background:#10b981;color:#fff;border:none;border-radius:5px;cursor:pointer}
-button:hover{background:#059669}
-.result{margin-top:20px;background:#ecfdf5;padding:15px;border-left:5px solid #10b981}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px;margin-top:30px}
-.card{background:#fff;padding:15px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
-footer{background:#022c22;color:#fff;text-align:center;padding:15px;margin-top:40px}
-</style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        .logo span { color: var(--text-main); }
+
+        /* Main Layout */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .tool-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .tool-header h1 {
+            font-size: 2.5rem;
+            color: var(--text-main);
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+        .tool-header p { color: var(--text-light); font-size: 1.1rem; }
+
+        /* Calculator Box */
+        .calculator-box {
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            padding: 30px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group { margin-bottom: 20px; }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+        
+        .input-group {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .input-icon {
+            position: absolute;
+            left: 12px;
+            color: var(--text-light);
+            font-weight: 600;
+        }
+        .form-control {
+            width: 100%;
+            padding: 12px 12px 12px 35px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border 0.2s;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
+        }
+        
+        .flex-group {
+            display: flex;
+            gap: 10px;
+        }
+        .flex-group .form-control {
+            flex: 2;
+        }
+        .flex-group select {
+            flex: 1;
+            padding-left: 10px;
+        }
+
+        .btn-calculate {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 10px;
+        }
+        .btn-calculate:hover { background: var(--primary-dark); }
+
+        /* Result Display */
+        .result-box {
+            margin-top: 25px;
+            background: var(--secondary);
+            border: 1px solid #6ee7b7;
+            padding: 25px;
+            border-radius: 12px;
+            display: none;
+            text-align: center;
+        }
+        
+        .result-title {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+        
+        .result-amount {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            margin: 10px 0;
+        }
+        
+        .result-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+            border-top: 1px solid #6ee7b7;
+            padding-top: 15px;
+        }
+        
+        .result-item h4 { font-size: 0.85rem; color: var(--text-light); margin-bottom: 5px; }
+        .result-item p { font-size: 1.1rem; font-weight: 700; color: var(--text-main); }
+
+        /* Related Tools */
+        .related-tools { margin-top: 60px; }
+        .section-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 20px; border-left: 5px solid var(--primary); padding-left: 15px; }
+        .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+        .tool-link {
+            display: block;
+            background: var(--white);
+            padding: 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            transition: transform 0.2s, border-color 0.2s;
+            text-align: center;
+            font-weight: 600;
+        }
+        .tool-link:hover { transform: translateY(-3px); border-color: var(--primary); color: var(--primary); }
+        .tool-link i { display: block; font-size: 1.5rem; margin-bottom: 10px; color: var(--primary); }
+
+        /* Content Article */
+        .content-article {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin-top: 60px;
+        }
+        .content-article h2 { color: var(--primary-dark); margin-top: 30px; margin-bottom: 15px; font-size: 1.8rem; }
+        .content-article h3 { color: var(--text-main); margin-top: 25px; margin-bottom: 10px; font-size: 1.4rem; }
+        .content-article p { margin-bottom: 15px; color: #334155; text-align: justify; }
+        .content-article ul { margin-left: 20px; margin-bottom: 20px; color: #334155; }
+        .content-article li { margin-bottom: 8px; }
+        .highlight-box {
+            background: #f0fdf4;
+            border-left: 4px solid var(--primary);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        /* Table Styles */
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid #e2e8f0; padding: 12px; text-align: left; }
+        th { background-color: #f8fafc; color: var(--text-main); }
+
+        /* FAQ */
+        .faq-item { border-bottom: 1px solid var(--border); padding: 15px 0; }
+        .faq-question { font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; color: var(--text-main); }
+        .faq-answer { margin-top: 10px; display: none; color: var(--text-light); }
+
+        @media (max-width: 768px) {
+            .tool-header h1 { font-size: 2rem; }
+            .content-article { padding: 20px; }
+        }
+    </style>
 </head>
-
 <body>
 
-<header>
-<h1>Simple Interest Calculator</h1>
-<p>Monthly & Yearly Interest Calculation Tool</p>
-</header>
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">Toolvala<span>.in</span></a>
+        </div>
+    </nav>
 
-<main>
+    <div class="container">
+        
+        <header class="tool-header">
+            <h1>Simple Interest Calculator</h1>
+            <p>Calculate interest accurately with Monthly and Yearly rate options.</p>
+        </header>
 
-<!-- CALCULATOR -->
-<section class="calculator">
-<h2>Calculate Simple Interest</h2>
+        <div class="calculator-box">
+            <div class="form-group">
+                <label>Principal Amount (₹)</label>
+                <div class="input-wrapper">
+                    <span class="input-icon">₹</span>
+                    <input type="number" id="principal" class="form-control" placeholder="e.g. 50000">
+                </div>
+            </div>
 
-<label>Principal Amount (₹)</label>
-<input type="number" id="principal" placeholder="Enter principal amount">
+            <div class="form-group">
+                <label>Interest Rate</label>
+                <div class="flex-group">
+                    <div class="input-wrapper" style="flex: 2;">
+                        <span class="input-icon">%</span>
+                        <input type="number" id="rate" class="form-control" placeholder="e.g. 2">
+                    </div>
+                    <select id="rateType" class="form-control" style="flex: 1;">
+                        <option value="year">Per Year</option>
+                        <option value="month">Per Month</option>
+                    </select>
+                </div>
+            </div>
 
-<label>Interest Rate</label>
-<input type="number" id="rate" placeholder="Enter interest rate">
+            <div class="form-group">
+                <label>Time Period</label>
+                <div class="flex-group">
+                    <div class="input-wrapper" style="flex: 2;">
+                        <span class="input-icon"><i class="fa-regular fa-clock"></i></span>
+                        <input type="number" id="time" class="form-control" placeholder="e.g. 12">
+                    </div>
+                    <select id="timeType" class="form-control" style="flex: 1;">
+                        <option value="year">Years</option>
+                        <option value="month">Months</option>
+                    </select>
+                </div>
+            </div>
 
-<label>Rate Type</label>
-<select id="rateType">
-  <option value="year">Per Year (%)</option>
-  <option value="month">Per Month (%)</option>
-</select>
+            <button class="btn-calculate" onclick="calculateSI()">Calculate Interest</button>
 
-<label>Time Period</label>
-<input type="number" id="time" placeholder="Enter time">
+            <div id="resultBox" class="result-box">
+                <div class="result-title">Total Interest</div>
+                <div class="result-amount" id="interestAmount">₹0</div>
+                
+                <div class="result-grid">
+                    <div class="result-item">
+                        <h4>Principal Amount</h4>
+                        <p id="principalAmount">₹0</p>
+                    </div>
+                    <div class="result-item">
+                        <h4>Total Amount Payable</h4>
+                        <p id="totalAmount">₹0</p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-<label>Time Type</label>
-<select id="timeType">
-  <option value="year">Years</option>
-  <option value="month">Months</option>
-</select>
+        <!-- Related Tools -->
+        <div class="related-tools">
+            <h2 class="section-title">Related Financial Tools</h2>
+            <div class="tools-grid">
+                <a href="compound-interest-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-chart-line"></i>
+                    Compound Interest
+                </a>
+                <a href="monthly-interest-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-calendar-check"></i>
+                    Monthly Interest
+                </a>
+                <a href="loan-interest-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-hand-holding-dollar"></i>
+                    Loan Calculator
+                </a>
+                <a href="monthly-budget-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    Budget Planner
+                </a>
+                <a href="savings-goal-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-bullseye"></i>
+                    Savings Goal
+                </a>
+                <a href="inflation-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-arrow-trend-up"></i>
+                    Inflation Calc
+                </a>
+            </div>
+        </div>
 
-<button onclick="calculateSI()">Calculate</button>
+        <!-- SEO Content -->
+        <article class="content-article">
+            <h2>The Complete Guide to Simple Interest: Formulas, Calculations, and Real-World Use</h2>
+            <p>Money has a cost, and that cost is called <strong>Interest</strong>. Whether you are borrowing money from a friend, taking a loan from a bank, or depositing your savings in a fixed deposit, interest plays a central role in determining how much you pay or earn. Among the various methods of calculating interest, <strong>Simple Interest (SI)</strong> is the most fundamental and widely used method for short-term loans and informal lending.</p>
 
-<div id="output" class="result" style="display:none"></div>
-</section>
+            <p><strong>Toolvala.in's Simple Interest Calculator</strong> is designed to make these calculations effortless. Unlike standard calculators, our tool specifically addresses the Indian context by allowing you to toggle between <strong>Yearly Interest Rates</strong> (used by banks) and <strong>Monthly Interest Rates</strong> (used in village/private lending).</p>
 
-<!-- CONTENT -->
-<section>
-<h2>What is Simple Interest?</h2>
-<p>Simple Interest is the most basic method of calculating interest. It is calculated only on the original principal amount and remains the same throughout the investment or loan period.</p>
+            <h3>What is Simple Interest?</h3>
+            <p>Simple Interest is a method of calculating the interest charge on a loan where the interest is determined <strong>only on the original principal amount</strong>. Unlike Compound Interest, where interest is calculated on the principal plus accumulated interest, Simple Interest remains constant throughout the loan tenure.</p>
 
-<h3>Simple Interest Formula</h3>
-<p><strong>SI = (P × R × T) / 100</strong></p>
+            <div class="highlight-box">
+                <strong>The Core Concept:</strong><br>
+                If you borrow ₹10,000 at 10% simple interest for 3 years, you pay ₹1,000 interest in Year 1, ₹1,000 in Year 2, and ₹1,000 in Year 3. The interest amount does not change.
+            </div>
 
-<h3>Monthly & Yearly Interest Explained</h3>
-<p>This Simple Interest Calculator supports both monthly and yearly interest rates. Monthly rates are automatically converted into yearly rates to ensure accurate calculations.</p>
+            <h3>The Simple Interest Formula</h3>
+            <p>The mathematical formula for calculating Simple Interest is straightforward:</p>
+            <h3 style="text-align: center; color: var(--primary-dark); background: #f1f5f9; padding: 15px; border-radius: 8px;">SI = (P × R × T) / 100</h3>
+            
+            <p>Where:</p>
+            <ul>
+                <li><strong>P (Principal):</strong> The original amount of money borrowed or invested.</li>
+                <li><strong>R (Rate):</strong> The annual rate of interest (in percentage).</li>
+                <li><strong>T (Time):</strong> The duration for which the money is borrowed or invested (in years).</li>
+            </ul>
 
-<h3>Example</h3>
-<p>If you invest ₹10,000 at 1% per month for 6 months:</p>
-<ul>
-<li>Monthly Rate → Converted to 12% yearly</li>
-<li>6 Months → Converted to 0.5 Years</li>
-</ul>
-<p>Simple Interest = ₹600</p>
+            <p><strong>Total Amount (A):</strong> The final amount payable at the end of the term is the sum of the Principal and the Simple Interest.</p>
+            <p><em>A = P + SI</em></p>
 
-<h3>Why Use This Calculator?</h3>
-<ul>
-<li>Supports monthly & yearly rate</li>
-<li>Accurate and instant result</li>
-<li>Student & exam friendly</li>
-<li>Free & mobile optimized</li>
-</ul>
+            <h3>Monthly vs. Yearly Interest Rates (The Indian Context)</h3>
+            <p>One of the biggest sources of confusion in India is the difference between formal banking rates and informal lending rates.</p>
 
-<h3>Simple Interest vs Compound Interest</h3>
-<p>Simple interest is calculated only on principal, while compound interest is calculated on principal plus accumulated interest. For short-term loans, simple interest is commonly used.</p>
+            <h4>1. Yearly Rate (% Per Annum)</h4>
+            <p>Banks, NBFCs, and formal financial institutions always quote interest rates <strong>Per Annum (Yearly)</strong>. For example, a personal loan might be at 12% p.a. This means you pay 12% interest over the course of a full year.</p>
 
-<h3>Frequently Asked Questions</h3>
-<p><strong>Is this calculator free?</strong> Yes, 100% free.</p>
-<p><strong>Can I calculate monthly interest?</strong> Yes, just select “Per Month”.</p>
-<p><strong>Is this useful for exams?</strong> Absolutely.</p>
-</section>
+            <h4>2. Monthly Rate (% Per Month)</h4>
+            <p>In local markets, villages, and private lending circles, interest is often quoted as <strong>"2 rupees interest"</strong> or <strong>"3% interest"</strong>. This almost always implies a <strong>Monthly Rate</strong>.</p>
+            
+            <p><strong>Why is this dangerous?</strong><br>
+            A rate of "2% interest" sounds low compared to a bank's "12% interest". However, 2% per month translates to:</p>
+            <ul>
+                <li>2% × 12 months = <strong>24% Per Annum!</strong></li>
+            </ul>
+            <p>Our calculator handles this conversion automatically. If you select "Per Month" in the dropdown, the tool adjusts the formula to ensure you see the correct total interest.</p>
 
-<!-- RELATED TOOLS -->
-<section>
-<h2>Related Tools</h2>
-<div class="cards">
-<div class="card">
-<h3>Compound Interest Calculator</h3>
-<a href="compound-interest-calculator.html">Use Tool</a>
-</div>
-<div class="card">
-<h3>Loan EMI Calculator</h3>
-<a href="emi-calculator.html">Use Tool</a>
-</div>
-<div class="card">
-<h3>Monthly Budget Planner</h3>
-<a href="monthly-budget-calculator.html">Use Tool</a>
-</div>
-</div>
-</section>
+            <h3>Manual Calculation Examples</h3>
+            
+            <h4>Example 1: Bank Loan (Yearly Rate)</h4>
+            <p><strong>Scenario:</strong> You borrow ₹50,000 from a bank at 10% p.a. for 3 years.</p>
+            <ul>
+                <li>P = 50,000</li>
+                <li>R = 10%</li>
+                <li>T = 3 years</li>
+            </ul>
+            <p><strong>Calculation:</strong><br>
+            SI = (50,000 × 10 × 3) / 100 = 15,00,000 / 100 = <strong>₹15,000</strong>.<br>
+            Total Amount = 50,000 + 15,000 = <strong>₹65,000</strong>.</p>
 
-</main>
+            <h4>Example 2: Private Loan (Monthly Rate)</h4>
+            <p><strong>Scenario:</strong> You borrow ₹10,000 from a friend at "3% interest" (monthly) for 6 months.</p>
+            <ul>
+                <li>P = 10,000</li>
+                <li>R (Monthly) = 3% -> R (Yearly) = 3 × 12 = 36%</li>
+                <li>T (Months) = 6 -> T (Years) = 6 / 12 = 0.5 years</li>
+            </ul>
+            <p><strong>Calculation:</strong><br>
+            SI = (10,000 × 36 × 0.5) / 100 = <strong>₹1,800</strong>.<br>
+            Total Amount = 10,000 + 1,800 = <strong>₹11,800</strong>.</p>
 
-<footer>
-<p>© 2026 Toolvala | Free Online Finance Calculators</p>
-</footer>
+            <h3>Simple Interest vs. Compound Interest</h3>
+            <p>It is vital to know when to use which calculator.</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Simple Interest</th>
+                        <th>Compound Interest</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Basis</strong></td>
+                        <td>Calculated on Principal only.</td>
+                        <td>Calculated on Principal + Accumulated Interest.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Growth</strong></td>
+                        <td>Linear (Grows at a constant rate).</td>
+                        <td>Exponential (Grows faster over time).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Returns</strong></td>
+                        <td>Lower returns for investors.</td>
+                        <td>Higher returns for investors.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Common Uses</strong></td>
+                        <td>Car loans (flat rate), informal loans.</td>
+                        <td>Savings accounts, FDs, Mutual Funds.</td>
+                    </tr>
+                </tbody>
+            </table>
 
-<!-- SCRIPT -->
+            <h3>Why Use Toolvala.in Simple Interest Calculator?</h3>
+            <ul>
+                <li><strong>Accuracy:</strong> Eliminates human error in multiplication and division.</li>
+                <li><strong>Flexibility:</strong> Handles both monthly and yearly inputs seamlessly.</li>
+                <li><strong>Speed:</strong> Get results instantly without needing pen and paper.</li>
+                <li><strong>Transparency:</strong> Shows the breakdown of Principal vs. Interest clearly.</li>
+            </ul>
+
+            <h3>Frequently Asked Questions (FAQs)</h3>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">1. How do I calculate interest for days? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">To calculate interest for a specific number of days, divide the number of days by 365 to convert it into years. For example, for 73 days: T = 73/365 = 0.2 years. Then use the standard formula.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">2. Is Simple Interest better for borrowers? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">Generally, yes. Since you don't pay interest on interest, the total repayment amount is usually lower compared to compound interest loans, provided the interest rate is the same.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">3. What is "Flat Rate" interest? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">Flat Rate is another name for Simple Interest often used in car loans. It means interest is charged on the full principal for the entire tenure, even as you pay back the loan monthly. This makes it more expensive than "Reducing Balance" interest.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">4. Can I use this for FD calculation? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">Most bank Fixed Deposits use Compound Interest (usually compounded quarterly). Using a Simple Interest calculator for FDs will give you an underestimated return. Use our <a href="compound-interest-calculator.html" style="color:var(--primary);">Compound Interest Calculator</a> instead.</div>
+            </div>
+
+            <p>Understanding interest is the key to financial literacy. Use <strong>Toolvala.in</strong> to ensure you never overpay on a loan or underestimate your returns!</p>
+        </article>
+    </div>
+
+    <script>
+        function calculateSI() {
+            const P = parseFloat(document.getElementById('principal').value);
+            let R = parseFloat(document.getElementById('rate').value);
+            let T = parseFloat(document.getElementById('time').value);
+            
+            const rateType = document.getElementById('rateType').value;
+            const timeType = document.getElementById('timeType').value;
+            const resultBox = document.getElementById('resultBox');
+
+            if (isNaN(P) || isNaN(R) || isNaN(T)) {
+                alert("Please enter valid numbers for Principal, Rate, and Time.");
+                return;
+            }
+
+            // Normalize Rate to Yearly
+            if (rateType === 'month') {
+                R = R * 12;
+            }
+
+            // Normalize Time to Years
+            if (timeType === 'month') {
+                T = T / 12;
+            }
+
+            // Formula: SI = (P * R * T) / 100
+            const interest = (P * R * T) / 100;
+            const total = P + interest;
+
+            document.getElementById('interestAmount').innerText = formatCurrency(interest);
+            document.getElementById('principalAmount').innerText = formatCurrency(P);
+            document.getElementById('totalAmount').innerText = formatCurrency(total);
+
+            resultBox.style.display = 'block';
+            resultBox.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function formatCurrency(num) {
+            return new Intl.NumberFormat('en-IN', {
+                style: 'currency',
+                currency: 'INR',
+                maximumFractionDigits: 2
+            }).format(num);
+        }
+
+        function toggleFaq(element) {
+            const answer = element.nextElementSibling;
+            const icon = element.querySelector('i');
+            
+            if (answer.style.display === "block") {
+                answer.style.display = "none";
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+            } else {
+                answer.style.display = "block";
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-up');
+            }
+        }
+    </script>
+    <div id="footer"></div>
 <script>
-function calculateSI(){
-  const p = Number(document.getElementById('principal').value) || 0;
-  let r = Number(document.getElementById('rate').value) || 0;
-  let t = Number(document.getElementById('time').value) || 0;
-
-  const rateType = document.getElementById('rateType').value;
-  const timeType = document.getElementById('timeType').value;
-
-  if(rateType === "month"){
-    r = r * 12;
-  }
-
-  if(timeType === "month"){
-    t = t / 12;
-  }
-
-  const si = (p * r * t) / 100;
-  const total = p + si;
-
-  const output = document.getElementById('output');
-  output.style.display = "block";
-  output.innerHTML = `
-    <h3>Result</h3>
-    <p><strong>Simple Interest:</strong> ₹${si.toFixed(2)}</p>
-    <p><strong>Total Amount:</strong> ₹${total.toFixed(2)}</p>
-  `;
-}
+fetch("/footer.html")
+  .then(r => r.text())
+  .then(d => {
+    document.getElementById("footer").innerHTML = d;
+    document.getElementById("year").textContent = new Date().getFullYear();
+  });
 </script>
-
+ <div id="footer"></div>
+<script>
+fetch("/footer.html")
+  .then(r => r.text())
+  .then(d => {
+    document.getElementById("footer").innerHTML = d;
+    document.getElementById("year").textContent = new Date().getFullYear();
+  });
+</script> 
 </body>
 </html>
