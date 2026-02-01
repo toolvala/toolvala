@@ -1,116 +1,500 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Marks Needed to Pass Calculator | Toolvala</title>
-<meta name="description" content="Marks Needed to Pass Calculator helps students calculate minimum marks required to pass exams. Includes percentage rule, internal marks logic and exam eligibility check.">
-<meta name="keywords" content="marks needed to pass calculator, minimum marks calculator, pass marks calculator, exam eligibility calculator, student marks tool">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://www.toolvala.in/marks-needed-to-pass-calculator.html">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marks Needed to Pass Calculator | Exam Passing Score Tool - Toolvala.in</title>
+    <link rel="stylesheet"
+     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">.
 
-<style>
-body{font-family:Arial,sans-serif;background:#f4f6f8;margin:0;padding:20px}
-.container{max-width:900px;background:#fff;margin:auto;padding:20px;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,.1)}
-h1{text-align:center}
-.tool-box{max-width:420px;margin:auto}
-label{display:block;margin-top:12px}
-input{width:100%;padding:10px;margin-top:5px}
-button{width:100%;margin-top:15px;padding:12px;background:#16a34a;color:#fff;border:none;border-radius:5px;cursor:pointer}
-.result{margin-top:15px;font-weight:bold;text-align:center}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px;margin-top:30px}
-.card{border:1px solid #ddd;padding:15px;border-radius:8px;text-align:center;text-decoration:none;color:#000}
-.card:hover{background:#f0fdf4}
-.content{margin-top:40px;line-height:1.7}
-</style>
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Calculate the minimum marks needed to pass your exam instantly. Comprehensive guide on CBSE, ICSE, and University passing criteria. Enter total marks and passing percentage to find your target score.">
+    <meta name="keywords" content="marks needed to pass calculator, passing marks calculator, exam pass calculator, minimum marks calculator, passing score calculator, grade calculator, cbse passing marks, university passing criteria, toolvala">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.toolvala.in/marks-needed-to-pass-calculator.html">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Marks Needed to Pass Calculator - Toolvala.in">
+    <meta property="og:description" content="Find out exactly how many marks you need to pass your upcoming exam. Includes detailed passing criteria guides.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolvala.in/marks-needed-to-pass-calculator.html">
 
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Schema Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Marks Needed to Pass Calculator",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "INR"
+      },
+      "description": "A tool to calculate the minimum marks required to pass an examination based on total marks and passing percentage."
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary: #16a34a; /* Green */
+            --primary-dark: #15803d;
+            --secondary: #f0fdf4;
+            --text-main: #0f172a;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --success: #16a34a;
+            --danger: #dc2626;
+            --white: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        .logo span { color: var(--text-main); }
+
+        /* Main Layout */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .tool-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .tool-header h1 {
+            font-size: 2.5rem;
+            color: var(--text-main);
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+        .tool-header p { color: var(--text-light); font-size: 1.1rem; }
+
+        /* Calculator Box */
+        .calculator-box {
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            padding: 30px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group { margin-bottom: 20px; }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border 0.2s;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1);
+        }
+
+        .btn-calculate {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-calculate:hover { background: var(--primary-dark); }
+
+        /* Result Display */
+        .result-box {
+            margin-top: 25px;
+            background: var(--secondary);
+            border: 1px solid #bbf7d0;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            display: none;
+        }
+        .result-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            margin: 10px 0;
+        }
+        .result-status {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        .status-pass { color: var(--success); }
+        .status-fail { color: var(--danger); }
+
+        /* Related Tools */
+        .related-tools {
+            margin-top: 60px;
+        }
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            border-left: 5px solid var(--primary);
+            padding-left: 15px;
+        }
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+        .tool-link {
+            display: block;
+            background: var(--white);
+            padding: 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            transition: transform 0.2s, border-color 0.2s;
+            text-align: center;
+            font-weight: 600;
+        }
+        .tool-link:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        .tool-link i { display: block; font-size: 1.5rem; margin-bottom: 10px; color: var(--primary); }
+
+        /* Content Article */
+        .content-article {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin-top: 60px;
+        }
+        .content-article h2 { color: var(--primary-dark); margin-top: 30px; margin-bottom: 15px; font-size: 1.8rem; }
+        .content-article h3 { color: var(--text-main); margin-top: 25px; margin-bottom: 10px; font-size: 1.4rem; }
+        .content-article h4 { color: var(--text-main); margin-top: 20px; margin-bottom: 8px; font-size: 1.2rem; font-weight: 600; }
+        .content-article p { margin-bottom: 15px; color: #334155; text-align: justify; }
+        .content-article ul, .content-article ol { margin-left: 20px; margin-bottom: 20px; color: #334155; }
+        .content-article li { margin-bottom: 8px; }
+        .highlight-box {
+            background: #f0fdf4;
+            border-left: 4px solid var(--primary);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        /* Table Styles */
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid #e2e8f0; padding: 12px; text-align: left; }
+        th { background-color: #f8fafc; color: var(--text-main); }
+
+        /* FAQ */
+        .faq-item { border-bottom: 1px solid var(--border); padding: 15px 0; }
+        .faq-question { font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; color: var(--text-main); }
+        .faq-answer { margin-top: 10px; display: none; color: var(--text-light); }
+
+        @media (max-width: 768px) {
+            .tool-header h1 { font-size: 2rem; }
+            .content-article { padding: 20px; }
+        }
+    </style>
 </head>
 <body>
-<div class="container">
-<h1>Marks Needed to Pass Calculator</h1>
 
-<div class="tool-box">
-<label>Total Marks</label>
-<input type="number" id="total" placeholder="Example: 100">
-<label>Passing Percentage</label>
-<input type="number" id="percent" placeholder="Example: 35">
-<label>Marks Already Scored (Optional)</label>
-<input type="number" id="scored" placeholder="Example: 18">
-<button onclick="calcMarks()">Calculate</button>
-<div class="result" id="res"></div>
-</div>
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">Toolvala<span>.in</span></a>
+        </div>
+    </nav>
 
-<h2>Related Tools</h2>
-<div class="cards">
-<a class="card" href="attendance-percentage-calculator.html">Attendance Percentage Calculator</a>
-<a class="card" href="tet-marks-calculator.html">TET Marks Calculator</a>
-<a class="card" href="exam-rank-predictor.html">Exam Rank Predictor</a>
-<a class="card" href="study-hours-planner.html">Study Hours Planner</a>
-</div>
+    <div class="container">
+        
+        <header class="tool-header">
+            <h1>Marks Needed to Pass Calculator</h1>
+            <p>Calculate the minimum marks required to pass your exam instantly.</p>
+        </header>
 
-<div class="content">
-<h2>About Marks Needed to Pass Calculator</h2>
-<p>The Marks Needed to Pass Calculator is a simple yet powerful academic tool designed for students who want to know the minimum marks required to pass an exam. Whether you are a school student, college learner, or preparing for competitive exams, this calculator gives instant clarity about your passing target.</p>
+        <div class="calculator-box">
+            <div class="form-group">
+                <label for="totalMarks">Total Marks (Max Score)</label>
+                <input type="number" id="totalMarks" class="form-control" placeholder="e.g. 100">
+            </div>
 
-<h2>Why Knowing Passing Marks Is Important</h2>
-<p>Understanding the minimum passing marks helps students plan their studies efficiently. Many students fail not because of lack of ability, but due to improper planning and confusion about pass criteria. This tool removes guesswork and gives exact numbers.</p>
+            <div class="form-group">
+                <label for="passingPercent">Passing Percentage (%)</label>
+                <input type="number" id="passingPercent" class="form-control" placeholder="e.g. 35">
+            </div>
 
-<h2>How This Calculator Works</h2>
-<p>The calculator uses the standard formula:</p>
-<p><strong>(Total Marks × Passing Percentage) ÷ 100</strong></p>
-<p>If you have already scored some marks, the tool subtracts that value and shows how many more marks you need to pass.</p>
+            <div class="form-group">
+                <label for="scoredMarks">Marks Already Scored (Optional)</label>
+                <input type="number" id="scoredMarks" class="form-control" placeholder="e.g. 20">
+                <small style="color: var(--text-light); font-size: 0.85rem;">Leave blank if calculating total passing marks.</small>
+            </div>
 
-<h2>Passing Percentage Rules in India</h2>
-<p>In India, most boards and universities follow these passing criteria:</p>
-<ul>
-<li>School exams: 33% to 35%</li>
-<li>Board exams (CBSE/State): 33%</li>
-<li>University exams: 35% to 40%</li>
-<li>Competitive exams: varies by category</li>
-</ul>
+            <button class="btn-calculate" onclick="calculatePassMarks()">Calculate</button>
 
-<h2>Who Can Use This Tool</h2>
-<ul>
-<li>School students (Class 1–12)</li>
-<li>College and university students</li>
-<li>TET / CTET aspirants</li>
-<li>Competitive exam candidates</li>
-<li>Teachers and parents</li>
-</ul>
+            <div id="resultBox" class="result-box">
+                <div id="resultText" class="result-status"></div>
+                <div id="resultValue" class="result-value"></div>
+            </div>
+        </div>
 
-<h2>Benefits of Using Toolvala Marks Calculator</h2>
-<ul>
-<li>Instant and accurate calculation</li>
-<li>No login or signup required</li>
-<li>Supports percentage-based exams</li>
-<li>Mobile-friendly and fast</li>
-<li>Free forever</li>
-</ul>
+        <!-- Related Tools -->
+        <div class="related-tools">
+            <h2 class="section-title">Related Exam Tools</h2>
+            <div class="tools-grid">
+                <a href="attendance-percentage-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-percent"></i>
+                    Attendance Calc
+                </a>
+                <a href="tet-marks-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-calculator"></i>
+                    TET Marks Calc
+                </a>
+                <a href="exam-rank-predictor.html" class="tool-link">
+                    <i class="fa-solid fa-ranking-star"></i>
+                    Rank Predictor
+                </a>
+                <a href="study-hours-planner.html" class="tool-link">
+                    <i class="fa-solid fa-clock"></i>
+                    Study Planner
+                </a>
+            </div>
+        </div>
 
-<h2>Examples</h2>
-<p>If total marks are 100 and passing percentage is 35%, then minimum marks required are 35. If you have already scored 20 marks, you need 15 more marks to pass.</p>
+        <!-- SEO Content -->
+        <article class="content-article">
+            <h2>The Ultimate Guide to Calculating Passing Marks</h2>
+            <p>Exams are an inevitable part of academic life, and with them comes the anxiety of the "Passing Score." Whether you are a high school student navigating board exams, a university undergraduate worried about semester finals, or a professional attempting a certification, knowing exactly where the finish line is can significantly reduce stress. <strong>Toolvala.in's Marks Needed to Pass Calculator</strong> is designed to give you that clarity instantly.</p>
 
-<h2>Frequently Asked Questions</h2>
-<p><strong>Q. Can passing marks be rounded?</strong><br>Rounding rules depend on the exam authority.</p>
-<p><strong>Q. Does this tool work for competitive exams?</strong><br>Yes, if passing percentage is known.</p>
-<p><strong>Q. Is this calculator free?</strong><br>Yes, completely free on Toolvala.</p>
+            <p>This comprehensive guide will walk you through how passing marks are calculated across different educational boards in India (CBSE, ICSE, State Boards), universities, and competitive exams. We will also discuss strategies to bridge the gap between your current score and the passing threshold.</p>
 
-<h2>Conclusion</h2>
-<p>The Marks Needed to Pass Calculator is a must-use academic utility for students. It reduces stress, improves planning, and helps students focus on achievable goals. Use this tool regularly to stay confident and exam-ready.</p>
-</div>
-</div>
+            <h3>How Does the Calculator Work?</h3>
+            <p>The logic behind calculating passing marks is simple arithmetic, yet in the heat of exam pressure, students often get it wrong. Our tool uses the standard percentage formula:</p>
+            
+            <div class="highlight-box">
+                <strong>Passing Marks = (Total Marks × Passing Percentage) / 100</strong>
+            </div>
 
+            <p><strong>Example Scenario:</strong><br>
+            Imagine you are writing a paper worth 80 marks, and the university requires 40% to pass.<br>
+            <em>Calculation:</em> (80 × 40) / 100 = <strong>32 Marks</strong>.<br>
+            If you have already secured 10 marks in internal assessments (and the passing criteria is cumulative), the calculator will tell you that you need exactly <strong>22 more marks</strong> in the theory paper to clear the subject.</p>
+
+            <h3>Passing Criteria in Indian Education Systems</h3>
+            <p>Different boards and institutions have different rules. Here is a detailed breakdown to help you understand what target you should enter into the calculator.</p>
+
+            <h4>1. CBSE (Central Board of Secondary Education)</h4>
+            <ul>
+                <li><strong>Class 10:</strong> Students need to score <strong>33% in aggregate</strong>. This means the combined score of Internal Assessment (20 marks) and Board Examination (80 marks) must be at least 33. You do not need to pass separately in theory and internals.</li>
+                <li><strong>Class 12:</strong> The rules are stricter. Students must obtain <strong>33% separately</strong> in Theory and Practical/Project/Internal Assessment. If a subject has 70 marks for theory, you need 23 marks (33% of 70) to pass the theory component.</li>
+            </ul>
+
+            <h4>2. ICSE & ISC (CISCE Board)</h4>
+            <ul>
+                <li><strong>ICSE (Class 10):</strong> The passing mark is <strong>33%</strong> in aggregate for each subject.</li>
+                <li><strong>ISC (Class 12):</strong> The passing mark is slightly higher at <strong>35%</strong>. Like CBSE Class 12, you generally need to pass theory and practicals separately.</li>
+            </ul>
+
+            <h4>3. State Boards</h4>
+            <p>Most state boards in India (like Maharashtra, Gujarat, Tamil Nadu) follow a <strong>35% passing rule</strong>. However, some states have moved to 33% to align with national standards. Always check your specific board's latest circular.</p>
+
+            <h4>4. Universities and Colleges</h4>
+            <p>Higher education institutions usually have higher standards.</p>
+            <ul>
+                <li><strong>Engineering (B.Tech/B.E.):</strong> Most technical universities (like VTU, Anna University, JNTU) require <strong>35% to 40% in the external exam</strong> and an aggregate of <strong>45% to 50%</strong> (Internal + External) to pass the subject.</li>
+                <li><strong>Medical (MBBS/BDS):</strong> The bar is set at <strong>50%</strong>. Students must pass theory and practicals separately with a minimum of 50% in each.</li>
+                <li><strong>Commerce/Arts (B.Com/BA):</strong> Typically follows a <strong>35% to 40%</strong> passing rule depending on the university.</li>
+            </ul>
+
+            <h4>5. Professional Courses (CA, CS, CMA)</h4>
+            <p>These are the toughest. For Chartered Accountancy (CA) exams:</p>
+            <ul>
+                <li><strong>Individual Subject:</strong> You need <strong>40%</strong> to clear a paper.</li>
+                <li><strong>Aggregate:</strong> You need <strong>50%</strong> in the total of all papers in a group.</li>
+                <li><em>Example:</em> If a group has 4 papers of 100 marks each (Total 400), you need 40 in each paper BUT a total of 200. Scoring exactly 40 in all four (Total 160) means you fail the group.</li>
+            </ul>
+
+            <h3>Internal vs. External Assessment: The Confusion</h3>
+            <p>One of the most common questions students have is regarding the split between internal and external marks. Let's clarify.</p>
+            
+            <p><strong>Scenario A: Combined Passing (Easier)</strong><br>
+            If your college says "40% Aggregate to Pass," and you have 30 marks internals + 70 marks theory.<br>
+            If you score 25/30 in internals, you only need 15/70 in theory to reach the total of 40. This takes the pressure off the final exam.</p>
+
+            <p><strong>Scenario B: Separate Passing (Harder)</strong><br>
+            If the rule is "40% in Theory Mandatory," then regardless of your internal score, you must score at least 28/70 in the final exam. Our calculator is perfect for this—just enter "70" as Total Marks and "40" as Passing Percentage.</p>
+
+            <h3>Strategies to Score Passing Marks</h3>
+            <p>If you are calculating passing marks, you might be in a crunch situation. Here are strategic tips to ensure you cross the line:</p>
+            <ol>
+                <li><strong>The Pareto Principle (80/20 Rule):</strong> 80% of the questions often come from 20% of the syllabus. Identify high-weightage chapters and master them first. Do not try to study everything if you are short on time.</li>
+                <li><strong>Previous Year Papers:</strong> In many university exams, questions are repeated or follow a specific pattern. Solving the last 5 years' papers can often guarantee a passing score.</li>
+                <li><strong>Presentation Matters:</strong> Even if your answer isn't perfect, writing in bullet points, underlining keywords, and drawing diagrams can fetch you step marks. Step marks are often the difference between a 32 (Fail) and a 35 (Pass).</li>
+                <li><strong>Attempt Everything:</strong> Never leave a question blank. If there is no negative marking, attempt every question. A partial attempt might get you 1 or 2 marks, which adds up.</li>
+            </ol>
+
+            <h3>Understanding Grading Systems (GPA/CGPA)</h3>
+            <p>Modern education is moving away from raw marks to grading systems. While you need a minimum percentage to pass, your final result is often a Grade Point Average (GPA).</p>
+            <ul>
+                <li><strong>O (Outstanding):</strong> 90-100%</li>
+                <li><strong>A+ (Excellent):</strong> 80-89%</li>
+                <li><strong>P (Pass):</strong> Usually 40-45%</li>
+                <li><strong>F (Fail):</strong> Below 40%</li>
+            </ul>
+            <p>Knowing the minimum marks for the 'P' grade is essential to avoid a backlog or KT (Keep Term).</p>
+
+            <h3>Frequently Asked Questions (FAQs)</h3>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">1. What is the passing percentage for CBSE Class 10? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">For CBSE Class 10, students need to score at least 33% marks in theory and internal assessment combined to pass. This combined rule makes it slightly easier for students compared to Class 12.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">2. Does this calculator work for internal marks? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">Yes! Enter your total subject marks and the passing percentage. If you have already secured internal marks, enter them in the "Marks Already Scored" field. The tool will subtract your internal score from the total passing requirement to show how many more marks you need in the theory exam.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">3. Can I use this for competitive exams like JEE/NEET? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">Competitive exams usually work on cutoffs and percentiles rather than fixed passing percentages. However, if you know the qualifying percentage (e.g., 50% for General category in NEET), you can use this tool to find the exact marks required.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">4. What if the result is in decimals? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">Most educational boards round off marks to the nearest whole number. For example, if you need 26.4 marks, the requirement effectively becomes 27. Our calculator shows the exact decimal value, but you should always aim for the next whole number to be safe.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">5. Is 35% or 40% the standard passing mark? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">It varies significantly. Schools often use 33% or 35%, while colleges and professional courses (like CA, CS, Engineering) often require 40% or even 50% to pass. Always check your specific syllabus guidelines or student handbook.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">6. What are Grace Marks? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">Grace marks are extra marks awarded by the board or university to help a student pass if they are failing by a very small margin (usually 1-3 marks). However, you should never rely on grace marks as they are discretionary and subject to strict rules.</div>
+            </div>
+
+            <h3>Conclusion</h3>
+            <p>The fear of failure often stems from the unknown. By using <strong>Toolvala.in's Marks Needed to Pass Calculator</strong>, you remove the uncertainty. You get a clear, tangible number to aim for. Once you know your target, you can create a focused study plan using our <a href="study-hours-planner.html" style="color:var(--primary);">Study Planner Tool</a> and approach your exams with confidence.</p>
+            <p>Remember, an exam is just a check of your preparation, not your worth. Plan well, study smart, and you will cross the finish line!</p>
+        </article>
+    </div>
+
+    <script>
+        function calculatePassMarks() {
+            const total = parseFloat(document.getElementById('totalMarks').value);
+            const percent = parseFloat(document.getElementById('passingPercent').value);
+            const scored = parseFloat(document.getElementById('scoredMarks').value) || 0;
+            const resultBox = document.getElementById('resultBox');
+            const resultText = document.getElementById('resultText');
+            const resultValue = document.getElementById('resultValue');
+
+            if (isNaN(total) || isNaN(percent) || total <= 0 || percent <= 0) {
+                alert("Please enter valid Total Marks and Passing Percentage.");
+                return;
+            }
+
+            const passingMarks = (total * percent) / 100;
+            const needed = passingMarks - scored;
+
+            if (needed <= 0) {
+                resultText.innerText = "Congratulations! You have already passed.";
+                resultText.className = "result-status status-pass";
+                resultValue.innerText = "Passed ✅";
+            } else {
+                resultText.innerText = "Minimum Marks Needed to Pass:";
+                resultText.className = "result-status";
+                resultValue.innerText = needed.toFixed(2);
+            }
+
+            resultBox.style.display = 'block';
+            resultBox.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function toggleFaq(element) {
+            const answer = element.nextElementSibling;
+            const icon = element.querySelector('i');
+            
+            if (answer.style.display === "block") {
+                answer.style.display = "none";
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+            } else {
+                answer.style.display = "block";
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-up');
+            }
+        }
+    </script>
+    <div id="footer"></div>
 <script>
-function calcMarks(){
-var t=document.getElementById('total').value;
-var p=document.getElementById('percent').value;
-var s=document.getElementById('scored').value||0;
-if(t<=0||p<=0||p>100||s<0||s>t){document.getElementById('res').innerHTML='❌ Invalid input';return;}
-var pass=(t*p)/100;
-var need=pass-s;
-if(need<=0){document.getElementById('res').innerHTML='✅ You have already passed';}
-else{document.getElementById('res').innerHTML='📌 Marks needed to pass: '+need.toFixed(2);} }
+fetch("/footer.html")
+  .then(r => r.text())
+  .then(d => {
+    document.getElementById("footer").innerHTML = d;
+    document.getElementById("year").textContent = new Date().getFullYear();
+  });
 </script>
-
+  <div id="footer"></div>
+<script>
+fetch("/footer.html")
+  .then(r => r.text())
+  .then(d => {
+    document.getElementById("footer").innerHTML = d;
+    document.getElementById("year").textContent = new Date().getFullYear();
+  });
+</script>
 </body>
 </html>
