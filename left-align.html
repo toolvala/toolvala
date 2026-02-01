@@ -1,19 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet"
-     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">.
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Left Align Text Tool - Remove Indentation & Leading Whitespace Online - Toolvala.in</title>
+    <title>Left Align Text Tool | Remove Indentation Online - Toolvala.in</title>
     <link rel="canonical" href="https://www.toolvala.in/left-align.html">
     <meta name="description" content="Free online Left Align Text Tool by Toolvala.in. Instantly remove indentation, strip leading whitespace, and unindent code blocks. Secure, client-side, and mobile-friendly.">
     <meta name="robots" content="index, follow">
+    <link rel="stylesheet"
+     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">.
+
     <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --primary: #d97706; /* Amber/Orange for Alignment */
+            --primary: #d97706; /* Amber/Orange */
             --primary-hover: #b45309;
             --bg-color: #fffbeb;
             --surface: #ffffff;
@@ -24,15 +28,41 @@
             --danger: #ef4444;
         }
 
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-family: 'Inter', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-main);
-            margin: 0;
-            padding: 0;
             line-height: 1.6;
         }
 
+        /* --- NAVIGATION --- */
+        nav {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        .logo span { color: var(--text-main); }
+
+        /* --- LAYOUT --- */
         .container {
             max-width: 950px;
             margin: 0 auto;
@@ -254,283 +284,290 @@
 </head>
 <body>
 
-<div class="container">
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">Toolvala<span>.in</span></a>
+        </div>
+    </nav>
 
-    <!-- ========================= -->
-    <!-- 1. THE LEFT ALIGN TOOL -->
-    <!-- ========================= -->
-    <div class="tool-wrapper">
-        <h1>Left Align Text Tool</h1>
-        <p class="subtitle">Remove indentation, strip leading spaces, and unindent text instantly.</p>
+    <div class="container">
 
-        <div class="controls">
-            <div class="mode-group">
-                <label>
-                    <input type="radio" name="mode" value="strict" checked onchange="processText()">
-                    <span class="mode-label"><i class="fa-solid fa-align-left" style="margin-right:8px"></i> Strict Left (Trim Start)</span>
-                </label>
-                <label>
-                    <input type="radio" name="mode" value="full" onchange="processText()">
-                    <span class="mode-label"><i class="fa-solid fa-scissors" style="margin-right:8px"></i> Full Trim (Start & End)</span>
+        <!-- ========================= -->
+        <!-- 1. THE LEFT ALIGN TOOL -->
+        <!-- ========================= -->
+        <div class="tool-wrapper">
+            <h1>Left Align Text Tool</h1>
+            <p class="subtitle">Remove indentation, strip leading spaces, and unindent text instantly.</p>
+
+            <div class="controls">
+                <div class="mode-group">
+                    <label>
+                        <input type="radio" name="mode" value="strict" checked onchange="processText()">
+                        <span class="mode-label"><i class="fa-solid fa-align-left" style="margin-right:8px"></i> Strict Left (Trim Start)</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="mode" value="full" onchange="processText()">
+                        <span class="mode-label"><i class="fa-solid fa-scissors" style="margin-right:8px"></i> Full Trim (Start & End)</span>
+                    </label>
+                </div>
+                
+                <div style="width: 100%; height: 1px; background: #fed7aa;"></div>
+
+                <label class="checkbox-label">
+                    <input type="checkbox" id="rmBlank" checked onchange="processText()">
+                    Remove blank lines
                 </label>
             </div>
+
+            <div class="io-grid">
+                <!-- Input -->
+                <div class="input-wrapper">
+                    <label class="field-label">Input (Indented)</label>
+                    <textarea id="input" placeholder="      Paste indented text here...&#10;    It will be moved&#10;          to the left margin." oninput="processText()"></textarea>
+                    <div class="stats-bar" id="inStats">Lines: 0</div>
+                </div>
+
+                <!-- Output -->
+                <div class="input-wrapper">
+                    <label class="field-label">Output (Aligned)</label>
+                    <textarea id="output" readonly placeholder="Result appears here..."></textarea>
+                    <div class="stats-bar" id="outStats">Lines: 0</div>
+                    <div class="actions">
+                        <button class="btn-clear" onclick="clearAll()">
+                            <i class="fa-solid fa-trash"></i> Clear
+                        </button>
+                        <button class="btn-copy" onclick="copyToClipboard()">
+                            <i class="fa-solid fa-copy"></i> Copy Clean Text
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================= -->
+        <!-- 2. SEO OPTIMIZED CONTENT -->
+        <!-- ========================= -->
+        <article>
+            <h1>Left Align Text Tool – Remove Indentation & Clean Leading Whitespace</h1>
+
+            <p>In the digital world, formatting issues are the invisible enemy of productivity. Whether you are a software developer wrestling with nested code blocks, a content writer copying text from a PDF, or a data analyst cleaning up a messy CSV export, you have likely encountered the "Staircase Effect." This is when text arrives with erratic indentation, massive gaps on the left side, and inconsistent spacing that breaks your workflow.</p>
+
+            <p>Welcome to the <strong>Left Align Text Tool</strong> by <strong>Toolvala.in</strong>. This is a powerful, free, and secure online utility designed to instantly "unindent" your text. By stripping away leading whitespace—including spaces, tabs, and non-breaking spaces—it snaps every line strictly to the left margin, giving you a clean slate to work with.</p>
+
+            <h2>Why Do We Need to Remove Indentation?</h2>
+            <p>You might wonder, "Can't I just hit backspace?" For three lines of text, yes. For a 2,000-line code base or a 50-page thesis, manual deletion is impossible. Here are the core scenarios where an automated Left Align Tool is essential.</p>
+
+            <h3>1. Cleaning Copied Code Snippets</h3>
+            <p>Programmers frequently copy solutions from Stack Overflow, GitHub, or documentation sites. Often, the code snippet you need is nested inside a function or a class. When you paste it into your editor, it keeps that deep indentation (e.g., 12 spaces to the right).</p>
+            <p>Using this tool, you can <strong>unindent code</strong> instantly. This is particularly critical for whitespace-sensitive languages like <strong>Python</strong> or <strong>YAML</strong>, where incorrect indentation causes syntax errors and crashes your application.</p>
+
+            <h3>2. Fixing PDF and Website Copy-Paste Issues</h3>
+            <p>PDF documents are notorious for their poor text handling. When you select text from a column in a PDF, it often includes "Phantom Spaces"—invisible characters used for layout. Pasting this into Microsoft Word or Google Docs results in a jagged, messy look. Our tool strips these formatting artifacts, giving you raw, clean text.</p>
+
+            <h3>3. Data Formatting for Excel and Databases</h3>
+            <p>If you are importing data into Excel or a SQL database, leading spaces are a disaster. A cell containing <code>"  New York"</code> is treated differently than <code>"New York"</code>. This causes <code>VLOOKUP</code> failures and sorting errors. A quick pass through the Left Align Tool sanitizes your data before import.</p>
+
+            <h2>How to Use the Left Align Text Tool</h2>
+            <p>We have designed this tool to be the simplest part of your day. It requires no installation, no login, and no technical knowledge.</p>
+
+            <ul>
+                <li><strong>Paste Your Text:</strong> Copy the indented content from your source and paste it into the "Input" box.</li>
+                <li><strong>Select Your Mode:</strong>
+                    <ul>
+                        <li><strong>Strict Left (Trim Start):</strong> Choose this to remove spaces <em>only</em> from the beginning of the line. This is the safest option for prose and markdown because it preserves the spaces between words and at the end of the line.</li>
+                        <li><strong>Full Trim (Start & End):</strong> Choose this to remove spaces from the beginning <em>and</em> the end of the line. This is ideal for code lists, email addresses, and database inputs.</li>
+                    </ul>
+                </li>
+                <li><strong>Optional - Remove Blank Lines:</strong> If your source text has wide vertical gaps, check this box to delete empty lines automatically.</li>
+                <li><strong>Copy Result:</strong> The tool processes your text in real-time. Click the "Copy Clean Text" button to save the result to your clipboard.</li>
+            </ul>
+
+            <h2>Features That Set This Tool Apart</h2>
+
+            <h3>100% Client-Side Processing (Privacy First)</h3>
+            <p>In an era of data breaches, you should be careful where you paste your data. Many online tools upload your text to a server to process it. This creates a risk if you are working with passwords, proprietary code, or personal addresses.</p>
+            <p>Our tool runs entirely in your browser using <strong>JavaScript</strong>. Your text <strong>never</strong> leaves your device. You could even load this page, disconnect your internet, and the tool would still work perfectly. It is the gold standard for security.</p>
+
+            <h3>Preserves Internal Spacing</h3>
+            <p>Unlike a "Find and Replace All Spaces" function, which would destroy sentences (turning <code>Hello World</code> into <code>HelloWorld</code>), our algorithm uses <strong>Regular Expressions (Regex)</strong> to target <em>only</em> the start of the string. Your sentences, variable names, and data columns remain intact.</p>
+
+            <h2>Deep Dive: The Technical Logic of Unindenting</h2>
+            <p>For the developers utilizing this tool, understanding the underlying logic helps in mastering string manipulation. The process of left aligning involves three distinct computational steps.</p>
+
+            <div class="code-block">
+                Input: "   Hello World"<br>
+                Operation: line.trimStart()<br>
+                Output: "Hello World"
+            </div>
+
+            <p>The tool loops through every line in the array. For each line, it applies the native JavaScript method <code>.trimStart()</code>. This method is highly optimized by browser engines to scan from the zero-index of the string and advance until it hits a non-whitespace character.</p>
+
+            <h2>SEO and Accessibility Benefits of Clean Text</h2>
+            <p>Cleaning your text isn't just about aesthetics; it has tangible benefits for web performance and accessibility.</p>
+
+            <h3>Reducing File Size (Minification)</h3>
+            <p>Whitespace takes up space. In large HTML, CSS, or JSON files, indentation can account for up to 30% of the file size. By left-aligning (minifying) the code before deployment, you reduce the bandwidth required to load your webpage, improving your <strong>Core Web Vitals</strong> and SEO rankings.</p>
+
+            <h3>Improving Screen Reader Experience</h3>
+            <p>Screen readers used by the visually impaired sometimes announce indentation levels or pause for tabs. Inconsistent or excessive indentation can make a document sound "choppy" and confusing. Left-aligning text creates a smooth, linear reading flow.</p>
+
+            <h2>Frequently Asked Questions (FAQ)</h2>
+
+            <h3>Will this tool remove the spaces between my words?</h3>
+            <p>No. The "Strict Left" mode is designed specifically to target only the leading whitespace (the space before the first word). A sentence like <code>"   The quick brown fox"</code> becomes <code>"The quick brown fox"</code>. The spaces between "quick" and "brown" are strictly preserved.</p>
+
+            <h3>Is there a limit to how much text I can process?</h3>
+            <p>Because the tool is client-side, the only limit is your computer's RAM. We have successfully tested the tool with over 100,000 lines of text. It handles large log files, massive SQL dumps, and entire e-books with ease.</p>
+
+            <h3>Does it handle mixed tabs and spaces?</h3>
+            <p>Yes. The tool treats tabs (`\t`) and spaces (` `) equally as "whitespace." If you have a file that has a messy mix of both (which is common in older codebases), this tool will strip them all uniformly.</p>
+
+            <h3>Can I use this on my mobile phone?</h3>
+            <p>Absolutely. The interface is fully responsive. It is particularly useful on mobile devices where selecting and deleting text manually is difficult due to the lack of a physical keyboard.</p>
+
+        </article>
+
+        <!-- ========================= -->
+        <!-- 3. TOOL CARDS -->
+        <!-- ========================= -->
+        <div class="cards-grid">
+            <a href="reverse-text.html" class="tool-card">
+                <div class="tool-left">
+                    <div class="icon" style="background:#2563eb">
+                        <i class="fa-solid fa-font"></i>
+                    </div>
+                    <div>
+                        <div class="tool-title">Reverse Text Tool</div>
+                        <div class="tool-desc">
+                            Reverse characters, words, and sentences instantly.
+                        </div>
+                    </div>
+                </div>
+                <i class="fa-solid fa-chevron-right arrow"></i>
+            </a>
+
+            <a href="duplicate-remover.html" class="tool-card">
+                <div class="tool-left">
+                    <div class="icon" style="background:#22c55e">
+                        <i class="fa-solid fa-copy"></i>
+                    </div>
+                    <div>
+                        <div class="tool-title">Duplicate Remover</div>
+                        <div class="tool-desc">
+                            Remove duplicate items and fix repeated words.
+                        </div>
+                    </div>
+                </div>
+                <i class="fa-solid fa-chevron-right arrow"></i>
+            </a>
+
+            <a href="unindent-tool.html" class="tool-card">
+                <div class="tool-left">
+                    <div class="icon" style="background:#14b8a6">
+                        <i class="fa-solid fa-outdent"></i>
+                    </div>
+                    <div>
+                        <div class="tool-title">Smart Unindent Tool</div>
+                        <div class="tool-desc">
+                            Remove indentation from code while preserving nesting.
+                        </div>
+                    </div>
+                </div>
+                <i class="fa-solid fa-chevron-right arrow"></i>
+            </a>
+
+            <a href="left-pad.html" class="tool-card">
+                <div class="tool-left">
+                    <div class="icon" style="background:#10b981">
+                        <i class="fa-solid fa-ruler-horizontal"></i>
+                    </div>
+                    <div>
+                        <div class="tool-title">Left Pad Tool</div>
+                        <div class="tool-desc">
+                            Pad text to length or add prefixes to lines.
+                        </div>
+                    </div>
+                </div>
+                <i class="fa-solid fa-chevron-right arrow"></i>
+            </a>
+        </div>
+
+    </div>
+
+    <div id="toast" class="toast">Copied to Clipboard!</div>
+
+    <!-- ========================= -->
+    <!-- 4. JAVASCRIPT LOGIC -->
+    <!-- ========================= -->
+    <script>
+        function processText() {
+            const input = document.getElementById('input').value;
+            const output = document.getElementById('output');
             
-            <div style="width: 100%; height: 1px; background: #fed7aa;"></div>
-
-            <label class="checkbox-label">
-                <input type="checkbox" id="rmBlank" checked onchange="processText()">
-                Remove blank lines
-            </label>
-        </div>
-
-        <div class="io-grid">
-            <!-- Input -->
-            <div class="input-wrapper">
-                <label class="field-label">Input (Indented)</label>
-                <textarea id="input" placeholder="      Paste indented text here...&#10;    It will be moved&#10;          to the left margin." oninput="processText()"></textarea>
-                <div class="stats-bar" id="inStats">Lines: 0</div>
-            </div>
-
-            <!-- Output -->
-            <div class="input-wrapper">
-                <label class="field-label">Output (Aligned)</label>
-                <textarea id="output" readonly placeholder="Result appears here..."></textarea>
-                <div class="stats-bar" id="outStats">Lines: 0</div>
-                <div class="actions">
-                    <button class="btn-clear" onclick="clearAll()">
-                        <i class="fa-solid fa-trash"></i> Clear
-                    </button>
-                    <button class="btn-copy" onclick="copyToClipboard()">
-                        <i class="fa-solid fa-copy"></i> Copy Clean Text
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ========================= -->
-    <!-- 2. SEO OPTIMIZED CONTENT -->
-    <!-- ========================= -->
-    <article>
-        <h1>Left Align Text Tool – Remove Indentation & Clean Leading Whitespace</h1>
-
-        <p>In the digital world, formatting issues are the invisible enemy of productivity. Whether you are a software developer wrestling with nested code blocks, a content writer copying text from a PDF, or a data analyst cleaning up a messy CSV export, you have likely encountered the "Staircase Effect." This is when text arrives with erratic indentation, massive gaps on the left side, and inconsistent spacing that breaks your workflow.</p>
-
-        <p>Welcome to the <strong>Left Align Text Tool</strong> by <strong>Toolvala.in</strong>. This is a powerful, free, and secure online utility designed to instantly "unindent" your text. By stripping away leading whitespace—including spaces, tabs, and non-breaking spaces—it snaps every line strictly to the left margin, giving you a clean slate to work with.</p>
-
-        <h2>Why Do We Need to Remove Indentation?</h2>
-        <p>You might wonder, "Can't I just hit backspace?" For three lines of text, yes. For a 2,000-line code base or a 50-page thesis, manual deletion is impossible. Here are the core scenarios where an automated Left Align Tool is essential.</p>
-
-        <h3>1. Cleaning Copied Code Snippets</h3>
-        <p>Programmers frequently copy solutions from Stack Overflow, GitHub, or documentation sites. Often, the code snippet you need is nested inside a function or a class. When you paste it into your editor, it keeps that deep indentation (e.g., 12 spaces to the right).</p>
-        <p>Using this tool, you can <strong>unindent code</strong> instantly. This is particularly critical for whitespace-sensitive languages like <strong>Python</strong> or <strong>YAML</strong>, where incorrect indentation causes syntax errors and crashes your application.</p>
-
-        <h3>2. Fixing PDF and Website Copy-Paste Issues</h3>
-        <p>PDF documents are notorious for their poor text handling. When you select text from a column in a PDF, it often includes "Phantom Spaces"—invisible characters used for layout. Pasting this into Microsoft Word or Google Docs results in a jagged, messy look. Our tool strips these formatting artifacts, giving you raw, clean text.</p>
-
-        <h3>3. Data Formatting for Excel and Databases</h3>
-        <p>If you are importing data into Excel or a SQL database, leading spaces are a disaster. A cell containing <code>"  New York"</code> is treated differently than <code>"New York"</code>. This causes <code>VLOOKUP</code> failures and sorting errors. A quick pass through the Left Align Tool sanitizes your data before import.</p>
-
-        <h2>How to Use the Left Align Text Tool</h2>
-        <p>We have designed this tool to be the simplest part of your day. It requires no installation, no login, and no technical knowledge.</p>
-
-        <ul>
-            <li><strong>Paste Your Text:</strong> Copy the indented content from your source and paste it into the "Input" box.</li>
-            <li><strong>Select Your Mode:</strong>
-                <ul>
-                    <li><strong>Strict Left (Trim Start):</strong> Choose this to remove spaces <em>only</em> from the beginning of the line. This is the safest option for prose and markdown because it preserves the spaces between words and at the end of the line.</li>
-                    <li><strong>Full Trim (Start & End):</strong> Choose this to remove spaces from the beginning <em>and</em> the end of the line. This is ideal for code lists, email addresses, and database inputs.</li>
-                </ul>
-            </li>
-            <li><strong>Optional - Remove Blank Lines:</strong> If your source text has wide vertical gaps, check this box to delete empty lines automatically.</li>
-            <li><strong>Copy Result:</strong> The tool processes your text in real-time. Click the "Copy Clean Text" button to save the result to your clipboard.</li>
-        </ul>
-
-        <h2>Features That Set This Tool Apart</h2>
-
-        <h3>100% Client-Side Processing (Privacy First)</h3>
-        <p>In an era of data breaches, you should be careful where you paste your data. Many online tools upload your text to a server to process it. This creates a risk if you are working with passwords, proprietary code, or personal addresses.</p>
-        <p>Our tool runs entirely in your browser using <strong>JavaScript</strong>. Your text <strong>never</strong> leaves your device. You could even load this page, disconnect your internet, and the tool would still work perfectly. It is the gold standard for security.</p>
-
-        <h3>Preserves Internal Spacing</h3>
-        <p>Unlike a "Find and Replace All Spaces" function, which would destroy sentences (turning <code>Hello World</code> into <code>HelloWorld</code>), our algorithm uses <strong>Regular Expressions (Regex)</strong> to target <em>only</em> the start of the string. Your sentences, variable names, and data columns remain intact.</p>
-
-        <h2>Deep Dive: The Technical Logic of Unindenting</h2>
-        <p>For the developers utilizing this tool, understanding the underlying logic helps in mastering string manipulation. The process of left aligning involves three distinct computational steps.</p>
-
-        <div class="code-block">
-            Input: "   Hello World"<br>
-            Operation: line.trimStart()<br>
-            Output: "Hello World"
-        </div>
-
-        <p>The tool loops through every line in the array. For each line, it applies the native JavaScript method <code>.trimStart()</code>. This method is highly optimized by browser engines to scan from the zero-index of the string and advance until it hits a non-whitespace character.</p>
-
-        <h2>SEO and Accessibility Benefits of Clean Text</h2>
-        <p>Cleaning your text isn't just about aesthetics; it has tangible benefits for web performance and accessibility.</p>
-
-        <h3>Reducing File Size (Minification)</h3>
-        <p>Whitespace takes up space. In large HTML, CSS, or JSON files, indentation can account for up to 30% of the file size. By left-aligning (minifying) the code before deployment, you reduce the bandwidth required to load your webpage, improving your <strong>Core Web Vitals</strong> and SEO rankings.</p>
-
-        <h3>Improving Screen Reader Experience</h3>
-        <p>Screen readers used by the visually impaired sometimes announce indentation levels or pause for tabs. Inconsistent or excessive indentation can make a document sound "choppy" and confusing. Left-aligning text creates a smooth, linear reading flow.</p>
-
-        <h2>Frequently Asked Questions (FAQ)</h2>
-
-        <h3>Will this tool remove the spaces between my words?</h3>
-        <p>No. The "Strict Left" mode is designed specifically to target only the leading whitespace (the space before the first word). A sentence like <code>"   The quick brown fox"</code> becomes <code>"The quick brown fox"</code>. The spaces between "quick" and "brown" are strictly preserved.</p>
-
-        <h3>Is there a limit to how much text I can process?</h3>
-        <p>Because the tool is client-side, the only limit is your computer's RAM. We have successfully tested the tool with over 100,000 lines of text. It handles large log files, massive SQL dumps, and entire e-books with ease.</p>
-
-        <h3>Does it handle mixed tabs and spaces?</h3>
-        <p>Yes. The tool treats tabs (`\t`) and spaces (` `) equally as "whitespace." If you have a file that has a messy mix of both (which is common in older codebases), this tool will strip them all uniformly.</p>
-
-        <h3>Can I use this on my mobile phone?</h3>
-        <p>Absolutely. The interface is fully responsive. It is particularly useful on mobile devices where selecting and deleting text manually is difficult due to the lack of a physical keyboard.</p>
-
-    </article>
-
-    <!-- ========================= -->
-    <!-- 3. TOOL CARDS -->
-    <!-- ========================= -->
-    <div class="cards-grid">
-        <a href="reverse-text.html" class="tool-card">
-            <div class="tool-left">
-                <div class="icon" style="background:#2563eb">
-                    <i class="fa-solid fa-font"></i>
-                </div>
-                <div>
-                    <div class="tool-title">Reverse Text Tool</div>
-                    <div class="tool-desc">
-                        Reverse characters, words, and sentences instantly.
-                    </div>
-                </div>
-            </div>
-            <i class="fa-solid fa-chevron-right arrow"></i>
-        </a>
-
-        <a href="duplicate-remover.html" class="tool-card">
-            <div class="tool-left">
-                <div class="icon" style="background:#22c55e">
-                    <i class="fa-solid fa-copy"></i>
-                </div>
-                <div>
-                    <div class="tool-title">Duplicate Remover</div>
-                    <div class="tool-desc">
-                        Remove duplicate items and fix repeated words.
-                    </div>
-                </div>
-            </div>
-            <i class="fa-solid fa-chevron-right arrow"></i>
-        </a>
-
-        <a href="unindent-tool.html" class="tool-card">
-            <div class="tool-left">
-                <div class="icon" style="background:#14b8a6">
-                    <i class="fa-solid fa-outdent"></i>
-                </div>
-                <div>
-                    <div class="tool-title">Smart Unindent Tool</div>
-                    <div class="tool-desc">
-                        Remove indentation from code while preserving nesting.
-                    </div>
-                </div>
-            </div>
-            <i class="fa-solid fa-chevron-right arrow"></i>
-        </a>
-
-        <a href="left-pad.html" class="tool-card">
-            <div class="tool-left">
-                <div class="icon" style="background:#10b981">
-                    <i class="fa-solid fa-ruler-horizontal"></i>
-                </div>
-                <div>
-                    <div class="tool-title">Left Pad Tool</div>
-                    <div class="tool-desc">
-                        Pad text to length or add prefixes to lines.
-                    </div>
-                </div>
-            </div>
-            <i class="fa-solid fa-chevron-right arrow"></i>
-        </a>
-    </div>
-
-</div>
-
-<div id="toast" class="toast">Copied to Clipboard!</div>
-
-<!-- ========================= -->
-<!-- 4. JAVASCRIPT LOGIC -->
-<!-- ========================= -->
-<script>
-    function processText() {
-        const input = document.getElementById('input').value;
-        const output = document.getElementById('output');
-        
-        if (!input) {
-            output.value = "";
-            updateStats(0, 0);
-            return;
-        }
-
-        // Get Settings
-        const mode = document.querySelector('input[name="mode"]:checked').value;
-        const removeBlank = document.getElementById('rmBlank').checked;
-
-        // Split Lines
-        let lines = input.split(/\r?\n/);
-        const originalCount = lines.length;
-
-        // Process
-        let resultLines = lines.map(line => {
-            if (mode === 'strict') {
-                return line.trimStart(); // Removes space from LEFT only
-            } else {
-                return line.trim(); // Removes space from LEFT and RIGHT
+            if (!input) {
+                output.value = "";
+                updateStats(0, 0);
+                return;
             }
-        });
 
-        // Filter Blanks
-        if (removeBlank) {
-            resultLines = resultLines.filter(line => line.length > 0);
+            // Get Settings
+            const mode = document.querySelector('input[name="mode"]:checked').value;
+            const removeBlank = document.getElementById('rmBlank').checked;
+
+            // Split Lines
+            let lines = input.split(/\r?\n/);
+            const originalCount = lines.length;
+
+            // Process
+            let resultLines = lines.map(line => {
+                if (mode === 'strict') {
+                    return line.trimStart(); // Removes space from LEFT only
+                } else {
+                    return line.trim(); // Removes space from LEFT and RIGHT
+                }
+            });
+
+            // Filter Blanks
+            if (removeBlank) {
+                resultLines = resultLines.filter(line => line.length > 0);
+            }
+
+            output.value = resultLines.join('\n');
+            updateStats(originalCount, resultLines.length);
         }
 
-        output.value = resultLines.join('\n');
-        updateStats(originalCount, resultLines.length);
-    }
+        function updateStats(inCount, outCount) {
+            document.getElementById('inStats').innerText = `Lines: ${inCount}`;
+            document.getElementById('outStats').innerText = `Lines: ${outCount}`;
+        }
 
-    function updateStats(inCount, outCount) {
-        document.getElementById('inStats').innerText = `Lines: ${inCount}`;
-        document.getElementById('outStats').innerText = `Lines: ${outCount}`;
-    }
+        function clearAll() {
+            document.getElementById('input').value = "";
+            document.getElementById('output').value = "";
+            updateStats(0, 0);
+            document.getElementById('input').focus();
+        }
 
-    function clearAll() {
-        document.getElementById('input').value = "";
-        document.getElementById('output').value = "";
-        updateStats(0, 0);
-        document.getElementById('input').focus();
-    }
+        function copyToClipboard() {
+            const output = document.getElementById('output');
+            if (!output.value) return;
+            
+            output.select();
+            output.setSelectionRange(0, 99999); // Mobile support
+            navigator.clipboard.writeText(output.value).then(() => {
+                showToast();
+            });
+        }
 
-    function copyToClipboard() {
-        const output = document.getElementById('output');
-        if (!output.value) return;
-        
-        output.select();
-        output.setSelectionRange(0, 99999); // Mobile support
-        navigator.clipboard.writeText(output.value).then(() => {
-            showToast();
-        });
-    }
-
-    function showToast() {
-        const toast = document.getElementById('toast');
-        toast.classList.add('show');
-        setTimeout(() => {
-            toast.classList.remove('show');
-        }, 2000);
-    }
-</script>
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+    </script>
 <div id="footer"></div>
 <script>
 fetch("/footer.html")
