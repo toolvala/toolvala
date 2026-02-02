@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicine Expiry Calculator | Check Drug Shelf Life Online - Toolvala.in</title>
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">.
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Calculate the exact expiry date of medicines, syrups, and tablets. Check if your drugs are safe to consume based on manufacturing date and shelf life. Free health tool by Toolvala.in.">
+    <meta name="keywords" content="medicine expiry calculator, drug shelf life calculator, tablet expiry checker, syrup expiry date, pharmaceutical expiry calculator, calculate medicine validity, is my medicine expired, toolvala">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.toolvala.in/medicine-expiry-calculator.html">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Medicine Expiry Calculator - Toolvala.in">
+    <meta property="og:description" content="Ensure your safety. Calculate medicine expiry dates instantly.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolvala.in/medicine-expiry-calculator.html">
+
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Schema Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Medicine Expiry Calculator",
+      "applicationCategory": "HealthApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "INR"
+      },
+      "description": "A tool to calculate the expiration date of pharmaceutical products based on manufacturing date."
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [{
+        "@type": "Question",
+        "name": "Is it safe to take medicine after the expiry date?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Generally, it is not recommended. While some medicines just lose potency, others (like liquid antibiotics, insulin, and nitroglycerin) can become chemically unstable or harmful."
+        }
+      }, {
+        "@type": "Question",
+        "name": "How is shelf life determined for drugs?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Shelf life is determined by stability testing conducted by manufacturers. It is the period during which the drug is expected to remain within its approved specifications (usually 90% potency) if stored correctly."
+        }
+      }, {
+        "@type": "Question",
+        "name": "What does 'Use By' mean on medicine?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "'Use By' is a strict safety deadline. Do not use the medicine after the end of the month stated, or the specific day if provided."
+        }
+      }]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary: #0d9488; /* Teal-600 */
+            --primary-dark: #0f766e;
+            --secondary: #f0fdfa;
+            --text-main: #0f172a;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --success: #16a34a;
+            --warning: #ca8a04;
+            --danger: #dc2626;
+            --white: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        .logo span { color: var(--text-main); }
+
+        /* Main Layout */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .tool-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .tool-header h1 {
+            font-size: 2.5rem;
+            color: var(--text-main);
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+        .tool-header p { color: var(--text-light); font-size: 1.1rem; }
+
+        /* Calculator Box */
+        .calculator-box {
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            padding: 30px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group { margin-bottom: 20px; }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+        
+        .input-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border 0.2s;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
+        }
+
+        .btn-calculate {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 10px;
+        }
+        .btn-calculate:hover { background: var(--primary-dark); }
+
+        /* Result Display */
+        .result-box {
+            margin-top: 25px;
+            background: var(--secondary);
+            border: 1px solid #99f6e4;
+            padding: 25px;
+            border-radius: 12px;
+            display: none;
+            text-align: center;
+        }
+        
+        .result-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+        
+        .result-date {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            margin: 10px 0;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 700;
+            margin-top: 10px;
+        }
+        .status-safe { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+        .status-warning { background: #fef9c3; color: #854d0e; border: 1px solid #fde047; }
+        .status-expired { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+
+        /* Flowchart Styles */
+        .flowchart-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 40px 0;
+        }
+        .flow-step {
+            background: var(--white);
+            border: 2px solid var(--primary);
+            padding: 15px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            color: var(--text-main);
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .flow-arrow {
+            color: var(--text-light);
+            font-size: 1.2rem;
+        }
+
+        /* Related Tools */
+        .related-tools { margin-top: 60px; }
+        .section-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 20px; border-left: 5px solid var(--primary); padding-left: 15px; }
+        .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+        .tool-link {
+            display: block;
+            background: var(--white);
+            padding: 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            transition: transform 0.2s, border-color 0.2s;
+            text-align: center;
+            font-weight: 600;
+        }
+        .tool-link:hover { transform: translateY(-3px); border-color: var(--primary); color: var(--primary); }
+        .tool-link i { display: block; font-size: 1.5rem; margin-bottom: 10px; color: var(--primary); }
+
+        /* Content Article */
+        .content-article {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin-top: 60px;
+        }
+        .content-article h2 { color: var(--primary-dark); margin-top: 30px; margin-bottom: 15px; font-size: 1.8rem; }
+        .content-article h3 { color: var(--text-main); margin-top: 25px; margin-bottom: 10px; font-size: 1.4rem; }
+        .content-article p { margin-bottom: 15px; color: #334155; text-align: justify; }
+        .content-article ul { margin-left: 20px; margin-bottom: 20px; color: #334155; }
+        .content-article li { margin-bottom: 8px; }
+        .highlight-box {
+            background: #f0fdfa;
+            border-left: 4px solid var(--primary);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* FAQ */
+        .faq-item { border-bottom: 1px solid var(--border); padding: 15px 0; }
+        .faq-question { font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; color: var(--text-main); }
+        .faq-answer { margin-top: 10px; display: none; color: var(--text-light); }
+
+        @media (max-width: 768px) {
+            .tool-header h1 { font-size: 2rem; }
+            .content-article { padding: 20px; }
+            .flowchart-container { flex-direction: column; }
+            .flow-arrow { transform: rotate(90deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">Toolvala<span>.in</span></a>
+        </div>
+    </nav>
+
+    <div class="container">
+        
+        <header class="tool-header">
+            <h1>Medicine Expiry Calculator</h1>
+            <p>Ensure your safety by checking the exact expiry date of your medicines.</p>
+        </header>
+
+        <div class="calculator-box">
+            <div class="form-group">
+                <label for="mfgDate">Manufacturing Date (Mfg Date)</label>
+                <input type="date" id="mfgDate" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label>Shelf Life / Validity</label>
+                <div class="input-group">
+                    <input type="number" id="duration" class="form-control" placeholder="e.g. 24" style="flex: 2;">
+                    <select id="unit" class="form-control" style="flex: 1;">
+                        <option value="months" selected>Months</option>
+                        <option value="years">Years</option>
+                        <option value="days">Days</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Quick Presets (Optional)</label>
+                <select id="preset" class="form-control" onchange="applyPreset()">
+                    <option value="">Select a common shelf life...</option>
+                    <option value="18m">18 Months (Syrups/Drops)</option>
+                    <option value="24m">24 Months (Tablets/Capsules)</option>
+                    <option value="36m">36 Months (Ointments/Creams)</option>
+                    <option value="60m">5 Years (Solid Dose)</option>
+                </select>
+            </div>
+
+            <button class="btn-calculate" onclick="calculateExpiry()">Check Expiry Status</button>
+
+            <div id="resultBox" class="result-box">
+                <div class="result-label">Expiry Date</div>
+                <div class="result-date" id="expiryDate">-</div>
+                
+                <div id="statusBadge" class="status-badge">Status</div>
+                
+                <div style="margin-top: 15px; font-size: 0.9rem; color: #64748b;">
+                    <span id="timeLeft" style="font-weight: 700;">-</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Related Tools -->
+        <div class="related-tools">
+            <h2 class="section-title">Related Date & Safety Tools</h2>
+            <div class="tools-grid">
+                <a href="warranty-expiry-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    Warranty Calc
+                </a>
+                <a href="food-expiry-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-utensils"></i>
+                    Food Expiry
+                </a>
+                <a href="date-difference.html" class="tool-link">
+                    <i class="fa-regular fa-calendar-minus"></i>
+                    Date Difference
+                </a>
+                <a href="production-time-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-industry"></i>
+                    Production Time
+                </a>
+                <a href="age-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-user-clock"></i>
+                    Age Calculator
+                </a>
+                <a href="anniversary-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-heart"></i>
+                    Anniversary Calc
+                </a>
+            </div>
+        </div>
+
+        <!-- SEO Content -->
+        <article class="content-article">
+            <h2>Medicine Expiry Dates: A Matter of Health and Safety</h2>
+            <p>We all have that one medicine cabinet filled with strips of tablets, half-used syrups, and tubes of ointment. But when a headache strikes, how do you know if that strip of Paracetamol from last year is still safe? <strong>Toolvala.in's Medicine Expiry Calculator</strong> helps you instantly determine the validity of your drugs based on their manufacturing date.</p>
+
+            <p>This guide explains the science behind drug expiration, the risks of taking expired medication, and how to manage your home pharmacy effectively.</p>
+
+            <h3>How the Calculation Works</h3>
+            <p>Pharmaceutical companies determine shelf life through rigorous stability testing. The expiry date is calculated by adding this shelf life to the manufacturing date.</p>
+
+            <div class="flowchart-container">
+                <div class="flow-step">Mfg Date</div>
+                <div class="flow-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                <div class="flow-step">Add Shelf Life<br>(e.g., 24 Months)</div>
+                <div class="flow-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                <div class="flow-step">Calculate<br>Expiry Date</div>
+                <div class="flow-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                <div class="flow-step">Check Safety<br>Status</div>
+            </div>
+
+            <h3>What Does "Expiry Date" Really Mean?</h3>
+            <p>The expiry date on a medicine is the final day that the manufacturer guarantees the full potency and safety of the drug. After this date:</p>
+            <ul>
+                <li><strong>Potency Decreases:</strong> The active ingredient may break down, meaning the medicine won't work as effectively.</li>
+                <li><strong>Chemical Changes:</strong> Some drugs can degrade into toxic compounds (e.g., Tetracycline).</li>
+                <li><strong>Sterility Issues:</strong> Eye drops and injectables may lose their sterility, leading to infections.</li>
+            </ul>
+
+            <h3>The "90% Potency" Rule</h3>
+            <p>In the pharmaceutical industry, shelf life is typically defined as the time it takes for the drug to degrade to 90% of its original concentration. While a solid tablet might still be 85% effective a month after expiry, a liquid antibiotic might be completely ineffective or unsafe.</p>
+
+            <div class="highlight-box">
+                <strong>Warning:</strong> Never take expired life-saving drugs like Insulin, Nitroglycerin (for heart conditions), or EpiPens. A loss in potency in these cases can be fatal.
+            </div>
+
+            <h3>Common Shelf Lives of Medicines</h3>
+            <ul>
+                <li><strong>Tablets/Capsules:</strong> Usually 2 to 5 years.</li>
+                <li><strong>Syrups/Liquids:</strong> 18 to 24 months (unopened). Once opened, many syrups expire within 1-3 months.</li>
+                <li><strong>Eye/Ear Drops:</strong> Usually 28 days after opening, regardless of the printed expiry date.</li>
+                <li><strong>Ointments/Creams:</strong> 2 to 3 years.</li>
+            </ul>
+
+            <h3>How to Read Medicine Dates</h3>
+            <p>On Indian medicine strips, you will often see:</p>
+            <ul>
+                <li><strong>Mfg Date:</strong> Date of Manufacturing (e.g., 01/2024).</li>
+                <li><strong>Exp Date:</strong> Expiry Date (e.g., 12/2025).</li>
+            </ul>
+            <p>If only the month and year are given (e.g., Exp: Dec 2025), the medicine is considered valid until the <strong>last day of that month</strong>.</p>
+
+            <h3>Safe Disposal of Expired Medicines</h3>
+            <p>Do not flush medicines down the toilet unless the label specifically says so, as this contaminates water sources. The best way to dispose of them is:</p>
+            <ol>
+                <li>Remove the meds from the packaging.</li>
+                <li>Mix them with an unappealing substance like used coffee grounds or kitty litter (to prevent pets/children from eating them).</li>
+                <li>Seal them in a bag and throw them in the trash.</li>
+            </ol>
+
+            <h3>Frequently Asked Questions (FAQs)</h3>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">1. Can I take a tablet 1 month after expiry? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">For minor ailments (like a mild headache), a tablet 1 month past expiry is unlikely to harm you, but it may be less effective. However, we strongly advise against it. Consult a doctor or pharmacist.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">2. What if the expiry date only says the month? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">If the expiry date is "Nov 2025", the product is safe to use until November 30, 2025.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">3. Does opening the bottle change the expiry date? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">Yes, drastically. Eye drops expire 28 days after opening. Syrups may last 1-3 months. The printed date applies to the <strong>unopened</strong> product stored correctly.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">4. How should I store medicines to ensure they last? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">Store in a cool, dry place away from direct sunlight. Bathroom cabinets are actually bad places due to humidity. Some meds require refrigeration (check the label).</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">5. Are herbal/Ayurvedic medicines subject to expiry? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">Yes. Natural ingredients degrade, and preservatives in herbal medicines break down. Always check the label on Ayurvedic products.</div>
+            </div>
+
+            <p>Your health is your wealth. Use <strong>Toolvala.in</strong> to keep your medicine cabinet safe and up to date!</p>
+        </article>
+    </div>
+
+    <script>
+        // Set default date to today
+        document.getElementById('mfgDate').valueAsDate = new Date();
+
+        function applyPreset() {
+            const preset = document.getElementById('preset').value;
+            if (preset) {
+                const val = parseInt(preset);
+                document.getElementById('duration').value = val;
+                document.getElementById('unit').value = 'months';
+            }
+        }
+
+        function calculateExpiry() {
+            const mfgDateVal = document.getElementById('mfgDate').value;
+            const duration = parseInt(document.getElementById('duration').value);
+            const unit = document.getElementById('unit').value;
+            const resultBox = document.getElementById('resultBox');
+
+            if (!mfgDateVal || isNaN(duration)) {
+                alert("Please enter a valid Manufacturing Date and Duration.");
+                return;
+            }
+
+            const mfgDate = new Date(mfgDateVal);
+            const expiryDate = new Date(mfgDate);
+
+            // Calculation Logic
+            switch(unit) {
+                case 'days':
+                    expiryDate.setDate(mfgDate.getDate() + duration);
+                    break;
+                case 'months':
+                    expiryDate.setMonth(mfgDate.getMonth() + duration);
+                    // Handle month overflow (e.g., Jan 31 + 1 month -> Feb 28/29)
+                    if (expiryDate.getDate() !== mfgDate.getDate()) {
+                        expiryDate.setDate(0);
+                    }
+                    break;
+                case 'years':
+                    expiryDate.setFullYear(mfgDate.getFullYear() + duration);
+                    break;
+                case 'weeks':
+                    expiryDate.setDate(mfgDate.getDate() + (duration * 7));
+                    break;
+            }
+
+            // Format Date
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const formattedDate = expiryDate.toLocaleDateString('en-IN', options);
+
+            // Calculate Days Remaining
+            const today = new Date();
+            today.setHours(0,0,0,0); // Reset time
+            const diffTime = expiryDate - today;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+            // Determine Status
+            const statusBadge = document.getElementById('statusBadge');
+            const timeLeftSpan = document.getElementById('timeLeft');
+            
+            if (diffDays < 0) {
+                // Expired
+                statusBadge.innerText = "EXPIRED";
+                statusBadge.className = "status-badge status-expired";
+                timeLeftSpan.innerText = `Expired ${Math.abs(diffDays)} days ago`;
+                timeLeftSpan.style.color = "var(--danger)";
+            } else if (diffDays === 0) {
+                // Expires Today
+                statusBadge.innerText = "EXPIRES TODAY";
+                statusBadge.className = "status-badge status-warning";
+                timeLeftSpan.innerText = "Last day to use safely";
+                timeLeftSpan.style.color = "var(--warning)";
+            } else if (diffDays <= 30) {
+                // Expiring Soon
+                statusBadge.innerText = "EXPIRING SOON";
+                statusBadge.className = "status-badge status-warning";
+                timeLeftSpan.innerText = `${diffDays} Days Remaining`;
+                timeLeftSpan.style.color = "var(--warning)";
+            } else {
+                // Safe
+                statusBadge.innerText = "SAFE TO USE";
+                statusBadge.className = "status-badge status-safe";
+                timeLeftSpan.innerText = `${diffDays} Days Remaining`;
+                timeLeftSpan.style.color = "var(--success)";
+            }
+
+            document.getElementById('expiryDate').innerText = formattedDate;
+            resultBox.style.display = 'block';
+            resultBox.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function toggleFaq(element) {
+            const answer = element.nextElementSibling;
+            const icon = element.querySelector('i');
+            
+            if (answer.style.display === "block") {
+                answer.style.display = "none";
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+            } else {
+                answer.style.display = "block";
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-up');
+            }
+        }
+    </script>
+    <div id="footer"></div>
+<script>
+fetch("/footer.html")
+  .then(r => r.text())
+  .then(d => {
+    document.getElementById("footer").innerHTML = d;
+    document.getElementById("year").textContent = new Date().getFullYear();
+  });
+</script>
+  <div id="footer"></div>
+<script>
+fetch("/footer.html")
+  .then(r => r.text())
+  .then(d => {
+    document.getElementById("footer").innerHTML = d;
+    document.getElementById("year").textContent = new Date().getFullYear();
+  });
+</script>
+</body>
+</html>
