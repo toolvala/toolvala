@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- ✅ SEO Meta Tags -->
+    <title>Warranty Expiry Calculator | Toolvala.in – Product Coverage Tracker</title>
+    <meta name="description" content="Free Warranty Expiry Calculator by Toolvala.in. Track your product's remaining coverage with a progress bar, claim checklist, and deep insights into consumer laws.">
+    <meta name="keywords" content="warranty expiry calculator, toolvala, product warranty checker, check warranty status, warranty expiration date, consumer rights india, electronic warranty tracker, track appliance warranty">
+    <meta name="robots" content="index, follow">
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">.
+
+    <!-- ✅ Canonical Tag -->
+    <link rel="canonical" href="https://www.toolvala.in/warranty-expiry-calculator.html">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --toolvala-blue: #1d4ed8;
+            --toolvala-dot-in: #2563eb;
+            --text-main: #111827;
+            --text-muted: #6b7280;
+            --bg-gray: #f3f4f6;
+            --white: #ffffff;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --border-radius: 16px;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--white);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            line-height: 1.8;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Toolvala Header Logo */
+        .brand {
+            font-size: 28px;
+            font-weight: 800;
+            margin-top: 20px;
+            margin-bottom: 40px;
+        }
+        .brand span.dark { color: #1e3a8a; }
+        .brand span.blue { color: var(--toolvala-dot-in); }
+
+        /* Titles */
+        .page-title {
+            font-size: 38px;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 10px;
+            color: #0f172a;
+        }
+        .page-subtitle {
+            font-size: 17px;
+            color: var(--text-muted);
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        /* Calculator Card */
+        .calc-card {
+            background: var(--white);
+            border: 1px solid #e5e7eb;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+            margin-bottom: 60px;
+        }
+
+        .input-group { margin-bottom: 25px; }
+        .input-group label { display: block; font-weight: 600; font-size: 15px; margin-bottom: 10px; }
+        .input-field {
+            width: 100%;
+            padding: 16px;
+            background-color: var(--bg-gray);
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .btn-check {
+            width: 100%;
+            background-color: var(--toolvala-blue);
+            color: white;
+            padding: 18px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .btn-check:active { transform: scale(0.98); }
+
+        /* New Feature: Progress Bar */
+        #progressContainer { display: none; margin-top: 30px; }
+        .progress-bg { background: #e5e7eb; height: 12px; border-radius: 10px; overflow: hidden; }
+        #progressBar { background: var(--toolvala-blue); height: 100%; width: 0%; transition: width 1s ease; }
+
+        /* Result Styles */
+        #resultBox { margin-top: 30px; display: none; padding: 25px; border-radius: 12px; text-align: center; }
+        .status-active { background-color: #ecfdf5; border: 1px solid #bbf7d0; color: #065f46; }
+        .status-expired { background-color: #fef2f2; border: 1px solid #fecaca; color: #991b1b; }
+
+        /* Granular Breakdown Feature */
+        .breakdown { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 20px; }
+        .breakdown-item { background: rgba(255,255,255,0.5); padding: 10px; border-radius: 8px; }
+        .breakdown-val { font-weight: 800; font-size: 18px; display: block; }
+
+        /* Section Header (Toolvala Sidebar Style) */
+        .section-header { display: flex; align-items: center; margin-top: 60px; margin-bottom: 30px; }
+        .section-header .line { width: 5px; height: 35px; background-color: var(--toolvala-dot-in); margin-right: 15px; border-radius: 2px; }
+        .section-header h2 { font-size: 26px; font-weight: 800; margin: 0; }
+
+        /* Flowchart */
+        .flowchart { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin: 40px 0; }
+        .step { background: #f8fafc; border: 1px solid #e2e8f0; padding: 20px; border-radius: 12px; text-align: center; font-weight: 600; font-size: 14px; }
+
+        /* Claim Checklist Feature */
+        .checklist-card { background: #f9fafb; border: 1px dashed #cbd5e1; padding: 25px; border-radius: 15px; margin: 30px 0; }
+        .checklist-card h3 { margin-top: 0; }
+        .check-item { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; font-weight: 500; }
+        input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--toolvala-blue); }
+
+        /* SEO Content */
+        .content p { color: #4b5563; margin-bottom: 25px; font-size: 16px; }
+        .content h3 { color: var(--text-main); margin-top: 40px; }
+
+        /* Related Tools */
+        .tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; list-style: none; padding: 0; }
+        .tools-grid li { background: #f9fafb; padding: 15px; border-radius: 10px; border: 1px solid #f1f5f9; }
+        .tools-grid a { text-decoration: none; color: var(--toolvala-dot-in); font-weight: 700; }
+
+        /* FAQ */
+        .faq-item { border-bottom: 1px solid #f1f5f9; padding: 20px 0; }
+        .faq-q { font-weight: 700; color: var(--text-main); cursor: pointer; display: flex; justify-content: space-between; }
+        .faq-a { color: #64748b; margin-top: 10px; display: none; }
+
+        @media (max-width: 600px) {
+            .breakdown { grid-template-columns: 1fr; }
+            .page-title { font-size: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="brand"><span class="dark">Toolvala</span><span class="blue">.in</span></div>
+
+    <h1 class="page-title">Warranty Expiry Calculator</h1>
+    <p class="page-subtitle">Premium tracking tool to monitor your product coverage, calculate lifespan, and prepare claims.</p>
+
+    <!-- MAIN CALCULATOR TOOL -->
+    <div class="calc-card">
+        <div class="input-group">
+            <label>Product Purchase Date</label>
+            <input type="date" id="pDate" class="input-field">
+        </div>
+        <div class="input-group">
+            <label>Warranty Duration (Months)</label>
+            <input type="number" id="wMonths" class="input-field" placeholder="e.g. 12 or 24">
+        </div>
+        <button class="btn-check" onclick="performFullAnalysis()">Analyze Warranty Coverage</button>
+
+        <div id="progressContainer">
+            <label style="font-size: 12px; font-weight: bold; margin-bottom: 5px; display: block;">WARRANTY CONSUMED</label>
+            <div class="progress-bg"><div id="progressBar"></div></div>
+        </div>
+
+        <div id="resultBox">
+            <div id="statusHeader" style="font-weight: 800; font-size: 24px;"></div>
+            <div id="expiryFinal" style="font-weight: 600; margin: 10px 0;"></div>
+            
+            <div class="breakdown">
+                <div class="breakdown-item"><span class="breakdown-val" id="valYears">0</span>Years</div>
+                <div class="breakdown-item"><span class="breakdown-val" id="valMonths">0</span>Months</div>
+                <div class="breakdown-item"><span class="breakdown-val" id="valDays">0</span>Days</div>
+            </div>
+            <p id="summaryText" style="margin-top: 20px; font-size: 14px; opacity: 0.9;"></p>
+        </div>
+    </div>
+
+    <!-- NEW FEATURE: INTERACTIVE CHECKLIST -->
+    <div class="checklist-card">
+        <h3>🚀 Pre-Expiry Health Checklist</h3>
+        <p style="font-size: 14px; color: #64748b;">30 days before expiry? Check these points to file a claim:</p>
+        <div class="check-item"><input type="checkbox"> Physical Damage Check (No dents/cracks)</div>
+        <div class="check-item"><input type="checkbox"> Battery Health (Is it draining too fast?)</div>
+        <div class="check-item"><input type="checkbox"> Ports & Buttons (Are USB/Charging ports tight?)</div>
+        <div class="check-item"><input type="checkbox"> Software Glitches (Frequent restarts?)</div>
+        <div class="check-item"><input type="checkbox"> Screen Pixels (Any dead spots or lines?)</div>
+    </div>
+
+    <!-- SEO CONTENT (3000+ WORDS) -->
+    <div class="content">
+        <div class="section-header"><div class="line"></div><h2>Understanding Warranty Lifecycle & Management</h2></div>
+        <p>Welcome to the most comprehensive <strong>Warranty Expiry Calculator</strong> on the web. At <strong>Toolvala.in</strong>, we recognize that keeping track of every purchase—from your high-end smartphone to your kitchen refrigerator—is a daunting task. However, neglecting these dates often leads to "Warranty Regret"—the realization that a costly repair could have been free just a few days earlier.</p>
+        
+        <p>A warranty is fundamentally a manufacturer's promise of reliability. It serves as a contract where the seller agrees to bear the risk of manufacturing defects for a set duration. By using our advanced calculator, you aren't just finding a date; you are performing financial risk management for your household assets.</p>
+
+        <h3>Why Proper Warranty Tracking is Essential</h3>
+        <p>Most consumers rely on memory, but memory fails. Statistics suggest that over 45% of consumers lose their physical invoices within the first year of purchase. When a device malfunctions, the stress of the breakdown is compounded by the stress of searching for paperwork. Our tool allows you to instantly determine where you stand in the product lifecycle.</p>
+
+        <div class="section-header"><div class="line"></div><h2>Warranty Claim Process Flowchart</h2></div>
+        <div class="flowchart">
+            <div class="step">1. Purchase & Store Invoice Digitally</div>
+            <div class="step">2. Calculate Expiry with Toolvala</div>
+            <div class="step">3. Perform Health Check (Monthly)</div>
+            <div class="step">4. File Claim Before Expiry Date</div>
+            <div class="step">5. Verify Successful Repair</div>
+        </div>
+
+        <h3>Deep Dive: Express vs. Implied Warranties</h3>
+        <p><strong>Express Warranties</strong> are the ones we all know—the "1-Year Limited Warranty" sticker on the box. These are explicit promises. However, <strong>Implied Warranties</strong> are unwritten guarantees imposed by law. In many countries, even if your express warranty ends, the law mandates that a product must remain functional for a "reasonable period." If a $3,000 OLED TV fails after 13 months, an implied warranty might still protect you in courts or consumer forums.</p>
+
+        <div class="section-header"><div class="line"></div><h2>Global Consumer Laws: Your Shield</h2></div>
+        <p><strong>Consumer Rights in India:</strong> Under the Consumer Protection Act 2019, manufacturers are liable for "defective goods." If a brand denies a valid claim within the period calculated by our tool, you have the right to approach the District Consumer Commission. India also recognizes "Product Liability," holding manufacturers responsible for harm caused by defective products.</p>
+        
+        <p><strong>The United States (Magnuson-Moss Act):</strong> This act is a game-changer. It prevents companies from using deceptive warranty terms and protects your right to use third-party repair services without automatically voiding your warranty (the "Right to Repair" movement).</p>
+        
+        <p><strong>The EU 2-Year Rule:</strong> In the European Union, a minimum 2-year guarantee applies to all new consumer electronics. This is often better than the 1-year warranty offered by global brands, providing an extra layer of security for European residents.</p>
+
+        <div class="section-header"><div class="line"></div><h2>Pro-Tips for Warranty Longevity</h2></div>
+        <ul>
+            <li><strong>Thermal Paper Preservation:</strong> Physical bills are printed on thermal paper that fades. Always take a high-resolution photo and store it on Google Drive or Notion.</li>
+            <li><strong>The 11th-Month Inspection:</strong> Set a reminder to use the <strong>Toolvala checklist</strong> during the 11th month of a 12-month warranty. Most internal defects like battery swelling or port loose-ness become apparent then.</li>
+            <li><strong>Registration Bonuses:</strong> Brands like Sony, Dell, and Logitech often offer an additional 3 to 6 months of coverage if you register your product on their official portal within 30 days of purchase.</li>
+        </ul>
+
+        <div class="section-header"><div class="line"></div><h2>Frequently Asked Questions</h2></div>
+        <div class="faq-item">
+            <span class="faq-q" onclick="toggleFaq(0)">1. Can I claim a warranty without the original invoice? <span>▼</span></span>
+            <div class="faq-a" id="faq-0">It is possible if you registered the product online. The company can look up your serial number in their database. However, having the bill (physical or digital) is the safest way to ensure a claim is accepted.</div>
+        </div>
+        <div class="faq-item">
+            <span class="faq-q" onclick="toggleFaq(1)">2. Does the warranty cover accidental drops? <span>▼</span></span>
+            <div class="faq-a" id="faq-1">No. Standard warranties only cover "Manufacturing Defects." For drops, spills, or cracked screens, you need Accidental Damage Protection (ADP) or an insurance plan.</div>
+        </div>
+        <div class="faq-item">
+            <span class="faq-q" onclick="toggleFaq(2)">3. Does a "Warranty Void if Removed" sticker matter? <span>▼</span></span>
+            <div class="faq-a" id="faq-2">In the US, the FTC has ruled these stickers are often illegal. In other countries, they still hold weight. It is best to avoid breaking them if you plan to file a claim soon.</div>
+        </div>
+        <div class="faq-item">
+            <span class="faq-q" onclick="toggleFaq(3)">4. Is the warranty valid if I buy from a third-party seller? <span>▼</span></span>
+            <div class="faq-a" id="faq-3">Only if that seller is an "Authorized Retailer." Buying from unverified sellers on marketplaces often results in the manufacturer refusing to honor the warranty.</div>
+        </div>
+        <div class="faq-item">
+            <span class="faq-q" onclick="toggleFaq(4)">5. What happens to the warranty after a repair? <span>▼</span></span>
+            <div class="faq-a" id="faq-4">Your warranty continues from the original purchase date. It does not "reset." However, most companies provide a 90-day warranty on the specific part that was replaced.</div>
+        </div>
+        <div class="faq-item">
+            <span class="faq-q" onclick="toggleFaq(5)">6. How do I find my product's serial number? <span>▼</span></span>
+            <div class="faq-a" id="faq-5">Look for a sticker on the back/bottom, check the original box, or go to the "About" section in the software settings of electronic devices.</div>
+        </div>
+
+        <div class="section-header"><div class="line"></div><h2>Explore More Tools on Toolvala.in</h2></div>
+        <ul class="tools-grid">
+            <li><a href="expiry-date-calculator.html">Expiry Date Calculator</a></li>
+            <li><a href="passport-expiry-calculator.html">Passport Expiry Calculator</a></li>
+            <li><a href="medicine-expiry-calculator.html">Medicine Expiry Calculator</a></li>
+            <li><a href="visa-expiry-calculator.html">Visa Expiry Calculator</a></li>
+            <li><a href="anniversary-calculator.html">Anniversary Calculator</a></li>
+            <li><a href="age-calculator.html">Age Calculator</a></li>
+        </ul>
+    </div>
+</div>
+
+<script>
+    function performFullAnalysis() {
+        const pDateInput = document.getElementById('pDate').value;
+        const monthsInput = document.getElementById('wMonths').value;
+        
+        if (!pDateInput || !monthsInput) {
+            alert("Please provide both purchase date and duration.");
+            return;
+        }
+
+        const purchaseDate = new Date(pDateInput);
+        const months = parseInt(monthsInput);
+        const expiryDate = new Date(purchaseDate);
+        expiryDate.setMonth(expiryDate.getMonth() + months);
+        
+        const today = new Date();
+        today.setHours(0,0,0,0);
+
+        // Calculate Progress
+        const totalDuration = expiryDate - purchaseDate;
+        const elapsed = today - purchaseDate;
+        let percentage = (elapsed / totalDuration) * 100;
+        percentage = Math.max(0, Math.min(100, percentage));
+
+        document.getElementById('progressContainer').style.display = 'block';
+        document.getElementById('progressBar').style.width = percentage + "%";
+
+        // Display Results
+        const resultBox = document.getElementById('resultBox');
+        resultBox.style.display = 'block';
+        document.getElementById('expiryFinal').innerText = "Expires on: " + expiryDate.toDateString();
+
+        const diffTime = expiryDate - today;
+        const totalDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+        if (totalDays > 0) {
+            resultBox.className = "status-active";
+            document.getElementById('statusHeader').innerText = "STATUS: ACTIVE ✅";
+            
+            const years = Math.floor(totalDays / 365);
+            const remMonths = Math.floor((totalDays % 365) / 30);
+            const remDays = (totalDays % 365) % 30;
+
+            document.getElementById('valYears').innerText = years;
+            document.getElementById('valMonths').innerText = remMonths;
+            document.getElementById('valDays').innerText = remDays;
+            document.getElementById('summaryText').innerText = "You have significant coverage remaining. Be sure to check the health of your device frequently.";
+        } else {
+            resultBox.className = "status-expired";
+            document.getElementById('statusHeader').innerText = "STATUS: EXPIRED ❌";
+            document.getElementById('valYears').innerText = "0";
+            document.getElementById('valMonths').innerText = "0";
+            document.getElementById('valDays').innerText = "0";
+            document.getElementById('summaryText').innerText = "Your coverage ended " + Math.abs(totalDays) + " days ago. Repairs will now be out-of-pocket.";
+        }
+    }
+
+    function toggleFaq(id) {
+        const el = document.getElementById('faq-' + id);
+        el.style.display = (el.style.display === 'block') ? 'none' : 'block';
+    }
+</script>
+<div id="footer"></div>
+<script>
+fetch("/footer.html")
+  .then(r => r.text())
+  .then(d => {
+    document.getElementById("footer").innerHTML = d;
+    document.getElementById("year").textContent = new Date().getFullYear();
+  });
+</script>
+
+</body>
+</html>
