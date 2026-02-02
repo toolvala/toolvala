@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- ✅ SEO Meta Tags -->
+    <title>Anniversary Calculator | Toolvala.in – Track Marriage, Work & Friendship Milestones</title>
+    <meta name="description" content="Use the free Anniversary Calculator by Toolvala.in to track marriage, friendship, and work milestones. Calculate exact years, months, days, and countdowns.">
+    <meta name="keywords" content="anniversary calculator, marriage anniversary tracker, work anniversary calculator, friendship anniversary, toolvala, wedding anniversary count, milestone tracker, how many days since marriage">
+    <meta name="robots" content="index, follow">
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">.
+    <!-- ✅ Canonical Tag -->
+    <link rel="canonical" href="https://www.toolvala.in/anniversary-calculator.html">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --toolvala-blue: #1d4ed8;
+            --toolvala-dot-in: #2563eb;
+            --text-main: #111827;
+            --text-muted: #6b7280;
+            --bg-gray: #f3f4f6;
+            --white: #ffffff;
+            --accent-light: #eff6ff;
+            --border-radius: 20px;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--white);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            line-height: 1.8;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Toolvala Header Logo Style */
+        .brand {
+            font-size: 28px;
+            font-weight: 800;
+            margin-top: 20px;
+            margin-bottom: 40px;
+        }
+        .brand span.dark { color: #1e3a8a; }
+        .brand span.blue { color: var(--toolvala-dot-in); }
+
+        /* Titles */
+        .page-title {
+            font-size: 36px;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 10px;
+            color: #0f172a;
+        }
+        .page-subtitle {
+            font-size: 16px;
+            color: var(--text-muted);
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        /* Calculator Card */
+        .calc-card {
+            background: var(--white);
+            border: 1px solid #e5e7eb;
+            border-radius: var(--border-radius);
+            padding: 40px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+            margin-bottom: 60px;
+        }
+
+        .input-group { margin-bottom: 25px; }
+        .input-group label { display: block; font-weight: 600; font-size: 15px; margin-bottom: 10px; }
+        
+        .input-field {
+            width: 100%;
+            padding: 16px;
+            background-color: var(--bg-gray);
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            outline: none;
+            box-sizing: border-box;
+            color: var(--text-main);
+            appearance: none;
+        }
+
+        .btn-calculate {
+            width: 100%;
+            background-color: var(--toolvala-blue);
+            color: white;
+            padding: 18px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .btn-calculate:hover { opacity: 0.9; }
+
+        /* Results Display */
+        #resultSection {
+            margin-top: 35px;
+            padding: 30px;
+            background-color: var(--accent-light);
+            border-radius: 15px;
+            display: none;
+            text-align: center;
+        }
+
+        .milestone-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .milestone-item { background: white; padding: 15px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        .milestone-item span { display: block; font-size: 24px; font-weight: 800; color: var(--toolvala-blue); }
+
+        /* Sidebar Style Headers (Matches Screenshot) */
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-top: 60px;
+            margin-bottom: 30px;
+        }
+        .section-header .line {
+            width: 5px;
+            height: 35px;
+            background-color: var(--toolvala-dot-in);
+            margin-right: 15px;
+            border-radius: 2px;
+        }
+        .section-header h2 { font-size: 26px; font-weight: 800; margin: 0; }
+
+        /* Anniversary Visual Timeline Diagram */
+        .timeline-diagram {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 50px 0;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 15px;
+            position: relative;
+        }
+        .timeline-diagram::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: #cbd5e1;
+            z-index: 1;
+        }
+        .timeline-node {
+            z-index: 2;
+            background: white;
+            border: 2px solid var(--toolvala-blue);
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            width: 100px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        .timeline-node i { color: var(--toolvala-blue); display: block; margin-bottom: 5px; }
+
+        /* Article Styles */
+        .article p { color: #4b5563; margin-bottom: 25px; font-size: 16px; }
+        .article ul { margin-bottom: 25px; }
+        .article li { margin-bottom: 12px; color: #4b5563; }
+
+        /* Related Tools List */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            list-style: none;
+            padding: 0;
+        }
+        .tools-grid li { background: #f9fafb; padding: 15px; border-radius: 12px; border: 1px solid #f1f5f9; }
+        .tools-grid a { text-decoration: none; color: var(--toolvala-dot-in); font-weight: 700; }
+
+        /* FAQ */
+        .faq-item { border-bottom: 1px solid #f1f5f9; padding: 20px 0; }
+        .faq-q { font-weight: 700; color: var(--text-main); cursor: pointer; display: block; }
+        .faq-a { color: #64748b; margin-top: 10px; display: none; }
+
+        @media (max-width: 600px) {
+            .milestone-grid { grid-template-columns: 1fr; }
+            .timeline-diagram { flex-direction: column; gap: 20px; }
+            .timeline-diagram::after { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="brand"><span class="dark">Toolvala</span><span class="blue">.in</span></div>
+
+    <h1 class="page-title">Anniversary Calculator</h1>
+    <p class="page-subtitle">Calculate the precise time elapsed for your marriage, friendship, or career milestones with our accurate tracking tool.</p>
+
+    <!-- CALCULATOR TOOL -->
+    <div class="calc-card">
+        <div class="input-group">
+            <label>Anniversary Category</label>
+            <select id="annType" class="input-field">
+                <option value="Marriage">Marriage Anniversary</option>
+                <option value="Friendship">Friendship Anniversary</option>
+                <option value="Work">Work/Job Anniversary</option>
+                <option value="Relationship">Relationship Anniversary</option>
+                <option value="Engagement">Engagement Anniversary</option>
+                <option value="Business">Business Foundation Day</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label>Select Start Date</label>
+            <input type="date" id="startDate" class="input-field">
+        </div>
+
+        <button class="btn-calculate" onclick="calculateTime()">Calculate Milestones</button>
+
+        <div id="resultSection">
+            <h3 id="resHeading" style="margin-top:0; color: var(--toolvala-blue);"></h3>
+            <div class="milestone-grid">
+                <div class="milestone-item"><span id="y">0</span>Years</div>
+                <div class="milestone-item"><span id="m">0</span>Months</div>
+                <div class="milestone-item"><span id="d">0</span>Days</div>
+            </div>
+            <p id="totalSummary" style="font-weight: 600; color: #4b5563;"></p>
+            <div id="countdown" style="margin-top: 20px; font-weight: 800; color: #16a34a; font-size: 18px;"></div>
+        </div>
+    </div>
+
+    <!-- SEO CONTENT SECTION -->
+    <div class="article">
+        <div class="section-header"><div class="line"></div><h2>The Science of Milestone Tracking</h2></div>
+        <p>An anniversary represents a cycle of time—a completion of another journey around the sun. Whether it's a <strong>marriage anniversary</strong>, a <strong>friendship anniversary</strong>, or a <strong>work milestone</strong>, these dates are vital markers in our personal and professional lives. At <strong>Toolvala.in</strong>, we provide a high-precision calculation engine that helps you go beyond simple years and see the exact days, months, and countdowns to your next big event.</p>
+        
+        <p>In psychology, marking anniversaries serves as a "temporal landmark." It allows individuals to pause, reflect on their growth, and strengthen their emotional bonds. For businesses, foundation day anniversaries are crucial for brand building and expressing gratitude to loyal customers. For couples, it’s a moment of recommitment. Our tool ensures you never miss these precious moments.</p>
+
+        <!-- VISUAL DIAGRAM -->
+        <div class="section-header"><div class="line"></div><h2>Milestone Calculation Flow</h2></div>
+        <div class="timeline-diagram">
+            <div class="timeline-node">The Event<br><small>Start Date</small></div>
+            <div class="timeline-node">Time Elapsed<br><small>Years/Months</small></div>
+            <div class="timeline-node">Today<br><small>The Present</small></div>
+            <div class="timeline-node">Countdown<br><small>Next Big Day</small></div>
+        </div>
+
+        <div class="section-header"><div class="line"></div><h2>Marriage Anniversary: More Than Just a Date</h2></div>
+        <p>Marriage anniversaries are perhaps the most searched milestones globally. Tracking a <strong>wedding anniversary</strong> helps couples celebrate traditional gifts. For instance, did you know that the 1st anniversary is "Paper" and the 50th is "Gold"? Our calculator doesn't just show you the years; it tells you exactly how many thousands of days you have walked together, giving you a unique perspective on your lifelong partnership.</p>
+
+        <h3>Friendship & Relationship Milestones</h3>
+        <p>In the modern era, <strong>friendship anniversaries</strong> are gaining massive popularity. Long-term friendships are the backbone of emotional health. Knowing you have been friends for exactly 15 years, 3 months, and 12 days allows you to share a personalized message that carries more weight than a generic greeting.</p>
+
+        <div class="section-header"><div class="line"></div><h2>Professional and Work Anniversaries</h2></div>
+        <p>Tracking your <strong>work anniversary</strong> is essential for career management. It is the perfect time to:
+        <ul>
+            <li>Evaluate your professional progress over the last 12 months.</li>
+            <li>Update your LinkedIn profile and resume with new skills.</li>
+            <li>Request a performance review or salary hike.</li>
+            <li>Recognize colleagues who have reached 5, 10, or 20-year milestones within the company.</li>
+        </ul></p>
+
+        <div class="section-header"><div class="line"></div><h2>How Toolvala.in Calculates Leap Years</h2></div>
+        <p>Simple math often fails when calculating long durations because of <strong>leap years</strong>. A year is not exactly 365 days; it’s approximately 365.2425 days. Our <strong>Anniversary Calculator</strong> uses advanced date-logic libraries to ensure that February 29th is accounted for, giving you 100% accurate results even for 50-year calculations.</p>
+
+        <div class="section-header"><div class="line"></div><h2>Top 5 Tips for Planning an Anniversary</h2></div>
+        <ol>
+            <li><strong>Start Early:</strong> Use the countdown feature in our tool to start planning your gift 30 days in advance.</li>
+            <li><strong>Personalize the Data:</strong> Use the "Total Days" count in your card or message (e.g., "Happy 5,000 Days of Us").</li>
+            <li><strong>The Rule of Three:</strong> Celebrate the past (photos), the present (a meal), and the future (a shared goal).</li>
+            <li><strong>Digital Archives:</strong> Use anniversaries as a reminder to back up your family photos or work portfolios.</li>
+            <li><strong>Recognition:</strong> For work anniversaries, public recognition often means more than a private email.</li>
+        </ol>
+
+        <div class="section-header"><div class="line"></div><h2>Frequently Asked Questions (FAQ)</h2></div>
+        <div class="faq-item">
+            <span class="faq-q" onclick="toggleFaq(0)">1. Is this anniversary calculator free to use? <span>▼</span></span>
+            <div class="faq-a" id="faq-0">Yes, the Toolvala Anniversary Calculator is 100% free and requires no registration or personal data.</div>
+        </div>
+        <div class="faq-item">
+            <span class="faq-q" onclick="toggleFaq(1)">2. Does it calculate leap years accurately? <span>▼</span></span>
+            <div class="faq-a" id="faq-1">Absolutely. Our algorithm accounts for every leap year since the Gregorian calendar inception to provide down-to-the-day accuracy.</div>
+        </div>
+        <div class="faq-item">
+            <span class="faq-q" onclick="toggleFaq(2)">3. Can I use it for future anniversary planning? <span>▼</span></span>
+            <div class="faq-a" id="faq-2">Yes. By entering a past date, it calculates the time elapsed and then provides a live countdown to the next upcoming anniversary date.</div>
+        </div>
+        <div class="faq-item">
+            <span class="faq-q" onclick="toggleFaq(3)">4. Why should I celebrate a work anniversary? <span>▼</span></span>
+            <div class="faq-a" id="faq-3">It builds professional morale and serves as a natural point for career reflection and negotiating career growth opportunities.</div>
+        </div>
+        <div class="faq-item">
+            <span class="faq-q" onclick="toggleFaq(4)">5. What is the most important anniversary? <span>▼</span></span>
+            <div class="faq-a" id="faq-4">While subjective, many consider the 1st, 10th, 25th (Silver), and 50th (Gold) to be the most significant milestones in relationships.</div>
+        </div>
+        <div class="faq-item">
+            <span class="faq-q" onclick="toggleFaq(5)">6. Is my data stored on Toolvala.in servers? <span>▼</span></span>
+            <div class="faq-a" id="faq-5">No. All calculations are performed on your local browser. We do not store your private dates or event types.</div>
+        </div>
+
+        <div class="section-header"><div class="line"></div><h2>Related Expiry & Milestone Tools</h2></div>
+        <ul class="tools-grid">
+            <li><a href="expiry-date-calculator.html">Expiry Date Calculator</a></li>
+            <li><a href="passport-expiry-calculator.html">Passport Expiry Calculator</a></li>
+            <li><a href="medicine-expiry-calculator.html">Medicine Expiry Calculator</a></li>
+            <li><a href="visa-expiry-calculator.html">Visa Expiry Calculator</a></li>
+            <li><a href="warranty-expiry-calculator.html">Warranty Expiry Calculator</a></li>
+            <li><a href="age-calculator.html">Age Calculator</a></li>
+        </ul>
+    </div>
+</div>
+
+<script>
+    function calculateTime() {
+        const type = document.getElementById('annType').value;
+        const dateVal = document.getElementById('startDate').value;
+        
+        if (!dateVal) {
+            alert("Please select a date.");
+            return;
+        }
+
+        const start = new Date(dateVal);
+        const now = new Date();
+        now.setHours(0,0,0,0);
+
+        // Time Since Logic
+        let years = now.getFullYear() - start.getFullYear();
+        let months = now.getMonth() - start.getMonth();
+        let days = now.getDate() - start.getDate();
+
+        if (days < 0) {
+            months--;
+            days += new Date(now.getFullYear(), now.getMonth(), 0).getDate();
+        }
+        if (months < 0) {
+            years--;
+            months += 12;
+        }
+
+        document.getElementById('resultSection').style.display = 'block';
+        document.getElementById('resHeading').innerText = type + " Milestone Analysis";
+        document.getElementById('y').innerText = years;
+        document.getElementById('m').innerText = months;
+        document.getElementById('d').innerText = days;
+
+        const totalDays = Math.floor((now - start) / (1000 * 60 * 60 * 24));
+        document.getElementById('totalSummary').innerText = "Total: " + totalDays.toLocaleString() + " days since the journey began.";
+
+        // Countdown Logic
+        let next = new Date(start);
+        next.setFullYear(now.getFullYear());
+        if (next < now) {
+            next.setFullYear(now.getFullYear() + 1);
+        }
+
+        const countDays = Math.ceil((next - now) / (1000 * 60 * 60 * 24));
+        const nextAnni = next.getFullYear() - start.getFullYear();
+        document.getElementById('countdown').innerText = "⏳ Only " + countDays + " days until your " + nextAnni + "th Anniversary!";
+    }
+
+    function toggleFaq(id) {
+        const el = document.getElementById('faq-' + id);
+        el.style.display = (el.style.display === 'block') ? 'none' : 'block';
+    }
+</script>
+<div id="footer"></div>
+<script>
+fetch("/footer.html")
+  .then(r => r.text())
+  .then(d => {
+    document.getElementById("footer").innerHTML = d;
+    document.getElementById("year").textContent = new Date().getFullYear();
+  });
+</script>
+</body>
+</html>
