@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">.
+    <!-- ✅ SEO Meta Tags -->
+    <title>Subscription Expiry Date Calculator | Toolvala.in – Track Renewals</title>
+    <meta name="description" content="Use the Toolvala.in Subscription Expiry Calculator to track Netflix, Prime, Gym, and SaaS renewals. Manage your budget and avoid unwanted auto-renewals for free.">
+    <meta name="keywords" content="subscription expiry calculator, track renewals, netflix expiry date, amazon prime renewal tracker, toolvala, manage subscriptions online, auto-renewal alert tool">
+    <meta name="robots" content="index, follow">
+    
+    <!-- ✅ Canonical Tag -->
+    <link rel="canonical" href="https://www.toolvala.in/subscription-expiry-date-calculator.html">
+
+    <!-- Google Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        :root {
+            --toolvala-blue: #1d4ed8;
+            --toolvala-dot-in: #2563eb;
+            --text-main: #111827;
+            --text-muted: #6b7280;
+            --bg-gray: #f9fafb;
+            --white: #ffffff;
+            --success: #16a34a;
+            --warning: #f59e0b;
+            --danger: #dc2626;
+            --border-radius: 20px;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--white);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            line-height: 1.8;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Toolvala Header Logo */
+        .brand {
+            font-size: 28px;
+            font-weight: 800;
+            margin-top: 20px;
+            margin-bottom: 40px;
+        }
+        .brand span.dark { color: #1e3a8a; }
+        .brand span.blue { color: var(--toolvala-dot-in); }
+
+        /* Titles */
+        .page-title {
+            font-size: 36px;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 10px;
+            color: #0f172a;
+        }
+        .page-subtitle {
+            font-size: 16px;
+            color: var(--text-muted);
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        /* Calculator Card */
+        .calc-card {
+            background: var(--white);
+            border: 1px solid #e5e7eb;
+            border-radius: var(--border-radius);
+            padding: 40px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+            margin-bottom: 60px;
+        }
+
+        .input-group { margin-bottom: 25px; }
+        .input-group label { display: block; font-weight: 600; font-size: 15px; margin-bottom: 10px; }
+        
+        .input-field {
+            width: 100%;
+            padding: 16px;
+            background-color: #f3f4f6;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            outline: none;
+            box-sizing: border-box;
+            color: var(--text-main);
+        }
+
+        .grid-inputs {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 15px;
+        }
+
+        .btn-check {
+            width: 100%;
+            background-color: var(--toolvala-blue);
+            color: white;
+            padding: 18px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            margin-top: 10px;
+        }
+
+        /* Result Display */
+        #resultSection {
+            margin-top: 30px;
+            padding: 25px;
+            border-radius: 15px;
+            display: none;
+            text-align: center;
+        }
+        .status-active { background-color: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+        .status-warning { background-color: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+        .status-expired { background-color: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+
+        /* Progress Bar */
+        .meter-container { height: 12px; background: #e5e7eb; border-radius: 6px; margin: 20px 0; overflow: hidden; }
+        #meterFill { height: 100%; width: 0%; transition: width 1s ease; }
+
+        /* Sidebar Style Headers */
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-top: 60px;
+            margin-bottom: 30px;
+        }
+        .section-header .line {
+            width: 5px;
+            height: 35px;
+            background-color: var(--toolvala-dot-in);
+            margin-right: 15px;
+            border-radius: 2px;
+        }
+        .section-header h2 { font-size: 26px; font-weight: 800; margin: 0; }
+
+        /* Diagram */
+        .flow-diagram {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 40px 0;
+            gap: 10px;
+        }
+        .step {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 15px;
+            border-radius: 12px;
+            flex: 1;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        /* SEO Content */
+        .article p { color: #4b5563; margin-bottom: 25px; font-size: 16px; }
+        .article h3 { color: var(--text-main); margin-top: 40px; font-weight: 700; }
+
+        /* Related Tools Modern Card Style */
+        .related-tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .tool-link {
+            text-decoration: none;
+            background: white;
+            border: 1px solid #e5e7eb;
+            padding: 20px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+        .tool-link:hover { transform: translateY(-5px); border-color: var(--toolvala-blue); }
+        .tool-icon {
+            width: 45px; height: 45px;
+            background: #f0f7ff;
+            color: var(--toolvala-blue);
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 10px; font-size: 20px;
+        }
+        .tool-name { font-weight: 700; color: #1e293b; font-size: 15px; }
+
+        /* FAQ */
+        .faq-item { border-bottom: 1px solid #f1f5f9; padding: 20px 0; }
+        .faq-q { font-weight: 700; color: var(--text-main); cursor: pointer; }
+        .faq-a { color: #64748b; margin-top: 10px; display: none; }
+
+        @media (max-width: 600px) {
+            .grid-inputs, .flow-diagram { grid-template-columns: 1fr; }
+            .flow-diagram { flex-direction: column; }
+            .page-title { font-size: 28px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="brand"><span class="dark">Toolvala</span><span class="blue">.in</span></div>
+
+    <h1 class="page-title">Subscription Expiry Calculator</h1>
+    <p class="page-subtitle">Track your digital life. Manage Netflix, Prime, Spotify, and more to avoid unwanted charges.</p>
+
+    <!-- CALCULATOR -->
+    <div class="calc-card">
+        <div class="input-group">
+            <label>Select Service</label>
+            <select id="subType" class="input-field" onchange="autoFillSub()">
+                <option value="">-- Choose or Custom --</option>
+                <option value="1|months">Netflix (Monthly)</option>
+                <option value="12|months">Amazon Prime (Yearly)</option>
+                <option value="1|months">Disney+ Hotstar</option>
+                <option value="1|months">Spotify Premium</option>
+                <option value="1|months">YouTube Premium</option>
+                <option value="12|months">Gym Membership (Annual)</option>
+                <option value="1|months">Gym Membership (Monthly)</option>
+                <option value="3|months">News/Magazine (Quarterly)</option>
+                <option value="12|months">Adobe Creative Cloud</option>
+                <option value="7|days">Free Trial (7 Days)</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label>Custom Name</label>
+            <input type="text" id="subName" class="input-field" placeholder="e.g., My VPN Service">
+        </div>
+
+        <div class="input-group">
+            <label>Subscription Start Date</label>
+            <input type="date" id="startDate" class="input-field">
+        </div>
+
+        <div class="input-group">
+            <label>Plan Duration</label>
+            <div class="grid-inputs">
+                <input type="number" id="durVal" class="input-field" placeholder="Quantity">
+                <select id="durUnit" class="input-field">
+                    <option value="days">Days</option>
+                    <option value="months" selected>Months</option>
+                    <option value="years">Years</option>
+                </select>
+            </div>
+        </div>
+
+        <button class="btn-check" onclick="calculateSub()">Calculate Renewal Date</button>
+
+        <div id="resultSection">
+            <h3 id="resHeading" style="margin-top:0;"></h3>
+            <div class="meter-container"><div id="meterFill"></div></div>
+            <p id="resDate" style="font-weight: 700; font-size: 18px; margin: 10px 0;"></p>
+            <p id="resDays" style="font-size: 14px;"></p>
+        </div>
+    </div>
+
+    <!-- SEO CONTENT SECTION -->
+    <div class="article">
+        <div class="section-header"><div class="line"></div><h2>Taming the Subscription Economy</h2></div>
+        <p>In the last decade, our consumption habits have shifted from ownership to access. We no longer buy CDs; we subscribe to Spotify. We no longer buy DVDs; we subscribe to Netflix. This shift has created what economists call "Subscription Fatigue." The average modern household now manages between 5 to 15 different recurring payments. The <strong>Subscription Expiry Date Calculator</strong> by <strong>Toolvala.in</strong> is your primary defense against unwanted auto-renewals and "zombie" subscriptions that drain your bank account.</p>
+        
+        <p>Managing your digital renewals isn't just about saving a few dollars; it's about financial intentionality. Many services rely on the "set it and forget it" model, hoping you won't notice the charge on your credit card statement. By using our tool to pinpoint exactly when a trial or a plan ends, you take back control of your recurring expenses.</p>
+
+        <div class="section-header"><div class="line"></div><h2>Subscription Lifecycle Flowchart</h2></div>
+        <div class="flow-diagram">
+            <div class="step">1. Sign Up & Add Payment</div>
+            <div class="step">2. Enter Date in Toolvala</div>
+            <div class="step">3. Monitor "Burn" Progress</div>
+            <div class="step">4. Decide: Renew or Cancel</div>
+        </div>
+
+        <div class="section-header"><div class="line"></div><h2>Why Tracking Renewal Dates is Crucial</h2></div>
+        <p>There are several strategic reasons to keep an active log of your subscription end-dates:</p>
+        
+        <h3>1. Avoiding "Ghost" Renewals</h3>
+        <p>A "Ghost" or "Zombie" subscription is one that you no longer use but continue to pay for. Maybe you signed up for a 7-day free trial of an AI tool to complete one project and forgot to cancel. Our <strong>renewal tracker</strong> ensures you know exactly when that free trial transitions into a paid plan.</p>
+
+        <h3>2. Leveraging Promotional Pricing</h3>
+        <p>Many services offer a "6 months for 50% off" deal. Once those 6 months end, the price jumps to the full amount. If you know the exact expiry date, you can cancel the service and look for a new promotional code or negotiate a better rate with the retention department.</p>
+
+        <h3>3. Managing Shared Family Plans</h3>
+        <p>If you manage a family plan for YouTube Premium or Amazon Prime, you are the "admin" of the budget. Tracking the expiry helps you coordinate payments if you are splitting the bill with roommates or family members.</p>
+
+        <div class="section-header"><div class="line"></div><h2>Understanding Auto-Renewal Laws</h2></div>
+        <p>Global regulators are increasingly siding with consumers. In the <strong>United States</strong>, several states (like California) have strict laws requiring "clear and conspicuous" disclosure of auto-renewal terms. In <strong>India</strong>, the Reserve Bank of India (RBI) introduced an Additional Factor of Authentication (AFA) mandate, which requires banks to send an SMS notification to users 24 hours before a recurring payment is processed.</p>
+        <p>Despite these laws, the responsibility still lies with the consumer to manage their active services. The Toolvala calculator provides the data you need to be proactive rather than reactive.</p>
+
+        <div class="section-header"><div class="line"></div><h2>Top 5 Tips to Manage Subscription Fatigue</h2></div>
+        <ol>
+            <li><strong>Cancel Immediately:</strong> For free trials, you can often cancel the subscription immediately after signing up. Most services will still let you use the remaining trial period without the risk of a surprise charge.</li>
+            <li><strong>The "One-In, One-Out" Rule:</strong> Before signing up for a new streaming service, cancel one that you haven't watched in the last 30 days.</li>
+            <li><strong>Annual vs. Monthly:</strong> Use our calculator to see the total cost. If you use a service daily, an annual plan usually saves you 15-20%. If you use it rarely, stick to monthly.</li>
+            <li><strong>Audit Your Bank Statement:</strong> Once every quarter, look at your "Recurring Transactions" section in your banking app. Match them against your Toolvala log.</li>
+            <li><strong>Virtual Credit Cards:</strong> Use services like Privacy.com or bank-offered virtual cards with a "spending limit" set to the exact subscription price. This prevents unexpected price hikes from going through.</li>
+        </ol>
+
+        <div class="section-header"><div class="line"></div><h2>Frequently Asked Questions (FAQ)</h2></div>
+        <div class="faq-item">
+            <span class="faq-q" onclick="toggleFaq(0)">1. Does cancelling a subscription stop access immediately? <span>▼</span></span>
+            <div class="faq-a" id="faq-0">In most cases, no. Companies like Netflix or Spotify allow you to continue using the service until the end of the current billing cycle (the date calculated by our tool).</div>
+        </div>
+        <div class="faq-item">
+            <span class="faq-q" onclick="toggleFaq(1)">2. How do I track a "Free Trial" accurately? <span>▼</span></span>
+            <div class="faq-a" id="faq-1">Choose "Days" as the unit in our calculator and input the trial length (e.g., 7 or 14 days). Set a reminder for one day before the expiry.</div>
+        </div>
+        <div class="faq-item">
+            <span class="faq-q" onclick="toggleFaq(2)">3. Why is my renewal date different from what the app says? <span>▼</span></span>
+            <div class="faq-a" id="faq-2">Check if the service uses "Calendar Months" or a fixed "30-Day Cycle." Some services may also renew a day early to prevent a lapse in coverage.</div>
+        </div>
+        <div class="faq-item">
+            <span class="faq-q" onclick="toggleFaq(3)">4. Is it safe to enter my subscription dates here? <span>▼</span></span>
+            <div class="faq-a" id="faq-3">Yes. Toolvala.in does not store your dates on our servers. All calculations are performed locally in your browser. We never ask for account passwords or payment info.</div>
+        </div>
+        <div class="faq-item">
+            <span class="faq-q" onclick="toggleFaq(4)">5. What should I do if I was charged after I cancelled? <span>▼</span></span>
+            <div class="faq-a" id="faq-4">Immediately contact the service's support with a screenshot of your cancellation confirmation. If they refuse a refund, you can file a "Chargeback" with your bank.</div>
+        </div>
+        <div class="faq-item">
+            <span class="faq-q" onclick="toggleFaq(5)">6. How can I save money on multiple subscriptions? <span>▼</span></span>
+            <div class="faq-a" id="faq-5">Look for "Bundles" like the Disney Bundle (Hulu/Disney+/ESPN) or Apple One. Also, check if your mobile carrier provides free subscriptions as part of your plan.</div>
+        </div>
+
+        <div class="section-header"><div class="line"></div><h2>Related Tools on Toolvala.in</h2></div>
+        <div class="related-tools-grid">
+            <a href="expiry-date-calculator.html" class="tool-link">
+                <div class="tool-icon"><i class="fa-solid fa-calendar-xmark"></i></div>
+                <div class="tool-name">Expiry Date Calculator</div>
+            </a>
+            <a href="warranty-expiry-calculator.html" class="tool-link">
+                <div class="tool-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                <div class="tool-name">Warranty Expiry Calculator</div>
+            </a>
+            <a href="food-expiry-calculator.html" class="tool-link">
+                <div class="tool-icon"><i class="fa-solid fa-apple-whole"></i></div>
+                <div class="tool-name">Food Expiry Calculator</div>
+            </a>
+            <a href="medicine-expiry-calculator.html" class="tool-link">
+                <div class="tool-icon"><i class="fa-solid fa-pills"></i></div>
+                <div class="tool-name">Medicine Expiry Calculator</div>
+            </a>
+            <a href="anniversary-calculator.html" class="tool-link">
+                <div class="tool-icon"><i class="fa-solid fa-cake-candles"></i></div>
+                <div class="tool-name">Anniversary Calculator</div>
+            </a>
+            <a href="age-calculator.html" class="tool-link">
+                <div class="tool-icon"><i class="fa-solid fa-user"></i></div>
+                <div class="tool-name">Age Calculator</div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    function autoFillSub() {
+        const sel = document.getElementById('subType');
+        const nameIn = document.getElementById('subName');
+        const valIn = document.getElementById('durVal');
+        const unitIn = document.getElementById('durUnit');
+
+        if (!sel.value) return;
+
+        const [val, unit] = sel.value.split('|');
+        nameIn.value = sel.options[sel.selectedIndex].text.split(' (')[0];
+        valIn.value = val;
+        unitIn.value = unit;
+    }
+
+    function calculateSub() {
+        const name = document.getElementById('subName').value || "Subscription";
+        const startVal = document.getElementById('startDate').value;
+        const val = parseInt(document.getElementById('durVal').value);
+        const unit = document.getElementById('durUnit').value;
+        const resSec = document.getElementById('resultSection');
+
+        if (!startVal || isNaN(val)) {
+            alert("Please provide a start date and duration.");
+            return;
+        }
+
+        const startDate = new Date(startVal);
+        const expiryDate = new Date(startDate);
+
+        if (unit === 'days') expiryDate.setDate(expiryDate.getDate() + val);
+        else if (unit === 'months') expiryDate.setMonth(expiryDate.getMonth() + val);
+        else if (unit === 'years') expiryDate.setFullYear(expiryDate.getFullYear() + val);
+
+        const today = new Date();
+        today.setHours(0,0,0,0);
+        
+        const totalTime = expiryDate - startDate;
+        const elapsed = today - startDate;
+        let percent = (elapsed / totalTime) * 100;
+        percent = Math.max(0, Math.min(100, percent));
+
+        const diffTime = expiryDate - today;
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+        resSec.style.display = 'block';
+        document.getElementById('resDate').innerText = "Renewal Date: " + expiryDate.toDateString();
+        const fill = document.getElementById('meterFill');
+
+        if (diffDays > 5) {
+            resSec.className = "status-active";
+            document.getElementById('resHeading').innerText = name + " is ACTIVE ✅";
+            document.getElementById('resDays').innerText = diffDays + " days remaining until renewal.";
+            fill.style.backgroundColor = "var(--success)";
+        } else if (diffDays >= 0) {
+            resSec.className = "status-warning";
+            document.getElementById('resHeading').innerText = name + " RENEWS SOON ⚠️";
+            document.getElementById('resDays').innerText = "Renews in " + diffDays + " days. Cancel now if not needed!";
+            fill.style.backgroundColor = "var(--warning)";
+        } else {
+            resSec.className = "status-expired";
+            document.getElementById('resHeading').innerText = name + " has EXPIRED ❌";
+            document.getElementById('resDays').innerText = "Subscription ended " + Math.abs(diffDays) + " days ago.";
+            fill.style.backgroundColor = "var(--danger)";
+        }
+
+        fill.style.width = percent + "%";
+    }
+
+    function toggleFaq(id) {
+        const el = document.getElementById('faq-' + id);
+        el.style.display = (el.style.display === 'block') ? 'none' : 'block';
+    }
+</script>
+<div id="footer"></div>
+<script>
+fetch("/footer.html")
+  .then(r => r.text())
+  .then(d => {
+    document.getElementById("footer").innerHTML = d;
+    document.getElementById("year").textContent = new Date().getFullYear();
+  });
+</script>.
+</body>
+</html>
