@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visa Expiry Calculator | Check Stay Duration & Validity - Toolvala.in</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Calculate your Visa Expiry Date and Maximum Allowed Stay instantly. Avoid overstaying fines with our free Visa Validity Calculator. Supports Schengen, US, UK, and Indian Visas.">
+    <meta name="keywords" content="visa expiry calculator, schengen visa calculator, visa stay duration calculator, overstay calculator, visa validity checker, travel dates calculator, 90/180 rule calculator, toolvala">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.toolvala.in/visa-expiry-calculator.html">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Visa Expiry & Stay Calculator - Toolvala.in">
+    <meta property="og:description" content="Don't overstay your visa! Calculate your exit date and remaining days instantly.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolvala.in/visa-expiry-calculator.html">
+
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Schema Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Visa Expiry Calculator",
+      "applicationCategory": "TravelApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "INR"
+      },
+      "description": "A tool to calculate visa expiration dates and maximum authorized stay duration to prevent overstaying."
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [{
+        "@type": "Question",
+        "name": "What is the difference between Visa Validity and Duration of Stay?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Visa Validity is the time window during which you can use the visa to enter the country (e.g., 1 year). Duration of Stay is how long you can remain in the country after entering (e.g., 30 days)."
+        }
+      }, {
+        "@type": "Question",
+        "name": "How is the 90/180 rule calculated for Schengen visas?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The 90/180 rule states you can stay for a maximum of 90 days in any 180-day rolling period. It is not based on the calendar year but looks back 180 days from your current date of stay."
+        }
+      }, {
+        "@type": "Question",
+        "name": "What happens if I overstay my visa?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Overstaying can lead to heavy fines, deportation, and a ban from re-entering the country for several years. It may also affect future visa applications for other countries."
+        }
+      }, {
+        "@type": "Question",
+        "name": "Does the day of arrival count as Day 1?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, in most jurisdictions (including Schengen, USA, UK), the day you land and the day you depart are both counted as full days towards your allowed stay."
+        }
+      }, {
+        "@type": "Question",
+        "name": "Can I extend my visa expiry date?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Visa extensions are usually only granted for emergencies (medical, legal). Tourist visas are rarely extended. You must apply for an extension before your current visa expires."
+        }
+      }, {
+        "@type": "Question",
+        "name": "Is this calculator accurate for all countries?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "This tool calculates dates based on standard calendar logic. However, immigration officers have the final say. Always leave a buffer of 1-2 days before your calculated expiry."
+        }
+      }]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary: #4f46e5; /* Indigo-600 */
+            --primary-dark: #4338ca;
+            --secondary: #eef2ff;
+            --text-main: #0f172a;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --success: #16a34a;
+            --warning: #ca8a04;
+            --danger: #dc2626;
+            --white: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        .logo span { color: var(--text-main); }
+
+        /* Main Layout */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .tool-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .tool-header h1 {
+            font-size: 2.5rem;
+            color: var(--text-main);
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+        .tool-header p { color: var(--text-light); font-size: 1.1rem; }
+
+        /* Calculator Box */
+        .calculator-box {
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            padding: 30px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group { margin-bottom: 20px; }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+        
+        .input-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border 0.2s;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .btn-calculate {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 10px;
+        }
+        .btn-calculate:hover { background: var(--primary-dark); }
+
+        /* Result Display */
+        .result-box {
+            margin-top: 25px;
+            background: var(--secondary);
+            border: 1px solid #c7d2fe;
+            padding: 25px;
+            border-radius: 12px;
+            display: none;
+            text-align: center;
+        }
+        
+        .result-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+        
+        .result-date {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            margin: 10px 0;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 700;
+            margin-top: 10px;
+        }
+        .status-valid { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+        .status-warning { background: #fef9c3; color: #854d0e; border: 1px solid #fde047; }
+        .status-expired { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+
+        /* Flowchart Styles */
+        .flowchart-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 40px 0;
+        }
+        .flow-step {
+            background: var(--white);
+            border: 2px solid var(--primary);
+            padding: 15px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            color: var(--text-main);
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .flow-arrow {
+            color: var(--text-light);
+            font-size: 1.2rem;
+        }
+
+        /* Related Tools */
+        .related-tools { margin-top: 60px; }
+        .section-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 20px; border-left: 5px solid var(--primary); padding-left: 15px; }
+        .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+        .tool-link {
+            display: block;
+            background: var(--white);
+            padding: 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            transition: transform 0.2s, border-color 0.2s;
+            text-align: center;
+            font-weight: 600;
+        }
+        .tool-link:hover { transform: translateY(-3px); border-color: var(--primary); color: var(--primary); }
+        .tool-link i { display: block; font-size: 1.5rem; margin-bottom: 10px; color: var(--primary); }
+
+        /* Content Article */
+        .content-article {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin-top: 60px;
+        }
+        .content-article h2 { color: var(--primary-dark); margin-top: 30px; margin-bottom: 15px; font-size: 1.8rem; }
+        .content-article h3 { color: var(--text-main); margin-top: 25px; margin-bottom: 10px; font-size: 1.4rem; }
+        .content-article p { margin-bottom: 15px; color: #334155; text-align: justify; }
+        .content-article ul { margin-left: 20px; margin-bottom: 20px; color: #334155; }
+        .content-article li { margin-bottom: 8px; }
+        .highlight-box {
+            background: #f0fdfa;
+            border-left: 4px solid var(--primary);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* FAQ */
+        .faq-item { border-bottom: 1px solid var(--border); padding: 15px 0; }
+        .faq-question { font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; color: var(--text-main); }
+        .faq-answer { margin-top: 10px; display: none; color: var(--text-light); }
+
+        @media (max-width: 768px) {
+            .tool-header h1 { font-size: 2rem; }
+            .content-article { padding: 20px; }
+            .flowchart-container { flex-direction: column; }
+            .flow-arrow { transform: rotate(90deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">Toolvala<span>.in</span></a>
+        </div>
+    </nav>
+
+    <div class="container">
+        
+        <header class="tool-header">
+            <h1>Visa Expiry Calculator</h1>
+            <p>Calculate your maximum allowed stay and visa expiration date instantly.</p>
+        </header>
+
+        <div class="calculator-box">
+            <div class="form-group">
+                <label for="startDate">Entry Date / Issue Date</label>
+                <input type="date" id="startDate" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label>Duration of Stay / Validity</label>
+                <div class="input-group">
+                    <input type="number" id="duration" class="form-control" placeholder="e.g. 90" style="flex: 2;">
+                    <select id="unit" class="form-control" style="flex: 1;">
+                        <option value="days">Days</option>
+                        <option value="months">Months</option>
+                        <option value="years">Years</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Calculation Type</label>
+                <select id="calcType" class="form-control">
+                    <option value="stay">Max Stay Expiry (Entry + Duration)</option>
+                    <option value="visa">Visa Document Expiry (Issue + Validity)</option>
+                </select>
+            </div>
+
+            <button class="btn-calculate" onclick="calculateVisa()">Check Status</button>
+
+            <div id="resultBox" class="result-box">
+                <div class="result-label">You Must Leave By</div>
+                <div class="result-date" id="expiryDate">-</div>
+                
+                <div id="statusBadge" class="status-badge">Status</div>
+                
+                <div style="margin-top: 15px; font-size: 0.9rem; color: #64748b;">
+                    <span id="timeLeft" style="font-weight: 700;">-</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Related Tools -->
+        <div class="related-tools">
+            <h2 class="section-title">Related Travel & Date Tools</h2>
+            <div class="tools-grid">
+                <a href="passport-expiry-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-passport"></i>
+                    Passport Expiry
+                </a>
+                <a href="date-difference.html" class="tool-link">
+                    <i class="fa-regular fa-calendar-minus"></i>
+                    Date Difference
+                </a>
+                <a href="age-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-user-clock"></i>
+                    Age Calculator
+                </a>
+                <a href="warranty-expiry-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    Warranty Calc
+                </a>
+                <a href="anniversary-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-heart"></i>
+                    Anniversary Calc
+                </a>
+                <a href="production-time-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-industry"></i>
+                    Production Time
+                </a>
+            </div>
+        </div>
+
+        <!-- SEO Content -->
+        <article class="content-article">
+            <h2>The Ultimate Guide to Visa Validity and Duration of Stay</h2>
+            <p>Traveling internationally involves navigating a maze of dates, stamps, and regulations. One of the most common and costly mistakes travelers make is confusing <strong>Visa Validity</strong> with <strong>Duration of Stay</strong>. Overstaying your visa, even by a single day, can lead to fines, deportation, and future travel bans. <strong>Toolvala.in's Visa Expiry Calculator</strong> is designed to help you plan your trip precisely and avoid legal trouble.</p>
+
+            <p>This guide explains the critical differences between visa dates, how to calculate your exit date, and the rules for major regions like Schengen, USA, and UK.</p>
+
+            <h3>How the Calculation Works</h3>
+            <p>Calculating your exit date isn't just adding days; it involves understanding how immigration counts "Day 1".</p>
+
+            <div class="flowchart-container">
+                <div class="flow-step">Entry Date</div>
+                <div class="flow-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                <div class="flow-step">Add Duration<br>(e.g. 30 Days)</div>
+                <div class="flow-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                <div class="flow-step">Subtract 1 Day<br>(Inclusive Count)</div>
+                <div class="flow-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                <div class="flow-step">Exit Date</div>
+            </div>
+
+            <h3>Visa Validity vs. Duration of Stay</h3>
+            <p>This is the #1 concept you must understand:</p>
+            
+            <h4>1. Visa Validity (The Window)</h4>
+            <p>This is the period between the "Issue Date" and "Expiry Date" printed on your visa sticker. It indicates the time frame during which you are allowed to <em>enter</em> the country.
+            <br><em>Example:</em> Valid from 1st Jan to 31st Dec (1 Year).</p>
+
+            <h4>2. Duration of Stay (The Clock)</h4>
+            <p>This is the maximum number of days you are allowed to remain in the country <em>per visit</em>.
+            <br><em>Example:</em> "Duration of Stay: 30 Days". Even if your visa is valid for a year, you must leave within 30 days of entering.</p>
+
+            <div class="highlight-box">
+                <strong>Crucial Rule:</strong> You must leave the country before your "Duration of Stay" runs out OR before your "Visa Validity" expires, <strong>whichever comes first</strong>.
+            </div>
+
+            <h3>The Schengen 90/180 Rule</h3>
+            <p>For Europe (Schengen Zone), the rule is stricter: <strong>"90 days in any 180-day period."</strong></p>
+            <ul>
+                <li>It is a rolling window. You look back 180 days from today.</li>
+                <li>You count how many days you were in the Schengen zone.</li>
+                <li>If that count is less than 90, you can enter.</li>
+            </ul>
+            <p>This prevents people from doing "Visa Runs" (leaving for a day and coming back immediately).</p>
+
+            <h3>Consequences of Overstaying</h3>
+            <p>Immigration systems are digital and interconnected. Overstaying has serious consequences:</p>
+            <ul>
+                <li><strong>Fines:</strong> Many countries charge a daily fine for overstaying.</li>
+                <li><strong>Deportation:</strong> You may be detained and sent back at your own expense.</li>
+                <li><strong>Bans:</strong> You could be banned from re-entering for 1 to 10 years.</li>
+                <li><strong>Future Rejections:</strong> An overstay record is a red flag for all future visa applications to any country.</li>
+            </ul>
+
+            <h3>How to Use Toolvala.in Visa Calculator</h3>
+            <ol>
+                <li><strong>Select Calculation Type:</strong>
+                    <ul>
+                        <li>Choose <strong>"Max Stay Expiry"</strong> if you want to know when you must leave after arriving.</li>
+                        <li>Choose <strong>"Visa Document Expiry"</strong> if you want to know when your visa sticker expires.</li>
+                    </ul>
+                </li>
+                <li><strong>Enter Date:</strong> Input your Date of Entry (for stay) or Date of Issue (for validity).</li>
+                <li><strong>Enter Duration:</strong> Input the number of days/months allowed (e.g., 90 days).</li>
+                <li><strong>Calculate:</strong> The tool will show you the exact date you must exit the country.</li>
+            </ol>
+
+            <h3>Frequently Asked Questions (FAQs)</h3>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">1. Does the day of arrival count as Day 1? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">Yes. In almost all jurisdictions (USA, UK, Schengen, UAE), the day you land is counted as Day 1, regardless of the time you arrive. Even if you land at 11:50 PM, that counts as a full day.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">2. Can I stay until midnight of my expiry date? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">Yes, you must clear immigration (passport control) before 11:59 PM on your expiry date. It is safer to book a flight earlier in the day to account for delays.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">3. What if my flight is delayed past midnight? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">If you have already cleared immigration/exit control, you are technically "out" of the country, so a flight delay usually doesn't count as overstaying. However, if the delay happens <em>before</em> immigration, you might face issues.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">4. Can I extend my visa? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">Tourist visas are rarely extendable unless there is a medical emergency or force majeure (like a pandemic). Work and student visas usually have specific renewal processes.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">5. Does this calculator work for all countries? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">This tool uses standard calendar logic (Entry Date + Duration - 1 Day). While this applies to 99% of countries, always verify with the specific immigration rules of your destination.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">6. What is the difference between Single and Multiple Entry? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">Single Entry means once you leave, the visa is void, even if days remain. Multiple Entry allows you to come and go as long as the visa is valid and you haven't exceeded your total stay limit.</div>
+            </div>
+
+            <p>Travel with confidence. Use <strong>Toolvala.in</strong> to keep your travel dates compliant and stress-free!</p>
+        </article>
+    </div>
+
+    <script>
+        // Set default date to today
+        document.getElementById('startDate').valueAsDate = new Date();
+
+        function calculateVisa() {
+            const startDateVal = document.getElementById('startDate').value;
+            const duration = parseInt(document.getElementById('duration').value);
+            const unit = document.getElementById('unit').value;
+            const calcType = document.getElementById('calcType').value;
+            const resultBox = document.getElementById('resultBox');
+
+            if (!startDateVal || isNaN(duration)) {
+                alert("Please enter a valid date and duration.");
+                return;
+            }
+
+            const startDate = new Date(startDateVal);
+            const expiryDate = new Date(startDate);
+
+            // Calculation Logic
+            switch(unit) {
+                case 'days':
+                    // For Stay Duration: Day 1 is the start date. So we add duration - 1.
+                    // For Visa Validity: Usually expires ON the date calculated.
+                    if(calcType === 'stay') {
+                        expiryDate.setDate(startDate.getDate() + duration - 1);
+                    } else {
+                        expiryDate.setDate(startDate.getDate() + duration); // Validity usually inclusive of end date
+                        // Actually, standard validity (e.g. 30 days) usually implies end date is start + 29 days?
+                        // Let's stick to standard logic: Date + Days.
+                        // But for "Stay", arrival counts. So if arrive 1st, stay 1 day, leave 1st. (1+1-1 = 1).
+                        // If arrive 1st, stay 2 days, leave 2nd. (1+2-1 = 2).
+                        // So for STAY, we subtract 1.
+                        // For Validity (e.g. Valid for 1 year), Issue 1 Jan 2024 -> Expire 1 Jan 2025? Or 31 Dec?
+                        // Usually 1 year validity means expires day before next year.
+                        expiryDate.setDate(startDate.getDate() + duration - 1);
+                    }
+                    break;
+                case 'weeks':
+                    expiryDate.setDate(startDate.getDate() + (duration * 7) - 1);
+                    break;
+                case 'months':
+                    expiryDate.setMonth(startDate.getMonth() + duration);
+                    expiryDate.setDate(expiryDate.getDate() - 1);
+                    break;
+                case 'years':
+                    expiryDate.setFullYear(startDate.getFullYear() + duration);
+                    expiryDate.setDate(expiryDate.getDate() - 1);
+                    break;
+            }
+
+            // Format Date
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const formattedDate = expiryDate.toLocaleDateString('en-IN', options);
+
+            // Calculate Days Remaining
+            const today = new Date();
+            today.setHours(0,0,0,0); // Reset time
+            const diffTime = expiryDate - today;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+            let statusText = "";
+            let statusColor = "";
+            let statusBg = "";
+            let badgeText = "";
+
+            if (diffDays < 0) {
+                // Expired
+                badgeText = "EXPIRED / OVERSTAY";
+                statusText = `Expired ${Math.abs(diffDays)} days ago`;
+                statusColor = "#b91c1c";
+                statusBg = "#fecaca";
+            } else if (diffDays === 0) {
+                // Expires Today
+                badgeText = "EXPIRES TODAY";
+                statusText = "Must leave by midnight!";
+                statusColor = "#c2410c";
+                statusBg = "#fed7aa";
+            } else if (diffDays <= 7) {
+                // Expiring Soon
+                badgeText = "EXPIRING SOON";
+                statusText = `${diffDays} Days Remaining`;
+                statusColor = "#ca8a04";
+                statusBg = "#fef9c3";
+            } else {
+                // Safe
+                badgeText = "VALID";
+                statusText = `${diffDays} Days Remaining`;
+                statusColor = "#15803d";
+                statusBg = "#dcfce7";
+            }
+
+            // Update UI
+            document.getElementById('expiryDate').innerText = formattedDate;
+            const badge = document.getElementById('statusBadge');
+            badge.innerText = badgeText;
+            badge.style.color = statusColor;
+            badge.style.backgroundColor = statusBg;
+            badge.style.borderColor = statusColor;
+            
+            const timeSpan = document.getElementById('timeLeft');
+            timeSpan.innerText = statusText;
+            timeSpan.style.color = statusColor;
+
+            resultBox.style.display = 'block';
+            resultBox.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function toggleFaq(element) {
+            const answer = element.nextElementSibling;
+            const icon = element.querySelector('i');
+            
+            if (answer.style.display === "block") {
+                answer.style.display = "none";
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+            } else {
+                answer.style.display = "block";
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-up');
+            }
+        }
+    </script>
+    <div id="footer"></div>
+<script>
+fetch("/footer.html")
+  .then(r => r.text())
+  .then(d => {
+    document.getElementById("footer").innerHTML = d;
+    document.getElementById("year").textContent = new Date().getFullYear();
+  });
+</script>
+</body>
+</html>
