@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expiry Date Calculator | Calculate Shelf Life & Best Before Date - Toolvala.in</title>
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">.
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Calculate the exact expiry date, best before date, or warranty end date instantly. Enter manufacturing date and shelf life to get the result. Free online tool for food, medicine, and contracts.">
+    <meta name="keywords" content="expiry date calculator, shelf life calculator, best before date calculator, calculate expiration date, warranty expiry checker, medicine expiry calculator, food expiration calculator, date calculator, toolvala">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.toolvala.in/expiry-date-calculator.html">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Expiry Date Calculator - Toolvala.in">
+    <meta property="og:description" content="Calculate expiry dates for food, medicine, and warranties instantly.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolvala.in/expiry-date-calculator.html">
+
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Schema Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Expiry Date Calculator",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "INR"
+      },
+      "description": "A tool to calculate the expiration date based on manufacturing date and shelf life duration."
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [{
+        "@type": "Question",
+        "name": "What is the difference between Expiry Date and Best Before Date?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Expiry Date tells you the last day a product is safe to consume. Best Before Date indicates when the product's quality (taste, texture) begins to decline, though it may still be safe to eat."
+        }
+      }, {
+        "@type": "Question",
+        "name": "How do I calculate the expiry date from the manufacturing date?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Add the shelf life duration (in days, months, or years) to the manufacturing date. For example, if Mfg Date is 1st Jan and Shelf Life is 6 months, Expiry is roughly 1st July."
+        }
+      }, {
+        "@type": "Question",
+        "name": "Can I eat food after the expiry date?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "It is generally not recommended to eat food after the 'Expiry Date' or 'Use By' date due to safety risks. However, food past its 'Best Before' date is often safe but may lack quality."
+        }
+      }, {
+        "@type": "Question",
+        "name": "Does this calculator handle leap years?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, our tool uses standard calendar logic that automatically accounts for leap years (29 days in February) when calculating durations."
+        }
+      }, {
+        "@type": "Question",
+        "name": "How are medicine expiry dates determined?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Pharmaceutical companies determine expiry dates through stability testing under various environmental conditions (temperature, humidity) to ensure the drug remains effective and safe."
+        }
+      }, {
+        "@type": "Question",
+        "name": "What does 'Shelf Life' mean?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Shelf life is the length of time that a commodity may be stored without becoming unfit for use, consumption, or sale."
+        }
+      }]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary: #ef4444; /* Red for Expiry/Warning */
+            --primary-dark: #b91c1c;
+            --secondary: #fef2f2;
+            --text-main: #0f172a;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --success: #16a34a;
+            --white: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        .logo span { color: var(--text-main); }
+
+        /* Main Layout */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .tool-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .tool-header h1 {
+            font-size: 2.5rem;
+            color: var(--text-main);
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+        .tool-header p { color: var(--text-light); font-size: 1.1rem; }
+
+        /* Calculator Box */
+        .calculator-box {
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            padding: 30px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group { margin-bottom: 20px; }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+        
+        .input-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border 0.2s;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+        }
+
+        .btn-calculate {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 10px;
+        }
+        .btn-calculate:hover { background: var(--primary-dark); }
+
+        /* Result Display */
+        .result-box {
+            margin-top: 25px;
+            background: var(--secondary);
+            border: 1px solid #fecaca;
+            padding: 25px;
+            border-radius: 12px;
+            display: none;
+            text-align: center;
+        }
+        
+        .result-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+        
+        .result-date {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            margin: 10px 0;
+        }
+        
+        .countdown-badge {
+            display: inline-block;
+            background: var(--white);
+            border: 1px solid var(--border);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        /* Flowchart Styles */
+        .flowchart-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 40px 0;
+        }
+        .flow-step {
+            background: var(--white);
+            border: 2px solid var(--primary);
+            padding: 15px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            color: var(--text-main);
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .flow-arrow {
+            color: var(--text-light);
+            font-size: 1.2rem;
+        }
+
+        /* Related Tools */
+        .related-tools { margin-top: 60px; }
+        .section-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 20px; border-left: 5px solid var(--primary); padding-left: 15px; }
+        .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+        .tool-link {
+            display: block;
+            background: var(--white);
+            padding: 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            transition: transform 0.2s, border-color 0.2s;
+            text-align: center;
+            font-weight: 600;
+        }
+        .tool-link:hover { transform: translateY(-3px); border-color: var(--primary); color: var(--primary); }
+        .tool-link i { display: block; font-size: 1.5rem; margin-bottom: 10px; color: var(--primary); }
+
+        /* Content Article */
+        .content-article {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin-top: 60px;
+        }
+        .content-article h2 { color: var(--primary-dark); margin-top: 30px; margin-bottom: 15px; font-size: 1.8rem; }
+        .content-article h3 { color: var(--text-main); margin-top: 25px; margin-bottom: 10px; font-size: 1.4rem; }
+        .content-article p { margin-bottom: 15px; color: #334155; text-align: justify; }
+        .content-article ul { margin-left: 20px; margin-bottom: 20px; color: #334155; }
+        .content-article li { margin-bottom: 8px; }
+        .highlight-box {
+            background: #fef2f2;
+            border-left: 4px solid var(--primary);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* FAQ */
+        .faq-item { border-bottom: 1px solid var(--border); padding: 15px 0; }
+        .faq-question { font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; color: var(--text-main); }
+        .faq-answer { margin-top: 10px; display: none; color: var(--text-light); }
+
+        @media (max-width: 768px) {
+            .tool-header h1 { font-size: 2rem; }
+            .content-article { padding: 20px; }
+            .flowchart-container { flex-direction: column; }
+            .flow-arrow { transform: rotate(90deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">Toolvala<span>.in</span></a>
+        </div>
+    </nav>
+
+    <div class="container">
+        
+        <header class="tool-header">
+            <h1>Expiry Date Calculator</h1>
+            <p>Calculate the exact expiration date based on manufacturing date and shelf life.</p>
+        </header>
+
+        <div class="calculator-box">
+            <div class="form-group">
+                <label for="startDate">Manufacturing / Start Date</label>
+                <input type="date" id="startDate" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label>Shelf Life / Duration</label>
+                <div class="input-group">
+                    <input type="number" id="duration" class="form-control" placeholder="e.g. 18" style="flex: 2;">
+                    <select id="unit" class="form-control" style="flex: 1;">
+                        <option value="months">Months</option>
+                        <option value="days">Days</option>
+                        <option value="years">Years</option>
+                        <option value="weeks">Weeks</option>
+                    </select>
+                </div>
+            </div>
+
+            <button class="btn-calculate" onclick="calculateExpiry()">Calculate Expiry Date</button>
+
+            <div id="resultBox" class="result-box">
+                <div class="result-label">The Expiry Date Is</div>
+                <div class="result-date" id="expiryDate">-</div>
+                <div class="countdown-badge" id="daysLeft">0 Days Remaining</div>
+            </div>
+        </div>
+
+        <!-- Related Tools -->
+        <div class="related-tools">
+            <h2 class="section-title">Related Date & Time Tools</h2>
+            <div class="tools-grid">
+                <a href="warranty-expiry-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    Warranty Calc
+                </a>
+                <a href="food-expiry-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-utensils"></i>
+                    Food Expiry
+                </a>
+                <a href="anniversary-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-heart"></i>
+                    Anniversary Calc
+                </a>
+                <a href="production-time-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-industry"></i>
+                    Production Time
+                </a>
+                <a href="date-difference.html" class="tool-link">
+                    <i class="fa-regular fa-calendar-minus"></i>
+                    Date Difference
+                </a>
+                <a href="age-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-user-clock"></i>
+                    Age Calculator
+                </a>
+            </div>
+        </div>
+
+        <!-- SEO Content -->
+        <article class="content-article">
+            <h2>The Ultimate Guide to Expiry Dates and Shelf Life</h2>
+            <p>In our daily lives, we are surrounded by dates: manufacturing dates, expiry dates, best-before dates, and warranty periods. Whether you are a consumer checking a milk carton, a pharmacist managing drug inventory, or a business owner tracking contracts, knowing the exact end date is crucial. <strong>Toolvala.in's Expiry Date Calculator</strong> simplifies this process, ensuring safety, compliance, and peace of mind.</p>
+
+            <p>This comprehensive guide explores the science of shelf life, the legal definitions of date labels, and how to manage product longevity effectively.</p>
+
+            <h3>How the Calculation Works</h3>
+            <p>Calculating an expiry date involves adding a specific duration to a start date. While it sounds simple, calendar irregularities (like leap years and varying month lengths) make mental math difficult. Here is the logic flow:</p>
+
+            <div class="flowchart-container">
+                <div class="flow-step">Start Date<br>(Mfg Date)</div>
+                <div class="flow-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                <div class="flow-step">Add Duration<br>(Days/Months)</div>
+                <div class="flow-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                <div class="flow-step">Adjust Calendar<br>(Leap Years)</div>
+                <div class="flow-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                <div class="flow-step">Final Expiry<br>Date</div>
+            </div>
+
+            <h3>Understanding Date Labels</h3>
+            <p>Not all dates mean the same thing. Confusing them leads to food waste or safety hazards.</p>
+
+            <h4>1. Expiry Date (Use By)</h4>
+            <p>This is a <strong>safety deadline</strong>. It is used for highly perishable foods (like fresh meat, dairy) and medicines. Consuming products after this date can be dangerous to your health.
+            <br><em>Rule:</em> Do not use after this date.</p>
+
+            <h4>2. Best Before Date</h4>
+            <p>This is a <strong>quality indicator</strong>. It tells you when the product is at its peak flavor and texture. After this date, the food might still be safe to eat, but it might lose its crunch or taste stale.
+            <br><em>Rule:</em> Safe to use, but quality is not guaranteed.</p>
+
+            <h4>3. Manufacturing Date (Mfg Date)</h4>
+            <p>The date the product was made. In India and many other countries, products list the Mfg Date and a "Shelf Life" (e.g., "Best before 12 months from manufacture"). Our calculator is perfect for converting this into a specific calendar date.</p>
+
+            <h3>Applications of Expiry Calculation</h3>
+            
+            <h4>Food & Beverage Industry</h4>
+            <p>Supermarkets and warehouses use expiry calculations to manage inventory (FIFO - First In, First Out). Knowing the exact date helps in discounting products before they spoil, reducing waste.</p>
+
+            <h4>Pharmaceuticals</h4>
+            <p>Medicines degrade over time. Taking expired antibiotics might not just be ineffective; it can be harmful. Pharmacists use calculators to ensure no expired stock is sold.</p>
+
+            <h4>Cosmetics</h4>
+            <p>Makeup and skincare products have a "Period After Opening" (PAO) symbol (an open jar icon with a number like 12M). You can use this tool to calculate when to throw away that mascara you opened today.</p>
+
+            <h4>Legal & Contracts</h4>
+            <p>Contracts, leases, and warranties often have validity periods like "36 months from signing." Calculating the exact end date prevents legal disputes and missed renewal windows.</p>
+
+            <h3>Manual Calculation vs. Online Tool</h3>
+            <p><strong>Manual:</strong> "Okay, today is Jan 15th, plus 6 months... is that June or July? Does February have 29 days this year?" -> <em>Prone to error.</em></p>
+            <p><strong>Toolvala Calculator:</strong> Enter Date -> Enter "6 Months" -> Click Calculate -> <strong>July 15th</strong>. -> <em>Instant and Accurate.</em></p>
+
+            <h3>Tips for Managing Expiry Dates</h3>
+            <ul>
+                <li><strong>Label It:</strong> When you open a jar of sauce or a bottle of pills, write the calculated expiry date on the lid with a marker.</li>
+                <li><strong>Check the Format:</strong> Different countries use different date formats (DD/MM/YYYY vs MM/DD/YYYY). Always verify the standard used on the packaging.</li>
+                <li><strong>Storage Matters:</strong> An expiry date is valid only if the product is stored correctly (e.g., "Keep refrigerated"). Improper storage reduces shelf life drastically.</li>
+            </ul>
+
+            <h3>Frequently Asked Questions (FAQs)</h3>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">1. What is the difference between Expiry Date and Best Before Date? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">Expiry Date tells you the last day a product is safe to consume. Best Before Date indicates when the product's quality (taste, texture) begins to decline, though it may still be safe to eat.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">2. How do I calculate the expiry date from the manufacturing date? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">Add the shelf life duration (in days, months, or years) to the manufacturing date. For example, if Mfg Date is 1st Jan and Shelf Life is 6 months, Expiry is roughly 1st July.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">3. Can I eat food after the expiry date? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">It is generally not recommended to eat food after the 'Expiry Date' or 'Use By' date due to safety risks. However, food past its 'Best Before' date is often safe but may lack quality.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">4. Does this calculator handle leap years? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">Yes, our tool uses standard calendar logic that automatically accounts for leap years (29 days in February) when calculating durations.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">5. How are medicine expiry dates determined? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">Pharmaceutical companies determine expiry dates through stability testing under various environmental conditions (temperature, humidity) to ensure the drug remains effective and safe.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">6. What does 'Shelf Life' mean? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">Shelf life is the length of time that a commodity may be stored without becoming unfit for use, consumption, or sale.</div>
+            </div>
+
+            <p>Safety comes first. Use <strong>Toolvala.in</strong> to ensure you never use a product past its prime!</p>
+        </article>
+    </div>
+
+    <script>
+        // Set default date to today
+        document.getElementById('startDate').valueAsDate = new Date();
+
+        function calculateExpiry() {
+            const startDateVal = document.getElementById('startDate').value;
+            const duration = parseInt(document.getElementById('duration').value);
+            const unit = document.getElementById('unit').value;
+            const resultBox = document.getElementById('resultBox');
+
+            if (!startDateVal || isNaN(duration)) {
+                alert("Please enter a valid date and duration.");
+                return;
+            }
+
+            const startDate = new Date(startDateVal);
+            const expiryDate = new Date(startDate);
+
+            // Calculation Logic
+            switch(unit) {
+                case 'days':
+                    expiryDate.setDate(startDate.getDate() + duration);
+                    break;
+                case 'weeks':
+                    expiryDate.setDate(startDate.getDate() + (duration * 7));
+                    break;
+                case 'months':
+                    expiryDate.setMonth(startDate.getMonth() + duration);
+                    break;
+                case 'years':
+                    expiryDate.setFullYear(startDate.getFullYear() + duration);
+                    break;
+            }
+
+            // Format Date
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const formattedDate = expiryDate.toLocaleDateString('en-IN', options);
+
+            // Calculate Days Remaining
+            const today = new Date();
+            today.setHours(0,0,0,0); // Reset time for accurate day diff
+            const diffTime = expiryDate - today;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+            let statusText = "";
+            let statusColor = "";
+            let statusBg = "";
+
+            if (diffDays < 0) {
+                statusText = `Expired ${Math.abs(diffDays)} days ago`;
+                statusColor = "#b91c1c";
+                statusBg = "#fecaca";
+            } else if (diffDays === 0) {
+                statusText = "Expires Today!";
+                statusColor = "#c2410c";
+                statusBg = "#fed7aa";
+            } else {
+                statusText = `${diffDays} Days Remaining`;
+                statusColor = "#15803d";
+                statusBg = "#bbf7d0";
+            }
+
+            // Update UI
+            document.getElementById('expiryDate').innerText = formattedDate;
+            const badge = document.getElementById('daysLeft');
+            badge.innerText = statusText;
+            badge.style.color = statusColor;
+            badge.style.backgroundColor = statusBg;
+            badge.style.borderColor = statusColor;
+
+            resultBox.style.display = 'block';
+            resultBox.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function toggleFaq(element) {
+            const answer = element.nextElementSibling;
+            const icon = element.querySelector('i');
+            
+            if (answer.style.display === "block") {
+                answer.style.display = "none";
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+            } else {
+                answer.style.display = "block";
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-up');
+            }
+        }
+    </script>
+    <div id="footer"></div>
+<script>
+fetch("/footer.html")
+  .then(r => r.text())
+  .then(d => {
+    document.getElementById("footer").innerHTML = d;
+    document.getElementById("year").textContent = new Date().getFullYear();
+  });
+</script>
+ <div id="footer"></div>
+<script>
+fetch("/footer.html")
+  .then(r => r.text())
+  .then(d => {
+    document.getElementById("footer").innerHTML = d;
+    document.getElementById("year").textContent = new Date().getFullYear();
+  });
+</script>
+</body>
+</html>
