@@ -1,222 +1,587 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Inflation Calculator – Calculate Future Value of Money | Toolvala</title>
-  <link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inflation Calculator | Future Value & Purchasing Power - Toolvala.in</title>
+    <link rel="stylesheet"
+     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">.
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Calculate the future value of money with Toolvala.in's Inflation Calculator. Understand how inflation impacts your savings, salary, and purchasing power over time. Free and accurate.">
+    <meta name="keywords" content="inflation calculator, future value calculator, purchasing power calculator, inflation rate india, cpi calculator, money value calculator, salary inflation adjustment, toolvala">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.toolvala.in/inflation-calculator.html">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Inflation Calculator - Toolvala.in">
+    <meta property="og:description" content="See how inflation eats your money. Calculate future costs and required salary hikes.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolvala.in/inflation-calculator.html">
 
-  <!-- SEO META -->
-  <meta name="description" content="Free Inflation Calculator to calculate future value of money and inflation impact. Know how inflation reduces purchasing power over time.">
-  <meta name="keywords" content="inflation calculator, future value calculator, inflation rate india, purchasing power calculator, money value calculator">
-  <meta name="robots" content="index, follow">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-  <!-- CANONICAL -->
-  <link rel="canonical" href="https://www.toolvala.in/inflation-calculator.html">
+    <!-- Schema Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Inflation Calculator",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "INR"
+      },
+      "description": "A tool to calculate the impact of inflation on future costs and purchasing power."
+    }
+    </script>
 
-  <style>
-    body{
-      font-family: Arial, sans-serif;
-      background:#f4f6f9;
-      margin:0;
-      padding:0;
-      color:#333;
-      line-height:1.6;
-    }
-    header{
-      background:#198754;
-      color:#fff;
-      text-align:center;
-      padding:20px;
-    }
-    .container{
-      max-width:1100px;
-      margin:auto;
-      background:#fff;
-      padding:20px;
-    }
-    h1,h2,h3{
-      color:#198754;
-    }
-    .calculator{
-      background:#e9f7ef;
-      padding:20px;
-      border-radius:8px;
-      margin-bottom:30px;
-    }
-    label{
-      font-weight:bold;
-    }
-    input,button{
-      width:100%;
-      padding:10px;
-      margin:8px 0 15px;
-      font-size:16px;
-    }
-    button{
-      background:#198754;
-      color:#fff;
-      border:none;
-      cursor:pointer;
-    }
-    button:hover{
-      background:#146c43;
-    }
-    .result{
-      background:#fff3cd;
-      padding:15px;
-      border-radius:6px;
-    }
-    .related-tools a{
-      display:inline-block;
-      margin:8px 12px 0 0;
-      font-weight:bold;
-      color:#198754;
-      text-decoration:none;
-    }
-    footer{
-      background:#111;
-      color:#fff;
-      text-align:center;
-      padding:20px;
-      margin-top:30px;
-    }
-    footer a{
-      color:#0d6efd;
-      margin:0 10px;
-      text-decoration:none;
-    }
-  </style>
+    <style>
+        :root {
+            --primary: #dc2626; /* Red-600 (Inflation implies danger/loss) */
+            --primary-dark: #b91c1c;
+            --secondary: #fef2f2;
+            --text-main: #0f172a;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --success: #16a34a;
+            --white: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        .logo span { color: var(--text-main); }
+
+        /* Main Layout */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .tool-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .tool-header h1 {
+            font-size: 2.5rem;
+            color: var(--text-main);
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+        .tool-header p { color: var(--text-light); font-size: 1.1rem; }
+
+        /* Calculator Grid */
+        .calculator-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        /* Input Section */
+        .input-section {
+            padding: 30px;
+            background: #fff;
+        }
+        .form-group { margin-bottom: 20px; }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+            color: var(--text-main);
+        }
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .input-icon {
+            position: absolute;
+            left: 12px;
+            color: var(--text-light);
+            font-weight: 600;
+        }
+        .form-control {
+            width: 100%;
+            padding: 12px 12px 12px 35px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border 0.2s;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+        }
+
+        .btn-calculate {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 10px;
+        }
+        .btn-calculate:hover { background: var(--primary-dark); }
+
+        /* Result Section */
+        .result-section {
+            background: var(--secondary);
+            padding: 30px;
+            border-left: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .result-header {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--primary-dark);
+            border-bottom: 2px solid #fecaca;
+            padding-bottom: 10px;
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+        .result-row.total {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #fecaca;
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: var(--primary);
+        }
+
+        /* Chart Container */
+        .chart-wrapper {
+            margin-top: 20px;
+            height: 250px;
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        /* Related Tools */
+        .related-tools { margin-top: 60px; }
+        .section-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 20px; border-left: 5px solid var(--primary); padding-left: 15px; }
+        .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+        .tool-link {
+            display: block;
+            background: var(--white);
+            padding: 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            transition: transform 0.2s, border-color 0.2s;
+            text-align: center;
+            font-weight: 600;
+        }
+        .tool-link:hover { transform: translateY(-3px); border-color: var(--primary); color: var(--primary); }
+        .tool-link i { display: block; font-size: 1.5rem; margin-bottom: 10px; color: var(--primary); }
+
+        /* Content Article */
+        .content-article {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin-top: 60px;
+        }
+        .content-article h2 { color: var(--primary-dark); margin-top: 30px; margin-bottom: 15px; font-size: 1.8rem; }
+        .content-article h3 { color: var(--text-main); margin-top: 25px; margin-bottom: 10px; font-size: 1.4rem; }
+        .content-article p { margin-bottom: 15px; color: #334155; text-align: justify; }
+        .content-article ul { margin-left: 20px; margin-bottom: 20px; color: #334155; }
+        .content-article li { margin-bottom: 8px; }
+        .highlight-box {
+            background: #fef2f2;
+            border-left: 4px solid var(--primary);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* FAQ */
+        .faq-item { border-bottom: 1px solid var(--border); padding: 15px 0; }
+        .faq-question { font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; color: var(--text-main); }
+        .faq-answer { margin-top: 10px; display: none; color: var(--text-light); }
+
+        @media (max-width: 768px) {
+            .calculator-wrapper { grid-template-columns: 1fr; }
+            .result-section { border-left: none; border-top: 1px solid var(--border); }
+            .tool-header h1 { font-size: 2rem; }
+            .content-article { padding: 20px; }
+        }
+    </style>
 </head>
-
 <body>
 
-<header>
-  <h1>Inflation Calculator</h1>
-  <p>Calculate the future value of money and understand inflation impact</p>
-</header>
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">Toolvala<span>.in</span></a>
+        </div>
+    </nav>
 
-<div class="container">
+    <div class="container">
+        
+        <header class="tool-header">
+            <h1>Inflation Calculator</h1>
+            <p>See how inflation erodes your money's value and plan for the future.</p>
+        </header>
 
-  <!-- CALCULATOR -->
-  <section class="calculator">
-    <h2>Inflation Rate Calculator</h2>
+        <div class="calculator-wrapper">
+            <!-- Input Side -->
+            <div class="input-section">
+                <div class="form-group">
+                    <label>Current Amount (₹)</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">₹</span>
+                        <input type="number" id="amount" class="form-control" placeholder="e.g. 100000">
+                    </div>
+                </div>
 
-    <label>Current Amount (₹)</label>
-    <input type="number" id="amount" placeholder="Enter current amount">
+                <div class="form-group">
+                    <label>Annual Inflation Rate (%)</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">%</span>
+                        <input type="number" id="rate" class="form-control" placeholder="e.g. 6">
+                    </div>
+                    <small style="color: var(--text-light); font-size: 0.8rem;">Avg India Inflation: ~6%</small>
+                </div>
 
-    <label>Annual Inflation Rate (%)</label>
-    <input type="number" id="inflationRate" placeholder="Enter inflation rate">
+                <div class="form-group">
+                    <label>Time Period (Years)</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon"><i class="fa-regular fa-clock"></i></span>
+                        <input type="number" id="years" class="form-control" placeholder="e.g. 10">
+                    </div>
+                </div>
 
-    <label>Number of Years</label>
-    <input type="number" id="years" placeholder="Enter number of years">
+                <button class="btn-calculate" onclick="calculateInflation()">Calculate Impact</button>
+            </div>
 
-    <button onclick="calculateInflation()">Calculate Inflation</button>
+            <!-- Result Side -->
+            <div class="result-section" id="resultSection" style="display:none;">
+                <div class="result-header">Future Value Analysis</div>
+                
+                <div class="result-row">
+                    <span>Future Cost (Equivalent):</span>
+                    <span id="futureCost" style="font-weight: 700;">₹0</span>
+                </div>
+                <div class="result-row">
+                    <span>Purchasing Power Loss:</span>
+                    <span id="powerLoss" style="color: var(--primary);">₹0</span>
+                </div>
+                <div class="result-row total">
+                    <span>Value Depreciation:</span>
+                    <span id="depreciationPercent">0%</span>
+                </div>
 
-    <div class="result" id="result"></div>
-  </section>
+                <!-- Chart -->
+                <div class="chart-wrapper">
+                    <canvas id="inflationChart"></canvas>
+                </div>
+            </div>
+        </div>
 
-  <!-- SEO CONTENT -->
-  <section>
-    <h2>What is an Inflation Calculator?</h2>
-    <p>
-      An <strong>Inflation Calculator</strong> helps you understand how inflation
-      affects the value of money over time. Inflation reduces purchasing power,
-      meaning the same amount of money buys fewer goods and services in the future.
-    </p>
+        <!-- Related Tools -->
+        <div class="related-tools">
+            <h2 class="section-title">Related Financial Tools</h2>
+            <div class="tools-grid">
+                <a href="salary-converter.html" class="tool-link">
+                    <i class="fa-solid fa-money-bill-wave"></i>
+                    Salary Converter
+                </a>
+                <a href="savings-goal-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-bullseye"></i>
+                    Savings Goal
+                </a>
+                <a href="compound-interest-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-chart-line"></i>
+                    Compound Interest
+                </a>
+                <a href="monthly-budget-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    Budget Planner
+                </a>
+                <a href="work-hours-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-clock"></i>
+                    Work Hours
+                </a>
+                <a href="overtime-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-briefcase"></i>
+                    Overtime Calc
+                </a>
+            </div>
+        </div>
 
-    <p>
-      Using this inflation calculator, you can estimate the future value of your
-      savings, salary, or investment after accounting for inflation.
-    </p>
+        <!-- SEO Content -->
+        <article class="content-article">
+            <h2>Understanding Inflation: The Silent Wealth Killer</h2>
+            <p>Have you ever wondered why your grandparents could buy a house for ₹50,000, but today you can barely buy a high-end laptop for that amount? The answer is <strong>Inflation</strong>. It is the rate at which the general level of prices for goods and services is rising, and consequently, the purchasing power of currency is falling. <strong>Toolvala.in's Inflation Calculator</strong> helps you visualize this impact, ensuring you plan your finances with eyes wide open.</p>
 
-    <h2>Why Inflation Matters?</h2>
-    <p>
-      Inflation plays a crucial role in financial planning. Ignoring inflation
-      can lead to poor savings decisions and lower real returns.
-    </p>
+            <p>This guide explores the mechanics of inflation, its impact on your savings, and how to beat it through smart investing.</p>
 
-    <ul>
-      <li>Reduces purchasing power</li>
-      <li>Affects salary growth</li>
-      <li>Impacts long-term savings</li>
-      <li>Influences investment returns</li>
-    </ul>
+            <h3>What is Inflation?</h3>
+            <p>Inflation is a quantitative measure of the rate at which the average price level of a basket of selected goods and services in an economy increases over some period of time. It is the rise in the general level of prices where a unit of currency buys effectively less than it did in prior periods.</p>
 
-    <h2>Inflation Calculator Formula</h2>
-    <p>
-      <strong>Future Value = Present Value × (1 + Inflation Rate)<sup>Years</sup></strong>
-    </p>
+            <div class="highlight-box">
+                <strong>The Rule of 72:</strong><br>
+                To estimate how long it takes for prices to double, divide 72 by the inflation rate. At 6% inflation, prices double every 12 years (72 / 6 = 12).
+            </div>
 
-    <h2>Who Should Use This Tool?</h2>
-    <ul>
-      <li>Employees planning salary growth</li>
-      <li>Investors evaluating returns</li>
-      <li>Students learning economics</li>
-      <li>Financial planners</li>
-      <li>Anyone saving money</li>
-    </ul>
+            <h3>How Does This Calculator Work?</h3>
+            <p>Our tool uses the standard Future Value formula adjusted for inflation:</p>
+            <p><em>Future Value = Present Value × (1 + Inflation Rate)^Years</em></p>
+            <p>It answers two critical questions:</p>
+            <ol>
+                <li><strong>Future Cost:</strong> If a car costs ₹10 Lakhs today, how much will the same car cost in 10 years?</li>
+                <li><strong>Purchasing Power:</strong> If you keep ₹10 Lakhs in a locker for 10 years, what will its real value be then?</li>
+            </ol>
 
-    <h2>Inflation in India</h2>
-    <p>
-      In India, inflation is measured using CPI (Consumer Price Index).
-      Average inflation typically ranges between 4% to 7% annually.
-      Understanding inflation helps in better financial decision-making.
-    </p>
+            <h3>Inflation in India</h3>
+            <p>In India, inflation is measured by the <strong>Consumer Price Index (CPI)</strong>. Historically, India has seen inflation rates ranging from 4% to over 10%. A safe estimate for long-term financial planning in India is usually considered to be around <strong>6% to 7%</strong>.</p>
+            
+            <h4>Sector-Specific Inflation</h4>
+            <p>General inflation might be 6%, but specific sectors rise faster:</p>
+            <ul>
+                <li><strong>Education:</strong> 10-12% (College fees double every 6-7 years).</li>
+                <li><strong>Healthcare:</strong> 14-15% (Medical costs rise much faster than general goods).</li>
+                <li><strong>Lifestyle:</strong> 7-8% (Electronics, travel, dining out).</li>
+            </ul>
 
-    <h2>Frequently Asked Questions</h2>
+            <h3>Why Your Savings Account is Losing Money</h3>
+            <p>Most savings accounts offer 3% to 4% interest. If inflation is at 6%, your money is actually <strong>losing value</strong> by sitting in the bank. This is called a "Negative Real Return."</p>
+            <p><em>Example:</em><br>
+            You have ₹100. Inflation is 6%. Next year, you need ₹106 to buy the same goods.<br>
+            Bank gives 4% interest. You have ₹104.<br>
+            <strong>Result:</strong> You are ₹2 poorer in real terms.</p>
 
-    <h3>Is inflation bad?</h3>
-    <p>
-      Moderate inflation is normal, but high inflation reduces purchasing power
-      and savings value.
-    </p>
+            <h3>How to Beat Inflation?</h3>
+            <p>To grow wealth, your investments must earn returns <strong>higher</strong> than the inflation rate. Consider:</p>
+            <ul>
+                <li><strong>Equities (Stocks/Mutual Funds):</strong> Historically offer 12-15% returns over the long term.</li>
+                <li><strong>Gold:</strong> Often acts as a hedge against inflation.</li>
+                <li><strong>Real Estate:</strong> Property prices generally appreciate over time.</li>
+            </ul>
 
-    <h3>Does salary increase beat inflation?</h3>
-    <p>
-      Only if salary growth is higher than inflation rate.
-    </p>
+            <h3>Frequently Asked Questions (FAQs)</h3>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">1. Is inflation always bad? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">Not necessarily. Moderate inflation (2-4%) is a sign of a growing economy. It encourages spending and investment. Deflation (falling prices) can actually lead to economic recession.</div>
+            </div>
 
-    <h3>Is inflation calculation accurate?</h3>
-    <p>
-      This tool provides an estimate based on average inflation rate.
-    </p>
-  </section>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">2. How does inflation affect my loan? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">Inflation is actually good for borrowers. As the value of money drops, the fixed EMI amount you pay becomes "cheaper" in real terms over the years, assuming your income grows with inflation.</div>
+            </div>
 
-  <!-- RELATED TOOLS -->
-  <section class="related-tools">
-    <h2>Related Tools</h2>
-    <a href="work-hours-calculator.html">Work Hours Calculator</a>
-    <a href="date-difference.html">Date Difference Calculator</a>
-    <a href="salary-converter.html">Salary Converter</a>
-    <a href="overtime-calculator.html">Overtime Calculator</a>
-  </section>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">3. What inflation rate should I use for retirement planning? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">For retirement, it is safer to assume a higher rate, around 7-8%, because healthcare costs (a major expense for seniors) rise faster than general inflation.</div>
+            </div>
 
-</div>
- 
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">4. Does this calculator use CPI or WPI? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">This calculator uses a user-defined percentage. For personal finance, CPI (Consumer Price Index) is the relevant metric as it reflects the cost of living for households.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">5. What is Hyperinflation? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">Hyperinflation is extremely rapid and out-of-control inflation (e.g., 50% per month). It destroys the currency's value. Examples include Zimbabwe (2008) and Venezuela.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">6. How often does the inflation rate change? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">In India, the government releases inflation data monthly. However, for planning purposes, looking at annual averages is more practical.</div>
+            </div>
+
+            <p>Don't let inflation eat your hard-earned money. Use <strong>Toolvala.in</strong> to calculate the real value of your future goals and invest wisely!</p>
+        </article>
+    </div>
+
+    <script>
+        let myChart = null;
+
+        function calculateInflation() {
+            const amount = parseFloat(document.getElementById('amount').value);
+            const rate = parseFloat(document.getElementById('rate').value);
+            const years = parseFloat(document.getElementById('years').value);
+
+            if (isNaN(amount) || isNaN(rate) || isNaN(years)) {
+                alert("Please enter valid numbers.");
+                return;
+            }
+
+            // Future Value Formula: FV = PV * (1 + r/100)^n
+            const futureValue = amount * Math.pow((1 + rate / 100), years);
+            const difference = futureValue - amount;
+            
+            // Purchasing Power Loss (Reverse): PV = FV / (1 + r)^n
+            // If you hold 'amount' cash, what is it worth in today's terms after n years?
+            const realValue = amount / Math.pow((1 + rate / 100), years);
+            const lossPercent = ((amount - realValue) / amount) * 100;
+
+            // Update UI
+            document.getElementById('futureCost').innerText = formatCurrency(futureValue);
+            document.getElementById('powerLoss').innerText = "-" + formatCurrency(amount - realValue);
+            document.getElementById('depreciationPercent').innerText = lossPercent.toFixed(2) + "%";
+
+            // Show Results
+            document.getElementById('resultSection').style.display = 'flex';
+            
+            // Render Chart
+            renderChart(amount, futureValue, years);
+            
+            document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function renderChart(start, end, years) {
+            const ctx = document.getElementById('inflationChart').getContext('2d');
+            
+            if (myChart) {
+                myChart.destroy();
+            }
+
+            // Generate data points for the line chart
+            const labels = [];
+            const data = [];
+            const rate = parseFloat(document.getElementById('rate').value) / 100;
+
+            for(let i=0; i<=years; i++) {
+                labels.push(`Year ${i}`);
+                data.push(start * Math.pow((1 + rate), i));
+            }
+
+            myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Cost of Living',
+                        data: data,
+                        borderColor: '#dc2626',
+                        backgroundColor: 'rgba(220, 38, 38, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return formatCurrency(context.raw);
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            ticks: {
+                                callback: function(value) {
+                                    return '₹' + (value/1000).toFixed(0) + 'k';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function formatCurrency(num) {
+            return new Intl.NumberFormat('en-IN', {
+                style: 'currency',
+                currency: 'INR',
+                maximumFractionDigits: 0
+            }).format(num);
+        }
+
+        function toggleFaq(element) {
+            const answer = element.nextElementSibling;
+            const icon = element.querySelector('i');
+            
+            if (answer.style.display === "block") {
+                answer.style.display = "none";
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+            } else {
+                answer.style.display = "block";
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-up');
+            }
+        }
+    </script>
+    <div id="footer"></div>
 <script>
-function calculateInflation(){
-  const amount = parseFloat(document.getElementById("amount").value);
-  const rate = parseFloat(document.getElementById("inflationRate").value)/100;
-  const years = parseInt(document.getElementById("years").value);
-
-  if(isNaN(amount) || isNaN(rate) || isNaN(years)){
-    document.getElementById("result").innerHTML = "❌ Please enter valid values.";
-    return;
-  }
-
-  const futureValue = amount * Math.pow((1 + rate), years);
-  const loss = futureValue - amount;
-
-  document.getElementById("result").innerHTML = `
-    <strong>Future Value:</strong> ₹${futureValue.toFixed(2)}<br>
-    <strong>Inflation Impact:</strong> ₹${loss.toFixed(2)}<br>
-    <strong>Purchasing Power Reduced Over:</strong> ${years} years
-  `;
-}
+fetch("/footer.html")
+  .then(r => r.text())
+  .then(d => {
+    document.getElementById("footer").innerHTML = d;
+    document.getElementById("year").textContent = new Date().getFullYear();
+  });
 </script>
-<div id="footer"></div>
+ <div id="footer"></div>
 <script>
 fetch("/footer.html")
   .then(r => r.text())
