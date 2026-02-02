@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Passport Expiry Calculator | Check 6-Month Validity Rule - Toolvala.in</title>
+    <link rel="stylesheet"
+   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">.
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Calculate your passport expiry date and check travel eligibility. Verify the 6-month validity rule for international travel. Free online tool for Indian and Global passports.">
+    <meta name="keywords" content="passport expiry calculator, 6 month passport rule calculator, passport validity checker, travel eligibility calculator, passport renewal calculator, indian passport expiry check, visa validity tool, toolvala">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.toolvala.in/passport-expiry-calculator.html">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Passport Expiry Calculator - Toolvala.in">
+    <meta property="og:description" content="Planning a trip? Check if your passport meets the 6-month validity rule instantly.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolvala.in/passport-expiry-calculator.html">
+
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Schema Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Passport Expiry Calculator",
+      "applicationCategory": "TravelApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "INR"
+      },
+      "description": "A tool to calculate passport expiration dates and verify travel eligibility based on the 6-month rule."
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [{
+        "@type": "Question",
+        "name": "What is the 6-month passport rule?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Many countries require your passport to be valid for at least 6 months beyond your date of entry or departure. If your passport expires sooner, airlines may deny boarding."
+        }
+      }, {
+        "@type": "Question",
+        "name": "How long is an Indian passport valid?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "For adults (18+), an Indian passport is valid for 10 years. For minors (under 18), it is valid for 5 years or until they turn 18, whichever is earlier."
+        }
+      }, {
+        "@type": "Question",
+        "name": "Can I renew my passport before it expires?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, you can apply for a re-issue of your passport up to 1 year before its expiry date."
+        }
+      }]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary: #1d4ed8; /* Blue-700 */
+            --primary-dark: #1e40af;
+            --secondary: #eff6ff;
+            --text-main: #0f172a;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --success: #16a34a;
+            --warning: #ca8a04;
+            --danger: #dc2626;
+            --white: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        .logo span { color: var(--text-main); }
+
+        /* Main Layout */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .tool-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .tool-header h1 {
+            font-size: 2.5rem;
+            color: var(--text-main);
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+        .tool-header p { color: var(--text-light); font-size: 1.1rem; }
+
+        /* Calculator Box */
+        .calculator-box {
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            padding: 30px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group { margin-bottom: 20px; }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+        
+        .input-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border 0.2s;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.1);
+        }
+
+        .btn-calculate {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 10px;
+        }
+        .btn-calculate:hover { background: var(--primary-dark); }
+
+        /* Result Display */
+        .result-box {
+            margin-top: 25px;
+            background: var(--secondary);
+            border: 1px solid #bfdbfe;
+            padding: 25px;
+            border-radius: 12px;
+            display: none;
+            text-align: center;
+        }
+        
+        .result-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+        
+        .result-date {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            margin: 10px 0;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 700;
+            margin-top: 10px;
+        }
+        .status-valid { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+        .status-warning { background: #fef9c3; color: #854d0e; border: 1px solid #fde047; }
+        .status-expired { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+
+        .travel-advice {
+            margin-top: 15px;
+            font-size: 0.95rem;
+            color: var(--text-main);
+            background: white;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+        }
+
+        /* Flowchart Styles */
+        .flowchart-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 40px 0;
+        }
+        .flow-step {
+            background: var(--white);
+            border: 2px solid var(--primary);
+            padding: 15px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            color: var(--text-main);
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .flow-arrow {
+            color: var(--text-light);
+            font-size: 1.2rem;
+        }
+
+        /* Related Tools */
+        .related-tools { margin-top: 60px; }
+        .section-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 20px; border-left: 5px solid var(--primary); padding-left: 15px; }
+        .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+        .tool-link {
+            display: block;
+            background: var(--white);
+            padding: 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            transition: transform 0.2s, border-color 0.2s;
+            text-align: center;
+            font-weight: 600;
+        }
+        .tool-link:hover { transform: translateY(-3px); border-color: var(--primary); color: var(--primary); }
+        .tool-link i { display: block; font-size: 1.5rem; margin-bottom: 10px; color: var(--primary); }
+
+        /* Content Article */
+        .content-article {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin-top: 60px;
+        }
+        .content-article h2 { color: var(--primary-dark); margin-top: 30px; margin-bottom: 15px; font-size: 1.8rem; }
+        .content-article h3 { color: var(--text-main); margin-top: 25px; margin-bottom: 10px; font-size: 1.4rem; }
+        .content-article p { margin-bottom: 15px; color: #334155; text-align: justify; }
+        .content-article ul { margin-left: 20px; margin-bottom: 20px; color: #334155; }
+        .content-article li { margin-bottom: 8px; }
+        .highlight-box {
+            background: #eff6ff;
+            border-left: 4px solid var(--primary);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* FAQ */
+        .faq-item { border-bottom: 1px solid var(--border); padding: 15px 0; }
+        .faq-question { font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; color: var(--text-main); }
+        .faq-answer { margin-top: 10px; display: none; color: var(--text-light); }
+
+        @media (max-width: 768px) {
+            .tool-header h1 { font-size: 2rem; }
+            .content-article { padding: 20px; }
+            .flowchart-container { flex-direction: column; }
+            .flow-arrow { transform: rotate(90deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">Toolvala<span>.in</span></a>
+        </div>
+    </nav>
+
+    <div class="container">
+        
+        <header class="tool-header">
+            <h1>Passport Expiry Calculator</h1>
+            <p>Check your passport validity and ensure you meet the 6-month travel rule.</p>
+        </header>
+
+        <div class="calculator-box">
+            <div class="form-group">
+                <label for="issueDate">Date of Issue</label>
+                <input type="date" id="issueDate" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label>Passport Type / Validity</label>
+                <select id="validityYears" class="form-control">
+                    <option value="10">Adult (10 Years)</option>
+                    <option value="5">Minor / Tatkaal (5 Years)</option>
+                    <option value="custom">Custom Validity</option>
+                </select>
+            </div>
+
+            <div class="form-group" id="customInput" style="display: none;">
+                <label>Enter Validity (Years)</label>
+                <input type="number" id="customYears" class="form-control" placeholder="e.g. 1">
+            </div>
+
+            <button class="btn-calculate" onclick="calculatePassportExpiry()">Check Status</button>
+
+            <div id="resultBox" class="result-box">
+                <div class="result-label">Passport Expires On</div>
+                <div class="result-date" id="expiryDate">-</div>
+                
+                <div id="statusBadge" class="status-badge">Status</div>
+                
+                <div class="travel-advice" id="travelAdvice">
+                    <!-- Advice will appear here -->
+                </div>
+                
+                <div style="margin-top: 15px; font-size: 0.9rem; color: #64748b;">
+                    Time Remaining: <span id="timeLeft" style="font-weight: 700;">-</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Related Tools -->
+        <div class="related-tools">
+            <h2 class="section-title">Related Date & Time Tools</h2>
+            <div class="tools-grid">
+                <a href="warranty-expiry-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    Warranty Calc
+                </a>
+                <a href="food-expiry-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-utensils"></i>
+                    Food Expiry
+                </a>
+                <a href="anniversary-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-heart"></i>
+                    Anniversary Calc
+                </a>
+                <a href="production-time-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-industry"></i>
+                    Production Time
+                </a>
+                <a href="date-difference.html" class="tool-link">
+                    <i class="fa-regular fa-calendar-minus"></i>
+                    Date Difference
+                </a>
+                <a href="age-calculator.html" class="tool-link">
+                    <i class="fa-solid fa-user-clock"></i>
+                    Age Calculator
+                </a>
+            </div>
+        </div>
+
+        <!-- SEO Content -->
+        <article class="content-article">
+            <h2>The Ultimate Guide to Passport Validity and the 6-Month Rule</h2>
+            <p>Planning an international trip is exciting, but nothing ruins a vacation faster than being denied boarding at the airport because of your passport. It's not enough for your passport to be valid on the day of travel; most countries enforce the <strong>6-Month Validity Rule</strong>. <strong>Toolvala.in's Passport Expiry Calculator</strong> helps you instantly check your passport's status and travel eligibility.</p>
+
+            <p>This guide covers everything you need to know about passport expiration, renewal timelines, and international travel requirements.</p>
+
+            <h3>How the Calculation Works</h3>
+            <p>Calculating passport expiry is straightforward, but determining travel eligibility requires checking the date against your planned travel window. Here is the logic:</p>
+
+            <div class="flowchart-container">
+                <div class="flow-step">Issue Date</div>
+                <div class="flow-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                <div class="flow-step">Add Validity<br>(5 or 10 Years)</div>
+                <div class="flow-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                <div class="flow-step">Calculate<br>Expiry Date</div>
+                <div class="flow-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                <div class="flow-step">Check<br>6-Month Rule</div>
+            </div>
+
+            <h3>What is the 6-Month Passport Rule?</h3>
+            <p>The 6-month rule is a requirement enforced by many countries (including USA, Thailand, Singapore, UAE, etc.) stating that your passport must be valid for at least <strong>six months beyond your date of entry</strong> (or sometimes departure).</p>
+            
+            <div class="highlight-box">
+                <strong>Why does this rule exist?</strong><br>
+                It prevents travelers from becoming stranded if their stay is unexpectedly extended due to illness, legal issues, or flight cancellations. If your passport expires while you are abroad, you cannot travel internationally.
+            </div>
+
+            <h3>Passport Validity in India</h3>
+            <p>In India, passport validity depends on the applicant's age:</p>
+            <ul>
+                <li><strong>Adults (18 years and above):</strong> Passports are valid for <strong>10 years</strong> from the date of issue.</li>
+                <li><strong>Minors (0 to 15 years):</strong> Passports are valid for <strong>5 years</strong> or until they turn 18, whichever is earlier.</li>
+                <li><strong>Minors (15 to 18 years):</strong> Can opt for a 10-year validity passport or a standard minor passport valid until age 18.</li>
+            </ul>
+
+            <h3>When Should You Renew Your Passport?</h3>
+            <p>Do not wait for the expiry date! You should apply for a <strong>Re-issue of Passport</strong> if:</p>
+            <ol>
+                <li>Your passport has less than 9 months of validity left (to be safe for the 6-month rule).</li>
+                <li>Your pages are exhausted (no space for visa stamps).</li>
+                <li>There is a change in personal details (name, address, spouse name).</li>
+                <li>The passport is damaged or lost.</li>
+            </ol>
+            <p><em>Note: You can apply for renewal up to 1 year before the actual expiry date.</em></p>
+
+            <h3>Countries with Strict Validity Rules</h3>
+            <p>While rules change, these popular destinations typically require 6 months validity:</p>
+            <ul>
+                <li>United States</li>
+                <li>United Kingdom</li>
+                <li>Thailand</li>
+                <li>Singapore</li>
+                <li>Malaysia</li>
+                <li>United Arab Emirates (Dubai)</li>
+                <li>China</li>
+            </ul>
+            <p>Some countries (like Schengen area members) require 3 months validity beyond your planned departure date.</p>
+
+            <h3>Frequently Asked Questions (FAQs)</h3>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">1. Can I travel if my passport expires in 4 months? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">It depends on the destination. Some countries only require validity for the duration of stay (e.g., Canada, Australia for some citizens), but most popular tourist destinations require 6 months. Check the specific embassy guidelines.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">2. What happens if my passport expires while I am abroad? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">You will need to contact your country's nearest embassy or consulate to apply for an emergency travel document or an expedited passport renewal to return home.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">3. Does the issue date count in the 10 years? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">Yes. If your passport was issued on 01/01/2020, it will expire on 31/12/2029 (technically the day before the 10th anniversary).</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">4. Can I renew my passport online? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">In India, you can fill the application form online via the Passport Seva website, but you must visit the Passport Seva Kendra (PSK) physically for biometrics and document verification.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">5. What is the difference between Expiry and Validity? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">They refer to the same concept. Validity is the duration (e.g., 10 years), and Expiry is the specific date when that duration ends.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">6. Do children need separate passports? <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">Yes, every individual, regardless of age (even newborns), must have their own separate passport for international travel.</div>
+            </div>
+
+            <p>Travel smart and safe. Use <strong>Toolvala.in</strong> to ensure your documents are travel-ready before you book your tickets!</p>
+        </article>
+    </div>
+
+    <script>
+        // Handle Custom Input Toggle
+        document.getElementById('validityYears').addEventListener('change', function() {
+            const customInput = document.getElementById('customInput');
+            if (this.value === 'custom') {
+                customInput.style.display = 'block';
+            } else {
+                customInput.style.display = 'none';
+            }
+        });
+
+        function calculatePassportExpiry() {
+            const issueDateVal = document.getElementById('issueDate').value;
+            let years = document.getElementById('validityYears').value;
+            const resultBox = document.getElementById('resultBox');
+
+            if (!issueDateVal) {
+                alert("Please select the Date of Issue.");
+                return;
+            }
+
+            if (years === 'custom') {
+                years = document.getElementById('customYears').value;
+                if (!years || years <= 0) {
+                    alert("Please enter a valid number of years.");
+                    return;
+                }
+            }
+
+            const issueDate = new Date(issueDateVal);
+            const expiryDate = new Date(issueDate);
+            
+            // Add years to issue date
+            // Note: Passport expiry is usually date - 1 day. 
+            // E.g., Issue 1 Jan 2020 -> Expiry 31 Dec 2029.
+            // Standard logic: Same date, +10 years, minus 1 day.
+            expiryDate.setFullYear(expiryDate.getFullYear() + parseInt(years));
+            expiryDate.setDate(expiryDate.getDate() - 1);
+
+            const today = new Date();
+            today.setHours(0,0,0,0); // Reset time for accurate comparison
+
+            // Calculate 6 Months Threshold
+            const sixMonthsFromNow = new Date(today);
+            sixMonthsFromNow.setMonth(today.getMonth() + 6);
+
+            // Format Date
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const formattedExpiry = expiryDate.toLocaleDateString('en-IN', options);
+
+            // Determine Status
+            const statusBadge = document.getElementById('statusBadge');
+            const travelAdvice = document.getElementById('travelAdvice');
+            const timeLeftSpan = document.getElementById('timeLeft');
+
+            // Calculate Time Left
+            const diffTime = expiryDate - today;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+            if (diffDays < 0) {
+                // Expired
+                statusBadge.innerText = "EXPIRED";
+                statusBadge.className = "status-badge status-expired";
+                travelAdvice.innerHTML = "<i class='fa-solid fa-circle-xmark' style='color:var(--danger)'></i> <strong>Do Not Travel.</strong> Your passport has expired. Please renew it immediately.";
+                timeLeftSpan.innerText = "Expired " + Math.abs(diffDays) + " days ago";
+            } else if (expiryDate < sixMonthsFromNow) {
+                // Valid but < 6 months (Risky)
+                statusBadge.innerText = "EXPIRING SOON";
+                statusBadge.className = "status-badge status-warning";
+                travelAdvice.innerHTML = "<i class='fa-solid fa-triangle-exclamation' style='color:var(--warning)'></i> <strong>Travel Restricted.</strong> You have less than 6 months validity. Many countries will deny entry. Renew immediately.";
+                timeLeftSpan.innerText = diffDays + " Days";
+            } else {
+                // Valid > 6 months
+                statusBadge.innerText = "VALID FOR TRAVEL";
+                statusBadge.className = "status-badge status-valid";
+                travelAdvice.innerHTML = "<i class='fa-solid fa-check-circle' style='color:var(--success)'></i> <strong>Good to Go!</strong> Your passport meets the 6-month validity rule for international travel.";
+                
+                // Calculate Years/Months left for display
+                const yearsLeft = Math.floor(diffDays / 365);
+                const monthsLeft = Math.floor((diffDays % 365) / 30);
+                timeLeftSpan.innerText = `${yearsLeft} Years, ${monthsLeft} Months`;
+            }
+
+            document.getElementById('expiryDate').innerText = formattedExpiry;
+            resultBox.style.display = 'block';
+            resultBox.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function toggleFaq(element) {
+            const answer = element.nextElementSibling;
+            const icon = element.querySelector('i');
+            
+            if (answer.style.display === "block") {
+                answer.style.display = "none";
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+            } else {
+                answer.style.display = "block";
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-up');
+            }
+        }
+    </script>
+    <div id="footer"></div>
+<script>
+fetch("/footer.html")
+  .then(r => r.text())
+  .then(d => {
+    document.getElementById("footer").innerHTML = d;
+    document.getElementById("year").textContent = new Date().getFullYear();
+  });
+</script>
+ <div id="footer"></div>
+<script>
+fetch("/footer.html")
+  .then(r => r.text())
+  .then(d => {
+    document.getElementById("footer").innerHTML = d;
+    document.getElementById("year").textContent = new Date().getFullYear();
+  });
+</script>
+</body>
+</html>
