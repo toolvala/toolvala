@@ -5,15 +5,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- ✅ SEO Meta Tags -->
-    <title>Social Share Link Generator | Toolvala.in – One-Click Share Tool</title>
-    <meta name="description" content="Generate custom share links for WhatsApp, Facebook, X, Telegram, Pinterest, and LinkedIn. Professional social media distribution tool by Toolvala.in.">
-    <meta name="keywords" content="social share link generator, one click share tool, whatsapp link with text, pinterest share button generator, toolvala, viral marketing tools, social media link builder">
-    <meta name="robots" content="index, follow">
+    <title>Social Share Link Hub Generator | Toolvala.in – One-Click Viral Tool</title>
+    <meta name="description" content="Generate professional social sharing links instantly. Create a one-click hub for WhatsApp, Facebook, X, Pinterest, and LinkedIn. Boost your content reach with Toolvala.in.">
+    <meta name="keywords" content="social share link generator, one click share hub, whatsapp link builder, social media distribution tool, Toolvala sharing tool, viral link generator, link sharing dashboard, pinterest share button">
     <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">.
-
-    <!-- ✅ Canonical Tag -->
+    <!-- ✅ Robots & Canonical -->
+    <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://www.toolvala.in/social-share-tool.html">
+
+    <!-- ✅ JSON-LD Schema Markup (Software & FAQ) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Social Share Link Hub Generator",
+      "url": "https://www.toolvala.in/social-share-tool.html",
+      "description": "A professional tool to generate pre-filled social media sharing links for WhatsApp, Facebook, X, Telegram, Pinterest, and LinkedIn.",
+      "applicationCategory": "SocialNetworkingApplication",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Why are the share buttons hidden at first?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The buttons are hidden to ensure the links are generated correctly with your specific Target URL and Message. Once you click 'Generate,' the hub creates custom-encoded links instantly."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does this tool work on mobile devices?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes! The Toolvala hub is fully responsive. On mobile, the buttons will attempt to open the official apps (WhatsApp, Telegram, etc.) directly."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why doesn't the pre-filled text show on LinkedIn or Facebook?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "LinkedIn and Facebook have strict anti-spam policies that prevent third-party tools from pre-filling the user's status box. However, the URL is passed correctly so the platform can scrape your site's metadata."
+          }
+        }
+      ]
+    }
+    </script>
 
     <!-- Google Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -33,7 +82,7 @@
             --tg-blue: #0088cc;
             --pin-red: #E60023;
             --li-blue: #0a66c2;
-            --border-radius: 20px;
+            --border-radius: 24px;
         }
 
         body {
@@ -43,6 +92,7 @@
             margin: 0;
             padding: 0;
             line-height: 1.8;
+            scroll-behavior: smooth;
         }
 
         .container {
@@ -51,7 +101,6 @@
             padding: 20px;
         }
 
-        /* Brand Logo Style */
         .brand {
             font-size: 28px;
             font-weight: 800;
@@ -61,16 +110,14 @@
         .brand span.dark { color: #1e3a8a; }
         .brand span.blue { color: var(--toolvala-dot-in); }
 
-        /* Professional Header */
         .page-header { text-align: center; margin-bottom: 50px; }
         .page-title { font-size: 38px; font-weight: 800; color: #0f172a; margin-bottom: 10px; }
         .page-subtitle { font-size: 16px; color: var(--text-muted); max-width: 600px; margin: 0 auto; }
 
-        /* Tool Card */
         .tool-card {
             background: var(--white);
             border: 1px solid #e2e8f0;
-            border-radius: 24px;
+            border-radius: var(--border-radius);
             padding: 40px;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
             margin-bottom: 60px;
@@ -93,7 +140,48 @@
         }
         .input-field:focus { background-color: white; border-color: var(--toolvala-blue); box-shadow: 0 0 0 4px rgba(29, 78, 216, 0.1); }
 
-        /* Share Button Grid */
+        .btn-generate {
+            width: 100%;
+            background-color: var(--toolvala-blue);
+            color: white;
+            padding: 18px;
+            border: none;
+            border-radius: 14px;
+            font-size: 18px;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: transform 0.2s, background 0.3s;
+        }
+        .btn-generate:hover { transform: translateY(-2px); background-color: #1e3a8a; }
+
+        /* ✅ HIDDEN LINKS HUB */
+        #linksHub {
+            display: none;
+            margin-top: 40px;
+            padding-top: 40px;
+            border-top: 2px dashed #e2e8f0;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hub-title {
+            text-align: center;
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+
         .share-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
@@ -113,7 +201,7 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            transition: transform 0.2s, opacity 0.2s;
+            transition: transform 0.2s;
         }
         .btn-share:hover { transform: translateY(-3px); opacity: 0.9; }
 
@@ -124,53 +212,36 @@
         .btn-pin { background-color: var(--pin-red); }
         .btn-li { background-color: var(--li-blue); }
 
-        /* Link Generator Feature */
-        .link-gen-box {
+        .tool-link-box {
             background: #f8fafc;
-            border: 2px dashed #cbd5e1;
-            padding: 25px;
-            border-radius: 18px;
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
             text-align: center;
         }
-        .btn-generate {
-            background: var(--toolvala-blue);
-            color: white;
-            border: none;
-            padding: 16px 32px;
-            border-radius: 12px;
-            font-weight: 800;
-            cursor: pointer;
-            width: 100%;
-            max-width: 300px;
-            margin-bottom: 15px;
-        }
-        .output-link-container {
-            display: none;
+        .copy-group {
+            display: flex;
             gap: 10px;
-            margin-top: 15px;
+            margin-top: 10px;
         }
-        #outputLink { flex: 1; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 13px; }
+        #outputLink { flex: 1; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 13px; outline: none; }
         .btn-copy { background: #1e293b; color: white; border: none; padding: 0 20px; border-radius: 8px; cursor: pointer; font-weight: 600; }
 
-        /* Sidebar Style Headers */
+        /* Content Headers */
         .section-header { display: flex; align-items: center; margin-top: 70px; margin-bottom: 30px; }
         .section-header .line { width: 5px; height: 35px; background-color: var(--toolvala-dot-in); margin-right: 15px; border-radius: 2px; }
         .section-header h2 { font-size: 26px; font-weight: 800; margin: 0; }
 
-        /* Flowchart */
+        /* Diagram */
         .diagram { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 40px 0; }
         .diag-item { background: #f8fafc; border: 1px solid #e2e8f0; padding: 20px; border-radius: 16px; text-align: center; font-weight: 700; }
         .diag-item i { font-size: 24px; color: var(--toolvala-blue); margin-bottom: 10px; display: block; }
 
-        /* Article Content */
-        article p { color: #475569; margin-bottom: 25px; font-size: 16px; }
-        article h3 { color: var(--text-main); margin-top: 40px; font-weight: 700; }
-
-        /* Related Tools Styling */
+        /* Related Tools */
         .related-container { background: #f1f5f9; padding: 40px; border-radius: 24px; margin-top: 80px; }
         .related-grid { columns: 2; list-style: none; padding: 0; margin: 0; }
         .related-grid li { margin-bottom: 15px; }
-        .related-grid a { text-decoration: none; color: #1e293b; font-weight: 600; transition: color 0.2s; }
+        .related-grid a { text-decoration: none; color: #1e293b; font-weight: 600; }
         .related-grid a:hover { color: var(--toolvala-blue); text-decoration: underline; }
 
         /* FAQ */
@@ -191,106 +262,112 @@
     <div class="brand"><span class="dark">Toolvala</span><span class="blue">.in</span></div>
 
     <div class="page-header">
-        <h1 class="page-title">Social Share Link Generator</h1>
-        <p class="page-subtitle">Instantly share your content across 6 major platforms with a single click. No manual copying needed.</p>
+        <h1 class="page-title">Social Share Link Hub</h1>
+        <p class="page-subtitle">One-click distribution for your digital content. Create a custom sharing dashboard with pre-filled messages instantly.</p>
     </div>
 
-    <!-- MAIN CALCULATOR CARD -->
+    <!-- MAIN TOOL CARD -->
     <div class="tool-card">
         <div class="input-group">
-            <label><i class="fa fa-link"></i> TARGET WEBSITE URL</label>
-            <input type="url" id="targetUrl" class="input-field" placeholder="Paste your link here (e.g., https://toolvala.in)">
+            <label><i class="fa fa-link"></i> TARGET URL TO SHARE</label>
+            <input type="url" id="targetUrl" class="input-field" placeholder="Paste your website link here...">
         </div>
         <div class="input-group">
             <label><i class="fa fa-comment-dots"></i> CUSTOM SHARING MESSAGE (OPTIONAL)</label>
-            <input type="text" id="customMsg" class="input-field" placeholder="Write a catchy caption...">
+            <input type="text" id="customMsg" class="input-field" placeholder="Enter a custom caption or call to action...">
         </div>
 
-        <label style="display:block; text-align:center; font-weight:700; font-size:12px; color:var(--text-muted); margin-bottom:15px;">ONE-CLICK SHARE:</label>
-        <div class="share-grid">
-            <button class="btn-share btn-wa" onclick="oneClickShare('wa')"><i class="fab fa-whatsapp"></i> WhatsApp</button>
-            <button class="btn-share btn-fb" onclick="oneClickShare('fb')"><i class="fab fa-facebook-f"></i> Facebook</button>
-            <button class="btn-share btn-x" onclick="oneClickShare('x')"><i class="fab fa-x-twitter"></i> X / Twitter</button>
-            <button class="btn-share btn-tg" onclick="oneClickShare('tg')"><i class="fab fa-telegram-plane"></i> Telegram</button>
-            <button class="btn-share btn-pin" onclick="oneClickShare('pin')"><i class="fab fa-pinterest-p"></i> Pinterest</button>
-            <button class="btn-share btn-li" onclick="oneClickShare('li')"><i class="fab fa-linkedin-in"></i> LinkedIn</button>
-        </div>
+        <button class="btn-generate" onclick="generateLinksHub()">
+            <i class="fa fa-wand-magic-sparkles"></i> Generate Share Links Hub
+        </button>
 
-        <!-- PERMANENT TOOL LINK GENERATOR -->
-        <div class="link-gen-box">
-            <h4>Save This Configuration</h4>
-            <p style="font-size: 13px; color: var(--text-muted);">Generate a link that opens this tool with your specific URL and message already filled in.</p>
-            <button class="btn-generate" onclick="generateToolLink()">Generate Tool URL</button>
-            <div id="outputLinkContainer" class="output-link-container">
-                <input type="text" id="outputLink" readonly>
-                <button class="btn-copy" onclick="copyToolLink()">Copy</button>
+        <!-- ✅ THE REVEALED HUB -->
+        <div id="linksHub">
+            <div class="hub-title">One-Click Sharing Options</div>
+            <div class="share-grid">
+                <button class="btn-share btn-wa" onclick="triggerShare('wa')"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+                <button class="btn-share btn-fb" onclick="triggerShare('fb')"><i class="fab fa-facebook-f"></i> Facebook</button>
+                <button class="btn-share btn-x" onclick="triggerShare('x')"><i class="fab fa-x-twitter"></i> X / Twitter</button>
+                <button class="btn-share btn-tg" onclick="triggerShare('tg')"><i class="fab fa-telegram-plane"></i> Telegram</button>
+                <button class="btn-share btn-pin" onclick="triggerShare('pin')"><i class="fab fa-pinterest-p"></i> Pinterest</button>
+                <button class="btn-share btn-li" onclick="triggerShare('li')"><i class="fab fa-linkedin-in"></i> LinkedIn</button>
+            </div>
+
+            <div class="tool-link-box">
+                <h4 style="margin:0; font-size:14px;">Bookmark or Share this Pre-filled Tool</h4>
+                <div class="copy-group">
+                    <input type="text" id="outputLink" readonly>
+                    <button class="btn-copy" onclick="copyToolLink()">Copy URL</button>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- SEO CONTENT (3000+ WORDS) -->
     <article>
-        <div class="section-header"><div class="line"></div><h2>The Power of Social Link Distribution</h2></div>
-        <p>In the digital landscape, friction is the enemy of virality. If a user has to copy your link, open a new app, find a contact, and paste the link, the chances of them completing that action drop significantly. The <strong>Social Share Link Generator</strong> by <strong>Toolvala.in</strong> is a professional-grade solution designed to eliminate these barriers. By creating "Direct Intents," we allow your audience to share your tools, blogs, or products in a single tap.</p>
+        <div class="section-header"><div class="line"></div><h2>Mastering Social Media Distribution</h2></div>
+        <p>In the digital landscape, friction is the primary barrier to virality. If a visitor finds your content valuable, whether it's a deep-dive article or a utility like the <strong>Visa Expiry Calculator</strong>, they should be able to share it with their network in seconds. The <strong>Social Share Link Generator</strong> by <strong>Toolvala.in</strong> is a professional-grade solution designed to eliminate "sharing friction." By pre-encoding your data into a hidden hub, we enable one-click distribution across the most popular social networks.</p>
         
-        <p>Whether you are distributing a <strong>Visa Expiry Calculator</strong> to a travel community or sharing the <strong>Baby Diaper Cost Calculator</strong> in a parenting group, the message matters as much as the link. Our generator uses URI-encoding to combine your custom text and URL into a format that social platforms recognize instantly, ensuring your message is delivered exactly as you intended.</p>
+        <p>Content creators often overlook the technical hurdles of manual sharing. Copying a link, switching apps, and typing a repetitive message is a process that leads to massive "drop-off." Our generator uses the official <strong>Direct Intent</strong> endpoints of WhatsApp, Facebook, X, Telegram, Pinterest, and LinkedIn to ensure your links aren't just sent, but are sent with a compelling, pre-written narrative that significantly boosts click-through rates (CTR).</p>
 
-        <div class="section-header"><div class="line"></div><h2>Share Optimization Diagram</h2></div>
+        <div class="section-header"><div class="line"></div><h2>One-Click Distribution Strategy Diagram</h2></div>
         <div class="diagram">
-            <div class="diag-item"><i class="fa fa-keyboard"></i> 1. Enter Target URL</div>
-            <div class="diag-item"><i class="fa fa-pen"></i> 2. Craft Your Hook</div>
-            <div class="diag-item"><i class="fa fa-bolt"></i> 3. One-Click Send</div>
-            <div class="diag-item"><i class="fa fa-chart-line"></i> 4. Track Results</div>
+            <div class="diag-item"><i class="fa fa-keyboard"></i> 1. Input Target URL</div>
+            <div class="diag-item"><i class="fa fa-pen-nib"></i> 2. Encode Message</div>
+            <div class="diag-item"><i class="fa fa-display"></i> 3. Reveal Hub</div>
+            <div class="diag-item"><i class="fa fa-share-nodes"></i> 4. Viral Reach</div>
         </div>
 
-        <div class="section-header"><div class="line"></div><h2>Platform-Specific Guidelines</h2></div>
-        <h3>1. WhatsApp & Telegram: Personal Connection</h3>
-        <p>Messaging apps are the most powerful conversion drivers today. Our <strong>WhatsApp link generator</strong> utilizes the <code>api.whatsapp.com</code> endpoint to trigger the native app on mobile or the web version on desktop. This is ideal for peer-to-peer sharing where trust is highest.</p>
+        <div class="section-header"><div class="line"></div><h2>Why Use a Generated Share Hub?</h2></div>
+        <p>A "Share Hub" is a centralized dashboard where all your distribution channels are organized in one place. Here are the professional advantages of using the Toolvala.in system:</p>
+        
+        <h3>1. WhatsApp & Telegram: Direct Influence</h3>
+        <p>Messaging apps are the most powerful conversion drivers today. When a user clicks the WhatsApp button in our hub, the tool triggers a native intent that opens their app and pre-fills their text box. This makes it effortless to share tools like the <strong>Baby Diaper Cost Calculator</strong> with family groups or the <strong>Production Time Calculator</strong> with project teams.</p>
 
-        <h3>2. Facebook & LinkedIn: The Visual Feed</h3>
-        <p>Social feeds like Facebook and LinkedIn rely on <strong>Open Graph (OG)</strong> meta tags. While these platforms do not allow third-party tools to pre-fill the "Status Update" text for security reasons, our tool ensures the URL is passed correctly so the platform can scrape your site's featured image, title, and description perfectly.</p>
+        <h3>2. X (Twitter) & Pinterest: Rapid Discovery</h3>
+        <p>For platforms focused on discovery, speed is everything. Our hub allows users to Tweet a link or Pin an image instantly. By pre-filling the description for Pinterest, you ensure that your <strong>Food Expiry Calculator</strong> infographics or charts are indexed with the correct SEO keywords on the platform.</p>
 
-        <h3>3. X (Twitter) & Pinterest: Rapid Discovery</h3>
-        <p>X is built for speed, and Pinterest is built for inspiration. Our <strong>X Tweet Generator</strong> allows you to include hashtags and mentions within the custom message box. For Pinterest, our tool generates a "Pin it" link that captures your target URL as the source, making it perfect for sharing infographics or visual tools like our <strong>Food Expiry Calculator</strong>.</p>
+        <h3>3. Facebook & LinkedIn: Professional Reach</h3>
+        <p>Social feeds rely on <strong>Open Graph (OG) Meta Tags</strong>. Our generator ensures that the URL passed to these platforms is clean and formatted correctly. While these networks do not allow third-party tools to pre-fill the status update text for security reasons, having a one-click button ensures the user reaches the share screen instantly.</p>
 
-        <div class="section-header"><div class="line"></div><h2>Top 5 Marketing Strategies Using Social Links</h2></div>
+        <div class="section-header"><div class="line"></div><h2>Top 5 Tips for Social Link Engagement</h2></div>
         <ol>
-            <li><strong>Pre-Filled Viral Loops:</strong> When a user finishes using your tool, give them a pre-filled share link saying, "I just saved $200 with the Toolvala Diaper Calculator! Check it out."</li>
-            <li><strong>Email Signature Links:</strong> Include a one-click WhatsApp share link in your email signature to make it easy for clients to recommend your services to their network.</li>
-            <li><strong>Newsletter CTAs:</strong> Don't just ask readers to "Share on X." Provide the link that opens the compose box with the tweet already written.</li>
-            <li><strong>Influencer Outreach:</strong> When sending your content to influencers, give them a "Social Share Link" so they don't have to think about what to write—they can just click and approve.</li>
-            <li><strong>The "Save Config" Hack:</strong> Use our <strong>Tool URL Generator</strong> to create a link that leads users back to a version of this page that is already pre-filled with your brand’s URL.</li>
+            <li><strong>Craft a "Hook" in the Message:</strong> Don't just share a naked URL. Use the custom message box to provide value, like "I just calculated my stay! Check yours here:"</li>
+            <li><strong>Use Emojis:</strong> Our tool supports full UTF-8 encoding. Adding 🚀 or ✅ to your message increases visual engagement significantly on WhatsApp and X.</li>
+            <li><strong>The "One-In-One-Out" Rule:</strong> For every piece of content you produce, generate a share hub and share it across at least three different platforms.</li>
+            <li><strong>Respect Platform Character Limits:</strong> While WhatsApp is generous, X (Twitter) has a 280-character limit. Keep your messages under 200 characters for the best results.</li>
+            <li><strong>Check Your OG Tags:</strong> For Facebook and LinkedIn sharing, ensure your website has high-quality `og:image` tags so the automatic preview looks professional.</li>
         </ol>
 
         <div class="section-header"><div class="line"></div><h2>Frequently Asked Questions (FAQ)</h2></div>
         <div class="faq-item">
-            <span class="faq-q" onclick="toggleFaq(0)">1. Why isn't my message showing on Facebook? <span>▼</span></span>
-            <div class="faq-a" id="faq-0">Facebook's security API forbids third-party apps from pre-filling the user's status message box to prevent spam. The tool will share the URL, and you can type your message in the Facebook popup window.</div>
+            <span class="faq-q" onclick="toggleFaq(0)">1. Why are the share buttons hidden at first? <span>▼</span></span>
+            <div class="faq-a" id="faq-0">To ensure the links are generated correctly with your specific Target URL and Message. Once you click 'Generate,' the hub creates custom-encoded links instantly.</div>
         </div>
         <div class="faq-item">
-            <span class="faq-q" onclick="toggleFaq(1)">2. Is this tool free for commercial use? <span>▼</span></span>
-            <div class="faq-a" id="faq-1">Yes, Toolvala.in provides this Social Share Link Generator 100% free for both personal and professional use.</div>
+            <span class="faq-q" onclick="toggleFaq(1)">2. Does this tool work on mobile devices? <span>▼</span></span>
+            <div class="faq-a" id="faq-1">Yes! The Toolvala hub is fully responsive. On mobile, the buttons will attempt to open the official apps (WhatsApp, Telegram, etc.) directly.</div>
         </div>
         <div class="faq-item">
-            <span class="faq-q" onclick="toggleFaq(2)">3. How does the "Generate Tool URL" work? <span>▼</span></span>
-            <div class="faq-a" id="faq-2">It creates a unique link that encodes your target URL and message. When someone clicks that generated link, they arrive at this Toolvala page with all fields already filled in for them.</div>
+            <span class="faq-q" onclick="toggleFaq(2)">3. Why doesn't the text show on LinkedIn? <span>▼</span></span>
+            <div class="faq-a" id="faq-2">LinkedIn and Facebook have strict anti-spam APIs that do not allow third-party websites to pre-fill the user's status box. However, the URL is passed correctly so the platform can scrape your site.</div>
         </div>
         <div class="faq-item">
-            <span class="faq-q" onclick="toggleFaq(3)">4. Does it work on both Mobile and Desktop? <span>▼</span></span>
-            <div class="faq-a" id="faq-3">Yes. We use "Universal Link" technology. If a user is on a phone, it will attempt to open the native app. If on a computer, it will open the platform's website.</div>
+            <span class="faq-q" onclick="toggleFaq(3)">4. Is this tool free for commercial use? <span>▼</span></span>
+            <div class="faq-a" id="faq-3">Absolutely. Toolvala.in provides this Social Share Link Generator 100% free for both personal and professional use.</div>
         </div>
         <div class="faq-item">
-            <span class="faq-q" onclick="toggleFaq(4)">5. Can I include emojis in my message? <span>▼</span></span>
-            <div class="faq-a" id="faq-4">Absolutely! Our tool supports full UTF-8 encoding, meaning your emojis will translate perfectly to WhatsApp, X, and Telegram.</div>
+            <span class="faq-q" onclick="toggleFaq(4)">5. Is my data stored on Toolvala.in? <span>▼</span></span>
+            <div class="faq-a" id="faq-4">No. Your URLs and messages are encoded into the browser session or the link itself. We do not store any of your private sharing data on our servers.</div>
         </div>
         <div class="faq-item">
-            <span class="faq-q" onclick="toggleFaq(5)">6. What is the limit for the message length? <span>▼</span></span>
-            <div class="faq-a" id="faq-5">While WhatsApp and Telegram allow long messages, X (Twitter) has a character limit. We recommend keeping your custom message under 200 characters for the best cross-platform results.</div>
+            <span class="faq-q" onclick="toggleFaq(5)">6. What is the "Tool Link" for? <span>▼</span></span>
+            <div class="faq-a" id="faq-5">It's a way to bookmark this hub with your message already saved. If you open that link later, you won't have to type the message again!</div>
         </div>
 
-        <!-- ✅ RELATED TOOLS (Requested HTML Links) -->
+        <!-- ✅ RELATED TOOLS (HTML LINKS) -->
         <div class="related-container">
-            <div class="section-header" style="margin-top: 0;"><div class="line"></div><h2>More Professional Tools</h2></div>
+            <div class="section-header" style="margin-top: 0;"><div class="line"></div><h2>More Utility Tools</h2></div>
             <ul class="related-grid">
                 <li><a href="visa-expiry-calculator.html">Visa Expiry Calculator</a></li>
                 <li><a href="warranty-expiry-calculator.html">Warranty Expiry Calculator</a></li>
@@ -309,56 +386,61 @@
 </div>
 
 <script>
-    // ✅ Load Saved Config from URL
+    // Load config from URL params
     window.onload = function() {
         const params = new URLSearchParams(window.location.search);
         const u = params.get('u');
         const m = params.get('m');
         if (u) document.getElementById('targetUrl').value = decodeURIComponent(u);
         if (m) document.getElementById('customMsg').value = decodeURIComponent(m);
+        if (u || m) generateLinksHub(); 
     };
 
-    function oneClickShare(platform) {
+    function generateLinksHub() {
+        const url = document.getElementById('targetUrl').value.trim();
+        const msg = document.getElementById('customMsg').value.trim();
+
+        if (!url) {
+            alert("Please enter a Target URL to generate the Hub.");
+            return;
+        }
+
+        const baseUrl = window.location.origin + window.location.pathname;
+        const toolUrl = `${baseUrl}?u=${encodeURIComponent(url)}&m=${encodeURIComponent(msg)}`;
+        document.getElementById('outputLink').value = toolUrl;
+
+        const hub = document.getElementById('linksHub');
+        hub.style.display = 'block';
+        hub.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function triggerShare(platform) {
         let url = document.getElementById('targetUrl').value.trim();
         let msg = document.getElementById('customMsg').value.trim();
 
-        if (!url) { alert("Please enter a Target URL."); return; }
         if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
 
         const eUrl = encodeURIComponent(url);
         const eMsg = encodeURIComponent(msg);
-        let finalUrl = "";
+        let final = "";
 
         switch(platform) {
-            case 'wa': finalUrl = `https://api.whatsapp.com/send?text=${msg ? eMsg + '%20' + eUrl : eUrl}`; break;
-            case 'fb': finalUrl = `https://www.facebook.com/sharer/sharer.php?u=${eUrl}`; break;
-            case 'x':  finalUrl = `https://twitter.com/intent/tweet?url=${eUrl}${msg ? '&text=' + eMsg : ''}`; break;
-            case 'tg': finalUrl = `https://t.me/share/url?url=${eUrl}${msg ? '&text=' + eMsg : ''}`; break;
-            case 'pin': finalUrl = `https://pinterest.com/pin/create/button/?url=${eUrl}${msg ? '&description=' + eMsg : ''}`; break;
-            case 'li': finalUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${eUrl}`; break;
+            case 'wa': final = `https://api.whatsapp.com/send?text=${msg ? eMsg + '%20' + eUrl : eUrl}`; break;
+            case 'fb': final = `https://www.facebook.com/sharer/sharer.php?u=${eUrl}`; break;
+            case 'x':  final = `https://twitter.com/intent/tweet?url=${eUrl}${msg ? '&text=' + eMsg : ''}`; break;
+            case 'tg': final = `https://t.me/share/url?url=${eUrl}${msg ? '&text=' + eMsg : ''}`; break;
+            case 'pin': final = `https://pinterest.com/pin/create/button/?url=${eUrl}${msg ? '&description=' + eMsg : ''}`; break;
+            case 'li': final = `https://www.linkedin.com/sharing/share-offsite/?url=${eUrl}`; break;
         }
 
-        window.open(finalUrl, 'SharePopup', 'width=600,height=500,left=200,top=100');
-    }
-
-    function generateToolLink() {
-        const url = document.getElementById('targetUrl').value.trim();
-        const msg = document.getElementById('customMsg').value.trim();
-        
-        if (!url) { alert("Please enter a URL to generate a tool link."); return; }
-
-        const baseUrl = window.location.origin + window.location.pathname;
-        const toolUrl = `${baseUrl}?u=${encodeURIComponent(url)}&m=${encodeURIComponent(msg)}`;
-        
-        document.getElementById('outputLinkContainer').style.display = 'flex';
-        document.getElementById('outputLink').value = toolUrl;
+        window.open(final, 'ShareWindow', 'width=600,height=500,left=200,top=100');
     }
 
     function copyToolLink() {
         const copyText = document.getElementById("outputLink");
         copyText.select();
         navigator.clipboard.writeText(copyText.value);
-        alert("Tool Link Copied! Use this link to share the pre-filled tool.");
+        alert("Tool Link Copied! You can now bookmark this pre-filled hub.");
     }
 
     function toggleFaq(id) {
@@ -366,7 +448,6 @@
         el.style.display = (el.style.display === 'block') ? 'none' : 'block';
     }
 </script>
-
 <div id="footer"></div>
 <script>
 fetch("/footer.html")
@@ -376,5 +457,6 @@ fetch("/footer.html")
     document.getElementById("year").textContent = new Date().getFullYear();
   });
 </script>
+
 </body>
 </html>
