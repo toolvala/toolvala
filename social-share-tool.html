@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">.
     <!-- SEO Meta Tags -->
     <title>Free Social Media Share Link Generator | Toolvala.in</title>
     
@@ -52,7 +53,7 @@
             --accent-color: #3498db;
             --bg-color: #f4f7f6;
             --text-color: #333;
-            --header-height: 60px;
+            --header-height: 60px; /* Reduced slightly for mobile */
             --wa-color: #25D366;
             --fb-color: #1877F2;
             --x-color: #000000;
@@ -67,9 +68,6 @@
             background-color: var(--bg-color);
             margin: 0;
             padding: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
         }
 
         /* HEADER STYLES */
@@ -114,8 +112,7 @@
             display: flex;
             flex-wrap: wrap;
             gap: 30px;
-            align-items: flex-start;
-            flex: 1; /* Pushes footer down */
+            align-items: flex-start; /* Ensures items don't stretch weirdly */
         }
 
         /* Tool Section Styles */
@@ -128,7 +125,7 @@
             text-align: center;
             margin-bottom: 10px;
             border-top: 5px solid var(--accent-color);
-            box-sizing: border-box;
+            box-sizing: border-box; /* Fix padding calculation */
         }
 
         .tool-title {
@@ -284,31 +281,32 @@
             font-size: 0.95rem;
         }
 
-        /* MOBILE OPTIMIZATION */
+        /* MOBILE OPTIMIZATION - FIXING THE GAP */
         @media (max-width: 768px) {
             .container {
-                flex-direction: column;
-                gap: 20px;
+                flex-direction: column; /* Stack items */
+                gap: 20px; /* Reduce gap between sections */
                 margin-top: 10px;
             }
 
+            /* This fixes the huge gap issue */
             .main-content, .sidebar {
-                flex: none;
-                width: 100%;
-                padding: 20px;
+                flex: none; /* Do not grow/shrink based on screen height */
+                width: 100%; /* Force full width */
+                padding: 20px; /* Comfortable padding */
             }
 
             .sidebar {
-                min-width: auto;
+                min-width: auto; /* Allow sidebar to shrink to mobile width */
             }
 
             input[type="url"], input[type="text"] { 
-                width: 100%;
+                width: 100%; /* Full width inputs on mobile */
                 box-sizing: border-box; 
             }
             
             .tool-wrapper {
-                padding: 25px 15px;
+                padding: 25px 15px; /* Tighter padding on mobile */
             }
             
             .tool-title {
@@ -429,32 +427,10 @@
 
 </div>
 
-<!-- FOOTER PLACEHOLDER (Will be filled by JavaScript) -->
-<div id="custom-footer"></div>
-
 <!-- JAVASCRIPT LOGIC -->
 <script>
-    // 1. Footer Loader Function
-    document.addEventListener("DOMContentLoaded", function() {
-        fetch("footer.html")
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("Footer file not found");
-                }
-                return response.text();
-            })
-            .then(data => {
-                document.getElementById("custom-footer").innerHTML = data;
-            })
-            .catch(error => {
-                console.error("Error loading footer:", error);
-                document.getElementById("custom-footer").innerHTML = "<p style='text-align:center; padding:20px;'>Footer could not be loaded. Please ensure you are running on a server (not file://).</p>";
-            });
-    });
-
-    // 2. Share Tool Function
     function shareLink(platform) {
-        // Get the input URL & Message
+        // 1. Get the input URL & Message
         const urlInput = document.getElementById('urlInput');
         const msgInput = document.getElementById('msgInput');
         
@@ -462,7 +438,7 @@
         let message = msgInput.value.trim(); 
         const errorMsg = document.getElementById('error-msg');
 
-        // Simple Validation
+        // 2. Simple Validation
         if (!url) {
             errorMsg.style.display = 'block';
             errorMsg.textContent = "Please paste a website link first.";
@@ -476,14 +452,14 @@
 
         errorMsg.style.display = 'none';
 
-        // Encode the URL and Message
+        // 3. Encode the URL and Message
         const encodedUrl = encodeURIComponent(url);
         const encodedMsg = encodeURIComponent(message);
         
         let shareUrl = '';
         let windowName = 'Share';
 
-        // Determine Platform URL
+        // 4. Determine Platform URL
         switch(platform) {
             case 'wa': // WhatsApp
                 const waText = message ? `${encodedMsg}%20${encodedUrl}` : encodedUrl;
@@ -523,7 +499,7 @@
                 return;
         }
 
-        // Open the window
+        // 5. Open the window
         const width = 600;
         const height = 400;
         const left = (window.innerWidth - width) / 2;
@@ -536,6 +512,14 @@
         );
     }
 </script>
-
+<div id="footer"></div>
+<script>
+fetch("/footer.html")
+  .then(r => r.text())
+  .then(d => {
+    document.getElementById("footer").innerHTML = d;
+    document.getElementById("year").textContent = new Date().getFullYear();
+  });
+</script>.
 </body>
 </html>
