@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- SEO Meta Tags -->
-    <title>Free Social Media Share Link Generator | WhatsApp, Facebook, X, Telegram, LinkedIn</title>
+    <title>Free Social Media Share Link Generator | Toolvala.in</title>
     <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">.
     <!-- Robots Tag -->
@@ -14,10 +14,10 @@
     <!-- Canonical Tag -->
     <link rel="canonical" href="https://toolvala.in/social-share-tool.html" />
     
-    <!-- UPDATED: Meta Description (Under 160 Characters) -->
-    <meta name="description" content="Instantly share links on WhatsApp, Facebook, X, LinkedIn & Telegram. Free Social Share Link Generator to boost traffic and engagement. No signup needed.">
+    <!-- Meta Description -->
+    <meta name="description" content="Instantly share links with custom text on WhatsApp, Facebook, X, LinkedIn & Telegram. Free Social Share Link Generator by Toolvala.in. No signup needed.">
 
-    <!-- JSON-LD FAQ Schema for Rich Snippets -->
+    <!-- JSON-LD FAQ Schema -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -27,42 +27,21 @@
         "name": "How do I use the Social Share Link Generator?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Simply paste your website URL (e.g., https://example.com) into the input box and click the button for the social media platform you wish to share on. The tool will automatically open a sharing window."
+          "text": "Paste your website URL into the Link box. Optionally, add a custom message. Click a social button to share."
         }
       }, {
         "@type": "Question",
-        "name": "Is this social sharing tool free?",
+        "name": "Is this tool free?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes, this tool is 100% free to use for personal and commercial purposes. There are no limits on how many links you can generate or share."
+          "text": "Yes, Toolvala.in provides this tool 100% free for personal and commercial use."
         }
       }, {
         "@type": "Question",
-        "name": "Does this tool work on mobile devices?",
+        "name": "Why isn't my custom text showing on Facebook?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Absolutely. The tool is mobile-responsive. If you click 'WhatsApp' or 'Telegram' on a phone, it will attempt to open the installed app directly for a seamless experience."
-        }
-      }, {
-        "@type": "Question",
-        "name": "Do you store the links I enter?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "No. We prioritize your privacy. All processing happens locally in your browser (Client-Side). We do not save, track, or analyze the URLs you paste into the generator."
-        }
-      }, {
-        "@type": "Question",
-        "name": "Why isn't the correct image showing when I share to Facebook?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Social platforms look for 'Open Graph' (OG) tags on your website. Ensure your website has an <meta property='og:image'> tag defined in the head section. Our tool simply passes your URL to the platform; the platform fetches the image from your site."
-        }
-      }, {
-        "@type": "Question",
-        "name": "Can I share links to Instagram using this tool?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Currently, Instagram does not support a public web-based 'share link' API like Facebook or X. To share on Instagram, you must copy the link and paste it into your Bio or Story manually."
+          "text": "Facebook and LinkedIn APIs strictly forbid pre-filling the message text to prevent spam. Only the URL will be shared automatically."
         }
       }]
     }
@@ -74,6 +53,7 @@
             --accent-color: #3498db;
             --bg-color: #f4f7f6;
             --text-color: #333;
+            --header-height: 60px; /* Reduced slightly for mobile */
             --wa-color: #25D366;
             --fb-color: #1877F2;
             --x-color: #000000;
@@ -90,28 +70,66 @@
             padding: 0;
         }
 
+        /* HEADER STYLES */
+        header {
+            background-color: var(--primary-color);
+            height: var(--header-height);
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand-logo {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: white;
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .brand-logo span {
+            color: var(--accent-color);
+        }
+
+        /* LAYOUT STYLES */
         .container {
             max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
+            margin: 20px auto;
+            padding: 0 20px;
             display: flex;
             flex-wrap: wrap;
             gap: 30px;
+            align-items: flex-start; /* Ensures items don't stretch weirdly */
         }
 
         /* Tool Section Styles */
         .tool-wrapper {
             background: white;
             width: 100%;
-            padding: 40px;
+            padding: 30px;
             border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 10px;
+            border-top: 5px solid var(--accent-color);
+            box-sizing: border-box; /* Fix padding calculation */
         }
 
         .tool-title {
-            font-size: 2rem;
+            font-size: 1.8rem;
             margin-bottom: 10px;
             color: var(--primary-color);
         }
@@ -120,48 +138,51 @@
             margin: 20px 0;
             display: flex;
             justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
         }
 
-        input[type="url"] {
+        input[type="url"], input[type="text"] {
             width: 70%;
-            padding: 15px;
+            padding: 12px 15px;
             font-size: 16px;
-            border: 2px solid #ddd;
+            border: 2px solid #e0e0e0;
             border-radius: 8px;
             outline: none;
-            transition: border 0.3s;
+            transition: all 0.3s;
         }
 
-        input[type="url"]:focus {
+        input[type="url"]:focus, input[type="text"]:focus {
             border-color: var(--accent-color);
+            box-shadow: 0 0 8px rgba(52, 152, 219, 0.2);
         }
 
         .share-buttons {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 10px;
             margin-top: 20px;
         }
 
         .btn {
             border: none;
-            padding: 12px 25px;
-            font-size: 16px;
+            padding: 10px 20px;
+            font-size: 15px;
             color: white;
             cursor: pointer;
             border-radius: 50px;
-            font-weight: bold;
+            font-weight: 600;
             transition: transform 0.2s, box-shadow 0.2s;
             display: flex;
             align-items: center;
             gap: 8px;
-            text-decoration: none;
         }
 
         .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
 
         .btn-wa { background-color: var(--wa-color); }
@@ -177,11 +198,13 @@
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            box-sizing: border-box;
         }
 
         .sidebar {
             flex: 1;
             min-width: 300px;
+            box-sizing: border-box;
         }
 
         .sidebar-widget {
@@ -197,35 +220,41 @@
             color: var(--primary-color);
             border-bottom: 2px solid var(--accent-color);
             padding-bottom: 10px;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
         }
 
         .sidebar ul {
             list-style: none;
             padding: 0;
+            margin: 0;
         }
 
         .sidebar ul li {
-            margin-bottom: 12px;
+            margin-bottom: 8px;
         }
 
         .sidebar ul li a {
             color: var(--text-color);
             text-decoration: none;
             display: block;
-            padding: 8px;
-            background: #f9f9f9;
-            border-radius: 5px;
-            transition: background 0.3s;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+            font-size: 0.95rem;
         }
 
         .sidebar ul li a:hover {
-            background: var(--accent-color);
-            color: white;
+            background: #e9ecef;
+            border-left: 3px solid var(--accent-color);
+            color: var(--primary-color);
         }
 
         /* Typography */
-        h2 { color: var(--primary-color); margin-top: 30px; }
-        h3 { color: #555; margin-top: 25px; }
+        h2 { color: var(--primary-color); margin-top: 20px; font-size: 1.5rem; }
+        h3 { color: #555; margin-top: 20px; font-size: 1.2rem; }
         p { margin-bottom: 15px; text-align: justify; }
         
         /* FAQ Styles */
@@ -235,39 +264,79 @@
             padding-top: 20px;
         }
         .faq-item {
-            margin-bottom: 20px;
-            border-bottom: 1px solid #f0f0f0;
-            padding-bottom: 10px;
+            margin-bottom: 15px;
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
         }
         .faq-question {
             font-weight: 700;
             color: var(--primary-color);
-            cursor: pointer;
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
         }
         .faq-answer {
-            color: #666;
-            margin-left: 10px;
+            color: #555;
+            margin: 0;
+            font-size: 0.95rem;
         }
 
+        /* MOBILE OPTIMIZATION - FIXING THE GAP */
         @media (max-width: 768px) {
-            .container { flex-direction: column; }
-            input[type="url"] { width: 90%; }
+            .container {
+                flex-direction: column; /* Stack items */
+                gap: 20px; /* Reduce gap between sections */
+                margin-top: 10px;
+            }
+
+            /* This fixes the huge gap issue */
+            .main-content, .sidebar {
+                flex: none; /* Do not grow/shrink based on screen height */
+                width: 100%; /* Force full width */
+                padding: 20px; /* Comfortable padding */
+            }
+
+            .sidebar {
+                min-width: auto; /* Allow sidebar to shrink to mobile width */
+            }
+
+            input[type="url"], input[type="text"] { 
+                width: 100%; /* Full width inputs on mobile */
+                box-sizing: border-box; 
+            }
+            
+            .tool-wrapper {
+                padding: 25px 15px; /* Tighter padding on mobile */
+            }
+            
+            .tool-title {
+                font-size: 1.5rem;
+            }
         }
     </style>
 </head>
 <body>
+
+<!-- HEADER SECTION -->
+<header>
+    <div class="header-container">
+        <!-- Brand Name on Left -->
+        <a href="index.html" class="brand-logo">Toolvala<span>.in</span></a>
+    </div>
+</header>
 
 <div class="container">
     
     <!-- FUNCTIONAL TOOL SECTION -->
     <div class="tool-wrapper">
         <h1 class="tool-title">Social Share Link Generator</h1>
-        <p>Paste your link below and share it instantly across the web.</p>
+        <p>Enter your website link and a custom message below.</p>
         
         <div class="input-group">
-            <input type="url" id="urlInput" placeholder="Paste website link here (e.g., https://example.com)">
+            <!-- URL INPUT -->
+            <input type="url" id="urlInput" placeholder="Paste website link (e.g., https://toolvala.in)">
+            <!-- MESSAGE INPUT -->
+            <input type="text" id="msgInput" placeholder="Optional: Message (e.g., Check this out!)">
         </div>
         
         <div class="share-buttons">
@@ -277,67 +346,51 @@
             <button class="btn btn-tg" onclick="shareLink('tg')">Telegram</button>
             <button class="btn btn-li" onclick="shareLink('li')">LinkedIn</button>
         </div>
-        <p id="error-msg" style="color: red; display: none; margin-top: 10px;">Please enter a valid URL starting with http:// or https://</p>
+        <p id="error-msg" style="color: #e74c3c; display: none; margin-top: 15px; font-weight: bold;">Please enter a valid URL starting with http:// or https://</p>
     </div>
 
     <!-- MAIN SEO CONTENT SECTION -->
     <div class="main-content">
-        <h2>Mastering Social Media Distribution: The Ultimate Guide</h2>
+        <h2>Boost Your Reach with Toolvala.in Share Tools</h2>
         
-        <p>In the vast expanse of the digital universe, content is king, but distribution is queen. You might have written the most compelling blog post or launched a tool like a <strong>Warranty Expiry Calculator</strong>. However, without a robust mechanism to share this content, it remains unseen. Welcome to the comprehensive guide on social media sharing.</p>
+        <p>At <strong>Toolvala.in</strong>, we understand that content distribution is just as important as creation. Whether you have built a new <strong>Warranty Expiry Calculator</strong> or written a blog post, you need to get it in front of people. Our Social Share Generator is designed to make that process effortless.</p>
         
-        <h3>Why Manual Sharing is Obsolete</h3>
-        <p>Before tools like this, sharing a link to multiple platforms involved a tedious cycle: Copy URL -> Open Facebook -> Paste -> Publish. This is time-consuming. Automation is the key to scalability. By centralizing the sharing triggers, you save valuable time that can be better spent on content creation.</p>
+        <h3>Why Use the Toolvala Share Generator?</h3>
+        <p>Manual sharing is slow. Copying a URL, opening an app, typing a message, and pasting the link takes time. Our tool automates the "intent" creation. By pre-filling your link and message (where supported), we save you clicks and help you scale your social media presence.</p>
 
-        <h3>Supported Platforms Overview</h3>
+        <h3>Platform Specifics</h3>
         
-        <h4>1. WhatsApp</h4>
-        <p>WhatsApp is the king of "Dark Social"—sharing that happens privately. With over 2 billion users, it is a powerhouse for direct, high-conversion sharing. Perfect for sharing family-oriented tools like a <strong>Baby Diaper Usage Calculator</strong>.</p>
+        <h4>WhatsApp & Telegram</h4>
+        <p>These are the giants of direct messaging. Our tool combines your custom message and your link into a single sendable package. This is ideal for sharing our <strong>Baby Diaper Usage Calculator</strong> with parenting groups or sending a <strong>Production Time Calculator</strong> to colleagues.</p>
         
-        <h4>2. Facebook</h4>
-        <p>Facebook remains the directory of the internet. Sharing here contributes to "Social Signals," which search engines use as a metric for authority. </p>
+        <h4>Facebook & LinkedIn</h4>
+        <p>These platforms prioritize "Open Graph" data. When you share a link using our tool, Facebook and LinkedIn scrape your site for the best image and title to display. *Note: Due to anti-spam policies, these platforms do not allow us to pre-fill the text message box for you.*</p>
         
-        <h4>3. X (Twitter)</h4>
-        <p>X is the home of real-time news. A link to a limited-time offer needs to be on the timeline immediately. </p>
-        
-        <h4>4. LinkedIn</h4>
-        <p>For B2B marketing, LinkedIn is non-negotiable. Whether you are sharing a <strong>Production Time Calculator</strong> or corporate news, LinkedIn drives high-value professional traffic.</p>
+        <h4>X (Twitter)</h4>
+        <p>Speed matters on X. Our tool allows you to draft a tweet with your link and message instantly, letting you join trending conversations with tools like our <strong>Food Expiry Calculator</strong> faster than ever.</p>
 
-        <h3>Integrating Utility Tools for Engagement</h3>
-        <p>One of the best strategies to encourage sharing is providing utility. People love calculators that solve specific problems. This is why we recommend checking out our suite of tools in the sidebar, such as the <strong>Food Expiry Calculator</strong> or the <strong>Subscription Expiry Date Calculator</strong>.</p>
-
-        <!-- ADDED FAQ SECTION -->
+        <!-- FAQ SECTION -->
         <div class="faq-section">
             <h2>Frequently Asked Questions (FAQ)</h2>
             
             <div class="faq-item">
-                <span class="faq-question">1. How do I use the Social Share Link Generator?</span>
-                <p class="faq-answer">Simply paste your website URL (e.g., https://example.com) into the input box above and click the button for the social media platform you wish to share on. The tool will automatically open a sharing window.</p>
+                <span class="faq-question">1. How do I use the Toolvala Social Share Generator?</span>
+                <p class="faq-answer">Paste your URL (e.g., https://toolvala.in) into the Link box. Optionally, add a custom message. Click the social button of your choice to open the share window.</p>
             </div>
 
             <div class="faq-item">
-                <span class="faq-question">2. Is this social sharing tool free?</span>
-                <p class="faq-answer">Yes, this tool is 100% free to use for personal and commercial purposes. There are no limits on how many links you can generate or share.</p>
+                <span class="faq-question">2. Is this tool free?</span>
+                <p class="faq-answer">Yes, Toolvala.in offers this tool completely free of charge for unlimited use.</p>
             </div>
 
             <div class="faq-item">
-                <span class="faq-question">3. Does this tool work on mobile devices?</span>
-                <p class="faq-answer">Absolutely. The tool is mobile-responsive. If you click 'WhatsApp' or 'Telegram' on a phone, it will attempt to open the installed app directly for a seamless experience.</p>
+                <span class="faq-question">3. Why isn't my text showing on LinkedIn?</span>
+                <p class="faq-answer">LinkedIn's API does not support pre-filled text from third-party tools. You will need to type your personal message in the LinkedIn popup window after our tool opens it.</p>
             </div>
 
             <div class="faq-item">
-                <span class="faq-question">4. Do you store the links I enter?</span>
-                <p class="faq-answer">No. We prioritize your privacy. All processing happens locally in your browser (Client-Side). We do not save, track, or analyze the URLs you paste into the generator.</p>
-            </div>
-
-            <div class="faq-item">
-                <span class="faq-question">5. Why isn't the correct image showing when I share to Facebook?</span>
-                <p class="faq-answer">Social platforms look for "Open Graph" (OG) tags on your website. Ensure your website has an <code>og:image</code> tag defined in the head section. Our tool simply passes your URL to the platform; the platform fetches the image from your site.</p>
-            </div>
-
-            <div class="faq-item">
-                <span class="faq-question">6. Can I share links to Instagram using this tool?</span>
-                <p class="faq-answer">Currently, Instagram does not support a public web-based "share link" API like Facebook or X. To share on Instagram, you must copy the link and paste it into your Bio or Story manually.</p>
+                <span class="faq-question">4. Does it work on Android and iPhone?</span>
+                <p class="faq-answer">Yes! The tool is fully responsive. On mobile devices, clicking WhatsApp or Telegram will try to open the app directly rather than the browser website.</p>
             </div>
         </div>
     </div>
@@ -345,7 +398,7 @@
     <!-- SIDEBAR WITH USEFUL TOOLS -->
     <div class="sidebar">
         <div class="sidebar-widget">
-            <h3>Useful Tools</h3>
+            <h3>Explore Toolvala Tools</h3>
             <nav>
                 <ul>
                     <li><a href="warranty-expiry-calculator.html">Warranty Expiry Calculator</a></li>
@@ -362,12 +415,12 @@
         </div>
 
         <div class="sidebar-widget">
-            <h3>Why Use This Tool?</h3>
-            <p>Save time and boost your social reach. Our tool ensures your links are formatted correctly for:</p>
+            <h3>Why Toolvala.in?</h3>
+            <p>We build simple, effective calculators and tools to make your daily life and business tasks easier. Bookmark us for:</p>
             <ul>
-                <li>Instant Messaging</li>
-                <li>Professional Networking</li>
-                <li>Viral Marketing</li>
+                <li>Quick Calculations</li>
+                <li>Productivity Tools</li>
+                <li>Digital Utilities</li>
             </ul>
         </div>
     </div>
@@ -377,58 +430,76 @@
 <!-- JAVASCRIPT LOGIC -->
 <script>
     function shareLink(platform) {
-        // 1. Get the input URL
+        // 1. Get the input URL & Message
         const urlInput = document.getElementById('urlInput');
+        const msgInput = document.getElementById('msgInput');
+        
         let url = urlInput.value.trim();
+        let message = msgInput.value.trim(); 
         const errorMsg = document.getElementById('error-msg');
 
         // 2. Simple Validation
         if (!url) {
             errorMsg.style.display = 'block';
-            errorMsg.textContent = "Please paste a link first.";
+            errorMsg.textContent = "Please paste a website link first.";
             return;
         }
 
-        // Add http protocol if missing for better handling
+        // Add http protocol if missing
         if (!/^https?:\/\//i.test(url)) {
             url = 'https://' + url;
         }
 
         errorMsg.style.display = 'none';
 
-        // 3. Encode the URL (Important for special characters)
+        // 3. Encode the URL and Message
         const encodedUrl = encodeURIComponent(url);
+        const encodedMsg = encodeURIComponent(message);
+        
         let shareUrl = '';
         let windowName = 'Share';
 
         // 4. Determine Platform URL
         switch(platform) {
             case 'wa': // WhatsApp
-                shareUrl = `https://api.whatsapp.com/send?text=${encodedUrl}`;
+                const waText = message ? `${encodedMsg}%20${encodedUrl}` : encodedUrl;
+                shareUrl = `https://api.whatsapp.com/send?text=${waText}`;
                 windowName = 'WhatsAppShare';
                 break;
-            case 'fb': // Facebook
+                
+            case 'x': // X/Twitter
+                if (message) {
+                    shareUrl = `https://twitter.com/intent/tweet?text=${encodedMsg}&url=${encodedUrl}`;
+                } else {
+                    shareUrl = `https://twitter.com/intent/tweet?url=${encodedUrl}`;
+                }
+                windowName = 'XShare';
+                break;
+                
+            case 'tg': // Telegram
+                if (message) {
+                    shareUrl = `https://t.me/share/url?url=${encodedUrl}&text=${encodedMsg}`;
+                } else {
+                    shareUrl = `https://t.me/share/url?url=${encodedUrl}`;
+                }
+                windowName = 'TelegramShare';
+                break;
+                
+            case 'fb': // Facebook (URL only)
                 shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
                 windowName = 'FacebookShare';
                 break;
-            case 'x': // X (Twitter)
-                shareUrl = `https://twitter.com/intent/tweet?url=${encodedUrl}`;
-                windowName = 'XShare';
-                break;
-            case 'tg': // Telegram
-                shareUrl = `https://t.me/share/url?url=${encodedUrl}`;
-                windowName = 'TelegramShare';
-                break;
-            case 'li': // LinkedIn
+                
+            case 'li': // LinkedIn (URL only)
                 shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`;
                 windowName = 'LinkedInShare';
                 break;
+                
             default:
                 return;
         }
 
         // 5. Open the window
-        // Calculations to center the popup window
         const width = 600;
         const height = 400;
         const left = (window.innerWidth - width) / 2;
@@ -449,6 +520,6 @@ fetch("/footer.html")
     document.getElementById("footer").innerHTML = d;
     document.getElementById("year").textContent = new Date().getFullYear();
   });
-</script>.
+</script>
 </body>
 </html>
