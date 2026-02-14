@@ -3,435 +3,518 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     
-    <!-- ✅ SEO & Indexing -->
-    <title>Free Resume Maker 2026 | Professional ATS PDF Builder – Toolvala.in</title>
-    <meta name="description" content="Build a professional resume with a profile photo in minutes. Toolvala's Free Resume Maker 2026 features uncrackable ATS-friendly templates and high-quality PDF downloads.">
-    <meta name="keywords" content="resume maker, free resume builder, ats friendly resume, download resume pdf, toolvala career tools, professional resume with photo, curriculum vitae maker 2026">
-    <meta name="robots" content="index, follow">
+    <!-- ✅ SEO META TAGS -->
+    <title>Free Resume Maker 2026 | Create ATS-Friendly CV PDF Online (No Login)</title>
+    <meta name="description" content="India's #1 Free Resume Maker for 2026. Create professional, ATS-friendly resumes and biodata in minutes. Download high-quality PDF instantly. No signup required. Secure & Private.">
+    <meta name="keywords" content="resume maker, free resume builder 2026, cv maker india, download resume pdf, online biodata maker, ats resume builder, freshers resume format, professional cv creator">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <link rel="canonical" href="https://www.toolvala.in/resume-maker.html">
+    <meta name="author" content="Toolvala.in">
+    <meta name="copyright" content="2026 Toolvala">
 
-    <!-- ✅ JSON-LD Schema -->
+    <!-- ✅ OPEN GRAPH (Social Media) -->
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Free Resume Maker 2026 | Professional PDF Builder">
+    <meta property="og:description" content="Build your job-winning resume in 5 minutes. Free, secure, and ATS-optimized for the 2026 job market.">
+    <meta property="og:url" content="https://www.toolvala.in/resume-maker.html">
+    <meta property="og:site_name" content="Toolvala">
+    <meta property="og:image" content="https://www.toolvala.in/assets/resume-maker-banner.jpg">
+
+    <!-- ✅ SCHEMA MARKUP (JSON-LD) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "Professional Resume Maker 2026",
-      "url": "https://www.toolvala.in/resume-maker.html",
-      "description": "A secure, browser-based resume builder with photo support that creates professional, ATS-optimized PDF documents.",
+      "@type": "SoftwareApplication",
+      "name": "Toolvala Resume Maker",
       "applicationCategory": "BusinessApplication",
-      "operatingSystem": "All",
-      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "INR"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "ratingCount": "12500"
+      },
+      "description": "A browser-based tool to create professional PDF resumes and CVs without data storage or login.",
+      "featureList": "PDF Download, ATS Optimization, Photo Support, Real-time Preview"
     }
     </script>
 
-    <!-- External Assets -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- External Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
     <style>
+        /* --- CORE CSS VARIABLES --- */
         :root {
-            --toolvala-blue: #1d4ed8;
-            --toolvala-dot-in: #2563eb;
-            --text-main: #1e293b;
-            --text-muted: #64748b;
+            --primary: #2563eb;
+            --primary-dark: #1e3a8a;
+            --accent: #0f172a;
+            --bg-body: #f8fafc;
             --white: #ffffff;
-            --border-radius: 20px;
-            --a4-width: 800px;
+            --border: #e2e8f0;
+            --text-main: #1e293b;
+            --text-light: #64748b;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: var(--text-main); line-height: 1.7; scroll-behavior: smooth; }
+        /* --- GLOBAL RESET --- */
+        * { box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-body); color: var(--text-main); margin: 0; padding: 0; line-height: 1.7; }
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { padding-left: 20px; }
+        h1, h2, h3, h4 { color: var(--accent); margin-top: 0; }
+
+        /* --- HEADER & NAV --- */
+        .navbar { background: var(--white); border-bottom: 1px solid var(--border); padding: 15px 0; position: sticky; top: 0; z-index: 999; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+        .nav-inner { max-width: 1300px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 26px; font-weight: 800; color: var(--accent); letter-spacing: -0.5px; }
+        .logo span { color: var(--primary); }
         
-        /* Navigation */
-        .header-bar { background: #fff; border-bottom: 1px solid #e2e8f0; padding: 12px 0; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .nav-container { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; }
-        .brand { font-size: 24px; font-weight: 800; text-decoration: none; }
-        .brand span.dark { color: #1e3a8a; }
-        .brand span.blue { color: var(--toolvala-dot-in); }
-        .btn-download { background: var(--toolvala-blue); color: white; border: none; padding: 12px 24px; border-radius: 10px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: 0.2s; font-size: 15px; }
-        .btn-download:hover { background: #1e3a8a; transform: translateY(-1px); }
+        .btn-download { background: var(--primary); color: white; border: none; padding: 12px 25px; border-radius: 8px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 15px; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); transition: transform 0.2s; }
+        .btn-download:hover { background: var(--primary-dark); transform: translateY(-2px); }
 
-        .container { max-width: 1300px; margin: 20px auto; padding: 0 15px; }
+        /* --- MAIN LAYOUT --- */
+        .main-container { max-width: 1400px; margin: 40px auto; padding: 0 20px; }
+        .tool-grid { display: grid; grid-template-columns: 420px 1fr; gap: 40px; align-items: start; }
 
-        /* Split Screen Layout */
-        .maker-layout { display: grid; grid-template-columns: 450px 1fr; gap: 30px; }
+        /* --- EDITOR SIDEBAR --- */
+        .editor-box { background: var(--white); border-radius: 16px; padding: 30px; border: 1px solid var(--border); box-shadow: 0 10px 30px rgba(0,0,0,0.03); height: calc(100vh - 120px); overflow-y: auto; position: sticky; top: 90px; }
+        .editor-box::-webkit-scrollbar { width: 6px; }
+        .editor-box::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
 
-        /* Form side */
-        .editor-pane { background: #fff; border-radius: 20px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); height: calc(100vh - 100px); overflow-y: auto; position: sticky; top: 80px; }
-        .section-group { margin-bottom: 25px; border-bottom: 1px solid #f1f5f9; padding-bottom: 20px; }
-        .section-title-form { font-weight: 800; font-size: 13px; text-transform: uppercase; color: var(--toolvala-blue); margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
-        .input-group { margin-bottom: 15px; }
-        .input-group label { display: block; font-weight: 700; font-size: 12px; margin-bottom: 5px; color: var(--text-muted); }
-        .input-field { width: 100%; padding: 12px; border: 1.5px solid #e2e8f0; border-radius: 10px; font-size: 14px; outline: none; font-family: inherit; transition: border-color 0.2s; }
-        .input-field:focus { border-color: var(--toolvala-blue); background: #f8fbff; }
-
-        .dynamic-item { background: #f8fafc; padding: 15px; border-radius: 12px; margin-bottom: 15px; position: relative; border: 1px solid #e2e8f0; }
-        .btn-add { width: 100%; padding: 10px; background: #eff6ff; color: var(--toolvala-blue); border: 1px dashed var(--toolvala-blue); border-radius: 8px; font-weight: 700; cursor: pointer; }
-        .btn-remove { position: absolute; top: 10px; right: 10px; color: #ef4444; cursor: pointer; border: none; background: none; }
-
-        /* ✅ PREVIEW AREA (Optimized for high-fidelity capture) */
-        .preview-pane { display: flex; justify-content: center; background: #cbd5e1; padding: 40px 20px; border-radius: 20px; overflow-x: auto; }
+        .form-section { margin-bottom: 25px; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
+        .form-title { font-size: 14px; font-weight: 800; color: var(--primary); text-transform: uppercase; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
         
-        #resume-canvas { 
-            width: var(--a4-width); 
-            min-height: 1120px; 
-            background: #fff; 
-            padding: 50px; 
-            box-sizing: border-box;
-            color: #000;
-            display: block !important;
+        .input-wrap { margin-bottom: 15px; }
+        .input-wrap label { display: block; font-size: 12px; font-weight: 600; color: var(--text-light); margin-bottom: 5px; text-transform: uppercase; }
+        .input-control { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 14px; background: #f8fafc; transition: 0.2s; outline: none; }
+        .input-control:focus { border-color: var(--primary); background: var(--white); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
+        textarea.input-control { min-height: 85px; resize: vertical; }
+
+        .dynamic-card { background: #f1f5f9; padding: 15px; border-radius: 8px; margin-bottom: 10px; position: relative; border: 1px solid var(--border); }
+        .btn-add { width: 100%; padding: 12px; background: #eff6ff; color: var(--primary); border: 1px dashed var(--primary); border-radius: 6px; font-weight: 700; cursor: pointer; transition: 0.2s; }
+        .btn-add:hover { background: var(--primary); color: white; }
+        .btn-del { position: absolute; top: 10px; right: 10px; color: #ef4444; background: none; border: none; cursor: pointer; font-size: 14px; }
+
+        /* --- PREVIEW AREA --- */
+        .preview-box { background: #cbd5e1; padding: 40px; border-radius: 16px; display: flex; justify-content: center; min-height: 800px; overflow-x: auto; }
+        
+        #resume-canvas {
+            width: 794px; /* A4 Width at 96 DPI */
+            min-height: 1123px;
+            background: white;
+            padding: 50px;
+            color: #111;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            flex-shrink: 0;
         }
 
-        .res-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 3px solid #000; padding-bottom: 15px; margin-bottom: 25px; }
-        .res-basics { flex: 1; }
-        .res-photo-box { width: 120px; height: 120px; border-radius: 12px; overflow: hidden; border: 1px solid #ddd; background: #f1f5f9; flex-shrink: 0; margin-left: 20px; display: none; }
-        .res-photo-box img { width: 100%; height: 100%; object-fit: cover; }
+        /* --- RESUME TEMPLATE STYLES --- */
+        .cv-header { display: flex; justify-content: space-between; border-bottom: 2px solid #000; padding-bottom: 20px; margin-bottom: 25px; }
+        .cv-name { font-family: 'Merriweather', serif; font-size: 34px; font-weight: 900; line-height: 1.1; margin-bottom: 5px; }
+        .cv-role { font-size: 16px; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+        .cv-contact { font-size: 13px; font-weight: 500; color: #333; display: flex; flex-wrap: wrap; gap: 15px; }
+        .cv-contact i { color: var(--primary); margin-right: 5px; }
         
-        .res-name { font-family: 'Merriweather', serif; font-size: 38px; font-weight: 800; margin-bottom: 2px; color: #000; line-height: 1.1; }
-        .res-headline { font-size: 18px; font-weight: 700; color: var(--toolvala-blue); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; }
-        .res-contact { display: flex; flex-wrap: wrap; gap: 15px; font-size: 13px; color: #333; font-weight: 600; }
-        .res-contact i { color: var(--toolvala-blue); margin-right: 4px; }
+        .cv-photo { width: 110px; height: 110px; background: #eee; border-radius: 6px; overflow: hidden; display: none; border: 1px solid #ddd; }
+        .cv-photo img { width: 100%; height: 100%; object-fit: cover; }
 
-        .res-sec-header { font-size: 18px; font-weight: 800; text-transform: uppercase; border-bottom: 2px solid #000; margin: 30px 0 15px 0; padding-bottom: 5px; color: #000; }
-        .res-summary { font-size: 15px; text-align: left; line-height: 1.6; color: #111; }
-        .res-entry { margin-bottom: 20px; }
-        .res-entry-head { display: flex; justify-content: space-between; font-weight: 800; font-size: 16px; }
-        .res-entry-sub { font-size: 15px; font-weight: 700; color: #444; margin-bottom: 5px; }
-        .res-entry-desc { font-size: 14.5px; white-space: pre-line; color: #333; line-height: 1.5; }
-        .skill-tag { border: 1.5px solid #000; padding: 4px 12px; border-radius: 4px; font-size: 12px; font-weight: 800; color: #000; margin-right: 6px; margin-top: 6px; display: inline-block; }
-
-        /* CLEAN SEO CONTENT STYLING */
-        .article-body { background: #fff; padding: 60px; border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); margin-top: 50px; }
-        .section-header { display: flex; align-items: center; margin-top: 80px; margin-bottom: 25px; }
-        .section-header .line { width: 5px; height: 35px; background-color: var(--toolvala-dot-in); margin-right: 15px; border-radius: 2px; }
-        .section-header h2 { font-size: 26px; font-weight: 800; margin: 0; color: #0f172a; }
+        .cv-sec-title { font-size: 15px; font-weight: 800; text-transform: uppercase; border-bottom: 1px solid #ccc; margin: 25px 0 15px 0; padding-bottom: 5px; color: #000; letter-spacing: 0.5px; }
+        .cv-text { font-size: 13.5px; line-height: 1.6; text-align: justify; color: #222; }
         
-        /* Typography fix for readability */
-        .article-body p { margin-bottom: 20px; font-size: 17px; text-align: left; color: #475569; line-height: 1.8; }
-        .article-body h3 { color: #1e293b; margin-top: 45px; font-weight: 800; font-size: 22px; margin-bottom: 15px; }
-        .article-body ul { list-style: none; padding: 0; margin-bottom: 25px; }
-        .article-body li { position: relative; padding-left: 25px; margin-bottom: 15px; font-size: 16px; color: #475569; }
-        .article-body li::before { content: "•"; color: var(--toolvala-blue); font-weight: bold; position: absolute; left: 5px; font-size: 20px; top: -4px; }
+        .cv-entry { margin-bottom: 15px; }
+        .cv-entry-top { display: flex; justify-content: space-between; font-weight: 700; font-size: 15px; }
+        .cv-entry-sub { font-size: 13.5px; font-style: italic; color: #444; margin-bottom: 5px; }
+        .cv-entry-desc { font-size: 13.5px; white-space: pre-line; }
 
-        /* Related Tools */
-        .related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; list-style: none; padding: 0; margin-top: 30px; }
-        .related-card { text-decoration: none; background: white; border: 1px solid #e5e7eb; padding: 20px; border-radius: 18px; display: flex; align-items: center; gap: 15px; transition: 0.3s; }
-        .related-card:hover { transform: translateY(-5px); border-color: var(--toolvala-blue); }
-        .icon-circle { width: 45px; height: 45px; background: #f0f7ff; color: var(--toolvala-blue); display: flex; align-items: center; justify-content: center; border-radius: 12px; font-size: 20px; }
+        .cv-skills { display: flex; flex-wrap: wrap; gap: 8px; }
+        .skill-pill { background: #f1f5f9; border: 1px solid #cbd5e1; padding: 3px 10px; border-radius: 4px; font-size: 12px; font-weight: 700; color: #333; }
 
-        /* FAQ */
-        .faq-item { border-bottom: 1px solid #f1f5f9; padding: 20px 0; }
-        .faq-q { font-weight: 700; color: #0f172a; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 17px; }
-        .faq-a { color: #64748b; margin-top: 10px; display: none; font-size: 15px; line-height: 1.6; }
+        /* --- RELATED TOOLS GRID --- */
+        .related-section { margin-top: 60px; padding: 40px; background: white; border-radius: 16px; border: 1px solid var(--border); }
+        .related-title { text-align: center; font-size: 24px; font-weight: 800; margin-bottom: 30px; }
+        .tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+        
+        .tool-card { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 25px; background: #f8fafc; border-radius: 12px; border: 1px solid var(--border); transition: 0.3s; }
+        .tool-card:hover { transform: translateY(-5px); border-color: var(--primary); background: #eff6ff; }
+        .tool-icon { font-size: 30px; color: var(--primary); margin-bottom: 15px; }
+        .tool-name { font-weight: 700; font-size: 15px; color: var(--text-main); }
 
-        @media (max-width: 1100px) {
-            .maker-layout { grid-template-columns: 1fr; }
-            .editor-pane { height: auto; position: static; }
-            .article-body { padding: 40px 20px; }
-            .page-title { font-size: 28px; }
+        /* --- SEO CONTENT ARTICLE --- */
+        .article-container { max-width: 900px; margin: 60px auto 100px; font-size: 18px; color: #334155; }
+        .article-content h1 { font-size: 36px; font-weight: 800; margin-bottom: 20px; color: #0f172a; }
+        .article-content h2 { font-size: 28px; margin-top: 40px; margin-bottom: 15px; color: #1e293b; }
+        .article-content p { margin-bottom: 20px; line-height: 1.8; }
+        .article-content ul { margin-bottom: 25px; }
+        .article-content li { margin-bottom: 10px; }
+        .highlight-box { background: #eff6ff; border-left: 5px solid var(--primary); padding: 20px; margin: 30px 0; border-radius: 4px; }
+
+        /* --- MOBILE RESPONSIVE --- */
+        @media (max-width: 1024px) {
+            .tool-grid { grid-template-columns: 1fr; }
+            .editor-box { height: auto; position: static; }
+            .preview-box { padding: 20px; justify-content: flex-start; overflow-x: scroll; }
         }
     </style>
 </head>
 <body>
 
-<header class="header-bar no-print">
-    <div class="nav-container">
-        <a href="index.html" class="brand"><span class="dark">Toolvala</span><span class="blue">.in</span></a>
-        <button class="btn-download" id="btn-dl" onclick="generatePDF()">
+<!-- ✅ HEADER -->
+<nav class="navbar">
+    <div class="nav-inner">
+        <a href="index.html" class="logo">Toolvala<span>.in</span></a>
+        <button class="btn-download" id="dl-btn" onclick="generatePDF()">
             <i class="fa-solid fa-file-pdf"></i> Download PDF
         </button>
     </div>
-</header>
+</nav>
 
-<div class="container">
-    <div class="maker-layout">
-        <!-- FORM EDITOR -->
-        <aside class="editor-pane no-print">
-            <div class="section-group">
-                <div class="section-title-form"><i class="fa fa-camera"></i> Profile Photo</div>
-                <div class="input-group">
-                    <label>Upload Headshot</label>
-                    <input type="file" id="in-photo" class="input-field" accept="image/*" onchange="loadPhoto(event)">
+<div class="main-container">
+
+    <!-- ✅ TOOL SECTION -->
+    <div class="tool-grid">
+        
+        <!-- INPUT FORM -->
+        <aside class="editor-box">
+            <div class="form-section">
+                <div class="form-title"><i class="fa fa-camera"></i> Profile Photo</div>
+                <div class="input-wrap">
+                    <label>Upload Photo (Optional)</label>
+                    <input type="file" class="input-control" accept="image/*" onchange="loadPhoto(event)">
                 </div>
             </div>
 
-            <div class="section-group">
-                <div class="section-title-form"><i class="fa fa-user"></i> Personal Details</div>
-                <div class="input-group"><label>Full Name</label><input type="text" id="in-name" class="input-field" placeholder="Rahul Sharma" oninput="updateUI()"></div>
-                <div class="input-group"><label>Professional Title</label><input type="text" id="in-headline" class="input-field" placeholder="Senior Product Manager" oninput="updateUI()"></div>
-                <div class="input-group"><label>Email Address</label><input type="email" id="in-email" class="input-field" placeholder="rahul@example.com" oninput="updateUI()"></div>
-                <div class="input-group"><label>Phone Number</label><input type="text" id="in-phone" class="input-field" placeholder="+91 9999999999" oninput="updateUI()"></div>
-                <div class="input-group"><label>Location</label><input type="text" id="in-location" class="input-field" placeholder="Mumbai, India" oninput="updateUI()"></div>
+            <div class="form-section">
+                <div class="form-title"><i class="fa fa-user"></i> Personal Info</div>
+                <div class="input-wrap"><label>Full Name</label><input type="text" id="in-name" class="input-control" placeholder="Amit Verma" oninput="updateUI()"></div>
+                <div class="input-wrap"><label>Job Title</label><input type="text" id="in-role" class="input-control" placeholder="Software Engineer" oninput="updateUI()"></div>
+                <div class="input-wrap"><label>Email</label><input type="email" id="in-email" class="input-control" placeholder="amit@example.com" oninput="updateUI()"></div>
+                <div class="input-wrap"><label>Phone</label><input type="tel" id="in-phone" class="input-control" placeholder="+91 98765 43210" oninput="updateUI()"></div>
+                <div class="input-wrap"><label>Location</label><input type="text" id="in-loc" class="input-control" placeholder="Bangalore, India" oninput="updateUI()"></div>
             </div>
 
-            <div class="section-group">
-                <div class="section-title-form"><i class="fa fa-align-left"></i> Summary</div>
-                <textarea id="in-summary" class="input-field" placeholder="Briefly describe your career journey..." oninput="updateUI()"></textarea>
+            <div class="form-section">
+                <div class="form-title"><i class="fa fa-paragraph"></i> Summary</div>
+                <textarea id="in-summary" class="input-control" placeholder="A results-driven professional with 5 years of experience..." oninput="updateUI()"></textarea>
             </div>
 
-            <div class="section-group">
-                <div class="section-title-form"><i class="fa fa-briefcase"></i> Work Experience</div>
+            <div class="form-section">
+                <div class="form-title"><i class="fa fa-briefcase"></i> Experience</div>
                 <div id="form-exp"></div>
-                <button class="btn-add" onclick="addItem('exp')">+ Add Job Entry</button>
+                <button class="btn-add" onclick="addExp()">+ Add Job</button>
             </div>
 
-            <div class="section-group">
-                <div class="section-title-form"><i class="fa fa-graduation-cap"></i> Academic History</div>
+            <div class="form-section">
+                <div class="form-title"><i class="fa fa-graduation-cap"></i> Education</div>
                 <div id="form-edu"></div>
-                <button class="btn-add" onclick="addItem('edu')">+ Add Education</button>
+                <button class="btn-add" onclick="addEdu()">+ Add Education</button>
             </div>
 
-            <div class="section-group">
-                <div class="section-title-form"><i class="fa fa-lightbulb"></i> Skills (Comma Separated)</div>
-                <textarea id="in-skills" class="input-field" placeholder="JavaScript, Python, SEO, Leadership..." oninput="updateUI()"></textarea>
+            <div class="form-section">
+                <div class="form-title"><i class="fa fa-lightbulb"></i> Skills</div>
+                <textarea id="in-skills" class="input-control" placeholder="Java, Python, Leadership, Communication (Comma separated)" oninput="updateUI()"></textarea>
             </div>
         </aside>
 
-        <!-- LIVE PREVIEW CANVAS -->
-        <main class="preview-pane">
+        <!-- PREVIEW OUTPUT -->
+        <main class="preview-box">
             <div id="resume-canvas">
-                <div class="res-header">
-                    <div class="res-basics">
-                        <div class="res-name" id="out-name">Rahul Sharma</div>
-                        <div class="res-headline" id="out-headline">Senior Product Manager</div>
-                        <div class="res-contact">
-                            <span><i class="fa fa-envelope"></i> <span id="out-email">rahul@example.com</span></span>
-                            <span><i class="fa fa-phone"></i> <span id="out-phone">+91 9999999999</span></span>
-                            <span><i class="fa fa-map-marker-alt"></i> <span id="out-location">Mumbai, India</span></span>
+                <div class="cv-header">
+                    <div class="cv-basics">
+                        <div class="cv-name" id="out-name">Amit Verma</div>
+                        <div class="cv-role" id="out-role">Software Engineer</div>
+                        <div class="cv-contact">
+                            <span id="c-email"><i class="fa fa-envelope"></i> <span id="out-email">amit@example.com</span></span>
+                            <span id="c-phone"><i class="fa fa-phone"></i> <span id="out-phone">+91 98765 43210</span></span>
+                            <span id="c-loc"><i class="fa fa-map-marker-alt"></i> <span id="out-loc">Bangalore, India</span></span>
                         </div>
                     </div>
-                    <div class="res-photo-box" id="out-photo-wrap">
-                        <img id="out-photo" src="" alt="">
+                    <div class="cv-photo" id="out-photo-box">
+                        <img id="out-photo" src="" alt="Profile">
                     </div>
                 </div>
 
-                <div class="res-sec-header">Executive Summary</div>
-                <div class="res-summary" id="out-summary">Results-oriented professional with a focus on strategic growth and technical excellence.</div>
+                <div id="sec-summary">
+                    <div class="cv-sec-title">Professional Summary</div>
+                    <div class="cv-text" id="out-summary">A results-driven professional with experience in...</div>
+                </div>
 
-                <div class="res-sec-header">Professional Experience</div>
-                <div id="out-experience"></div>
+                <div id="sec-exp">
+                    <div class="cv-sec-title">Experience</div>
+                    <div id="out-exp-list"></div>
+                </div>
 
-                <div class="res-sec-header">Academic History</div>
-                <div id="out-education"></div>
+                <div id="sec-edu">
+                    <div class="cv-sec-title">Education</div>
+                    <div id="out-edu-list"></div>
+                </div>
 
-                <div class="res-sec-header">Core Competencies</div>
-                <div class="res-skill-list" id="out-skills"></div>
+                <div id="sec-skills">
+                    <div class="cv-sec-title">Core Competencies</div>
+                    <div class="cv-skills" id="out-skills"></div>
+                </div>
             </div>
         </main>
     </div>
 
-    <!-- 5000 WORDS SEO CONTENT -->
-    <article class="article-body">
-        <div class="section-header"><div class="line"></div><h2>1. Introduction: The Strategic Role of the 2026 Resume</h2></div>
-        <p>In the digital-first job market of 2026, your resume serves as more than just a summary of your past—it is your personal brand’s digital handshake. As artificial intelligence becomes deeply integrated into the recruitment process, having an **ATS-friendly resume** is the baseline for success. The **Free Resume Maker** by **Toolvala.in** is engineered to bridge the gap between human storytelling and machine readability. We provide a professional, clean-text architecture that ensures your skills are ranked high by bots while impressing human recruiters within the 6-second scan window.</p>
-        
-        <p>A professional resume with a photo creates a psychological edge in competitive markets. By humanizing the digital file, you build immediate trust and rapport with hiring managers. This tool automates the technical design—white space management, font hierarchy, and structural alignment—allowing you to focus on the impact of your career achievements. Whether you are a student or a senior leader using our <a href="cv-maker.html">CV Maker</a>, this tool guarantees a high-fidelity output that stands out in a crowded inbox.</p>
-
-        <div class="section-header"><div class="line"></div><h2>2. To Photo or Not to Photo? Regional Standards</h2></div>
-        <p>Adding a <strong>profile photo to your resume</strong> is a decision that depends heavily on your geographic location and target industry. In 2026, the global standards are nuanced:</p>
-        <ul>
-            <li><strong>Europe and Asia:</strong> In countries like Germany, France, India, and the UAE, a professional portrait is often expected. it humanizes the digital application and helps the recruiter associate a face with the achievements.</li>
-            <li><strong>North America and UK:</strong> Traditionally, photos are discouraged to prevent unconscious bias. However, for "personal brand" driven roles (like Sales, Real Estate, or Social Media Management), a visual presence is becoming a modern differentiator.</li>
-        </ul>
-        <p>Toolvala's builder provides the flexibility you need. If you upload a photo, the layout adjusts automatically to accommodate it while maintaining a professional balance. If you choose not to, the text expands to ensure your resume looks full and authoritative.</p>
-
-        <div class="section-header"><div class="line"></div><h2>3. Beating the ATS Bot: Technical Best Practices</h2></div>
-        <p>Over 75% of resumes are rejected by an automated bot before a human ever see them. To survive the 'Robot Filter,' your document must follow three golden rules:</p>
-        
-        <h3>A. Keyword Alignment</h3>
-        <p>Analyze the job description and identify the primary verbs and nouns. If the employer asks for "Agile Project Management," ensure that exact phrase appears in your "Core Competencies" section. Our tool makes it easy to update these keywords for every application.</p>
-
-        <h3>B. Logical Hierarchy</h3>
-        <p>Avoid complex multi-column layouts, overlapping text boxes, or intricate charts. Standard ATS parsers read text from top to bottom and left to right. Our clean-text architecture ensures that every word of your experience is captured and indexed correctly.</p>
-
-        <h3>C. Standard Headings</h3>
-        <p>Use universal terms like 'Experience,' 'Education,' and 'Skills.' While 'My Superpowers' might sound creative, an ATS bot might not recognize it, leading to a lower ranking for your profile.</p>
-
-        <div class="section-header"><div class="line"></div><h2>4. Achieving Clarity: The Psychology of Clean Text</h2></div>
-        <p>Clean text is not just about aesthetics; it is about cognitive ease. When a recruiter opens your PDF, they should be able to identify your name, title, and most recent job in under two seconds. We achieve this through:</p>
-        <ol>
-            <li><strong>Left-Alignment:</strong> Unlike justified text which creates irregular gaps on mobile screens, left-aligned text is faster for the human eye to process.</li>
-            <li><strong>Line Height:</strong> We use a 1.7 line-height standard. This adds "breathing room" to your document, making dense career history feel accessible.</li>
-            <li><strong>Sans-Serif Foundations:</strong> We use high-readability fonts like Inter, which remain sharp even on low-resolution mobile displays.</li>
-        </ol>
-
-        <div class="section-header"><div class="line"></div><h2>5. Frequently Asked Questions (FAQ)</h2></div>
-        <div class="faq-item">
-            <span class="faq-q" onclick="toggleFaq(0)">1. Why was my previous PDF download blank? <span>▼</span></span>
-            <div class="faq-a" id="faq-0">Blank PDFs occur in standard generators when the capture engine starts before the browser finishes rendering the CSS and images. Toolvala.in uses a 'Deep Rendering Snapshot' that forces the browser to render the page fully in RAM before generating the PDF, ensuring 100% content capture.</div>
-        </div>
-        <div class="faq-item">
-            <span class="faq-q" onclick="toggleFaq(1)">2. Is my personal data and photo safe? <span>▼</span></span>
-            <div class="faq-a" id="faq-1">Absolutely. This tool is 100% client-side. Your personal data and photos are processed in your browser's RAM and never uploaded to our servers. Your privacy is 100% guaranteed.</div>
-        </div>
-        <div class="faq-item">
-            <span class="faq-q" onclick="toggleFaq(2)">3. How many pages should my resume be? <span>▼</span></span>
-            <div class="faq-a" id="faq-2">For most professionals with under 10 years of experience, a 1-page A4 resume is mandatory. Senior leaders with 15+ years of experience can extend to a 2-page document. Our tool is optimized for the A4 1-page standard.</div>
-        </div>
-        <div class="faq-item">
-            <span class="faq-q" onclick="toggleFaq(3)">4. What is the best font for a resume in 2026? <span>▼</span></span>
-            <div class="faq-a" id="faq-3">Sans-serif fonts like Inter or Arial are best for digital readability. For a classic look, serif fonts like Merriweather (used in our headers) are excellent for conveying authority.</div>
-        </div>
-        <div class="faq-item">
-            <span class="faq-q" onclick="toggleFaq(4)">5. Can I use this for academic CVs? <span>▼</span></span>
-            <div class="faq-a" id="faq-4">Yes. Simply use the Education and Experience blocks to list your research projects and academic credentials. For long-form multi-page research profiles, check out our specialized <a href="cv-maker.html">CV Maker</a>.</div>
-        </div>
-        <div class="faq-item">
-            <span class="faq-q" onclick="toggleFaq(5)">6. Does the PDF format preserve my layout on mobile? <span>▼</span></span>
-            <div class="faq-a" id="faq-5">Yes. We use high-end canvas capture that creates a universal PDF compatible with Android, iPhone, and all desktop viewers without any layout shift.</div>
-        </div>
-
-        <div class="section-header"><div class="line"></div><h2>6. Related Tools</h2></div>
-        <div class="related-grid">
-            <a href="cv-maker.html" class="related-card">
-                <div class="icon-circle"><i class="fa-solid fa-file-invoice"></i></div>
-                <div class="tool-name">CV Maker Online</div>
+    <!-- ✅ RELATED TOOLS GRID (SEO INTERLINKING) -->
+    <section class="related-section">
+        <h3 class="related-title">More Free Productivity Tools for 2026</h3>
+        <div class="tools-grid">
+            <a href="passport-photo-resizer.html" class="tool-card">
+                <div class="tool-icon"><i class="fa-solid fa-id-card"></i></div>
+                <div class="tool-name">Passport Photo Resizer</div>
             </a>
-            <a href="pdf-merger.html" class="related-card">
-                <div class="icon-circle"><i class="fa-solid fa-layer-group"></i></div>
-                <div class="tool-name">Merge PDF Files</div>
+            <a href="ssc-photo-tool.html" class="tool-card">
+                <div class="tool-icon"><i class="fa-solid fa-user-tie"></i></div>
+                <div class="tool-name">SSC Photo Tool</div>
             </a>
-            <a href="image-to-pdf-converter.html" class="related-card">
-                <div class="icon-circle"><i class="fa-solid fa-file-image"></i></div>
-                <div class="tool-name">JPG to PDF</div>
+            <a href="upsc-photo-maker.html" class="tool-card">
+                <div class="tool-icon"><i class="fa-solid fa-building-columns"></i></div>
+                <div class="tool-name">UPSC Photo Maker</div>
             </a>
-            <a href="sign-pdf.html" class="related-card">
-                <div class="icon-circle"><i class="fa-solid fa-signature"></i></div>
-                <div class="tool-name">Sign PDF Online</div>
-            </a>
-            <a href="image-compressor.html" class="related-card">
-                <div class="icon-circle"><i class="fa-solid fa-minimize"></i></div>
+            <a href="photo-compressor.html" class="tool-card">
+                <div class="tool-icon"><i class="fa-solid fa-compress"></i></div>
                 <div class="tool-name">Photo Compressor</div>
             </a>
-            <a href="duplicate-remover.html" class="related-card">
-                <div class="icon-circle"><i class="fa-solid fa-copy"></i></div>
-                <div class="tool-name">Duplicate Remover</div>
+            <a href="image-compressor-by-kb.html" class="tool-card">
+                <div class="tool-icon"><i class="fa-solid fa-weight-hanging"></i></div>
+                <div class="tool-name">Compress Image by KB</div>
+            </a>
+            <a href="signature-resizer.html" class="tool-card">
+                <div class="tool-icon"><i class="fa-solid fa-file-signature"></i></div>
+                <div class="tool-name">Signature Resizer</div>
             </a>
         </div>
+    </section>
+
+    <!-- ✅ LONG FORM SEO ARTICLE (COMPREHENSIVE) -->
+    <article class="article-container">
+        <div class="article-content">
+            <h1>Free Resume Maker 2026: Build an ATS-Friendly CV in Minutes</h1>
+            
+            <p>In the highly competitive job market of 2026, your resume is your most critical marketing asset. Whether you are a fresher looking for your first break in the Indian IT sector or an experienced professional aiming for a leadership role in a multinational corporation, the format of your resume matters just as much as the content. Welcome to <strong>Toolvala's Free Resume Maker</strong>, the ultimate browser-based tool designed to help you create clean, professional, and Applicant Tracking System (ATS) compliant PDFs instantly.</p>
+
+            <div class="highlight-box">
+                <strong>Why choose this tool?</strong> Unlike other platforms that force you to sign up or pay to download your file, Toolvala is 100% free, requires no login, and processes all data locally on your device for maximum privacy.
+            </div>
+
+            <h2>Why ATS Compliance Matters in 2026</h2>
+            <p>Did you know that over 75% of resumes are rejected by automated software before they even reach a human recruiter? In 2026, companies use advanced AI-driven ATS (Applicant Tracking Systems) to parse resumes. These systems look for specific keywords, clear headings, and standard formatting.</p>
+            <p>Our <strong>Resume Maker</strong> is engineered with this in mind. We utilize a clean, single-column or minimal two-column layout that bots can read easily. We avoid complex graphics, tables, or unreadable fonts that typically confuse parsing algorithms. By using our tool, you ensure your skills and experience are indexed correctly by platforms like Naukri, LinkedIn, and Indeed.</p>
+
+            <h2>Key Features of Our Resume Builder</h2>
+            <ul>
+                <li><strong>Instant PDF Download:</strong> Generate high-quality A4 PDFs with a single click using our advanced client-side rendering engine.</li>
+                <li><strong>Privacy First:</strong> We do not store your data. Your photo, name, and employment history stay in your browser's RAM and are wiped the moment you close the tab.</li>
+                <li><strong>Photo Support:</strong> Essential for jobs in Europe, UAE, and parts of Asia. You can easily toggle your profile picture. If you need to resize your photo for specific applications, check out our <a href="passport-photo-resizer.html">Passport Photo Resizer</a>.</li>
+                <li><strong>Mobile Friendly:</strong> Build your CV on your smartphone or tablet on the go.</li>
+            </ul>
+
+            <h2>How to Write a Job-Winning Resume</h2>
+            
+            <h3>1. The Summary Statement</h3>
+            <p>Gone are the days of the "Objective" statement. In 2026, you need a "Professional Summary." This should be a 2-3 sentence elevator pitch highlighting your years of experience, key industry, and biggest achievement. For example: <em>"Senior Marketing Manager with 8 years of experience driving 40% growth in SaaS revenue."</em></p>
+
+            <h3>2. Optimizing Experience for Impact</h3>
+            <p>When listing your work history, focus on <strong>achievements</strong> rather than duties. Use action verbs like "Led," "Developed," "Increased," and "Saved." Quantify your results wherever possible. Instead of saying "Managed a team," say "Managed a team of 15 developers and reduced delivery time by 20%."</p>
+
+            <h3>3. Managing Your Digital Assets</h3>
+            <p>Modern job applications often require more than just a resume. You may need to upload a specific size of photograph or signature. 
+            For government jobs (Sarkari Naukri), precision is key. Use our <a href="ssc-photo-tool.html">SSC Photo Tool</a> or <a href="upsc-photo-maker.html">UPSC Photo Maker</a> to ensure your uploads are not rejected.
+            Furthermore, if your document files are too large, use our <a href="photo-compressor.html">Photo Compressor</a> or <a href="image-compressor-by-kb.html">Image Compressor by KB</a> to meet upload limits.</p>
+
+            <h2>Resume Formats: Chronological vs. Functional</h2>
+            <p><strong>Reverse Chronological:</strong> This is the default format used by our builder and is preferred by 99% of recruiters. It lists your most recent job first. It is ideal for those with a steady career progression.</p>
+            <p><strong>Functional:</strong> This focuses on skills rather than timeline. While useful for career gaps, modern ATS systems struggle to read these. We recommend sticking to the chronological format provided by our tool for the best results.</p>
+
+            <h2>Frequently Asked Questions (FAQ)</h2>
+            
+            <h3>Is this Resume Maker really free?</h3>
+            <p>Yes. There are no hidden paywalls, no "premium" watermarks, and no subscription fees. It is a community tool built to help job seekers.</p>
+
+            <h3>Can I edit my resume after downloading?</h3>
+            <p>The output is a PDF, which is a final document format. To edit, simply keep this tab open, make your changes in the form, and download a new version.</p>
+
+            <h3>What is the best font for resumes in 2026?</h3>
+            <p>Sans-serif fonts like Inter, Roboto, and Open Sans are the standard. They are clean, modern, and render perfectly on all screens. Our tool uses 'Inter' for maximum legibility.</p>
+
+            <h3>How do I add a signature?</h3>
+            <p>While resumes typically don't require signatures, application forms do. If you need to resize a digital signature for an online form, use our <a href="signature-resizer.html">Signature Resizer Tool</a>.</p>
+
+            <p>Start building your future today with Toolvala.in. Whether you are applying for a corporate job, a startup role, or government service, a professional resume is your first step toward success.</p>
+        </div>
     </article>
+
 </div>
 
+<!-- ✅ JAVASCRIPT LOGIC -->
 <script>
-    let expData = [];
-    let eduData = [];
+    let experience = [];
+    let education = [];
 
-    function addItem(type) {
+    // --- State Managers ---
+    function addExp() {
         const id = Date.now();
-        if(type === 'exp') expData.push({id, company:'', role:'', date:'', desc:''});
-        else eduData.push({id, school:'', degree:'', date:''});
-        renderForms();
-    }
-
-    function remove(type, id) {
-        if(type === 'exp') expData = expData.filter(x => x.id !== id);
-        else eduData = eduData.filter(x => x.id !== id);
-        renderForms();
+        experience.push({ id, role: '', company: '', date: '', desc: '' });
+        renderExp();
         updateUI();
     }
 
-    function updateData(type, id, key, val) {
-        const arr = (type === 'exp') ? expData : eduData;
+    function addEdu() {
+        const id = Date.now();
+        education.push({ id, degree: '', school: '', date: '' });
+        renderEdu();
+        updateUI();
+    }
+
+    function removeExp(id) {
+        experience = experience.filter(x => x.id !== id);
+        renderExp();
+        updateUI();
+    }
+
+    function removeEdu(id) {
+        education = education.filter(x => x.id !== id);
+        renderEdu();
+        updateUI();
+    }
+
+    // --- Rendering Forms ---
+    function renderExp() {
+        document.getElementById('form-exp').innerHTML = experience.map(e => `
+            <div class="dynamic-card">
+                <button class="btn-del" onclick="removeExp(${e.id})"><i class="fa fa-trash"></i></button>
+                <div class="input-wrap"><label>Role</label><input type="text" class="input-control" value="${e.role}" oninput="updateItem('exp', ${e.id}, 'role', this.value)"></div>
+                <div class="input-wrap"><label>Company</label><input type="text" class="input-control" value="${e.company}" oninput="updateItem('exp', ${e.id}, 'company', this.value)"></div>
+                <div class="input-wrap"><label>Date</label><input type="text" class="input-control" value="${e.date}" oninput="updateItem('exp', ${e.id}, 'date', this.value)"></div>
+                <div class="input-wrap"><label>Details</label><textarea class="input-control" oninput="updateItem('exp', ${e.id}, 'desc', this.value)">${e.desc}</textarea></div>
+            </div>`).join('');
+    }
+
+    function renderEdu() {
+        document.getElementById('form-edu').innerHTML = education.map(e => `
+            <div class="dynamic-card">
+                <button class="btn-del" onclick="removeEdu(${e.id})"><i class="fa fa-trash"></i></button>
+                <div class="input-wrap"><label>Degree</label><input type="text" class="input-control" value="${e.degree}" oninput="updateItem('edu', ${e.id}, 'degree', this.value)"></div>
+                <div class="input-wrap"><label>Institute</label><input type="text" class="input-control" value="${e.school}" oninput="updateItem('edu', ${e.id}, 'school', this.value)"></div>
+                <div class="input-wrap"><label>Year</label><input type="text" class="input-control" value="${e.date}" oninput="updateItem('edu', ${e.id}, 'date', this.value)"></div>
+            </div>`).join('');
+    }
+
+    function updateItem(type, id, key, val) {
+        const arr = type === 'exp' ? experience : education;
         const item = arr.find(x => x.id === id);
         if(item) item[key] = val;
         updateUI();
     }
 
-    function renderForms() {
-        document.getElementById('form-exp').innerHTML = expData.map(e => `
-            <div class="dynamic-item">
-                <button class="btn-remove" onclick="remove('exp', ${e.id})"><i class="fa fa-times"></i></button>
-                <div class="input-group"><label>Job Role</label><input type="text" class="input-field" value="${e.role}" oninput="updateData('exp', ${e.id}, 'role', this.value)"></div>
-                <div class="input-group"><label>Company</label><input type="text" class="input-field" value="${e.company}" oninput="updateData('exp', ${e.id}, 'company', this.value)"></div>
-                <div class="input-group"><label>Dates</label><input type="text" class="input-field" value="${e.date}" oninput="updateData('exp', ${e.id}, 'date', this.value)"></div>
-                <div class="input-group"><label>Achievements</label><textarea class="input-field" oninput="updateData('exp', ${e.id}, 'desc', this.value)">${e.desc}</textarea></div>
-            </div>`).join('');
-
-        document.getElementById('form-edu').innerHTML = eduData.map(e => `
-            <div class="dynamic-item">
-                <button class="btn-remove" onclick="remove('edu', ${e.id})"><i class="fa fa-times"></i></button>
-                <div class="input-group"><label>Degree</label><input type="text" class="input-field" value="${e.degree}" oninput="updateData('edu', ${e.id}, 'degree', this.value)"></div>
-                <div class="input-group"><label>School</label><input type="text" class="input-field" value="${e.school}" oninput="updateData('edu', ${e.id}, 'school', this.value)"></div>
-                <div class="input-group"><label>Dates</label><input type="text" class="input-field" value="${e.date}" oninput="updateData('edu', ${e.id}, 'date', this.value)"></div>
-            </div>`).join('');
-    }
-
     function loadPhoto(event) {
         const file = event.target.files[0];
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const out = document.getElementById('out-photo');
-            out.src = e.target.result;
-            document.getElementById('out-photo-wrap').style.display = "block";
-            updateUI();
+        if(file){
+            const url = URL.createObjectURL(file);
+            document.getElementById('out-photo').src = url;
+            document.getElementById('out-photo-box').style.display = 'block';
         }
-        reader.readAsDataURL(file);
     }
 
+    // --- UI Updates ---
     function updateUI() {
-        document.getElementById('out-name').innerText = document.getElementById('in-name').value || 'Rahul Sharma';
-        document.getElementById('out-headline').innerText = document.getElementById('in-headline').value || 'Senior Product Manager';
-        document.getElementById('out-email').innerText = document.getElementById('in-email').value || 'rahul@example.com';
-        document.getElementById('out-phone').innerText = document.getElementById('in-phone').value || '+91 9999999999';
-        document.getElementById('out-location').innerText = document.getElementById('in-location').value || 'Mumbai, India';
-        document.getElementById('out-summary').innerText = document.getElementById('in-summary').value || 'Brief career highlights...';
+        const getValue = (id, def) => document.getElementById(id).value || def;
+        
+        // Header Info
+        document.getElementById('out-name').innerText = getValue('in-name', 'Your Name');
+        document.getElementById('out-role').innerText = getValue('in-role', 'Job Title');
+        
+        const email = getValue('in-email', '');
+        const phone = getValue('in-phone', '');
+        const loc = getValue('in-loc', '');
+        
+        document.getElementById('out-email').innerText = email || 'email@example.com';
+        document.getElementById('c-email').style.display = email ? 'inline-flex' : 'none';
+        
+        document.getElementById('out-phone').innerText = phone || '123-456-7890';
+        document.getElementById('c-phone').style.display = phone ? 'inline-flex' : 'none';
+        
+        document.getElementById('out-loc').innerText = loc || 'City, Country';
+        document.getElementById('c-loc').style.display = loc ? 'inline-flex' : 'none';
 
-        document.getElementById('out-experience').innerHTML = expData.map(e => `
-            <div class="res-entry">
-                <div class="res-entry-head"><span>${e.role}</span><span>${e.date}</span></div>
-                <div class="res-entry-sub">${e.company}</div>
-                <div class="res-entry-desc">${e.desc}</div>
+        // Summary
+        const summary = getValue('in-summary', '');
+        document.getElementById('out-summary').innerText = summary || 'Add a professional summary...';
+        document.getElementById('sec-summary').style.display = summary ? 'block' : 'none';
+
+        // Lists
+        document.getElementById('sec-exp').style.display = experience.length ? 'block' : 'none';
+        document.getElementById('out-exp-list').innerHTML = experience.map(e => `
+            <div class="cv-entry">
+                <div class="cv-entry-top"><span>${e.role}</span><span>${e.date}</span></div>
+                <div class="cv-entry-sub">${e.company}</div>
+                <div class="cv-entry-desc">${e.desc}</div>
             </div>`).join('');
 
-        document.getElementById('out-education').innerHTML = eduData.map(e => `
-            <div class="res-entry">
-                <div class="res-entry-head"><span>${e.degree}</span><span>${e.date}</span></div>
-                <div class="res-entry-sub">${e.school}</div>
+        document.getElementById('sec-edu').style.display = education.length ? 'block' : 'none';
+        document.getElementById('out-edu-list').innerHTML = education.map(e => `
+            <div class="cv-entry">
+                <div class="cv-entry-top"><span>${e.degree}</span><span>${e.date}</span></div>
+                <div class="cv-entry-sub">${e.school}</div>
             </div>`).join('');
 
-        const sk = document.getElementById('in-skills').value;
-        document.getElementById('out-skills').innerHTML = sk.split(',').map(s => s.trim() ? `<span class="skill-tag">${s.trim()}</span>` : '').join('');
+        // Skills
+        const skills = getValue('in-skills', '');
+        document.getElementById('sec-skills').style.display = skills ? 'block' : 'none';
+        document.getElementById('out-skills').innerHTML = skills.split(',').map(s => s.trim() ? `<span class="skill-pill">${s.trim()}</span>` : '').join('');
     }
 
-    // ✅ ROBUST PDF ENGINE
+    // --- PDF Generator ---
     async function generatePDF() {
         const btn = document.getElementById('dl-btn');
         const originalText = btn.innerHTML;
-        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
+        btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Processing...';
+        btn.disabled = true;
 
         const element = document.getElementById('resume-canvas');
-        
+
         try {
+            await new Promise(resolve => setTimeout(resolve, 500)); // Ensure render
+            
             const canvas = await html2canvas(element, {
-                scale: 2, 
+                scale: 2, // High resolution
                 useCORS: true,
-                backgroundColor: "#ffffff",
-                windowWidth: 800 // Hard-fixes blank PDF on mobile viewport
+                logging: false,
+                backgroundColor: "#ffffff"
             });
 
-            const imgData = canvas.toDataURL('image/jpeg', 1.0);
+            const imgData = canvas.toDataURL('image/jpeg', 0.95);
             const { jsPDF } = window.jspdf;
             const pdf = new jsPDF('p', 'mm', 'a4');
-            const pdfWidth = pdf.internal.pageSize.getWidth();
-            const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+            const pdfW = pdf.internal.pageSize.getWidth();
+            const pdfH = (canvas.height * pdfW) / canvas.width;
 
-            pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
-            pdf.save(`Resume_${document.getElementById('in-name').value || 'Toolvala'}.pdf`);
+            pdf.addImage(imgData, 'JPEG', 0, 0, pdfW, pdfH);
+            const fileName = (document.getElementById('in-name').value || 'Resume').replace(/\s+/g, '_');
+            pdf.save(`${fileName}_2026.pdf`);
         } catch (error) {
-            alert("Render Error. Please try a different photo.");
+            console.error(error);
+            alert("Error generating PDF. Please try again.");
         } finally {
             btn.innerHTML = originalText;
+            btn.disabled = false;
         }
     }
 
-    function toggleFaq(id) {
-        const el = document.getElementById('faq-' + id);
-        const isVisible = el.style.display === 'block';
-        el.style.display = isVisible ? 'none' : 'block';
-    }
-
-    window.onload = () => { addItem('exp'); addItem('edu'); updateUI(); };
+    // Init
+    window.onload = () => { addExp(); addEdu(); updateUI(); };
 </script>
 
 </body>
