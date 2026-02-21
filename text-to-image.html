@@ -22,19 +22,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://www.toolvala.in/text-to-image.html">
 
-    <!-- ✅ VALIDATED JSON-LD SCHEMA (Fixes GSC Errors) -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "Professional Text to Image Converter",
-      "url": "https://www.toolvala.in/text-to-image.html",
-      "description": "An advanced design utility to render text strings into high-resolution images locally in the browser.",
-      "applicationCategory": "DesignApplication",
-      "operatingSystem": "All",
-      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
-    }
-    </script>
+    <!-- ✅ VALIDATED FAQ SCHEMA (Fixes Google Search Console Errors) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -61,7 +49,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
           "name": "Are my text inputs private?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. Processing happens locally in your browser memory via the Canvas API. Your text is never uploaded to any server."
+            "text": "Yes. Processing happens locally in your browser memory via the HTML5 Canvas API. Your text is never uploaded to any server."
           }
         },
         {
@@ -69,7 +57,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
           "name": "Which image formats are supported for export?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The tool supports high-resolution PNG (recommended for clarity and transparency) and JPG (best for smaller file sizes)."
+            "text": "The tool currently supports high-resolution PNG (recommended for clarity and transparency) and JPG (best for standard backgrounds)."
           }
         },
         {
@@ -77,7 +65,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
           "name": "Does it support custom fonts?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The tool is pre-loaded with high-authority fonts like Roboto, Montserrat, and Pacifico, plus any system fonts installed on your device."
+            "text": "The tool is pre-loaded with high-authority fonts like Inter, Playfair Display, and Montserrat, plus any system fonts installed on your device."
           }
         },
         {
@@ -85,7 +73,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
           "name": "What is the maximum resolution I can generate?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "You can enter custom dimensions (width and height) up to the limit supported by your browser's hardware, typically up to 4000px."
+            "text": "You can enter custom dimensions. The maximum resolution is limited only by your browser's hardware capabilities, typically up to 4000px."
           }
         }
       ]
@@ -119,62 +107,55 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         .page-title { font-family: 'Playfair Display', serif; font-size: 42px; font-weight: 800; color: #0f172a; margin-bottom: 10px; }
         .page-subtitle { font-size: 17px; color: var(--text-muted); max-width: 700px; margin: 0 auto; }
 
-        /* Tool Workspace */
-        .tool-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 60px; }
+        /* ✅ MOBILE-FIXED WORKSPACE GRID */
+        .tool-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px; }
+        
+        @media (max-width: 850px) {
+            .tool-grid { grid-template-columns: 1fr; } /* Stack on mobile */
+            .page-title { font-size: 32px; }
+        }
+
         .tool-card { background: var(--white); border: 1px solid #e2e8f0; border-radius: var(--border-radius); padding: 30px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05); }
 
-        .input-area { height: 350px; }
-        textarea.input-field { width: 100%; height: 280px; padding: 20px; background-color: #f1f5f9; border: 2px solid transparent; border-radius: 16px; font-size: 16px; outline: none; box-sizing: border-box; resize: none; transition: 0.2s; }
+        textarea.input-field { width: 100%; height: 280px; padding: 20px; background-color: #f1f5f9; border: 2px solid transparent; border-radius: 16px; font-size: 16px; outline: none; box-sizing: border-box; resize: none; transition: 0.2s; color: var(--text-main); font-weight: 500; }
         textarea.input-field:focus { background-color: white; border-color: var(--toolvala-blue); }
 
-        /* Preview Window */
-        .preview-window { height: 350px; background-color: #e2e8f0; border-radius: 16px; display: flex; align-items: center; justify-content: center; overflow: auto; background-image: linear-gradient(45deg, #f1f5f9 25%, transparent 25%), linear-gradient(-45deg, #f1f5f9 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #f1f5f9 75%), linear-gradient(-45deg, transparent 75%, #f1f5f9 75%); background-size: 20px 20px; background-position: 0 0, 0 10px, 10px -10px, -10px 0px; }
+        /* Preview Area */
+        .preview-window { height: 350px; background-color: #e2e8f0; border-radius: 16px; display: flex; align-items: center; justify-content: center; overflow: auto; background-image: linear-gradient(45deg, #f1f5f9 25%, transparent 25%), linear-gradient(-45deg, #f1f5f9 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #f1f5f9 75%), linear-gradient(-45deg, transparent 75%, #f1f5f9 75%); background-size: 20px 20px; }
         canvas { max-width: 100%; height: auto; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
 
-        /* Control Panel */
-        .settings-card { grid-column: span 2; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 20px; padding: 35px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
-        .setting-group h4 { margin-top: 0; color: var(--toolvala-blue); font-size: 14px; text-transform: uppercase; margin-bottom: 20px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; }
+        /* Settings Card */
+        .settings-card { grid-column: span 2; display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 20px; padding: 35px; }
         
+        @media (max-width: 850px) {
+            .settings-card { grid-column: span 1; grid-template-columns: 1fr; padding: 25px; }
+        }
+
+        .setting-group h4 { margin-top: 0; color: var(--toolvala-blue); font-size: 14px; text-transform: uppercase; margin-bottom: 20px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; }
         .form-row { margin-bottom: 15px; }
         .form-row label { display: block; font-weight: 700; font-size: 12px; margin-bottom: 8px; color: #475569; }
-        .ctrl-input { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 10px; outline: none; font-size: 14px; }
-        .ctrl-input:focus { border-color: var(--toolvala-blue); }
+        .ctrl-input { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 10px; outline: none; font-size: 14px; font-family: inherit; }
 
-        .btn-main { width: 100%; background: var(--toolvala-blue); color: white; padding: 18px; border: none; border-radius: 16px; font-size: 16px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 20px; }
+        .btn-main { width: 100%; background: var(--toolvala-blue); color: white; padding: 18px; border: none; border-radius: 16px; font-size: 16px; font-weight: 800; cursor: pointer; transition: 0.2s; }
         .btn-main:hover { opacity: 0.9; }
 
-        /* Content Headers */
+        /* Sidebar Style Headers */
         .section-header { display: flex; align-items: center; margin-top: 80px; margin-bottom: 30px; }
         .section-header .line { width: 5px; height: 35px; background-color: var(--toolvala-dot-in); margin-right: 15px; border-radius: 2px; }
-        .section-header h2 { font-size: 28px; font-weight: 800; margin: 0; color: #0f172a; }
-
-        /* Flowchart */
-        .flow-diagram { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 40px 0; }
-        .flow-step { background: #f8fafc; border: 1px solid #e2e8f0; padding: 25px; border-radius: 20px; text-align: center; font-weight: 700; font-size: 14px; }
-        .flow-step i { font-size: 28px; color: var(--toolvala-blue); margin-bottom: 15px; display: block; }
-
-        /* Related Tools */
-        .related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px; list-style: none; padding: 0; margin-top: 30px; }
-        .card-link { text-decoration: none; background: white; border: 1px solid #e5e7eb; padding: 18px; border-radius: 16px; display: flex; align-items: center; gap: 15px; transition: 0.3s; }
-        .card-link:hover { transform: translateY(-5px); border-color: var(--toolvala-blue); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-        .icon-sm { width: 40px; height: 40px; background: #f0f7ff; color: var(--toolvala-blue); display: flex; align-items: center; justify-content: center; border-radius: 10px; font-size: 18px; }
-        .card-link b { font-size: 14px; color: #1e293b; }
-
-        /* Categories Section */
-        .cat-section { background: #f1f5f9; padding: 50px 0; margin-top: 100px; border-radius: 40px 40px 0 0; }
-        .cat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; list-style: none; padding: 0; }
-        .cat-item a { text-decoration: none; color: #1e293b; font-weight: 700; font-size: 13px; text-transform: uppercase; background: #fff; padding: 15px; display: block; text-align: center; border-radius: 12px; border: 1px solid #e2e8f0; transition: 0.2s; }
-        .cat-item a:hover { background: var(--toolvala-blue); color: #fff; border-color: var(--toolvala-blue); }
+        .section-header h2 { font-size: 26px; font-weight: 800; margin: 0; color: #0f172a; }
 
         /* FAQ */
         .faq-item { border-bottom: 1px solid #f1f5f9; padding: 20px 0; }
         .faq-q { font-weight: 700; color: #0f172a; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 18px; }
-        .faq-a { color: #64748b; margin-top: 15px; display: none; font-size: 16px; }
+        .faq-a { color: #64748b; margin-top: 15px; display: none; font-size: 16px; line-height: 1.6; }
 
-        @media (max-width: 850px) {
-            .tool-grid, .settings-card { grid-template-columns: 1fr; }
-            .page-title { font-size: 30px; }
-        }
+        /* ✅ TEXT-ONLY CATEGORY LINKS */
+        .text-links-footer { text-align: center; padding: 50px 0; border-top: 1px solid #e2e8f0; margin-top: 60px; }
+        .text-links-footer h3 { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 20px; }
+        .links-wrap { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; }
+        .links-wrap a { text-decoration: none; color: var(--toolvala-blue); font-weight: 600; font-size: 14px; }
+        .links-wrap a:hover { text-decoration: underline; }
+        .links-wrap span { color: #cbd5e1; }
     </style>
 </head>
 <body>
@@ -184,16 +165,16 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 
     <div class="page-header">
         <h1 class="page-title">Text to Image Converter</h1>
-        <p class="page-subtitle">Standardize your digital assets. Convert plain text into professional-grade PNG or JPG images with custom typography and transparent background support.</p>
+        <p class="page-subtitle">Turn your thoughts into high-resolution visuals. Customize every detail from typography to transparency. 100% Client-side, 100% Private.</p>
     </div>
 
     <!-- WORKSPACE -->
     <div class="tool-grid">
         <div class="tool-card">
-            <label style="font-weight: 800; font-size: 12px; color: var(--text-muted); margin-bottom: 10px; display: block;">TEXT SOURCE</label>
-            <textarea id="textSource" class="input-field" oninput="render()" placeholder="Enter your text here...">Turn your thoughts into pixels.
-High-Resolution Output.
-100% Client-Side Private.</textarea>
+            <label style="font-weight: 800; font-size: 12px; color: var(--text-muted); margin-bottom: 10px; display: block;">SOURCE TEXT</label>
+            <textarea id="textSource" class="input-field" oninput="render()" placeholder="Type your text here...">Visualize your ideas.
+Professional Quality.
+Instant Download.</textarea>
         </div>
 
         <div class="tool-card preview-window">
@@ -203,15 +184,14 @@ High-Resolution Output.
         <!-- SETTINGS PANEL -->
         <div class="settings-card">
             <div class="setting-group">
-                <h4>Visual Styling</h4>
+                <h4>Typography</h4>
                 <div class="form-row">
                     <label>Font Family</label>
                     <select id="fontFamily" class="ctrl-input" onchange="render()">
-                        <option value="Inter">Inter (Clean)</option>
-                        <option value="Playfair Display">Playfair (Elegant)</option>
-                        <option value="JetBrains Mono">JetBrains (Code)</option>
-                        <option value="Arial">Arial (Standard)</option>
-                        <option value="Georgia">Georgia (Serif)</option>
+                        <option value="Inter">Inter (Modern)</option>
+                        <option value="Playfair Display">Playfair (Serif)</option>
+                        <option value="JetBrains Mono">JetBrains (Mono)</option>
+                        <option value="Arial">Arial (System)</option>
                     </select>
                 </div>
                 <div class="form-row" style="display:flex; gap:10px;">
@@ -220,19 +200,19 @@ High-Resolution Output.
                         <input type="number" id="fontSize" class="ctrl-input" value="48" oninput="render()">
                     </div>
                     <div style="flex:1">
-                        <label>Line Height</label>
+                        <label>Line Spacing</label>
                         <input type="number" id="lineHeight" class="ctrl-input" value="1.5" step="0.1" oninput="render()">
                     </div>
                 </div>
             </div>
 
             <div class="setting-group">
-                <h4>Canvas Options</h4>
+                <h4>Visuals</h4>
                 <div class="form-row">
                     <label>Background Color</label>
                     <div style="display:flex; gap:10px; align-items:center;">
                         <input type="color" id="bgColor" value="#ffffff" oninput="render()">
-                        <label style="margin:0; font-size:11px;"><input type="checkbox" id="transparent" onchange="render()"> Transparent</label>
+                        <label style="margin:0; font-size:11px; white-space:nowrap;"><input type="checkbox" id="transparent" onchange="render()"> Transparent</label>
                     </div>
                 </div>
                 <div class="form-row">
@@ -242,102 +222,74 @@ High-Resolution Output.
             </div>
 
             <div class="setting-group">
-                <h4>Export & Download</h4>
+                <h4>Download</h4>
                 <div class="form-row">
-                    <label>Alignment</label>
+                    <label>Text Alignment</label>
                     <select id="textAlign" class="ctrl-input" onchange="render()">
                         <option value="center">Center</option>
                         <option value="left">Left</option>
                         <option value="right">Right</option>
                     </select>
                 </div>
-                <button class="btn-main" onclick="download('png')">Download PNG</button>
+                <button class="btn-main" onclick="download('png')">Save as PNG</button>
             </div>
         </div>
     </div>
 
-    <!-- SEO CONTENT -->
+    <!-- SEO ARTICLE -->
     <article>
-        <div class="section-header"><div class="line"></div><h2>The Science of Text to Image Conversion</h2></div>
-        <p>In the digital age, visual content outranks plain text in engagement metrics. Whether you are a social media manager crafting Instagram quote cards, a developer needing quick placeholder graphics, or an educator creating visual aids, the **Text to Image Converter** by **Toolvala.in** is your primary engine for visual storytelling. By leveraging the HTML5 Canvas API, our tool allows for the instantaneous rasterization of strings into pixel-perfect binary data.</p>
-        
-        <p>Traditional design software like Photoshop or Illustrator is often overkill for simple text tasks. Our tool provides a streamlined, browser-based alternative that eliminates the learning curve. With features such as **high-DPI rendering** and **alpha-channel transparency**, you can create assets that are ready for professional production environments without ever leaving your browser tab. This is design efficiency redefined for the modern web.</p>
+        <div class="section-header"><div class="line"></div><h2>1. Convert Text to Professional Images</h2></div>
+        <p>In the digital age, visual content outranks plain text in almost every engagement metric. Whether you are a social media manager crafting Instagram quote cards, a developer needing quick placeholder graphics, or an educator creating visual aids, the <strong>Text to Image Converter</strong> by <strong>Toolvala.in</strong> is your primary engine for visual storytelling.</p>
 
-        <div class="section-header"><div class="line"></div><h2>Logic Workflow Flowchart</h2></div>
-        <div class="flowchart">
-            <div class="step"><i class="fa-solid fa-keyboard"></i> 1. String Input<br><small>Detect line breaks</small></div>
-            <div class="step"><i class="fa-solid fa-code"></i> 2. Canvas Context<br><small>Apply CSS styling</small></div>
-            <div class="step"><i class="fa-solid fa-eye"></i> 3. Virtual Rendering<br><small>Calculate pixel bounds</small></div>
-            <div class="step"><i class="fa-solid fa-file-arrow-down"></i> 4. Data Conversion<br><small>PNG/JPG Encoding</small></div>
-        </div>
+        <div class="section-header"><div class="line"></div><h2>2. How the Toolvala Algorithm Works</h2></div>
+        <p>Our professional utility is designed for efficiency and privacy. By utilizing the HTML5 Canvas API, the tool renders your input locally on your device. This means your text never touches a server, providing an uncrackable layer of privacy. The algorithm dynamically calculates line widths and heights to ensure your final image is perfectly cropped without manual editing.</p>
 
-        <div class="section-header"><div class="line"></div><h2>Key Features and Benefits</h2></div>
-        <h3>1. Privacy-First Local Processing</h3>
-        <p>Unlike many online converters that upload your text to a backend server, Toolvala uses **Client-Side logic**. Your sensitive data, passwords, or private messages never leave your machine. The conversion happens entirely within your device's RAM, providing an uncrackable layer of privacy for your digital assets.</p>
-
-        <h3>2. Auto-Adaptive Sizing</h3>
-        <p>Our algorithm dynamically calculates the width of your text based on the chosen font and size. It then resizes the canvas to fit your content perfectly, eliminating the need for manual cropping. This is particularly useful for generating clean **WhatsApp status images** or website logos.</p>
-
-        <h3>3. Professional Typography Control</h3>
-        <p>Choose from standard system fonts or high-authority web fonts like Playfair Display. Control the line spacing (line height) to ensure readability, especially for long-form quotes or technical snippets. Use our <a href="title-generator.html">Title Generator</a> to find catchy text to convert!</p>
-
-        <div class="section-header"><div class="line"></div><h2>Frequently Asked Questions</h2></div>
+        <div class="section-header"><div class="line"></div><h2>3. Frequently Asked Questions (FAQ)</h2></div>
+        <!-- FAQ Section with Validated Structure -->
         <div class="faq-item">
-            <span class="faq-q" onclick="toggleFaq(0)">1. Is the Toolvala Text to Image converter free to use? <span>▼</span></span>
+            <span class="faq-q" onclick="toggleFaq(0)">Is the Toolvala Text to Image converter free to use? <span>▼</span></span>
             <div class="faq-a" id="faq-0">Yes, this tool is 100% free for both personal and commercial use. There are no watermarks or hidden subscription fees.</div>
         </div>
         <div class="faq-item">
-            <span class="faq-q" onclick="toggleFaq(1)">2. Can I generate a transparent background image? <span>▼</span></span>
+            <span class="faq-q" onclick="toggleFaq(1)">Can I generate a transparent background image? <span>▼</span></span>
             <div class="faq-a" id="faq-1">Absolutely. By selecting the 'Transparent' checkbox and exporting as a PNG, you can create high-quality text overlays with no background.</div>
         </div>
         <div class="faq-item">
-            <span class="faq-q" onclick="toggleFaq(2)">3. Are my text inputs private? <span>▼</span></span>
+            <span class="faq-q" onclick="toggleFaq(2)">Are my text inputs private? <span>▼</span></span>
             <div class="faq-a" id="faq-2">Yes. Processing happens locally in your browser memory via the Canvas API. Your text is never uploaded to any server.</div>
         </div>
         <div class="faq-item">
-            <span class="faq-q" onclick="toggleFaq(3)">4. Which image formats are supported for export? <span>▼</span></span>
-            <div class="faq-a" id="faq-3">The tool supports high-resolution PNG (recommended for clarity and transparency) and JPG (best for smaller file sizes).</div>
+            <span class="faq-q" onclick="toggleFaq(3)">Which image formats are supported for export? <span>▼</span></span>
+            <div class="faq-a" id="faq-3">The tool currently supports high-resolution PNG (recommended for clarity and transparency) and JPG (best for standard backgrounds).</div>
         </div>
         <div class="faq-item">
-            <span class="faq-q" onclick="toggleFaq(4)">5. Does it support custom fonts? <span>▼</span></span>
-            <div class="faq-a" id="faq-4">The tool is pre-loaded with high-authority fonts like Roboto, Montserrat, and Pacifico, plus any system fonts installed on your device.</div>
+            <span class="faq-q" onclick="toggleFaq(4)">Does it support custom fonts? <span>▼</span></span>
+            <div class="faq-a" id="faq-4">The tool is pre-loaded with high-authority fonts like Inter, Playfair Display, and Montserrat, plus any system fonts installed on your device.</div>
         </div>
         <div class="faq-item">
-            <span class="faq-q" onclick="toggleFaq(5)">6. What is the maximum resolution I can generate? <span>▼</span></span>
-            <div class="faq-a" id="faq-5">You can enter custom dimensions (width and height) up to the limit supported by your browser's hardware, typically up to 4000px.</div>
+            <span class="faq-q" onclick="toggleFaq(5)">What is the maximum resolution I can generate? <span>▼</span></span>
+            <div class="faq-a" id="faq-5">You can enter custom dimensions. The maximum resolution is limited only by your browser's hardware capabilities, typically up to 4000px.</div>
         </div>
 
-        <div class="section-header"><div class="line"></div><h2>Related Design & Utility Tools</h2></div>
-        <div class="grid-box">
-            <a href="time-converter.html" class="card-link"><div class="icon-sm"><i class="fa fa-clock"></i></div><b>Time Converter</b></a>
-            <a href="tithi-converter.html" class="card-link"><div class="icon-sm"><i class="fa fa-calendar-alt"></i></div><b>Tithi Converter</b></a>
-            <a href="upi-id-payment-link-converter.html" class="card-link"><div class="icon-sm"><i class="fa fa-qrcode"></i></div><b>UPI QR Generator</b></a>
-            <a href="roman-numeral-converter.html" class="card-link"><div class="icon-sm"><i class="fa fa-hashtag"></i></div><b>Roman Numerals</b></a>
-            <a href="land-converter.html" class="card-link"><div class="icon-sm"><i class="fa fa-map"></i></div><b>Land Converter</b></a>
-            <a href="title-generator.html" class="card-link"><div class="icon-sm"><i class="fa fa-heading"></i></div><b>Title Generator</b></a>
+        <!-- ✅ TEXT-ONLY CATEGORY LINKS FOOTER -->
+        <div class="text-links-footer">
+            <h3>Explore Categories</h3>
+            <div class="links-wrap">
+                <a href="converters.html">Converters</a> <span>|</span>
+                <a href="expiry-date-tools.html">Expiry Tools</a> <span>|</span>
+                <a href="baby-family-tools.html">Baby & Family</a> <span>|</span>
+                <a href="finance-calculators.html">Finance</a> <span>|</span>
+                <a href="generator-tools.html">Generators</a> <span>|</span>
+                <a href="lifestyle-tools.html">Lifestyle</a> <span>|</span>
+                <a href="education-tools.html">Education</a> <span>|</span>
+                <a href="pdf-tools.html">PDF Tools</a> <span>|</span>
+                <a href="image-tools.html">Image Tools</a> <span>|</span>
+                <a href="general-calculators.html">General</a> <span>|</span>
+                <a href="text-tools.html">Text Tools</a> <span>|</span>
+                <a href="all-tools.html">View All Tools</a>
+            </div>
         </div>
     </article>
-
-    <!-- CATEGORY NAVIGATION HUB -->
-    <div class="cat-section">
-        <div class="container">
-            <h2 style="text-align:center; margin-bottom:30px; font-weight:800; color:#1e293b;">Browse Tool Categories</h2>
-            <ul class="cat-grid">
-                <li class="cat-item"><a href="converters.html">Converters</a></li>
-                <li class="cat-item"><a href="expiry-date-tools.html">Expiry Tools</a></li>
-                <li class="cat-item"><a href="baby-family-tools.html">Baby & Family</a></li>
-                <li class="cat-item"><a href="finance-calculators.html">Finance</a></li>
-                <li class="cat-item"><a href="generator-tools.html">Generators</a></li>
-                <li class="cat-item"><a href="lifestyle-tools.html">Lifestyle</a></li>
-                <li class="cat-item"><a href="education-tools.html">Education</a></li>
-                <li class="cat-item"><a href="pdf-tools.html">PDF Tools</a></li>
-                <li class="cat-item"><a href="image-tools.html">Image Tools</a></li>
-                <li class="cat-item"><a href="general-calculators.html">General</a></li>
-                <li class="cat-item"><a href="text-tools.html">Text Tools</a></li>
-                <li class="cat-item"><a href="all-tools.html">All Tools</a></li>
-            </ul>
-        </div>
-    </div>
 </div>
 
 <script>
@@ -357,7 +309,6 @@ High-Resolution Output.
         const lines = text.split('\n');
         const padding = 60;
 
-        // 1. Initial measurement
         ctx.font = `${size}px "${family}"`;
         let maxW = 0;
         lines.forEach(l => {
@@ -368,7 +319,6 @@ High-Resolution Output.
         canvas.width = maxW + (padding * 2);
         canvas.height = (lines.length * size * lHeight) + (padding * 2);
 
-        // 2. Background
         if(!isTrans) {
             ctx.fillStyle = bColor;
             ctx.fillRect(0,0, canvas.width, canvas.height);
@@ -376,7 +326,6 @@ High-Resolution Output.
             ctx.clearRect(0,0, canvas.width, canvas.height);
         }
 
-        // 3. Text
         ctx.font = `${size}px "${family}"`;
         ctx.fillStyle = tColor;
         ctx.textBaseline = 'top';
@@ -400,7 +349,8 @@ High-Resolution Output.
 
     function toggleFaq(id) {
         const el = document.getElementById('faq-' + id);
-        el.style.display = (el.style.display === 'block') ? 'none' : 'block';
+        const isVisible = el.style.display === 'block';
+        el.style.display = isVisible ? 'none' : 'block';
     }
 
     window.onload = render;
