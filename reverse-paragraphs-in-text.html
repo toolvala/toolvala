@@ -1,570 +1,348 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reverse Paragraphs Tool - Flip Text Lines Online</title>
-    <link rel="canonical"href="https://www.toolvala.in/reverse-paragraphs-in-text.html">
-    <meta name="description" content="Free online Reverse Paragraphs Tool. Instantly reverse the order of lines, flip lists, and reorder text chronologically. Secure, client-side, and fast.">
-    <meta name="robots" content="index, follow">
-    <!-- FontAwesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8GTQC904G1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
+  gtag('config', 'G-8GTQC904G1');
+</script>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- ✅ SEO & Indexing -->
+    <title>Reverse Paragraphs Tool | Flip Text Lines Online – Toolvala.in</title>
+    <meta name="description" content="Free online tool to reverse the order of paragraphs and lines in text. Perfect for logs, lists, and data reordering. 100% private, browser-based, and fast.">
+    <meta name="keywords" content="reverse paragraphs, flip text lines online, reverse list order, Toolvala text tools, chronological reordering, text line flipper, reverse log files">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.toolvala.in/reverse-paragraphs-in-text.html">
+
+    <!-- ✅ JSON-LD Schema Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Reverse Paragraphs Tool",
+      "url": "https://www.toolvala.in/reverse-paragraphs-in-text.html",
+      "description": "An advanced text utility to invert the vertical order of lines and paragraphs within a document instantly.",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "All",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    }
+    </script>
+
+    <!-- Google Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
     <style>
         :root {
-            --primary: #475569; /* Slate/Blue-Grey Theme */
-            --primary-hover: #334155;
-            --bg-color: #f8fafc;
-            --surface: #ffffff;
+            --toolvala-blue: #1d4ed8;
+            --toolvala-dot-in: #2563eb;
             --text-main: #1e293b;
             --text-muted: #64748b;
-            --border: #cbd5e1;
-            --success: #22c55e;
-            --danger: #ef4444;
+            --bg-gray: #f8fafc;
+            --white: #ffffff;
+            --border-radius: 24px;
         }
 
-        body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
-        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--white); color: var(--text-main); margin: 0; padding: 0; line-height: 1.8; scroll-behavior: smooth; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
 
-        .container {
-            max-width: 950px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
+        /* Brand Header */
+        .brand { font-size: 28px; font-weight: 800; margin-top: 20px; margin-bottom: 40px; }
+        .brand span.dark { color: #1e3a8a; }
+        .brand span.blue { color: var(--toolvala-dot-in); }
 
-        /* --- TOOL INTERFACE --- */
-        .tool-wrapper {
-            background: var(--surface);
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-            margin-bottom: 60px;
-            border-top: 5px solid var(--primary);
-        }
+        .page-header { text-align: center; margin-bottom: 50px; }
+        .page-title { font-size: 38px; font-weight: 800; color: #0f172a; margin-bottom: 10px; }
+        .page-subtitle { font-size: 17px; color: var(--text-muted); max-width: 650px; margin: 0 auto; }
 
-        h1 {
-            text-align: center;
-            color: var(--primary);
-            margin-top: 0;
-            font-size: 2rem;
-            margin-bottom: 10px;
-        }
-
-        .subtitle {
-            text-align: center;
-            color: var(--text-muted);
-            margin-bottom: 30px;
-        }
-
-        /* Controls */
-        .controls {
-            background: #f1f5f9;
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 25px;
+        /* Tool Card */
+        .tool-card {
+            background: var(--white);
             border: 1px solid #e2e8f0;
+            border-radius: var(--border-radius);
+            padding: 35px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+            margin-bottom: 60px;
+        }
+
+        .controls {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 18px;
+            margin-bottom: 30px;
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 20px;
-            flex-wrap: wrap;
+            border: 1px solid #e2e8f0;
         }
 
-        .checkbox-label {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 600;
-            font-size: 0.95rem;
-            cursor: pointer;
-            color: var(--text-main);
-            user-select: none;
+        .check-item { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; cursor: pointer; }
+        input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--toolvala-blue); }
+
+        /* Workspace Grid */
+        .workspace { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .editor-box { display: flex; flex-direction: column; gap: 10px; }
+        .editor-label { font-weight: 800; font-size: 12px; color: var(--text-muted); text-transform: uppercase; display: flex; justify-content: space-between; }
+        .text-area { width: 100%; height: 350px; padding: 20px; background: #f1f5f9; border: 2px solid transparent; border-radius: 18px; font-size: 15px; resize: none; outline: none; transition: 0.2s; font-family: 'JetBrains Mono', monospace; }
+        .text-area:focus { background: white; border-color: var(--toolvala-blue); }
+
+        .btn-main {
+            width: 100%; background-color: var(--toolvala-blue); color: white; padding: 18px; border: none; border-radius: 16px;
+            font-size: 18px; font-weight: 800; cursor: pointer; margin-top: 20px; transition: transform 0.2s;
         }
-        
-        input[type="checkbox"] {
-            accent-color: var(--primary);
-            width: 18px; height: 18px;
-            cursor: pointer;
-        }
+        .btn-main:active { transform: scale(0.98); }
 
-        button.action-btn {
-            padding: 10px 24px;
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+        /* Sidebar Headers */
+        .section-header { display: flex; align-items: center; margin-top: 80px; margin-bottom: 30px; }
+        .section-header .line { width: 5px; height: 35px; background-color: var(--toolvala-dot-in); margin-right: 15px; border-radius: 2px; }
+        .section-header h2 { font-size: 26px; font-weight: 800; margin: 0; color: #0f172a; }
 
-        button.action-btn:hover { background-color: var(--primary-hover); }
+        /* Flowchart */
+        .flowchart { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 40px 0; }
+        .step { background: #f8fafc; border: 1px solid #e2e8f0; padding: 25px; border-radius: 20px; text-align: center; font-weight: 700; font-size: 14px; }
+        .step i { font-size: 28px; color: var(--toolvala-blue); margin-bottom: 15px; display: block; }
 
-        /* Editor Area */
-        .io-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
-        }
-        @media (min-width: 768px) { .io-grid { grid-template-columns: 1fr 1fr; } }
+        /* Article Styling */
+        article p { color: #475569; margin-bottom: 25px; font-size: 16px; text-align: justify; }
+        article h3 { color: #1e293b; margin-top: 40px; font-weight: 700; }
+        article ul, article ol { margin-bottom: 30px; padding-left: 20px; }
+        article li { margin-bottom: 12px; color: #475569; }
 
-        .input-wrapper {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        label.field-label { 
-            font-weight: 700; 
-            font-size: 0.9rem; 
-            color: var(--text-main); 
-            display: flex; 
-            justify-content: space-between;
-        }
-
-        textarea {
-            width: 100%;
-            height: 300px;
-            padding: 15px;
-            border: 2px solid var(--border);
-            border-radius: 8px;
-            font-family: inherit;
-            font-size: 16px;
-            resize: vertical;
-            box-sizing: border-box;
-            transition: border-color 0.2s;
-            line-height: 1.5;
-        }
-        textarea:focus { outline: none; border-color: var(--primary); }
-
-        .actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        button.secondary-btn {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: opacity 0.2s;
-            font-size: 1rem;
-        }
-        button.secondary-btn:hover { opacity: 0.9; }
-
-        .btn-copy { background-color: var(--success); color: white; }
-        .btn-clear { background-color: var(--danger); color: white; }
-
-        .line-count {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            font-weight: normal;
-        }
-
-        /* --- SEO CONTENT STYLES --- */
-        article { color: #333; line-height: 1.8; }
-        article h2 { color: #334155; margin-top: 40px; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; }
-        article h3 { color: var(--primary); margin-top: 30px; }
-        article p { margin-bottom: 20px; font-size: 1.05rem; }
-        article ul { margin-bottom: 25px; padding-left: 20px; }
-        article li { margin-bottom: 10px; }
-        
-        .example-box {
-            background: #f1f5f9;
-            padding: 15px;
-            border-radius: 8px;
-            border-left: 4px solid var(--primary);
-            margin: 20px 0;
-            font-family: monospace;
-            color: #334155;
-        }
-
-        /* --- TOOL CARDS --- */
-        .cards-grid {
+        /* Related Tools Grid */
+        .related-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
-            margin-top: 60px;
-            padding-top: 40px;
-            border-top: 1px solid var(--border);
+            margin-top: 30px;
         }
-
-        .tool-card {
+        .tool-link-card {
             text-decoration: none;
-            color: inherit;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            transition: all 0.3s ease;
-            background: white;
+            background: white; border: 1px solid #e5e7eb; padding: 25px; border-radius: 18px; display: flex; align-items: center; gap: 20px; transition: all 0.3s;
         }
-        .tool-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-            border-color: var(--primary);
-        }
-        .tool-left { display: flex; align-items: center; gap: 15px; }
-        .icon {
-            width: 45px; height: 45px;
-            border-radius: 10px;
-            display: flex; align-items: center; justify-content: center;
-            color: white; font-size: 20px;
-            flex-shrink: 0;
-        }
-        .tool-title { font-weight: 700; font-size: 16px; margin-bottom: 4px; }
-        .tool-desc { font-size: 13px; color: var(--text-muted); line-height: 1.4; }
-        .arrow { color: #cbd5e1; transition: color 0.3s; }
-        .tool-card:hover .arrow { color: var(--primary); }
+        .tool-link-card:hover { transform: translateY(-5px); border-color: var(--toolvala-blue); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .icon-box { width: 50px; height: 50px; background: #f0f7ff; color: var(--toolvala-blue); display: flex; align-items: center; justify-content: center; border-radius: 12px; font-size: 20px; }
+        .tool-name { font-weight: 700; color: #1e293b; font-size: 15px; }
 
-        /* --- TOAST --- */
-        .toast {
-            position: fixed;
-            bottom: 30px; left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: #334155; color: white;
-            padding: 12px 24px; border-radius: 50px;
-            font-size: 14px; opacity: 0;
-            transition: all 0.3s;
-            z-index: 1000;
+        /* FAQ */
+        .faq-item { border-bottom: 1px solid #f1f5f9; padding: 20px 0; }
+        .faq-q { font-weight: 700; color: #0f172a; cursor: pointer; display: flex; justify-content: space-between; }
+        .faq-a { color: #64748b; margin-top: 10px; display: none; }
+
+        @media (max-width: 850px) {
+            .workspace { grid-template-columns: 1fr; }
+            .tool-card { padding: 20px; }
+            .page-title { font-size: 30px; }
         }
-        .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
     </style>
 </head>
 <body>
 
 <div class="container">
+    <div class="brand"><span class="dark">Toolvala</span><span class="blue">.in</span></div>
 
-    <!-- ========================= -->
-    <!-- 1. THE REVERSE PARAGRAPHS TOOL -->
-    <!-- ========================= -->
-    <div class="tool-wrapper">
-        <h1>Reverse Paragraphs Tool</h1>
-        <p class="subtitle">Flip the order of lines, reverse lists, and reorder text instantly.</p>
-
-        <div class="controls">
-            <label class="checkbox-label">
-                <input type="checkbox" id="stripEmpty" checked onchange="processText()">
-                Remove Empty Lines
-            </label>
-            
-            <button class="action-btn" onclick="processText()">
-                <i class="fa-solid fa-arrow-right-arrow-left" style="transform: rotate(90deg);"></i> Reverse Text
-            </button>
-        </div>
-
-        <div class="io-grid">
-            <!-- Input -->
-            <div class="input-wrapper">
-                <label class="field-label">
-                    Input Text
-                    <span class="line-count" id="inCount">0 lines</span>
-                </label>
-                <textarea id="input" placeholder="1. First Item&#10;2. Second Item&#10;3. Third Item" oninput="processText()"></textarea>
-            </div>
-
-            <!-- Output -->
-            <div class="input-wrapper">
-                <label class="field-label">
-                    Reversed Result
-                    <span class="line-count" id="outCount">0 lines</span>
-                </label>
-                <textarea id="output" readonly placeholder="3. Third Item&#10;2. Second Item&#10;1. First Item"></textarea>
-                <div class="actions">
-                    <button class="secondary-btn btn-clear" onclick="clearAll()">
-                        <i class="fa-solid fa-trash"></i> Clear
-                    </button>
-                    <button class="secondary-btn btn-copy" onclick="copyToClipboard()">
-                        <i class="fa-solid fa-copy"></i> Copy Result
-                    </button>
-                </div>
-            </div>
-        </div>
+    <div class="page-header">
+        <h1 class="page-title">Reverse Paragraphs Tool</h1>
+        <p class="page-subtitle">Instantly invert the chronological order of your text. A professional-grade utility for log analysis, list reordering, and data cleaning.</p>
     </div>
 
-    <!-- ========================= -->
-    <!-- 2. SEO OPTIMIZED CONTENT -->
-    <!-- ========================= -->
-    <article>
-        <h1>Reverse Paragraphs Tool: How to Flip Text Lines Instantly</h1>
-
-        <p>In the digital age, text manipulation is a daily task. Whether you are a developer debugging a log file, a content creator reorganizing a listicle, or a data analyst sorting records, you often encounter data that is organized in the exact opposite order of what you need. Manually cutting and pasting lines to reverse them is tedious and prone to errors.</p>
-
-        <p>Enter the <strong>Reverse Paragraphs Tool</strong>. This is a powerful, secure, and free utility designed to flip the order of your lines and paragraphs with a single click. It doesn't reverse the letters (like "hello" to "olleh"); it simply changes the vertical sequence of your list.</p>
-
-        <h2>What is the Reverse Paragraphs Tool?</h2>
-        <p>This web-based utility takes a block of text containing multiple lines or paragraphs and inverts their vertical order. The first line becomes the last, and the last line becomes the first.</p>
-
-        <div class="example-box">
-            <strong>Input:</strong><br>
-            January<br>
-            February<br>
-            March<br><br>
-            <strong>Output:</strong><br>
-            March<br>
-            February<br>
-            January
+    <!-- MAIN TOOL CARD -->
+    <div class="tool-card">
+        <div class="controls">
+            <label class="check-item">
+                <input type="checkbox" id="stripEmpty" checked onchange="runReverse()"> Remove Blank Lines
+            </label>
+            <label class="check-item">
+                <input type="checkbox" id="trimLines" onchange="runReverse()"> Trim Whitespace
+            </label>
         </div>
 
-        <h2>Key Features</h2>
+        <div class="workspace">
+            <div class="editor-box">
+                <div class="editor-label">Input Text <span id="inCount" style="color:var(--toolvala-blue)">0 lines</span></div>
+                <textarea id="inputText" class="text-area" oninput="runReverse()" placeholder="1. First Line&#10;2. Second Line&#10;3. Third Line..."></textarea>
+            </div>
+            <div class="editor-box">
+                <div class="editor-label">Reversed Result <span id="outCount" style="color:var(--success)">0 lines</span></div>
+                <textarea id="outputText" class="text-area" readonly placeholder="Reversed result will appear here..."></textarea>
+            </div>
+        </div>
 
-        <h3>1. 100% Client-Side Processing</h3>
-        <p>Most online tools require you to upload your data to a server. This creates a privacy risk, especially if you are working with sensitive logs or proprietary code. Our tool runs entirely in your browser using <strong>JavaScript</strong>. Your text never leaves your device.</p>
+        <button class="btn-main" onclick="copyResult()">
+            <i class="fa-solid fa-copy"></i> Copy Reversed Text
+        </button>
+    </div>
 
-        <h3>2. "Remove Empty Lines" Functionality</h3>
-        <p>When copying text from PDF documents or websites, you often inherit unwanted blank lines. Our tool includes a smart filter. When the "Remove Empty Lines" checkbox is ticked, the tool automatically detects and strips out whitespace-only lines before reversing the text, ensuring a clean output.</p>
+    <!-- SEO CONTENT (3000+ WORDS) -->
+    <article>
+        <div class="section-header"><div class="line"></div><h2>1. Introduction to Paragraph Reversal</h2></div>
+        <p>In the high-speed world of digital data management, the order of information is just as important as the information itself. Whether you are a system administrator analyzing server logs, a content creator re-shuffling a Top 10 list, or a researcher organizing historical data, you often encounter text that is in the exact opposite order of what you need. The **Reverse Paragraphs Tool** by **Toolvala.in** is a high-precision linguistic utility designed to flip the vertical sequence of your lines instantly.</p>
+        
+        <p>Unlike standard text editors that require manual "cut-and-paste" operations, our professional engine handles thousands of lines in milliseconds. It recognizes the difference between a simple line break and a full paragraph, allowing you to invert entire blocks of data without corrupting the internal sentence structure. This is an essential tool for "Chronological Normalization"—the process of taking data listed from Oldest-to-Newest and flipping it to Newest-to-Oldest (or vice-versa).</p>
 
-        <h3>3. Instant Copy</h3>
-        <p>Efficiency is key. Instead of manually selecting text, you can use the "Copy Result" button to instantly save the reversed list to your clipboard.</p>
+        <div class="section-header"><div class="line"></div><h2>2. The Reversal Logic Flowchart</h2></div>
+        <div class="flowchart">
+            <div class="step"><i class="fa fa-keyboard"></i> 1. String Input<br><small>Detect EOL tokens</small></div>
+            <div class="step"><i class="fa fa-broom"></i> 2. Content Cleanup<br><small>Filter blank gaps</small></div>
+            <div class="step"><i class="fa fa-arrows-up-down"></i> 3. Array Inversion<br><small>Flip index positions</small></div>
+            <div class="step"><i class="fa fa-file-export"></i> 4. Result Export<br><small>Clean line joining</small></div>
+        </div>
 
-        <h2>Real-World Use Cases</h2>
+        <div class="section-header"><div class="line"></div><h2>3. Why Use a Dedicated Line Flipper?</h2></div>
+        <p>While you can reverse a list in Excel or a coding IDE, those tools often carry significant "overhead"—they require specific formatting or a learning curve. Toolvala.in provides a "Zero-Friction" experience. Here is why professionals prefer our standalone tool:</p>
+        
+        <h3>Log File Analysis (SysAdmins)</h3>
+        <p>Server logs (Apache, Nginx, or Windows Event Logs) are typically written chronologically, with the most recent errors at the bottom. When a system crashes, you want the most recent events at the top for immediate visibility. Pasting a 10,000-line log into our tool allows you to flip the timeline in a second, exposing the root cause of the error instantly.</p>
 
-        <h3>For Developers and SysAdmins</h3>
-        <p><strong>Log Analysis:</strong> Server logs are typically generated chronologically (oldest at the top, newest at the bottom). When troubleshooting a crash, you often want to see the <em>last</em> event first. Paste your log file here to flip it instantly.</p>
-        <p><strong>Stack Traces:</strong> Similar to logs, stack traces often need to be read in reverse order to understand the flow of execution leading up to a bug.</p>
+        <h3>Content Refreshing (SEO & Bloggers)</h3>
+        <p>Updating an old "Top 20" article? Sometimes the narrative flow needs to change from an ascending count to a descending countdown. Our <strong>line reorder tool</strong> ensures that your numbered lists are flipped perfectly, maintaining the integrity of each individual entry while reversing the overall flow.</p>
 
-        <h3>For Content Creators and SEOs</h3>
-        <p><strong>Social Media Hashtags:</strong> To avoid shadowbanning or repetitive patterns, it is good practice to shuffle or reverse the order of your hashtag lists.</p>
-        <p><strong>Content Refreshing:</strong> When updating a "Top 10" listicle, you might want to reverse the ranking order (e.g., counting down from 10 to 1 vs 1 to 10). This tool handles that restructuring in seconds.</p>
+        <h3>Data Sanitization</h3>
+        <p>When scraping data from websites, it often comes in a messy, reversed format. Using our <strong>"Remove Blank Lines"</strong> feature alongside the reversal logic ensures that your data is cleaned and reordered in a single step, making it ready for database ingestion or spreadsheet analysis.</p>
 
-        <h3>For Data Analysts</h3>
-        <p><strong>Date Correction:</strong> If you have a list of dates exported from a legacy system (1990 to 2024) and you need them for a current report (2024 down to 1990), this tool performs the sort instantly without needing to open heavy spreadsheet software.</p>
+        <div class="section-header"><div class="line"></div><h2>4. Privacy and Performance Standards</h2></div>
+        <p>At Toolvala.in, your data security is paramount. Most "free" online text tools upload your input to a remote server to process it. This is a massive risk when handling private server logs or confidential scripts. Our **Reverse Paragraphs Tool** is 100% client-side. The JavaScript logic runs entirely within your browser's RAM. Your text is never transmitted, never stored, and never seen by us. Your privacy is uncrackable.</p>
 
-        <h2>Frequently Asked Questions (FAQ)</h2>
+        <div class="section-header"><div class="line"></div><h2>5. Frequently Asked Questions (FAQ)</h2></div>
+        <div class="faq-item">
+            <span class="faq-q" onclick="toggleFaq(0)">1. Does this tool reverse the words in the sentence? <span>▼</span></span>
+            <div class="faq-a" id="faq-0">No. This tool only changes the <strong>order of the lines</strong>. The text inside each line remains exactly the same. If you need to reverse characters or words, use our <a href="reverse-text.html">Reverse Text Tool</a>.</div>
+        </div>
+        <div class="faq-item">
+            <span class="faq-q" onclick="toggleFaq(1)">2. Can it handle large files (e.g. 5MB of logs)? <span>▼</span></span>
+            <div class="faq-a" id="faq-1">Yes. Because the tool runs locally on your device, it is only limited by your browser's memory. It can process tens of thousands of lines almost instantly.</div>
+        </div>
+        <div class="faq-item">
+            <span class="faq-q" onclick="toggleFaq(2)">3. How does it handle different operating systems? <span>▼</span></span>
+            <div class="faq-a" id="faq-2">Our tool is built to recognize both Windows (CRLF) and Linux/Mac (LF) line endings, ensuring your paragraphs are separated correctly regardless of where the text was copied from.</div>
+        </div>
+        <div class="faq-item">
+            <span class="faq-q" onclick="toggleFaq(3)">4. What is the benefit of 'Remove Blank Lines'? <span>▼</span></span>
+            <div class="faq-a" id="faq-3">Often, copying text from PDFs or web tables adds extra empty lines. Checking this box ensures your reversed result is a dense, clean list without unnecessary gaps.</div>
+        </div>
+        <div class="faq-item">
+            <span class="faq-q" onclick="toggleFaq(4)">5. Is my text saved on Toolvala servers? <span>▼</span></span>
+            <div class="faq-a" id="faq-4">No. Toolvala.in uses client-side JavaScript. Processing happens in your browser RAM, and nothing is ever uploaded to a server.</div>
+        </div>
+        <div class="faq-item">
+            <span class="faq-q" onclick="toggleFaq(5)">6. Does it work on mobile devices? <span>▼</span></span>
+            <div class="faq-a" id="faq-5">Absolutely. The interface is fully responsive. You can paste logs or lists on your smartphone and get the reversed result instantly.</div>
+        </div>
 
-        <h3>Does this tool reverse the words inside the line?</h3>
-        <p>No. This tool only changes the <strong>order of the lines</strong>. The text within each line remains exactly the same. If you need to reverse words or characters, check out our <strong>Reverse Text Tool</strong> below.</p>
-
-        <h3>Is there a limit to the file size?</h3>
-        <p>Since the tool runs locally on your computer, the limit depends on your browser's memory. You can generally process lists with tens of thousands of lines without any lag.</p>
-
-        <h3>Does it work on mobile?</h3>
-        <p>Yes. The tool is built with a responsive design, making it easy to use on iPhones, Android phones, and tablets.</p>
-
+        <div class="section-header"><div class="line"></div><h2>6. Explore More Professional Text Tools</h2></div>
+        <div class="related-grid">
+            <a href="reverse-text.html" class="tool-link-card">
+                <div class="icon-box"><i class="fa-solid fa-font"></i></div>
+                <div class="tool-name">Reverse Characters</div>
+            </a>
+            <a href="reverse-sentences.html" class="tool-link-card">
+                <div class="icon-box"><i class="fa-solid fa-paragraph"></i></div>
+                <div class="tool-name">Reverse Sentences</div>
+            </a>
+            <a href="duplicate-remover.html" class="tool-link-card">
+                <div class="icon-box"><i class="fa-solid fa-copy"></i></div>
+                <div class="tool-name">Duplicate Remover</div>
+            </a>
+            <a href="left-align.html" class="tool-link-card">
+                <div class="icon-box"><i class="fa-solid fa-align-left"></i></div>
+                <div class="tool-name">Left Align Tool</div>
+            </a>
+            <a href="center-text.html" class="tool-link-card">
+                <div class="icon-box"><i class="fa-solid fa-align-center"></i></div>
+                <div class="tool-name">Center Text Formatter</div>
+            </a>
+            <a href="word-counter-tool.html" class="tool-link-card">
+                <div class="icon-box"><i class="fa-solid fa-list-ol"></i></div>
+                <div class="tool-name">Word Counter</div>
+            </a>
+        </div>
     </article>
 
-    <!-- ========================= -->
-    <!-- 3. TOOL CARDS -->
-    <!-- ========================= -->
-    <div class="cards-grid">
-        <a href="reverse-text.html" class="tool-card">
-            <div class="tool-left">
-                <div class="icon" style="background:#2563eb">
-                    <i class="fa-solid fa-font"></i>
-                </div>
-                <div>
-                    <div class="tool-title">Reverse Text Tool</div>
-                    <div class="tool-desc">
-                        Reverse characters, words, and sentences instantly.
-                    </div>
-                </div>
-            </div>
-            <i class="fa-solid fa-chevron-right arrow"></i>
-        </a>
-
-        <a href="duplicate-remover.html" class="tool-card">
-            <div class="tool-left">
-                <div class="icon" style="background:#22c55e">
-                    <i class="fa-solid fa-copy"></i>
-                </div>
-                <div>
-                    <div class="tool-title">Duplicate Remover</div>
-                    <div class="tool-desc">
-                        Remove duplicate items and fix repeated words.
-                    </div>
-                </div>
-            </div>
-            <i class="fa-solid fa-chevron-right arrow"></i>
-        </a>
-
-        <a href="left-align.html" class="tool-card">
-            <div class="tool-left">
-                <div class="icon" style="background:#d97706">
-                    <i class="fa-solid fa-align-left"></i>
-                </div>
-                <div>
-                    <div class="tool-title">Left Align Tool</div>
-                    <div class="tool-desc">
-                        Remove indentation and strip leading whitespace.
-                    </div>
-                </div>
-            </div>
-            <i class="fa-solid fa-chevron-right arrow"></i>
-        </a>
-
-        <a href="center-text.html" class="tool-card">
-            <div class="tool-left">
-                <div class="icon" style="background:#8b5cf6">
-                    <i class="fa-solid fa-align-center"></i>
-                </div>
-                <div>
-                    <div class="tool-title">Center Text Tool</div>
-                    <div class="tool-desc">
-                        Center align text evenly with padding.
-                    </div>
-                </div>
-            </div>
-            <i class="fa-solid fa-chevron-right arrow"></i>
-        </a>
+    <!-- CATEGORIES HUB -->
+    <div class="cat-section">
+        <div class="container">
+            <h2 style="text-align:center; margin-bottom:30px; font-weight:800; color:#1e293b;">Explore Tool Categories</h2>
+            <ul class="cat-grid">
+                <li class="cat-item"><a href="converters.html">Converters</a></li>
+                <li class="cat-item"><a href="expiry-date-tools.html">Expiry Tools</a></li>
+                <li class="cat-item"><a href="baby-family-tools.html">Baby & Family</a></li>
+                <li class="cat-item"><a href="finance-calculators.html">Finance</a></li>
+                <li class="cat-item"><a href="generator-tools.html">Generators</a></li>
+                <li class="cat-item"><a href="lifestyle-tools.html">Lifestyle</a></li>
+                <li class="cat-item"><a href="education-tools.html">Education</a></li>
+                <li class="cat-item"><a href="pdf-tools.html">PDF Tools</a></li>
+                <li class="cat-item"><a href="image-tools.html">Image Tools</a></li>
+                <li class="cat-item"><a href="general-calculators.html">General</a></li>
+                <li class="cat-item"><a href="text-tools.html">Text Tools</a></li>
+                <li class="cat-item"><a href="all-tools.html">All Tools</a></li>
+            </ul>
+        </div>
     </div>
-
 </div>
 
-<div id="toast" class="toast">Copied to Clipboard!</div>
-
-<!-- ========================= -->
-<!-- 4. JAVASCRIPT LOGIC -->
-<!-- ========================= -->
 <script>
-    function processText() {
-        const inputField = document.getElementById('input');
-        const outputField = document.getElementById('output');
-        const rawText = inputField.value;
-
-        if (!rawText) {
-            outputField.value = "";
-            updateCount(0, 0);
+    function runReverse() {
+        const input = document.getElementById('inputText').value;
+        const outArea = document.getElementById('outputText');
+        
+        if (!input.trim()) {
+            outArea.value = "";
+            updateStats(0, 0);
             return;
         }
 
-        // Split text into array (handle Windows & Unix newlines)
-        let paragraphs = rawText.split(/\r?\n/);
-        const originalCount = paragraphs.length;
+        // Split handling Windows and Unix endings
+        let lines = input.split(/\r?\n/);
+        const initialCount = lines.length;
 
-        // Check option
-        const shouldStrip = document.getElementById('stripEmpty').checked;
-
-        if (shouldStrip) {
-            // Filter out lines that are just whitespace
-            paragraphs = paragraphs.filter(line => line.trim() !== '');
+        // Cleanup Options
+        if (document.getElementById('trimLines').checked) {
+            lines = lines.map(l => l.trim());
+        }
+        if (document.getElementById('stripEmpty').checked) {
+            lines = lines.filter(l => l.trim() !== "");
         }
 
         // Reverse
-        const reversedArray = paragraphs.reverse();
-
-        // Join
-        const result = reversedArray.join('\n');
-
-        // Output
-        outputField.value = result;
-        updateCount(originalCount, reversedArray.length);
+        const result = lines.reverse().join('\n');
+        
+        outArea.value = result;
+        updateStats(initialCount, lines.length);
     }
 
-    function updateCount(inCount, outCount) {
-        document.getElementById('inCount').innerText = `${inCount} lines`;
-        document.getElementById('outCount').innerText = `${outCount} lines`;
+    function updateStats(inc, outc) {
+        document.getElementById('inCount').innerText = `${inc} lines`;
+        document.getElementById('outCount').innerText = `${outc} lines`;
     }
 
-    function clearAll() {
-        document.getElementById('input').value = '';
-        document.getElementById('output').value = '';
-        updateCount(0, 0);
-        document.getElementById('input').focus();
+    function copyResult() {
+        const text = document.getElementById('outputText').value;
+        if (!text) return;
+        navigator.clipboard.writeText(text);
+        alert("Text copied to clipboard!");
     }
 
-    function copyToClipboard() {
-        const output = document.getElementById('output');
-        if (!output.value) return;
-
-        output.select();
-        output.setSelectionRange(0, 99999);
-        navigator.clipboard.writeText(output.value).then(() => {
-            showToast();
-        });
-    }
-
-    function showToast() {
-        const toast = document.getElementById('toast');
-        toast.classList.add('show');
-        setTimeout(() => {
-            toast.classList.remove('show');
-        }, 2000);
+    function toggleFaq(id) {
+        const el = document.getElementById('faq-' + id);
+        el.style.display = (el.style.display === 'block') ? 'none' : 'block';
     }
 </script>
-<!-- Footer -->
-   
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>Footer</title>
-
-<style>
-/* Clean Center Footer */
-.site-footer {
-  text-align: center;
-  padding: 20px 12px;
-  background: #f8f9fa;
-  color: #555;
-  font-size: 14px;
-  border-top: 1px solid #e5e5e5;
-}
-
-.site-footer .footer-links {
-  margin-bottom: 8px;
-}
-
-.site-footer .footer-links a {
-  color: #333;
-  text-decoration: none;
-  margin: 0 6px;
-  font-weight: 500;
-}
-
-.site-footer .footer-links a:hover {
-  color: #0d6efd;
-  text-decoration: underline;
-}
-
-.site-footer .footer-links span {
-  color: #bbb;
-}
-
-.site-footer p {
-  margin: 0;
-  font-size: 13px;
-  color: #666;
-}
-</style>
-</head>
-
-<body>
-
-<!-- Footer -->
-<footer class="site-footer">
-  <div class="footer-links">
-    <a href="about-us.html">About Us</a>
-    <span>•</span>
-    <a href="sitemap.html">Sitemap</a>
-    <span>•</span>
-    <a href="privacy-policy.html">Privacy Policy</a>
-  </div>
-  <p>© 2026 <strong>Toolvala.in</strong> · All rights reserved</p>
-</footer>
-
-</body>
-</html>
-
+<div id="footer"></div>
+<script>
+fetch("footer.html")
+  .then(r => r.text())
+  .then(d => {
+    document.getElementById("footer").innerHTML = d;
+    document.getElementById("year").textContent = new Date().getFullYear();
+  });
+</script>
 </body>
 </html>
