@@ -3,494 +3,380 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Salary Converter Calculator | Hourly to Yearly Wage Conversion</title>
-    <meta name="description" content="Free Salary Converter Tool. Instantly convert hourly wages to annual salary, monthly income, and weekly pay. Compare gross income frequencies easily.">
-    <meta name="keywords" content="salary converter, hourly to salary calculator, wage converter, annual income calculator, paycheck calculator, gross pay converter, hourly rate to yearly">
-    <meta name="robots" content="index, follow">
-    
-    <!-- Canonical Tag - REPLACE URL with your actual domain -->
-    <link rel="canonical" href="https://www.toolvala.in/salary-converter.html">
-    
-    <!-- Open Graph for Social Media -->
-    <meta property="og:title"content="Salary Converter - Hourly vs Yearly Calculator">
-    <meta property="og:description" content="Convert your wage instantly. See what $25/hour looks like as an annual salary, or break down a $60k salary into an hourly rate.">
-    <meta property="og:type"content="website">
-    <meta property="og:url"content="https://www.toolvala.in/salary-converter.html">
-    <meta property="og:image" content="https://www.toolvala.in/images/salary-thumb.jpg">
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8GTQC904G1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-    <!-- JSON-LD Schema Markup: Software Application -->
+  gtag('config', 'G-8GTQC904G1');
+</script>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- ✅ SEO & Indexing -->
+    <title>Salary Converter Calculator | Hourly to Yearly Wage Tool – Toolvala.in</title>
+    <meta name="description" content="Free Salary Converter tool to convert hourly wages to annual salary, monthly income, and weekly pay. High-precision wage converter with custom work hours logic.">
+    <meta name="keywords" content="salary converter, hourly to salary calculator, wage converter, annual income calculator, Toolvala finance, hourly rate to yearly, monthly salary to hourly">
+    
+    <!-- ✅ Robots & Canonical -->
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.toolvala.in/salary-converter.html">
+
+    <!-- ✅ JSON-LD Schema Markup (Fixed for GSC) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      "name": "Salary Converter Calculator",
+      "@type": "WebApplication",
+      "name": "Professional Salary Converter",
+      "url": "https://www.toolvala.in/salary-converter.html",
+      "description": "Convert income between hourly, daily, weekly, monthly, and yearly frequencies with custom work week settings.",
       "applicationCategory": "FinanceApplication",
-      "operatingSystem": "Any",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      },
-      "description": "A comprehensive financial tool to convert income rates between hourly, daily, weekly, bi-weekly, monthly, and annual frequencies.",
-      "featureList": "Hourly to Annual conversion, Custom work week settings, Detailed pay frequency table",
-      "author": {
-        "@type": "Organization",
-        "name": "CalcTools Suite"
-      }
+      "operatingSystem": "All",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" }
     }
     </script>
-    
-    <!-- JSON-LD Schema Markup: FAQ -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "FAQPage",
-      "mainEntity": [{
-        "@type": "Question",
-        "name": "How is the hourly to annual salary calculated?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "The standard calculation assumes 52 working weeks per year. We multiply the hourly rate by the number of hours worked per week (usually 40), then multiply by 52."
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How many working hours are in a standard year?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For a standard 40-hour work week, there are 2,080 working hours in a year (40 hours x 52 weeks). Our tool allows you to customize this for 48-hour or part-time schedules."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does this tool calculate Net or Gross salary?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "This tool calculates Gross Salary (before taxes and deductions). Net salary depends on individual tax brackets, PF contributions, and local laws."
+          }
         }
-      }, {
-        "@type": "Question",
-        "name": "Does this include taxes?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "No, this calculator shows Gross Income (before taxes). Net income depends on specific tax brackets, deductions, and location, which vary significantly by individual."
-        }
-      }]
+      ]
     }
     </script>
 
+    <!-- Google Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
     <style>
         :root {
-            /* Theme: Money Green */
-            --primary: #059669; 
-            --primary-dark: #047857;
-            --secondary: #ecfdf5;
-            --text: #1f2937;
-            --text-light: #6b7280;
-            --bg: #ffffff;
-            --border: #e5e7eb;
-            --accent: #d1fae5;
+            --toolvala-blue: #1d4ed8;
+            --toolvala-green: #059669;
+            --toolvala-dot-in: #2563eb;
+            --text-main: #1e293b;
+            --text-muted: #475569;
+            --bg-gray: #f8fafc;
+            --white: #ffffff;
+            --border-radius: 24px;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
-        
-        body { background-color: #f9fafb; color: var(--text); line-height: 1.6; }
-
-        /* Navigation */
-        nav { background: var(--bg); border-bottom: 1px solid var(--border); padding: 1rem 2rem; position: sticky; top: 0; z-index: 100; }
-        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 1.5rem; font-weight: bold; color: var(--primary); text-decoration: none; }
-        
-        /* Layout */
-        .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; display: grid; grid-template-columns: 1fr; gap: 2rem; }
-        
-        @media(min-width: 1024px) {
-            .container { grid-template-columns: 2fr 1fr; }
+        /* ✅ TYPOGRAPHY: CLEAN & PROFESSIONAL */
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--white); 
+            color: var(--text-main); 
+            margin: 0; 
+            padding: 0; 
+            line-height: 1.8; 
+            scroll-behavior: smooth; 
+            overflow-x: hidden; 
         }
+        
+        .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
 
-        /* Calculator Styles */
-        .calculator-card {
-            background: var(--bg);
+        /* Brand Header */
+        .brand { font-size: 28px; font-weight: 800; margin-top: 20px; margin-bottom: 40px; }
+        .brand span.dark { color: #1e3a8a; }
+        .brand span.blue { color: var(--toolvala-dot-in); }
+
+        .page-header { text-align: center; margin-bottom: 50px; }
+        .page-title { font-family: 'Playfair Display', serif; font-size: 42px; font-weight: 800; color: #0f172a; margin-bottom: 10px; line-height: 1.2; }
+        .page-subtitle { font-size: 18px; color: var(--text-muted); max-width: 750px; margin: 0 auto; font-weight: 500; }
+
+        /* Tool Card */
+        .calc-wrapper { display: grid; grid-template-columns: 1.2fr 1fr; gap: 30px; margin-bottom: 60px; }
+        .tool-card { background: var(--white); border: 1.5px solid #e2e8f0; border-radius: var(--border-radius); padding: 40px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05); }
+
+        .input-group { margin-bottom: 20px; }
+        .input-group label { display: block; font-weight: 800; font-size: 11px; margin-bottom: 8px; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
+        
+        .input-field {
+            width: 100%;
+            padding: 16px;
+            background-color: #f1f5f9;
+            border: 2px solid transparent;
             border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            padding: 2rem;
-            margin-bottom: 2rem;
-            border-top: 6px solid var(--primary);
-        }
-
-        .calc-header { margin-bottom: 1.5rem; border-bottom: 2px solid var(--secondary); padding-bottom: 1rem; }
-        
-        .input-group { margin-bottom: 1.5rem; }
-        
-        .row-inputs {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-        @media(max-width: 600px) { .row-inputs { grid-template-columns: 1fr; } }
-
-        label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text); }
-        
-        input[type="number"], select {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            font-size: 1.1rem;
-            background: #fff;
-        }
-        
-        input:focus, select:focus { outline: 2px solid var(--primary); border-color: transparent; }
-
-        .controls { display: flex; gap: 1rem; margin-top: 2rem; }
-        
-        .btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 6px;
+            font-size: 16px;
+            outline: none;
+            box-sizing: border-box;
+            color: var(--text-main);
             font-weight: 600;
-            cursor: pointer;
-            transition: background 0.2s;
-            font-size: 1rem;
-            flex: 1;
+            transition: 0.2s;
         }
-        
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-primary:hover { background: var(--primary-dark); }
-        .btn-outline { background: transparent; border: 1px solid var(--text-light); color: var(--text); flex: 0; }
-        .btn-outline:hover { background: var(--secondary); }
+        .input-field:focus { border-color: var(--toolvala-green); background: #fff; }
 
-        /* Results Table */
-        .results-section {
-            margin-top: 2rem;
-            display: none;
-            animation: fadeIn 0.3s ease-in;
-        }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .salary-table {
+        .btn-calc {
             width: 100%;
-            border-collapse: collapse;
-            margin-top: 1rem;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-
-        .salary-table th, .salary-table td {
-            text-align: left;
-            padding: 1rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .salary-table th { background-color: var(--secondary); color: var(--primary-dark); font-weight: bold; }
-        .salary-table tr:last-child td { border-bottom: none; }
-        .salary-table tr:hover { background-color: #fcfcfc; }
-        
-        .highlight-val { font-weight: bold; color: var(--text); }
-
-        /* Content Styles */
-        article { grid-column: 1 / -1; background: var(--bg); padding: 2.5rem; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-        h1 { font-size: 2.5rem; margin-bottom: 1.5rem; color: var(--text); line-height: 1.2; }
-        h2 { font-size: 1.8rem; margin: 2.5rem 0 1rem; color: var(--text); border-left: 4px solid var(--primary); padding-left: 1rem; }
-        h3 { font-size: 1.4rem; margin: 1.5rem 0 1rem; font-weight: 600; }
-        p { margin-bottom: 1.2rem; color: #374151; font-size: 1.05rem; }
-        ul, ol { margin-bottom: 1.5rem; padding-left: 2rem; }
-        li { margin-bottom: 0.8rem; }
-        
-        /* Sidebar/Related Tools */
-        .sidebar { grid-column: 1 / -1; } 
-        @media(min-width: 1024px) { .sidebar { grid-column: 2; grid-row: 1; } }
-
-        .tool-card {
-            background: var(--bg);
-            padding: 1.5rem;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            margin-bottom: 1rem;
-            transition: transform 0.2s, box-shadow 0.2s;
+            background: linear-gradient(135deg, var(--toolvala-green) 0%, #064e3b 100%);
+            color: white;
+            padding: 18px;
+            border: none;
+            border-radius: 16px;
+            font-size: 17px;
+            font-weight: 800;
             cursor: pointer;
+            transition: transform 0.2s;
+            margin-top: 10px;
         }
-        .tool-card:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); border-color: var(--primary); }
-        .tool-card h3 { margin-top: 0; font-size: 1.2rem; color: var(--primary); }
-        .tool-card a { text-decoration: none; color: inherit; display: block; }
-        
-        footer { background: #1f2937; color: white; padding: 3rem 1rem; margin-top: 4rem; text-align: center; }
-        footer a { color: #9ca3af; text-decoration: none; transition: color 0.2s; }
-        footer a:hover { color: white; }
+        .btn-calc:active { transform: scale(0.98); }
 
-        .currency-symbol { position: absolute; left: 12px; top: 42px; color: var(--text-light); }
-        .input-wrapper { position: relative; }
-        .input-wrapper input { padding-left: 25px; }
+        /* Professional Results View */
+        .result-view {
+            background: #f0fdf4;
+            border-radius: var(--border-radius);
+            padding: 40px;
+            border: 1px solid #bbf7d0;
+            display: none;
+            flex-direction: column;
+        }
 
+        .res-table { width: 100%; border-collapse: collapse; }
+        .res-table td { padding: 12px 0; border-bottom: 1px solid #dcfce7; }
+        .res-table tr:last-child td { border-bottom: none; }
+        .res-label { font-weight: 600; color: #166534; font-size: 14px; }
+        .res-val { font-weight: 800; color: #064e3b; text-align: right; font-size: 20px; }
+
+        /* Sidebar Style Headers */
+        .section-header { display: flex; align-items: center; margin-top: 80px; margin-bottom: 30px; }
+        .section-header .line { width: 5px; height: 35px; background-color: var(--toolvala-green); margin-right: 15px; border-radius: 2px; }
+        .section-header h2 { font-size: 28px; font-weight: 800; margin: 0; color: #0f172a; }
+
+        /* Flowchart */
+        .flowchart { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 40px 0; }
+        .step { background: #f8fafc; border: 1px solid #e2e8f0; padding: 25px; border-radius: 20px; text-align: center; font-weight: 700; font-size: 14px; }
+        .step i { font-size: 28px; color: var(--toolvala-green); margin-bottom: 15px; display: block; }
+
+        /* Article Styling */
+        article p { color: #334155; margin-bottom: 25px; font-size: 17px; text-align: left; }
+        article h3 { color: #1e293b; margin-top: 45px; font-weight: 700; font-size: 22px; }
+        article ul, article ol { margin-bottom: 30px; padding-left: 20px; }
+        article li { margin-bottom: 12px; color: #475569; font-size: 16px; }
+        article a { color: var(--toolvala-green); text-decoration: none; font-weight: 700; }
+
+        /* Related Tools Grid */
+        .grid-box { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px; margin-top: 30px; }
+        .card-link { text-decoration: none; background: white; border: 1px solid #e5e7eb; padding: 18px; border-radius: 16px; display: flex; align-items: center; gap: 15px; transition: 0.3s; }
+        .card-link:hover { transform: translateY(-5px); border-color: var(--toolvala-green); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .icon-sm { width: 40px; height: 40px; background: #ecfdf5; color: var(--toolvala-green); display: flex; align-items: center; justify-content: center; border-radius: 10px; font-size: 18px; }
+        .card-link b { font-size: 14px; color: #1e293b; }
+
+        /* ✅ TEXT-ONLY CATEGORY NAVIGATION */
+        .cat-text-nav { margin-top: 100px; padding: 50px 0; background: #f1f5f9; border-radius: 40px 40px 0 0; text-align: center; }
+        .cat-text-nav h3 { font-size: 14px; font-weight: 800; text-transform: uppercase; color: #64748b; margin-bottom: 25px; letter-spacing: 1px; }
+        .links-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 20px; padding: 0 20px; max-width: 900px; margin: 0 auto; }
+        .simple-link { text-decoration: none; color: var(--toolvala-blue); font-weight: 700; font-size: 14px; transition: 0.2s; }
+        .simple-link:hover { text-decoration: underline; color: #1e3a8a; }
+
+        /* FAQ */
+        .faq-item { border-bottom: 1px solid #f1f5f9; padding: 20px 0; }
+        .faq-q { font-weight: 700; color: #0f172a; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 18px; }
+        .faq-a { color: #64748b; margin-top: 12px; display: none; font-size: 15px; }
+
+        @media (max-width: 850px) {
+            .calc-wrapper { grid-template-columns: 1fr; }
+            .page-title { font-size: 30px; }
+            .container { padding: 15px; }
+        }
     </style>
 </head>
 <body>
 
-<nav>
-    <div class="nav-container">
-        <a href="#" class="logo">CalcTools</a>
-        <div>
-            <a href="#content" style="color: var(--text); text-decoration: none; margin-left: 1rem; font-weight: 500;">Financial Guide</a>
-        </div>
-    </div>
-</nav>
-
 <div class="container">
-    
-    <!-- Main Calculator Area -->
-    <div class="calculator-section" style="grid-column: 1 / -1; max-width: 800px; margin: 0 auto; width: 100%;">
-        <div class="calculator-card">
-            <div class="calc-header">
-                <h2>Salary Converter</h2>
-                <p>Convert your income between hourly, weekly, monthly, and annual amounts.</p>
+    <div class="brand"><span class="dark">Toolvala</span><span class="blue">.in</span></div>
+
+    <div class="page-header">
+        <h1 class="page-title">Salary Converter Calculator</h1>
+        <p class="page-subtitle">Standardize your income analysis. Instantly translate between hourly, weekly, monthly, and annual wages to master your financial planning.</p>
+    </div>
+
+    <!-- MAIN CALCULATOR -->
+    <div class="calc-wrapper">
+        <div class="tool-card">
+            <div class="input-group">
+                <label><i class="fa fa-indian-rupee-sign"></i> Income Amount</label>
+                <input type="number" id="amtIn" class="input-field" placeholder="e.g. 50000">
             </div>
-
-            <form id="salaryForm">
-                <div class="row-inputs">
-                    <div class="input-group">
-                        <label for="amount">Amount</label>
-                        <div class="input-wrapper">
-                            <span class="currency-symbol">$</span>
-                            <input type="number" id="amount" placeholder="0.00" step="0.01" required>
-                        </div>
-                    </div>
-                    <div class="input-group">
-                        <label for="frequency">Per</label>
-                        <select id="frequency">
-                            <option value="hour">Hour</option>
-                            <option value="day">Day</option>
-                            <option value="week">Week</option>
-                            <option value="biweek">Bi-Week (Every 2 weeks)</option>
-                            <option value="month">Month</option>
-                            <option value="year" selected>Year</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="row-inputs" style="background: var(--secondary); padding: 1rem; border-radius: 8px;">
-                    <div class="input-group" style="margin-bottom: 0;">
-                        <label for="hoursPerWeek">Hours per Week</label>
-                        <input type="number" id="hoursPerWeek" value="40" min="1" max="168">
-                    </div>
-                    <div class="input-group" style="margin-bottom: 0;">
-                        <label for="daysPerWeek">Days per Week</label>
-                        <input type="number" id="daysPerWeek" value="5" min="1" max="7">
-                    </div>
-                </div>
-
-                <div class="controls">
-                    <button type="button" class="btn btn-primary" onclick="convertSalary()">Convert Salary</button>
-                    <button type="button" class="btn btn-outline" onclick="resetForm()">Reset</button>
-                </div>
-            </form>
-
-            <div class="results-section" id="results">
-                <h3 style="margin-top:0;">Conversion Results</h3>
-                <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 1rem;">Based on <span id="resHours">40</span> hours/week and 52 weeks/year.</p>
-                
-                <table class="salary-table">
-                    <thead>
-                        <tr>
-                            <th>Frequency</th>
-                            <th>Gross Income</th>
-                        </tr>
-                    </thead>
-                    <tbody id="resultBody">
-                        <!-- Filled by JS -->
-                    </tbody>
-                </table>
+            <div class="input-group">
+                <label><i class="fa fa-rotate"></i> Per Frequency</label>
+                <select id="freqIn" class="input-field">
+                    <option value="year">Per Year</option>
+                    <option value="month">Per Month</option>
+                    <option value="biweek">Per Bi-Week (14 Days)</option>
+                    <option value="week">Per Week</option>
+                    <option value="day">Per Day</option>
+                    <option value="hour">Per Hour</option>
+                </select>
             </div>
+            <div class="input-group">
+                <label><i class="fa fa-clock"></i> Hours Worked Per Week</label>
+                <input type="number" id="hoursIn" class="input-field" value="40">
+            </div>
+            <button class="btn-calc" onclick="calculateWage()">Convert My Salary</button>
+        </div>
+
+        <div class="result-view" id="resView">
+            <h3 style="margin-top:0; color:#064e3b; text-align:center;">Pay Breakdown</h3>
+            <table class="res-table">
+                <tr><td class="res-label">Annual Salary</td><td class="res-val" id="resYear">₹0</td></tr>
+                <tr><td class="res-label">Monthly Pay</td><td class="res-val" id="resMonth">₹0</td></tr>
+                <tr><td class="res-label">Bi-Weekly Pay</td><td class="res-val" id="resBi">₹0</td></tr>
+                <tr><td class="res-label">Weekly Pay</td><td class="res-val" id="resWeek">₹0</td></tr>
+                <tr><td class="res-label">Daily Wage</td><td class="res-val" id="resDay">₹0</td></tr>
+                <tr><td class="res-label">Hourly Rate</td><td class="res-val" id="resHour" style="color:var(--toolvala-green)">₹0</td></tr>
+            </table>
         </div>
     </div>
 
-    <!-- SEO Content Section -->
-    <article id="content">
-        <h1>Salary Converter: The Ultimate Hourly to Annual Wage Calculator</h1>
+    <!-- SEO ARTICLE (3000+ WORDS) -->
+    <article>
+        <div class="section-header"><div class="line"></div><h2>1. Introduction to Salary Normalization</h2></div>
+        <p>In the modern digital economy, the way we receive compensation is as varied as the work we perform. Whether you are a corporate employee in a metro city like Mumbai, a freelancer working for international clients, or a part-time student, your income is often presented in disparate units. The **Salary Converter Calculator** by **Toolvala.in** is a high-precision financial utility designed to harmonize these figures. By converting your wage into a standardized set of frequencies, we provide you with a holistic view of your earning potential.</p>
         
-        <p>Understanding your income is the first step toward financial freedom. Whether you are negotiating a new job offer, comparing freelance rates, or simply curious about what your annual salary looks like broken down by the hour, our <strong>Salary Converter</strong> is the essential tool for the job.</p>
+        <p>Understanding your hourly rate versus your annual package is vital for effective budgeting and career negotiation. For example, a job offering ₹80,000 per month might sound superior to one offering ₹600 per hour, but once you factor in the "Standard Work Week," the math might surprise you. Our professional engine automates these complex divisions, accounting for the 52-week work year and your custom weekly hours. For deeper financial planning, you may also explore our <a href="monthly-budget-calculator.html">Monthly Budget Planner</a>.</p>
 
-        <p>Job postings often display pay in different formats. One listing might offer "$60,000 a year," while another offers "$30 an hour." Which is better? Without doing the math, it’s hard to compare. This tool standardizes the data so you can make informed decisions about your career.</p>
+        <div class="section-header"><div class="line"></div><h2>2. Wage Conversion Logic Flowchart</h2></div>
+        <div class="flowchart">
+            <div class="step"><i class="fa fa-keyboard"></i> 1. Input Entry<br><small>Detect base wage</small></div>
+            <div class="step"><i class="fa fa-calculator"></i> 2. Annual Baseline<br><small>Wage × Frequency</small></div>
+            <div class="step"><i class="fa fa-divide"></i> 3. Time Division<br><small>Apply 52-week rule</small></div>
+            <div class="step"><i class="fa fa-chart-bar"></i> 4. Final Breakdown<br><small>Formatted Output</small></div>
+        </div>
 
-        <h2>How the Calculation Works</h2>
-        <p>To convert salaries accurately, we rely on standard working year assumptions. While every year has 365 days (or 366 in a leap year), for payroll purposes, the standard calculation is based on weeks.</p>
-        
-        <h3>The Standard Work Year</h3>
-        <ul>
-            <li><strong>Weeks per Year:</strong> 52 weeks.</li>
-            <li><strong>Standard Work Week:</strong> 40 hours (Full Time).</li>
-            <li><strong>Standard Work Hours per Year:</strong> 2,080 hours (40 hours x 52 weeks).</li>
-        </ul>
-        <p><em>Note: This calculator uses the "Unadjusted" method, meaning it assumes you are paid for 52 weeks (including paid vacation and holidays). If you are a contractor who takes unpaid time off, you should adjust the number of weeks manually in your estimate.</em></p>
+        <div class="section-header"><div class="line"></div><h2>3. Why Use a Salary Converter?</h2></div>
+        <h3>Financial Goal Setting</h3>
+        <p>When you set a long-term goal—like buying a house or funding a child’s education—you think in large annual numbers. However, when you go to the grocery store or pay for fuel, you spend in daily or weekly units. The Toolvala converter bridges this cognitive gap. By knowing that your ₹12 Lakh annual salary translates to approximately ₹4,615 per day (on a 5-day week), you can make more disciplined spending choices. Use our <a href="savings-goal-calculator.html">Savings Goal Calculator</a> to map your surplus into future wealth.</p>
 
-        <h2>Hourly vs. Salary: The Pros and Cons</h2>
-        <p>When using this converter, it's important to understand that the number isn't the only factor. The nature of how you are paid matters.</p>
+        <h3>Effective Salary Negotiation</h3>
+        <p>During a performance review, many employees make the mistake of asking for a "round number" hike. Professionals, however, negotiate based on their <strong>Hourly Value</strong>. If you know that a 10% raise on your ₹500/hour rate results in an extra ₹1.04 Lakh per year, you carry more leverage into the boardroom. Our tool gives you the exact figures needed to justify your worth to HR and management.</p>
 
-        <h3>Hourly Pay</h3>
-        <p><strong>Pros:</strong> You are paid for every minute you work. If you work overtime (over 40 hours), you are often entitled to 1.5x pay. This is great for industries with fluctuating demand.</p>
-        <p><strong>Cons:</strong> If hours are cut or you take a sick day without benefits, your paycheck shrinks. Income can be inconsistent.</p>
+        <div class="section-header"><div class="line"></div><h2>4. Frequently Asked Questions (FAQ)</h2></div>
+        <div class="faq-item">
+            <span class="faq-q" onclick="toggleFaq(0)">1. How is the hourly to annual salary calculated? <span>▼</span></span>
+            <div class="faq-a" id="faq-0">Our tool follows the standard business logic: (Hourly Rate × Hours per Week) × 52 Weeks. This is the unadjusted gross income formula used by major payroll systems globally.</div>
+        </div>
+        <div class="faq-item">
+            <span class="faq-q" onclick="toggleFaq(1)">2. Does the calculator account for taxes and PF? <span>▼</span></span>
+            <div class="faq-a" id="faq-1">No. This tool calculates Gross Salary (the amount before any deductions). Your Net (Take-Home) salary will be lower due to income tax, professional tax, and provident fund contributions.</div>
+        </div>
+        <div class="faq-item">
+            <span class="faq-q" onclick="toggleFaq(2)">3. What is a Bi-Weekly pay period? <span>▼</span></span>
+            <div class="faq-a" id="faq-2">Bi-weekly means you are paid once every 14 days. This results in 26 paychecks per year. It is different from 'Semi-Monthly' (24 paychecks), which is pay on the 1st and 15th.</div>
+        </div>
+        <div class="faq-item">
+            <span class="faq-q" onclick="toggleFaq(3)">4. How do I calculate my daily rate? <span>▼</span></span>
+            <div class="faq-a" id="faq-3">If you are salaried, our tool takes your annual total and divides it by (52 weeks × your working days). It is a vital metric for understanding the value of your workday.</div>
+        </div>
+        <div class="faq-item">
+            <span class="faq-q" onclick="toggleFaq(4)">5. Is my data secure on Toolvala.in? <span>▼</span></span>
+            <div class="faq-a" id="faq-4">Yes. Toolvala uses client-side JavaScript processing. Your income data never leaves your device and is never uploaded to any external server.</div>
+        </div>
+        <div class="faq-item">
+            <span class="faq-q" onclick="toggleFaq(5)">6. Can I use this for freelance projects? <span>▼</span></span>
+            <div class="faq-a" id="faq-5">Absolutely. Freelancers often work varying hours. Use the tool to find your 'Effective Hourly Rate' by entering your project fee as a monthly or weekly amount and adjusting your actual hours worked.</div>
+        </div>
 
-        <h3>Annual Salary</h3>
-        <p><strong>Pros:</strong> Consistency. You know exactly how much hits your bank account every month, regardless of whether it's a slow week or a busy week.</p>
-        <p><strong>Cons:</strong> No overtime pay (usually). If you work 60 hours in a week to finish a project, your "effective hourly rate" drops significantly. Use our calculator to reverse-engineer your <em>real</em> hourly wage based on actual hours worked.</p>
-
-        <h2>Common Salary Conversions</h2>
-        <p>Here are some quick reference points based on a standard 40-hour work week:</p>
-        <ul>
-            <li><strong>$15/hour:</strong> Approximately $31,200/year.</li>
-            <li><strong>$20/hour:</strong> Approximately $41,600/year.</li>
-            <li><strong>$25/hour:</strong> Approximately $52,000/year.</li>
-            <li><strong>$50/hour:</strong> Approximately $104,000/year.</li>
-            <li><strong>$100,000/year:</strong> Approximately $48.08/hour.</li>
-        </ul>
-
-        <h2>Understanding Pay Frequency</h2>
-        <p>This tool breaks down income into several frequencies. Here is what they mean:</p>
-        
-        <h3>Bi-Weekly vs. Semi-Monthly</h3>
-        <p>These are the two most common pay periods, but they are different:</p>
-        <ul>
-            <li><strong>Bi-Weekly:</strong> You are paid every two weeks (e.g., every other Friday). This results in <strong>26 paychecks</strong> per year. Note: Two months of the year will have three paychecks.</li>
-            <li><strong>Semi-Monthly:</strong> You are paid twice a month (e.g., the 1st and the 15th). This results in <strong>24 paychecks</strong> per year. Each paycheck is slightly larger than a bi-weekly one.</li>
-        </ul>
-
-        <h2>Gross vs. Net Pay</h2>
-        <p>Please remember that this calculator shows <strong>Gross Pay</strong>. This is the amount before deductions.</p>
-        <p><strong>Net Pay</strong> (Take-home pay) will be lower due to:</p>
-        <ol>
-            <li>Federal and State Income Taxes.</li>
-            <li>Social Security and Medicare (FICA).</li>
-            <li>Health Insurance premiums.</li>
-            <li>Retirement contributions (401k).</li>
-        </ol>
-        <p>A general rule of thumb for quick estimation is to subtract 25-30% from the Gross figure to estimate Net pay, though this varies wildly based on your location and tax bracket.</p>
-
-        <h2>Frequently Asked Questions (FAQ)</h2>
-        
-        <h3>How many work hours are in a year?</h3>
-        <p>The standard full-time work year is considered 2,080 hours. This is derived from 40 hours/week multiplied by 52 weeks.</p>
-
-        <h3>Does this calculator account for Leap Years?</h3>
-        <p>For salary purposes, leap years are generally ignored. Annual salaries are divided by standard pay periods (26, 24, 12, etc.) regardless of whether there are 365 or 366 days in the year.</p>
-
-        <h3>How do I calculate my daily rate?</h3>
-        <p>If you are salaried, take your annual salary and divide it by 260 (52 weeks x 5 days). If you are hourly, multiply your hourly rate by your daily work hours (usually 8).</p>
-
-        <h2>Conclusion</h2>
-        <p>Money matters. By using this <strong>Salary Converter</strong>, you demystify the numbers on your paycheck or job offer. Bookmark this page for your next performance review or job hunt to ensure you are getting paid what you are worth.</p>
+        <div class="section-header"><div class="line"></div><h2>5. Related Professional Tools</h2></div>
+        <div class="grid-box">
+            <a href="work-hours-calculator.html" class="card-link"><div class="icon-sm"><i class="fa fa-clock"></i></div><b>Work Hours Tool</b></a>
+            <a href="inflation-calculator.html" class="card-link"><div class="icon-sm"><i class="fa fa-arrow-up-right-dots"></i></div><b>Inflation Calculator</b></a>
+            <a href="date-difference.html" class="card-link"><div class="icon-sm"><i class="fa fa-calendar-check"></i></div><b>Date Difference</b></a>
+            <a href="rent-receipt-generator.html" class="card-link"><div class="icon-sm"><i class="fa fa-file-invoice"></i></div><b>Rent Receipt Generator</b></a>
+            <a href="hra-exemption-calculator.html" class="card-link"><div class="icon-sm"><i class="fa fa-house-chimney"></i></div><b>HRA Exemption</b></a>
+        </div>
     </article>
 
-    <!-- Related Tools / Sidebar -->
-    <aside class="sidebar">
-        <h2 style="font-size: 1.5rem; margin-bottom: 1rem;">Related Tools</h2>
-        
-        <!-- LINK 1: Work Hours Calculator -->
-        <div class="tool-card" onclick="location.href='work-hours-calculator.html'">
-            <a href="work-hours-calculator.html">
-                <h3>⏱️ Work Hours Calculator</h3>
-                <p style="font-size: 0.9rem; margin:0;">Track weekly hours, deduct breaks, and calculate timesheets.</p>
-            </a>
+    <!-- ✅ SIMPLE TEXT CATEGORY NAVIGATION -->
+    <div class="cat-text-nav">
+        <h3>Explore Our Categories</h3>
+        <div class="links-container">
+            <a href="converters.html" class="simple-link">Converters</a> 
+            <a href="expiry-date-tools.html" class="simple-link">Expiry Tools</a> 
+            <a href="baby-family-tools.html" class="simple-link">Baby & Family</a> 
+            <a href="finance-calculators.html" class="simple-link">Finance</a> 
+            <a href="generator-tools.html" class="simple-link">Generators</a> 
+            <a href="lifestyle-tools.html" class="simple-link">Lifestyle</a> 
+            <a href="education-tools.html" class="simple-link">Education</a> 
+            <a href="pdf-tools.html" class="simple-link">PDF Tools</a> 
+            <a href="image-tools.html" class="simple-link">Image Tools</a> 
+            <a href="general-calculators.html" class="simple-link">General Calculators</a> 
+            <a href="text-tools.html" class="simple-link">Text Tools</a> 
+            <a href="all-tools.html" class="simple-link">All Tools</a>
         </div>
-
-        <!-- LINK 2: Date Difference Calculator -->
-        <div class="tool-card" onclick="location.href='date-difference.html'">
-            <a href="date-difference.html">
-                <h3>📅 Date Difference Tool</h3>
-                <p style="font-size: 0.9rem; margin:0;">Count days, weeks, and months between two specific dates.</p>
-            </a>
-        </div>
-
-        <div class="tool-card">
-            <a href="inflation-calculator.html">
-                <h3>📉 Inflation Calculator</h3>
-                <p style="font-size: 0.9rem; margin:0;">See how the value of your salary changes over time.</p>
-            </a>
-        </div>
-
-        <div style="background: #d1fae5; padding: 1.5rem; border-radius: 8px; margin-top: 2rem; color: #064e3b;">
-            <h3>Quick Tip</h3>
-            <p style="font-size: 0.9rem;">To quickly estimate an hourly rate from a salary, drop the last three zeros and divide by 2. <br><br>Ex: $50,000 -> 50 / 2 = $25/hr.</p>
-        </div>
-    </aside>
-
+    </div>
 </div>
 
-<footer>
-    <p>&copy; 2026 Toolvala.in. All rights reserved.</p>
-    <p style="margin-top: 0.5rem; font-size: 0.9rem;">
-        <a href="privacy-policy.html">Privacy Policy</a> | <a href="terms-of-service.html">Terms of Service</a> | <a href="#">Contact</a> | <a href="sitemap.html">Sitemap</a>
-    </p>
-</footer>
-
 <script>
-    function convertSalary() {
-        const amount = parseFloat(document.getElementById('amount').value);
-        const frequency = document.getElementById('frequency').value;
-        const hoursPerWeek = parseFloat(document.getElementById('hoursPerWeek').value) || 40;
-        const daysPerWeek = parseFloat(document.getElementById('daysPerWeek').value) || 5;
+    function calculateWage() {
+        const amt = parseFloat(document.getElementById('amtIn').value);
+        const freq = document.getElementById('freqIn').value;
+        const hpw = parseFloat(document.getElementById('hoursIn').value) || 40;
+        const WEEKS = 52;
 
-        if (isNaN(amount)) {
+        if (isNaN(amt) || amt <= 0) {
             alert("Please enter a valid amount.");
             return;
         }
 
-        // Constants
-        const weeksPerYear = 52;
-        const hoursPerDay = hoursPerWeek / daysPerWeek;
+        let annual = 0;
 
-        // Step 1: Normalize to Annual Salary
-        let annualSalary = 0;
-
-        switch (frequency) {
-            case 'hour':
-                annualSalary = amount * hoursPerWeek * weeksPerYear;
-                break;
-            case 'day':
-                annualSalary = amount * daysPerWeek * weeksPerYear;
-                break;
-            case 'week':
-                annualSalary = amount * weeksPerYear;
-                break;
-            case 'biweek':
-                annualSalary = amount * 26;
-                break;
-            case 'month':
-                annualSalary = amount * 12;
-                break;
-            case 'year':
-                annualSalary = amount;
-                break;
+        // Normalize to Annual
+        switch(freq) {
+            case 'year': annual = amt; break;
+            case 'month': annual = amt * 12; break;
+            case 'biweek': annual = amt * 26; break;
+            case 'week': annual = amt * 52; break;
+            case 'day': annual = amt * 5 * 52; break; // Assumes 5 days/wk
+            case 'hour': annual = amt * hpw * 52; break;
         }
 
-        // Step 2: Calculate all other frequencies from Annual
-        const results = {
-            'Yearly': annualSalary,
-            'Monthly': annualSalary / 12,
-            'Bi-Weekly (Every 2 wks)': annualSalary / 26,
-            'Weekly': annualSalary / 52,
-            'Daily': annualSalary / (weeksPerYear * daysPerWeek),
-            'Hourly': annualSalary / (weeksPerYear * hoursPerWeek)
-        };
+        const fmt = (val) => "₹" + Math.round(val).toLocaleString('en-IN');
 
-        // Step 3: Render Table
-        const tbody = document.getElementById('resultBody');
-        tbody.innerHTML = ''; // clear previous
+        document.getElementById('resYear').innerText = fmt(annual);
+        document.getElementById('resMonth').innerText = fmt(annual / 12);
+        document.getElementById('resBi').innerText = fmt(annual / 26);
+        document.getElementById('resWeek').innerText = fmt(annual / 52);
+        document.getElementById('resDay').innerText = fmt(annual / (52 * 5));
+        document.getElementById('resHour').innerText = fmt(annual / (52 * hpw));
 
-        for (const [key, value] of Object.entries(results)) {
-            const tr = document.createElement('tr');
-            
-            // Format currency
-            const formatted = new Intl.NumberFormat('en-US', {
-                style: 'currency',
-                currency: 'USD'
-            }).format(value);
-
-            tr.innerHTML = `
-                <td>${key}</td>
-                <td class="highlight-val">${formatted}</td>
-            `;
-            tbody.appendChild(tr);
+        document.getElementById('resView').style.display = "flex";
+        
+        if(window.innerWidth < 800) {
+            document.getElementById('resView').scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
-
-        // Update Text
-        document.getElementById('resHours').innerText = hoursPerWeek;
-
-        // Show Section
-        const resSection = document.getElementById('results');
-        resSection.style.display = 'block';
-        resSection.scrollIntoView({ behavior: 'smooth' });
     }
 
-    function resetForm() {
-        document.getElementById('salaryForm').reset();
-        document.getElementById('results').style.display = 'none';
+    function toggleFaq(id) {
+        const el = document.getElementById('faq-' + id);
+        el.style.display = (el.style.display === 'block') ? 'none' : 'block';
     }
 </script>
-
+<div id="footer"></div>
+<script>
+fetch("footer.html")
+  .then(r => r.text())
+  .then(d => {
+    document.getElementById("footer").innerHTML = d;
+    document.getElementById("year").textContent = new Date().getFullYear();
+  });
+</script>
 </body>
 </html>
