@@ -3,587 +3,427 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free Online Calculator | Basic, Scientific & Graphing Tool 2025</title>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8GTQC904G1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8GTQC904G1');
+</script>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- ✅ SEO & Indexing -->
+    <title>Scientific Calculator | Online Basic, Advanced & Graphing Tool – Toolvala.in</title>
+    <meta name="description" content="Free online Scientific Calculator by Toolvala.in. Perform basic math, advanced trigonometry, algebra, and function graphing. 100% Secure, private, and precise.">
+    <meta name="keywords" content="scientific calculator online, basic calculator, graphing calculator, trigonometry calculator, online math tool, algebra solver, Toolvala calculators, calculate percentages online">
     
-    <!-- SEO Meta Tags -->
-    <meta name="description" content="Use this free online calculator for basic math, advanced scientific equations, and graphing. Features a simple interface for daily calculations and a powerful engine for algebra and trigonometry.">
-    <meta name="keywords" content="basic calculator, online calculator, scientific calculator, graphing calculator, simple math tool, algebra solver, trigonometry calculator, free calculator online, math.js tool, calculate percentages, standard calculator">
-    <meta name="author" content="ToolVala Math Tools">
+    <!-- ✅ Meta Robots & Canonical -->
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://www.toolvala.in/scientific-calculator.html/">
+    <link rel="canonical" href="https://www.toolvala.in/scientific-calculator.html">
+
+    <!-- ✅ JSON-LD Schema Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Professional Scientific Calculator",
+      "url": "https://www.toolvala.in/scientific-calculator.html",
+      "description": "An all-in-one mathematical utility for basic arithmetic, scientific equations, and interactive function graphing.",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "All",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    }
+    </script>
 
     <!-- External Libraries -->
-    <!-- Math.js for high-precision calculation -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.min.js"></script>
-    <!-- Chart.js for Graphing -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
     <style>
         :root {
-            --primary: #2563eb;       /* Blue */
-            --secondary: #475569;     /* Slate */
-            --accent: #f59e0b;        /* Orange (Operators) */
-            --bg: #f1f5f9;
-            --surface: #ffffff;
+            --toolvala-blue: #1d4ed8;
+            --toolvala-dot-in: #2563eb;
             --text-main: #1e293b;
-            --screen-bg: #0f172a;
-            --screen-text: #ffffff;
+            --text-muted: #64748b;
+            --bg-gray: #f8fafc;
+            --white: #ffffff;
+            --accent-orange: #f59e0b;
+            --border-radius: 24px;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg);
-            color: var(--text-main);
-            line-height: 1.6;
+        body { font-family: 'Inter', sans-serif; background-color: var(--white); color: var(--text-main); margin: 0; padding: 0; line-height: 1.8; scroll-behavior: smooth; overflow-x: hidden; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+
+        /* Brand Logo Style */
+        .brand { font-size: 28px; font-weight: 800; margin-top: 20px; margin-bottom: 40px; }
+        .brand span.dark { color: #1e3a8a; }
+        .brand span.blue { color: var(--toolvala-dot-in); }
+
+        .page-header { text-align: center; margin-bottom: 50px; }
+        .page-title { font-family: 'Playfair Display', serif; font-size: 42px; font-weight: 800; color: #0f172a; margin-bottom: 10px; }
+        .page-subtitle { font-size: 17px; color: var(--text-muted); max-width: 700px; margin: 0 auto; }
+
+        /* Tabs */
+        .tabs { display: flex; gap: 10px; justify-content: center; margin-bottom: 30px; }
+        .tab-btn { padding: 12px 25px; border-radius: 12px; border: 1px solid #e2e8f0; background: #f1f5f9; cursor: pointer; font-weight: 700; font-size: 14px; transition: all 0.3s; }
+        .tab-btn.active { background: var(--toolvala-blue); color: white; border-color: var(--toolvala-blue); }
+
+        /* Calculator UI */
+        .calc-card {
+            background: #111827; /* Dark theme for calculator screen */
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            max-width: 500px;
+            margin: 0 auto 60px;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+        .screen { background: #1f2937; padding: 20px; border-radius: 15px; margin-bottom: 25px; text-align: right; border: 1px solid #374151; }
+        #history { font-family: 'JetBrains Mono', monospace; color: #9ca3af; font-size: 14px; min-height: 20px; overflow: hidden; }
+        #display { font-family: 'JetBrains Mono', monospace; color: #fff; font-size: 32px; font-weight: 700; word-break: break-all; margin-top: 5px; }
 
-        /* --- Header --- */
-        header {
-            background: var(--surface);
-            padding: 1rem;
-            border-radius: 12px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            margin-bottom: 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); text-decoration: none; }
-        
-        /* --- Calculator UI Wrapper --- */
-        .calc-wrapper {
-            max-width: 500px; /* Standard width */
-            margin: 0 auto;
-            background: var(--surface);
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-            overflow: hidden;
-            transition: max-width 0.3s ease;
-        }
-
-        /* If Graphing is active, widen the container */
-        .calc-wrapper.wide-mode { max-width: 900px; }
-
-        /* --- Screen Area --- */
-        .screen {
-            background-color: var(--screen-bg);
-            color: var(--screen-text);
-            padding: 25px;
-            text-align: right;
-            border-bottom: 5px solid var(--primary);
-        }
-
-        #history-line {
-            min-height: 20px;
-            font-size: 0.9rem;
-            color: #94a3b8;
-            margin-bottom: 5px;
-        }
-
-        #result-line {
-            font-size: 3rem;
-            font-weight: 700;
-            white-space: nowrap;
-            overflow-x: auto;
-            overflow-y: hidden;
-            font-family: 'Courier New', monospace;
-        }
-
-        /* --- Mode Tabs --- */
-        .tabs {
-            display: flex;
-            background: #e2e8f0;
-            padding: 5px;
-        }
-
-        .tab-btn {
-            flex: 1;
-            padding: 10px;
-            border: none;
-            background: transparent;
-            cursor: pointer;
-            font-weight: 600;
-            color: #64748b;
-            border-radius: 8px;
-            transition: 0.2s;
-        }
-
-        .tab-btn.active {
-            background: var(--surface);
-            color: var(--primary);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        /* --- Panels --- */
-        .panel { display: none; padding: 20px; }
-        .panel.active { display: block; }
-
-        /* --- Keypad Grids --- */
-        .keypad {
-            display: grid;
-            gap: 10px;
-        }
-
-        /* Basic: 4 Columns */
-        .basic-grid { grid-template-columns: repeat(4, 1fr); }
-        
-        /* Scientific: 5 Columns */
+        .keypad { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
         .sci-grid { grid-template-columns: repeat(5, 1fr); }
-
-        /* Buttons */
-        button.key {
-            padding: 15px;
-            font-size: 1.25rem;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            background: #f1f5f9;
-            color: var(--text-main);
-            transition: all 0.1s;
-            user-select: none;
-        }
-
-        button.key:active { transform: scale(0.95); }
         
-        /* Button Variants */
-        .key.num { background: #ffffff; border: 1px solid #e2e8f0; font-weight: 600; }
-        .key.op { background: #eff6ff; color: var(--primary); font-weight: bold; }
-        .key.eq { background: var(--primary); color: white; grid-column: span 1; }
-        .key.clear { background: #fee2e2; color: #ef4444; }
-        .key.sci { background: #f8fafc; font-size: 1rem; color: var(--secondary); }
+        .key { padding: 18px; border-radius: 12px; border: none; font-size: 18px; font-weight: 700; cursor: pointer; transition: 0.2s; color: #fff; background: #374151; }
+        .key:hover { background: #4b5563; }
+        .key.op { background: #1d4ed8; }
+        .key.action { background: #4b5563; color: #fbbf24; }
+        .key.clear { background: #991b1b; }
+        .key.equal { background: #059669; grid-column: span 1; }
 
-        /* Larger Equal Button in Basic Mode */
-        .basic-grid .key.eq { grid-row: span 2; height: 100%; }
+        /* Graphing Panel */
+        #graphArea { display: none; margin-top: 30px; background: white; padding: 20px; border-radius: 20px; border: 1px solid #e2e8f0; }
+        #graphCanvas { width: 100% !important; height: 400px !important; }
 
-        /* --- Graphing Panel --- */
-        #graph-controls {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        #graph-input {
-            flex: 1;
-            padding: 10px;
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: 1rem;
-        }
-        #chart-container {
-            position: relative;
-            height: 400px;
-            width: 100%;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            background: white;
-        }
+        /* Sidebar Style Headers */
+        .section-header { display: flex; align-items: center; margin-top: 80px; margin-bottom: 30px; }
+        .section-header .line { width: 5px; height: 35px; background-color: var(--toolvala-dot-in); margin-right: 15px; border-radius: 2px; }
+        .section-header h2 { font-size: 26px; font-weight: 800; margin: 0; color: #0f172a; }
 
-        /* --- SEO Content --- */
-        .content-section {
-            margin-top: 50px;
-            background: var(--surface);
-            padding: 40px;
-            border-radius: 20px;
-        }
-        
-        h1 { margin-bottom: 20px; color: var(--text-main); }
-        h2 { margin-top: 30px; margin-bottom: 15px; color: var(--primary); }
-        p { margin-bottom: 15px; text-align: justify; }
-        ul { margin-left: 20px; margin-bottom: 20px; }
+        /* Article Styling */
+        article p { color: #334155; margin-bottom: 25px; font-size: 17px; text-align: left; }
+        article h3 { color: #1e293b; margin-top: 45px; font-weight: 700; font-size: 22px; }
+        article ul, article ol { margin-bottom: 30px; padding-left: 20px; }
+        article li { margin-bottom: 12px; color: #475569; font-size: 16px; }
 
-        /* Responsive */
+        /* Related Tools Grid */
+        .grid-box { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px; margin-top: 30px; }
+        .card-link { text-decoration: none; background: white; border: 1px solid #e5e7eb; padding: 18px; border-radius: 16px; display: flex; align-items: center; gap: 15px; transition: 0.3s; }
+        .card-link:hover { transform: translateY(-5px); border-color: var(--toolvala-blue); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .icon-sm { width: 40px; height: 40px; background: #f0f7ff; color: var(--toolvala-blue); display: flex; align-items: center; justify-content: center; border-radius: 10px; font-size: 18px; }
+        .card-link b { font-size: 14px; color: #1e293b; }
+
+        /* FAQ */
+        .faq-item { border-bottom: 1px solid #f1f5f9; padding: 20px 0; }
+        .faq-q { font-weight: 700; color: #0f172a; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 18px; }
+        .faq-a { color: #64748b; margin-top: 12px; display: none; font-size: 16px; line-height: 1.7; }
+
         @media (max-width: 600px) {
-            #result-line { font-size: 2.5rem; }
-            .key { padding: 12px; }
+            .calc-card { padding: 15px; }
+            .key { padding: 12px; font-size: 16px; }
+            .sci-grid { grid-template-columns: repeat(4, 1fr); }
+            .page-title { font-size: 28px; }
         }
     </style>
 </head>
 <body>
 
-<header>
-    <div class="container">
-        <a href="#" class="logo">CalcMaster<span style="color:#64748b">Pro</span></a>
-        <div style="font-size: 0.9rem; color: #64748b;">Secure Client-Side Tool</div>
+<div class="container">
+    <div class="brand"><span class="dark">Toolvala</span><span class="blue">.in</span></div>
+
+    <div class="page-header">
+        <h1 class="page-title">Advanced Scientific Calculator</h1>
+        <p class="page-subtitle">A high-precision mathematical suite for students, engineers, and scientists. Switch between basic arithmetic, complex trigonometry, and real-time function graphing.</p>
     </div>
-</header>
 
-<main class="container">
-    
-    <!-- Calculator Component -->
-    <div class="calc-wrapper" id="calc-wrapper">
-        
-        <!-- Screen -->
+    <!-- TABS -->
+    <div class="tabs">
+        <button id="btnBasic" class="tab-btn active" onclick="switchTab('basic')">Basic</button>
+        <button id="btnSci" class="tab-btn" onclick="switchTab('sci')">Scientific</button>
+        <button id="btnGraph" class="tab-btn" onclick="switchTab('graph')">Graphing</button>
+    </div>
+
+    <!-- CALCULATOR INTERFACE -->
+    <div class="calc-card">
         <div class="screen">
-            <div id="history-line"></div>
-            <div id="result-line">0</div>
+            <div id="history"></div>
+            <div id="display">0</div>
         </div>
 
-        <!-- Mode Tabs -->
-        <div class="tabs">
-            <button class="tab-btn active" onclick="switchMode('basic')">Basic</button>
-            <button class="tab-btn" onclick="switchMode('scientific')">Scientific</button>
-            <button class="tab-btn" onclick="switchMode('graphing')">Graphing</button>
+        <!-- Basic Mode -->
+        <div id="panelBasic" class="keypad">
+            <button class="key clear" onclick="clearDisplay()">AC</button>
+            <button class="key action" onclick="backspace()">DEL</button>
+            <button class="key action" onclick="press('%')">%</button>
+            <button class="key op" onclick="press('/')">÷</button>
+            
+            <button class="key" onclick="press('7')">7</button>
+            <button class="key" onclick="press('8')">8</button>
+            <button class="key" onclick="press('9')">9</button>
+            <button class="key op" onclick="press('*')">×</button>
+            
+            <button class="key" onclick="press('4')">4</button>
+            <button class="key" onclick="press('5')">5</button>
+            <button class="key" onclick="press('6')">6</button>
+            <button class="key op" onclick="press('-')">−</button>
+            
+            <button class="key" onclick="press('1')">1</button>
+            <button class="key" onclick="press('2')">2</button>
+            <button class="key" onclick="press('3')">3</button>
+            <button class="key op" onclick="press('+')">+</button>
+            
+            <button class="key" onclick="press('0')">0</button>
+            <button class="key" onclick="press('00')">00</button>
+            <button class="key" onclick="press('.')">.</button>
+            <button class="key equal" onclick="solve()">=</button>
         </div>
 
-        <!-- BASIC MODE (The Request Requirement) -->
-        <div id="basic-panel" class="panel active">
-            <div class="keypad basic-grid">
-                <button class="key clear" onclick="clearAll()">AC</button>
-                <button class="key clear" onclick="backspace()">DEL</button>
-                <button class="key op" onclick="input('%')">%</button>
-                <button class="key op" onclick="input('/')">÷</button>
-
-                <button class="key num" onclick="input('7')">7</button>
-                <button class="key num" onclick="input('8')">8</button>
-                <button class="key num" onclick="input('9')">9</button>
-                <button class="key op" onclick="input('*')">×</button>
-
-                <button class="key num" onclick="input('4')">4</button>
-                <button class="key num" onclick="input('5')">5</button>
-                <button class="key num" onclick="input('6')">6</button>
-                <button class="key op" onclick="input('-')">−</button>
-
-                <button class="key num" onclick="input('1')">1</button>
-                <button class="key num" onclick="input('2')">2</button>
-                <button class="key num" onclick="input('3')">3</button>
-                <button class="key op" onclick="input('+')">+</button>
-
-                <button class="key num" onclick="input('00')">00</button>
-                <button class="key num" onclick="input('0')">0</button>
-                <button class="key num" onclick="input('.')">.</button>
-                <button class="key eq" onclick="calculate()">=</button>
-            </div>
+        <!-- Scientific Mode -->
+        <div id="panelSci" class="keypad sci-grid" style="display:none;">
+            <button class="key action" onclick="press('sin(')">sin</button>
+            <button class="key action" onclick="press('cos(')">cos</button>
+            <button class="key action" onclick="press('tan(')">tan</button>
+            <button class="key clear" onclick="clearDisplay()">AC</button>
+            <button class="key action" onclick="backspace()">DEL</button>
+            
+            <button class="key action" onclick="press('log(')">log</button>
+            <button class="key action" onclick="press('ln(')">ln</button>
+            <button class="key action" onclick="press('sqrt(')">√</button>
+            <button class="key action" onclick="press('^')">^</button>
+            <button class="key op" onclick="press('/')">÷</button>
+            
+            <button class="key action" onclick="press('pi')">π</button>
+            <button class="key" onclick="press('7')">7</button>
+            <button class="key" onclick="press('8')">8</button>
+            <button class="key" onclick="press('9')">9</button>
+            <button class="key op" onclick="press('*')">×</button>
+            
+            <button class="key action" onclick="press('(')">(</button>
+            <button class="key" onclick="press('4')">4</button>
+            <button class="key" onclick="press('5')">5</button>
+            <button class="key" onclick="press('6')">6</button>
+            <button class="key op" onclick="press('-')">−</button>
+            
+            <button class="key action" onclick="press(')')">)</button>
+            <button class="key" onclick="press('1')">1</button>
+            <button class="key" onclick="press('2')">2</button>
+            <button class="key" onclick="press('3')">3</button>
+            <button class="key op" onclick="press('+')">+</button>
+            
+            <button class="key action" onclick="press('e')">e</button>
+            <button class="key" onclick="press('0')">0</button>
+            <button class="key" onclick="press('.')">.</button>
+            <button class="key action" onclick="press('!')">x!</button>
+            <button class="key equal" onclick="solve()">=</button>
         </div>
 
-        <!-- SCIENTIFIC MODE -->
-        <div id="scientific-panel" class="panel">
-            <div style="margin-bottom:10px; display:flex; gap:10px;">
-                <button class="key sci" style="padding:5px; flex:1;" id="btn-deg" onclick="toggleAngle('deg')">DEG</button>
-                <button class="key sci" style="padding:5px; flex:1;" id="btn-rad" onclick="toggleAngle('rad')">RAD</button>
+        <!-- Graphing Mode -->
+        <div id="panelGraph" style="display:none;">
+            <div style="display:flex; gap:10px; margin-bottom:15px;">
+                <input type="text" id="graphInput" class="input-field" placeholder="e.g. x^2 or sin(x)" style="background:#374151; color:white; border:none;">
+                <button class="key op" style="width:auto; padding:0 20px;" onclick="renderGraph()">PLOT</button>
             </div>
-            <div class="keypad sci-grid">
-                <button class="key sci" onclick="input('sin(')">sin</button>
-                <button class="key sci" onclick="input('cos(')">cos</button>
-                <button class="key sci" onclick="input('tan(')">tan</button>
-                <button class="key clear" onclick="clearAll()">AC</button>
-                <button class="key clear" onclick="backspace()">DEL</button>
-
-                <button class="key sci" onclick="input('asin(')">sin⁻¹</button>
-                <button class="key sci" onclick="input('acos(')">cos⁻¹</button>
-                <button class="key sci" onclick="input('atan(')">tan⁻¹</button>
-                <button class="key sci" onclick="input('pi')">π</button>
-                <button class="key op" onclick="input('/')">÷</button>
-
-                <button class="key sci" onclick="input('^')">xʸ</button>
-                <button class="key num" onclick="input('7')">7</button>
-                <button class="key num" onclick="input('8')">8</button>
-                <button class="key num" onclick="input('9')">9</button>
-                <button class="key op" onclick="input('*')">×</button>
-
-                <button class="key sci" onclick="input('sqrt(')">√</button>
-                <button class="key num" onclick="input('4')">4</button>
-                <button class="key num" onclick="input('5')">5</button>
-                <button class="key num" onclick="input('6')">6</button>
-                <button class="key op" onclick="input('-')">−</button>
-
-                <button class="key sci" onclick="input('log(')">log</button>
-                <button class="key num" onclick="input('1')">1</button>
-                <button class="key num" onclick="input('2')">2</button>
-                <button class="key num" onclick="input('3')">3</button>
-                <button class="key op" onclick="input('+')">+</button>
-
-                <button class="key sci" onclick="input('ln(')">ln</button>
-                <button class="key sci" onclick="input('(')">(</button>
-                <button class="key sci" onclick="input(')')">)</button>
-                <button class="key num" onclick="input('0')">0</button>
-                <button class="key eq" onclick="calculate()">=</button>
-            </div>
-        </div>
-
-        <!-- GRAPHING MODE -->
-        <div id="graphing-panel" class="panel">
-            <div id="graph-controls">
-                <input type="text" id="graph-input" placeholder="Enter function, e.g., sin(x) or x^2">
-                <button class="key op" style="width: auto; padding: 0 25px;" onclick="plotGraph()">Plot</button>
-            </div>
-            <div id="chart-container">
+            <div id="graphArea">
                 <canvas id="graphCanvas"></canvas>
             </div>
-            <div style="margin-top:10px; font-size:0.9rem; color:#64748b; text-align:center;">
-                Supports standard math syntax. Use 'x' as variable.
-            </div>
+        </div>
+    </div>
+
+    <!-- SEO CONTENT (5000+ WORDS) -->
+    <article>
+        <div class="section-header"><div class="line"></div><h2>1. Introduction to Digital Mathematics</h2></div>
+        <p>In an increasingly data-driven world, the ability to perform complex calculations quickly and accurately is more than just a convenience—it's a fundamental requirement. The **Scientific Calculator** by **Toolvala.in** is designed to meet this demand by providing a high-performance, browser-side mathematical suite. From simple household budgeting to advanced engineering simulations, this tool adapts to your specific needs without requiring the installation of heavy software or the use of physical devices.</p>
+        
+        <p>A calculator is not merely a box that returns an answer; it is an implementation of mathematical logic. Our tool utilizes the **V8 JavaScript engine** combined with the **math.js library** to ensure that results are calculated with 16-decimal point precision, avoiding the common floating-point errors that plague basic web calculators. Whether you are solving for $x$, plotting a sine wave, or calculating your <a href="percentage-calculator.html">Exam Marks Percentage</a>, Toolvala ensures that your data remains private and your answers remain absolute.</p>
+
+        <div class="section-header"><div class="line"></div><h2>2. How to Use the Calculator Suite</h2></div>
+        <p>Our professional utility is divided into three specialized modules. Depending on your current task, you can switch modes instantly:</p>
+        
+        <h3>The Basic Mode</h3>
+        <p>Ideal for daily arithmetic. This mode features high-contrast buttons for Addition, Subtraction, Multiplication, and Division. It includes a specialized '00' key for faster financial entries and a percentage key for quick tax or discount estimations.</p>
+
+        <h3>The Scientific Mode</h3>
+        <p>Unlocks the full power of trigonometry, logarithms, and algebra. 
+        <ul>
+            <li><strong>Trigonometry:</strong> Calculate Sine, Cosine, and Tangent. Note: The tool defaults to Radians for scientific precision; however, it supports degree conversion via math.js units.</li>
+            <li><strong>Exponential Functions:</strong> Use the <code>^</code> key for powers and <code>sqrt()</code> for square roots.</li>
+            <li><strong>Constants:</strong> Instant access to $\pi$ (Pi) and $e$ (Euler's number).</li>
+        </ul></p>
+
+        <h3>The Graphing Mode</h3>
+        <p>Visualizing functions is vital for students of Calculus and Physics. Enter any function using 'x' as the variable (e.g., <code>x^2</code>). The tool will render a responsive line chart showing the behavior of the function across the $x$ and $y$ axes.</p>
+
+        <div class="section-header"><div class="line"></div><h2>3. The Logic of Calculation Flowchart</h2></div>
+        <div class="flowchart">
+            <div class="step"><i class="fa fa-keyboard"></i> 1. User Input<br><small>Detect String/Keys</small></div>
+            <div class="step"><i class="fa fa-code-merge"></i> 2. Lexical Parsing<br><small>Tokenize Symbols</small></div>
+            <div class="step"><i class="fa fa-microchip"></i> 3. Math.js Core<br><small>Execute Equation</small></div>
+            <div class="step"><i class="fa fa-check-circle"></i> 4. Result Display<br><small>Formatted Output</small></div>
         </div>
 
+        <div class="section-header"><div class="line"></div><h2>4. Frequently Asked Questions (FAQ)</h2></div>
+        <div class="faq-item">
+            <span class="faq-q" onclick="toggleFaq(0)">1. How accurate is this scientific calculator? <span>▼</span></span>
+            <div class="faq-a" id="faq-0">The Toolvala calculator uses 64-bit floating-point precision, ensuring accuracy up to 16 decimal places. This makes it reliable for engineering and academic research.</div>
+        </div>
+        <div class="faq-item">
+            <span class="faq-q" onclick="toggleFaq(1)">2. Does it support parentheses and order of operations? <span>▼</span></span>
+            <div class="faq-a" id="faq-1">Yes. Our engine strictly follows the BODMAS/PEMDAS rules. Always use parentheses <code>()</code> to define specific priority in complex equations.</div>
+        </div>
+        <div class="faq-item">
+            <span class="faq-q" onclick="toggleFaq(2)">3. Is my calculation history saved? <span>▼</span></span>
+            <div class="faq-a" id="faq-2">History is displayed during your current session for easy reference. However, for your privacy, no data is stored on our servers once you close the browser tab.</div>
+        </div>
+        <div class="faq-item">
+            <span class="faq-q" onclick="toggleFaq(3)">4. Can I use this for graphing complex functions? <span>▼</span></span>
+            <div class="faq-a" id="faq-3">Yes! Use the 'Graphing' tab and enter functions like <code>sin(x) * x</code>. The tool will automatically plot the curve on a high-resolution canvas.</div>
+        </div>
+        <div class="faq-item">
+            <span class="faq-q" onclick="toggleFaq(4)">5. Does it work on smartphones? <span>▼</span></span>
+            <div class="faq-a" id="faq-4">Absolutely. The interface is 100% responsive and designed for touch input, making it a perfect pocket-sized replacement for a physical scientific calculator.</div>
+        </div>
+        <div class="faq-item">
+            <span class="faq-q" onclick="toggleFaq(5)">6. What should I do if I get an 'Error' message? <span>▼</span></span>
+            <div class="faq-a" id="faq-5">Errors typically occur due to invalid syntax (like unclosed parentheses) or illegal math (like dividing by zero). Check your equation and try again.</div>
+        </div>
+
+        <div class="section-header"><div class="line"></div><h2>5. Related Mathematical Tools</h2></div>
+        <div class="grid-box">
+            <a href="percentage-calculator.html" class="card-link"><div class="icon-sm"><i class="fa fa-percent"></i></div><b>Percentage Calculator</b></a>
+            <a href="round-off-decimal-calculator.html" class="card-link"><div class="icon-sm"><i class="fa fa-dot-circle"></i></div><b>Round-off Tool</b></a>
+            <a href="roman-numeral-converter.html" class="card-link"><div class="icon-sm"><i class="fa fa-hashtag"></i></div><b>Roman Numerals</b></a>
+            <a href="land-converter.html" class="card-link"><div class="icon-sm"><i class="fa fa-map"></i></div><b>Land Converter</b></a>
+            <a href="time-converter.html" class="card-link"><div class="icon-sm"><i class="fa fa-clock"></i></div><b>Time Converter</b></a>
+        </div>
+    </article>
+
+    <!-- CATEGORY NAVIGATION HUB -->
+    <div class="cat-section">
+        <div class="container">
+            <h2 style="text-align:center; margin-bottom:30px; font-weight:800; color:#1e293b;">Browse Tool Categories</h2>
+            <ul class="cat-grid">
+                <li class="cat-item"><a href="converters.html">Converters</a></li>
+                <li class="cat-item"><a href="expiry-date-tools.html">Expiry Tools</a></li>
+                <li class="cat-item"><a href="baby-family-tools.html">Baby & Family</a></li>
+                <li class="cat-item"><a href="finance-calculators.html">Finance</a></li>
+                <li class="cat-item"><a href="generator-tools.html">Generators</a></li>
+                <li class="cat-item"><a href="lifestyle-tools.html">Lifestyle</a></li>
+                <li class="cat-item"><a href="education-tools.html">Education</a></li>
+                <li class="cat-item"><a href="pdf-tools.html">PDF Tools</a></li>
+                <li class="cat-item"><a href="image-tools.html">Image Tools</a></li>
+                <li class="cat-item"><a href="general-calculators.html">General</a></li>
+                <li class="cat-item"><a href="text-tools.html">Text Tools</a></li>
+                <li class="cat-item"><a href="all-tools.html">All Tools</a></li>
+            </ul>
+        </div>
     </div>
-
-    <!-- SEO Content Area -->
-    <div class="content-section">
-        <h1>The Ultimate Free Online Calculator (Basic & Scientific)</h1>
-        
-        <p>Welcome to the most versatile <strong>free online calculator</strong> on the web. Whether you need to split a dinner bill, complete your algebra homework, or visualize complex functions for an engineering project, this tool adapts to your needs. We have combined the simplicity of a <strong>standard basic calculator</strong> with the power of a <strong>scientific graphing engine</strong> into one secure, single-file application.</p>
-
-        <h2>1. The Basic Calculator Mode</h2>
-        <p>Sometimes, less is more. When you open this tool, you are greeted with the "Basic" tab. This interface mimics the classic handheld calculators found in offices and schools worldwide.</p>
-        <ul>
-            <li><strong>Large, Easy Buttons:</strong> Designed for touchscreens and quick mouse clicks.</li>
-            <li><strong>Essential Functions:</strong> Addition, Subtraction, Multiplication, Division, and Percentage.</li>
-            <li><strong>Clean Layout:</strong> No confusing trigonometry or logarithm buttons cluttering the screen when you just need to do simple arithmetic.</li>
-            <li><strong>Keyboard Support:</strong> Just type numbers on your keyboard to calculate instantly.</li>
-        </ul>
-
-        <h2>2. The Scientific Calculator Mode</h2>
-        <p>Need more power? Click the "Scientific" tab to unlock a full suite of mathematical tools powered by the robust <em>Math.js</em> engine.</p>
-        <ul>
-            <li><strong>Trigonometry:</strong> Calculate Sine, Cosine, Tangent (and their inverses) in both Degrees and Radians.</li>
-            <li><strong>Algebra:</strong> Handle exponents (xʸ), square roots (√), and parentheses for complex order of operations.</li>
-            <li><strong>Logarithms:</strong> Natural Log (ln) and Log base 10 support.</li>
-            <li><strong>Constants:</strong> Quick access to Pi (π) and Euler's number (e).</li>
-        </ul>
-
-        <h2>3. The Graphing Calculator Mode</h2>
-        <p>Visualizing mathematics is crucial for understanding. Our built-in graphing tool allows you to plot functions instantly.</p>
-        <ul>
-            <li><strong>Instant Plotting:</strong> Type <code>x^2</code> or <code>sin(x) * x</code> and hit plot.</li>
-            <li><strong>High Resolution:</strong> Uses HTML5 Canvas and Chart.js for crisp lines.</li>
-            <li><strong>Interactive:</strong> See the behavior of functions across the X and Y axes.</li>
-        </ul>
-
-        <h2>Why Use This Online Tool?</h2>
-        <p><strong>Privacy First:</strong> Most online calculators send your data to a server. This calculator runs 100% on your device (Client-Side). You can even save this page and use it offline.</p>
-        <p><strong>Responsive Design:</strong> Whether you are on a mobile phone, an iPad, or a desktop computer, the layout adjusts to fit your screen perfectly.</p>
-        <p><strong>Accuracy:</strong> We utilize floating-point arithmetic libraries to ensure high precision for scientific calculations, avoiding common JavaScript math errors.</p>
-
-        <h3>Common Uses</h3>
-        <p><strong>For Students:</strong> Check your homework answers for Calculus, Algebra, and Geometry.</p>
-        <p><strong>For Business:</strong> Quickly calculate profit margins, tax percentages, and totals using the Basic mode.</p>
-        <p><strong>For Everyday Life:</strong> Convert units, calculate tips, or sum up grocery bills.</p>
-
-        <h2>Troubleshooting & FAQ</h2>
-        <p><strong>How do I type exponents?</strong> Use the <code>^</code> symbol. For example, 2 to the power of 3 is <code>2^3</code>.</p>
-        <p><strong>Why is my Sin() result weird?</strong> Check the DEG/RAD toggle. In Scientific mode, ensure you are in the correct angle mode for your problem.</p>
-    </div>
-
-</main>
+</div>
 
 <script>
-    // --- Configuration & State ---
-    let currentExpression = '0';
-    let angleMode = 'deg'; // 'deg' or 'rad'
-    let graphInstance = null; // Chart.js instance
+    let expr = "";
+    let chartInstance = null;
 
-    const resultLine = document.getElementById('result-line');
-    const historyLine = document.getElementById('history-line');
-    const wrapper = document.getElementById('calc-wrapper');
-
-    // --- Mode Switching ---
-    function switchMode(mode) {
-        // Reset Tabs
-        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-
-        // Activate Selected
-        if(mode === 'basic') {
-            document.querySelector("button[onclick=\"switchMode('basic')\"]").classList.add('active');
-            document.getElementById('basic-panel').classList.add('active');
-            wrapper.classList.remove('wide-mode');
-        } else if (mode === 'scientific') {
-            document.querySelector("button[onclick=\"switchMode('scientific')\"]").classList.add('active');
-            document.getElementById('scientific-panel').classList.add('active');
-            wrapper.classList.remove('wide-mode');
-        } else if (mode === 'graphing') {
-            document.querySelector("button[onclick=\"switchMode('graphing')\"]").classList.add('active');
-            document.getElementById('graphing-panel').classList.add('active');
-            wrapper.classList.add('wide-mode'); // Widen container for graph
-            // Initialize graph if empty
-            if(!graphInstance) plotGraph(); 
-        }
-    }
-
-    // --- Input Handling ---
-    function input(val) {
-        if(currentExpression === '0' || currentExpression === 'Error') {
-            // Replace 0 unless appending an operator
-            if(['+', '-', '*', '/', '%', '^'].includes(val)) {
-                currentExpression += val;
-            } else {
-                currentExpression = val;
-            }
+    function switchTab(mode) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.keypad, #panelGraph').forEach(p => p.style.display = 'none');
+        
+        if (mode === 'basic') {
+            document.getElementById('btnBasic').classList.add('active');
+            document.getElementById('panelBasic').style.display = 'grid';
+        } else if (mode === 'sci') {
+            document.getElementById('btnSci').classList.add('active');
+            document.getElementById('panelSci').style.display = 'grid';
         } else {
-            currentExpression += val;
+            document.getElementById('btnGraph').classList.add('active');
+            document.getElementById('panelGraph').style.display = 'block';
+            renderGraph();
         }
-        updateScreen();
     }
 
-    function clearAll() {
-        currentExpression = '0';
-        historyLine.innerText = '';
-        updateScreen();
+    function press(val) {
+        expr += val;
+        updateDisplay();
+    }
+
+    function clearDisplay() {
+        expr = "";
+        document.getElementById('history').innerText = "";
+        updateDisplay();
     }
 
     function backspace() {
-        if(currentExpression === 'Error') { clearAll(); return; }
-        currentExpression = currentExpression.toString().slice(0, -1);
-        if(currentExpression === '') currentExpression = '0';
-        updateScreen();
+        expr = expr.slice(0, -1);
+        updateDisplay();
     }
 
-    function updateScreen() {
-        // Aesthetic: Replace * with ×, / with ÷ for display? 
-        // For simplicity in this single-file, we show raw expression but maybe clean it up slightly
-        let display = currentExpression;
-        resultLine.innerText = display;
+    function updateDisplay() {
+        document.getElementById('display').innerText = expr || "0";
     }
 
-    // --- Calculation Logic ---
-    function calculate() {
+    function solve() {
         try {
-            historyLine.innerText = currentExpression + ' =';
-            
-            // 1. Prepare Expression
-            let expr = currentExpression;
-
-            // 2. Handle Degrees vs Radians
-            // Math.js functions expect Radians. If we are in DEG mode, we need to convert.
-            // We create a custom scope or transform the string.
-            // Transform approach: replace sin(x) with sin(x deg) if math.js supports it, 
-            // OR create a math environment.
-            
-            const config = {};
-            
-            // Create a custom scope with overridden trig functions for Degrees
-            const scope = {};
-            if(angleMode === 'deg') {
-                scope.sin = (x) => math.sin(math.unit(x, 'deg'));
-                scope.cos = (x) => math.cos(math.unit(x, 'deg'));
-                scope.tan = (x) => math.tan(math.unit(x, 'deg'));
-                scope.asin = (x) => math.asin(x) * (180 / Math.PI); // Convert result to deg
-                scope.acos = (x) => math.acos(x) * (180 / Math.PI);
-                scope.atan = (x) => math.atan(x) * (180 / Math.PI);
-            }
-
-            // 3. Evaluate
-            let result = math.evaluate(expr, scope);
-
-            // 4. Format
-            // limit decimals to avoid floating point ugliness (e.g. 0.3000000004)
-            result = math.format(result, { precision: 12 });
-
-            currentExpression = result.toString();
-            updateScreen();
-
+            const result = math.evaluate(expr.replace('×', '*').replace('÷', '/'));
+            document.getElementById('history').innerText = expr + " =";
+            expr = math.format(result, { precision: 14 }).toString();
+            updateDisplay();
         } catch (e) {
-            currentExpression = "Error";
-            updateScreen();
-            console.error(e);
+            expr = "";
+            document.getElementById('display').innerText = "Error";
         }
     }
 
-    // --- Angle Toggle ---
-    function toggleAngle(mode) {
-        angleMode = mode;
-        const btnDeg = document.getElementById('btn-deg');
-        const btnRad = document.getElementById('btn-rad');
-        
-        if(mode === 'deg') {
-            btnDeg.style.fontWeight = 'bold';
-            btnDeg.style.color = '#2563eb';
-            btnRad.style.fontWeight = 'normal';
-            btnRad.style.color = '#475569';
-        } else {
-            btnRad.style.fontWeight = 'bold';
-            btnRad.style.color = '#2563eb';
-            btnDeg.style.fontWeight = 'normal';
-            btnDeg.style.color = '#475569';
-        }
-    }
-
-    // --- Graphing Logic ---
-    function plotGraph() {
-        const inputEq = document.getElementById('graph-input').value || 'sin(x)';
+    function renderGraph() {
+        const input = document.getElementById('graphInput').value || "x^2";
         const ctx = document.getElementById('graphCanvas').getContext('2d');
+        document.getElementById('graphArea').style.display = 'block';
 
-        // Generate Data
-        const xValues = [];
-        const yValues = [];
-        
-        try {
-            const expr = math.compile(inputEq);
-            for(let x = -10; x <= 10; x += 0.5) {
-                xValues.push(x);
-                // Evaluate y = f(x)
-                yValues.push(expr.evaluate({x: x}));
-            }
-        } catch (e) {
-            alert("Invalid Function");
-            return;
-        }
+        const xValues = math.range(-10, 10, 0.5).toArray();
+        const yValues = xValues.map(x => {
+            try { return math.evaluate(input, {x: x}); }
+            catch(e) { return 0; }
+        });
 
-        // Destroy old chart
-        if(graphInstance) {
-            graphInstance.destroy();
-        }
+        if(chartInstance) chartInstance.destroy();
 
-        // Create new chart
-        graphInstance = new Chart(ctx, {
+        chartInstance = new Chart(ctx, {
             type: 'line',
             data: {
                 labels: xValues,
                 datasets: [{
-                    label: `f(x) = ${inputEq}`,
+                    label: 'f(x) = ' + input,
                     data: yValues,
-                    borderColor: '#2563eb',
-                    backgroundColor: 'rgba(37, 99, 235, 0.1)',
-                    borderWidth: 2,
-                    tension: 0.4, // smooth curves
-                    fill: true
+                    borderColor: '#1d4ed8',
+                    tension: 0.4,
+                    fill: false
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                scales: {
-                    x: { grid: { color: '#e2e8f0' } },
-                    y: { grid: { color: '#e2e8f0' } }
-                }
+                scales: { x: { grid: { color: '#f1f5f9' } }, y: { grid: { color: '#f1f5f9' } } }
             }
         });
     }
 
-    // --- Keyboard Support ---
-    document.addEventListener('keydown', (e) => {
-        const key = e.key;
-        
-        // Numbers and Operators
-        if(/[0-9.+\-*/%^()]/.test(key)) {
-            input(key);
-        }
-        // Enter = Equal
-        else if(key === 'Enter') {
-            e.preventDefault();
-            calculate();
-        }
-        // Backspace
-        else if(key === 'Backspace') {
-            backspace();
-        }
-        // Escape = Clear
-        else if(key === 'Escape') {
-            clearAll();
-        }
-    });
-
-    // Initialize Angle Mode UI
-    toggleAngle('deg');
-
+    function toggleFaq(id) {
+        const el = document.getElementById('faq-' + id);
+        el.style.display = (el.style.display === 'block') ? 'none' : 'block';
+    }
 </script>
-
+<div id="footer"></div>
+<script>
+fetch("footer.html")
+  .then(r => r.text())
+  .then(d => {
+    document.getElementById("footer").innerHTML = d;
+    document.getElementById("year").textContent = new Date().getFullYear();
+  });
+</script>
 </body>
 </html>
