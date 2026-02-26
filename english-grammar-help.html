@@ -4,18 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
     <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-8GTQC904G1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-8GTQC904G1');
-</script>
-
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8GTQC904G1"></script>
+    <script>
+      window.dataLayer = window.dataLayer ||[];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-8GTQC904G1');
+    </script>
 
     <!-- ✅ SEO META TAGS -->
     <title>English Grammar Help & Corrector Tool | Toolvala</title>
@@ -89,7 +86,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     <style>
         /* --- CSS VARIABLES --- */
         :root {
-            --primary: #8b5cf6; /* Violet Theme for Writing/Grammar */
+            --primary: #8b5cf6; 
             --primary-light: #a78bfa;
             --primary-dark: #6d28d9;
             --primary-bg: #f5f3ff;
@@ -299,7 +296,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
                     <div class="field-header">
                         <label class="field-label" for="inputText">Original Text</label>
                     </div>
-                    <textarea id="inputText" placeholder="Paste your messy, unformatted text here. For example: i went to teh store ,but it was closed  ."></textarea>
+                    <!-- Added a more comprehensive placeholder to show off capabilities -->
+                    <textarea id="inputText" placeholder="Paste your messy text here. For example: i went to teh store ,but it was closed  . dont forget to email me at test@example.com"></textarea>
                 </div>
 
                 <!-- Output Box -->
@@ -345,11 +343,12 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         <p>This utility is an advanced script that scans your raw text and applies strict English formatting rules. It does not rewrite your sentences or change your writing style; instead, it focuses on the structural mechanics of your writing. It ensures that every sentence starts with a capital letter, that punctuation marks have the correct spacing, and that common typing mistakes (like "recieve" instead of "receive") are automatically replaced.</p>
 
         <h2>How the Grammar Fixer Works</h2>
-        <p>When you click "Analyze & Fix," the tool runs your text through a series of Regular Expression (Regex) filters. Here is exactly what it fixes:</p>
+        <p>When you click "Analyze & Fix," the tool runs your text through a series of intelligent Regular Expression (Regex) filters. Here is exactly what it fixes:</p>
         <ul>
-            <li><strong>Sentence Capitalization:</strong> Scans for the beginning of sentences (after a period, exclamation mark, or question mark) and capitalizes the first letter.</li>
-            <li><strong>Pronoun 'I' Capitalization:</strong> Finds every instance of a lowercase standalone "i" and converts it to a capital "I".</li>
-            <li><strong>Punctuation Spacing:</strong> Removes spaces *before* commas and periods (e.g., <code>word ,</code> becomes <code>word,</code>), and ensures there is exactly one space *after* them.</li>
+            <li><strong>URL & Email Protection:</strong> It temporarily hides your links and emails so it doesn't accidentally break them while fixing punctuation.</li>
+            <li><strong>Sentence Capitalization:</strong> Scans for the beginning of sentences and capitalizes the first letter, while smartly ignoring abbreviations like <em>Mr.</em>, <em>Dr.</em>, and <em>e.g.</em></li>
+            <li><strong>Pronoun 'I' Capitalization:</strong> Finds every instance of a lowercase standalone "i" and converts it to a capital "I" (including contractions like "i'm" &rarr; "I'm").</li>
+            <li><strong>Punctuation Spacing:</strong> Removes spaces *before* commas and periods (e.g., <code>word ,</code> becomes <code>word,</code>), and ensures there is exactly one space *after* them without breaking decimal numbers.</li>
             <li><strong>Extra Spaces Removal:</strong> Eliminates accidental double or triple spaces between words.</li>
             <li><strong>Common Typo Correction:</strong> Runs the text through a database of the most commonly misspelled English words (e.g., <em>teh &rarr; the</em>, <em>alot &rarr; a lot</em>, <em>definitly &rarr; definitely</em>).</li>
         </ul>
@@ -371,6 +370,10 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
             <details>
                 <summary>Is my text uploaded to a server for checking?</summary>
                 <div class="faq-content">No. Unlike other grammar checkers that read your data on their servers, this tool runs entirely locally in your web browser using JavaScript. Your text remains 100% private.</div>
+            </details>
+            <details>
+                <summary>Will this tool mess up my website URLs or Emails?</summary>
+                <div class="faq-content">No! We use an advanced isolation protocol that identifies web links and email addresses <em>before</em> processing, protecting them from being altered by the grammar and spacing rules.</div>
             </details>
             <details>
                 <summary>Can it fix complex sentence structure?</summary>
@@ -423,93 +426,147 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 <div id="toast" class="toast"><i class="fa-solid fa-circle-check" style="color:#10b981;"></i> Text Copied to Clipboard!</div>
 
 <!-- ========================= -->
-<!-- JAVASCRIPT LOGIC -->
+<!-- ADVANCED JAVASCRIPT LOGIC -->
 <!-- ========================= -->
 <script>
-    // Dictionary of common typos to fix
+    // Expanded dictionary of absolute typos (avoids context-dependent words)
     const typosMap = {
         "teh": "the", "recieve": "receive", "alot": "a lot", "definitly": "definitely", 
-        "seperate": "separate", "occured": "occurred", "untill": "until", "truely": "truly",
-        "wierd": "weird", "accomodate": "accommodate", "tommorow": "tomorrow", "belive": "believe",
-        "im": "I'm", "dont": "don't", "cant": "can't", "wont": "won't", "ive": "I've", "thats": "that's"
+        "definately": "definitely", "seperate": "separate", "occured": "occurred", 
+        "untill": "until", "truely": "truly", "wierd": "weird", "accomodate": "accommodate", 
+        "tommorow": "tomorrow", "belive": "believe", "wich": "which", "thier": "their",
+        "im": "I'm", "dont": "don't", "cant": "can't", "wont": "won't", "ive": "I've", 
+        "thats": "that's", "didnt": "didn't", "isnt": "isn't", "doesnt": "doesn't",
+        "wouldnt": "wouldn't", "couldnt": "couldn't", "shouldnt": "shouldn't", 
+        "wasnt": "wasn't", "werent": "weren't", "youre": "you're", "theyre": "they're"
     };
 
+    // Sort keys by length descending so "definately" is checked before "def"
+    const typoKeys = Object.keys(typosMap).sort((a,b) => b.length - a.length);
+    const typoRegex = new RegExp("\\b(" + typoKeys.join("|") + ")\\b", "gi");
+
     function fixGrammar() {
-        let text = document.getElementById("inputText").value;
-        const originalText = text;
-        const fixesList = document.getElementById("fixesList");
-        const fixesSummary = document.getElementById("fixesSummary");
+        const inputEl = document.getElementById("inputText");
+        const outputEl = document.getElementById("outputText");
         const badge = document.getElementById("fixBadge");
+        const fixesSummary = document.getElementById("fixesSummary");
+        const fixesList = document.getElementById("fixesList");
         
-        let stats = {
-            spaces: 0,
-            caps: 0,
-            iCap: 0,
-            punct: 0,
-            typos: 0
-        };
+        let text = inputEl.value;
+        
+        if (!text.trim()) {
+            outputEl.value = "";
+            fixesSummary.style.display = "none";
+            badge.style.display = "none";
+            return;
+        }
 
-        if (!text.trim()) return;
+        const originalText = text;
+        let stats = { spaces: 0, punct: 0, iCap: 0, caps: 0, typos: 0 };
 
-        // 1. Fix Extra Spaces
-        let prevText = text;
-        text = text.replace(/ {2,}/g, ' ');
-        if (prevText !== text) stats.spaces++;
-
-        // 2. Fix Punctuation Spacing (Remove space before , . ! ?)
-        prevText = text;
-        text = text.replace(/\s+([.,!?])/g, '$1');
-        // Ensure space AFTER punctuation (if followed by a letter)
-        text = text.replace(/([.,!?])([a-zA-Z])/g, '$1 $2');
-        if (prevText !== text) stats.punct++;
-
-        // 3. Capitalize the standalone pronoun "I"
-        prevText = text;
-        text = text.replace(/\b[i]\b/g, 'I');
-        // Fix lowercase i in contractions like i'm -> I'm
-        text = text.replace(/\bi'([a-z]+)\b/g, "I'$1");
-        if (prevText !== text) stats.iCap++;
-
-        // 4. Capitalize sentences
-        prevText = text;
-        text = text.replace(/(^\s*|[.!?]\s+)([a-z])/g, function(match, p1, p2) {
-            return p1 + p2.toUpperCase();
+        // --- 1. PRESERVE URLs AND EMAILS ---
+        // This stops the punctuation formatter from turning "google.com" into "google. com"
+        const urlEmailRegex = /(https?:\/\/[^\s]+)|([a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g;
+        let preservedItems =[];
+        text = text.replace(urlEmailRegex, function(match) {
+            preservedItems.push(match);
+            return `__PRESERVED_${preservedItems.length - 1}__`;
         });
-        if (prevText !== text) stats.caps++;
 
-        // 5. Fix common typos
-        let typoRegex = new RegExp("\\b(" + Object.keys(typosMap).join("|") + ")\\b", "gi");
-        prevText = text;
-        text = text.replace(typoRegex, function(matched) {
-            let lowerMatched = matched.toLowerCase();
-            let correction = typosMap[lowerMatched];
-            // Preserve capitalization
-            if (matched[0] === matched[0].toUpperCase()) {
+        // --- 2. EXTRA SPACES ---
+        let prev = text;
+        text = text.replace(/[ \t]{2,}/g, ' '); // Replace double spaces/tabs, but preserve \n newlines
+        if (text !== prev) stats.spaces++;
+
+        // --- 3. PUNCTUATION SPACING ---
+        prev = text;
+        // Remove spaces BEFORE punctuation
+        text = text.replace(/[ \t]+([.,!?:;])/g, '$1');
+        // Add a single space AFTER punctuation if it's immediately followed by a letter
+        text = text.replace(/([.,!?:;])(?=[a-zA-Z])/g, '$1 ');
+
+        // Protect standard abbreviations that just got spaced out
+        const abbreviations =['i. e.', 'e. g.', 'U. S.', 'U. K.', 'a. m.', 'p. m.', 'P. S.'];
+        abbreviations.forEach(abbr => {
+            let fixed = abbr.replace(/ /g, '');
+            // Case insensitive replacement for abbreviations
+            let regex = new RegExp(abbr.replace(/\./g, '\\.'), 'gi');
+            text = text.replace(regex, match => match.replace(/ /g, ''));
+        });
+        if (text !== prev) stats.punct++;
+
+        // --- 4. CAPITALIZE 'I' ---
+        prev = text;
+        text = text.replace(/\b[i]\b/g, 'I');
+        // Handle lower case contractions like i'm, i've, i'll, i'd
+        text = text.replace(/\bi'(m|ve|ll|d)\b/g, "I'$1");
+        if (text !== prev) stats.iCap++;
+
+        // --- 5. CAPITALIZE SENTENCES ---
+        prev = text;
+        const exceptions =['mr.', 'mrs.', 'ms.', 'dr.', 'prof.', 'vs.', 'e.g.', 'i.e.', 'st.', 'inc.', 'ltd.'];
+        
+        // Match start of string OR punctuation followed by space/newlines OR just newlines, then a letter
+        text = text.replace(/(^|[.!?]\s+|\n+)([a-z])/g, function(match, separator, letter, offset, fullStr) {
+            // If the separator includes a period, check if it belongs to an abbreviation exception
+            if (separator.includes('.')) {
+                let isException = false;
+                for (let ex of exceptions) {
+                    // Extract the word preceding the period
+                    let lookbackStart = Math.max(0, offset - ex.length - separator.length + 1);
+                    let lookback = fullStr.substring(lookbackStart, offset).trim().toLowerCase();
+                    if (lookback.endsWith(ex)) {
+                        isException = true;
+                        break;
+                    }
+                }
+                if (isException) return match; // Do not capitalize
+            }
+            return separator + letter.toUpperCase();
+        });
+        if (text !== prev) stats.caps++;
+
+        // --- 6. COMMON TYPOS ---
+        prev = text;
+        text = text.replace(typoRegex, function(match) {
+            let lowerMatch = match.toLowerCase();
+            let correction = typosMap[lowerMatch];
+            if (!correction) return match; 
+            
+            // Match original capitalization
+            if (match[0] === match[0].toUpperCase()) {
                 correction = correction.charAt(0).toUpperCase() + correction.slice(1);
             }
             return correction;
         });
-        if (prevText !== text) stats.typos++;
+        if (text !== prev) stats.typos++;
 
-        // Output logic
-        document.getElementById("outputText").value = text;
+        // --- 7. RESTORE URLs AND EMAILS ---
+        preservedItems.forEach((item, index) => {
+            text = text.replace(`__PRESERVED_${index}__`, item);
+        });
 
-        // Build summary
+        // --- 8. OUTPUT TO UI ---
+        outputEl.value = text;
+
+        // Build Summary UI
         fixesList.innerHTML = "";
         let totalFixes = 0;
 
-        if (stats.spaces > 0) { fixesList.innerHTML += `<li><i class="fa-solid fa-check"></i> Extra Spaces Removed</li>`; totalFixes++; }
-        if (stats.punct > 0) { fixesList.innerHTML += `<li><i class="fa-solid fa-check"></i> Punctuation Spacing Fixed</li>`; totalFixes++; }
+        if (stats.spaces > 0) { fixesList.innerHTML += `<li><i class="fa-solid fa-check"></i> Spaces Cleaned</li>`; totalFixes++; }
+        if (stats.punct > 0) { fixesList.innerHTML += `<li><i class="fa-solid fa-check"></i> Punctuation Formatted</li>`; totalFixes++; }
         if (stats.iCap > 0) { fixesList.innerHTML += `<li><i class="fa-solid fa-check"></i> 'I' Capitalized</li>`; totalFixes++; }
         if (stats.caps > 0) { fixesList.innerHTML += `<li><i class="fa-solid fa-check"></i> Sentences Capitalized</li>`; totalFixes++; }
-        if (stats.typos > 0) { fixesList.innerHTML += `<li><i class="fa-solid fa-check"></i> Common Typos Corrected</li>`; totalFixes++; }
+        if (stats.typos > 0) { fixesList.innerHTML += `<li><i class="fa-solid fa-check"></i> Typos Fixed</li>`; totalFixes++; }
 
         if (totalFixes > 0 && text !== originalText) {
             fixesSummary.style.display = "block";
             badge.style.display = "inline-block";
-            badge.innerText = `${totalFixes} Types of Fixes Made`;
+            badge.innerText = `${totalFixes} Rule Types Applied`;
+            badge.style.backgroundColor = "var(--primary)";
         } else {
-            fixesSummary.style.display = "none";
+            fixesSummary.style.display = "block"; // Show to indicate it ran
+            fixesList.innerHTML = `<li><i class="fa-solid fa-thumbs-up"></i> Looks Good! No major errors found.</li>`;
             badge.style.display = "inline-block";
             badge.innerText = "No Errors Found";
             badge.style.backgroundColor = "var(--success)";
@@ -543,6 +600,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         }, 2500);
     }
 </script>
+
 <div id="footer"></div>
 <script>
 fetch("footer.html")
@@ -552,5 +610,6 @@ fetch("footer.html")
     document.getElementById("year").textContent = new Date().getFullYear();
   });
 </script>
+
 </body>
 </html>
