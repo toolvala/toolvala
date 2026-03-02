@@ -8,12 +8,16 @@
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-8GTQC904G1"></script>
 <script>
-  window.dataLayer=window.dataLayer||[];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js',new Date());
-  gtag('config','G-8GTQC904G1');
+window.dataLayer=window.dataLayer||[];
+function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());
+gtag('config','G-8GTQC904G1');
 </script>
 
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<!-- SEO -->
 <meta name="description" content="Merge passport photo and signature into a single image online for free. Perfect for UPSC, SSC, IBPS, GATE exams. 100% client-side, secure, no upload. Toolvala.in">
 <meta name="keywords" content="photo and signature merger, combine photo and signature, merge images for exam, join photo signature online, ssc photo signature merger, upsc photo merger, toolvala">
 <meta name="robots" content="index, follow">
@@ -23,6 +27,7 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.toolvala.in/photo-and-signature-merger.html">
 
+<!-- Schema -->
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Photo & Signature Merger","applicationCategory":"PhotoEditor","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"INR"},"description":"Browser-based tool to merge passport photos and signatures for exam applications.","url":"https://www.toolvala.in/photo-and-signature-merger.html"}
 </script>
@@ -78,7 +83,7 @@ canvas{max-width:100%;height:auto;border:1px solid #e2e8f0;border-radius:8px;box
 .tlink{display:flex;flex-direction:column;align-items:center;gap:6px;background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:14px 10px;text-decoration:none;color:#334155;font-size:.8rem;font-weight:600;transition:all .2s;text-align:center}
 .tlink:hover{border-color:#2563eb;color:#2563eb;transform:translateY(-2px)}
 .tlink-icon{font-size:1.3rem}
-.article{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:32px;margin-top:40px}
+.article{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:32px;margin-top:40px;margin-bottom:40px}
 .article h2{font-size:1.35rem;font-weight:800;color:#1e40af;margin:28px 0 10px;padding-left:10px;border-left:4px solid #2563eb}
 .article h2:first-child{margin-top:0}
 .article h3{font-size:1.05rem;font-weight:700;color:#0f172a;margin:18px 0 7px}
@@ -136,7 +141,7 @@ td{color:#334155}
             </div>
             <div class="upbox" id="sigBox">
               <input type="file" id="sigInput" accept="image/*">
-              <div class="upbox-icon">&#9997;&#65039;</div>
+              <div class="upbox-icon">&#9997;</div>
               <div class="upbox-label">Upload Signature</div>
               <div class="upbox-status" id="sigStatus">Click or drag image here</div>
             </div>
@@ -205,7 +210,7 @@ td{color:#334155}
       <a href="upsc-photo-maker.html" class="tlink"><span class="tlink-icon">&#127963;</span>UPSC Photo Maker</a>
       <a href="photo-compressor.html" class="tlink"><span class="tlink-icon">&#128288;</span>Photo Compressor</a>
       <a href="image-compressor-by-kb.html" class="tlink"><span class="tlink-icon">&#128444;</span>Compress by KB</a>
-      <a href="signature-resizer.html" class="tlink"><span class="tlink-icon">&#9997;&#65039;</span>Signature Resizer</a>
+      <a href="signature-resizer.html" class="tlink"><span class="tlink-icon">&#9997;</span>Signature Resizer</a>
     </div>
   </div>
 
@@ -220,7 +225,7 @@ td{color:#334155}
     <h2>Why Do Exams Require a Merged Photo-Signature Image?</h2>
     <ul>
       <li><strong>Database Efficiency:</strong> One file per candidate reduces server storage compared to two separate files.</li>
-      <li><strong>Admit Card Automation:</strong> Software places one image block (photo + sign) instead of calculating alignment for two separate elements.</li>
+      <li><strong>Admit Card Automation:</strong> Software places one image block instead of calculating alignment for two separate elements.</li>
       <li><strong>Identity Verification:</strong> A combined image links your face to your signature in a single verifiable document.</li>
     </ul>
 
@@ -268,7 +273,7 @@ td{color:#334155}
       <li><strong>Crop tightly:</strong> Large white borders around the signature make it look tiny after merging.</li>
       <li><strong>Scan at 200 DPI:</strong> Good balance of quality and file size for signatures.</li>
     </ul>
-    <div class="abox">&#9888;&#65039; <strong>Common Mistake:</strong> Excessive white space around your signature image will make it appear very small in the merged output. Always crop it tightly before uploading.</div>
+    <div class="abox">&#9888; <strong>Common Mistake:</strong> Excessive white space around your signature image will make it appear very small in the merged output. Always crop it tightly before uploading.</div>
 
     <h2>Frequently Asked Questions</h2>
     <div class="faq">
@@ -302,19 +307,6 @@ td{color:#334155}
 
 </div>
 
-<!-- SHARED FOOTER -->
-<div id="footer"></div>
-<script>
-  fetch("footer.html")
-    .then(function(r){return r.text();})
-    .then(function(d){
-      document.getElementById("footer").innerHTML=d;
-      var yr=document.getElementById("year");
-      if(yr) yr.textContent=new Date().getFullYear();
-    })
-    .catch(function(){});
-</script>
-
 <script>
 var photoInput=document.getElementById('photoInput');
 var sigInput=document.getElementById('sigInput');
@@ -339,8 +331,8 @@ function loadImage(file,type){
   reader.onload=function(e){
     var img=new Image();
     img.onload=function(){
-      if(type==='photo'){photoImg=img;photoStatus.textContent='OK '+file.name;photoBox.classList.add('done');}
-      else{sigImg=img;sigStatus.textContent='OK '+file.name;sigBox.classList.add('done');}
+      if(type==='photo'){photoImg=img;photoStatus.textContent='✅ '+file.name;photoBox.classList.add('done');}
+      else{sigImg=img;sigStatus.textContent='✅ '+file.name;sigBox.classList.add('done');}
       if(photoImg&&sigImg){dlBtn.disabled=false;draw();}
     };
     img.src=e.target.result;
@@ -354,16 +346,10 @@ sigInput.addEventListener('change',function(e){loadImage(e.target.files[0],'sig'
 ['sigScale','gapSize','quality','outWidth'].forEach(function(id){
   document.getElementById(id).addEventListener('input',draw);
 });
-document.querySelectorAll('input[name="ori"]').forEach(function(r){
-  r.addEventListener('change',draw);
-});
+document.querySelectorAll('input[name="ori"]').forEach(function(r){r.addEventListener('change',draw);});
 
-document.getElementById('sigScale').addEventListener('input',function(){
-  document.getElementById('scaleVal').textContent=this.value+'%';
-});
-document.getElementById('gapSize').addEventListener('input',function(){
-  document.getElementById('gapVal').textContent=this.value+'px';
-});
+document.getElementById('sigScale').addEventListener('input',function(){document.getElementById('scaleVal').textContent=this.value+'%';});
+document.getElementById('gapSize').addEventListener('input',function(){document.getElementById('gapVal').textContent=this.value+'px';});
 document.getElementById('quality').addEventListener('input',function(){
   var v=parseFloat(this.value);
   document.getElementById('qualityVal').textContent=v>=0.8?'High':v>=0.5?'Med':'Low';
@@ -405,10 +391,29 @@ dlBtn.addEventListener('click',function(){
   a.click();
 });
 </script>
-  <footer class="site-footer">
+ <footer class="site-footer">
   <p>© <script>document.write(new Date().getFullYear())</script> Toolvala.in · All rights reserved</p>
-  <nav class="footer-links">...</nav>
-  <div class="footer-social">...</div>
+  <nav class="footer-links">
+    <a href="/about-us.html">About Us</a> |
+    <a href="/privacy-policy.html">Privacy Policy</a> |
+    <a href="/sitemap.html">Sitemap</a> |
+    <a href="/contact.html">Contact</a> |
+    <a href="/legal.html">Legal Pages</a>
+  </nav>
+  <div class="footer-social">
+    <a href="https://x.com/toolvala" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>
+    <a href="https://facebook.com/toolvala" target="_blank"><i class="fa-brands fa-facebook"></i></a>
+    <a href="https://instagram.com/tool.vala" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+    <a href="mailto:toolvala@gmail.com"><i class="fa-solid fa-envelope"></i></a>
+  </div>
 </footer>
+<style>
+.site-footer{text-align:center;padding:20px;color:#666;border-top:2px solid #2563eb;}
+.footer-links a{color:#2563eb;text-decoration:none;font-size:.85rem;}
+.footer-links a:hover{text-decoration:underline;}
+.footer-social{margin-top:10px;}
+.footer-social a{margin:0 8px;color:#555;font-size:18px;}
+.footer-social a:hover{color:#2563eb;}
+</style> 
 </body>
 </html>
