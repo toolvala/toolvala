@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Scrambler & Unscrambler | Anagram Solver Tool</title>
+    <meta name="description" content="Free Word Scrambler and Unscrambler tool. Mix letters to create puzzles or solve anagrams instantly. Perfect for Scrabble, Wordle, and teachers.">
+    <meta name="keywords" content="word scrambler, word unscrambler, anagram solver, text jumble, word mixer, puzzle maker, scramble generator, letter permuter">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="Toolvala">
+    <meta property="og:title" content="Word Scrambler & Unscrambler | Create & Solve Puzzles">
+    <meta property="og:description" content="Instantly scramble text for puzzles or unscramble letters to find all combinations. Free online tool.">
+    <meta property="og:type" content="website">
+    <link rel="canonical" href="https://www.toolvala.in/word-scrambler.html">
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8GTQC904G1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-8GTQC904G1');
+    </script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Schema Markup -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Word Scrambler Tool",
+        "description": "A tool to mix letters into random order or generate anagrams from a set of letters.",
+        "url": "https://www.toolvala.in/word-scrambler.html",
+        "applicationCategory": "EducationalApplication",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        }
+    }
+    </script>
+
+    <style>
+        /* Base Styles */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            padding: 20px; 
+        }
+        
+        /* Header - Left Aligned */
+        header { background: #fff; border-bottom: 1px solid #e0e0e0; margin-bottom: 30px; }
+        .header-inner { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            padding: 20px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+        .header-brand { font-size: 1.3rem; font-weight: 700; color: #333; }
+        .header-brand a { text-decoration: none; color: #333; }
+        header h1 { font-size: 1.5rem; font-weight: 500; color: #333; }
+
+        /* Layout Grid */
+        .main-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; margin-bottom: 40px; }
+        
+        /* Cards */
+        .tool-card-main, .content-section, .related-tools-section, .faq-section {
+            background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 30px; margin-bottom: 30px;
+        }
+
+        h2 { color: #333; margin-bottom: 20px; font-size: 1.4rem; font-weight: 600; text-align: left; }
+        h3 { color: #333; margin: 25px 0 15px 0; font-size: 1.2rem; font-weight: 600; text-align: left; }
+
+        /* Tabs */
+        .tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid #ddd; }
+        .tab-btn {
+            padding: 10px 20px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #666;
+            transition: all 0.3s;
+        }
+        .tab-btn:hover { color: #0066cc; }
+        .tab-btn.active { color: #0066cc; border-bottom-color: #0066cc; }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* Inputs */
+        label { display: block; margin-bottom: 8px; color: #333; font-weight: 500; }
+        
+        textarea {
+            width: 100%; height: 100px; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem; font-family: inherit; resize: vertical; margin-bottom: 15px;
+        }
+        textarea:focus { outline: none; border-color: #0066cc; box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.1); }
+
+        input[type="text"] {
+            width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem; margin-bottom: 15px;
+        }
+
+        /* Result Box */
+        .result-area {
+            background: #f0f7ff;
+            border: 1px solid #cce5ff;
+            border-radius: 6px;
+            padding: 20px;
+            margin: 20px 0;
+            min-height: 80px;
+            font-family: monospace;
+            font-size: 1.1rem;
+            white-space: pre-wrap;
+            word-break: break-all;
+            color: #333;
+        }
+        
+        .perm-list {
+            display: flex; flex-wrap: wrap; gap: 10px;
+        }
+        .perm-tag {
+            background: #fff; border: 1px solid #ddd; padding: 5px 10px; border-radius: 4px; font-size: 0.9rem;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            width: 100%; background: #0066cc; color: white; padding: 15px; border: none; border-radius: 6px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: background 0.2s;
+        }
+        .btn-primary:hover { background: #0052a3; }
+        
+        .action-row { display: flex; gap: 10px; margin-top: 10px; }
+        .btn-secondary {
+            flex: 1; padding: 10px; background: #fff; border: 1px solid #ddd; color: #555; border-radius: 6px; cursor: pointer; font-weight: 500; transition: all 0.2s;
+        }
+        .btn-secondary:hover { background: #f5f5f5; border-color: #ccc; }
+
+        /* Sidebar Tools */
+        .tools-grid { display: grid; grid-template-columns: 1fr; gap: 15px; margin-bottom: 20px; }
+        .tool-card {
+            background: #f9f9f9; padding: 15px; border-radius: 6px; text-decoration: none; color: #333; border: 1px solid #e0e0e0; transition: all 0.2s; display: flex; align-items: center; gap: 12px;
+        }
+        .tool-card:hover { border-color: #0066cc; background: #f0f7ff; }
+        .tool-card-icon { font-size: 1.5rem; min-width: 30px; text-align: center; }
+        .tool-card-text strong { color: #0066cc; display: block; margin-bottom: 3px; font-size: 0.95rem; }
+        .tool-card-text small { color: #999; font-size: 0.85rem; }
+
+        .category-links { display: flex; flex-wrap: wrap; gap: 8px; }
+        .category-link {
+            padding: 8px 12px; background: #f9f9f9; border-radius: 4px; text-decoration: none; color: #0066cc; font-weight: 500; border: 1px solid #e0e0e0; font-size: 0.9rem;
+        }
+        .category-link:hover { background: #0066cc; color: #fff; }
+
+        /* Content Styling */
+        .content-section p { color: #666; margin-bottom: 15px; text-align: left; }
+        .content-section ul { margin-left: 20px; margin-bottom: 20px; color: #666; text-align: left; }
+        .content-section li { margin-bottom: 8px; }
+        .content-section a { color: #0066cc; text-decoration: none; }
+
+        .warning-text { color: #d9534f; font-size: 0.9rem; margin-top: 5px; display: block; }
+
+        /* Toast */
+        .toast {
+            position: fixed; bottom: 20px; right: 20px; background: #333; color: white; padding: 12px 24px; border-radius: 4px; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+        }
+        .toast.show { opacity: 1; }
+
+        @media (max-width: 768px) {
+            .main-layout { grid-template-columns: 1fr; }
+            .header-inner { flex-direction: column; gap: 10px; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <div class="header-brand"><a href="index.html">Toolvala.in</a></div>
+            <h1>Word Scrambler & Unscrambler</h1>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="main-layout">
+            
+            <!-- LEFT COLUMN: TOOL & CONTENT -->
+            <div class="left-column">
+                
+                <!-- TOOL CARD -->
+                <div class="tool-card-main">
+                    <div class="tabs">
+                        <button class="tab-btn active" onclick="switchTab('scramble')">Word Scrambler</button>
+                        <button class="tab-btn" onclick="switchTab('unscramble')">Unscrambler (Solver)</button>
+                    </div>
+
+                    <!-- TAB 1: SCRAMBLER -->
+                    <div id="tab-scramble" class="tab-content active">
+                        <label for="scrambleInput">Enter text to scramble:</label>
+                        <textarea id="scrambleInput" placeholder="Type words or sentences here... e.g., Hello World"></textarea>
+                        
+                        <button class="btn-primary" onclick="scrambleText()">
+                            <i class="fas fa-random"></i> Scramble Text
+                        </button>
+
+                        <div class="result-area" id="scrambleOutput"></div>
+                        
+                        <div class="action-row">
+                            <button class="btn-secondary" onclick="copyToClipboard('scrambleOutput')">Copy Result</button>
+                            <button class="btn-secondary" onclick="document.getElementById('scrambleInput').value=''; document.getElementById('scrambleOutput').innerText=''">Clear</button>
+                        </div>
+                    </div>
+
+                    <!-- TAB 2: UNSCRAMBLER -->
+                    <div id="tab-unscramble" class="tab-content">
+                        <label for="unscrambleInput">Enter letters (Max 7):</label>
+                        <input type="text" id="unscrambleInput" placeholder="e.g., rleow" maxlength="7">
+                        <span class="warning-text">Note: Generates all possible combinations. Limited to 7 chars to prevent lag.</span>
+
+                        <button class="btn-primary" onclick="unscrambleText()" style="margin-top: 15px;">
+                            <i class="fas fa-magic"></i> Find Combinations
+                        </button>
+
+                        <div class="result-area" id="unscrambleOutput">
+                            <div style="color:#999; font-size:0.9rem;">Combinations will appear here...</div>
+                        </div>
+
+                        <div class="action-row">
+                            <button class="btn-secondary" onclick="copyToClipboard('unscrambleOutput')">Copy Combinations</button>
+                            <button class="btn-secondary" onclick="document.getElementById('unscrambleInput').value=''; document.getElementById('unscrambleOutput').innerHTML=''">Clear</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONTENT SECTION -->
+                <div class="content-section">
+                    <h2>Master Word Games with the Ultimate Scrambler & Unscrambler</h2>
+                    <p>Whether you are a teacher creating a quiz, a student studying for a spelling bee, or a gamer stuck on a level of Wordle or Scrabble, our <strong>Word Scrambler and Unscrambler</strong> is the perfect utility for text manipulation.</p>
+
+                    <h3>What is a Word Scrambler?</h3>
+                    <p>A word scrambler takes a standard word or sentence (like "Elephant") and rearranges the letters randomly (e.g., "lEpanht"). This is primarily used for:</p>
+                    <ul>
+                        <li><strong>Educational Puzzles:</strong> Teachers use scrambled words to help students learn vocabulary and spelling.</li>
+                        <li><strong>Brain Teasers:</strong> Challenge your friends to decode a secret message.</li>
+                        <li><strong>Password Generation:</strong> Mixing up a memorable phrase to create a secure, non-dictionary password.</li>
+                    </ul>
+
+                    <h3>What is a Word Unscrambler (Anagram Solver)?</h3>
+                    <p>An unscrambler takes a jumbled set of letters and rearranges them to find all possible valid permutations. This is commonly referred to as an <strong>Anagram Solver</strong>. It is incredibly useful for games where you are given a rack of tiles and need to form a valid word.</p>
+
+                    <h3>How to Use This Tool</h3>
+                    <p><strong>To Scramble:</strong> Simply type your word, phrase, or entire paragraph into the text box on the first tab. Click "Scramble Text," and the tool will shuffle the letters within each word while keeping the word order intact.</p>
+                    <p><strong>To Unscramble:</strong> Switch to the second tab. Enter the letters you have available (e.g., "rleow"). Due to the mathematical complexity of permutations (factorials), we limit this to 7 characters to ensure your browser remains fast. The tool will list every possible combination of those letters.</p>
+
+                    <h3>The Mathematics of Scrambling</h3>
+                    <p>The number of ways you can arrange a word is calculated using factorials ($n!$).</p>
+                    <ul>
+                        <li>A 3-letter word has $3 \times 2 \times 1 = 6$ combinations.</li>
+                        <li>A 5-letter word has $120$ combinations.</li>
+                        <li>A 7-letter word has $5,040$ combinations.</li>
+                        <li>A 10-letter word has over <strong>3.6 million</strong> combinations!</li>
+                    </ul>
+                    <p>This is why simple anagram solvers are limited in length—the possibilities grow exponentially with every letter you add.</p>
+
+                    <h3>Related Tools for Text & Documents</h3>
+                    <p>If you are working with text and documents, you might also find our <a href="signature-generator.html">Signature Generator</a> useful for signing emails. For document management, check out our <a href="photo-compressor.html">Photo Compressor</a> and <a href="sign-pdf.html">Sign PDF Tool</a>.</p>
+                </div>
+
+                <!-- FAQ SECTION -->
+                <div class="faq-section">
+                    <h2>Frequently Asked Questions</h2>
+                    
+                    <div class="faq-item" style="margin-bottom:15px;">
+                        <strong>Q: Can I scramble whole sentences?</strong>
+                        <p>Yes. The scrambler will keep the words in the correct order (Subject-Verb-Object) but will mix up the letters <em>inside</em> each word.</p>
+                    </div>
+
+                    <div class="faq-item" style="margin-bottom:15px;">
+                        <strong>Q: Why is the Unscrambler limited to 7 letters?</strong>
+                        <p>Generating permutations requires heavy computing power. 7 letters generate 5,040 combinations instantly. 10 letters would crash most mobile browsers. We limit it to keep the tool fast and responsive.</p>
+                    </div>
+
+                    <div class="faq-item">
+                        <strong>Q: Is this tool free?</strong>
+                        <p>Yes, Toolvala provides this Word Scrambler 100% free with no usage limits.</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- RIGHT COLUMN: SIDEBAR -->
+            <div class="right-column">
+                
+                <!-- Related Tools -->
+                <div class="related-tools-section">
+                    <h2 style="font-size: 1.2rem;">Popular Tools</h2>
+                    <div class="tools-grid">
+                        <a href="random-number-picker.html" class="tool-card">
+                            <div class="tool-card-icon">🎲</div>
+                            <div class="tool-card-text">
+                                <strong>Random Number Picker</strong>
+                                <small>RNG Tool</small>
+                            </div>
+                        </a>
+                        <a href="age-difference-calculator.html" class="tool-card">
+                            <div class="tool-card-icon">📅</div>
+                            <div class="tool-card-text">
+                                <strong>Age Calculator</strong>
+                                <small>Find exact age gap</small>
+                            </div>
+                        </a>
+                        <a href="passport-photo-resizer.html" class="tool-card">
+                            <div class="tool-card-icon">📸</div>
+                            <div class="tool-card-text">
+                                <strong>Passport Photo Resizer</strong>
+                                <small>Resize for documents</small>
+                            </div>
+                        </a>
+                        <a href="ssc-photo-tool.html" class="tool-card">
+                            <div class="tool-card-icon">👮</div>
+                            <div class="tool-card-text">
+                                <strong>SSC Photo Tool</strong>
+                                <small>Format for SSC exams</small>
+                            </div>
+                        </a>
+                        <a href="photo-compressor.html" class="tool-card">
+                            <div class="tool-card-icon">🗜️</div>
+                            <div class="tool-card-text">
+                                <strong>Photo Compressor</strong>
+                                <small>Reduce image size</small>
+                            </div>
+                        </a>
+                        <a href="signature-generator.html" class="tool-card">
+                            <div class="tool-card-icon">📧</div>
+                            <div class="tool-card-text">
+                                <strong>Signature Generator</strong>
+                                <small>Email signatures</small>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Categories -->
+                <div class="related-tools-section">
+                    <h2 style="font-size: 1.2rem;">Categories</h2>
+                    <div class="category-links">
+                        <a href="converters.html" class="category-link">Converters</a>
+                        <a href="expiry-date-tools.html" class="category-link">Expiry Date Tools</a>
+                        <a href="baby-family-tools.html" class="category-link">Baby & Family</a>
+                        <a href="finance-calculators.html" class="category-link">Finance</a>
+                        <a href="generator-tools.html" class="category-link">Generators</a>
+                        <a href="lifestyle-tools.html" class="category-link">Lifestyle</a>
+                        <a href="education-tools.html" class="category-link">Education</a>
+                        <a href="pdf-tools.html" class="category-link">PDF Tools</a>
+                        <a href="image-tools.html" class="category-link">Image Tools</a>
+                        <a href="general-calculators.html" class="category-link">Calculators</a>
+                        <a href="text-tools.html" class="category-link">Text Tools</a>
+                        <a href="all-tools.html" class="category-link">All Tools</a>
+                        <a href="articles.html" class="category-link">Articles</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast">Copied to clipboard!</div>
+
+    <script>
+        // Tab Switching Logic
+        function switchTab(tabName) {
+            // Hide all contents
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            // Deactivate all buttons
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            
+            // Activate selected
+            document.getElementById('tab-' + tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Scramble Function (Fisher-Yates Shuffle)
+        function scrambleText() {
+            const input = document.getElementById('scrambleInput').value;
+            if(!input.trim()) { alert("Please enter text first."); return; }
+
+            // Split by words so we don't mix letters across different words (preserving sentence structure)
+            const words = input.split(' ');
+            
+            const scrambledWords = words.map(word => {
+                // Keep punctuation or special chars in place if possible, but for simple scrambling:
+                // We shuffle the letters of the word.
+                const letters = word.split('');
+                for (let i = letters.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [letters[i], letters[j]] = [letters[j], letters[i]];
+                }
+                return letters.join('');
+            });
+
+            document.getElementById('scrambleOutput').innerText = scrambledWords.join(' ');
+        }
+
+        // Unscramble Function (Permutation Generator)
+        function unscrambleText() {
+            const input = document.getElementById('unscrambleInput').value.trim();
+            if(!input) { alert("Please enter letters."); return; }
+            if(input.length > 7) { alert("Maximum 7 characters allowed for performance."); return; }
+
+            const outputDiv = document.getElementById('unscrambleOutput');
+            outputDiv.innerHTML = '<div style="color:#666;">Calculating...</div>';
+
+            // Use timeout to allow UI to update before heavy calculation
+            setTimeout(() => {
+                const results = getPermutations(input);
+                // Remove duplicates using Set
+                const uniqueResults = [...new Set(results)];
+                
+                if (uniqueResults.length === 0) {
+                     outputDiv.innerHTML = "No combinations found.";
+                } else {
+                    let html = `<div style="margin-bottom:10px; font-weight:bold;">Found ${uniqueResults.length} combinations:</div><div class="perm-list">`;
+                    uniqueResults.forEach(word => {
+                        html += `<span class="perm-tag">${word}</span>`;
+                    });
+                    html += `</div>`;
+                    outputDiv.innerHTML = html;
+                }
+            }, 50);
+        }
+
+        // Permutation Logic (Recursive)
+        function getPermutations(string) {
+            if (string.length < 2) return [string];
+
+            let permutations = []; 
+
+            for (let i = 0; i < string.length; i++) {
+                let char = string[i];
+
+                // Skip if this char is same as previous char to avoid some duplicates early (if sorted), 
+                // but standard approach is safer for now.
+                if (string.indexOf(char) != i) continue;
+
+                let remainingString = string.slice(0, i) + string.slice(i + 1, string.length); 
+
+                for (let subPermutation of getPermutations(remainingString)) {
+                    permutations.push(char + subPermutation); 
+                }
+            }
+            return permutations;
+        }
+
+        // Copy Helper
+        function copyToClipboard(elementId) {
+            const el = document.getElementById(elementId);
+            const text = el.innerText;
+            if(!text) return;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const toast = document.getElementById('toast');
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 3000);
+            });
+        }
+    </script>
+
+    <div id="footer"></div>
+    <script>
+    fetch("/footer.html")
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById("footer").innerHTML = data;
+        var yearSpan = document.getElementById("year");
+        if (yearSpan) {
+          yearSpan.textContent = new Date().getFullYear();
+        }
+      });
+    </script>
+</body>
+</html>
