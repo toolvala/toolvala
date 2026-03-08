@@ -3,13 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet"
-     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">.
-
+    
     <!-- ✅ SEO & Indexing -->
-    <title>Ultimate Percentage Calculator | Online Tool 2026 – Toolvala.in</title>
-    <meta name="description" content="Free, high-precision Percentage Calculator by Toolvala.in. Calculate percentage change, marks percentage, GST, and salary hikes. Comprehensive 5000+ word guide on math and finance.">
-    <meta name="keywords" content="percentage calculator, calculate percentage online, percentage increase calculator, percentage decrease calculator, marks percentage tool, Toolvala math tools, percentage formula, business math, finance calculator">
+    <title>Percentage Calculator | Increase, Decrease & Marks Calculator</title>
+    <meta name="description" content="Free online Percentage Calculator. Calculate percentage increase/decrease, find exam marks percentage, and basic percent values. Instant and accurate.">
+    <meta name="keywords" content="percentage calculator, percentage increase calculator, percentage decrease tool, marks percentage calculator, math tools, toolvala">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://www.toolvala.in/percentage-calculator.html">
 
@@ -18,11 +16,10 @@
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      "name": "Professional Percentage Calculator",
+      "name": "Percentage Calculator",
       "url": "https://www.toolvala.in/percentage-calculator.html",
-      "description": "An all-in-one percentage calculation utility for basic percentages, percentage change, and academic marks calculation.",
+      "description": "Calculate percentage increase, decrease, and academic marks.",
       "applicationCategory": "EducationalApplication",
-      "operatingSystem": "All",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
     }
     </script>
@@ -40,6 +37,7 @@
             --bg-gray: #f8fafc;
             --white: #ffffff;
             --success: #16a34a;
+            --error: #dc2626;
             --border-radius: 24px;
         }
 
@@ -48,6 +46,7 @@
 
         /* Brand Logo Style */
         .brand { font-size: 28px; font-weight: 800; margin-top: 10px; margin-bottom: 30px; }
+        .brand a { text-decoration: none; color: inherit; }
         .brand span.dark { color: #1e3a8a; }
         .brand span.blue { color: var(--toolvala-dot-in); }
 
@@ -55,7 +54,7 @@
         .page-title { font-size: 34px; font-weight: 800; color: #0f172a; margin-bottom: 10px; }
         .page-subtitle { font-size: 16px; color: var(--text-muted); max-width: 700px; margin: 0 auto; line-height: 1.5; }
 
-        /* Tabs System - Fixed for Mobile */
+        /* Tabs System */
         .tabs { display: flex; gap: 8px; justify-content: center; margin-bottom: 25px; flex-wrap: wrap; }
         .tab-btn { padding: 10px 18px; border: 1px solid #e2e8f0; border-radius: 10px; background: #f1f5f9; cursor: pointer; font-weight: 700; font-size: 13px; transition: all 0.3s; color: #475569; }
         .tab-btn.active { background: var(--toolvala-blue); color: white; border-color: var(--toolvala-blue); }
@@ -79,21 +78,24 @@
         .input-field:focus { background-color: white; border: 2px solid var(--toolvala-blue); }
 
         .btn-calc { width: 100%; background-color: var(--toolvala-blue); color: white; padding: 16px; border: none; border-radius: 14px; font-size: 16px; font-weight: 800; cursor: pointer; margin-top: 10px; transition: transform 0.2s; }
+        .btn-calc:hover { transform: translateY(-2px); }
 
         /* Result Display */
         #resultView { display: none; margin-top: 25px; padding: 20px; background: #f0f7ff; border-radius: 16px; border: 1px solid #bfdbfe; text-align: center; }
         .res-val { font-size: 32px; font-weight: 800; color: var(--toolvala-blue); display: block; margin: 5px 0; }
         .res-text { font-size: 14px; color: #1e3a8a; font-weight: 700; text-transform: uppercase; }
+        
+        .res-increase { color: var(--success); }
+        .res-decrease { color: var(--error); }
 
-        /* Sidebar Style Headers - Exactly like Screenshot */
+        /* Article & Headers */
         .section-header { display: flex; align-items: center; margin-top: 60px; margin-bottom: 25px; }
         .section-header .line { width: 5px; height: 35px; background-color: var(--toolvala-dot-in); margin-right: 15px; border-radius: 2px; }
         .section-header h2 { font-size: 26px; font-weight: 800; margin: 0; color: #0f172a; }
 
-        /* Article Styling */
         article p { color: #475569; margin-bottom: 25px; font-size: 16px; text-align: justify; }
         article h3 { color: #1e293b; margin-top: 40px; font-weight: 700; font-size: 20px; }
-        article ul, article ol { margin-bottom: 25px; padding-left: 20px; }
+        article ul { margin-bottom: 25px; padding-left: 20px; }
         article li { margin-bottom: 10px; color: #475569; font-size: 15px; }
 
         /* Diagram */
@@ -106,6 +108,8 @@
         .related-card { text-decoration: none; background: white; border: 1px solid #e5e7eb; padding: 20px; border-radius: 16px; display: flex; align-items: center; gap: 15px; transition: all 0.3s; }
         .related-card:hover { transform: translateY(-3px); border-color: var(--toolvala-blue); }
         .icon-circle { width: 40px; height: 40px; background: #f0f7ff; color: var(--toolvala-blue); display: flex; align-items: center; justify-content: center; border-radius: 10px; font-size: 18px; }
+        .tool-info b { display: block; color: #333; font-size: 15px; }
+        .tool-info small { color: #666; font-size: 12px; }
 
         /* FAQ */
         .faq-item { border-bottom: 1px solid #f1f5f9; padding: 18px 0; }
@@ -121,144 +125,121 @@
 <body>
 
 <div class="container">
-    <div class="brand"><span class="dark">Toolvala</span><span class="blue">.in</span></div>
+    <div class="brand"><a href="index.html"><span class="dark">Toolvala</span><span class="blue">.in</span></a></div>
 
     <div class="page-header">
-        <h1 class="page-title">Ultimate Percentage Calculator</h1>
-        <p class="page-subtitle">The most comprehensive online tool to solve any percentage problem—from school grades to business profit margins and salary hikes.</p>
+        <h1 class="page-title">Percentage Calculator</h1>
+        <p class="page-subtitle">Calculate Percentage Increase, Decrease, or find academic marks. The all-in-one calculator for your daily math needs.</p>
     </div>
 
     <!-- TAB BUTTONS -->
     <div class="tabs">
         <button class="tab-btn active" onclick="switchTab(this, 'basic')">Basic Percentage</button>
-        <button class="tab-btn" onclick="switchTab(this, 'change')">Percentage Change</button>
+        <button class="tab-btn" onclick="switchTab(this, 'change')">Increase / Decrease</button>
         <button class="tab-btn" onclick="switchTab(this, 'marks')">Exam Marks</button>
     </div>
 
     <!-- CALCULATOR -->
     <div class="tool-card">
         
+        <!-- Mode 1: Basic -->
         <div id="basic" class="calc-mode active">
             <div class="input-group">
                 <label>What is</label>
-                <input type="number" id="basic_perc" class="input-field" placeholder="e.g. 15">
+                <input type="number" id="basic_perc" class="input-field" placeholder="Percentage (e.g. 18)">
             </div>
             <div class="input-group">
                 <label>Percent of</label>
-                <input type="number" id="basic_val" class="input-field" placeholder="e.g. 5000">
+                <input type="number" id="basic_val" class="input-field" placeholder="Value (e.g. 5000)">
             </div>
             <button class="btn-calc" onclick="calcBasic()">Calculate Result</button>
         </div>
 
+        <!-- Mode 2: Change -->
         <div id="change" class="calc-mode">
             <div class="input-group">
-                <label>Original Value</label>
-                <input type="number" id="old_val" class="input-field" placeholder="From">
+                <label>Original Value (Old)</label>
+                <input type="number" id="old_val" class="input-field" placeholder="Starting Amount">
             </div>
             <div class="input-group">
-                <label>New Value</label>
-                <input type="number" id="new_val" class="input-field" placeholder="To">
+                <label>New Value (New)</label>
+                <input type="number" id="new_val" class="input-field" placeholder="Ending Amount">
             </div>
             <button class="btn-calc" onclick="calcChange()">Calculate % Change</button>
         </div>
 
+        <!-- Mode 3: Marks -->
         <div id="marks" class="calc-mode">
             <div class="input-group">
                 <label>Marks Obtained</label>
-                <input type="number" id="obt_marks" class="input-field" placeholder="Scored">
+                <input type="number" id="obt_marks" class="input-field" placeholder="Scored Marks">
             </div>
             <div class="input-group">
                 <label>Total Marks</label>
-                <input type="number" id="total_marks" class="input-field" placeholder="Maximum">
+                <input type="number" id="total_marks" class="input-field" placeholder="Total Marks">
             </div>
             <button class="btn-calc" onclick="calcMarks()">Calculate Grade %</button>
         </div>
 
+        <!-- Result Section -->
         <div id="resultView">
             <span class="res-text" id="resType">Result</span>
             <span class="res-val" id="resOutput">0.00</span>
-            <p id="resLogic" style="font-size: 13px; color: var(--text-muted); font-style: italic;"></p>
+            <p id="resLogic" style="font-size: 13px; color: var(--text-muted); font-style: italic; margin-top:5px;"></p>
         </div>
     </div>
 
-    <!-- ARTICLE -->
+    <!-- CONTENT -->
     <article>
-        <div class="section-header"><div class="line"></div><h2>Introduction</h2></div>
-        <p>In our daily lives, numbers are inescapable, but one concept stands above the rest in terms of utility: the percentage. Whether you are browsing for discounts during a Diwali sale, calculating your annual appraisal, analyzing the growth of your stock portfolio, or helping your child with their math homework, percentages are the common denominator. The **Percentage Calculator** by **Toolvala.in** is designed to be the ultimate digital companion for these tasks. We have built this high-precision utility to ensure that you never have to struggle with long division or cross-multiplication again.</p>
-        <p>A percentage is essentially a way of expressing a number as a fraction of 100. It provides a standardized language for comparison. For example, knowing that you scored 45 marks out of 50 is good, but knowing you scored 90% is immediately relatable. Our tool provides three specialized modes to handle the "Basic," "Change," and "Academic" versions of these calculations, ensuring 100% accuracy for professionals and students alike.</p>
+        <div class="section-header"><div class="line"></div><h2>Understanding Percentage Calculations</h2></div>
+        <p>In our daily lives, percentages are everywhere. From calculating the tip at a restaurant to understanding your annual salary hike, percentages help us compare numbers effectively. The **Toolvala Percentage Calculator** simplifies these calculations into three easy-to-use modes.</p>
 
-        <div class="section-header"><div class="line"></div><h2>How to Use This Calculator</h2></div>
-        <p>We have optimized the user interface for speed and clarity. Depending on your problem, follow these specific steps:</p>
-        <h3>Mode 1: Basic Percentage (Finding a Part)</h3>
-        <p>Use this if you know the percentage and the total value. For example, if you want to find out the GST (18%) on a product worth ₹5,000.</p>
-        <ul>
-            <li>Enter '18' in the percentage box.</li>
-            <li>Enter '5000' in the value box.</li>
-            <li>Click calculate to get your result instantly.</li>
-        </ul>
-        <h3>Mode 2: Percentage Change (Growth or Decline)</h3>
-        <p>Use this for business analytics or salary hikes. If your salary was ₹40,000 last year and is now ₹50,000, you want to know the "Percentage Increase." Our calculator will show you a 25% increase automatically.</p>
+        <h3>1. Percentage Increase / Decrease</h3>
+        <p>This is the most common calculation in finance and business. Whether you are tracking stock prices, inflation, or your savings growth, you need to know the *rate of change*.</p>
+        <p><strong>The Formula:</strong> <code>((New Value - Old Value) / Old Value) × 100</code></p>
+        <p>If the result is positive, it's an <strong>Increase</strong>. If negative, it's a <strong>Decrease</strong>. Our calculator handles the math instantly.</p>
 
-        <div class="section-header"><div class="line"></div><h2>Math Calculation Diagram</h2></div>
+        <h3>2. Calculating Exam Marks</h3>
+        <p>Students often need to convert their scored marks into a percentage to know their grade. Simply dividing your score by the total marks and multiplying by 100 gives you the exact percentage.</p>
+
+        <div class="section-header"><div class="line"></div><h2>Math Calculation Steps</h2></div>
         <div class="diagram">
-            <div class="diag-item"><i class="fa fa-calculator"></i> 1. Input Values<br><small>Numbers or Marks</small></div>
-            <div class="diag-item"><i class="fa fa-code-merge"></i> 2. Apply Formula<br><small>Logic Processing</small></div>
-            <div class="diag-item"><i class="fa fa-percentage"></i> 3. Standardize<br><small>Factor of 100</small></div>
-            <div class="diag-item"><i class="fa fa-check-circle"></i> 4. Final Output<br><small>Rounded & Formatted</small></div>
+            <div class="diag-item"><i class="fa fa-keyboard"></i> 1. Enter Data<br><small>Values or Marks</small></div>
+            <div class="diag-item"><i class="fa fa-calculator"></i> 2. Process<br><small>Apply Formula</small></div>
+            <div class="diag-item"><i class="fa fa-check"></i> 3. Result<br><small>Precise % Output</small></div>
         </div>
 
-        <div class="section-header"><div class="line"></div><h2>Benefits of Professional Calculation</h2></div>
-        <p>While many people try to do math in their head, the **Toolvala Percentage Calculator** offers professional advantages:</p>
-        <ul>
-            <li><strong>Accuracy:</strong> No human error in division or decimal placement.</li>
-            <li><strong>Speed:</strong> Instant results even with complex figures like 13.75% of 8,452.</li>
-            <li><strong>Decision Making:</strong> Instantly compare discount offers or investment returns.</li>
-            <li><strong>Mobile Readiness:</strong> Works on all devices without installing an app.</li>
-        </ul>
-
-        <div class="section-header"><div class="line"></div><h2>Frequently Asked Questions (FAQ)</h2></div>
+        <div class="section-header"><div class="line"></div><h2>Frequently Asked Questions</h2></div>
         <div class="faq-item">
-            <span class="faq-q" onclick="toggleFaq(0)">1. What is the standard percentage formula? <span>▼</span></span>
-            <div class="faq-a" id="faq-0">The formula is: (Value / Total Value) × 100. This tells you what portion of the whole is represented by your value.</div>
+            <span class="faq-q" onclick="toggleFaq(0)">1. How do I calculate percentage increase? <span>▼</span></span>
+            <div class="faq-a" id="faq-0">Subtract the original number from the new number. Divide that difference by the original number. Multiply by 100.</div>
         </div>
         <div class="faq-item">
-            <span class="faq-q" onclick="toggleFaq(1)">2. How to calculate percentage increase? <span>▼</span></span>
-            <div class="faq-a" id="faq-1">Percentage increase = [(New Value - Old Value) / Old Value] × 100. Our tool does this automatically in the 'Percentage Change' tab.</div>
+            <span class="faq-q" onclick="toggleFaq(1)">2. How to calculate marks percentage? <span>▼</span></span>
+            <div class="faq-a" id="faq-1">Divide your obtained marks by the total maximum marks, then multiply the result by 100.</div>
         </div>
         <div class="faq-item">
-            <span class="faq-q" onclick="toggleFaq(2)">3. Can I use this for GST calculation? <span>▼</span></span>
-            <div class="faq-a" id="faq-2">Yes. To find 18% GST, use the 'Basic Percentage' mode with 18% of your product price.</div>
-        </div>
-        <div class="faq-item">
-            <span class="faq-q" onclick="toggleFaq(3)">4. Is this calculator free? <span>▼</span></span>
-            <div class="faq-a" id="faq-3">Yes, Toolvala provides all financial and math tools 100% free with no registration required.</div>
-        </div>
-        <div class="faq-item">
-            <span class="faq-q" onclick="toggleFaq(4)">5. What is 'Reverse Percentage'? <span>▼</span></span>
-            <div class="faq-a" id="faq-4">Reverse percentage is finding the original value after an increase or decrease. While this tool focuses on forward calculation, you can find the original by using the results to cross-check.</div>
-        </div>
-        <div class="faq-item">
-            <span class="faq-q" onclick="toggleFaq(5)">6. Does it work for exam marks? <span>▼</span></span>
-            <div class="faq-a" id="faq-5">Absolutely. The 'Exam Marks' tab is specifically designed to convert scores into percentages for school and college results.</div>
+            <span class="faq-q" onclick="toggleFaq(2)">3. Can I use this for GST? <span>▼</span></span>
+            <div class="faq-a" id="faq-2">Yes. Use the "Basic Percentage" tab. Enter 18 (for 18%) and your product price to see the tax amount.</div>
         </div>
 
-        <div class="section-header"><div class="line"></div><h2>Explore More Financial Tools</h2></div>
+        <div class="section-header"><div class="line"></div><h2>Explore More Tools</h2></div>
         <div class="related-grid">
-            <a href="profit-loss-calculator.html" class="related-card">
-                <div class="icon-circle"><i class="fa-solid fa-chart-line"></i></div>
-                <div class="tool-info"><b>Profit & Loss</b></div>
+            <a href="random-number-picker.html" class="related-card">
+                <div class="icon-circle"><i class="fa-solid fa-dice"></i></div>
+                <div class="tool-info"><b>Number Picker</b><small>RNG Tool</small></div>
             </a>
-            <a href="margin-calculator.html" class="related-card">
-                <div class="icon-circle"><i class="fa-solid fa-percent"></i></div>
-                <div class="tool-info"><b>Margin Calculator</b></div>
+            <a href="age-difference-calculator.html" class="related-card">
+                <div class="icon-circle"><i class="fa-solid fa-calendar"></i></div>
+                <div class="tool-info"><b>Age Calculator</b><small>Date Gap</small></div>
             </a>
-            <a href="interest-calculator.html" class="related-card">
-                <div class="icon-circle"><i class="fa-solid fa-sack-dollar"></i></div>
-                <div class="tool-info"><b>Interest Tool</b></div>
+            <a href="word-scrambler.html" class="related-card">
+                <div class="icon-circle"><i class="fa-solid fa-font"></i></div>
+                <div class="tool-info"><b>Word Scrambler</b><small>Puzzle Tool</small></div>
             </a>
-            <a href="emi-calculator.html" class="related-card">
-                <div class="icon-circle"><i class="fa-solid fa-calendar-check"></i></div>
-                <div class="tool-info"><b>EMI Calculator</b></div>
+            <a href="signature-generator.html" class="related-card">
+                <div class="icon-circle"><i class="fa-solid fa-pen-nib"></i></div>
+                <div class="tool-info"><b>Signature Maker</b><small>Email Sign</small></div>
             </a>
         </div>
     </article>
@@ -278,16 +259,21 @@
         const v = parseFloat(document.getElementById('basic_val').value);
         if(isNaN(p) || isNaN(v)) { alert("Please enter valid numbers"); return; }
         const res = (p / 100) * v;
-        showRes(res.toLocaleString(), "Final Value", `${p}% of ${v} is ${res.toFixed(2)}`);
+        showRes(res.toLocaleString(), "Final Value", `${p}% of ${v} is ${res.toFixed(2)}`, null);
     }
 
     function calcChange() {
         const o = parseFloat(document.getElementById('old_val').value);
         const n = parseFloat(document.getElementById('new_val').value);
         if(isNaN(o) || isNaN(n) || o === 0) { alert("Please enter valid numbers"); return; }
+        
         const diff = n - o;
         const perc = (diff / o) * 100;
-        showRes(Math.abs(perc).toFixed(2) + "%", perc >= 0 ? "Increase" : "Decrease", `From ${o} to ${n} is a ${Math.abs(perc).toFixed(2)}% ${perc >= 0 ? 'growth' : 'drop'}.`);
+        const isIncrease = perc > 0;
+        const colorClass = isIncrease ? 'res-increase' : (perc < 0 ? 'res-decrease' : '');
+        const typeText = isIncrease ? "Percentage Increase" : (perc < 0 ? "Percentage Decrease" : "No Change");
+
+        showRes(Math.abs(perc).toFixed(2) + "%", typeText, `From ${o} to ${n} is a ${Math.abs(perc).toFixed(2)}% ${isIncrease ? 'Increase' : 'Decrease'}.`, colorClass);
     }
 
     function calcMarks() {
@@ -295,15 +281,19 @@
         const tot = parseFloat(document.getElementById('total_marks').value);
         if(isNaN(obt) || isNaN(tot) || tot === 0) { alert("Please enter valid numbers"); return; }
         const res = (obt / tot) * 100;
-        showRes(res.toFixed(2) + "%", "Exam Grade", `Scoring ${obt} out of ${tot} equals ${res.toFixed(2)}%.`);
+        showRes(res.toFixed(2) + "%", "Exam Percentage", `Scored ${obt} out of ${tot}.`, null);
     }
 
-    function showRes(val, type, logic) {
+    function showRes(val, type, logic, colorClass) {
         const rv = document.getElementById('resultView');
+        const output = document.getElementById('resOutput');
+        
         rv.style.display = 'block';
         document.getElementById('resType').innerText = type;
-        document.getElementById('resOutput').innerText = val;
+        output.innerText = val;
+        output.className = 'res-val ' + (colorClass || ''); // Apply color class
         document.getElementById('resLogic').innerText = logic;
+        
         rv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
 
@@ -312,14 +302,18 @@
         el.style.display = (el.style.display === 'block') ? 'none' : 'block';
     }
 </script>
-   <div id="footer"></div>
+
+<div id="footer"></div>
 <script>
 fetch("/footer.html")
   .then(r => r.text())
   .then(d => {
     document.getElementById("footer").innerHTML = d;
-    document.getElementById("year").textContent = new Date().getFullYear();
+    if(document.getElementById("year")) {
+        document.getElementById("year").textContent = new Date().getFullYear();
+    }
   });
-</script>. 
+</script>
+
 </body>
 </html>
