@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Difference Calculator | Compare Relationship & Sibling Age Gaps</title>
+    <meta name="description" content="Calculate the exact age difference between two people. Find out the age gap in years, months, and days. Perfect for relationships, siblings, and birthdays.">
+    <meta name="keywords" content="age difference calculator, age gap calculator, compare ages, relationship age gap, time between dates, sibling age difference, birthday calculator">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="Toolvala">
+    <meta property="og:title" content="Age Difference Calculator | Exact Age Gap Finder">
+    <meta property="og:description" content="Calculate the exact time difference between two dates or birthdays. See the gap in years, months, and days.">
+    <meta property="og:type" content="website">
+    <link rel="canonical" href="https://www.toolvala.in/age-difference-calculator.html">
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8GTQC904G1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-8GTQC904G1');
+    </script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Schema Markup -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Age Difference Calculator",
+        "description": "A tool to calculate the exact difference between two dates of birth.",
+        "url": "https://www.toolvala.in/age-difference-calculator.html",
+        "applicationCategory": "UtilityApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "featureList": "Calculate age gap, Relationship age difference, Sibling age gap"
+    }
+    </script>
+
+    <style>
+        /* Base Styles */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            padding: 20px; 
+        }
+        
+        /* Header - Left Aligned */
+        header { background: #fff; border-bottom: 1px solid #e0e0e0; margin-bottom: 30px; }
+        .header-inner { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            padding: 20px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+        .header-brand { font-size: 1.3rem; font-weight: 700; color: #333; }
+        .header-brand a { text-decoration: none; color: #333; }
+        header h1 { font-size: 1.5rem; font-weight: 500; color: #333; }
+
+        /* Layout Grid */
+        .main-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; margin-bottom: 40px; }
+        
+        /* Cards */
+        .tool-card-main, .content-section, .related-tools-section, .faq-section {
+            background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 30px; margin-bottom: 30px;
+        }
+
+        h2 { color: #333; margin-bottom: 20px; font-size: 1.4rem; font-weight: 600; text-align: left; }
+        h3 { color: #333; margin: 25px 0 15px 0; font-size: 1.2rem; font-weight: 600; text-align: left; }
+
+        /* Form Inputs - Left Aligned */
+        .form-grid { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 20px; 
+            text-align: left;
+        }
+        .form-group { margin-bottom: 15px; }
+        .form-group.full { grid-column: span 2; }
+        
+        label { display: block; margin-bottom: 8px; color: #333; font-weight: 500; }
+        
+        input[type="date"] {
+            width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem; font-family: inherit;
+        }
+        input:focus { outline: none; border-color: #0066cc; box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.1); }
+
+        .person-label {
+            font-size: 0.9rem; color: #666; font-weight: 600; text-transform: uppercase; margin-bottom: 5px; display: block;
+        }
+
+        /* Result Area */
+        .result-box {
+            background: #f0f7ff;
+            border: 1px solid #cce5ff;
+            border-left: 5px solid #0066cc;
+            border-radius: 4px;
+            padding: 25px;
+            margin: 25px 0;
+            display: none; /* Hidden by default */
+        }
+        .main-result {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #0066cc;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        .sub-result {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 5px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .sub-result:last-child { border-bottom: none; }
+        .sub-result strong { color: #333; }
+
+        /* Buttons */
+        .btn-calculate {
+            width: 100%; background: #0066cc; color: white; padding: 15px; border: none; border-radius: 6px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: background 0.2s;
+        }
+        .btn-calculate:hover { background: #0052a3; }
+        
+        .btn-reset {
+            background: #f5f5f5; border: 1px solid #ddd; color: #333; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 500; margin-top: 15px;
+        }
+        .btn-reset:hover { background: #e0e0e0; }
+
+        /* Sidebar Tools */
+        .tools-grid { display: grid; grid-template-columns: 1fr; gap: 15px; margin-bottom: 20px; }
+        .tool-card {
+            background: #f9f9f9; padding: 15px; border-radius: 6px; text-decoration: none; color: #333; border: 1px solid #e0e0e0; transition: all 0.2s; display: flex; align-items: center; gap: 12px;
+        }
+        .tool-card:hover { border-color: #0066cc; background: #f0f7ff; }
+        .tool-card-icon { font-size: 1.5rem; min-width: 30px; text-align: center; }
+        .tool-card-text strong { color: #0066cc; display: block; margin-bottom: 3px; font-size: 0.95rem; }
+        .tool-card-text small { color: #999; font-size: 0.85rem; }
+
+        .category-links { display: flex; flex-wrap: wrap; gap: 8px; }
+        .category-link {
+            padding: 8px 12px; background: #f9f9f9; border-radius: 4px; text-decoration: none; color: #0066cc; font-weight: 500; border: 1px solid #e0e0e0; font-size: 0.9rem;
+        }
+        .category-link:hover { background: #0066cc; color: #fff; }
+
+        /* Content Styling */
+        .content-section p { color: #666; margin-bottom: 15px; text-align: left; }
+        .content-section ul { margin-left: 20px; margin-bottom: 20px; color: #666; text-align: left; }
+        .content-section li { margin-bottom: 8px; }
+        .content-section a { color: #0066cc; text-decoration: none; }
+
+        /* FAQ Styling */
+        .faq-item { margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
+        .faq-question { font-weight: 700; color: #333; margin-bottom: 5px; }
+        .faq-answer { color: #666; }
+
+        /* Mobile specific */
+        @media (max-width: 768px) {
+            .main-layout { grid-template-columns: 1fr; }
+            .header-inner { flex-direction: column; gap: 10px; align-items: flex-start; }
+            .form-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <div class="header-brand"><a href="index.html">Toolvala.in</a></div>
+            <h1>Age Difference Calculator</h1>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="main-layout">
+            
+            <!-- LEFT COLUMN: TOOL & CONTENT -->
+            <div class="left-column">
+                
+                <!-- TOOL CARD -->
+                <div class="tool-card-main">
+                    <h2>Calculate Age Gap</h2>
+                    <p style="margin-bottom: 20px; color:#666;">Select the birth dates of two people to find the exact difference.</p>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <span class="person-label">Person 1</span>
+                            <label>Date of Birth</label>
+                            <input type="date" id="date1">
+                        </div>
+                        <div class="form-group">
+                            <span class="person-label">Person 2</span>
+                            <label>Date of Birth</label>
+                            <input type="date" id="date2">
+                        </div>
+                    </div>
+
+                    <button class="btn-calculate" onclick="calculateDifference()">
+                        <i class="fas fa-calculator"></i> Calculate Difference
+                    </button>
+
+                    <div id="resultBox" class="result-box">
+                        <div class="main-result" id="mainResult"></div>
+                        <div style="margin-top: 15px;">
+                            <div class="sub-result" id="totalDays"></div>
+                            <div class="sub-result" id="totalHours"></div>
+                            <div class="sub-result" id="whoIsOlder"></div>
+                        </div>
+                    </div>
+
+                    <button class="btn-reset" onclick="resetTool()">Reset</button>
+                </div>
+
+                <!-- LONG FORM CONTENT START -->
+                <div class="content-section">
+                    <h2>The Ultimate Guide to Age Differences</h2>
+                    <p>Understanding the time gap between two events, or the age difference between two people, is more than just simple subtraction. Our <strong>Age Difference Calculator</strong> provides a precise breakdown of years, months, and days, helping you understand the exact timeline between two dates.</p>
+
+                    <h3>Why Use an Age Difference Calculator?</h3>
+                    <p>While you can mentally estimate that someone born in 1990 is 5 years older than someone born in 1995, exact calculations get tricky when you factor in months and days. This tool is useful for:</p>
+                    <ul>
+                        <li><strong>Relationships:</strong> Couples often want to know their exact age gap out of curiosity or to check astrological compatibility.</li>
+                        <li><strong>Siblings:</strong> Parents often track the specific age gap between children for developmental milestones.</li>
+                        <li><strong>Genealogy:</strong> Historians and researchers use age gaps to understand family trees and historical context.</li>
+                        <li><strong>HR & Professional:</strong> calculating tenure gaps or experience differences between candidates.</li>
+                    </ul>
+
+                    <h3>Relationship Age Gaps: The "Rule of 7"</h3>
+                    <p>One of the most discussed topics regarding age differences is romantic relationships. You may have heard of the "Half Your Age Plus Seven" rule. This is a guideline often used to determine the "socially acceptable" minimum age for a partner.</p>
+                    <p><strong>The Formula:</strong> Take the older person's age, divide it by 2, and add 7. <br><em>Example:</em> If someone is 40, half is 20, plus 7 is 27. According to this rule, 27 is the youngest socially acceptable age for a 40-year-old to date.</p>
+                    <p>However, age is just a number. Maturity, life stages, and shared values are far more important predictors of relationship success than the number produced by an age difference calculator.</p>
+
+                    <h3>Sibling Age Gaps</h3>
+                    <p>The gap between siblings can significantly influence their relationship dynamic:</p>
+                    <ul>
+                        <li><strong>Small Gap (1-2 years):</strong> Often results in close companionship but high competition. They grow up as peers.</li>
+                        <li><strong>Medium Gap (3-4 years):</strong> Allows each child to have their own "baby years" but they are still close enough to play together.</li>
+                        <li><strong>Large Gap (5+ years):</strong> The older sibling often takes on a nurturing role. There is less competition, but they may have different interests growing up.</li>
+                    </ul>
+
+                    <h3>How the Calculation Works</h3>
+                    <p>Calculating the exact difference involves complex calendar arithmetic. Simply subtracting the years isn't enough. Our algorithm performs the following steps:</p>
+                    <ol>
+                        <li>It identifies which date is earlier (Date A) and which is later (Date B).</li>
+                        <li>It calculates the full years between Date A and Date B.</li>
+                        <li>It then calculates the remaining full months.</li>
+                        <li>Finally, it calculates the remaining days, adjusting for the specific number of days in the month (e.g., February has 28 or 29 days).</li>
+                        <li>It accounts for Leap Years (years divisible by 4) to ensure the day count is 100% accurate.</li>
+                    </ol>
+
+                    <h3>Historical & Cultural Perspectives</h3>
+                    <p>Age gaps in relationships have been viewed differently throughout history. In many historical cultures, large age gaps were common, often for economic or political alliances. In modern times, the trend has shifted towards smaller age gaps, though large gaps (10+ years) are still common and widely accepted.</p>
+                    
+                    <p>If you are planning life events around these dates, you might also need our <a href="expiry-date-tools.html">Expiry Date Calculators</a> to track document validity, or our <a href="date-calculator.html">Date Calculator</a> for adding days to a specific date.</p>
+                </div>
+
+                <!-- FAQ SECTION -->
+                <div class="faq-section">
+                    <h2>Frequently Asked Questions</h2>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">Q: Does this calculator account for Leap Years?</div>
+                        <div class="faq-answer">Yes, our algorithm recognizes leap years (years with 366 days) to ensure the day count is precise.</div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">Q: Can I use this for things other than age?</div>
+                        <div class="faq-answer">Absolutely. You can use this to calculate the length of employment, the time between two historical events, or the duration of a project.</div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">Q: What is a "May-December" romance?</div>
+                        <div class="faq-answer">This is an idiom used to describe a relationship with a large age difference. "May" represents the younger person (Spring) and "December" represents the older person (Winter).</div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">Q: Is the data I enter saved?</div>
+                        <div class="faq-answer">No. All calculations happen directly in your browser. We do not store or transmit your birth dates.</div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- RIGHT COLUMN: SIDEBAR -->
+            <div class="right-column">
+                
+                <!-- Related Tools -->
+                <div class="related-tools-section">
+                    <h2 style="font-size: 1.2rem;">Popular Tools</h2>
+                    <div class="tools-grid">
+                        <a href="passport-photo-resizer.html" class="tool-card">
+                            <div class="tool-card-icon">📸</div>
+                            <div class="tool-card-text">
+                                <strong>Passport Photo Resizer</strong>
+                                <small>Resize for documents</small>
+                            </div>
+                        </a>
+                        <a href="ssc-photo-tool.html" class="tool-card">
+                            <div class="tool-card-icon">👮</div>
+                            <div class="tool-card-text">
+                                <strong>SSC Photo Tool</strong>
+                                <small>Format for SSC exams</small>
+                            </div>
+                        </a>
+                        <a href="upsc-photo-maker.html" class="tool-card">
+                            <div class="tool-card-icon">🏛️</div>
+                            <div class="tool-card-text">
+                                <strong>UPSC Photo Maker</strong>
+                                <small>Format for UPSC exams</small>
+                            </div>
+                        </a>
+                        <a href="photo-compressor.html" class="tool-card">
+                            <div class="tool-card-icon">🗜️</div>
+                            <div class="tool-card-text">
+                                <strong>Photo Compressor</strong>
+                                <small>Reduce image size</small>
+                            </div>
+                        </a>
+                        <a href="random-number-picker.html" class="tool-card">
+                            <div class="tool-card-icon">🎲</div>
+                            <div class="tool-card-text">
+                                <strong>Random Number Picker</strong>
+                                <small>RNG Tool</small>
+                            </div>
+                        </a>
+                        <a href="signature-generator.html" class="tool-card">
+                            <div class="tool-card-icon">📧</div>
+                            <div class="tool-card-text">
+                                <strong>Signature Generator</strong>
+                                <small>Email signatures</small>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Categories -->
+                <div class="related-tools-section">
+                    <h2 style="font-size: 1.2rem;">Categories</h2>
+                    <div class="category-links">
+                        <a href="converters.html" class="category-link">Converters</a>
+                        <a href="expiry-date-tools.html" class="category-link">Expiry Date Tools</a>
+                        <a href="baby-family-tools.html" class="category-link">Baby & Family</a>
+                        <a href="finance-calculators.html" class="category-link">Finance</a>
+                        <a href="generator-tools.html" class="category-link">Generators</a>
+                        <a href="lifestyle-tools.html" class="category-link">Lifestyle</a>
+                        <a href="education-tools.html" class="category-link">Education</a>
+                        <a href="pdf-tools.html" class="category-link">PDF Tools</a>
+                        <a href="image-tools.html" class="category-link">Image Tools</a>
+                        <a href="general-calculators.html" class="category-link">Calculators</a>
+                        <a href="text-tools.html" class="category-link">Text Tools</a>
+                        <a href="all-tools.html" class="category-link">All Tools</a>
+                        <a href="articles.html" class="category-link">Articles</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculateDifference() {
+            const date1Str = document.getElementById('date1').value;
+            const date2Str = document.getElementById('date2').value;
+            const resultBox = document.getElementById('resultBox');
+
+            if (!date1Str || !date2Str) {
+                alert("Please select both dates.");
+                return;
+            }
+
+            // Convert inputs to Date objects
+            let d1 = new Date(date1Str);
+            let d2 = new Date(date2Str);
+
+            // Determine Older/Younger
+            // Ensure d1 is the earlier date (birth of older person) for calculation logic
+            let olderDate, youngerDate;
+            let swapped = false;
+
+            if (d1 > d2) {
+                olderDate = d2;
+                youngerDate = d1;
+                swapped = true;
+            } else {
+                olderDate = d1;
+                youngerDate = d2;
+            }
+
+            // --- Calculation Logic ---
+            let years = youngerDate.getFullYear() - olderDate.getFullYear();
+            let months = youngerDate.getMonth() - olderDate.getMonth();
+            let days = youngerDate.getDate() - olderDate.getDate();
+
+            // Adjust days if negative
+            if (days < 0) {
+                months--;
+                // Get days in the previous month
+                let prevMonthDate = new Date(youngerDate.getFullYear(), youngerDate.getMonth(), 0);
+                days += prevMonthDate.getDate();
+            }
+
+            // Adjust months if negative
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
+
+            // --- Total Days Calculation ---
+            const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+            const diffDays = Math.round(Math.abs((d1 - d2) / oneDay));
+            const diffHours = diffDays * 24;
+
+            // --- Display Results ---
+            resultBox.style.display = "block";
+
+            // Main Result
+            let resultText = "";
+            if (years > 0) resultText += `${years} Year${years > 1 ? 's' : ''}, `;
+            if (months > 0) resultText += `${months} Month${months > 1 ? 's' : ''}, `;
+            resultText += `${days} Day${days > 1 ? 's' : ''}`;
+            
+            if (years === 0 && months === 0 && days === 0) {
+                resultText = "Same Age (Born on same day)";
+            }
+
+            document.getElementById('mainResult').innerText = resultText;
+            document.getElementById('totalDays').innerHTML = `<strong>Total Days:</strong> ${diffDays.toLocaleString()}`;
+            document.getElementById('totalHours').innerHTML = `<strong>Total Hours:</strong> ${diffHours.toLocaleString()}`;
+            
+            // Who is older text
+            if (years === 0 && months === 0 && days === 0) {
+                 document.getElementById('whoIsOlder').innerText = "";
+            } else {
+                const p1Label = "Person 1";
+                const p2Label = "Person 2";
+                const older = swapped ? p2Label : p1Label;
+                document.getElementById('whoIsOlder').innerText = `${older} is older.`;
+            }
+        }
+
+        function resetTool() {
+            document.getElementById('date1').value = "";
+            document.getElementById('date2').value = "";
+            document.getElementById('resultBox').style.display = "none";
+        }
+    </script>
+
+    <div id="footer"></div>
+    <script>
+    fetch("/footer.html")
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById("footer").innerHTML = data;
+        var yearSpan = document.getElementById("year");
+        if (yearSpan) {
+          yearSpan.textContent = new Date().getFullYear();
+        }
+      });
+    </script>
+</body>
+</html>
