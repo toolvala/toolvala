@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>IPL Auction Tool | IPL Team Builder & Auction Simulator | Toolvala.in</title>
+    <meta name="description" content="Free IPL Auction Tool for building fantasy IPL teams. Simulate IPL auctions, manage team budgets, and create winning squads. Complete guide on IPL auction strategy and player selection.">
+    <meta name="keywords" content="IPL auction tool, IPL team builder, IPL auction simulator, IPL squad builder, IPL auction strategy, cricket auction tool, IPL budget management, Toolvala">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <link rel="canonical" href="https://www.toolvala.in/ipl-auction-tool.html">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8GTQC904G1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-8GTQC904G1');
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "IPL Auction Tool by Toolvala",
+      "url": "https://www.toolvala.in/ipl-auction-tool.html",
+      "description": "Free IPL auction simulator and team builder tool for creating winning IPL squads within budget constraints.",
+      "applicationCategory": "CalculatorApplication",
+      "operatingSystem": "All"
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "url": "https://www.toolvala.in/ipl-auction-tool.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the IPL auction process?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The IPL auction is an annual event where franchises bid for players to build their squads. Teams have a fixed budget (usually 120 crores) and select players through open bidding. Each team requires 25 players: 5 overseas, 20 Indian (minimum 3 openers, 3 middle-order, 3 fast bowlers, 2 spinners)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the budget for IPL auction?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Each IPL franchise gets 120 crore rupees as their total budget to build a squad of 25 players. Teams must allocate this budget strategically across different categories: premium players, mid-range performers, and value picks."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How many players does an IPL team need?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "An IPL team requires exactly 25 players: minimum 5 overseas players and maximum 20 Indian players. The squad must also include minimum 3 openers, 3 middle-order batsmen, 3 fast bowlers, and 2 spinners to be eligible to play."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How much does an average IPL player cost?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Average IPL player prices range from 20 lakh to 5-10 crore rupees depending on experience and performance. Star players cost 10-20 crores, mid-tier players 2-8 crores, and younger/emerging players typically go for 20 lakh to 1 crore."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What makes a good IPL auction strategy?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Good IPL auction strategy includes: building a balanced team, investing in 3-4 star players, focusing on all-rounders for value, buying Indian middle-order and overseas batsmen strategically, securing quality fast bowlers, and retaining budget flexibility for critical players."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which IPL players always go first in auctions?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Star players like Virat Kohli, Rohit Sharma, MS Dhoni, Bumrah, and other premium cricketers are usually in the higher price brackets. Overseas stars like Pat Cummins, Suryakumar Yadav, and aggressive batsmen typically get competitive bids."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I choose players in IPL auction?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Consider player form, fitness, role in team, overseas/Indian quota, age, experience, and venue preferences. Balance your squad with premium players, all-rounders, young talent, and overseas specialists. Check recent performance and upcoming match conditions."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I use this IPL auction tool for fantasy leagues?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes! This tool helps understand squad composition and budget management. While designed for IPL auction simulation, the principles apply to fantasy IPL teams and understanding cricket economics."
+          }
+        }
+      ]
+    }
+    </script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --bg-light: #f8fafc;
+            --bg-card: #ffffff;
+            --text-dark: #0f172a;
+            --text-gray: #475569;
+            --border-color: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        html, body {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        header {
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border-color);
+            padding: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .header-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--text-dark);
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        .hero {
+            text-align: center;
+            padding: 30px 15px;
+            background: linear-gradient(180deg, rgba(99,102,241,0.05) 0%, transparent 100%);
+        }
+
+        .hero h1 {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: var(--text-dark);
+        }
+
+        .hero p {
+            font-size: 15px;
+            color: var(--text-gray);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px 15px;
+        }
+
+        /* Disclaimer */
+        .disclaimer-box {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border: 2px solid #f59e0b;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 40px;
+            border-left: 5px solid #f59e0b;
+        }
+
+        .disclaimer-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #92400e;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .disclaimer-text {
+            font-size: 14px;
+            color: #78350f;
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        .disclaimer-icon {
+            font-size: 20px;
+            color: #f59e0b;
+        }
+
+        /* Tool Box */
+        .tool-box {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+            margin-bottom: 40px;
+        }
+
+        .tool-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 12px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-gray);
+            margin-bottom: 6px;
+            letter-spacing: 0.3px;
+        }
+
+        input[type="number"],
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 14px;
+            color: var(--text-dark);
+            background: var(--bg-light);
+            transition: all 0.2s;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        input[type="number"]:focus,
+        input[type="text"]:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: var(--bg-card);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23475569' d='M0 0l6 8 6-8z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            padding-right: 32px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        @media (min-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .budget-display {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .budget-item {
+            text-align: center;
+        }
+
+        .budget-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+
+        .budget-value {
+            font-size: 24px;
+            font-weight: 800;
+        }
+
+        .player-list {
+            border-top: 2px solid var(--border-color);
+            padding-top: 20px;
+            margin-top: 20px;
+        }
+
+        .player-item {
+            background: var(--bg-light);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid var(--primary);
+        }
+
+        .player-info {
+            flex: 1;
+        }
+
+        .player-name {
+            font-weight: 700;
+            color: var(--text-dark);
+            font-size: 15px;
+        }
+
+        .player-role {
+            font-size: 12px;
+            color: var(--text-gray);
+        }
+
+        .player-price {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 16px;
+        }
+
+        .remove-btn {
+            background: var(--danger);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 700;
+            margin-left: 10px;
+        }
+
+        .btn-group {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        @media (min-width: 640px) {
+            .btn-group {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        button {
+            padding: 12px 16px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .btn-add {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-add:active {
+            background: var(--primary-dark);
+            transform: scale(0.98);
+        }
+
+        .btn-reset {
+            background: var(--bg-light);
+            color: var(--text-dark);
+            border: 2px solid var(--border-color);
+        }
+
+        .btn-reset:active {
+            background: white;
+        }
+
+        .squad-summary {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            border: 2px solid #3b82f6;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+
+        .squad-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1e40af;
+            margin-bottom: 12px;
+        }
+
+        .squad-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .squad-stat {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .squad-stat-label {
+            font-size: 12px;
+            color: var(--text-gray);
+            font-weight: 600;
+        }
+
+        .squad-stat-value {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        /* Article Section */
+        .article-section {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 25px 15px;
+            margin: 40px 0;
+            border: 1px solid var(--border-color);
+            line-height: 1.8;
+        }
+
+        .article-section h2 {
+            font-size: 24px;
+            font-weight: 800;
+            margin: 35px 0 20px 0;
+            color: var(--text-dark);
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 10px;
+        }
+
+        .article-section h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin: 25px 0 15px 0;
+            color: var(--text-dark);
+        }
+
+        .article-section p {
+            margin-bottom: 15px;
+            color: var(--text-gray);
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        .article-section ul,
+        .article-section ol {
+            margin: 20px 0 20px 20px;
+            color: var(--text-gray);
+            font-size: 15px;
+        }
+
+        .article-section li {
+            margin-bottom: 10px;
+            line-height: 1.7;
+        }
+
+        .article-section strong {
+            color: var(--text-dark);
+            font-weight: 700;
+        }
+
+        /* Links Section */
+        .links-section {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 25px 15px;
+            margin: 40px 0;
+            border: 1px solid var(--border-color);
+        }
+
+        .links-section h2 {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 25px;
+            color: var(--text-dark);
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 10px;
+        }
+
+        .links-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
+
+        .links-list a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 12px 15px;
+            background: var(--bg-light);
+            border-radius: 8px;
+            border-left: 3px solid var(--primary);
+            transition: all 0.2s;
+            display: block;
+            font-size: 15px;
+        }
+
+        .links-list a:active {
+            background: var(--primary);
+            color: white;
+            transform: translateX(3px);
+        }
+
+        /* FAQ */
+        .faq-section {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 25px 15px;
+            margin: 40px 0;
+            border: 1px solid var(--border-color);
+        }
+
+        .faq-section h2 {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 25px;
+            color: var(--text-dark);
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 10px;
+        }
+
+        .faq-item {
+            background: var(--bg-light);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .faq-item:active {
+            border-color: var(--primary);
+            background: white;
+        }
+
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            color: var(--text-dark);
+            font-size: 15px;
+        }
+
+        .faq-icon {
+            transition: transform 0.2s;
+            color: var(--primary);
+            flex-shrink: 0;
+        }
+
+        .faq-item.open .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s;
+            margin-top: 0;
+            color: var(--text-gray);
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .faq-item.open .faq-answer {
+            max-height: 800px;
+            margin-top: 12px;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--success);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            z-index: 1000;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from { 
+                transform: translateY(100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .hero h1 {
+                font-size: 26px;
+            }
+
+            .article-section h2 {
+                font-size: 20px;
+            }
+
+            .article-section h3 {
+                font-size: 16px;
+            }
+
+            .budget-display {
+                grid-template-columns: 1fr;
+            }
+
+            .squad-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .player-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .remove-btn {
+                margin-left: 0;
+                margin-top: 8px;
+                width: 100%;
+            }
+
+            .disclaimer-box {
+                padding: 15px;
+            }
+
+            .disclaimer-title {
+                font-size: 14px;
+            }
+
+            .disclaimer-text {
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <div class="logo">Toolvala<span>.in</span></div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>IPL Auction Tool</h1>
+        <p>Build your IPL team with our interactive auction simulator. Manage budgets, select players strategically, and create winning squads.</p>
+    </section>
+
+    <main>
+        <!-- Disclaimer -->
+        <div class="disclaimer-box">
+            <div class="disclaimer-title">
+                <i class="fas fa-exclamation-triangle disclaimer-icon"></i>
+                <span>Disclaimer</span>
+            </div>
+            <p class="disclaimer-text">
+                <strong>This tool is for educational and informational purposes only.</strong> It is not affiliated with any IPL franchise, BCCI, or official IPL auction platform. Player prices and data are approximate and for simulation purposes. Always verify information with official IPL sources.
+            </p>
+        </div>
+
+        <!-- IPL Auction Tool -->
+        <div class="tool-box">
+            <div class="tool-title">🏏 IPL Auction Squad Builder</div>
+
+            <div class="grid">
+                <div class="form-group">
+                    <label>Player Name</label>
+                    <input type="text" id="playerName" placeholder="Enter player name">
+                </div>
+                <div class="form-group">
+                    <label>Price (In Crores)</label>
+                    <input type="number" id="playerPrice" placeholder="0.5" min="0.2" step="0.1" value="0.5">
+                </div>
+            </div>
+
+            <div class="grid">
+                <div class="form-group">
+                    <label>Category</label>
+                    <select id="playerCategory">
+                        <option value="Batsman">Batsman</option>
+                        <option value="Bowler">Bowler</option>
+                        <option value="All-rounder">All-rounder</option>
+                        <option value="Wicket-keeper">Wicket-keeper</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Type</label>
+                    <select id="playerType">
+                        <option value="Indian">Indian</option>
+                        <option value="Overseas">Overseas</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Budget Display -->
+            <div class="budget-display">
+                <div class="budget-item">
+                    <div class="budget-label">Total Budget</div>
+                    <div class="budget-value" id="totalBudget">120.00 Cr</div>
+                </div>
+                <div class="budget-item">
+                    <div class="budget-label">Remaining</div>
+                    <div class="budget-value" id="remainingBudget">120.00 Cr</div>
+                </div>
+            </div>
+
+            <!-- Squad Summary -->
+            <div class="squad-summary">
+                <div class="squad-title">Squad Summary</div>
+                <div class="squad-grid">
+                    <div class="squad-stat">
+                        <div class="squad-stat-label">Total Players</div>
+                        <div class="squad-stat-value" id="playerCount">0</div>
+                    </div>
+                    <div class="squad-stat">
+                        <div class="squad-stat-label">Indian</div>
+                        <div class="squad-stat-value" id="indianCount">0</div>
+                    </div>
+                    <div class="squad-stat">
+                        <div class="squad-stat-label">Overseas</div>
+                        <div class="squad-stat-value" id="overseasCount">0</div>
+                    </div>
+                    <div class="squad-stat">
+                        <div class="squad-stat-label">Spent</div>
+                        <div class="squad-stat-value" id="spentAmount">0 Cr</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Button -->
+            <div class="btn-group">
+                <button class="btn-add" onclick="addPlayer()">
+                    <i class="fas fa-plus"></i> Add Player
+                </button>
+                <button class="btn-reset" onclick="resetTeam()">
+                    <i class="fas fa-sync"></i> Reset Team
+                </button>
+            </div>
+
+            <!-- Player List -->
+            <div class="player-list">
+                <div style="font-size: 16px; font-weight: 700; margin-bottom: 15px; color: var(--text-dark);">Your Squad</div>
+                <div id="playerListContainer" style="min-height: 100px;">
+                    <p style="color: var(--text-gray); text-align: center; padding: 20px;">Add players to build your squad...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- IPL Auction Guide -->
+        <article class="article-section">
+            <h2>🎯 Complete Guide to IPL Auction Strategy & Team Building</h2>
+
+            <p><strong>The Indian Premier League (IPL) auction is one of cricket's most thrilling annual events.</strong> Franchises invest enormous sums to build competitive squads, and understanding auction strategy is crucial for cricket enthusiasts. Whether you're interested in IPL management, fantasy cricket, or simply understanding how teams are built, this comprehensive guide covers everything you need to know about IPL auctions.</p>
+
+            <h3>What is the IPL Auction?</h3>
+
+            <p>The IPL auction is an open bidding event held annually before the IPL season begins. Ten franchises (as of 2024) gather to bid for available players to build their squads. Each team operates under a salary cap of 120 crore Indian rupees and must select exactly 25 players: 5 overseas and 20 Indian players. The auction format has evolved over the years, but the fundamental principle remains: teams strategically bid to assemble competitive squads within budget constraints.</p>
+
+            <p>The auction is conducted by professional auctioneers who present players one by one. Teams can start bidding, and the price increases in increments until only one team remains interested. That team wins the player at the final bid price. This high-pressure environment creates dramatic moments as franchises deploy various strategies to acquire their target players.</p>
+
+            <h3>IPL Auction Budget and Salary Cap</h3>
+
+            <p>Each IPL franchise receives a budget of 120 crore rupees for the entire season. This fixed budget must cover all 25 players in the squad. Teams cannot exceed this limit, making budget management crucial. With average player prices ranging from 20 lakh to 16 crores, teams must carefully allocate their budget to balance premium players with cost-effective options.</p>
+
+            <p>The salary cap ensures competitive balance, preventing wealthy franchises from monopolizing top talent. Teams earning less revenue from ticket sales and broadcasting aren't disadvantaged financially compared to well-established franchises. This system encourages strategic thinking and smart procurement rather than pure financial muscle.</p>
+
+            <h3>Squad Composition Requirements</h3>
+
+            <p>IPL squads must meet strict composition requirements. Teams need exactly 25 players with specific distribution:</p>
+
+            <ul>
+                <li><strong>Minimum 5 overseas players</strong> - essential for international talent and experience</li>
+                <li><strong>Maximum 20 Indian players</strong> - ensures Indian talent gets prominent opportunities</li>
+                <li><strong>Minimum 3 openers</strong> - crucial for strong batting starts</li>
+                <li><strong>Minimum 3 middle-order batsmen</strong> - stability in batting lineup</li>
+                <li><strong>Minimum 3 fast bowlers</strong> - essential for power-play bowling</li>
+                <li><strong>Minimum 2 spinners</strong> - vital for slow-pitch performances</li>
+            </ul>
+
+            <p>These requirements ensure balanced squads with adequate coverage for all match situations. Teams that fail to meet composition requirements cannot take the field, making squad planning critical.</p>
+
+            <h3>Categories and Price Brackets in IPL Auctions</h3>
+
+            <p><strong>Premium Players (15-16 Crore Range):</strong> Star cricketers like Virat Kohli, Rohit Sharma, Pat Cummins, and MS Dhoni typically command prices in this bracket. These are franchise anchors who attract fans and guarantee consistent performance. Franchises usually target 2-4 premium players to build their squad core.</p>
+
+            <p><strong>High-Value All-rounders (10-15 Crore Range):</strong> Players offering batting and bowling value command premium prices. Sam Curran, Ben Stokes, and Hardik Pandya exemplify this category. These players provide flexibility in team composition and often feature prominently in team strategies.</p>
+
+            <p><strong>Mid-Tier Specialists (5-10 Crore Range):</strong> Experienced bowlers, consistent batsmen, and established domestic players fall here. This bracket offers excellent value for teams seeking reliable performers without spending excessively. Many championship-winning squads are built on mid-tier player foundations.</p>
+
+            <p><strong>Emerging Talent (1-5 Crore Range):</strong> Young talented cricketers, promising uncapped players, and international newcomers occupy this bracket. Smart franchises invest heavily here, identifying future stars before they become expensive. This category provides tremendous budget flexibility.</p>
+
+            <p><strong>Bench Strength (20-50 Lakh Range):</strong> Essential backup players, specialist replacements, and youth talent fill remaining squad spots. These budget-friendly selections enable teams to finalize squad composition without exceeding salary caps.</p>
+
+            <h3>Key IPL Auction Strategy Principles</h3>
+
+            <p><strong>Build Around Anchor Players:</strong> Successful teams identify 3-4 anchor players who form the core around which other selections are made. These premium players become focal points of team strategy and provide stability. Think Mumbai Indians' approach with Rohit Sharma as their anchoring batsman.</p>
+
+            <p><strong>Invest in Quality All-rounders:</strong> All-rounders provide exceptional value in auctions. They contribute to both batting and bowling, providing flexibility in team composition while potentially going for lower prices than specialist batsmen or bowlers of similar quality. Smart teams recognize this value early.</p>
+
+            <p><strong>Balance Overseas and Indian Talent:</strong> While teams need 5 overseas players, the Indian quota (20 spots) is more valuable due to limited availability. Smart franchises invest significantly in Indian talent, particularly middle-order batsmen and lower-order all-rounders who are relatively scarce.</p>
+
+            <p><strong>Prioritize Age and Fitness:</strong> Young players offer longer value than aging stars. While experience matters, teams increasingly prefer long-term investments. Franchise management looks for players with 3-5 high-performance years remaining rather than veterans in decline.</p>
+
+            <p><strong>Diversify Overseas Investments:</strong> Successful franchises distribute overseas slots across batting, bowling, and all-rounder roles. This prevents over-reliance on single foreign players and provides flexibility when injuries occur.</p>
+
+            <h3>How IPL Auction Prices are Determined</h3>
+
+            <p>Multiple factors influence player prices at IPL auctions. Recent form is paramount—players performing well in international cricket or domestic tournaments command higher prices. A century in Test cricket or exceptional T20 performances can significantly impact auction value.</p>
+
+            <p>Franchise needs matter greatly. If multiple teams desperately need a particular player type, competitive bidding drives prices up. Conversely, if only one team actively pursues a player, they might acquire them at relatively reasonable prices.</p>
+
+            <p>International reputation affects value significantly. Overseas players with strong Test records or popular domestic league experience often attract higher bids. Their ability to attract fans and international media coverage adds value beyond on-field performance.</p>
+
+            <p>Player age and injury history influence decisions. Younger players with clean injury records command premiums, while players with injury concerns might go at discounts despite quality. Franchises consider long-term investment potential versus immediate performance.</p>
+
+            <h3>Famous IPL Auction Moments</h3>
+
+            <p><strong>Virat Kohli's Retention (2022):</strong> RCB retained Virat Kohli at 15 crore rupees despite his poor form, betting on his recovery. This decision reflected franchise loyalty and confidence in his talent.</p>
+
+            <p><strong>Pat Cummins Record Buy (2023):</strong> Kolkata Knight Riders paid 20.5 crores for Pat Cummins, setting a new IPL record. This reflected his exceptional form and overseas all-rounder scarcity.</p>
+
+            <p><strong>Young Talent Discoveries:</strong> Jasprit Bumrah and Virat Kohli were relatively unknown when franchises first acquired them at reasonable prices. These signings proved to be tremendous value long-term.</p>
+
+            <h3>Common IPL Auction Mistakes</h3>
+
+            <p><strong>Overlapping Roles:</strong> Teams sometimes spend heavily on batsmen while neglecting bowling, creating unbalanced squads. Successful teams maintain role balance across their selections.</p>
+
+            <p><strong>Ignoring Age Demographics:</strong> Franchises occasionally stack teams with aging players, limiting squad longevity. Balanced age distribution ensures sustainability across multiple seasons.</p>
+
+            <p><strong>Chasing Hype:</strong> Players gaining temporary popularity sometimes get inflated prices. Smart franchises avoid hype-driven decisions, instead focusing on consistent performers.</p>
+
+            <p><strong>Budget Mismanagement:</strong> Some teams exhaust budgets early on premium players, leaving insufficient funds for quality depth. Balanced budget allocation across price brackets works better.</p>
+
+            <h3>How to Use the Toolvala IPL Auction Tool</h3>
+
+            <p>Our interactive IPL Auction Tool helps you simulate team building and understand squad dynamics. Here's how to use it effectively:</p>
+
+            <p><strong>Step 1:</strong> Enter a player's name and category (Batsman, Bowler, All-rounder, Wicket-keeper).</p>
+
+            <p><strong>Step 2:</strong> Input the player's auction price in crores. You can use realistic IPL prices or simulate different scenarios.</p>
+
+            <p><strong>Step 3:</strong> Specify whether the player is Indian or Overseas to track quota requirements.</p>
+
+            <p><strong>Step 4:</strong> Click "Add Player" to add them to your squad. The tool automatically calculates remaining budget and tracks squad composition.</p>
+
+            <p><strong>Step 5:</strong> Monitor your squad summary showing total players, Indian/Overseas ratio, and remaining budget.</p>
+
+            <p><strong>Step 6:</strong> Continue adding players until you've built your complete 25-player squad within 120-crore budget.</p>
+
+            <p>Use this tool to experiment with different squad compositions, understand budget constraints, and learn about strategic player selection in IPL auctions.</p>
+
+            <h3>Conclusion</h3>
+
+            <p>IPL auctions represent cricket's unique intersection of sports and business strategy. Understanding auction dynamics, squad composition requirements, and strategic principles provides insights into professional cricket management. Whether you're interested in franchise operations, fantasy cricket, or simply appreciating IPL strategy, mastering auction concepts enriches your cricket knowledge. Use Toolvala's IPL Auction Tool to practice squad building and develop strategies for creating championship-winning teams!</p>
+        </article>
+
+        <!-- Related Tools -->
+        <section class="links-section">
+            <h2>🏏 Related Cricket Tools</h2>
+            <div class="links-list">
+                <a href="https://www.toolvala.in/cricket-calculators.html">🏏 Cricket Calculators - Run rate, strike rate, Duckworth-Lewis, and more cricket calculations</a>
+                <a href="https://www.toolvala.in/live-cricket-score.html">📺 Live Cricket Score - Real-time cricket match scores and updates</a>
+                <a href="https://www.toolvala.in/fantasy-points-calculator.html">💎 Fantasy Points Calculator - Calculate Dream11, MyTeam11, and FanCode points</a>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section class="faq-section">
+            <h2>❓ Frequently Asked Questions</h2>
+            <div id="faqContainer"></div>
+        </section>
+    </main>
+
+    <script>
+        const faqs = [
+            { q: 'What is the IPL auction process?', a: 'The IPL auction is an annual event where franchises bid for players to build their squads. Teams have a fixed budget (usually 120 crores) and select players through open bidding. Each team requires 25 players: 5 overseas, 20 Indian (with minimum 3 openers, 3 middle-order, 3 fast bowlers, 2 spinners).' },
+            { q: 'What is the budget for IPL auction?', a: 'Each IPL franchise gets 120 crore rupees as their total budget to build a squad of 25 players. Teams must allocate this budget strategically across different categories: premium players, mid-range performers, and value picks.' },
+            { q: 'How many players does an IPL team need?', a: 'An IPL team requires exactly 25 players: minimum 5 overseas players and maximum 20 Indian players. The squad must also include minimum 3 openers, 3 middle-order batsmen, 3 fast bowlers, and 2 spinners to be eligible to play.' },
+            { q: 'How much does an average IPL player cost?', a: 'Average IPL player prices range from 20 lakh to 5-10 crore rupees depending on experience and performance. Star players cost 10-20 crores, mid-tier players 2-8 crores, and younger/emerging players typically go for 20 lakh to 1 crore.' },
+            { q: 'What makes a good IPL auction strategy?', a: 'Good IPL auction strategy includes: building a balanced team, investing in 3-4 star players, focusing on all-rounders for value, buying Indian middle-order and overseas batsmen strategically, securing quality fast bowlers, and retaining budget flexibility for critical players.' },
+            { q: 'Which IPL players always go first in auctions?', a: 'Star players like Virat Kohli, Rohit Sharma, MS Dhoni, Bumrah, and other premium cricketers are usually in higher price brackets. Overseas stars like Pat Cummins and aggressive batsmen typically get competitive bids.' },
+            { q: 'How do I choose players in IPL auction?', a: 'Consider player form, fitness, role in team, overseas/Indian quota, age, experience, and venue preferences. Balance your squad with premium players, all-rounders, young talent, and overseas specialists. Check recent performance and upcoming match conditions.' },
+            { q: 'Can I use this IPL auction tool for fantasy leagues?', a: 'Yes! This tool helps understand squad composition and budget management. While designed for IPL auction simulation, the principles apply to fantasy IPL teams and understanding cricket economics.' }
+        ];
+
+        let squad = [];
+        const totalBudget = 120;
+
+        function addPlayer() {
+            const name = document.getElementById('playerName').value.trim();
+            const price = parseFloat(document.getElementById('playerPrice').value) || 0;
+            const category = document.getElementById('playerCategory').value;
+            const type = document.getElementById('playerType').value;
+
+            if (!name) {
+                showNotification('Please enter player name');
+                return;
+            }
+
+            if (price <= 0) {
+                showNotification('Please enter valid price');
+                return;
+            }
+
+            if (squad.length >= 25) {
+                showNotification('Squad is full (25 players max)');
+                return;
+            }
+
+            const remaining = getRemainingBudget();
+            if (price > remaining) {
+                showNotification('Insufficient budget remaining');
+                return;
+            }
+
+            squad.push({ name, price, category, type });
+            updateDisplay();
+            document.getElementById('playerName').value = '';
+            document.getElementById('playerPrice').value = '0.5';
+            showNotification(name + ' added to squad!');
+        }
+
+        function removePlayer(index) {
+            squad.splice(index, 1);
+            updateDisplay();
+            showNotification('Player removed');
+        }
+
+        function getRemainingBudget() {
+            const spent = squad.reduce((sum, p) => sum + p.price, 0);
+            return totalBudget - spent;
+        }
+
+        function updateDisplay() {
+            const remaining = getRemainingBudget();
+            const spent = totalBudget - remaining;
+            const indianCount = squad.filter(p => p.type === 'Indian').length;
+            const overseasCount = squad.filter(p => p.type === 'Overseas').length;
+
+            document.getElementById('remainingBudget').textContent = remaining.toFixed(2) + ' Cr';
+            document.getElementById('spentAmount').textContent = spent.toFixed(2) + ' Cr';
+            document.getElementById('playerCount').textContent = squad.length;
+            document.getElementById('indianCount').textContent = indianCount;
+            document.getElementById('overseasCount').textContent = overseasCount;
+
+            // Render player list
+            const container = document.getElementById('playerListContainer');
+            if (squad.length === 0) {
+                container.innerHTML = '<p style="color: var(--text-gray); text-align: center; padding: 20px;">Add players to build your squad...</p>';
+            } else {
+                container.innerHTML = squad.map((p, i) => `
+                    <div class="player-item">
+                        <div class="player-info">
+                            <div class="player-name">${p.name}</div>
+                            <div class="player-role">${p.category} (${p.type})</div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <div class="player-price">₹${p.price} Cr</div>
+                            <button class="remove-btn" onclick="removePlayer(${i})">Remove</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function resetTeam() {
+            squad = [];
+            document.getElementById('playerName').value = '';
+            document.getElementById('playerPrice').value = '0.5';
+            updateDisplay();
+            showNotification('🔄 Team reset!');
+        }
+
+        function showNotification(msg) {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = msg;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 2500);
+        }
+
+        function renderFAQ() {
+            const container = document.getElementById('faqContainer');
+            container.innerHTML = '';
+            faqs.forEach((item) => {
+                const div = document.createElement('div');
+                div.className = 'faq-item';
+                div.innerHTML = `
+                    <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+                        <span>${item.q}</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">${item.a}</div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            renderFAQ();
+            updateDisplay();
+        });
+    </script>
+<div id="footer"></div>
+
+<script>
+fetch("/footer.html")
+  .then(response => response.text())
+  .then(data => {
+    document.getElementById("footer").innerHTML = data;
+    var yearSpan = document.getElementById("year");
+    if (yearSpan) {
+      yearSpan.textContent = new Date().getFullYear();
+    }
+  });
+</script>
+</body>
+</html>
