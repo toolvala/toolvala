@@ -5,7 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>Study Timetable Generator (AI) | Free Exam Prep Scheduler | Toolvala.in</title>
     <link rel="canonical" href="https://www.toolvala.in/study-timetable-generator-ai.html">
-    
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8GTQC904G1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8GTQC904G1');
+</script>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <meta name="description" content="Free AI-powered study timetable generator. Create personalized exam preparation schedules with intelligent subject distribution, break management, and Pomodoro technique. Perfect for CBSE, JEE, NEET, competitive exams.">
     <meta name="keywords" content="study timetable generator, exam schedule maker, study planner AI, timetable creator, exam preparation schedule, study hours planner, weak subject focus, Pomodoro timer, study routine, academic planner">
     
@@ -39,7 +50,8 @@
     </script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     
     <style>
         * {
@@ -678,6 +690,66 @@
             margin-bottom: 2px;
         }
 
+        /* Print & PDF Styles */
+        @media print {
+            body, main, .timetable-section {
+                background: white;
+                margin: 0;
+                padding: 0;
+            }
+
+            .bottom-nav, .button-group, .subject-input-section, .form-section, .generator-card, .article-section, .faq-section {
+                display: none !important;
+            }
+
+            .timetable-section {
+                box-shadow: none;
+                border: none;
+                padding: 20px;
+                page-break-inside: avoid;
+            }
+
+            .day-card {
+                page-break-inside: avoid;
+                margin-bottom: 20px;
+            }
+
+            .timetable-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .pdf-container {
+            background: white;
+            padding: 20px;
+            display: none;
+            border-radius: 12px;
+        }
+
+        .pdf-container.active {
+            display: block;
+        }
+
+        .pdf-header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 20px;
+        }
+
+        .pdf-title {
+            color: var(--primary);
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .pdf-info {
+            color: var(--gray);
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .generator-card, .article-section {
@@ -851,6 +923,9 @@
                 <div class="timetable-grid" id="timetableGrid"></div>
             </div>
         </div>
+
+        <!-- Hidden PDF Container -->
+        <div class="pdf-container" id="pdfContainer"></div>
 
         <!-- Article Section -->
         <article class="article-section">
@@ -1484,16 +1559,103 @@
         }
 
         function downloadPDF() {
-            const element = document.getElementById('timetableSection');
+            const examName = window.examName || 'Study-Timetable';
+            const timetable = window.currentTimetable || [];
+            
+            if (!timetable || timetable.length === 0) {
+                alert('Please generate a timetable first!');
+                return;
+            }
+
+            // Create PDF content
+            let htmlContent = `
+                <div style="font-family: Arial, sans-serif; max-width: 900px; margin: 0 auto;">
+                    <div style="text-align: center; margin-bottom: 30px; border-bottom: 3px solid #6366f1; padding-bottom: 20px;">
+                        <h1 style="color: #6366f1; margin: 0 0 10px 0; font-size: 28px;">Study Timetable</h1>
+                        <p style="color: #666; margin: 5px 0; font-size: 14px;"><strong>Exam:</strong> ${examName}</p>
+                        <p style="color: #666; margin: 5px 0; font-size: 14px;"><strong>Generated:</strong> ${new Date().toLocaleDateString()}</p>
+                        <p style="color: #f59e0b; margin: 5px 0; font-size: 14px;"><strong>Total Days:</strong> ${timetable.length}</p>
+                    </div>
+
+                    <div style="margin-bottom: 30px;">
+                        <h2 style="color: #6366f1; font-size: 18px; border-bottom: 2px solid #6366f1; padding-bottom: 10px;">Study Schedule</h2>
+            `;
+
+            // Add timetable data
+            timetable.forEach((dayData, index) => {
+                const dayDate = dayData.date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+                
+                htmlContent += `
+                    <div style="background: #f3f4f6; padding: 15px; margin: 15px 0; border-left: 4px solid #6366f1; border-radius: 5px; page-break-inside: avoid;">
+                        <h3 style="color: #6366f1; margin: 0 0 15px 0; font-size: 16px;">Day ${dayData.day} - ${dayDate}</h3>
+                        <table style="width: 100%; border-collapse: collapse; background: white;">
+                            <thead>
+                                <tr style="background: #6366f1; color: white;">
+                                    <th style="border: 1px solid #ddd; padding: 10px; text-align: left; font-weight: bold;">Time</th>
+                                    <th style="border: 1px solid #ddd; padding: 10px; text-align: left; font-weight: bold;">Subject</th>
+                                    <th style="border: 1px solid #ddd; padding: 10px; text-align: left; font-weight: bold;">Duration</th>
+                                    <th style="border: 1px solid #ddd; padding: 10px; text-align: left; font-weight: bold;">Type</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                `;
+
+                dayData.schedule.forEach(slot => {
+                    const bgColor = slot.type === 'break' ? '#fef3c7' : slot.difficulty === 'weak' ? '#fee2e2' : slot.difficulty === 'medium' ? '#fef08a' : '#dcfce7';
+                    const textColor = slot.type === 'break' ? '#d97706' : slot.difficulty === 'weak' ? '#dc2626' : slot.difficulty === 'medium' ? '#ca8a04' : '#16a34a';
+                    
+                    htmlContent += `
+                        <tr style="border-bottom: 1px solid #e5e7eb;">
+                            <td style="border: 1px solid #ddd; padding: 10px; font-weight: 600; color: #333;">${slot.startTime} - ${slot.endTime}</td>
+                            <td style="border: 1px solid #ddd; padding: 10px; color: ${textColor}; font-weight: 600;">${slot.type === 'break' ? '☕ Break' : slot.subject}</td>
+                            <td style="border: 1px solid #ddd; padding: 10px; color: #666;">${slot.duration} min</td>
+                            <td style="border: 1px solid #ddd; padding: 10px; background: ${bgColor}; font-size: 12px; font-weight: 600; color: ${textColor};">${slot.type === 'break' ? 'Break' : slot.difficulty}</td>
+                        </tr>
+                    `;
+                });
+
+                htmlContent += `
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            });
+
+            htmlContent += `
+                    </div>
+                    <div style="margin-top: 30px; padding: 20px; background: #f9fafb; border-radius: 8px; border-left: 4px solid #10b981;">
+                        <h3 style="color: #10b981; margin-top: 0;">📋 Tips for Effective Study:</h3>
+                        <ul style="color: #666; line-height: 1.8; margin: 10px 0;">
+                            <li>Follow the schedule consistently for best results</li>
+                            <li>Take prescribed breaks to maintain focus capacity</li>
+                            <li>Track completed topics and measure progress</li>
+                            <li>Adjust weak subjects if needed and regenerate</li>
+                            <li>Combine studying with proper sleep and nutrition</li>
+                            <li>Practice tests to measure improvement regularly</li>
+                        </ul>
+                    </div>
+                </div>
+            `;
+
+            // Generate PDF using html2pdf
+            const element = document.createElement('div');
+            element.innerHTML = htmlContent;
+            
             const opt = {
-                margin: 10,
-                filename: `${window.examName || 'Study-Timetable'}.pdf`,
+                margin: [10, 10, 10, 10],
+                filename: `${examName.replace(/\s+/g, '-')}-Timetable.pdf`,
                 image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2 },
+                html2canvas: { scale: 2, logging: false, useCORS: true },
                 jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' }
             };
 
-            html2pdf().set(opt).from(element).save();
+            try {
+                html2pdf().set(opt).from(element).save();
+            } catch (error) {
+                console.error('PDF generation error:', error);
+                // Fallback: Print the timetable
+                window.print();
+            }
         }
 
         // Scroll functions
@@ -1509,5 +1671,18 @@
             document.querySelector('.faq-section').scrollIntoView({ behavior: 'smooth' });
         }
     </script>
+    <div id="footer"></div>
+
+<script>
+fetch("/footer.html")
+  .then(response => response.text())
+  .then(data => {
+    document.getElementById("footer").innerHTML = data;
+    var yearSpan = document.getElementById("year");
+    if (yearSpan) {
+      yearSpan.textContent = new Date().getFullYear();
+    }
+  });
+</script>
 </body>
 </html>
