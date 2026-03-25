@@ -670,6 +670,17 @@
                 <button class="remove-btn" onclick="resetTool()"><i class="fa fa-xmark"></i></button>
             </div>
 
+            <!-- VECTOR PDF PRE-WARNING -->
+            <div id="vectorWarning" style="display:none; margin-top:14px; background:#fffbeb; border:1.5px solid #fcd34d; border-radius:14px; padding:14px 16px; font-size:13px; color:#92400e; font-weight:600; display:none; align-items:flex-start; gap:10px;">
+                <span style="font-size:18px;flex-shrink:0">⚠️</span>
+                <div>
+                    <strong>Heads up: This looks like a digital/vector PDF</strong> (created from Word, Google Docs, Excel, etc. — not a scan).
+                    Rasterization-based compression works best on <em>scanned image PDFs</em>.
+                    For this file, we've auto-selected <strong>Eco Mode</strong> for the best chance of reduction.
+                    If the result is still larger, the file is already optimally compact and we'll return the original unchanged.
+                </div>
+            </div>
+
             <!-- CONTROLS (hidden until file loaded) -->
             <div id="controls" style="display:none">
 
@@ -753,7 +764,7 @@
 
                 <!-- RESULT -->
                 <div class="result-card" id="resultCard">
-                    <div class="result-title">✅ Compression Complete!</div>
+                    <div class="result-title" id="resultTitle">✅ Compression Complete!</div>
                     <div class="stats-row">
                         <div class="stat-chip">
                             <div class="label">Original Size</div>
@@ -771,9 +782,7 @@
                             <div class="sub">reduction</div>
                         </div>
                     </div>
-                    <div id="sizeWarning" style="display:none; background:#fff1f2; border:1px solid #fca5a5; border-radius:12px; padding:12px 16px; margin-bottom:16px; font-size:13px; color:#dc2626; font-weight:600;">
-                        ⚠️ This PDF is already a compact vector/text document. Rasterizing it added image data overhead. Try switching to <strong>Eco mode</strong> or use a lower manual quality value. The original file may already be optimal.
-                    </div>
+                    <div id="sizeWarning" style="display:none; background:#fffbeb; border:1px solid #fcd34d; border-radius:12px; padding:12px 16px; margin-bottom:16px; font-size:13px; color:#92400e; font-weight:600; align-items:flex-start; gap:10px; text-align:left;"></div>
                     <div>
                         <button class="download-btn" id="downloadBtn"><i class="fa fa-download"></i> Download PDF</button>
                         <button class="compress-again" onclick="resetTool()"><i class="fa fa-rotate-left"></i> Start Over</button>
@@ -1290,20 +1299,22 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs
 document.getElementById('year').textContent = new Date().getFullYear();
 
 // ─── STATE ──────────────────────────────────────────────
-let currentFile = null;
-let compressedBlob = null;
+let currentFile     = null;
+let currentArrayBuf = null;   // keep original bytes for fallback
+let compressedBlob  = null;
+let pdfPageCount    = 1;
 
-// Preset configs: { scale, quality, useJpeg }
-// Scale must stay LOW for compression to work — high scale = bigger canvas = bigger file
+// ─── PRESETS ────────────────────────────────────────────
+// Scale kept low — high scale produces BIGGER output for vector PDFs
 const PRESETS = {
-    eco:      { scale: 1.0, quality: 0.35, useJpeg: true  },  // max compression
-    balanced: { scale: 1.2, quality: 0.55, useJpeg: true  },  // good balance
-    hd:       { scale: 1.5, quality: 0.78, useJpeg: true  },  // clear output
-    ultrahd:  { scale: 2.0, quality: 0.92, useJpeg: true  }   // near-lossless
+    eco:      { scale: 0.9,  quality: 0.30 },
+    balanced: { scale: 1.1,  quality: 0.52 },
+    hd:       { scale: 1.4,  quality: 0.75 },
+    ultrahd:  { scale: 1.8,  quality: 0.90 }
 };
 let selectedPreset = 'balanced';
-let useGrayscale = false;
-let useManual = false;
+let useGrayscale   = false;
+let useManual      = false;
 
 // ─── FILE INPUT ──────────────────────────────────────────
 const fileInput = document.getElementById('fileInput');
@@ -1311,8 +1322,8 @@ const dropZone  = document.getElementById('dropZone');
 
 fileInput.onchange = e => { if (e.target.files[0]) loadFile(e.target.files[0]); };
 
-dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
-dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+dropZone.addEventListener('dragover',  e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+dropZone.addEventListener('dragleave', ()  => dropZone.classList.remove('drag-over'));
 dropZone.addEventListener('drop', e => {
     e.preventDefault(); dropZone.classList.remove('drag-over');
     const f = e.dataTransfer.files[0];
@@ -1320,25 +1331,41 @@ dropZone.addEventListener('drop', e => {
     else alert('Please drop a valid PDF file.');
 });
 
+// ─── LOAD FILE + SMART PRE-DETECTION ────────────────────
 async function loadFile(file) {
     currentFile = file;
+    compressedBlob = null;
 
-    // Get page count
-    let pageCount = '?';
     try {
-        const ab = await file.arrayBuffer();
-        const pdf = await pdfjsLib.getDocument({ data: ab }).promise;
-        pageCount = pdf.numPages;
-    } catch(e) {}
+        currentArrayBuf = await file.arrayBuffer();
+        const pdfDoc = await pdfjsLib.getDocument({ data: currentArrayBuf.slice(0) }).promise;
+        pdfPageCount = pdfDoc.numPages;
 
-    document.getElementById('fileName').textContent = file.name;
-    document.getElementById('fileMeta').textContent = `${pageCount} pages · ${(file.size / 1024 / 1024).toFixed(2)} MB`;
-    document.getElementById('fileInfoBar').classList.add('show');
-    document.getElementById('controls').style.display = 'block';
+        // ── Smart Detection: bytes-per-page heuristic ──
+        // Scanned PDFs: >> 100KB/page (image-heavy)
+        // Vector PDFs:  << 30KB/page  (text/math stream only)
+        const kbPerPage = (file.size / 1024) / pdfPageCount;
+        const vectorWarning = document.getElementById('vectorWarning');
+        if (kbPerPage < 40) {
+            // Likely a vector/digital PDF — warn the user upfront
+            vectorWarning.style.display = 'flex';
+            // Auto-switch to Eco so they don't waste time
+            selectPreset('eco');
+        } else {
+            vectorWarning.style.display = 'none';
+        }
 
-    // Reset result state
-    document.getElementById('resultCard').classList.remove('show');
-    document.getElementById('progressWrap').classList.remove('show');
+        document.getElementById('fileName').textContent = file.name;
+        document.getElementById('fileMeta').textContent =
+            `${pdfPageCount} page${pdfPageCount>1?'s':''} · ${(file.size/1024/1024).toFixed(2)} MB · ~${Math.round(kbPerPage)} KB/page`;
+        document.getElementById('fileInfoBar').classList.add('show');
+        document.getElementById('controls').style.display = 'block';
+        document.getElementById('resultCard').classList.remove('show');
+        document.getElementById('progressWrap').classList.remove('show');
+
+    } catch(e) {
+        alert('Could not read this PDF. It may be encrypted or corrupted.');
+    }
 }
 
 // ─── PRESET SELECTION ────────────────────────────────────
@@ -1359,7 +1386,6 @@ function toggleOption(key) {
         document.getElementById('manualQuality').classList.toggle('show', useManual);
     }
 }
-
 function updateSlider() {
     const v = parseFloat(document.getElementById('qualityRange').value);
     document.getElementById('sliderVal').textContent = v.toFixed(2);
@@ -1367,37 +1393,31 @@ function updateSlider() {
 
 // ─── RESET ───────────────────────────────────────────────
 function resetTool() {
-    currentFile = null;
-    compressedBlob = null;
+    currentFile = null; currentArrayBuf = null; compressedBlob = null;
     fileInput.value = '';
     document.getElementById('fileInfoBar').classList.remove('show');
     document.getElementById('controls').style.display = 'none';
     document.getElementById('resultCard').classList.remove('show');
     document.getElementById('progressWrap').classList.remove('show');
+    document.getElementById('vectorWarning').style.display = 'none';
 }
 
-// ─── MAIN PROCESSING ─────────────────────────────────────
+// ─── MAIN COMPRESSION ────────────────────────────────────
 async function processPDF() {
-    if (!currentFile) return;
+    if (!currentFile || !currentArrayBuf) return;
 
-    const cfg = PRESETS[selectedPreset];
+    const cfg     = PRESETS[selectedPreset];
     const scale   = cfg.scale;
-    let quality   = useManual ? parseFloat(document.getElementById('qualityRange').value) : cfg.quality;
-    const useJpeg = useManual ? (quality < 1.0) : cfg.useJpeg;
+    let   quality = useManual ? parseFloat(document.getElementById('qualityRange').value) : cfg.quality;
 
     const compressBtn = document.getElementById('compressBtn');
     compressBtn.disabled = true;
-
-    const progressWrap = document.getElementById('progressWrap');
-    progressWrap.classList.add('show');
+    document.getElementById('progressWrap').classList.add('show');
     document.getElementById('resultCard').classList.remove('show');
 
     try {
-        const arrayBuffer = await currentFile.arrayBuffer();
-
-        setProgress('Loading PDF…', 0);
-        const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
-        const pdfDoc = await loadingTask.promise;
+        setProgress('Loading PDF…', 2);
+        const pdfDoc    = await pdfjsLib.getDocument({ data: currentArrayBuf.slice(0) }).promise;
         const totalPages = pdfDoc.numPages;
 
         // Build page tiles
@@ -1406,9 +1426,7 @@ async function processPDF() {
         const maxTiles = Math.min(totalPages, 60);
         for (let i = 1; i <= maxTiles; i++) {
             const t = document.createElement('div');
-            t.className = 'page-tile';
-            t.id = `tile-${i}`;
-            t.textContent = i;
+            t.className = 'page-tile'; t.id = `tile-${i}`; t.textContent = i;
             tilesEl.appendChild(t);
         }
         if (totalPages > maxTiles) {
@@ -1421,135 +1439,145 @@ async function processPDF() {
         const outPdf = await PDFLib.PDFDocument.create();
 
         for (let i = 1; i <= totalPages; i++) {
-            const pct = Math.round((i / totalPages) * 100);
-            setProgress(`Rendering page ${i} of ${totalPages}…`, pct);
-
-            // Update tiles
-            if (i > 1 && i - 1 <= maxTiles) markTile(i - 1, 'done');
+            const pct = Math.round(5 + (i / totalPages) * 90);
+            setProgress(`Compressing page ${i} of ${totalPages}…`, pct);
+            if (i > 1 && i-1 <= maxTiles) markTile(i-1, 'done');
             if (i <= maxTiles) markTile(i, 'current');
 
-            const page = await pdfDoc.getPage(i);
+            const page     = await pdfDoc.getPage(i);
             const viewport = page.getViewport({ scale });
+            const canvas   = document.createElement('canvas');
+            const ctx      = canvas.getContext('2d');
+            canvas.width   = Math.round(viewport.width);
+            canvas.height  = Math.round(viewport.height);
 
-            // ─── RENDER ───────────────────────────────────────
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width  = viewport.width;
-            canvas.height = viewport.height;
-
-            // White background (prevents transparent → black on JPEG)
+            // White fill — prevents JPEG black-on-transparent issue
             ctx.fillStyle = '#ffffff';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-
             await page.render({ canvasContext: ctx, viewport }).promise;
 
-            // ─── GRAYSCALE CONVERSION ─────────────────────────
+            // Optional grayscale
             if (useGrayscale) {
                 const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
                 const d = imgData.data;
                 for (let p = 0; p < d.length; p += 4) {
-                    const gray = Math.round(0.299 * d[p] + 0.587 * d[p+1] + 0.114 * d[p+2]);
-                    d[p] = d[p+1] = d[p+2] = gray;
+                    const g = Math.round(0.299*d[p] + 0.587*d[p+1] + 0.114*d[p+2]);
+                    d[p] = d[p+1] = d[p+2] = g;
                 }
                 ctx.putImageData(imgData, 0, 0);
             }
 
-            // ─── ENCODE ───────────────────────────────────────
-            let imgBytes, embedded, imgW = viewport.width, imgH = viewport.height;
+            // JPEG encode
+            const dataUrl   = canvas.toDataURL('image/jpeg', quality);
+            const b64       = dataUrl.split(',')[1];
+            const bin       = atob(b64);
+            const imgBytes  = new Uint8Array(bin.length);
+            for (let b = 0; b < bin.length; b++) imgBytes[b] = bin.charCodeAt(b);
 
-            if (useJpeg) {
-                const dataUrl = canvas.toDataURL('image/jpeg', quality);
-                // Convert dataUrl to Uint8Array
-                const b64 = dataUrl.split(',')[1];
-                const binaryStr = atob(b64);
-                imgBytes = new Uint8Array(binaryStr.length);
-                for (let b = 0; b < binaryStr.length; b++) imgBytes[b] = binaryStr.charCodeAt(b);
-                embedded = await outPdf.embedJpg(imgBytes);
-            } else {
-                // PNG for lossless
-                const dataUrl = canvas.toDataURL('image/png');
-                const b64 = dataUrl.split(',')[1];
-                const binaryStr = atob(b64);
-                imgBytes = new Uint8Array(binaryStr.length);
-                for (let b = 0; b < binaryStr.length; b++) imgBytes[b] = binaryStr.charCodeAt(b);
-                embedded = await outPdf.embedPng(imgBytes);
-            }
-
-            const newPage = outPdf.addPage([imgW, imgH]);
-            newPage.drawImage(embedded, { x: 0, y: 0, width: imgW, height: imgH });
+            const embedded = await outPdf.embedJpg(imgBytes);
+            const newPage  = outPdf.addPage([canvas.width, canvas.height]);
+            newPage.drawImage(embedded, { x:0, y:0, width:canvas.width, height:canvas.height });
 
             // Force GC
             canvas.width = 1; canvas.height = 1;
         }
 
-        // Mark last tile done
         if (totalPages <= maxTiles) markTile(totalPages, 'done');
+        setProgress('Finalizing…', 98);
 
-        setProgress('Finalizing PDF…', 100);
-        const finalBytes = await outPdf.save();
-        compressedBlob = new Blob([finalBytes], { type: 'application/pdf' });
+        const finalBytes   = await outPdf.save();
+        const candidateBlob = new Blob([finalBytes], { type: 'application/pdf' });
 
-        showResult();
+        // ── SMART FALLBACK ──────────────────────────────────────────
+        // If compressed file is LARGER than original → silently serve
+        // the original and tell the user their file was already optimal.
+        if (candidateBlob.size >= currentFile.size) {
+            compressedBlob = new Blob([currentArrayBuf], { type: 'application/pdf' });
+            showResult(true); // true = "already optimal"
+        } else {
+            compressedBlob = candidateBlob;
+            showResult(false);
+        }
 
     } catch (err) {
         console.error(err);
-        alert('Error processing PDF. The file may be encrypted, password-protected, or corrupted.');
+        alert('Error processing PDF. The file may be encrypted or corrupted.');
     } finally {
         compressBtn.disabled = false;
+        setProgress('Done ✅', 100);
     }
 }
 
+// ─── HELPERS ─────────────────────────────────────────────
 function setProgress(text, pct) {
     document.getElementById('progressStage').textContent = text;
-    document.getElementById('progressPct').textContent = pct + '%';
-    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressPct').textContent   = pct + '%';
+    document.getElementById('progressFill').style.width  = pct + '%';
 }
-
 function markTile(n, state) {
     const el = document.getElementById(`tile-${n}`);
-    if (el) { el.classList.remove('done', 'current'); el.classList.add(state); }
+    if (el) { el.classList.remove('done','current'); el.classList.add(state); }
 }
 
-function showResult() {
-    const origKB  = Math.round(currentFile.size / 1024);
-    const newKB   = Math.round(compressedBlob.size / 1024);
+// ─── SHOW RESULT ─────────────────────────────────────────
+function showResult(alreadyOptimal) {
+    const origKB = Math.round(currentFile.size / 1024);
+    const newKB  = Math.round(compressedBlob.size / 1024);
+    const fmt    = kb => kb >= 1024 ? (kb/1024).toFixed(1)+' MB' : kb+' KB';
     const savedPc = Math.round((1 - compressedBlob.size / currentFile.size) * 100);
-    const increased = compressedBlob.size > currentFile.size;
 
-    document.getElementById('origSize').textContent = origKB >= 1024 ? (origKB/1024).toFixed(1) + ' MB' : origKB + ' KB';
-    document.getElementById('newSize').textContent  = newKB  >= 1024 ? (newKB /1024).toFixed(1) + ' MB' : newKB  + ' KB';
-    document.getElementById('savedPct').textContent = increased ? '▲ Larger' : savedPc + '%';
+    document.getElementById('origSize').textContent = fmt(origKB);
+    document.getElementById('newSize').textContent  = fmt(newKB);
 
-    const savedChip = document.getElementById('savedChip');
-    if (increased) {
-        savedChip.style.borderColor = '#fca5a5';
-        savedChip.style.background  = '#fff1f2';
-        document.getElementById('savedPct').style.color = '#dc2626';
-        document.getElementById('sizeWarning').style.display = 'block';
+    const savedChip    = document.getElementById('savedChip');
+    const savedPctEl   = document.getElementById('savedPct');
+    const sizeWarning  = document.getElementById('sizeWarning');
+    const resultTitle  = document.getElementById('resultTitle');
+    const downloadBtn  = document.getElementById('downloadBtn');
+
+    if (alreadyOptimal) {
+        // ── Already optimal: serve original, show friendly message ──
+        savedPctEl.textContent      = '✅ 0%';
+        savedChip.style.borderColor = '#fde68a';
+        savedChip.style.background  = '#fffbeb';
+        savedPctEl.style.color      = '#b45309';
+        sizeWarning.style.display   = 'flex';
+        sizeWarning.innerHTML = `
+            <span style="font-size:20px;flex-shrink:0">💡</span>
+            <div>
+                <strong>This PDF is already fully optimised!</strong><br>
+                It appears to be a digital/vector document (generated from Word, Google Docs, etc.)
+                rather than a scanned image — so rasterization would only increase its size.
+                We are giving you back the <strong>original file unchanged</strong>.
+                For pure-text PDFs, no compression is needed.
+            </div>`;
+        resultTitle.textContent     = '✅ Already Optimal!';
+        downloadBtn.innerHTML       = '<i class="fa fa-download"></i> Download Original (Unchanged)';
+        downloadBtn.style.background = '#f59e0b';
     } else {
+        // ── Successful compression ──
+        savedPctEl.textContent      = savedPc + '%';
         savedChip.style.borderColor = '#a7f3d0';
         savedChip.style.background  = 'white';
-        document.getElementById('savedPct').style.color = 'var(--success)';
-        document.getElementById('sizeWarning').style.display = 'none';
+        savedPctEl.style.color      = 'var(--success)';
+        sizeWarning.style.display   = 'none';
+        resultTitle.textContent     = '✅ Compression Complete!';
+        downloadBtn.innerHTML       = '<i class="fa fa-download"></i> Download Compressed PDF';
+        downloadBtn.style.background = 'var(--success)';
     }
 
-    const resultCard = document.getElementById('resultCard');
-    resultCard.classList.add('show');
-
-    document.getElementById('downloadBtn').onclick = () => {
-        const safeName = currentFile.name.replace('.pdf', '');
-        download(compressedBlob, `Toolvala_${selectedPreset}_${safeName}.pdf`, 'application/pdf');
+    document.getElementById('resultCard').classList.add('show');
+    const safeName = currentFile.name.replace(/\.pdf$/i, '');
+    downloadBtn.onclick = () => {
+        const prefix = alreadyOptimal ? 'Original' : `Toolvala_${selectedPreset}`;
+        download(compressedBlob, `${prefix}_${safeName}.pdf`, 'application/pdf');
     };
-
-    setProgress('All pages complete! ✅', 100);
 }
 
 // ─── FAQ TOGGLE ──────────────────────────────────────────
 function toggleFaq(el) {
-    const item = el.closest('.faq-item');
-    item.classList.toggle('open');
+    el.closest('.faq-item').classList.toggle('open');
 }
-
 </script>
 </body>
 </html>
