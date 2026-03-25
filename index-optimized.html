@@ -3,107 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF Compressor Online Free – Reduce PDF Size Without Quality Loss | Toolvala.in</title>
-    <meta name="description" content="Compress PDF files online for free. Reduce PDF size to 100KB, 200KB or 500KB without blurry output. No upload to server, no watermarks. Works on mobile & desktop.">
+    <title>PDF Compressor Online Free | Toolvala.in</title>
     
     <!-- Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Mono&display=swap" rel="stylesheet">
 
     <style>
         :root {
             --ink: #0a0e1a; --accent: #3b6ef8; --accent2: #00c9a7;
             --surface: #f4f6fb; --card: #ffffff; --border: #e2e7f0;
             --muted: #6b7a99; --danger: #ef4444; --success: #10b981;
-            --font: 'Sora', sans-serif; --mono: 'DM Mono', monospace;
+            --font: 'Sora', sans-serif;
         }
 
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: var(--font); background: var(--surface); color: var(--ink); line-height: 1.7; }
 
-        /* HEADER */
-        .site-header { background: var(--ink); padding: 0 32px; display: flex; align-items: center; justify-content: space-between; height: 60px; position: sticky; top: 0; z-index: 100; }
+        .site-header { background: var(--ink); padding: 0 32px; display: flex; align-items: center; justify-content: space-between; height: 60px; }
         .brand { font-size: 20px; font-weight: 800; color: #fff; text-decoration: none; }
         .brand b { color: var(--accent); }
         .header-badge { font-size: 11px; color: var(--accent2); border: 1px solid var(--accent2); padding: 3px 12px; border-radius: 100px; font-weight: 600; }
 
-        /* HERO */
-        .hero { background: var(--ink); padding: 70px 24px 90px; text-align: center; color: white; position: relative; overflow: hidden; }
-        .hero h1 { font-size: clamp(32px, 5vw, 52px); font-weight: 800; line-height: 1.1; margin-bottom: 16px; letter-spacing: -1px; }
+        .hero { background: var(--ink); padding: 60px 24px; text-align: center; color: white; }
+        .hero h1 { font-size: clamp(28px, 5vw, 48px); font-weight: 800; margin-bottom: 10px; }
         .hero h1 span { color: var(--accent); }
-        .hero p { font-size: 16px; color: #8b9ec9; max-width: 600px; margin: 0 auto; }
+        .hero p { color: #8b9ec9; font-size: 15px; }
 
-        /* TOOL CARD */
-        .main { max-width: 980px; margin: -40px auto 40px; padding: 0 20px; position: relative; z-index: 2; }
-        .tool-card { background: var(--card); border-radius: 28px; box-shadow: 0 30px 60px rgba(0,0,0,0.12); overflow: hidden; border: 1px solid var(--border); }
-        .card-body { padding: 40px; }
+        .main { max-width: 900px; margin: -30px auto 40px; padding: 0 20px; }
+        .tool-card { background: var(--card); border-radius: 28px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); overflow: hidden; border: 1px solid var(--border); }
+        .card-body { padding: 30px; }
 
-        /* DROP ZONE */
-        .drop-zone { border: 2px dashed var(--border); border-radius: 20px; padding: 60px 20px; text-align: center; background: #f9faff; cursor: pointer; transition: 0.25s; }
-        .drop-zone:hover { border-color: var(--accent); background: #f0f4ff; }
-        .drop-icon { width: 70px; height: 70px; background: var(--accent); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 32px; color: white; margin: 0 auto 20px; box-shadow: 0 10px 20px rgba(59,110,248,0.2); }
-        .drop-zone h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
-        .drop-zone p { color: var(--muted); font-size: 14px; }
+        .drop-zone { border: 2px dashed var(--border); border-radius: 20px; padding: 50px 20px; text-align: center; background: #f9faff; cursor: pointer; }
+        .drop-icon { font-size: 40px; color: var(--accent); margin-bottom: 15px; }
 
-        /* FILE INFO BAR */
-        .file-info-bar { display: none; background: #f0f4ff; border: 1px solid #d0dcff; border-radius: 14px; padding: 15px 20px; margin-top: 20px; align-items: center; gap: 12px; }
+        .file-info-bar { display: none; background: #f0f4ff; border-radius: 14px; padding: 15px; margin-top: 20px; align-items: center; gap: 12px; }
         .file-info-bar.show { display: flex; }
-        .file-details { flex: 1; overflow: hidden; }
-        .file-name { font-weight: 700; font-size: 14px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; }
-        .file-meta { font-size: 12px; color: var(--muted); font-family: var(--mono); }
+        .file-name { font-weight: 700; font-size: 14px; flex: 1; }
 
-        /* CONTROLS */
-        .controls-area { display: none; margin-top: 30px; }
-        .section-label { font-size: 12px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 15px; }
-        
-        .presets-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 25px; }
-        .preset-btn { border: 2px solid var(--border); background: white; padding: 18px 10px; border-radius: 16px; cursor: pointer; transition: 0.2s; text-align: center; }
+        .controls-area { display: none; margin-top: 25px; }
+        .presets-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
+        .preset-btn { border: 2px solid var(--border); background: white; padding: 15px; border-radius: 14px; cursor: pointer; text-align: center; }
         .preset-btn.active { border-color: var(--accent); background: #f0f4ff; }
-        .preset-name { display: block; font-weight: 800; font-size: 14px; margin-bottom: 4px; }
-        .preset-desc { font-size: 10px; color: var(--muted); font-weight: 600; }
+        .preset-name { display: block; font-weight: 800; font-size: 14px; }
 
-        .options-row { display: flex; gap: 15px; margin-bottom: 30px; }
-        .opt-toggle { flex: 1; background: #f8f9ff; border: 1px solid var(--border); padding: 15px; border-radius: 14px; display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 13px; font-weight: 700; }
-        .opt-toggle.active { border-color: var(--accent2); color: var(--accent2); background: #f0fffb; }
+        .btn-primary { width: 100%; background: var(--accent); color: white; border: none; padding: 18px; border-radius: 14px; font-weight: 800; font-size: 16px; cursor: pointer; }
+        .btn-primary:disabled { background: #cbd5e1; }
 
-        .btn-primary { width: 100%; background: var(--accent); color: white; border: none; padding: 20px; border-radius: 18px; font-size: 17px; font-weight: 800; cursor: pointer; transition: 0.2s; box-shadow: 0 10px 25px rgba(59,110,248,0.3); }
-        .btn-primary:disabled { background: #cbd5e1; cursor: not-allowed; box-shadow: none; }
-
-        /* PROGRESS */
-        .progress-wrap { display: none; margin-top: 30px; }
-        .progress-text { display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
-        .progress-track { height: 10px; background: #e2e8f0; border-radius: 10px; overflow: hidden; }
+        .progress-wrap { display: none; margin-top: 25px; }
+        .progress-bar { height: 8px; background: #e2e8f0; border-radius: 10px; overflow: hidden; margin-top: 8px; }
         .progress-fill { height: 100%; width: 0%; background: var(--accent); transition: width 0.3s; }
 
-        /* RESULT */
-        .result-card { display: none; margin-top: 30px; padding: 30px; border-radius: 20px; background: #f0fdf4; border: 1px solid var(--success); text-align: center; }
-        .stats-row { display: flex; justify-content: center; gap: 30px; margin: 20px 0; }
-        .stat-box .val { display: block; font-size: 24px; font-weight: 800; font-family: var(--mono); }
-        .stat-box .lab { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; }
-        .download-btn { display: inline-flex; align-items: center; gap: 10px; background: var(--success); color: white; border: none; padding: 16px 40px; border-radius: 14px; font-weight: 800; text-decoration: none; cursor: pointer; }
+        .result-card { display: none; margin-top: 25px; padding: 25px; border-radius: 20px; background: #f0fdf4; border: 1px solid var(--success); text-align: center; }
+        .stats-row { display: flex; justify-content: center; gap: 30px; margin: 15px 0; }
+        .stat-val { display: block; font-size: 22px; font-weight: 800; }
+        .download-btn { display: inline-block; background: var(--success); color: white; padding: 14px 30px; border-radius: 12px; font-weight: 800; text-decoration: none; margin-top: 10px; }
 
-        /* CONTENT AREA */
-        .content-area { background: white; border-radius: 24px; padding: 50px 40px; border: 1px solid var(--border); margin-bottom: 30px; }
-        .sec-title { font-size: 24px; font-weight: 800; margin-bottom: 20px; display: flex; align-items: center; gap: 12px; }
-        .sec-title::before { content: ''; width: 5px; height: 25px; background: var(--accent); border-radius: 10px; }
+        /* SEO CONTENT */
+        .content-area { background: white; border-radius: 24px; padding: 40px; margin-top: 30px; border: 1px solid var(--border); }
+        .content-area h2 { margin-bottom: 15px; font-size: 22px; }
         .content-area p { margin-bottom: 20px; color: #4a5568; }
-        .content-area ul { margin-bottom: 25px; padding-left: 20px; }
-        .content-area li { margin-bottom: 10px; color: #4a5568; }
+        .tools-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        .tool-link { background: #f8f9ff; padding: 15px; border-radius: 12px; text-decoration: none; color: var(--ink); font-weight: 700; border: 1px solid var(--border); }
 
-        /* TOOLS GRID */
-        .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; margin-top: 30px; }
-        .tool-link { display: flex; align-items: center; gap: 15px; background: #f8f9ff; border: 1px solid var(--border); padding: 20px; border-radius: 18px; text-decoration: none; transition: 0.2s; }
-        .tool-link:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-        .tool-link i { font-size: 20px; color: var(--accent); }
-        .tool-link-name { font-weight: 800; color: var(--ink); display: block; }
-        .tool-link-sub { font-size: 12px; color: var(--muted); }
-
-        @media (max-width: 640px) {
-            .presets-grid { grid-template-columns: 1fr 1fr; }
-            .content-area { padding: 30px 20px; }
-        }
+        @media (max-width: 600px) { .tools-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -114,181 +79,92 @@
 </header>
 
 <section class="hero">
-    <h1>Compress PDF. <span>No Blur.</span></h1>
-    <p>Professional online PDF compressor that reduces size for government portals and email without losing readability.</p>
+    <h1>Compress PDF <span>Instantly</span></h1>
+    <p>Secure, browser-side compression. No files are ever uploaded to a server.</p>
 </section>
 
 <main class="main">
     <div class="tool-card">
         <div class="card-body">
-            <!-- INPUTS -->
             <input type="file" id="pdfInput" accept="application/pdf" style="display:none">
-            
             <div class="drop-zone" id="dropZone" onclick="document.getElementById('pdfInput').click()">
                 <div class="drop-icon"><i class="fa fa-file-pdf"></i></div>
-                <h3>Choose PDF File</h3>
-                <p>or drag and drop here (Processes in your browser)</p>
+                <h3>Choose PDF</h3>
+                <p>Drag and drop or click to browse</p>
             </div>
 
-            <!-- FILE INFO -->
             <div class="file-info-bar" id="fileInfoBar">
-                <i class="fa fa-file-pdf" style="color: #ef4444; font-size: 24px;"></i>
-                <div class="file-details">
-                    <div class="file-name" id="dispName">document.pdf</div>
-                    <div class="file-meta" id="dispMeta">0 pages · 0 KB</div>
-                </div>
-                <button onclick="location.reload()" style="background:none; border:none; color:var(--muted); cursor:pointer;"><i class="fa fa-times"></i></button>
+                <div class="file-name" id="dispName">document.pdf</div>
+                <button onclick="location.reload()" style="background:none; border:none; cursor:pointer;"><i class="fa fa-times"></i></button>
             </div>
 
-            <!-- CONTROLS -->
             <div class="controls-area" id="controlsArea">
-                <div class="section-label">Select Compression Level</div>
                 <div class="presets-grid">
-                    <button class="preset-btn" onclick="setPreset('eco', 0.35, 1.0)">
-                        <span class="preset-name">Eco</span>
-                        <span class="preset-desc">Max Size Reduction</span>
+                    <button class="preset-btn active" onclick="setPreset(0.4, 1.0)">
+                        <span class="preset-name">Eco (Smallest)</span>
                     </button>
-                    <button class="preset-btn active" id="btnBal" onclick="setPreset('bal', 0.55, 1.2)">
+                    <button class="preset-btn" onclick="setPreset(0.6, 1.2)">
                         <span class="preset-name">Balanced</span>
-                        <span class="preset-desc">Recommended</span>
-                    </button>
-                    <button class="preset-btn" onclick="setPreset('hd', 0.78, 1.5)">
-                        <span class="preset-name">HD</span>
-                        <span class="preset-desc">Sharp Content</span>
-                    </button>
-                    <button class="preset-btn" onclick="setPreset('ultra', 0.92, 1.8)">
-                        <span class="preset-name">Ultra HD</span>
-                        <span class="preset-desc">Print Quality</span>
                     </button>
                 </div>
+                <button class="btn-primary" id="startBtn" onclick="startCompression()">Start Compression</button>
 
-                <div class="options-row">
-                    <div class="opt-toggle" id="grayToggle" onclick="toggleGray()">
-                        <i class="fa fa-circle-half-stroke"></i> Grayscale Mode
-                    </div>
-                </div>
-
-                <button class="btn-primary" id="startBtn" onclick="startCompression()">
-                    <i class="fa fa-bolt"></i> Start Compression
-                </button>
-
-                <!-- PROGRESS -->
                 <div class="progress-wrap" id="progressWrap">
-                    <div class="progress-text">
-                        <span id="progStatus">Initializing...</span>
+                    <div style="display:flex; justify-content:space-between; font-size:12px; font-weight:700;">
+                        <span id="progStatus">Processing...</span>
                         <span id="progPct">0%</span>
                     </div>
-                    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+                    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
                 </div>
 
-                <!-- RESULT -->
                 <div class="result-card" id="resultCard">
-                    <h2 style="color: #065f46;">✅ Compression Complete</h2>
+                    <h3 id="resultTitle">✅ Done!</h3>
                     <div class="stats-row">
-                        <div class="stat-box">
-                            <span class="lab">Original</span>
-                            <span class="val" id="statOld">0 KB</span>
-                        </div>
-                        <div class="stat-box" style="color: var(--success);">
-                            <span class="lab">Compressed</span>
-                            <span class="val" id="statNew">0 KB</span>
-                        </div>
+                        <div><span style="font-size:10px; color:var(--muted)">ORIGINAL</span><span class="stat-val" id="statOld">0 KB</span></div>
+                        <div><span style="font-size:10px; color:var(--muted)">NEW SIZE</span><span class="stat-val" id="statNew" style="color:var(--success)">0 KB</span></div>
                     </div>
-                    <a id="dlBtn" class="download-btn"><i class="fa fa-download"></i> Download PDF</a>
+                    <p id="smartNote" style="font-size:12px; color:var(--muted); margin-bottom:15px; display:none;">Note: Original was already optimized, so we kept it.</p>
+                    <a id="dlBtn" class="download-btn">Download PDF</a>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ARTICLE CONTENT -->
     <div class="content-area">
-        <h2 class="sec-title">The Better Way to Compress PDF Online</h2>
-        <p>Toolvala's PDF Compressor isn't just another size reducer. Most free tools online work by uploading your private documents to a remote server and sending back a low-resolution, blurry PDF. We do things differently.</p>
+        <h2>About Toolvala PDF Compressor</h2>
+        <p>Our tool is built for speed and privacy. Unlike other websites, we don't upload your sensitive documents to any server. Everything happens right in your browser. This makes it safe for compressing Aadhar cards, PAN cards, and official documents.</p>
         
-        <p>Our tool uses <strong>100% Browser-Side Processing</strong>. This means your Aadhar card, bank statements, and transcripts never leave your computer. Your browser does the hard work, ensuring your privacy is 100% protected while producing high-definition, readable output.</p>
-
-        <h2 class="sec-title">How to Compress PDF to 200KB or 100KB?</h2>
-        <p>Meeting strict government portal limits (like SSC, UPSC, or state recruitment boards) is easy with these steps:</p>
-        <ul>
-            <li><strong>Step 1:</strong> Upload your scanned PDF above.</li>
-            <li><strong>Step 2:</strong> Choose <strong>Eco Mode</strong> for maximum reduction.</li>
-            <li><strong>Step 3:</strong> Enable <strong>Grayscale Mode</strong>. Removing color can reduce file size by an additional 30%.</li>
-            <li><strong>Step 4:</strong> Click compress and download your result instantly.</li>
-        </ul>
-
-        <h2 class="sec-title">Why Use Toolvala?</h2>
-        <ul>
-            <li><strong>No Watermarks:</strong> We never add branding to your professional documents.</li>
-            <li><strong>Zero Server Upload:</strong> Complete privacy. Your data stays on your device.</li>
-            <li><strong>Multi-Page Support:</strong> Handles large documents with many pages without crashing.</li>
-            <li><strong>Mobile Friendly:</strong> Works perfectly on Chrome (Android) and Safari (iOS).</li>
-        </ul>
-
-        <h2 class="sec-title">Explore More Free Tools</h2>
+        <h2>Other Tools</h2>
         <div class="tools-grid">
-            <a href="pdf-merger.html" class="tool-link">
-                <i class="fa fa-layer-group"></i>
-                <div><span class="tool-link-name">Merge PDF</span><span class="tool-link-sub">Combine multiple files into one</span></div>
-            </a>
-            <a href="image-to-pdf.html" class="tool-link">
-                <i class="fa fa-file-image"></i>
-                <div><span class="tool-link-name">Image to PDF</span><span class="tool-link-sub">Convert JPG/PNG to PDF</span></div>
-            </a>
-            <a href="sign-pdf.html" class="tool-link">
-                <i class="fa fa-signature"></i>
-                <div><span class="tool-link-name">Sign PDF</span><span class="tool-link-sub">Add digital signature to PDF</span></div>
-            </a>
-            <a href="image-compressor.html" class="tool-link">
-                <i class="fa fa-minimize"></i>
-                <div><span class="tool-link-name">Image Compressor</span><span class="tool-link-sub">Shrink JPG/PNG/WebP files</span></div>
-            </a>
+            <a href="/pdf-merger.html" class="tool-link">Merge PDF</a>
+            <a href="/image-to-pdf.html" class="tool-link">Image to PDF</a>
         </div>
     </div>
 </main>
 
 <script>
-    // Engine Config
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
     
     let activeFile = null;
-    let config = { quality: 0.55, scale: 1.2 };
-    let useGray = false;
+    let config = { quality: 0.4, scale: 1.0 };
 
-    const pdfInput = document.getElementById('pdfInput');
-    const dropZone = document.getElementById('dropZone');
-
-    // UI Logic
-    pdfInput.onchange = e => handleFile(e.target.files[0]);
-    dropZone.ondragover = e => { e.preventDefault(); dropZone.style.borderColor = 'var(--accent)'; };
-    dropZone.ondrop = e => { e.preventDefault(); handleFile(e.dataTransfer.files[0]); };
-
-    function handleFile(file) {
-        if (!file || file.type !== 'application/pdf') return;
-        activeFile = file;
-        document.getElementById('dispName').textContent = file.name;
-        document.getElementById('dispMeta').textContent = (file.size / 1024).toFixed(0) + ' KB';
-        dropZone.style.display = 'none';
+    pdfInput.onchange = e => {
+        activeFile = e.target.files[0];
+        document.getElementById('dispName').textContent = activeFile.name;
+        document.getElementById('dropZone').style.display = 'none';
         document.getElementById('fileInfoBar').classList.add('show');
         document.getElementById('controlsArea').style.display = 'block';
-    }
+    };
 
-    function setPreset(name, q, s) {
-        config.quality = q; config.scale = s;
+    function setPreset(q, s) {
+        config = { quality: q, scale: s };
         document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
         event.currentTarget.classList.add('active');
     }
 
-    function toggleGray() {
-        useGray = !useGray;
-        document.getElementById('grayToggle').classList.toggle('active');
-    }
-
-    // Core Processing Engine
     async function startCompression() {
-        if (!activeFile) return;
         const startBtn = document.getElementById('startBtn');
         const progressWrap = document.getElementById('progressWrap');
-        
         startBtn.disabled = true;
         progressWrap.style.display = 'block';
         document.getElementById('resultCard').style.display = 'none';
@@ -297,80 +173,59 @@
             const arrayBuffer = await activeFile.arrayBuffer();
             const pdfDoc = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
             const outPdf = await PDFLib.PDFDocument.create();
-            const totalPages = pdfDoc.numPages;
 
-            for (let i = 1; i <= totalPages; i++) {
-                // Update Progress
-                const pct = Math.round((i / totalPages) * 100);
-                document.getElementById('progStatus').textContent = `Processing page ${i} of ${totalPages}...`;
+            for (let i = 1; i <= pdfDoc.numPages; i++) {
+                const pct = Math.round((i / pdfDoc.numPages) * 100);
                 document.getElementById('progPct').textContent = pct + '%';
                 document.getElementById('progressFill').style.width = pct + '%';
 
-                // Render page to canvas
                 const page = await pdfDoc.getPage(i);
                 const viewport = page.getViewport({ scale: config.scale });
-                
                 const canvas = document.createElement('canvas');
                 const ctx = canvas.getContext('2d');
-                canvas.width = Math.round(viewport.width);
-                canvas.height = Math.round(viewport.height);
-
-                // Fill white background
-                ctx.fillStyle = 'white';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-
+                canvas.width = viewport.width; canvas.height = viewport.height;
+                ctx.fillStyle = 'white'; ctx.fillRect(0,0,canvas.width,canvas.height);
+                
                 await page.render({ canvasContext: ctx, viewport }).promise;
-
-                // Handle Grayscale
-                if (useGray) {
-                    const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                    const d = imgData.data;
-                    for (let p = 0; p < d.length; p += 4) {
-                        const gray = 0.3 * d[p] + 0.59 * d[p+1] + 0.11 * d[p+2];
-                        d[p] = d[p+1] = d[p+2] = gray;
-                    }
-                    ctx.putImageData(imgData, 0, 0);
-                }
-
-                // Convert to JPEG
                 const imgDataUrl = canvas.toDataURL('image/jpeg', config.quality);
                 const imgBytes = await fetch(imgDataUrl).then(res => res.arrayBuffer());
+                const img = await outPdf.embedJpg(imgBytes);
+                const newPage = outPdf.addPage([img.width, img.height]);
+                newPage.drawImage(img, { x: 0, y: 0, width: img.width, height: img.height });
                 
-                // Embed in new PDF
-                const embeddedImg = await outPdf.embedJpg(imgBytes);
-                const newPage = outPdf.addPage([embeddedImg.width, embeddedImg.height]);
-                newPage.drawImage(embeddedImg, { x: 0, y: 0, width: embeddedImg.width, height: embeddedImg.height });
-
-                // CRITICAL: Memory Heartbeat (Prevents crashes on long files)
-                canvas.width = 1; canvas.height = 1;
-                await new Promise(resolve => setTimeout(resolve, 10)); 
+                canvas.width = 0; canvas.height = 0; // Clear memory
             }
 
-            const finalPdfBytes = await outPdf.save();
-            const blob = new Blob([finalPdfBytes], { type: 'application/pdf' });
-            finishUi(blob);
+            const finalBytes = await outPdf.save();
+            let finalBlob = new Blob([finalBytes], { type: 'application/pdf' });
 
-        } catch (err) {
-            console.error(err);
-            alert("Error: Memory limit exceeded or corrupted PDF. Try a lower preset.");
-        } finally {
-            startBtn.disabled = false;
-        }
+            // SMART CHECK: If compressed is bigger, use original
+            let isOptimized = false;
+            if (finalBlob.size >= activeFile.size) {
+                finalBlob = new Blob([arrayBuffer], { type: 'application/pdf' });
+                isOptimized = true;
+            }
+
+            showResult(finalBlob, isOptimized);
+        } catch (e) { alert("Error processing file."); }
+        finally { startBtn.disabled = false; }
     }
 
-    function finishUi(blob) {
+    function showResult(blob, isOptimized) {
         document.getElementById('progressWrap').style.display = 'none';
         document.getElementById('resultCard').style.display = 'block';
-        
         document.getElementById('statOld').textContent = (activeFile.size / 1024).toFixed(0) + ' KB';
         document.getElementById('statNew').textContent = (blob.size / 1024).toFixed(0) + ' KB';
+        
+        if(isOptimized) {
+            document.getElementById('resultTitle').textContent = "Already Optimized!";
+            document.getElementById('smartNote').style.display = 'block';
+        }
 
         const dlBtn = document.getElementById('dlBtn');
-        const url = URL.createObjectURL(blob);
-        dlBtn.href = url;
-        dlBtn.download = `Toolvala_Compressed_${activeFile.name}`;
+        dlBtn.href = URL.createObjectURL(blob);
+        dlBtn.download = (isOptimized ? "" : "compressed_") + activeFile.name;
     }
 </script>
-
 </body>
 </html>
