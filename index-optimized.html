@@ -487,13 +487,15 @@
         </div>
         <div class="card-body">
 
+            <!-- FILE INPUT (outside drop zone to prevent click loop) -->
+            <input type="file" id="fileInput" accept="application/pdf" style="display:none">
+
             <!-- DROP ZONE -->
             <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
                 <div class="drop-icon"><i class="fa fa-file-pdf"></i></div>
                 <h3>Drop your PDF here</h3>
                 <p>or click to browse from your device</p>
                 <span class="browse-btn">Choose File</span>
-                <input type="file" id="fileInput" accept="application/pdf" style="display:none">
             </div>
 
             <!-- FILE INFO -->
@@ -764,6 +766,10 @@
 
 </main>
 
+<footer class="page-footer">
+    <p>© <span id="year"></span> Toolvala.in · Free online tools for documents, calculations, and productivity.</p>
+</footer>
+
 <script>
 // ─── INIT ───────────────────────────────────────────────
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
@@ -1015,19 +1021,6 @@ function toggleFaq(el) {
     item.classList.toggle('open');
 }
 
-</script>
-    <div id="footer"></div>
-
-<script>
-fetch("/footer.html")
-  .then(response => response.text())
-  .then(data => {
-    document.getElementById("footer").innerHTML = data;
-    var yearSpan = document.getElementById("year");
-    if (yearSpan) {
-      yearSpan.textContent = new Date().getFullYear();
-    }
-  });
 </script>
 </body>
 </html>
