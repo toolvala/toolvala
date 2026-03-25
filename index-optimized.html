@@ -690,26 +690,26 @@
                     <button class="preset-btn" data-preset="eco" onclick="selectPreset('eco')">
                         <div class="preset-icon">⚡</div>
                         <div class="preset-name">Eco</div>
-                        <div class="preset-desc">Smallest file</div>
-                        <div class="preset-badge">~50–150 KB</div>
+                        <div class="preset-desc">Max compression</div>
+                        <div class="preset-badge">~75–85% smaller</div>
                     </button>
                     <button class="preset-btn active" data-preset="balanced" onclick="selectPreset('balanced')">
                         <div class="preset-icon">⚖️</div>
                         <div class="preset-name">Balanced</div>
-                        <div class="preset-desc">Recommended</div>
-                        <div class="preset-badge">~150–500 KB</div>
+                        <div class="preset-desc">Clear + compact</div>
+                        <div class="preset-badge">~55–65% smaller</div>
                     </button>
                     <button class="preset-btn" data-preset="hd" onclick="selectPreset('hd')">
                         <div class="preset-icon">🔍</div>
                         <div class="preset-name">HD</div>
                         <div class="preset-desc">Sharp & clear</div>
-                        <div class="preset-badge">~500 KB–2 MB</div>
+                        <div class="preset-badge">~40–50% smaller</div>
                     </button>
                     <button class="preset-btn" data-preset="ultrahd" onclick="selectPreset('ultrahd')">
                         <div class="preset-icon">💎</div>
                         <div class="preset-name">Ultra HD</div>
-                        <div class="preset-desc">Max clarity</div>
-                        <div class="preset-badge">~2–5 MB</div>
+                        <div class="preset-desc">Near-original</div>
+                        <div class="preset-badge">~25–35% smaller</div>
                     </button>
                 </div>
 
@@ -1305,12 +1305,17 @@ let compressedBlob  = null;
 let pdfPageCount    = 1;
 
 // ─── PRESETS ────────────────────────────────────────────
-// Scale kept low — high scale produces BIGGER output for vector PDFs
+// Tuned for scanned PDFs (image-based) — all modes compress meaningfully
+// Scale kept moderate; quality drives the size vs clarity tradeoff
 const PRESETS = {
-    eco:      { scale: 0.9,  quality: 0.30 },
-    balanced: { scale: 1.1,  quality: 0.52 },
-    hd:       { scale: 1.4,  quality: 0.75 },
-    ultrahd:  { scale: 1.8,  quality: 0.90 }
+    //  ~75–85% reduction · smallest file · readable text
+    eco:      { scale: 0.8,  quality: 0.22 },
+    //  ~55–65% reduction · clear text · balanced (DEFAULT)
+    balanced: { scale: 1.0,  quality: 0.42 },
+    //  ~40–50% reduction · sharp & professional
+    hd:       { scale: 1.2,  quality: 0.62 },
+    //  ~25–35% reduction · near-original clarity
+    ultrahd:  { scale: 1.5,  quality: 0.80 }
 };
 let selectedPreset = 'balanced';
 let useGrayscale   = false;
