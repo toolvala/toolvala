@@ -603,11 +603,14 @@
                             <div class="value" id="newSize">—</div>
                             <div class="sub">after</div>
                         </div>
-                        <div class="stat-chip highlight">
+                        <div class="stat-chip highlight" id="savedChip">
                             <div class="label">Saved</div>
                             <div class="value" id="savedPct">—</div>
                             <div class="sub">reduction</div>
                         </div>
+                    </div>
+                    <div id="sizeWarning" style="display:none; background:#fff1f2; border:1px solid #fca5a5; border-radius:12px; padding:12px 16px; margin-bottom:16px; font-size:13px; color:#dc2626; font-weight:600;">
+                        ⚠️ This PDF is already a compact vector/text document. Rasterizing it added image data overhead. Try switching to <strong>Eco mode</strong> or use a lower manual quality value. The original file may already be optimal.
                     </div>
                     <div>
                         <button class="download-btn" id="downloadBtn"><i class="fa fa-download"></i> Download PDF</button>
@@ -780,11 +783,12 @@ let currentFile = null;
 let compressedBlob = null;
 
 // Preset configs: { scale, quality, useJpeg }
+// Scale must stay LOW for compression to work — high scale = bigger canvas = bigger file
 const PRESETS = {
-    eco:      { scale: 2.5, quality: 0.40, useJpeg: true  },
-    balanced: { scale: 3.0, quality: 0.60, useJpeg: true  },
-    hd:       { scale: 3.5, quality: 0.80, useJpeg: true  },
-    ultrahd:  { scale: 4.0, quality: 1.00, useJpeg: false }  // PNG lossless
+    eco:      { scale: 1.0, quality: 0.35, useJpeg: true  },  // max compression
+    balanced: { scale: 1.2, quality: 0.55, useJpeg: true  },  // good balance
+    hd:       { scale: 1.5, quality: 0.78, useJpeg: true  },  // clear output
+    ultrahd:  { scale: 2.0, quality: 0.92, useJpeg: true  }   // near-lossless
 };
 let selectedPreset = 'balanced';
 let useGrayscale = false;
@@ -998,11 +1002,25 @@ function markTile(n, state) {
 function showResult() {
     const origKB  = Math.round(currentFile.size / 1024);
     const newKB   = Math.round(compressedBlob.size / 1024);
-    const savedPc = Math.max(0, Math.round((1 - compressedBlob.size / currentFile.size) * 100));
+    const savedPc = Math.round((1 - compressedBlob.size / currentFile.size) * 100);
+    const increased = compressedBlob.size > currentFile.size;
 
     document.getElementById('origSize').textContent = origKB >= 1024 ? (origKB/1024).toFixed(1) + ' MB' : origKB + ' KB';
     document.getElementById('newSize').textContent  = newKB  >= 1024 ? (newKB /1024).toFixed(1) + ' MB' : newKB  + ' KB';
-    document.getElementById('savedPct').textContent = savedPc + '%';
+    document.getElementById('savedPct').textContent = increased ? '▲ Larger' : savedPc + '%';
+
+    const savedChip = document.getElementById('savedChip');
+    if (increased) {
+        savedChip.style.borderColor = '#fca5a5';
+        savedChip.style.background  = '#fff1f2';
+        document.getElementById('savedPct').style.color = '#dc2626';
+        document.getElementById('sizeWarning').style.display = 'block';
+    } else {
+        savedChip.style.borderColor = '#a7f3d0';
+        savedChip.style.background  = 'white';
+        document.getElementById('savedPct').style.color = 'var(--success)';
+        document.getElementById('sizeWarning').style.display = 'none';
+    }
 
     const resultCard = document.getElementById('resultCard');
     resultCard.classList.add('show');
