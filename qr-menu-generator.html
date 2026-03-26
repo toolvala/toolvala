@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8GTQC904G1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8GTQC904G1');
+</script>
+    <!-- ✅ SEO & Indexing -->
+    <title>Free QR Menu Generator for Restaurants | Contactless Digital Menus</title>
+    <meta name="description" content="Create custom QR code menus for your restaurant, cafe, or bar for free. Generate, customize colors, and download high-resolution digital menu QR codes instantly.">
+    <meta name="keywords" content="QR menu generator, restaurant QR code menu, digital menu creator, free QR code generator for restaurants, contactless menu, PDF to QR menu, Toolvala">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.toolvala.in/qr-menu-generator.html">
+
+    <!-- ✅ JSON-LD Schema Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "QR Menu Generator",
+      "url": "https://www.toolvala.in/qr-menu-generator.html",
+      "description": "Generate customized, high-resolution QR codes for restaurant digital menus instantly.",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "All",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    }
+    </script>
+
+    <!-- Google Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- QR Code Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <style>
+        :root {
+            --toolvala-blue: #1d4ed8;
+            --toolvala-dot-in: #2563eb;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --bg-gray: #f8fafc;
+            --white: #ffffff;
+            --success: #16a34a;
+            --error: #dc2626;
+            --border-radius: 24px;
+        }
+
+        body { font-family: 'Inter', sans-serif; background-color: var(--white); color: var(--text-main); margin: 0; padding: 0; line-height: 1.8; scroll-behavior: smooth; }
+        .container { max-width: 900px; margin: 0 auto; padding: 15px; }
+
+        /* Brand Logo Style */
+        .brand { font-size: 28px; font-weight: 800; margin-top: 10px; margin-bottom: 30px; }
+        .brand a { text-decoration: none; color: inherit; }
+        .brand span.dark { color: #1e3a8a; }
+        .brand span.blue { color: var(--toolvala-dot-in); }
+
+        .page-header { text-align: center; margin-bottom: 40px; }
+        .page-title { font-size: 34px; font-weight: 800; color: #0f172a; margin-bottom: 10px; }
+        .page-subtitle { font-size: 16px; color: var(--text-muted); max-width: 700px; margin: 0 auto; line-height: 1.5; }
+
+        /* Calculator Card */
+        .tool-card {
+            background: var(--white);
+            border: 1px solid #f1f5f9;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
+            margin-bottom: 50px;
+        }
+
+        .input-group { margin-bottom: 20px; }
+        .input-group label { display: block; font-weight: 800; font-size: 12px; margin-bottom: 8px; color: #475569; text-transform: uppercase; letter-spacing: 0.5px; }
+        .input-field { width: 100%; padding: 14px; background-color: #f1f5f9; border: none; border-radius: 12px; font-size: 16px; outline: none; box-sizing: border-box; color: var(--text-main); font-weight: 600; transition: all 0.2s; }
+        .input-field:focus { background-color: white; border: 2px solid var(--toolvala-blue); }
+        
+        .color-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        input[type="color"] { height: 50px; padding: 5px; cursor: pointer; }
+
+        .btn-calc { width: 100%; background-color: var(--toolvala-blue); color: white; padding: 16px; border: none; border-radius: 14px; font-size: 16px; font-weight: 800; cursor: pointer; margin-top: 10px; transition: transform 0.2s; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .btn-calc:hover { transform: translateY(-2px); background-color: #1e40af; }
+
+        /* Result Display */
+        #resultView { display: none; margin-top: 30px; padding: 30px; background: #f0f7ff; border-radius: 16px; border: 1px solid #bfdbfe; text-align: center; }
+        #qrcode { display: flex; justify-content: center; margin: 20px 0; padding: 15px; background: white; border-radius: 8px; display: inline-block; }
+        #qrcode img { margin: 0 auto; }
+        
+        .btn-download { background-color: var(--success); margin-top: 20px; }
+        .btn-download:hover { background-color: #15803d; }
+
+        /* Article & Headers */
+        .section-header { display: flex; align-items: center; margin-top: 60px; margin-bottom: 25px; }
+        .section-header .line { width: 5px; height: 35px; background-color: var(--toolvala-dot-in); margin-right: 15px; border-radius: 2px; }
+        .section-header h2 { font-size: 26px; font-weight: 800; margin: 0; color: #0f172a; }
+
+        article p { color: #475569; margin-bottom: 25px; font-size: 16px; text-align: justify; }
+        article h3 { color: #1e293b; margin-top: 40px; font-weight: 700; font-size: 20px; }
+        article ul, article ol { margin-bottom: 25px; padding-left: 20px; }
+        article li { margin-bottom: 10px; color: #475569; font-size: 15px; line-height: 1.7; }
+        article a { color: var(--toolvala-blue); text-decoration: none; font-weight: 600; }
+        article a:hover { text-decoration: underline; }
+
+        /* Diagram */
+        .diagram { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 40px 0; }
+        .diag-item { background: #f8fafc; border: 1px solid #e2e8f0; padding: 25px; border-radius: 20px; text-align: center; font-weight: 700; font-size: 13px; }
+        .diag-item i { font-size: 24px; color: var(--toolvala-blue); margin-bottom: 10px; display: block; }
+
+        /* Related Tools */
+        .related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; list-style: none; padding: 0; margin-top: 30px; }
+        .related-card { text-decoration: none; background: white; border: 1px solid #e5e7eb; padding: 20px; border-radius: 16px; display: flex; align-items: center; gap: 15px; transition: all 0.3s; }
+        .related-card:hover { transform: translateY(-3px); border-color: var(--toolvala-blue); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .icon-circle { width: 40px; height: 40px; background: #f0f7ff; color: var(--toolvala-blue); display: flex; align-items: center; justify-content: center; border-radius: 10px; font-size: 18px; }
+        .tool-info b { display: block; color: #333; font-size: 15px; }
+        .tool-info small { color: #666; font-size: 12px; }
+
+        /* FAQ */
+        .faq-item { border-bottom: 1px solid #f1f5f9; padding: 18px 0; }
+        .faq-q { font-weight: 700; color: #0f172a; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 16px; }
+        .faq-a { color: #64748b; margin-top: 12px; display: none; font-size: 14px; line-height: 1.6; }
+
+        .seo-box { background: #fffbeb; border-left: 5px solid #f59e0b; padding: 20px; border-radius: 8px; margin: 30px 0; }
+        .seo-box h4 { margin-top: 0; color: #b45309; font-size: 18px; }
+
+        @media (max-width: 600px) {
+            .page-title { font-size: 28px; }
+            .tool-card { padding: 20px; }
+            .color-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="brand"><a href="index.html"><span class="dark">Toolvala</span><span class="blue">.in</span></a></div>
+
+    <div class="page-header">
+        <h1 class="page-title">QR Menu Generator for Restaurants</h1>
+        <p class="page-subtitle">Instantly convert your restaurant's digital menu or PDF link into a high-quality, scannable QR code. Customize colors to match your brand and download for free.</p>
+    </div>
+
+    <!-- CALCULATOR -->
+    <div class="tool-card">
+        <div class="input-group">
+            <label>1. Enter your Menu URL (Link to PDF or Website)</label>
+            <input type="url" id="menu_url" class="input-field" placeholder="https://your-restaurant.com/menu.pdf">
+            <small style="color: #64748b; font-size: 12px; margin-top: 5px; display: block;">Don't have a link? Upload your PDF to Google Drive or Dropbox and paste the sharing link here.</small>
+        </div>
+
+        <div class="color-grid">
+            <div class="input-group">
+                <label>2. QR Code Color (Foreground)</label>
+                <input type="color" id="fg_color" class="input-field" value="#000000">
+            </div>
+            <div class="input-group">
+                <label>3. Background Color</label>
+                <input type="color" id="bg_color" class="input-field" value="#ffffff">
+            </div>
+        </div>
+
+        <button class="btn-calc" onclick="generateQR()">
+            <i class="fa-solid fa-qrcode"></i> Generate QR Menu
+        </button>
+
+        <!-- Result Section -->
+        <div id="resultView">
+            <h3 style="margin-top:0; color:#1e3a8a;">Your Digital Menu is Ready!</h3>
+            <p style="font-size: 14px; color: #64748b; margin-bottom: 10px;">Scan with your phone to test it.</p>
+            
+            <div id="qrcode"></div>
+            
+            <button class="btn-calc btn-download" onclick="downloadQR()">
+                <i class="fa-solid fa-download"></i> Download QR Image
+            </button>
+        </div>
+    </div>
+
+    <!-- CONTENT -->
+    <article>
+        <div class="section-header"><div class="line"></div><h2>The Ultimate Guide to Restaurant QR Menus</h2></div>
+        <p>The hospitality industry has undergone a massive digital transformation, and at the forefront of this change is the <strong>Contactless QR Menu</strong>. Whether you run a bustling cafe, a fine dining restaurant, or a local food truck, switching from physical paper menus to digital QR codes is no longer just a trend—it is a necessity for hygiene, cost-efficiency, and customer satisfaction.</p>
+
+        <p>The <strong>Toolvala QR Menu Generator</strong> is a free, browser-based utility designed specifically for restaurant owners. It allows you to convert any website link, PDF menu, or image URL into a high-resolution, scannable QR code that you can print on table tents, stickers, or window decals.</p>
+
+        <div class="section-header"><div class="line"></div><h2>How to Create Your Digital Menu (Step-by-Step)</h2></div>
+        <p>If you are new to digital menus, follow this simple workflow to get your menu online and in front of your customers:</p>
+
+        <div class="diagram">
+            <div class="diag-item"><i class="fa-solid fa-file-pdf"></i> 1. Prepare Menu<br><small>Create a PDF or Webpage</small></div>
+            <div class="diag-item"><i class="fa-solid fa-cloud-arrow-up"></i> 2. Host Online<br><small>Upload to G-Drive / Website</small></div>
+            <div class="diag-item"><i class="fa-solid fa-qrcode"></i> 3. Generate QR<br><small>Use Toolvala Generator</small></div>
+            <div class="diag-item"><i class="fa-solid fa-print"></i> 4. Print & Display<br><small>Place on Tables</small></div>
+        </div>
+
+        <h3>Step 1: Host Your Menu Online</h3>
+        <p>Before you can create a QR code, your menu needs to live somewhere on the internet. A QR code simply acts as a shortcut to a web link. Here are the best free ways to host your menu:</p>
+        <ul>
+            <li><strong>Google Drive / Dropbox:</strong> Upload your menu PDF, click "Share", change settings to "Anyone with the link can view", and copy the link.</li>
+            <li><strong>Your Own Website:</strong> Create a dedicated page (e.g., <em>yourrestaurant.com/menu</em>) and update the text/images directly on your site.</li>
+            <li><strong>Canva / Linktree:</strong> Design your menu on Canva and publish it as a viewable website link, or use Linktree to link to multiple menus (Drinks, Food, Desserts).</li>
+        </ul>
+
+        <h3>Step 2: Generate the QR Code</h3>
+        <p>Paste the link you generated in Step 1 into the <strong>Menu URL</strong> box above. Customize the colors to match your restaurant's branding. Ensure there is high contrast (e.g., dark blue QR on a white background) so smartphone cameras can easily read it.</p>
+
+        <h3>Step 3: Print and Display</h3>
+        <p>Download your high-resolution QR image. You can embed this image into designs for table tents, coasters, flyers, or stickers. A minimum size of 2x2 inches (5x5 cm) is highly recommended for easy scanning.</p>
+
+        <div class="section-header"><div class="line"></div><h2>Why Switch to a Contactless Digital Menu?</h2></div>
+        
+        <h3>1. Massive Cost Savings on Printing</h3>
+        <p>Menu items change, prices fluctuate due to inflation, and specials rotate weekly. Every time you make a change to a physical menu, you incur printing and laminating costs. With a QR menu, if you host your menu on a website or a dynamic link, you update the digital file once, and the QR code on the table instantly shows the new menu.</p>
+
+        <h3>2. Improved Hygiene and Safety</h3>
+        <p>Post-pandemic, customers are highly conscious of high-touch surfaces. Traditional menus pass through hundreds of unwashed hands. QR menus eliminate this touchpoint entirely, providing peace of mind for both your patrons and your serving staff.</p>
+
+        <h3>3. Richer Customer Experience</h3>
+        <p>A physical menu limits how many photos you can show. A digital menu allows you to showcase mouth-watering, high-resolution photos of every single dish, include detailed allergen information, and even pair food with suggested wines—ultimately leading to upselling and higher average order values.</p>
+
+        <div class="seo-box">
+            <h4>💡 Bonus: SEO Pointers for Ranking Tool Websites (Like Toolvala)</h4>
+            <p>If you are a developer looking to rank a utility website or a programmatic SEO project, here are the core strategies used to rank tools like this QR Generator:</p>
+            <ol>
+                <li><strong>Target Long-Tail Intent:</strong> Don't just target "QR Generator". Target specific use cases: "QR menu generator for restaurants", "PDF to QR code free", or "WiFi QR generator". Dedicated landing pages for specific intents convert better.</li>
+                <li><strong>Zero Layout Shift (CLS) & Speed:</strong> Tool pages must load instantly. Use Vanilla JS where possible. Avoid heavy frameworks if the tool is simple. The faster the Time to Interactive (TTI), the better Google ranks the utility.</li>
+                <li><strong>Rich Schema Markup:</strong> Always use <code>WebApplication</code> or <code>SoftwareApplication</code> JSON-LD schema. Add <code>FAQPage</code> schema to capture "People Also Ask" snippets on Google.</li>
+                <li><strong>Comprehensive "How-To" Content:</strong> Google ranks tools that provide *context*. A page with just a calculator will struggle against a page with a calculator PLUS a 2000-word guide explaining the math, use cases, and theory behind it.</li>
+                <li><strong>Client-Side Processing:</strong> Tools that process data in the browser (like this QR generator using Canvas) are infinitely scalable, cost $0 in server processing, and guarantee user privacy—a great selling point for SEO meta descriptions.</li>
+            </ol>
+        </div>
+
+        <div class="section-header"><div class="line"></div><h2>Best Practices for QR Menu Design</h2></div>
+        <p>To ensure your customers have a seamless experience, adhere to these technical best practices:</p>
+        <ul>
+            <li><strong>Contrast is King:</strong> Always use a dark foreground color on a light background. Inverting this (light QR on a dark background) will fail to scan on about 30% of older smartphone cameras.</li>
+            <li><strong>Avoid Blurry Prints:</strong> The image generated by our tool is a sharp PNG. Do not stretch it out of proportion in Microsoft Word or Photoshop. If you need a massive QR code (e.g., for a billboard), use an SVG generator.</li>
+            <li><strong>Add a Call to Action (CTA):</strong> Don't just put a naked square on a table. Add text around it saying: <em>"Scan here to view our menu & order!"</em></li>
+            <li><strong>Test Before Printing:</strong> Before you print 50 table tents, print one on a standard office printer and test it with an iPhone and an Android device.</li>
+        </ul>
+
+        <div class="section-header"><div class="line"></div><h2>Frequently Asked Questions</h2></div>
+        <div class="faq-item">
+            <span class="faq-q" onclick="toggleFaq(0)">1. Do QR codes expire? <span>▼</span></span>
+            <div class="faq-a" id="faq-0">No! The QR codes generated by this tool are <strong>Static QR Codes</strong>. They will never expire. However, if the link you provide (e.g., your PDF link) breaks or gets deleted, the QR code will lead to a dead page. Always ensure your host URL remains active.</div>
+        </div>
+        <div class="faq-item">
+            <span class="faq-q" onclick="toggleFaq(1)">2. Can I change the menu later without changing the QR code? <span>▼</span></span>
+            <div class="faq-a" id="faq-1">Yes, if you use a stable URL. For example, if your QR points to <em>yourwebsite.com/menu</em>, you can update the content on that web page as often as you like. The QR code on the table will remain the same.</div>
+        </div>
+        <div class="faq-item">
+            <span class="faq-q" onclick="toggleFaq(2)">3. Is this tool really free? <span>▼</span></span>
+            <div class="faq-a" id="faq-2">Yes. Many companies charge monthly subscriptions for QR menus. Toolvala provides the generation tool 100% free with no watermarks and no scan limits.</div>
+        </div>
+        <div class="faq-item">
+            <span class="faq-q" onclick="toggleFaq(3)">4. Do customers need to download an app to scan it? <span>▼</span></span>
+            <div class="faq-a" id="faq-3">No. Almost all modern smartphones (iOS and Android) have QR scanning capabilities built directly into their default Camera app. The user just points their camera at the code.</div>
+        </div>
+
+        <div class="section-header"><div class="line"></div><h2>Explore More Business Tools</h2></div>
+        <div class="related-grid">
+            <a href="percentage-calculator.html" class="related-card">
+                <div class="icon-circle"><i class="fa-solid fa-percent"></i></div>
+                <div class="tool-info"><b>Percentage Calculator</b><small>Margin & Profit</small></div>
+            </a>
+            <a href="signature-generator.html" class="related-card">
+                <div class="icon-circle"><i class="fa-solid fa-pen-nib"></i></div>
+                <div class="tool-info"><b>Email Signature</b><small>Professional Branding</small></div>
+            </a>
+            <a href="random-number-picker.html" class="related-card">
+                <div class="icon-circle"><i class="fa-solid fa-dice"></i></div>
+                <div class="tool-info"><b>Number Picker</b><small>RNG for Contests</small></div>
+            </a>
+            <a href="age-difference-calculator.html" class="related-card">
+                <div class="icon-circle"><i class="fa-solid fa-calendar"></i></div>
+                <div class="tool-info"><b>Age Calculator</b><small>Date Differences</small></div>
+            </a>
+        </div>
+    </article>
+</div>
+
+<script>
+    let qrcodeObj = null;
+
+    function generateQR() {
+        const urlInput = document.getElementById('menu_url').value.trim();
+        const fgColor = document.getElementById('fg_color').value;
+        const bgColor = document.getElementById('bg_color').value;
+
+        if(!urlInput) {
+            alert("Please enter a valid URL for your menu (e.g., https://...).");
+            return;
+        }
+
+        // Validate basic URL structure
+        let finalUrl = urlInput;
+        if (!/^https?:\/\//i.test(finalUrl)) {
+            finalUrl = 'https://' + finalUrl;
+        }
+
+        const qrContainer = document.getElementById('qrcode');
+        qrContainer.innerHTML = ""; // Clear previous QR
+
+        // Generate new QR Code
+        qrcodeObj = new QRCode(qrContainer, {
+            text: finalUrl,
+            width: 256,
+            height: 256,
+            colorDark : fgColor,
+            colorLight : bgColor,
+            correctLevel : QRCode.CorrectLevel.H
+        });
+
+        // Show result section
+        document.getElementById('resultView').style.display = 'block';
+        document.getElementById('resultView').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function downloadQR() {
+        const qrContainer = document.getElementById('qrcode');
+        const canvas = qrContainer.querySelector('canvas');
+        const img = qrContainer.querySelector('img');
+        
+        let dataUrl = '';
+        
+        // qrcode.js generates a canvas, and sometimes converts it to an img tag on mobile
+        if (canvas) {
+            dataUrl = canvas.toDataURL("image/png");
+        } else if (img) {
+            dataUrl = img.src;
+        }
+
+        if (dataUrl) {
+            const a = document.createElement('a');
+            a.href = dataUrl;
+            a.download = 'restaurant-qr-menu.png';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        } else {
+            alert("Please generate the QR code first.");
+        }
+    }
+
+    function toggleFaq(id) {
+        const el = document.getElementById('faq-' + id);
+        el.style.display = (el.style.display === 'block') ? 'none' : 'block';
+    }
+</script>
+
+<div id="footer"></div>
+<script>
+fetch("/footer.html")
+  .then(r => r.text())
+  .then(d => {
+    document.getElementById("footer").innerHTML = d;
+    if(document.getElementById("year")) {
+        document.getElementById("year").textContent = new Date().getFullYear();
+    }
+  });
+</script>
+
+</body>
+</html>
