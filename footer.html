@@ -1,27 +1,558 @@
-<footer class="site-footer">
-  <p>© <span id="year"></span> Toolvala.in · All rights reserved</p>
-  <nav class="footer-links">
-    <a href="/">Home</a> |
-<a href="/articles.html">Articles</a> |
-<a href="/about-us.html">About Us</a> |
-<a href="/contact.html">Contact</a> |
-<a href="/privacy-policy.html">Privacy Policy</a> |
-<a href="/sitemap.html">Sitemap</a> |
-<a href="/legal.html">Legal Pages</a>
-  </nav>
-  <div class="footer-social">
-    <a href="https://x.com/toolvala" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>
-    <a href="https://facebook.com/toolvala" target="_blank"><i class="fa-brands fa-facebook"></i></a>
-    <a href="https://instagram.com/tool.vala" target="_blank"><i class="fa-brands fa-instagram"></i></a>
-    <a href="mailto:toolvala@gmail.com"><i class="fa-solid fa-envelope"></i></a>
-  </div>
-</footer>
+<!-- =====================================================
+     Toolvala.in — footer.html  (shared across all pages)
+     Load via: fetch("/footer.html").then(r=>r.text()).then(html=>{
+       document.getElementById("footer").innerHTML = html;
+     });
+     ===================================================== -->
+
 <style>
-.site-footer{text-align:center;padding:20px;color:#666;border-top:1px solid #e0e0e0;}
-.footer-links a{color:#2563eb;text-decoration:none;font-size:.85rem;}
-.footer-links a:hover{text-decoration:underline;}
-.footer-social{margin-top:10px;}
-.footer-social a{margin:0 8px;color:#555;font-size:18px;}
-.footer-social a:hover{color:#2563eb;}
+/* ── FONT IMPORT (self-contained, safe to load on every page) ── */
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@700;800&family=Nunito:wght@400;500;600;700&display=swap');
+
+/* ── FOOTER TOKEN MAP ── */
+.tv-footer {
+  --f-navy:       #0b1730;
+  --f-navy-mid:   #112044;
+  --f-border:     rgba(255,255,255,.07);
+  --f-muted:      #5b7089;
+  --f-sub:        #7e96b0;
+  --f-white:      #ffffff;
+  --f-blue:       #3b82f6;
+  --f-blue-light: #93c5fd;
+  --f-accent:     #f59e0b;
+  --f-green:      #34d399;
+  --f-radius:     12px;
+}
+
+/* ── RESET SCOPED TO FOOTER ── */
+.tv-footer *, .tv-footer *::before, .tv-footer *::after {
+  box-sizing: border-box; margin: 0; padding: 0;
+}
+.tv-footer a { text-decoration: none; }
+.tv-footer ul { list-style: none; }
+
+/* ── OUTER SHELL ── */
+.tv-footer {
+  font-family: 'Nunito', sans-serif;
+  background: var(--f-navy);
+  color: var(--f-sub);
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+  overflow: hidden;
+}
+
+/* subtle dot-grid texture */
+.tv-footer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,.025) 1px, transparent 1px);
+  background-size: 28px 28px;
+  pointer-events: none;
+}
+
+/* ── TOP CTA STRIP ── */
+.tv-footer__cta {
+  position: relative;
+  background: linear-gradient(135deg, #1a3a7a 0%, #1d4ed8 100%);
+  padding: 36px 24px;
+  text-align: center;
+  border-bottom: 1px solid var(--f-border);
+}
+.tv-footer__cta-inner {
+  max-width: 700px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.tv-footer__cta-text strong {
+  display: block;
+  font-family: 'Sora', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--f-white);
+  letter-spacing: -.3px;
+}
+.tv-footer__cta-text span {
+  font-size: .87rem;
+  color: #93c5fd;
+  font-weight: 500;
+}
+.tv-footer__cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--f-accent);
+  color: #fff;
+  font-family: 'Sora', sans-serif;
+  font-size: .9rem;
+  font-weight: 700;
+  padding: 11px 24px;
+  border-radius: 50px;
+  transition: transform .2s, box-shadow .2s;
+  white-space: nowrap;
+  box-shadow: 0 4px 16px rgba(245,158,11,.35);
+}
+.tv-footer__cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(245,158,11,.45); }
+
+/* ── MAIN GRID ── */
+.tv-footer__main {
+  position: relative;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 52px 24px 40px;
+  display: grid;
+  grid-template-columns: 1.8fr 1fr 1fr 1fr 1fr;
+  gap: 36px 28px;
+}
+
+/* ── BRAND COL ── */
+.tv-footer__brand {}
+
+.tv-footer__logo {
+  display: inline-block;
+  font-family: 'Sora', sans-serif;
+  font-size: 1.55rem;
+  font-weight: 800;
+  color: var(--f-white);
+  letter-spacing: -.4px;
+  margin-bottom: 14px;
+  transition: opacity .2s;
+}
+.tv-footer__logo:hover { opacity: .85; }
+.tv-footer__logo em {
+  font-style: normal;
+  color: var(--f-muted);
+}
+.tv-footer__logo sup {
+  font-size: .5rem;
+  background: var(--f-accent);
+  color: white;
+  padding: 1px 5px;
+  border-radius: 4px;
+  vertical-align: super;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.tv-footer__tagline {
+  font-size: .875rem;
+  line-height: 1.75;
+  color: var(--f-muted);
+  margin-bottom: 20px;
+  max-width: 260px;
+}
+
+/* Trust badges */
+.tv-footer__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 22px;
+}
+.tv-footer__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: .75rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 50px;
+  border: 1px solid rgba(255,255,255,.08);
+  color: var(--f-sub);
+  background: rgba(255,255,255,.04);
+  letter-spacing: .3px;
+}
+.tv-footer__badge i { color: var(--f-green); font-size: .7rem; }
+
+/* Social icons */
+.tv-footer__social {
+  display: flex;
+  gap: 8px;
+}
+.tv-footer__social-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid var(--f-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--f-sub);
+  font-size: .95rem;
+  transition: background .2s, color .2s, transform .2s;
+}
+.tv-footer__social-btn:hover {
+  background: var(--f-blue);
+  color: white;
+  border-color: var(--f-blue);
+  transform: translateY(-2px);
+}
+.tv-footer__social-btn.mail:hover { background: var(--f-accent); border-color: var(--f-accent); }
+
+/* ── LINK COLUMNS ── */
+.tv-footer__col {}
+
+.tv-footer__col-title {
+  font-family: 'Sora', sans-serif;
+  font-size: .78rem;
+  font-weight: 700;
+  color: var(--f-white);
+  text-transform: uppercase;
+  letter-spacing: .7px;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.tv-footer__col-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--f-border);
+}
+
+.tv-footer__col ul li {
+  margin-bottom: 10px;
+}
+.tv-footer__col ul li a {
+  font-size: .875rem;
+  color: var(--f-muted);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color .18s, padding-left .18s;
+  line-height: 1.4;
+}
+.tv-footer__col ul li a i {
+  font-size: .65rem;
+  color: var(--f-border);
+  width: 10px;
+  flex-shrink: 0;
+  transition: color .18s;
+}
+.tv-footer__col ul li a:hover { color: var(--f-blue-light); padding-left: 4px; }
+.tv-footer__col ul li a:hover i { color: var(--f-blue); }
+
+/* NEW badge on links */
+.tv-footer__new {
+  font-size: .65rem;
+  font-weight: 700;
+  background: var(--f-green);
+  color: #0b1730;
+  padding: 1px 6px;
+  border-radius: 4px;
+  letter-spacing: .3px;
+}
+
+/* ── DIVIDER ── */
+.tv-footer__divider {
+  position: relative;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+.tv-footer__divider hr {
+  border: none;
+  border-top: 1px solid var(--f-border);
+}
+
+/* ── BOTTOM BAR ── */
+.tv-footer__bottom {
+  position: relative;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 18px 24px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.tv-footer__copy {
+  font-size: .82rem;
+  color: var(--f-muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.tv-footer__copy i { color: #ef4444; font-size: .75rem; }
+
+/* Legal links (inline) */
+.tv-footer__legal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  align-items: center;
+}
+.tv-footer__legal a {
+  font-size: .8rem;
+  font-weight: 600;
+  color: var(--f-muted);
+  transition: color .18s;
+}
+.tv-footer__legal a:hover { color: var(--f-blue-light); }
+.tv-footer__legal span { color: var(--f-border); }
+
+/* Disclaimer micro-text */
+.tv-footer__disclaimer {
+  position: relative;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 24px 18px;
+  font-size: .75rem;
+  color: var(--f-muted);
+  line-height: 1.6;
+  border-top: 1px solid var(--f-border);
+  padding-top: 14px;
+}
+.tv-footer__disclaimer a { color: var(--f-sub); text-decoration: underline; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .tv-footer__main { grid-template-columns: 1.5fr 1fr 1fr 1fr; }
+  .tv-footer__col:last-child { grid-column: 2 / span 3; }
+  .tv-footer__col:last-child ul { columns: 3; }
+}
+@media (max-width: 768px) {
+  .tv-footer__main { grid-template-columns: 1fr 1fr; gap: 28px 20px; padding: 36px 20px 28px; }
+  .tv-footer__brand { grid-column: 1 / -1; }
+  .tv-footer__tagline { max-width: 100%; }
+  .tv-footer__cta-inner { flex-direction: column; text-align: center; }
+  .tv-footer__col:last-child { grid-column: auto; }
+  .tv-footer__col:last-child ul { columns: 1; }
+  .tv-footer__bottom { flex-direction: column; align-items: flex-start; }
+}
+@media (max-width: 480px) {
+  .tv-footer__main { grid-template-columns: 1fr; }
+  .tv-footer__legal { gap: 4px 12px; }
+}
 </style>
-<script>document.getElementById("year").textContent=new Date().getFullYear();</script>
+
+<footer class="tv-footer" role="contentinfo" itemscope itemtype="https://schema.org/WPFooter">
+
+  <!-- ── TOP CTA STRIP ── -->
+  <div class="tv-footer__cta">
+    <div class="tv-footer__cta-inner">
+      <div class="tv-footer__cta-text">
+        <strong>🛠️ Discover 100+ Free Online Tools</strong>
+        <span>Calculators · Converters · PDF Tools · Image Editors · and more — no login needed</span>
+      </div>
+      <a href="/all-tools.html" class="tv-footer__cta-btn">
+        <i class="fa-solid fa-bolt"></i> Browse All Tools
+      </a>
+    </div>
+  </div>
+
+  <!-- ── MAIN GRID ── -->
+  <div class="tv-footer__main">
+
+    <!-- BRAND -->
+    <div class="tv-footer__brand">
+      <a href="/" class="tv-footer__logo" aria-label="Toolvala.in Home">
+        Toolvala<em>.in</em><sup>FREE</sup>
+      </a>
+      <p class="tv-footer__tagline">
+        India's all-in-one free tool platform — salary calculators, PDF utilities, image editors, TET prep tools, and much more. Fast, private, and always free.
+      </p>
+
+      <div class="tv-footer__badges">
+        <span class="tv-footer__badge"><i class="fa-solid fa-circle-check"></i> 100% Free</span>
+        <span class="tv-footer__badge"><i class="fa-solid fa-circle-check"></i> No Login</span>
+        <span class="tv-footer__badge"><i class="fa-solid fa-circle-check"></i> Privacy Safe</span>
+        <span class="tv-footer__badge"><i class="fa-solid fa-circle-check"></i> Mobile Ready</span>
+      </div>
+
+      <div class="tv-footer__social" role="list" aria-label="Social media links">
+        <a href="https://x.com/toolvala" target="_blank" rel="noopener noreferrer"
+           class="tv-footer__social-btn" aria-label="Follow us on X (Twitter)" role="listitem">
+          <i class="fa-brands fa-x-twitter"></i>
+        </a>
+        <a href="https://facebook.com/toolvala" target="_blank" rel="noopener noreferrer"
+           class="tv-footer__social-btn" aria-label="Follow us on Facebook" role="listitem">
+          <i class="fa-brands fa-facebook-f"></i>
+        </a>
+        <a href="https://instagram.com/tool.vala" target="_blank" rel="noopener noreferrer"
+           class="tv-footer__social-btn" aria-label="Follow us on Instagram" role="listitem">
+          <i class="fa-brands fa-instagram"></i>
+        </a>
+        <a href="https://youtube.com/@toolvala" target="_blank" rel="noopener noreferrer"
+           class="tv-footer__social-btn" aria-label="Subscribe on YouTube" role="listitem">
+          <i class="fa-brands fa-youtube"></i>
+        </a>
+        <a href="mailto:toolvala@gmail.com"
+           class="tv-footer__social-btn mail" aria-label="Email us" role="listitem">
+          <i class="fa-solid fa-envelope"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- COL 1 — POPULAR TOOLS -->
+    <nav class="tv-footer__col" aria-label="Popular tools">
+      <h3 class="tv-footer__col-title">Popular Tools</h3>
+      <ul>
+        <li><a href="/salary-hike-calculator.html"><i class="fa-solid fa-chevron-right"></i>Salary Hike Calculator</a></li>
+        <li><a href="/age-calculator.html"><i class="fa-solid fa-chevron-right"></i>Age Calculator</a></li>
+        <li><a href="/percentage-calculator.html"><i class="fa-solid fa-chevron-right"></i>Percentage Calculator</a></li>
+        <li><a href="/image-compressor.html"><i class="fa-solid fa-chevron-right"></i>Image Compressor</a></li>
+        <li><a href="/pdf-compressor.html"><i class="fa-solid fa-chevron-right"></i>PDF Compressor</a></li>
+        <li><a href="/word-counter-tool.html"><i class="fa-solid fa-chevron-right"></i>Word Counter</a></li>
+        <li><a href="/qr-code-generator.html"><i class="fa-solid fa-chevron-right"></i>QR Code Generator</a></li>
+        <li><a href="/password-generator.html"><i class="fa-solid fa-chevron-right"></i>Password Generator</a></li>
+        <li><a href="/resume-maker.html"><i class="fa-solid fa-chevron-right"></i>Resume Maker</a></li>
+        <li><a href="/sleep-cycle-calculator.html"><i class="fa-solid fa-chevron-right"></i>Sleep Cycle Calc</a></li>
+      </ul>
+    </nav>
+
+    <!-- COL 2 — CATEGORIES -->
+    <nav class="tv-footer__col" aria-label="Tool categories">
+      <h3 class="tv-footer__col-title">Categories</h3>
+      <ul>
+        <li><a href="/finance-calculators.html"><i class="fa-solid fa-chevron-right"></i>Finance Calculators</a></li>
+        <li><a href="/pdf-tools.html"><i class="fa-solid fa-chevron-right"></i>PDF Tools</a></li>
+        <li><a href="/image-tools.html"><i class="fa-solid fa-chevron-right"></i>Image Tools</a></li>
+        <li><a href="/education-tools.html"><i class="fa-solid fa-chevron-right"></i>Education & TET</a></li>
+        <li><a href="/text-tools.html"><i class="fa-solid fa-chevron-right"></i>Text Utilities</a></li>
+        <li><a href="/generator-tools.html"><i class="fa-solid fa-chevron-right"></i>Generators</a></li>
+        <li><a href="/converters.html"><i class="fa-solid fa-chevron-right"></i>Unit Converters</a></li>
+        <li><a href="/lifestyle-tools.html"><i class="fa-solid fa-chevron-right"></i>Lifestyle Tools</a></li>
+        <li><a href="/baby-family-tools.html"><i class="fa-solid fa-chevron-right"></i>Baby & Family</a></li>
+        <li><a href="/general-calculators.html"><i class="fa-solid fa-chevron-right"></i>Math & Science</a></li>
+      </ul>
+    </nav>
+
+    <!-- COL 3 — COMPANY / LEGAL ← AdSense Critical Pages -->
+    <nav class="tv-footer__col" aria-label="Company and legal pages">
+      <h3 class="tv-footer__col-title">Company</h3>
+      <ul>
+        <li><a href="/about-us.html"><i class="fa-solid fa-chevron-right"></i>About Us</a></li>
+        <li><a href="/contact.html"><i class="fa-solid fa-chevron-right"></i>Contact Us</a></li>
+        <li><a href="/articles.html"><i class="fa-solid fa-chevron-right"></i>Articles & Guides</a></li>
+        <li><a href="/all-tools.html"><i class="fa-solid fa-chevron-right"></i>All Tools</a></li>
+        <li><a href="/privacy-policy.html"><i class="fa-solid fa-chevron-right"></i>Privacy Policy</a></li>
+        <li><a href="/terms-of-service.html"><i class="fa-solid fa-chevron-right"></i>Terms of Service</a></li>
+        <li><a href="/disclaimer.html"><i class="fa-solid fa-chevron-right"></i>Disclaimer</a></li>
+        <li><a href="/legal.html"><i class="fa-solid fa-chevron-right"></i>Legal Pages</a></li>
+        <li><a href="/sitemap.html"><i class="fa-solid fa-chevron-right"></i>Sitemap</a></li>
+        <li><a href="/sitemap.xml"><i class="fa-solid fa-chevron-right"></i>XML Sitemap</a></li>
+      </ul>
+    </nav>
+
+    <!-- COL 4 — QUICK ACCESS -->
+    <nav class="tv-footer__col" aria-label="Quick access links">
+      <h3 class="tv-footer__col-title">Quick Access</h3>
+      <ul>
+        <li>
+          <a href="/tet-eligibility-checker.html"><i class="fa-solid fa-chevron-right"></i>TET Eligibility</a>
+        </li>
+        <li>
+          <a href="/salary-slip-calculator.html"><i class="fa-solid fa-chevron-right"></i>Salary Slip</a>
+        </li>
+        <li>
+          <a href="/image-to-pdf-converter.html"><i class="fa-solid fa-chevron-right"></i>Image to PDF</a>
+        </li>
+        <li>
+          <a href="/passport-photo-resizer.html"><i class="fa-solid fa-chevron-right"></i>Passport Photo</a>
+        </li>
+        <li>
+          <a href="/json-formatter.html"><i class="fa-solid fa-chevron-right"></i>JSON Formatter</a>
+        </li>
+        <li>
+          <a href="/case-converter.html"><i class="fa-solid fa-chevron-right"></i>Case Converter</a>
+        </li>
+        <li>
+          <a href="/date-difference.html"><i class="fa-solid fa-chevron-right"></i>Date Difference</a>
+        </li>
+        <li>
+          <a href="/nps-pension-calculator.html"><i class="fa-solid fa-chevron-right"></i>NPS Calculator</a>
+        </li>
+        <li>
+          <a href="/rent-receipt-generator.html"><i class="fa-solid fa-chevron-right"></i>Rent Receipt</a>
+        </li>
+        <li>
+          <a href="/base64-encoder-decoder.html"><i class="fa-solid fa-chevron-right"></i>Base64 Tool</a>
+        </li>
+      </ul>
+    </nav>
+
+  </div><!-- /main grid -->
+
+  <!-- ── DIVIDER ── -->
+  <div class="tv-footer__divider"><hr></div>
+
+  <!-- ── BOTTOM BAR ── -->
+  <div class="tv-footer__bottom">
+    <p class="tv-footer__copy">
+      © <span id="tv-year"></span> <strong style="color:#7e96b0;">Toolvala.in</strong>
+      &nbsp;·&nbsp; All rights reserved
+      &nbsp;·&nbsp; Made with <i class="fa-solid fa-heart"></i> in India
+    </p>
+
+    <nav class="tv-footer__legal" aria-label="Legal navigation">
+      <a href="/privacy-policy.html">Privacy Policy</a>
+      <span aria-hidden="true">·</span>
+      <a href="/terms-of-service.html">Terms of Service</a>
+      <span aria-hidden="true">·</span>
+      <a href="/disclaimer.html">Disclaimer</a>
+      <span aria-hidden="true">·</span>
+      <a href="/contact.html">Contact</a>
+      <span aria-hidden="true">·</span>
+      <a href="/sitemap.html">Sitemap</a>
+    </nav>
+  </div>
+
+  <!-- ── MICRO DISCLAIMER (AdSense approval best practice) ── -->
+  <div class="tv-footer__disclaimer" role="note">
+    <strong style="color:#5b7089;">Disclaimer:</strong>
+    The tools on Toolvala.in are provided for informational and educational purposes only.
+    Results are estimates and should not be used as professional financial, legal, or medical advice.
+    We process most data client-side in your browser — no files are stored on our servers.
+    For queries, visit our <a href="/contact.html">Contact page</a>.
+    By using this site you agree to our <a href="/privacy-policy.html">Privacy Policy</a>
+    and <a href="/terms-of-service.html">Terms of Service</a>.
+  </div>
+
+</footer>
+
+<!-- ── STRUCTURED DATA: SiteLinksSearchBox & Organization ── -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Toolvala.in",
+  "url": "https://www.toolvala.in/",
+  "logo": "https://www.toolvala.in/logo.png",
+  "description": "100+ free online tools including salary calculators, PDF converters, image compressors, and TET preparation tools.",
+  "sameAs": [
+    "https://x.com/toolvala",
+    "https://facebook.com/toolvala",
+    "https://instagram.com/tool.vala",
+    "https://youtube.com/@toolvala"
+  ],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "customer support",
+    "email": "toolvala@gmail.com",
+    "url": "https://www.toolvala.in/contact.html"
+  }
+}
+</script>
+
+<!-- ── AUTO-YEAR SCRIPT ── -->
+<script>
+(function(){
+  /* update #tv-year AND legacy #year if present on the page */
+  var yr = new Date().getFullYear();
+  var targets = ['tv-year','year'];
+  targets.forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) el.textContent = yr;
+  });
+})();
+</script>
