@@ -24,6 +24,7 @@
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background-color: var(--secondary); color: var(--text-main); line-height: 1.6; }
+        :focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; }
 
         nav { background: var(--white); border-bottom: 1px solid var(--border); padding: 1rem 0; position: sticky; top: 0; z-index: 50; }
         .nav-container { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; }
@@ -49,7 +50,15 @@
         .info-item span { font-size: 0.95rem; opacity: 0.9; }
         .info-item a { color: white; text-decoration: underline; }
 
+        .big-email-btn {
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            background: white; color: var(--primary); font-weight: 700; font-size: 1rem;
+            padding: 14px; border-radius: 10px; text-decoration: none; margin-top: 4px;
+        }
+        .big-email-btn:hover { background: #f1f5ff; }
+
         .form-card { background: var(--white); padding: 40px; border-radius: 16px; box-shadow: var(--shadow); border: 1px solid var(--border); }
+        .form-card > p.helper { color: var(--text-light); font-size: 0.88rem; margin-bottom: 22px; }
         .form-group { margin-bottom: 20px; }
         .form-group label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 0.95rem; }
         .form-control { width: 100%; padding: 12px 15px; border: 1px solid var(--border); border-radius: 8px; font-size: 1rem; font-family: inherit; }
@@ -58,6 +67,11 @@
 
         .btn-submit { width: 100%; background: var(--primary); color: white; border: none; padding: 15px; font-size: 1rem; font-weight: 700; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; }
         .btn-submit:hover { background: var(--primary-dark); }
+
+        .status-msg { margin-top: 16px; padding: 13px 15px; border-radius: 8px; font-size: 0.9rem; display: none; }
+        .status-msg.show { display: block; }
+        .status-ok { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+        .status-err { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
 
         @media (max-width: 768px) {
             .contact-grid { grid-template-columns: 1fr; }
@@ -82,7 +96,7 @@
 
         <div class="page-header">
             <h1>Get in Touch</h1>
-            <p>Have a question, suggestion, or found a bug? We'd love to hear from you. Fill out the form below and we'll get back to you as soon as possible.</p>
+            <p>Have a question, suggestion, or found a bug? We'd love to hear from you. Fill out the form below and it'll open in your own email app, ready to send.</p>
         </div>
 
         <div class="contact-grid">
@@ -114,21 +128,25 @@
                         <span>Your details are safe. We never share your email with third parties.</span>
                     </div>
                 </div>
+
+                <a href="mailto:toolvala@gmail.com" class="big-email-btn">
+                    <i class="fas fa-paper-plane"></i> Email Us Directly
+                </a>
             </div>
 
-            <!-- Plain form, no JavaScript - posts straight to Formspree and lets it handle the confirmation -->
             <div class="form-card">
-                <form action="https://formspree.io/f/xzznoywr" method="POST">
-                    <input type="hidden" name="_subject" value="New message from Toolvala.in contact form">
+                <h2 style="font-size:1.3rem; margin-bottom:6px;">Send a Message</h2>
+                <p class="helper">Fill this in and tap "Send Message" - it opens your phone or computer's email app with everything already filled in, addressed to us. Nothing is sent through a server.</p>
 
+                <form id="contactForm">
                     <div class="form-group">
                         <label for="name">Full Name</label>
                         <input type="text" id="name" name="name" class="form-control" placeholder="Your Name" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="email">Email Address</label>
-                        <input type="email" id="email" name="_replyto" class="form-control" placeholder="you@example.com" required>
+                        <label for="email">Your Email Address</label>
+                        <input type="email" id="email" name="email" class="form-control" placeholder="you@example.com" required>
                     </div>
 
                     <div class="form-group">
@@ -151,11 +169,60 @@
                     <button type="submit" class="btn-submit">
                         <span>Send Message</span> <i class="fas fa-paper-plane"></i>
                     </button>
+                    <p class="status-msg" id="formStatus"></p>
                 </form>
             </div>
 
         </div>
     </div>
+
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            var name = document.getElementById('name').value.trim();
+            var email = document.getElementById('email').value.trim();
+            var subject = document.getElementById('subject').value;
+            var message = document.getElementById('message').value.trim();
+            var status = document.getElementById('formStatus');
+
+            if (!name || !email || !subject || !message) {
+                status.textContent = 'Please fill in every field before sending.';
+                status.className = 'status-msg show status-err';
+                return;
+            }
+
+            var mailSubject = 'Toolvala.in Contact: ' + subject;
+            var mailBody =
+                'Name: ' + name + '\n' +
+                'Email: ' + email + '\n' +
+                'Topic: ' + subject + '\n\n' +
+                'Message:\n' + message;
+
+            var mailtoLink = 'mailto:toolvala@gmail.com'
+                + '?subject=' + encodeURIComponent(mailSubject)
+                + '&body=' + encodeURIComponent(mailBody);
+
+            window.location.href = mailtoLink;
+
+            status.textContent = "Opening your email app now. If nothing happens, email us directly at toolvala@gmail.com.";
+            status.className = 'status-msg show status-ok';
+        });
+    </script>
+
+    <div id="footer"></div>
+
+<script>
+fetch("/footer.html")
+  .then(response => response.text())
+  .then(data => {
+    document.getElementById("footer").innerHTML = data;
+    var yearSpan = document.getElementById("year");
+    if (yearSpan) {
+      yearSpan.textContent = new Date().getFullYear();
+    }
+  });
+</script>
 
 </body>
 </html>
