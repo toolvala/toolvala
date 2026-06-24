@@ -1,18 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">.
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us - Toolvala.in</title>
     <link rel="canonical" href="https://www.toolvala.in/contact.html">
     <meta name="description" content="Get in touch with the Toolvala.in team. We are here to help with tool support, feature suggestions, and general inquiries.">
-    
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Contact Us - Toolvala.in">
+    <meta property="og:description" content="Get in touch with the Toolvala.in team. We are here to help with tool support, feature suggestions, and general inquiries.">
+    <meta property="og:url" content="https://www.toolvala.in/contact.html">
+    <meta property="og:site_name" content="Toolvala.in">
+
     <!-- Fonts & Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
+
     <style>
         :root {
             --primary: #2563eb;
@@ -35,6 +41,8 @@
             color: var(--text-main);
             line-height: 1.6;
         }
+
+        :focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; }
 
         /* Navigation */
         nav {
@@ -124,7 +132,7 @@
         }
         .info-card h2 { font-size: 1.5rem; margin-bottom: 20px; }
         .info-card p { opacity: 0.9; margin-bottom: 30px; }
-        
+
         .info-item {
             display: flex;
             align-items: flex-start;
@@ -243,19 +251,19 @@
 
     <!-- Main Content -->
     <div class="container">
-        
+
         <div class="page-header">
             <h1>Get in Touch</h1>
             <p>Have a question, suggestion, or found a bug? We'd love to hear from you. Fill out the form below and we'll get back to you as soon as possible.</p>
         </div>
 
         <div class="contact-grid">
-            
+
             <!-- Left: Contact Info -->
             <div class="info-card">
                 <h2>Contact Information</h2>
                 <p>We are committed to providing the best free online tools. Your feedback helps us improve.</p>
-                
+
                 <div class="info-item">
                     <i class="fas fa-envelope"></i>
                     <div>
@@ -263,7 +271,7 @@
                         <span><a href="mailto:toolvala@gmail.com">toolvala@gmail.com</a></span>
                     </div>
                 </div>
-                
+
                 <div class="info-item">
                     <i class="fas fa-clock"></i>
                     <div>
@@ -283,20 +291,20 @@
                 <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.2);">
                     <h3>Follow Us</h3>
                     <div style="display: flex; gap: 15px; margin-top: 10px; font-size: 1.5rem;">
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-facebook"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
                     </div>
                 </div>
             </div>
 
             <!-- Right: Contact Form -->
             <div class="form-card">
-                <div id="statusMessage" class="status-msg"></div>
+                <div id="statusMessage" class="status-msg" role="status" aria-live="polite"></div>
 
-                <!-- IMPORTANT: Replace the URL below with your own Formspree Endpoint if needed -->
+                <!-- IMPORTANT: Make sure this Formspree endpoint is configured to deliver to toolvala@gmail.com -->
                 <form id="contactForm" action="https://formspree.io/f/xzznoywr" method="POST">
-                    
+
                     <div class="form-group">
                         <label for="name">Full Name</label>
                         <input type="text" id="name" name="name" class="form-control" placeholder="Your Name" required>
@@ -341,7 +349,7 @@
 
         async function handleSubmit(event) {
             event.preventDefault();
-            
+
             // UI Loading State
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<span>Sending...</span> <i class="fas fa-spinner fa-spin"></i>';
@@ -366,13 +374,19 @@
                     form.reset();
                 } else {
                     // Error from server
-                    const errorData = await response.json();
-                    throw new Error(errorData.error || "Form submission failed");
+                    let errMsg = "Form submission failed";
+                    try {
+                        const errorData = await response.json();
+                        errMsg = errorData.error || errMsg;
+                    } catch (parseErr) {
+                        // response wasn't JSON; keep default message
+                    }
+                    throw new Error(errMsg);
                 }
             } catch (error) {
                 // Network or other error
                 statusMsg.className = "status-msg status-error";
-                statusMsg.innerHTML = "<i class='fas fa-exclamation-circle'></i> Oops! There was a problem sending your message. Please try again later.";
+                statusMsg.innerHTML = "<i class='fas fa-exclamation-circle'></i> Oops! There was a problem sending your message. Please try again later, or email us directly at <a href='mailto:toolvala@gmail.com' style='color:#991b1b; text-decoration:underline;'>toolvala@gmail.com</a>.";
                 statusMsg.style.display = "block";
                 console.error("Error:", error);
             } finally {
@@ -385,24 +399,18 @@
         form.addEventListener("submit", handleSubmit);
     </script>
 
-    <!-- Dynamic Footer Placeholder -->
+    <!-- Dynamic Footer Include -->
     <div id="footer"></div>
     <script>
         fetch("/footer.html")
-        .then(r => r.text())
-        .then(d => {
-            document.getElementById("footer").innerHTML = d;
-        })
-        .catch(e => console.log("Footer not found (optional)"));
+            .then(r => r.text())
+            .then(html => {
+                document.getElementById("footer").innerHTML = html;
+                const yearEl = document.getElementById("year");
+                if (yearEl) { yearEl.textContent = new Date().getFullYear(); }
+            })
+            .catch(e => console.log("Footer not found (optional):", e));
     </script>
-<div id="footer"></div>
-<script>
-fetch("/footer.html")
-  .then(r => r.text())
-  .then(d => {
-    document.getElementById("footer").innerHTML = d;
-    document.getElementById("year").textContent = new Date().getFullYear();
-  });
-</script>
+
 </body>
 </html>
