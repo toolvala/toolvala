@@ -17,8 +17,8 @@
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- ✅ SEO & Indexing -->
     <title>Text to Image Converter | Convert Text to PNG/JPG – Toolvala.in</title>
-    <meta name="description" content="Free online tool to convert text to image instantly. Customize fonts, colors, and transparency. Professional-grade PNG/JPG generator with zero server uploads.">
-    <meta name="keywords" content="text to image converter, convert text to png, text to jpg online, Toolvala design tools, transparent text image generator, custom font to image">
+    <meta name="description" content="Free online tool to convert text to image instantly. Customize fonts, colors, transparency, and exact canvas dimensions. Professional-grade PNG/JPG generator with zero server uploads.">
+    <meta name="keywords" content="text to image converter, convert text to png, text to jpg online, Toolvala design tools, transparent text image generator, custom font to image, custom size text image">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://www.toolvala.in/text-to-image.html">
 
@@ -65,7 +65,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
           "name": "Does it support custom fonts?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The tool is pre-loaded with high-authority fonts like Inter, Playfair Display, and Montserrat, plus any system fonts installed on your device."
+            "text": "The tool is pre-loaded with high-authority fonts like Inter, Playfair Display, JetBrains Mono, and Montserrat, plus any system fonts installed on your device."
           }
         },
         {
@@ -73,7 +73,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
           "name": "What is the maximum resolution I can generate?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "You can enter custom dimensions. The maximum resolution is limited only by your browser's hardware capabilities, typically up to 4000px."
+            "text": "You can enter custom width and height dimensions up to 4000px each. Leave height on Auto and the canvas will size itself to fit your text exactly."
           }
         }
       ]
@@ -81,9 +81,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     </script>
 
     <!-- Google Fonts & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@400;700&family=JetBrains+Mono:wght@400;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
+
     <style>
         :root {
             --toolvala-blue: #1d4ed8;
@@ -98,6 +98,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         body { font-family: 'Inter', sans-serif; background-color: var(--white); color: var(--text-main); margin: 0; padding: 0; line-height: 1.8; scroll-behavior: smooth; overflow-x: hidden; }
         .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
 
+        @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+        a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, [tabindex]:focus-visible { outline: 3px solid #93c5fd; outline-offset: 2px; }
+
         /* Brand Logo Style */
         .brand { font-size: 28px; font-weight: 800; margin-top: 20px; margin-bottom: 40px; }
         .brand span.dark { color: #1e3a8a; }
@@ -109,7 +112,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 
         /* ✅ MOBILE-FIXED WORKSPACE GRID */
         .tool-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px; }
-        
+
         @media (max-width: 850px) {
             .tool-grid { grid-template-columns: 1fr; } /* Stack on mobile */
             .page-title { font-size: 32px; }
@@ -124,9 +127,11 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         .preview-window { height: 350px; background-color: #e2e8f0; border-radius: 16px; display: flex; align-items: center; justify-content: center; overflow: auto; background-image: linear-gradient(45deg, #f1f5f9 25%, transparent 25%), linear-gradient(-45deg, #f1f5f9 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #f1f5f9 75%), linear-gradient(-45deg, transparent 75%, #f1f5f9 75%); background-size: 20px 20px; }
         canvas { max-width: 100%; height: auto; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
 
+        .dim-readout { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 10px; font-family: 'JetBrains Mono', monospace; }
+
         /* Settings Card */
-        .settings-card { grid-column: span 2; display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 20px; padding: 35px; }
-        
+        .settings-card { grid-column: span 2; display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 25px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 20px; padding: 35px; }
+
         @media (max-width: 850px) {
             .settings-card { grid-column: span 1; grid-template-columns: 1fr; padding: 25px; }
         }
@@ -134,10 +139,15 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         .setting-group h4 { margin-top: 0; color: var(--toolvala-blue); font-size: 14px; text-transform: uppercase; margin-bottom: 20px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; }
         .form-row { margin-bottom: 15px; }
         .form-row label { display: block; font-weight: 700; font-size: 12px; margin-bottom: 8px; color: #475569; }
-        .ctrl-input { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 10px; outline: none; font-size: 14px; font-family: inherit; }
+        .ctrl-input { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 10px; outline: none; font-size: 14px; font-family: inherit; box-sizing: border-box; }
+        .ctrl-input:disabled { opacity: 0.45; cursor: not-allowed; }
+        .check-row { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; color: #475569; }
+        .check-row input { width: 16px; height: 16px; }
 
-        .btn-main { width: 100%; background: var(--toolvala-blue); color: white; padding: 18px; border: none; border-radius: 16px; font-size: 16px; font-weight: 800; cursor: pointer; transition: 0.2s; }
+        .btn-main { width: 100%; background: var(--toolvala-blue); color: white; padding: 16px; border: none; border-radius: 16px; font-size: 16px; font-weight: 800; cursor: pointer; transition: 0.2s; margin-bottom: 10px; }
         .btn-main:hover { opacity: 0.9; }
+        .btn-main.secondary { background: #fff; color: var(--toolvala-blue); border: 2px solid var(--toolvala-blue); }
+        .tip-note { font-size: 11px; color: var(--text-muted); margin-top: 8px; line-height: 1.5; min-height: 1.2em; }
 
         /* Sidebar Style Headers */
         .section-header { display: flex; align-items: center; margin-top: 80px; margin-bottom: 30px; }
@@ -146,8 +156,11 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 
         /* FAQ */
         .faq-item { border-bottom: 1px solid #f1f5f9; padding: 20px 0; }
-        .faq-q { font-weight: 700; color: #0f172a; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 18px; }
+        .faq-q { font-weight: 700; color: #0f172a; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 18px; background: none; border: none; width: 100%; text-align: left; font-family: inherit; padding: 0; }
+        .faq-q i { transition: transform 0.2s; color: var(--toolvala-blue); }
+        .faq-item.open .faq-q i { transform: rotate(180deg); }
         .faq-a { color: #64748b; margin-top: 15px; display: none; font-size: 16px; line-height: 1.6; }
+        .faq-item.open .faq-a { display: block; }
 
         /* ✅ TEXT-ONLY CATEGORY LINKS */
         .text-links-footer { text-align: center; padding: 50px 0; border-top: 1px solid #e2e8f0; margin-top: 60px; }
@@ -165,20 +178,23 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 
     <div class="page-header">
         <h1 class="page-title">Text to Image Converter</h1>
-        <p class="page-subtitle">Turn your thoughts into high-resolution visuals. Customize every detail from typography to transparency. 100% Client-side, 100% Private.</p>
+        <p class="page-subtitle">Turn your thoughts into high-resolution visuals. Customize every detail from typography to transparency to exact pixel dimensions. 100% client-side, 100% private.</p>
     </div>
 
     <!-- WORKSPACE -->
     <div class="tool-grid">
         <div class="tool-card">
-            <label style="font-weight: 800; font-size: 12px; color: var(--text-muted); margin-bottom: 10px; display: block;">SOURCE TEXT</label>
+            <label for="textSource" style="font-weight: 800; font-size: 12px; color: var(--text-muted); margin-bottom: 10px; display: block;">SOURCE TEXT</label>
             <textarea id="textSource" class="input-field" oninput="render()" placeholder="Type your text here...">Visualize your ideas.
 Professional Quality.
 Instant Download.</textarea>
         </div>
 
-        <div class="tool-card preview-window">
-            <canvas id="mainCanvas"></canvas>
+        <div>
+            <div class="tool-card preview-window">
+                <canvas id="mainCanvas"></canvas>
+            </div>
+            <div class="dim-readout" id="dimReadout" aria-live="polite">0 × 0 px</div>
         </div>
 
         <!-- SETTINGS PANEL -->
@@ -186,45 +202,76 @@ Instant Download.</textarea>
             <div class="setting-group">
                 <h4>Typography</h4>
                 <div class="form-row">
-                    <label>Font Family</label>
+                    <label for="fontFamily">Font Family</label>
                     <select id="fontFamily" class="ctrl-input" onchange="render()">
                         <option value="Inter">Inter (Modern)</option>
                         <option value="Playfair Display">Playfair (Serif)</option>
                         <option value="JetBrains Mono">JetBrains (Mono)</option>
+                        <option value="Montserrat">Montserrat (Geometric)</option>
                         <option value="Arial">Arial (System)</option>
                     </select>
                 </div>
                 <div class="form-row" style="display:flex; gap:10px;">
                     <div style="flex:1">
-                        <label>Font Size</label>
-                        <input type="number" id="fontSize" class="ctrl-input" value="48" oninput="render()">
+                        <label for="fontSize">Font Size (px)</label>
+                        <input type="number" id="fontSize" class="ctrl-input" value="48" min="8" max="400" oninput="render()">
                     </div>
                     <div style="flex:1">
-                        <label>Line Spacing</label>
-                        <input type="number" id="lineHeight" class="ctrl-input" value="1.5" step="0.1" oninput="render()">
+                        <label for="lineHeight">Line Spacing</label>
+                        <input type="number" id="lineHeight" class="ctrl-input" value="1.5" step="0.1" min="0.8" max="3" oninput="render()">
                     </div>
+                </div>
+                <div class="form-row">
+                    <label class="check-row"><input type="checkbox" id="boldText" onchange="render()"> Bold</label>
                 </div>
             </div>
 
             <div class="setting-group">
                 <h4>Visuals</h4>
                 <div class="form-row">
-                    <label>Background Color</label>
+                    <label for="bgColor">Background Color</label>
                     <div style="display:flex; gap:10px; align-items:center;">
                         <input type="color" id="bgColor" value="#ffffff" oninput="render()">
-                        <label style="margin:0; font-size:11px; white-space:nowrap;"><input type="checkbox" id="transparent" onchange="render()"> Transparent</label>
+                        <label class="check-row" style="white-space:nowrap;"><input type="checkbox" id="transparent" onchange="onTransparentChange()"> Transparent</label>
                     </div>
                 </div>
                 <div class="form-row">
-                    <label>Text Color</label>
+                    <label for="textColor">Text Color</label>
                     <input type="color" id="textColor" value="#1e293b" oninput="render()">
+                </div>
+            </div>
+
+            <div class="setting-group">
+                <h4>Canvas Size</h4>
+                <div class="form-row">
+                    <label class="check-row"><input type="checkbox" id="customSizeToggle" onchange="onCustomSizeToggle()"> Use custom dimensions</label>
+                </div>
+                <div id="customSizeFields" style="display:none;">
+                    <div class="form-row" style="display:flex; gap:10px;">
+                        <div style="flex:1">
+                            <label for="customWidth">Width (px)</label>
+                            <input type="number" id="customWidth" class="ctrl-input" value="1080" min="100" max="4000" oninput="render()">
+                        </div>
+                        <div style="flex:1">
+                            <label for="customHeight">Height (px)</label>
+                            <input type="number" id="customHeight" class="ctrl-input" placeholder="Auto" min="0" max="4000" oninput="render()">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <label for="vAlign">Vertical Align</label>
+                        <select id="vAlign" class="ctrl-input" onchange="render()">
+                            <option value="middle">Middle</option>
+                            <option value="top">Top</option>
+                            <option value="bottom">Bottom</option>
+                        </select>
+                    </div>
                 </div>
             </div>
 
             <div class="setting-group">
                 <h4>Download</h4>
                 <div class="form-row">
-                    <label>Text Alignment</label>
+                    <label for="textAlign">Text Alignment</label>
                     <select id="textAlign" class="ctrl-input" onchange="render()">
                         <option value="center">Center</option>
                         <option value="left">Left</option>
@@ -232,6 +279,8 @@ Instant Download.</textarea>
                     </select>
                 </div>
                 <button class="btn-main" onclick="download('png')">Save as PNG</button>
+                <button class="btn-main secondary" onclick="download('jpg')">Save as JPG</button>
+                <div class="tip-note" id="formatTip"></div>
             </div>
         </div>
     </div>
@@ -242,34 +291,11 @@ Instant Download.</textarea>
         <p>In the digital age, visual content outranks plain text in almost every engagement metric. Whether you are a social media manager crafting Instagram quote cards, a developer needing quick placeholder graphics, or an educator creating visual aids, the <strong>Text to Image Converter</strong> by <strong>Toolvala.in</strong> is your primary engine for visual storytelling.</p>
 
         <div class="section-header"><div class="line"></div><h2>2. How the Toolvala Algorithm Works</h2></div>
-        <p>Our professional utility is designed for efficiency and privacy. By utilizing the HTML5 Canvas API, the tool renders your input locally on your device. This means your text never touches a server, providing an uncrackable layer of privacy. The algorithm dynamically calculates line widths and heights to ensure your final image is perfectly cropped without manual editing.</p>
+        <p>Our professional utility is designed for efficiency and privacy. By utilizing the HTML5 Canvas API, the tool renders your input locally on your device. This means your text never touches a server, providing an uncrackable layer of privacy. In auto-size mode, the algorithm dynamically calculates line widths and heights to ensure your final image is perfectly cropped without manual editing. Switch on custom dimensions when you need an exact size — like 1080×1080 for social media — and the tool will wrap your text to fit automatically.</p>
 
         <div class="section-header"><div class="line"></div><h2>3. Frequently Asked Questions (FAQ)</h2></div>
         <!-- FAQ Section with Validated Structure -->
-        <div class="faq-item">
-            <span class="faq-q" onclick="toggleFaq(0)">Is the Toolvala Text to Image converter free to use? <span>▼</span></span>
-            <div class="faq-a" id="faq-0">Yes, this tool is 100% free for both personal and commercial use. There are no watermarks or hidden subscription fees.</div>
-        </div>
-        <div class="faq-item">
-            <span class="faq-q" onclick="toggleFaq(1)">Can I generate a transparent background image? <span>▼</span></span>
-            <div class="faq-a" id="faq-1">Absolutely. By selecting the 'Transparent' checkbox and exporting as a PNG, you can create high-quality text overlays with no background.</div>
-        </div>
-        <div class="faq-item">
-            <span class="faq-q" onclick="toggleFaq(2)">Are my text inputs private? <span>▼</span></span>
-            <div class="faq-a" id="faq-2">Yes. Processing happens locally in your browser memory via the Canvas API. Your text is never uploaded to any server.</div>
-        </div>
-        <div class="faq-item">
-            <span class="faq-q" onclick="toggleFaq(3)">Which image formats are supported for export? <span>▼</span></span>
-            <div class="faq-a" id="faq-3">The tool currently supports high-resolution PNG (recommended for clarity and transparency) and JPG (best for standard backgrounds).</div>
-        </div>
-        <div class="faq-item">
-            <span class="faq-q" onclick="toggleFaq(4)">Does it support custom fonts? <span>▼</span></span>
-            <div class="faq-a" id="faq-4">The tool is pre-loaded with high-authority fonts like Inter, Playfair Display, and Montserrat, plus any system fonts installed on your device.</div>
-        </div>
-        <div class="faq-item">
-            <span class="faq-q" onclick="toggleFaq(5)">What is the maximum resolution I can generate? <span>▼</span></span>
-            <div class="faq-a" id="faq-5">You can enter custom dimensions. The maximum resolution is limited only by your browser's hardware capabilities, typically up to 4000px.</div>
-        </div>
+        <div id="faqList"></div>
 
         <!-- ✅ TEXT-ONLY CATEGORY LINKS FOOTER -->
         <div class="text-links-footer">
@@ -295,74 +321,203 @@ Instant Download.</textarea>
 <script>
     const canvas = document.getElementById('mainCanvas');
     const ctx = canvas.getContext('2d');
+    const dimReadout = document.getElementById('dimReadout');
+    const formatTip = document.getElementById('formatTip');
+
+    const FONT_LIST = ['Inter', 'Playfair Display', 'JetBrains Mono', 'Montserrat'];
+    let fontsReady = false;
+
+    async function ensureFontsLoaded() {
+        try {
+            const specs = [];
+            FONT_LIST.forEach(f => { specs.push(`400 16px "${f}"`); specs.push(`700 16px "${f}"`); });
+            await Promise.all(specs.map(s => document.fonts.load(s)));
+            await document.fonts.ready;
+        } catch (e) {
+            console.warn('Some web fonts may not have preloaded cleanly:', e);
+        }
+        fontsReady = true;
+    }
+
+    function clamp(val, min, max, fallback) {
+        const n = parseFloat(val);
+        if (isNaN(n)) return fallback;
+        return Math.max(min, Math.min(max, n));
+    }
+
+    function fontString(size, bold, family) {
+        return `${bold ? 'bold ' : ''}${size}px "${family}"`;
+    }
+
+    function wrapLines(rawLines, maxWidth) {
+        const wrapped = [];
+        rawLines.forEach(paragraph => {
+            if (paragraph === '') { wrapped.push(''); return; }
+            const words = paragraph.split(' ');
+            let current = '';
+            words.forEach(word => {
+                const test = current ? current + ' ' + word : word;
+                if (current && ctx.measureText(test).width > maxWidth) {
+                    wrapped.push(current);
+                    current = word;
+                } else {
+                    current = test;
+                }
+            });
+            if (current) wrapped.push(current);
+        });
+        return wrapped.length ? wrapped : [''];
+    }
+
+    function onTransparentChange() {
+        document.getElementById('bgColor').disabled = document.getElementById('transparent').checked;
+        render();
+    }
+
+    function onCustomSizeToggle() {
+        const on = document.getElementById('customSizeToggle').checked;
+        document.getElementById('customSizeFields').style.display = on ? 'block' : 'none';
+        render();
+    }
 
     function render() {
+        if (!fontsReady) return;
+
         const text = document.getElementById('textSource').value;
         const family = document.getElementById('fontFamily').value;
-        const size = parseInt(document.getElementById('fontSize').value);
-        const lHeight = parseFloat(document.getElementById('lineHeight').value);
+        const bold = document.getElementById('boldText').checked;
+        const size = clamp(document.getElementById('fontSize').value, 8, 400, 48);
+        const lHeight = clamp(document.getElementById('lineHeight').value, 0.8, 3, 1.5);
         const tColor = document.getElementById('textColor').value;
         const bColor = document.getElementById('bgColor').value;
         const isTrans = document.getElementById('transparent').checked;
         const align = document.getElementById('textAlign').value;
+        const isCustom = document.getElementById('customSizeToggle').checked;
+        const vAlign = document.getElementById('vAlign').value;
 
-        const lines = text.split('\n');
         const padding = 60;
+        const rawLines = text.split('\n');
 
-        ctx.font = `${size}px "${family}"`;
-        let maxW = 0;
-        lines.forEach(l => {
-            const w = ctx.measureText(l).width;
-            if(w > maxW) maxW = w;
-        });
+        ctx.font = fontString(size, bold, family);
 
-        canvas.width = maxW + (padding * 2);
-        canvas.height = (lines.length * size * lHeight) + (padding * 2);
+        let displayLines, canvasWidth, canvasHeight;
 
-        if(!isTrans) {
-            ctx.fillStyle = bColor;
-            ctx.fillRect(0,0, canvas.width, canvas.height);
+        if (isCustom) {
+            canvasWidth = clamp(document.getElementById('customWidth').value, 100, 4000, 1080);
+            const maxTextWidth = Math.max(20, canvasWidth - padding * 2);
+            displayLines = wrapLines(rawLines, maxTextWidth);
+
+            const blockHeight = displayLines.length * size * lHeight;
+            const customHRaw = document.getElementById('customHeight').value;
+            if (customHRaw && parseFloat(customHRaw) > 0) {
+                canvasHeight = clamp(customHRaw, 100, 4000, blockHeight + padding * 2);
+            } else {
+                canvasHeight = blockHeight + padding * 2;
+            }
         } else {
-            ctx.clearRect(0,0, canvas.width, canvas.height);
+            displayLines = rawLines;
+            let maxW = 0;
+            rawLines.forEach(l => { const w = ctx.measureText(l).width; if (w > maxW) maxW = w; });
+            canvasWidth = Math.max(40, maxW + padding * 2);
+            canvasHeight = (rawLines.length * size * lHeight) + padding * 2;
         }
 
-        ctx.font = `${size}px "${family}"`;
-        ctx.fillStyle = tColor;
+        canvas.width = Math.round(canvasWidth);
+        canvas.height = Math.round(canvasHeight);
+
+        // Resizing the canvas resets context state, so font must be re-applied.
+        ctx.font = fontString(size, bold, family);
         ctx.textBaseline = 'top';
 
-        lines.forEach((line, i) => {
+        if (!isTrans) {
+            ctx.fillStyle = bColor;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        } else {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        ctx.fillStyle = tColor;
+
+        const blockHeight = displayLines.length * size * lHeight;
+        let startY = padding;
+        if (isCustom) {
+            if (vAlign === 'middle') startY = Math.max(padding / 2, (canvas.height - blockHeight) / 2);
+            else if (vAlign === 'bottom') startY = Math.max(padding / 2, canvas.height - blockHeight - padding);
+        }
+
+        displayLines.forEach((line, i) => {
             let x = padding;
             const lineW = ctx.measureText(line).width;
-            if(align === 'center') x = (canvas.width - lineW) / 2;
-            if(align === 'right') x = canvas.width - padding - lineW;
-
-            ctx.fillText(line, x, padding + (i * size * lHeight));
+            if (align === 'center') x = (canvas.width - lineW) / 2;
+            if (align === 'right') x = canvas.width - padding - lineW;
+            ctx.fillText(line, x, startY + (i * size * lHeight));
         });
+
+        dimReadout.textContent = `${canvas.width} × ${canvas.height} px`;
+        formatTip.textContent = isTrans ? 'Note: JPG doesn\u2019t support transparency — a white background will be added automatically if you export as JPG.' : '';
     }
 
     function download(fmt) {
+        const isTrans = document.getElementById('transparent').checked;
+        let sourceCanvas = canvas;
+
+        if (fmt === 'jpg' && isTrans) {
+            const temp = document.createElement('canvas');
+            temp.width = canvas.width;
+            temp.height = canvas.height;
+            const tctx = temp.getContext('2d');
+            tctx.fillStyle = '#ffffff';
+            tctx.fillRect(0, 0, temp.width, temp.height);
+            tctx.drawImage(canvas, 0, 0);
+            sourceCanvas = temp;
+        }
+
+        const mime = fmt === 'jpg' ? 'image/jpeg' : 'image/png';
         const link = document.createElement('a');
         link.download = `toolvala-text-image.${fmt}`;
-        link.href = canvas.toDataURL(`image/${fmt}`);
+        link.href = sourceCanvas.toDataURL(mime, fmt === 'jpg' ? 0.95 : undefined);
+        document.body.appendChild(link);
         link.click();
+        document.body.removeChild(link);
     }
 
-    function toggleFaq(id) {
-        const el = document.getElementById('faq-' + id);
-        const isVisible = el.style.display === 'block';
-        el.style.display = isVisible ? 'none' : 'block';
-    }
+    // ---------- FAQ ----------
+    const faqs = [
+        ['Is the Toolvala Text to Image converter free to use?', 'Yes, this tool is 100% free for both personal and commercial use. There are no watermarks or hidden subscription fees.'],
+        ['Can I generate a transparent background image?', 'Absolutely. Select the \u2018Transparent\u2019 checkbox and export as PNG to create high-quality text overlays with no background.'],
+        ['Are my text inputs private?', 'Yes. Processing happens locally in your browser memory via the Canvas API. Your text is never uploaded to any server.'],
+        ['Which image formats are supported for export?', 'High-resolution PNG (recommended for clarity and transparency) and JPG (best for standard, non-transparent backgrounds).'],
+        ['Does it support custom fonts?', 'The tool is pre-loaded with Inter, Playfair Display, JetBrains Mono, and Montserrat, plus your device\u2019s system fonts like Arial.'],
+        ['What is the maximum resolution I can generate?', 'Turn on custom dimensions to set an exact width and height, up to 4000px each. Leave height on Auto to let it size itself to your text.']
+    ];
+    const faqList = document.getElementById('faqList');
+    faqs.forEach(([q, a]) => {
+        const item = document.createElement('div');
+        item.className = 'faq-item';
+        item.innerHTML = `<button class="faq-q" aria-expanded="false">${q} <i class="fa-solid fa-chevron-down"></i></button><div class="faq-a"><p>${a}</p></div>`;
+        const btn = item.querySelector('.faq-q');
+        btn.addEventListener('click', () => {
+            const open = item.classList.toggle('open');
+            btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        });
+        faqList.appendChild(item);
+    });
 
-    window.onload = render;
+    window.addEventListener('load', async () => {
+        await ensureFontsLoaded();
+        render();
+    });
 </script>
 <div id="footer"></div>
 <script>
-fetch("footer.html")
+fetch("/footer.html")
   .then(r => r.text())
   .then(d => {
     document.getElementById("footer").innerHTML = d;
-    document.getElementById("year").textContent = new Date().getFullYear();
-  });
+    const y = document.getElementById("year");
+    if (y) y.textContent = new Date().getFullYear();
+  })
+  .catch(() => {});
 </script>
 </body>
 </html>
