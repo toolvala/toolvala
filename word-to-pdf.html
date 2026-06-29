@@ -1,590 +1,720 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free Word to PDF Converter | Secure Offline Tool (A4/A3 Support) 2025</title>
-    
-    <!-- SEO Meta Tags -->
-    <meta name="description" content="Convert Word (DOCX) to PDF or paste text to PDF instantly. Features A4/A3 support, Hindi/Marathi font compatibility, and 100% secure client-side processing. No uploads required.">
-    <meta name="keywords" content="word to pdf converter, free docx to pdf, client side pdf tool, secure pdf converter, offline word to pdf, javascript pdf generator, a4 pdf maker, text to pdf paste, hindi word to pdf, github pages pdf tool, no server pdf converter, convert word to pdf free online, browser based document converter">
-    <meta name="author" content="SecurePDF Tool">
-    <meta name="robots" content="index, follow">
-    <meta property="og:title" content="Free Word to PDF Converter | Secure & Private">
-    <meta property="og:description" content="Convert documents instantly in your browser. No file uploads. 100% Free.">
-    <meta property="og:type" content="website">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Word to PDF Converter Online | No Upload, 100% Secure</title>
 
-    <!-- External Libraries (CDNs) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<meta name="description" content="Convert Word (DOCX) to PDF or paste text to PDF instantly, free, and right in your browser. A4/A3/Letter support, Hindi & Marathi friendly, nothing ever leaves your device.">
+<meta name="keywords" content="word to pdf converter, free docx to pdf, client side pdf tool, secure pdf converter, offline word to pdf, a4 pdf maker, text to pdf paste, hindi word to pdf, convert word to pdf free online, browser based document converter">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://toolvala.in/word-to-pdf-converter">
+<meta property="og:title" content="Free Word to PDF Converter | Secure & Private">
+<meta property="og:description" content="Convert DOCX or pasted text into a polished PDF instantly. No uploads, no sign-up, no limits.">
+<meta property="og:type" content="website">
 
-    <style>
-        /* --- CSS VARIABLES & RESET --- */
-        :root {
-            --primary: #2563eb;
-            --secondary: #1e40af;
-            --bg-color: #f8fafc;
-            --text-color: #334155;
-            --paper-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+<!-- Conversion engine -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-        body {
-            font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-        }
+<!-- AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4402681434316955" crossorigin="anonymous"></script>
 
-        /* --- LAYOUT --- */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+<style>
+:root{
+  --ink:#15182B;
+  --ink-2:#2C3158;
+  --ink-soft:#5B5F82;
+  --paper:#F7F4ED;
+  --card:#FFFFFF;
+  --line:#E4DFD2;
+  --accent:#C2410C;
+  --accent-dark:#9A3412;
+  --accent-soft:#FBE4D4;
+  --success:#15803D;
+  --success-soft:#DCFCE7;
+  --danger:#B91C1C;
+  --danger-soft:#FEE2E2;
+  --info:#1D4ED8;
+  --info-soft:#DBEAFE;
+  --radius:14px;
+  --shadow-sm:0 1px 2px rgba(21,24,43,.06);
+  --shadow-md:0 8px 24px -8px rgba(21,24,43,.18);
+  --shadow-lg:0 28px 56px -20px rgba(21,24,43,.32);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter',system-ui,-apple-system,sans-serif;
+  background:var(--paper);
+  color:var(--ink-2);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:880px;margin:0 auto;padding:0 20px}
+a{color:inherit}
+img{max-width:100%}
 
-        header {
-            background: white;
-            padding: 1rem 0;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            margin-bottom: 2rem;
-        }
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:6px}
 
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+/* ---------- HEADER ---------- */
+.site-header{background:var(--card);border-bottom:1px solid var(--line)}
+.header-row{display:flex;align-items:center;justify-content:space-between;padding:16px 20px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.15rem;text-decoration:none;color:var(--ink)}
+.brand-mark{display:grid;place-items:center;width:34px;height:34px;border-radius:9px;background:var(--ink);color:#fff;font-size:.95rem}
+.brand-dot{color:var(--accent)}
+.back-link{display:flex;align-items:center;gap:6px;font-size:.9rem;font-weight:600;color:var(--ink-soft);text-decoration:none}
+.back-link:hover{color:var(--accent)}
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--primary);
-            text-decoration: none;
-        }
+/* ---------- HERO ---------- */
+.hero{padding:48px 20px 28px;text-align:center}
+.eyebrow{
+  display:inline-block;font-size:.78rem;font-weight:700;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--accent-dark);background:var(--accent-soft);
+  padding:5px 12px;border-radius:999px;margin-bottom:16px;
+}
+.hero h1{font-size:clamp(1.8rem,4vw,2.5rem);font-weight:900;color:var(--ink);letter-spacing:-.02em;margin-bottom:12px}
+.hero-sub{color:var(--ink-soft);font-size:1.05rem;max-width:560px;margin:0 auto 20px}
+.trust-row{display:flex;flex-wrap:wrap;justify-content:center;gap:18px;list-style:none;font-size:.88rem;font-weight:600;color:var(--ink-soft)}
+.trust-row li{display:flex;align-items:center;gap:6px}
+.trust-row i{color:var(--accent)}
 
-        /* --- TOOL INTERFACE --- */
-        .tool-wrapper {
-            background: white;
-            border-radius: 12px;
-            box-shadow: var(--paper-shadow);
-            padding: 2rem;
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto 3rem auto;
-            border-top: 5px solid var(--primary);
-        }
+/* ---------- TOOL CARD (signature: carbon-copy stack) ---------- */
+.tool-card{position:relative;max-width:760px;margin:8px auto 36px;padding:0 20px}
+.tool-card-stack{
+  position:absolute;inset:0 20px;top:10px;
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  transform:rotate(-2.2deg);z-index:0;
+}
+.tool-card-stack::after{
+  content:'';position:absolute;inset:0;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--radius);transform:rotate(2.6deg);z-index:-1;
+}
+.tool-card-inner{
+  position:relative;z-index:1;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--radius);box-shadow:var(--shadow-lg);padding:6px 28px 28px;
+}
 
-        .tabs {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 20px;
-            border-bottom: 1px solid #e2e8f0;
-            padding-bottom: 10px;
-        }
+.folder-tabs{display:flex;gap:6px;margin:0 -28px 22px;padding:0 22px;border-bottom:1px solid var(--line)}
+.folder-tab{
+  appearance:none;border:1px solid var(--line);border-bottom:none;background:var(--paper);
+  color:var(--ink-soft);font-family:inherit;font-weight:700;font-size:.92rem;
+  padding:12px 18px 14px;border-radius:10px 10px 0 0;cursor:pointer;
+  display:flex;align-items:center;gap:8px;transform:translateY(1px);
+  transition:background .15s,color .15s;
+}
+.folder-tab i{font-size:.95em}
+.folder-tab.active{background:var(--card);color:var(--ink);border-color:var(--line);transform:translateY(2px)}
+.folder-tab:not(.active):hover{color:var(--ink)}
 
-        .tab-btn {
-            background: transparent;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            color: #64748b;
-            border-radius: 6px;
-            transition: all 0.2s;
-        }
+.tab-panel{padding-top:6px}
 
-        .tab-btn.active {
-            background-color: #eff6ff;
-            color: var(--primary);
-        }
+.dropzone{
+  border:2px dashed var(--line);border-radius:12px;padding:42px 20px;text-align:center;
+  cursor:pointer;background:var(--paper);transition:.18s;
+}
+.dropzone:hover,.dropzone.drag-over{border-color:var(--accent);background:var(--accent-soft)}
+.dropzone-icon{font-size:2.4rem;color:var(--accent);margin-bottom:10px;display:block}
+.dropzone-title{font-weight:700;color:var(--ink);font-size:1.05rem;margin-bottom:4px}
+.dropzone-sub{color:var(--ink-soft);font-size:.88rem}
+.file-chip{
+  margin-top:12px;display:inline-flex;align-items:center;gap:8px;font-weight:700;
+  color:var(--ink);background:var(--paper);border:1px solid var(--line);
+  padding:8px 14px;border-radius:999px;font-size:.9rem;
+}
 
-        .upload-zone {
-            border: 2px dashed #cbd5e1;
-            padding: 40px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: 0.3s;
-            background: #f8fafc;
-        }
+textarea#text-input{
+  width:100%;height:200px;padding:16px;border:1px solid var(--line);border-radius:12px;
+  font-family:inherit;font-size:.96rem;resize:vertical;background:var(--paper);color:var(--ink);
+}
+textarea#text-input:focus{border-color:var(--accent);background:var(--card)}
 
-        .upload-zone:hover {
-            border-color: var(--primary);
-            background: #eff6ff;
-        }
+.control-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px;align-items:center}
 
-        textarea#text-input {
-            width: 100%;
-            height: 200px;
-            padding: 15px;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            font-family: inherit;
-            resize: vertical;
-        }
+.select-wrap{
+  display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--paper);
+  border-radius:10px;padding:0 14px;color:var(--ink-soft);
+}
+.select-wrap i{font-size:.85em}
+.select-wrap select{
+  border:none;background:transparent;padding:12px 4px;font-family:inherit;font-size:.92rem;
+  font-weight:600;color:var(--ink);cursor:pointer;
+}
+.select-wrap select:focus{outline:none}
 
-        .controls {
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
+.btn{
+  display:inline-flex;align-items:center;gap:9px;border:none;border-radius:10px;
+  padding:13px 22px;font-family:inherit;font-weight:700;font-size:.94rem;cursor:pointer;
+  transition:transform .12s,box-shadow .12s,background .15s;
+}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--accent);color:#fff;box-shadow:var(--shadow-sm)}
+.btn-primary:hover{background:var(--accent-dark)}
+.btn-success{background:var(--success);color:#fff}
+.btn-success:hover{background:#0f6630}
+.btn-success:disabled{opacity:.7;cursor:wait}
+.btn-ghost{background:transparent;color:var(--ink-soft);border:1px solid var(--line)}
+.btn-ghost:hover{color:var(--ink);border-color:var(--ink-soft)}
 
-        select, button {
-            padding: 12px 20px;
-            border-radius: 6px;
-            font-size: 1rem;
-            cursor: pointer;
-        }
+.status-msg{margin-top:16px;font-weight:600;font-size:.92rem;min-height:20px;border-radius:8px}
+.status-msg:not(:empty){padding:10px 14px}
+.status-info{background:var(--info-soft);color:var(--info)}
+.status-success{background:var(--success-soft);color:var(--success)}
+.status-error{background:var(--danger-soft);color:var(--danger)}
 
-        select { border: 1px solid #cbd5e1; background: white; }
+/* ---------- AD SLOTS ---------- */
+.ad-slot{margin:8px auto 36px;text-align:center}
+.ad-label{
+  display:block;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-soft);opacity:.6;margin-bottom:8px;
+}
+.ad-slot.in-article{margin:36px 0}
 
-        .btn-primary {
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            font-weight: 600;
-        }
+/* ---------- PREVIEW STAGE ---------- */
+.preview-stage{margin-bottom:48px}
+.preview-label{
+  text-align:center;font-weight:700;color:var(--ink);font-size:.92rem;margin-bottom:14px;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.preview-label i{color:var(--accent)}
+.preview-scroll{
+  overflow-x:auto;padding:34px 0 44px;background:var(--ink);border-radius:var(--radius);
+  background-image:radial-gradient(circle,rgba(255,255,255,.14) 2px,transparent 2px);
+  background-size:16px 16px;background-position:top center;background-repeat:repeat-x;
+}
+.paper{
+  background:#fff;margin:0 auto;box-shadow:0 18px 40px rgba(0,0,0,.45);
+  width:210mm;min-height:297mm;padding:15mm;box-sizing:border-box;
+  text-align:left;position:relative;
+}
+#doc-content{
+  font-family:'Times New Roman',Times,serif;font-size:12pt;line-height:1.5;color:#000;
+  width:100%;word-wrap:break-word;overflow-wrap:break-word;white-space:normal;
+}
+#doc-content img{max-width:100%;height:auto;display:block;margin:10px auto}
+#doc-content table{width:100%;border-collapse:collapse;margin-bottom:1em}
+#doc-content td,#doc-content th{border:1px solid #000;padding:4px}
+.mobile-scroll-hint{display:none;text-align:center;color:var(--ink-soft);font-size:.82rem;margin-top:10px;gap:6px;align-items:center;justify-content:center}
+.mobile-scroll-hint i{color:var(--accent)}
 
-        .btn-primary:hover { background-color: var(--secondary); }
+/* ---------- SEO ARTICLE ---------- */
+.seo-content{background:var(--card);padding:56px 0;margin-top:8px;border-top:1px solid var(--line)}
+.article-body h2{font-size:1.6rem;margin:2.2rem 0 1rem;color:var(--ink);font-weight:800;letter-spacing:-.01em}
+.article-body h3{font-size:1.2rem;margin:1.5rem 0 .7rem;color:var(--ink-2);font-weight:700}
+.article-body p{margin-bottom:1.1rem;color:var(--ink-soft)}
+.article-body p strong,.article-body li strong{color:var(--ink)}
+.article-body ul,.article-body ol{margin:0 0 1.3rem;padding-left:1.4rem;color:var(--ink-soft)}
+.article-body li{margin-bottom:.5rem}
+.article-body table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:.92rem}
+.article-body th,.article-body td{padding:10px 12px;border:1px solid var(--line);text-align:left}
+.article-body th{background:var(--paper);font-weight:700;color:var(--ink)}
+.article-body code{background:var(--paper);padding:2px 6px;border-radius:5px;font-size:.88em;color:var(--accent-dark)}
+.article-hero-h1{font-size:clamp(1.6rem,3.4vw,2.1rem);font-weight:900;color:var(--ink);margin-bottom:1.2rem;letter-spacing:-.02em}
 
-        .btn-success {
-            background-color: #10b981;
-            color: white;
-            border: none;
-            font-weight: 600;
-            display: none; /* Hidden by default */
-        }
+/* FAQ accordion */
+.faq-block{margin-top:2.5rem}
+.faq-item{border:1px solid var(--line);border-radius:12px;margin-bottom:10px;overflow:hidden;background:var(--paper)}
+.faq-item summary{
+  list-style:none;cursor:pointer;padding:16px 18px;font-weight:700;color:var(--ink);
+  display:flex;justify-content:space-between;align-items:center;gap:12px;
+}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary::after{content:'\f078';font-family:'Font Awesome 6 Free';font-weight:900;color:var(--accent);transition:transform .2s;flex-shrink:0}
+.faq-item[open] summary::after{transform:rotate(180deg)}
+.faq-item p{padding:0 18px 18px;color:var(--ink-soft);margin:0}
 
-        #status-msg {
-            margin-top: 15px;
-            font-weight: 600;
-            min-height: 24px;
-        }
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{transition:none!important;animation:none!important}
+}
 
-        /* --- PREVIEW AREA (CRITICAL FIX) --- */
-        #preview-section {
-            display: none;
-            background-color: #525659; /* PDF Viewer Grey */
-            padding: 40px 20px;
-            margin-top: 30px;
-            border-radius: 8px;
-            overflow-x: auto; /* Allow scroll if screen is too small */
-        }
-
-        /* This container simulates the physical paper */
-        #paper-container {
-            background-color: white;
-            margin: 0 auto;
-            box-shadow: 0 0 15px rgba(0,0,0,0.5);
-            /* Defaults for A4, modified by JS */
-            width: 210mm;
-            min-height: 297mm;
-            padding: 15mm; /* Physical margins on the paper */
-            box-sizing: border-box;
-            text-align: left;
-            position: relative;
-        }
-
-        /* Content Styling inside the PDF */
-        #doc-content {
-            font-family: 'Times New Roman', Times, serif; /* Standard doc font */
-            font-size: 12pt;
-            line-height: 1.5;
-            color: #000;
-            width: 100%;
-            /* Fix for Text Cutting Off */
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-            white-space: normal;
-        }
-
-        /* Handling Images inside doc */
-        #doc-content img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-            margin: 10px auto;
-        }
-
-        /* Handling Tables */
-        #doc-content table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 1em;
-        }
-        #doc-content td, #doc-content th {
-            border: 1px solid #000;
-            padding: 4px;
-        }
-
-        /* --- SEO CONTENT STYLING --- */
-        .seo-content {
-            background: white;
-            padding: 4rem 2rem;
-            margin-top: 4rem;
-            border-top: 1px solid #e2e8f0;
-        }
-
-        .article-body {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .article-body h1 { font-size: 2.5rem; margin-bottom: 1.5rem; color: #0f172a; }
-        .article-body h2 { font-size: 1.8rem; margin-top: 2.5rem; margin-bottom: 1rem; color: var(--secondary); }
-        .article-body h3 { font-size: 1.4rem; margin-top: 1.5rem; margin-bottom: 0.8rem; color: #334155; }
-        .article-body p { margin-bottom: 1.2rem; text-align: justify; }
-        .article-body ul { margin-bottom: 1.5rem; padding-left: 1.5rem; }
-        .article-body li { margin-bottom: 0.5rem; }
-
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            .tool-wrapper { padding: 1rem; }
-            #paper-container { transform: scale(0.6); transform-origin: top left; margin-bottom: -40%; }
-        }
-    </style>
+@media (max-width:768px){
+  .tool-card-inner{padding:6px 18px 22px}
+  .folder-tabs{margin:0 -18px 20px;padding:0 14px}
+  .folder-tab{font-size:.84rem;padding:11px 13px 13px}
+  .control-row{flex-direction:column;align-items:stretch}
+  .select-wrap,.btn{width:100%;justify-content:center}
+  .mobile-scroll-hint{display:flex}
+}
+</style>
 </head>
 <body>
 
-<header>
-    <div class="container header-content">
-        <a href="#" class="logo">SecurePDF<span style="color:#64748b">.js</span></a>
-        <span>V2.0 (2025 Edition)</span>
-    </div>
+<header class="site-header">
+  <div class="wrap header-row">
+    <a href="/" class="brand">
+      <span class="brand-mark"><i class="fa-solid fa-file-export"></i></span>
+      toolvala<span class="brand-dot">.in</span>
+    </a>
+    <a href="/" class="back-link"><i class="fa-solid fa-arrow-left"></i> All Tools</a>
+  </div>
 </header>
 
-<main class="container">
-    <!-- Tool Section -->
-    <section class="tool-wrapper">
-        <h1 style="margin-bottom: 1rem;">Convert Word & Text to PDF</h1>
-        
-        <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('file')">Upload Word File</button>
-            <button class="tab-btn" onclick="switchTab('text')">Paste Text</button>
-        </div>
+<main>
+  <section class="hero wrap">
+    <span class="eyebrow">DOCX → PDF &nbsp;·&nbsp; Text → PDF</span>
+    <h1>Turn Word docs into pixel-perfect PDFs</h1>
+    <p class="hero-sub">Upload a .docx or paste text — the conversion happens entirely on your device. Nothing is ever uploaded anywhere.</p>
+    <ul class="trust-row">
+      <li><i class="fa-solid fa-lock"></i> No upload, ever</li>
+      <li><i class="fa-solid fa-wifi"></i> Works offline</li>
+      <li><i class="fa-solid fa-infinity"></i> Unlimited & free</li>
+    </ul>
+  </section>
 
-        <!-- File Upload Area -->
-        <div id="file-tab">
-            <div class="upload-zone" id="drop-area" onclick="document.getElementById('file-input').click()">
-                <div style="font-size: 3rem; margin-bottom: 10px;">📄</div>
-                <h3>Click to Upload .DOCX</h3>
-                <p style="color: #64748b;">or Drag & Drop file here</p>
-                <input type="file" id="file-input" accept=".docx" hidden>
-            </div>
-            <p id="filename-display" style="margin-top:10px; color:var(--primary); font-weight:bold;"></p>
-        </div>
+  <section class="tool-card">
+    <div class="tool-card-stack" aria-hidden="true"></div>
+    <div class="tool-card-inner">
+      <div class="folder-tabs" role="tablist">
+        <button class="folder-tab active" data-tab="file" role="tab" aria-selected="true">
+          <i class="fa-solid fa-file-word"></i> Upload Word File
+        </button>
+        <button class="folder-tab" data-tab="text" role="tab" aria-selected="false">
+          <i class="fa-solid fa-keyboard"></i> Paste Text
+        </button>
+      </div>
 
-        <!-- Text Paste Area -->
-        <div id="text-tab" style="display:none;">
-            <textarea id="text-input" placeholder="Paste your text here (Supports Hindi, Marathi, English)..."></textarea>
+      <div class="tab-panel" id="panel-file">
+        <div class="dropzone" id="drop-area" tabindex="0" role="button" aria-label="Upload a .docx file">
+          <input type="file" id="file-input" accept=".docx" hidden>
+          <i class="fa-solid fa-file-arrow-up dropzone-icon"></i>
+          <p class="dropzone-title">Drop your .docx file here</p>
+          <p class="dropzone-sub">or click to browse</p>
         </div>
+        <p class="file-chip" id="filename-display" hidden></p>
+      </div>
 
-        <!-- Controls -->
-        <div class="controls">
-            <select id="page-size" onchange="resizePaper()">
-                <option value="a4">Format: A4 (Standard)</option>
-                <option value="a3">Format: A3 (Large)</option>
-                <option value="letter">Format: US Letter</option>
-            </select>
-            
-            <button class="btn-primary" id="convert-btn" onclick="processContent()">Convert & Preview</button>
-            <button class="btn-success" id="download-btn" onclick="generatePDF()">Download Final PDF</button>
-            <button class="btn-primary" style="background-color:#64748b" onclick="location.reload()">Reset</button>
-        </div>
+      <div class="tab-panel" id="panel-text" hidden>
+        <textarea id="text-input" placeholder="Paste English, Hindi, Marathi or any text here..."></textarea>
+      </div>
 
-        <div id="status-msg"></div>
-    </section>
+      <div class="control-row">
+        <label class="select-wrap">
+          <i class="fa-solid fa-ruler-combined"></i>
+          <select id="page-size">
+            <option value="a4">A4 — 210 × 297 mm</option>
+            <option value="a3">A3 — 297 × 420 mm</option>
+            <option value="letter">US Letter — 215.9 × 279.4 mm</option>
+          </select>
+        </label>
+        <button class="btn btn-primary" id="convert-btn" type="button">
+          <i class="fa-solid fa-wand-magic-sparkles"></i> Convert & Preview
+        </button>
+        <button class="btn btn-success" id="download-btn" type="button" hidden>
+          <i class="fa-solid fa-download"></i> Download PDF
+        </button>
+        <button class="btn btn-ghost" id="reset-btn" type="button">
+          <i class="fa-solid fa-rotate-left"></i> Reset
+        </button>
+      </div>
 
-    <!-- Preview Section (Visualizes the PDF) -->
-    <section id="preview-section">
-        <div style="color:white; text-align:center; margin-bottom:10px;">Document Preview (What you see is what you get)</div>
-        <div id="paper-container">
-            <div id="doc-content"></div>
-        </div>
-    </section>
+      <p class="status-msg" id="status-msg" role="status"></p>
+    </div>
+  </section>
+
+  <!-- AdSense Display Ad -->
+  <section class="ad-slot wrap">
+    <span class="ad-label">Advertisement</span>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-4402681434316955"
+         data-ad-slot="8432779087"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </section>
+
+  <section class="preview-stage wrap" id="preview-section" hidden>
+    <p class="preview-label"><i class="fa-solid fa-eye"></i> Preview — exactly what your PDF will look like</p>
+    <div class="preview-scroll">
+      <div class="paper" id="paper-container">
+        <div id="doc-content"></div>
+      </div>
+    </div>
+    <p class="mobile-scroll-hint"><i class="fa-solid fa-arrows-left-right"></i> Scroll sideways to see the full page</p>
+  </section>
 </main>
 
-<!-- SEO Content Section -->
 <section class="seo-content">
-    <div class="article-body">
-        <h1>Free Word to PDF Converter: The Ultimate Secure, Client-Side Tool (2025)</h1>
-        
-        <p>In the modern digital landscape, the ability to <strong>convert Word to PDF</strong> documents efficiently is a necessity for students, professionals, and businesses alike. While there are countless tools available online, most suffer from significant drawbacks: paywalls, file limits, or privacy concerns related to server-side uploads. Enter <strong>SecurePDF.js</strong>, a revolutionary <strong>free Word to PDF converter</strong> that operates entirely within your web browser using advanced client-side technology.</p>
-        
-        <p>This comprehensive tool not only handles standard DOCX files but also offers a robust <strong>text to PDF paste option</strong>, making it the most versatile <strong>A4 PDF converter</strong> on the market. Optimized for the 2025 web standards, this tool ensures your formatting—including complex scripts like Hindi and Marathi—is preserved perfectly without your data ever leaving your device.</p>
+  <article class="article-body wrap">
+    <h1 class="article-hero-h1">Free Word to PDF Converter: A Secure, Client-Side Tool</h1>
 
-        <h2>Why Choose a Client-Side Word to PDF Tool?</h2>
-        <p>Traditional PDF converters function by asking you to upload your file to a remote server. The server processes the file and sends it back. This creates a "black box" where you lose control of your data. Our tool is different. It uses <strong>client-side JavaScript</strong> libraries (Mammoth.js and html2pdf.js) to perform all conversions locally on your computer.</p>
-        
-        <h3>1. Unmatched Privacy and Security</h3>
-        <p>Because no file is uploaded, there is zero risk of data interception, server hacking, or corporate espionage. This makes SecurePDF.js the ideal solution for converting sensitive legal contracts, medical reports, financial statements, and personal identification documents.</p>
+    <p>Converting a Word document to PDF shouldn't mean uploading it to a stranger's server. This <strong>free Word to PDF converter</strong> runs entirely in your browser — no file leaves your device, there's no sign-up, and there's no daily limit. It also supports a <strong>text to PDF</strong> mode for whenever you just need to turn plain text into a clean, printable document.</p>
 
-        <h3>2. Works Offline</h3>
-        <p>Once you load this page, you can disconnect from the internet and the tool will still work. This is perfect for travelers, remote workers with unstable connections, or high-security environments where internet access is restricted.</p>
+    <p>Built for A4, A3 and US Letter output, with solid support for Hindi, Marathi and other non-Latin scripts, it's designed to handle the everyday paperwork of students, teachers and small offices without the usual friction of online converters.</p>
 
-        <h3>3. Unlimited & Free</h3>
-        <p>There are no "credits" to buy, no subscriptions, and no daily limits. You can convert 100 files in a row without hitting a paywall. This adheres to the true spirit of open-source software.</p>
+    <h2>Why a browser-based converter?</h2>
+    <p>Most online converters work by uploading your file to a remote server, processing it there, and sending a result back. That's an extra hop your document doesn't need to take. This tool instead reads your file locally using JavaScript and builds the PDF on your own device.</p>
 
-        <h2>Features of SecurePDF.js</h2>
-        <ul>
-            <li><strong>Multi-Format Support:</strong> Convert <code>.docx</code> files or raw text.</li>
-            <li><strong>Paper Size Customization:</strong> Switch between <strong>A4</strong> (210mm x 297mm), <strong>A3</strong> (297mm x 420mm), and <strong>US Letter</strong> sizes instantly.</li>
-            <li><strong>Language Support:</strong> Excellent rendering of UTF-8 characters, ensuring Hindi, Marathi, Arabic, and other non-Latin scripts display correctly without "tofu" boxes.</li>
-            <li><strong>Instant Preview:</strong> The tool provides a WYSIWYG (What You See Is What You Get) preview before you download, saving you from downloading erroneous files.</li>
-        </ul>
+    <h3>Your files never leave your device</h3>
+    <p>Because nothing is uploaded, there's no risk of a file sitting on a server you don't control. That matters most for contracts, mark sheets, ID documents, or anything you'd rather not send anywhere.</p>
 
-        <h2>How to Convert Word to PDF (Step-by-Step Guide)</h2>
-        <p>Using this tool is incredibly simple. Follow these steps to generate professional PDFs in seconds:</p>
-        
-        <h3>Option A: Converting a DOCX File</h3>
-        <ol>
-            <li><strong>Upload:</strong> Click the "Upload Word File" tab and drag your document into the dotted box.</li>
-            <li><strong>Select Size:</strong> Choose your desired output format (usually A4) from the dropdown menu.</li>
-            <li><strong>Convert:</strong> Click the blue "Convert & Preview" button. The tool will parse the XML structure of your Word doc and render it in the preview window.</li>
-            <li><strong>Download:</strong> Verify the layout in the preview box. If it looks good, click the green "Download Final PDF" button.</li>
-        </ol>
+    <h3>Works without an internet connection</h3>
+    <p>Once the page has loaded, the converter keeps working even if you go offline — handy on a train, in an exam hall with patchy Wi-Fi, or anywhere bandwidth is tight.</p>
 
-        <h3>Option B: Pasting Text</h3>
-        <p>If you have content in a clipboard or a text file:</p>
-        <ol>
-            <li><strong>Switch Tab:</strong> Click "Paste Text".</li>
-            <li><strong>Paste:</strong> Enter your text into the box. The tool preserves paragraphs and line breaks automatically.</li>
-            <li><strong>Process:</strong> Click convert. The text will be formatted into the document preview area, wrapping correctly within the margins.</li>
-        </ol>
+    <h3>No limits, no account</h3>
+    <p>Convert one file or fifty — there's no quota, no watermark, and nothing to sign up for.</p>
 
-        <h2>Troubleshooting Common Formatting Issues</h2>
-        <p>We have optimized this tool to handle the layout issues often seen in other converters, such as text being cut off on the right side or images overlapping.</p>
-        
-        <h3>Why is my text cutting off?</h3>
-        <p>This usually happens when the source content is wider than the PDF page. Our tool fixes this by enforcing <strong>CSS Word Wrapping</strong>. The preview container uses a fixed width (e.g., 210mm for A4), forcing the browser to wrap long lines of text to the next line rather than letting them run off the page. This is particularly important for scanned documents or text with long URLs.</p>
-
-        <h3>Page Breaks and Tables</h3>
-        <p>Converting HTML to PDF involves calculating where a page ends. We use the <code>html2pdf</code> engine with smart page-breaking enabled. However, if a large table is cut in half, try breaking it into smaller tables in your original Word document before converting.</p>
-
-        <h2>Technical Deep Dive: How It Works</h2>
-        <p>For the developers and tech-savvy users, here is the stack powering this single-file tool:</p>
-        <p><strong>Mammoth.js:</strong> This library is used to read the <code>.docx</code> file. Unlike other converters that try to mimic the exact layout of Word (which is notoriously difficult), Mammoth focuses on the <em>content</em>. It extracts the text, headings, and images and converts them into clean, semantic HTML.</p>
-        <p><strong>Html2Pdf.js:</strong> This library takes the HTML DOM element (our preview container) and renders it onto a PDF canvas. It supports high-resolution rendering (Canvas scaling) to ensure text remains crisp even when zoomed in.</p>
-        <p><strong>GitHub Pages Compatibility:</strong> Since this tool requires no backend (no PHP, Python, or Node.js server), it can be hosted directly on GitHub Pages. This makes it an evergreen tool that won't go down due to server maintenance.</p>
-
-        <h2>Comparison: Online Converters vs. SecurePDF.js</h2>
-        <table style="width:100%; border-collapse: collapse; margin-top:20px; border:1px solid #ddd;">
-            <thead>
-                <tr style="background-color:#f1f5f9;">
-                    <th style="padding:10px; border:1px solid #ddd;">Feature</th>
-                    <th style="padding:10px; border:1px solid #ddd;">Typical Online Tool</th>
-                    <th style="padding:10px; border:1px solid #ddd;">SecurePDF.js</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td style="padding:10px; border:1px solid #ddd;">Cost</td>
-                    <td style="padding:10px; border:1px solid #ddd;">Freemium (Pay for >2 files)</td>
-                    <td style="padding:10px; border:1px solid #ddd;">100% Free</td>
-                </tr>
-                <tr>
-                    <td style="padding:10px; border:1px solid #ddd;">Privacy</td>
-                    <td style="padding:10px; border:1px solid #ddd;">Files uploaded to server</td>
-                    <td style="padding:10px; border:1px solid #ddd;">Files stay on device</td>
-                </tr>
-                <tr>
-                    <td style="padding:10px; border:1px solid #ddd;">Speed</td>
-                    <td style="padding:10px; border:1px solid #ddd;">Depends on Upload Speed</td>
-                    <td style="padding:10px; border:1px solid #ddd;">Instant (Local Processing)</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <h2>Conclusion</h2>
-        <p>The <strong>SecurePDF.js Word to PDF Converter</strong> represents the future of lightweight, browser-based utilities. By removing the reliance on cloud servers, we return control to the user. Whether you need to generate a PDF in A4 format, preserve Hindi formatting, or simply archive a text note, this tool delivers professional results without the hassle.</p>
-        <p>Bookmark this page, share it with your colleagues, and enjoy the freedom of secure, unlimited document conversion.</p>
+    <div class="ad-slot in-article">
+      <ins class="adsbygoogle"
+           style="display:block; text-align:center;"
+           data-ad-layout="in-article"
+           data-ad-format="fluid"
+           data-ad-client="ca-pub-4402681434316955"
+           data-ad-slot="4581163987"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
+
+    <h2>What this tool can do</h2>
+    <ul>
+      <li><strong>Two input modes:</strong> upload a <code>.docx</code> file, or paste raw text directly.</li>
+      <li><strong>Three page sizes:</strong> A4 (210×297mm), A3 (297×420mm) and US Letter (215.9×279.4mm).</li>
+      <li><strong>Multi-script support:</strong> Hindi, Marathi, Arabic and other UTF-8 scripts render correctly — no "tofu" boxes.</li>
+      <li><strong>Live preview:</strong> see exactly how the PDF will look before you download it.</li>
+      <li><strong>Smart page breaks:</strong> the tool avoids slicing a paragraph, table row or list item across two pages wherever possible.</li>
+    </ul>
+
+    <h2>How to convert a Word file to PDF</h2>
+    <ol>
+      <li><strong>Upload:</strong> open the "Upload Word File" tab and drop your <code>.docx</code> into the box.</li>
+      <li><strong>Pick a size:</strong> choose A4, A3 or Letter from the dropdown.</li>
+      <li><strong>Convert:</strong> click "Convert & Preview" — the document is parsed and rendered on the page.</li>
+      <li><strong>Download:</strong> check the preview, then click "Download PDF".</li>
+    </ol>
+
+    <h3>Converting pasted text instead</h3>
+    <p>Switch to the "Paste Text" tab, type or paste your content, and click convert. Paragraph breaks are preserved automatically, and long lines wrap cleanly within the page margins.</p>
+
+    <h2>Fixing common formatting headaches</h2>
+    <h3>Why does text get cut off in other tools?</h3>
+    <p>This usually happens when content is wider than the page. This converter enforces word wrapping inside a fixed-width page area, so long lines and long URLs break onto the next line instead of running off the edge.</p>
+
+    <h3>Why do tables and paragraphs get sliced in half elsewhere?</h3>
+    <p>Many converters split a page purely by height, ignoring what's actually on the page. This tool looks at where each paragraph, list item and table row sits before deciding where a page should end, and shifts the break to the nearest safe gap instead of cutting through a line of text.</p>
+
+    <h2>Comparison: typical online converters vs. this tool</h2>
+    <table>
+      <thead>
+        <tr><th>Feature</th><th>Typical online tool</th><th>This converter</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Cost</td><td>Free tier with limits, paid beyond</td><td>100% free, no limits</td></tr>
+        <tr><td>Privacy</td><td>File uploaded to a server</td><td>File stays on your device</td></tr>
+        <tr><td>Speed</td><td>Depends on upload speed</td><td>Instant, local processing</td></tr>
+        <tr><td>Offline use</td><td>Not possible</td><td>Works after the page loads</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Frequently asked questions</h2>
+    <div class="faq-block">
+      <details class="faq-item">
+        <summary>Is my document uploaded to a server?</summary>
+        <p>No. The DOCX file is read directly in your browser using JavaScript, and the PDF is generated on your own device. Nothing is sent anywhere.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Which file formats can I convert?</summary>
+        <p>You can upload <code>.docx</code> files, or paste plain text directly into the Paste Text tab. Older <code>.doc</code> files aren't supported — save them as <code>.docx</code> first.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Does it support Hindi and Marathi text?</summary>
+        <p>Yes. The tool renders any UTF-8 text correctly, including Devanagari script used for Hindi and Marathi.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Can I choose A3 or US Letter instead of A4?</summary>
+        <p>Yes, the page size dropdown lets you switch between A4, A3 and US Letter before converting.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Will my document's images and tables show up?</summary>
+        <p>Yes. Embedded images and tables from your DOCX are carried over into the preview and the final PDF.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Is there a file size or page limit?</summary>
+        <p>No artificial limit is enforced, though very large documents with many high-resolution images will naturally take longer to render.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Does this work on mobile?</summary>
+        <p>Yes. On smaller screens, scroll sideways across the preview to see the full page width before downloading.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Do I need to install anything?</summary>
+        <p>No installation is needed — it runs in any modern browser, and keeps working offline once the page has loaded.</p>
+      </details>
+    </div>
+  </article>
 </section>
 
-<footer>
-    <div class="container" style="text-align:center; padding: 2rem 0; color: #64748b;">
-        <p>&copy; 2025 SecurePDF Tools. Open Source & Privacy Focused.</p>
-    </div>
-</footer>
+<div id="footer-placeholder"></div>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Word to PDF Converter",
+  "url": "https://toolvala.in/word-to-pdf-converter",
+  "applicationCategory": "Utility",
+  "operatingSystem": "Any (Web Browser)",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "Convert Word DOCX files or pasted text into PDF instantly in your browser. No uploads, no sign-up, supports A4, A3 and Letter sizes."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"Is my document uploaded to a server?","acceptedAnswer":{"@type":"Answer","text":"No. The DOCX file is read directly in your browser using JavaScript, and the PDF is generated on your own device. Nothing is sent anywhere."}},
+    {"@type":"Question","name":"Which file formats can I convert?","acceptedAnswer":{"@type":"Answer","text":"You can upload .docx files, or paste plain text directly into the Paste Text tab. Older .doc files aren't supported — save them as .docx first."}},
+    {"@type":"Question","name":"Does it support Hindi and Marathi text?","acceptedAnswer":{"@type":"Answer","text":"Yes. The tool renders any UTF-8 text correctly, including Devanagari script used for Hindi and Marathi."}},
+    {"@type":"Question","name":"Can I choose A3 or US Letter instead of A4?","acceptedAnswer":{"@type":"Answer","text":"Yes, the page size dropdown lets you switch between A4, A3 and US Letter before converting."}},
+    {"@type":"Question","name":"Will my document's images and tables show up?","acceptedAnswer":{"@type":"Answer","text":"Yes. Embedded images and tables from your DOCX are carried over into the preview and the final PDF."}},
+    {"@type":"Question","name":"Is there a file size or page limit?","acceptedAnswer":{"@type":"Answer","text":"No artificial limit is enforced, though very large documents with many high-resolution images will naturally take longer to render."}},
+    {"@type":"Question","name":"Does this work on mobile?","acceptedAnswer":{"@type":"Answer","text":"Yes. On smaller screens, scroll sideways across the preview to see the full page width before downloading."}},
+    {"@type":"Question","name":"Do I need to install anything?","acceptedAnswer":{"@type":"Answer","text":"No installation is needed — it runs in any modern browser, and keeps working offline once the page has loaded."}}
+  ]
+}
+</script>
 
 <script>
-    // --- APP LOGIC ---
+(function(){
+  'use strict';
 
-    let currentMode = 'file';
-    let selectedFile = null;
+  var SCALE = 2;
+  var PAGE_DIMS = { a4:[210,297], a3:[297,420], letter:[215.9,279.4] };
 
-    // Elements
-    const fileTab = document.getElementById('file-tab');
-    const textTab = document.getElementById('text-tab');
-    const statusMsg = document.getElementById('status-msg');
-    const previewSection = document.getElementById('preview-section');
-    const paperContainer = document.getElementById('paper-container');
-    const docContent = document.getElementById('doc-content');
-    const downloadBtn = document.getElementById('download-btn');
-    const convertBtn = document.getElementById('convert-btn');
+  var tabs = document.querySelectorAll('.folder-tab');
+  var panelFile = document.getElementById('panel-file');
+  var panelText = document.getElementById('panel-text');
+  var dropArea = document.getElementById('drop-area');
+  var fileInput = document.getElementById('file-input');
+  var filenameDisplay = document.getElementById('filename-display');
+  var textInput = document.getElementById('text-input');
+  var pageSizeSelect = document.getElementById('page-size');
+  var convertBtn = document.getElementById('convert-btn');
+  var downloadBtn = document.getElementById('download-btn');
+  var resetBtn = document.getElementById('reset-btn');
+  var statusMsg = document.getElementById('status-msg');
+  var previewSection = document.getElementById('preview-section');
+  var paperContainer = document.getElementById('paper-container');
+  var docContent = document.getElementById('doc-content');
 
-    // Tab Switcher
-    function switchTab(mode) {
-        currentMode = mode;
-        const tabs = document.querySelectorAll('.tab-btn');
-        tabs.forEach(t => t.classList.remove('active'));
-        
-        if (mode === 'file') {
-            tabs[0].classList.add('active');
-            fileTab.style.display = 'block';
-            textTab.style.display = 'none';
-        } else {
-            tabs[1].classList.add('active');
-            fileTab.style.display = 'none';
-            textTab.style.display = 'block';
-        }
-        resetUI();
-    }
+  var currentMode = 'file';
+  var selectedFile = null;
 
-    // File Input Listener
-    document.getElementById('file-input').addEventListener('change', function(e) {
-        if (e.target.files.length > 0) {
-            selectedFile = e.target.files[0];
-            document.getElementById('filename-display').textContent = "Selected: " + selectedFile.name;
-        }
+  function setStatus(text, type){
+    statusMsg.textContent = text;
+    statusMsg.className = 'status-msg' + (type ? ' status-' + type : '');
+  }
+
+  function switchTab(mode){
+    currentMode = mode;
+    tabs.forEach(function(t){
+      var active = t.dataset.tab === mode;
+      t.classList.toggle('active', active);
+      t.setAttribute('aria-selected', active ? 'true' : 'false');
     });
+    panelFile.hidden = mode !== 'file';
+    panelText.hidden = mode !== 'text';
+    resetPreview();
+  }
+  tabs.forEach(function(t){ t.addEventListener('click', function(){ switchTab(t.dataset.tab); }); });
 
-    // Drag and Drop Logic
-    const dropArea = document.getElementById('drop-area');
-    dropArea.addEventListener('dragover', (e) => { e.preventDefault(); dropArea.style.backgroundColor = '#eff6ff'; });
-    dropArea.addEventListener('dragleave', (e) => { e.preventDefault(); dropArea.style.backgroundColor = '#f8fafc'; });
-    dropArea.addEventListener('drop', (e) => {
-        e.preventDefault();
-        dropArea.style.backgroundColor = '#f8fafc';
-        if(e.dataTransfer.files.length) {
-            selectedFile = e.dataTransfer.files[0];
-            document.getElementById('filename-display').textContent = "Selected: " + selectedFile.name;
-        }
-    });
+  dropArea.addEventListener('click', function(){ fileInput.click(); });
+  dropArea.addEventListener('keydown', function(e){
+    if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); fileInput.click(); }
+  });
+  fileInput.addEventListener('change', function(e){
+    if (e.target.files.length) setSelectedFile(e.target.files[0]);
+  });
+  ['dragover','dragleave','drop'].forEach(function(evt){
+    dropArea.addEventListener(evt, function(e){ e.preventDefault(); });
+  });
+  dropArea.addEventListener('dragover', function(){ dropArea.classList.add('drag-over'); });
+  dropArea.addEventListener('dragleave', function(){ dropArea.classList.remove('drag-over'); });
+  dropArea.addEventListener('drop', function(e){
+    dropArea.classList.remove('drag-over');
+    if (e.dataTransfer.files.length) setSelectedFile(e.dataTransfer.files[0]);
+  });
 
-    // Resize Paper Logic (The "WYSIWYG" Fix)
-    function resizePaper() {
-        const size = document.getElementById('page-size').value;
-        if(size === 'a4') {
-            paperContainer.style.width = '210mm';
-            paperContainer.style.minHeight = '297mm';
-        } else if (size === 'a3') {
-            paperContainer.style.width = '297mm';
-            paperContainer.style.minHeight = '420mm';
-        } else if (size === 'letter') {
-            paperContainer.style.width = '216mm'; /* 8.5 inches */
-            paperContainer.style.minHeight = '279mm'; /* 11 inches */
-        }
+  function setSelectedFile(file){
+    if (!file.name.toLowerCase().endsWith('.docx')){
+      setStatus('Only .docx files are supported.', 'error');
+      return;
     }
+    selectedFile = file;
+    filenameDisplay.hidden = false;
+    filenameDisplay.innerHTML = '<i class="fa-solid fa-file-word"></i> ' + file.name;
+    setStatus('', '');
+  }
 
-    // Main Conversion Logic
-    function processContent() {
-        if (currentMode === 'file') {
-            if (!selectedFile) {
-                statusMsg.textContent = "Please upload a .docx file first!";
-                statusMsg.style.color = "red";
-                return;
-            }
-            if (!selectedFile.name.endsWith('.docx')) {
-                statusMsg.textContent = "Only .docx files are supported.";
-                statusMsg.style.color = "red";
-                return;
-            }
+  function resizePaper(){
+    var dims = PAGE_DIMS[pageSizeSelect.value];
+    paperContainer.style.width = dims[0] + 'mm';
+    paperContainer.style.minHeight = dims[1] + 'mm';
+  }
+  pageSizeSelect.addEventListener('change', resizePaper);
 
-            statusMsg.textContent = "Processing File...";
-            statusMsg.style.color = "blue";
-            
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                mammoth.convertToHtml({arrayBuffer: event.target.result})
-                    .then(displayResult)
-                    .catch(function(err) {
-                        console.log(err);
-                        statusMsg.textContent = "Error parsing file.";
-                    });
-            };
-            reader.readAsArrayBuffer(selectedFile);
+  convertBtn.addEventListener('click', processContent);
+  resetBtn.addEventListener('click', function(){ location.reload(); });
+  downloadBtn.addEventListener('click', generatePDF);
 
-        } else {
-            // Text Mode
-            const text = document.getElementById('text-input').value;
-            if (!text.trim()) {
-                statusMsg.textContent = "Please enter some text.";
-                statusMsg.style.color = "red";
-                return;
-            }
-            
-            // Format text: preserve newlines
-            const formattedHTML = text.split('\n').map(line => {
-                return line.trim() === '' ? '<br>' : `<p>${line}</p>`;
-            }).join('');
-            
-            displayResult({value: formattedHTML});
-        }
+  function escapeHTML(str){
+    var div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  function processContent(){
+    if (currentMode === 'file'){
+      if (!selectedFile){ setStatus('Choose a .docx file first.', 'error'); return; }
+      setStatus('Reading your document...', 'info');
+      var reader = new FileReader();
+      reader.onload = function(e){
+        mammoth.convertToHtml({ arrayBuffer: e.target.result })
+          .then(displayResult)
+          .catch(function(err){
+            console.error(err);
+            setStatus('Could not read this file. It may be corrupted or password-protected.', 'error');
+          });
+      };
+      reader.onerror = function(){ setStatus('Could not read this file.', 'error'); };
+      reader.readAsArrayBuffer(selectedFile);
+    } else {
+      var text = textInput.value;
+      if (!text.trim()){ setStatus('Type or paste some text first.', 'error'); return; }
+      var html = text.split('\n').map(function(line){
+        return line.trim() === '' ? '<br>' : '<p>' + escapeHTML(line) + '</p>';
+      }).join('');
+      displayResult({ value: html });
     }
+  }
 
-    function displayResult(result) {
-        docContent.innerHTML = result.value;
-        
-        // Ensure Preview is visible
-        previewSection.style.display = 'block';
-        resizePaper(); // Ensure correct size is applied
-
-        // UI Updates
-        convertBtn.style.display = 'none';
-        downloadBtn.style.display = 'inline-block';
-        statusMsg.textContent = "Preview Ready. Check below and click Download.";
-        statusMsg.style.color = "green";
-        
-        // Scroll to preview
-        previewSection.scrollIntoView({behavior: 'smooth'});
-    }
-
-    // PDF Generation Logic
-    function generatePDF() {
-        statusMsg.textContent = "Generating PDF...";
-        const element = paperContainer;
-        const size = document.getElementById('page-size').value;
-
-        const opt = {
-            margin:       0, // We have internal padding in #paper-container
-            filename:     selectedFile ? selectedFile.name.replace('.docx','.pdf') : 'document.pdf',
-            image:        { type: 'jpeg', quality: 0.98 },
-            html2canvas:  { 
-                scale: 2, // Improves text sharpness
-                useCORS: true,
-                letterRendering: true
-            },
-            jsPDF:        { unit: 'mm', format: size, orientation: 'portrait' },
-            // Pagebreak configuration to prevent cutting lines in half
-            pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
-        };
-
-        html2pdf().set(opt).from(element).save().then(() => {
-            statusMsg.textContent = "PDF Downloaded Successfully!";
-            setTimeout(() => {
-                downloadBtn.style.display = 'none';
-                convertBtn.style.display = 'inline-block';
-            }, 3000);
-        });
-    }
-
-    function resetUI() {
-        previewSection.style.display = 'none';
-        docContent.innerHTML = '';
-        downloadBtn.style.display = 'none';
-        convertBtn.style.display = 'inline-block';
-        statusMsg.textContent = '';
-    }
-
-    // Initialize
+  function displayResult(result){
+    docContent.innerHTML = result.value;
+    previewSection.hidden = false;
     resizePaper();
+    convertBtn.hidden = true;
+    downloadBtn.hidden = false;
+    setStatus('Preview ready — check it below, then download.', 'success');
+    previewSection.scrollIntoView({ behavior:'smooth', block:'start' });
+  }
 
+  function resetPreview(){
+    previewSection.hidden = true;
+    docContent.innerHTML = '';
+    downloadBtn.hidden = true;
+    convertBtn.hidden = false;
+    setStatus('', '');
+  }
+
+  function collectBreakUnits(root){
+    var units = [];
+    Array.from(root.children).forEach(function(el){
+      if (el.tagName === 'TABLE'){
+        var rows = el.querySelectorAll('tr');
+        rows.length ? rows.forEach(function(r){ units.push(r); }) : units.push(el);
+      } else if (el.tagName === 'UL' || el.tagName === 'OL'){
+        var items = el.querySelectorAll('li');
+        items.length ? items.forEach(function(li){ units.push(li); }) : units.push(el);
+      } else {
+        units.push(el);
+      }
+    });
+    return units;
+  }
+
+  function generatePDF(){
+    downloadBtn.disabled = true;
+    var originalLabel = downloadBtn.innerHTML;
+    downloadBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Generating...';
+    setStatus('Rendering your PDF — this can take a few seconds for long documents...', 'info');
+
+    var size = pageSizeSelect.value;
+    var dims = PAGE_DIMS[size];
+    var pageWmm = dims[0], pageHmm = dims[1];
+
+    html2canvas(paperContainer, { scale: SCALE, useCORS: true, backgroundColor: '#ffffff' })
+      .then(function(canvas){
+        var containerRect = paperContainer.getBoundingClientRect();
+        var units = collectBreakUnits(docContent).map(function(el){
+          var r = el.getBoundingClientRect();
+          return {
+            top: (r.top - containerRect.top) * SCALE,
+            bottom: (r.bottom - containerRect.top) * SCALE
+          };
+        }).filter(function(u){ return u.bottom > u.top; });
+
+        var pageHeightPx = (pageHmm * canvas.width) / pageWmm;
+        var totalHeightPx = canvas.height;
+
+        var jsPDF = window.jspdf.jsPDF;
+        var pdf = new jsPDF({ unit:'mm', format:[pageWmm, pageHmm], orientation:'portrait' });
+
+        var cursor = 0;
+        var pageIndex = 0;
+
+        while (cursor < totalHeightPx - 1){
+          var breakAt = Math.min(cursor + pageHeightPx, totalHeightPx);
+
+          if (breakAt < totalHeightPx){
+            var straddler = units.find(function(u){
+              return u.top < breakAt && u.bottom > breakAt && u.top > cursor;
+            });
+            if (straddler) breakAt = straddler.top;
+          }
+          if (breakAt <= cursor) breakAt = Math.min(cursor + pageHeightPx, totalHeightPx);
+
+          var sliceHeightPx = Math.round(breakAt - cursor);
+          var pageCanvas = document.createElement('canvas');
+          pageCanvas.width = canvas.width;
+          pageCanvas.height = sliceHeightPx;
+          var ctx = pageCanvas.getContext('2d');
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(0, 0, pageCanvas.width, pageCanvas.height);
+          ctx.drawImage(canvas, 0, cursor, canvas.width, sliceHeightPx, 0, 0, canvas.width, sliceHeightPx);
+
+          var imgData = pageCanvas.toDataURL('image/jpeg', 0.95);
+          var sliceHeightMM = (sliceHeightPx * pageWmm) / canvas.width;
+
+          if (pageIndex > 0) pdf.addPage([pageWmm, pageHmm], 'portrait');
+          pdf.addImage(imgData, 'JPEG', 0, 0, pageWmm, sliceHeightMM);
+
+          cursor = breakAt;
+          pageIndex++;
+        }
+
+        var filename = selectedFile ? selectedFile.name.replace(/\.docx$/i, '.pdf') : 'document.pdf';
+        pdf.save(filename);
+        setStatus('PDF downloaded — ' + pageIndex + (pageIndex === 1 ? ' page.' : ' pages.'), 'success');
+      })
+      .catch(function(err){
+        console.error(err);
+        setStatus('Something went wrong generating the PDF. Please try again.', 'error');
+      })
+      .finally(function(){
+        downloadBtn.disabled = false;
+        downloadBtn.innerHTML = originalLabel;
+      });
+  }
+
+  resizePaper();
+})();
+</script>
+<div id="footer"></div>
+    
+<script>
+fetch('/footer.html').then(function(r){ return r.ok ? r.text() : ''; }).then(function(html){
+  if (html){
+    document.getElementById('footer-placeholder').innerHTML = html;
+    var yearEl = document.getElementById('current-year');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
+  }
+}).catch(function(){});
 </script>
 
 </body>
