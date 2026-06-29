@@ -4,14 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Passport Photo Resizer | Make Passport Size Photo Online Free - Toolvala.in</title>
-    <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">.
+
     <!-- SEO Meta Tags -->
     <meta name="description" content="Create passport size photos online for free with Toolvala.in. Resize images to 3.5x4.5 cm, 2x2 inches, and more. Compress to specific KB for online applications. 100% Client-side secure.">
     <meta name="keywords" content="passport photo resizer, make passport photo online, passport size photo maker, 3.5x4.5 cm photo converter, visa photo maker, resize photo for passport, compress passport photo, toolvala">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://www.toolvala.in/passport-photo-resizer.html">
-    
+
     <!-- Open Graph -->
     <meta property="og:title" content="Passport Photo Resizer - Toolvala.in">
     <meta property="og:description" content="Create professional passport photos instantly. Resize, crop, and compress for online forms.">
@@ -21,6 +20,9 @@
     <!-- Fonts & Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- AdSense library (loaded once; ad units are placed in the body) -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4402681434316955" crossorigin="anonymous"></script>
 
     <!-- Schema Markup -->
     <script type="application/ld+json">
@@ -36,6 +38,18 @@
         "priceCurrency": "INR"
       },
       "description": "A browser-based tool to resize, crop, and compress photos for passport and visa applications."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {"@type":"Question","name":"Why was my photo rejected?","acceptedAnswer":{"@type":"Answer","text":"Common reasons include shadows on the face, glasses with glare, a background that isn't plain white, or incorrect dimensions. Make sure your source photo is clear before uploading."}},
+        {"@type":"Question","name":"Can I convert a selfie to a passport photo?","acceptedAnswer":{"@type":"Answer","text":"Yes, as long as the selfie is taken with good lighting, a plain background, and your shoulders are straight. Avoid filters."}},
+        {"@type":"Question","name":"Does this tool change the background?","acceptedAnswer":{"@type":"Answer","text":"No, this tool resizes and compresses the image. The background should already be correct (usually plain white) before you upload."}},
+        {"@type":"Question","name":"What is the DPI for passport photos?","acceptedAnswer":{"@type":"Answer","text":"Most online applications require 300 DPI for high-quality printing. This tool renders at 300 DPI for the dimensions you choose."}}
+      ]
     }
     </script>
 
@@ -61,6 +75,8 @@
             color: var(--text-main);
             line-height: 1.6;
         }
+
+        :focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; }
 
         /* Navigation */
         nav {
@@ -213,6 +229,10 @@
             text-align: center;
         }
 
+        /* Ad slots */
+        .ad-slot { margin: 30px auto; text-align: center; max-width: 1000px; padding: 0 20px; }
+        .ad-label { display: block; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #94a3b8; margin-bottom: 8px; }
+
         /* Related Tools */
         .related-tools {
             margin-top: 60px;
@@ -280,6 +300,10 @@
         }
         .size-table th { background: #f8fafc; }
 
+        @media (prefers-reduced-motion: reduce) {
+            * { transition: none !important; animation: none !important; }
+        }
+
         @media (max-width: 768px) {
             .tool-box { grid-template-columns: 1fr; }
             .tool-header h1 { font-size: 2rem; }
@@ -296,7 +320,7 @@
     </nav>
 
     <div class="container">
-        
+
         <header class="tool-header">
             <h1>Passport Photo Resizer</h1>
             <p>Create perfectly sized passport photos for any country or exam instantly.</p>
@@ -306,12 +330,12 @@
             <!-- Controls -->
             <div class="controls-section">
                 <div class="upload-btn-wrapper">
-                    <button class="btn-upload"><i class="fa-solid fa-cloud-arrow-up"></i> Upload Photo</button>
-                    <input type="file" id="imageInput" accept="image/*">
+                    <button class="btn-upload" type="button" tabindex="-1"><i class="fa-solid fa-cloud-arrow-up"></i> Upload Photo</button>
+                    <input type="file" id="imageInput" accept="image/*" aria-label="Upload photo">
                 </div>
 
                 <div class="form-group">
-                    <label>Select Standard Size</label>
+                    <label for="presetSelect">Select Standard Size</label>
                     <select id="presetSelect" class="form-control" onchange="applyPreset()">
                         <option value="custom">Custom Size</option>
                         <option value="india_passport" selected>India Passport (3.5 x 4.5 cm)</option>
@@ -326,15 +350,15 @@
 
                 <div class="row-inputs">
                     <div class="form-group">
-                        <label>Width</label>
-                        <input type="number" id="widthInput" class="form-control" value="3.5">
+                        <label for="widthInput">Width</label>
+                        <input type="number" id="widthInput" class="form-control" value="3.5" min="0" step="0.1">
                     </div>
                     <div class="form-group">
-                        <label>Height</label>
-                        <input type="number" id="heightInput" class="form-control" value="4.5">
+                        <label for="heightInput">Height</label>
+                        <input type="number" id="heightInput" class="form-control" value="4.5" min="0" step="0.1">
                     </div>
                     <div class="form-group">
-                        <label>Unit</label>
+                        <label for="unitSelect">Unit</label>
                         <select id="unitSelect" class="form-control">
                             <option value="cm" selected>cm</option>
                             <option value="mm">mm</option>
@@ -345,11 +369,11 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Max File Size (KB) - Optional</label>
-                    <input type="number" id="kbLimit" class="form-control" placeholder="e.g. 50">
+                    <label for="kbLimit">Max File Size (KB) - Optional</label>
+                    <input type="number" id="kbLimit" class="form-control" placeholder="e.g. 50" min="0">
                 </div>
 
-                <button class="btn-action" id="processBtn" onclick="processImage()">Resize & Download</button>
+                <button class="btn-action" id="processBtn" type="button" onclick="processImage()">Resize & Download</button>
                 <p id="statusMsg" style="font-size: 0.9rem; color: var(--text-light); text-align: center; margin-top: 10px;"></p>
             </div>
 
@@ -363,13 +387,25 @@
             </div>
         </div>
 
+        <!-- Display Ad -->
+        <section class="ad-slot">
+            <span class="ad-label">Advertisement</span>
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-4402681434316955"
+                 data-ad-slot="8432779087"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </section>
+
         <!-- Related Tools -->
         <div class="related-tools">
             <h2 class="section-title">Related Photo Tools</h2>
             <div class="tools-grid">
                 <a href="image-resizer.html" class="tool-link">
                     <i class="fa-solid fa-id-card"></i>
-                    Image Risizer
+                    Image Resizer
                 </a>
                 <a href="ssc-photo-tool.html" class="tool-link">
                     <i class="fa-solid fa-user-tie"></i>
@@ -412,9 +448,21 @@
                 <li><strong>Cost:</strong> It is completely free.</li>
             </ul>
 
+            <!-- In-article Ad -->
+            <div class="ad-slot" style="padding:0;">
+                <span class="ad-label">Advertisement</span>
+                <ins class="adsbygoogle"
+                     style="display:block; text-align:center;"
+                     data-ad-layout="in-article"
+                     data-ad-format="fluid"
+                     data-ad-client="ca-pub-4402681434316955"
+                     data-ad-slot="4581163987"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            </div>
+
             <h3>Standard Passport Photo Sizes (Chart)</h3>
             <p>Different countries and organizations have specific requirements. Here is a quick reference guide:</p>
-            
+
             <div style="overflow-x:auto;">
                 <table class="size-table">
                     <thead>
@@ -479,7 +527,7 @@
             </ol>
 
             <h3>Frequently Asked Questions (FAQs)</h3>
-            
+
             <h4>1. Why was my photo rejected?</h4>
             <p>Common reasons include: shadows on the face, wearing glasses with glare, background not being plain white, or incorrect dimensions. Ensure your source photo is clear.</p>
 
@@ -494,57 +542,94 @@
 
             <p>Use <strong>Toolvala.in</strong> for all your document editing needs. Check out our <a href="photo-compressor.html" style="color: var(--primary); text-decoration: none;">Photo Compressor</a> if you just need to reduce file size without resizing dimensions.</p>
         </article>
+
+        <!-- Footer Display Ad -->
+        <section class="ad-slot">
+            <span class="ad-label">Advertisement</span>
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-4402681434316955"
+                 data-ad-slot="5569753964"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </section>
     </div>
 
+    <div id="footer"></div>
+
     <script>
-        const imageInput = document.getElementById('imageInput');
-        const previewImage = document.getElementById('previewImage');
+        const imageInput      = document.getElementById('imageInput');
+        const previewImage    = document.getElementById('previewImage');
         const placeholderText = document.getElementById('placeholderText');
-        const widthInput = document.getElementById('widthInput');
-        const heightInput = document.getElementById('heightInput');
-        const unitSelect = document.getElementById('unitSelect');
-        const kbLimitInput = document.getElementById('kbLimit');
-        const statusMsg = document.getElementById('statusMsg');
+        const widthInput      = document.getElementById('widthInput');
+        const heightInput     = document.getElementById('heightInput');
+        const unitSelect      = document.getElementById('unitSelect');
+        const kbLimitInput    = document.getElementById('kbLimit');
+        const statusMsg       = document.getElementById('statusMsg');
+        const processBtn      = document.getElementById('processBtn');
+        const presetSelect    = document.getElementById('presetSelect');
 
         let originalImage = new Image();
+        let imageReady = false;
 
         // Presets Data
         const presets = {
             'india_passport': { w: 3.5, h: 4.5, unit: 'cm' },
-            'india_pan': { w: 2.5, h: 3.5, unit: 'cm' },
-            'usa_visa': { w: 2, h: 2, unit: 'inch' },
-            'uk_passport': { w: 35, h: 45, unit: 'mm' },
-            'schengen': { w: 35, h: 45, unit: 'mm' },
-            'ssc': { w: 3.5, h: 4.5, unit: 'cm' },
-            'upsc': { w: 3.5, h: 3.5, unit: 'cm' }
+            'india_pan':      { w: 2.5, h: 3.5, unit: 'cm' },
+            'usa_visa':       { w: 2,   h: 2,   unit: 'inch' },
+            'uk_passport':    { w: 35,  h: 45,  unit: 'mm' },
+            'schengen':       { w: 35,  h: 45,  unit: 'mm' },
+            'ssc':            { w: 3.5, h: 4.5, unit: 'cm' },
+            'upsc':           { w: 3.5, h: 3.5, unit: 'cm' }
         };
 
-        // Handle File Upload
+        // Handle File Upload (onload is attached before src is set)
         imageInput.addEventListener('change', function(e) {
             const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    originalImage.src = event.target.result;
-                    originalImage.onload = function() {
-                        previewImage.src = originalImage.src;
-                        previewImage.style.display = 'block';
-                        placeholderText.style.display = 'none';
-                    }
-                }
-                reader.readAsDataURL(file);
-            }
+            if (!file) return;
+
+            imageReady = false;
+            previewImage.style.display = 'none';
+            placeholderText.style.display = 'block';
+            placeholderText.textContent = 'Loading photo...';
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                originalImage = new Image();
+                originalImage.onload = function() {
+                    imageReady = true;
+                    previewImage.src = originalImage.src;
+                    previewImage.style.display = 'block';
+                    placeholderText.style.display = 'none';
+                };
+                originalImage.onerror = function() {
+                    imageReady = false;
+                    placeholderText.textContent = 'Could not load that file as an image.';
+                    alert('This file could not be read as an image. Please choose a JPG or PNG.');
+                };
+                originalImage.src = event.target.result;
+            };
+            reader.onerror = function() {
+                alert('Could not read that file. Please try again.');
+            };
+            reader.readAsDataURL(file);
         });
 
         // Apply Preset
         function applyPreset() {
-            const preset = document.getElementById('presetSelect').value;
+            const preset = presetSelect.value;
             if (presets[preset]) {
                 widthInput.value = presets[preset].w;
                 heightInput.value = presets[preset].h;
                 unitSelect.value = presets[preset].unit;
             }
         }
+
+        // If the user edits dimensions by hand, the preset no longer applies.
+        [widthInput, heightInput, unitSelect].forEach(function(el) {
+            el.addEventListener('input', function(){ presetSelect.value = 'custom'; });
+        });
 
         // Convert Unit to Pixels (Assuming 300 DPI for print quality)
         function toPixels(value, unit) {
@@ -556,85 +641,114 @@
             return value;
         }
 
+        // Real byte size of a base64 data URL. dataUrl.length measures
+        // base64 *characters*, which overstates the actual file size by ~33%.
+        function dataUrlBytes(dataUrl) {
+            const base64 = dataUrl.split(',')[1] || '';
+            const padding = (base64.match(/=+$/) || [''])[0].length;
+            return Math.floor(base64.length * 3 / 4) - padding;
+        }
+
+        function setStatus(msg, color) {
+            statusMsg.textContent = msg;
+            statusMsg.style.color = color || 'var(--text-light)';
+        }
+
         // Process Image
         function processImage() {
-            if (!originalImage.src) {
-                alert("Please upload an image first.");
+            if (!imageReady) {
+                alert('Please upload a photo first (or wait a moment for it to finish loading).');
                 return;
             }
 
-            const targetWidth = toPixels(parseFloat(widthInput.value), unitSelect.value);
-            const targetHeight = toPixels(parseFloat(heightInput.value), unitSelect.value);
+            const targetWidth  = Math.round(toPixels(parseFloat(widthInput.value), unitSelect.value));
+            const targetHeight = Math.round(toPixels(parseFloat(heightInput.value), unitSelect.value));
             const maxKB = parseFloat(kbLimitInput.value);
 
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-
-            canvas.width = targetWidth;
-            canvas.height = targetHeight;
-
-            // Aspect Ratio Cropping (Center Crop)
-            const sourceRatio = originalImage.width / originalImage.height;
-            const targetRatio = targetWidth / targetHeight;
-            let sx, sy, sWidth, sHeight;
-
-            if (sourceRatio > targetRatio) {
-                sHeight = originalImage.height;
-                sWidth = sHeight * targetRatio;
-                sx = (originalImage.width - sWidth) / 2;
-                sy = 0;
-            } else {
-                sWidth = originalImage.width;
-                sHeight = sWidth / targetRatio;
-                sx = 0;
-                sy = (originalImage.height - sHeight) / 2;
+            if (!targetWidth || !targetHeight || targetWidth <= 0 || targetHeight <= 0) {
+                alert('Please enter a valid width and height.');
+                return;
             }
 
-            // Draw resized image
-            ctx.drawImage(originalImage, sx, sy, sWidth, sHeight, 0, 0, targetWidth, targetHeight);
+            processBtn.disabled = true;
+            processBtn.textContent = 'Processing...';
+            setStatus('');
 
-            // Compression Logic
-            let quality = 0.9;
-            let dataUrl = canvas.toDataURL('image/jpeg', quality);
+            // Let the disabled/processing state paint before the synchronous canvas work.
+            setTimeout(function() {
+                try {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    canvas.width = targetWidth;
+                    canvas.height = targetHeight;
 
-            if (maxKB && maxKB > 0) {
-                statusMsg.innerText = "Compressing...";
-                // Binary search for quality could be better, but simple loop for now
-                while (dataUrl.length / 1024 > maxKB && quality > 0.1) {
-                    quality -= 0.05;
-                    dataUrl = canvas.toDataURL('image/jpeg', quality);
+                    // Aspect Ratio Cropping (Center Crop)
+                    const sourceRatio = originalImage.width / originalImage.height;
+                    const targetRatio = targetWidth / targetHeight;
+                    let sx, sy, sWidth, sHeight;
+
+                    if (sourceRatio > targetRatio) {
+                        sHeight = originalImage.height;
+                        sWidth = sHeight * targetRatio;
+                        sx = (originalImage.width - sWidth) / 2;
+                        sy = 0;
+                    } else {
+                        sWidth = originalImage.width;
+                        sHeight = sWidth / targetRatio;
+                        sx = 0;
+                        sy = (originalImage.height - sHeight) / 2;
+                    }
+
+                    ctx.drawImage(originalImage, sx, sy, sWidth, sHeight, 0, 0, targetWidth, targetHeight);
+
+                    // Compression Logic — measured in real bytes, not base64 string length
+                    let quality = 0.92;
+                    let dataUrl = canvas.toDataURL('image/jpeg', quality);
+                    let metTarget = true;
+
+                    if (maxKB && maxKB > 0) {
+                        while (dataUrlBytes(dataUrl) / 1024 > maxKB && quality > 0.1) {
+                            quality -= 0.05;
+                            dataUrl = canvas.toDataURL('image/jpeg', quality);
+                        }
+                        metTarget = dataUrlBytes(dataUrl) / 1024 <= maxKB;
+                    }
+
+                    const finalKB = (dataUrlBytes(dataUrl) / 1024).toFixed(1);
+
+                    // Download
+                    const link = document.createElement('a');
+                    link.download = 'passport-photo-toolvala.jpg';
+                    link.href = dataUrl;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+
+                    if (metTarget) {
+                        setStatus('Downloaded — ' + finalKB + ' KB', 'var(--success)');
+                    } else {
+                        setStatus('Downloaded at ' + finalKB + ' KB — could not get under ' + maxKB + ' KB without losing too much quality. Try smaller dimensions too.', 'var(--danger)');
+                    }
+                    setTimeout(function(){ setStatus(''); }, 6000);
+
+                } finally {
+                    processBtn.disabled = false;
+                    processBtn.textContent = 'Resize & Download';
                 }
-            }
-
-            // Download
-            const link = document.createElement('a');
-            link.download = 'passport-photo-toolvala.jpg';
-            link.href = dataUrl;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            
-            statusMsg.innerText = "Downloaded successfully!";
-            setTimeout(() => statusMsg.innerText = "", 3000);
+            }, 10);
         }
     </script>
-    <div id="footer"></div>
-<script>
-fetch("/footer.html")
-  .then(r => r.text())
-  .then(d => {
-    document.getElementById("footer").innerHTML = d;
-    document.getElementById("year").textContent = new Date().getFullYear();
-  });
-</script>
-<div id="footer"></div>
-<script>
-fetch("/footer.html")
-  .then(r => r.text())
-  .then(d => {
-    document.getElementById("footer").innerHTML = d;
-    document.getElementById("year").textContent = new Date().getFullYear();
-  });
-</script>
+
+    <script>
+    fetch("/footer.html")
+      .then(function(r){ return r.ok ? r.text() : ""; })
+      .then(function(d){
+        if (!d) return;
+        document.getElementById("footer").innerHTML = d;
+        var yearEl = document.getElementById("year");
+        if (yearEl) yearEl.textContent = new Date().getFullYear();
+      })
+      .catch(function(){});
+    </script>
 </body>
 </html>
