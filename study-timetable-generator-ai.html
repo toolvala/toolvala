@@ -51,7 +51,7 @@
     {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How does the AI study timetable generator work?","acceptedAnswer":{"@type":"Answer","text":"The generator analyzes your subjects, exam date, daily study hours, and difficulty levels, then allocates a percentage of each day to weak, medium, and strong subjects. It chops the day into real 25-minute Pomodoro study cycles with 5-minute breaks, and a 15-minute break every 4th cycle, rotating subjects daily to prevent monotony."}},{"@type":"Question","name":"Can I focus more time on my weak subjects?","acceptedAnswer":{"@type":"Answer","text":"Yes. The generator has a Focus Mode that prioritizes weak subjects. When enabled, weak subjects receive 50% of study time, medium subjects 35%, and strong subjects only 15%."}},{"@type":"Question","name":"How does the Pomodoro break system work?","acceptedAnswer":{"@type":"Answer","text":"Study time is broken into 25-minute focused cycles followed by 5-minute breaks. After every 4th cycle, a 15-minute longer break is scheduled automatically. This is built directly into the generated timetable, not just a tip in the article."}},{"@type":"Question","name":"Can I download my study timetable as PDF?","acceptedAnswer":{"@type":"Answer","text":"Yes. The generator creates a downloadable PDF version of your timetable including the complete schedule, subject distribution, break times, and exam countdown."}},{"@type":"Question","name":"Does the generator prevent subject repetition boredom?","acceptedAnswer":{"@type":"Answer","text":"Yes. Subjects are interleaved across the day in proportion to their difficulty weighting and rotated to a different starting subject each day, so the same subject rarely repeats back-to-back."}},{"@type":"Question","name":"What if my exam date is very soon?","acceptedAnswer":{"@type":"Answer","text":"The generator simply scales to however many days remain — set Focus Mode to Intense for the best results when your exam is within a couple of weeks."}},{"@type":"Question","name":"Can I adjust the study schedule after generating it?","acceptedAnswer":{"@type":"Answer","text":"Yes, the timetable is fully customizable. Modify subject names, study hours, difficulty levels, or focus mode and regenerate as many times as you like."}},{"@type":"Question","name":"Is the Study Timetable Generator free to use?","acceptedAnswer":{"@type":"Answer","text":"Yes, Toolvala.in's Study Timetable Generator is completely free with no registration. All scheduling happens locally in your browser."}}]}
     </script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <style>
         * {
@@ -1768,8 +1768,13 @@
             downloadBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Preparing PDF...';
 
             try {
-                const jsPDFCtor = (window.jspdf && window.jspdf.jsPDF) || window.jsPDF;
-                if (!jsPDFCtor) throw new Error('jsPDF library not available');
+                const jsPDFCtor =
+                    (window.jspdf && window.jspdf.jsPDF) ||
+                    window.jsPDF ||
+                    (window.jspdf && window.jspdf.default && window.jspdf.default.jsPDF);
+                if (typeof jsPDFCtor !== 'function') {
+                    throw new Error('jsPDF library did not load (window.jspdf.jsPDF is unavailable). Check your internet connection and try again.');
+                }
 
                 const MAX_PDF_DAYS = 30;
                 const exportDays = timetable.slice(0, MAX_PDF_DAYS);
@@ -1948,7 +1953,7 @@
                 pdf.save(`${examName.replace(/\s+/g, '-')}-Timetable.pdf`);
             } catch (err) {
                 console.error('PDF generation error:', err);
-                alert("Could not generate the PDF. Please try again, or use your browser's Print option (Ctrl/Cmd+P) as a fallback.");
+                alert('Could not generate the PDF: ' + (err && err.message ? err.message : 'unknown error') + '\n\nYou can also use your browser\'s Print option (Ctrl/Cmd+P) as a fallback.');
             } finally {
                 downloadBtn.disabled = false;
                 downloadBtn.innerHTML = '<i class="fa-solid fa-download"></i> Download PDF';
