@@ -1840,11 +1840,22 @@
 
             const pdfContainer = document.getElementById('pdfContainer');
             pdfContainer.innerHTML = htmlContent;
-            pdfContainer.style.position = 'fixed';
-            pdfContainer.style.left = '-9999px';
+            // Keep it in normal layout flow (not position:fixed) so mobile browsers
+            // still paint it — fixed elements placed far off-screen are skipped by
+            // some renderers, which is what produced blank PDF pages.
+            pdfContainer.style.position = 'absolute';
+            pdfContainer.style.left = '0';
             pdfContainer.style.top = '0';
             pdfContainer.style.width = '900px';
+            pdfContainer.style.zIndex = '-1';
+            pdfContainer.style.visibility = 'visible';
             pdfContainer.style.display = 'block';
+
+            const wrapper = document.createElement('div');
+            wrapper.style.height = '0';
+            wrapper.style.overflow = 'hidden';
+            pdfContainer.parentNode.insertBefore(wrapper, pdfContainer);
+            wrapper.appendChild(pdfContainer);
 
             const opt = {
                 margin: [10, 10, 10, 10],
@@ -1859,17 +1870,24 @@
                 pdfContainer.style.display = 'none';
                 pdfContainer.removeAttribute('style');
                 pdfContainer.innerHTML = '';
+                // Move it back out of the temporary wrapper and remove the wrapper.
+                wrapper.parentNode.insertBefore(pdfContainer, wrapper);
+                wrapper.remove();
                 downloadBtn.disabled = false;
                 downloadBtn.innerHTML = '<i class="fa-solid fa-download"></i> Download PDF';
             }
 
-            html2pdf().set(opt).from(pdfContainer).save()
-                .then(cleanup)
-                .catch(function(err) {
-                    console.error('PDF generation error:', err);
-                    cleanup();
-                    alert("Could not generate the PDF. Please try again, or use your browser's Print option (Ctrl/Cmd+P) as a fallback.");
+            requestAnimationFrame(function() {
+                requestAnimationFrame(function() {
+                    html2pdf().set(opt).from(pdfContainer).save()
+                        .then(cleanup)
+                        .catch(function(err) {
+                            console.error('PDF generation error:', err);
+                            cleanup();
+                            alert("Could not generate the PDF. Please try again, or use your browser's Print option (Ctrl/Cmd+P) as a fallback.");
+                        });
                 });
+            });
         }
 
         // Scroll functions
