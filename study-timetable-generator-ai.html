@@ -1002,8 +1002,7 @@
             <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </section>
 
-        <!-- Hidden PDF Container (must stay in the live DOM — html2canvas can't capture a detached element) -->
-        <div class="pdf-container" id="pdfContainer"></div>
+        <!-- PDF export content is built and attached dynamically in downloadPDF() -->
 
         <!-- Article Section -->
         <article class="article-section">
@@ -1838,45 +1837,42 @@
                 </div>
             `;
 
-            const pdfContainer = document.getElementById('pdfContainer');
-            pdfContainer.innerHTML = htmlContent;
-            // Keep it in normal layout flow (not position:fixed) so mobile browsers
-            // still paint it — fixed elements placed far off-screen are skipped by
-            // some renderers, which is what produced blank PDF pages.
-            pdfContainer.style.position = 'absolute';
-            pdfContainer.style.left = '0';
-            pdfContainer.style.top = '0';
-            pdfContainer.style.width = '900px';
-            pdfContainer.style.zIndex = '-1';
-            pdfContainer.style.visibility = 'visible';
-            pdfContainer.style.display = 'block';
+            // Render into a real, visible full-screen overlay rather than an
+            // off-screen/clipped container. Off-screen positioning tricks
+            // (position:fixed/-9999px, or absolute inside overflow:hidden)
+            // are skipped by the paint pipeline on some mobile browsers,
+            // which produced blank PDF pages. A normally-visible element is
+            // guaranteed to be painted before capture.
+            const overlay = document.createElement('div');
+            overlay.style.cssText = 'position:fixed; inset:0; background:#ffffff; z-index:99999; overflow:auto; padding:24px 16px;';
+            overlay.innerHTML =
+                '<p style="text-align:center; font-family:Arial,sans-serif; color:#6366f1; font-weight:700; margin-bottom:16px;">' +
+                '<i class="fa-solid fa-spinner fa-spin"></i> Preparing your PDF…</p>';
 
-            const wrapper = document.createElement('div');
-            wrapper.style.height = '0';
-            wrapper.style.overflow = 'hidden';
-            pdfContainer.parentNode.insertBefore(wrapper, pdfContainer);
-            wrapper.appendChild(pdfContainer);
+            const pdfContainer = document.createElement('div');
+            pdfContainer.id = 'pdfContainer';
+            pdfContainer.style.cssText = 'background:#ffffff; width:900px; max-width:100%; margin:0 auto;';
+            pdfContainer.innerHTML = htmlContent;
+            overlay.appendChild(pdfContainer);
+            document.body.appendChild(overlay);
 
             const opt = {
                 margin: [10, 10, 10, 10],
                 filename: `${examName.replace(/\s+/g, '-')}-Timetable.pdf`,
                 image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2, logging: false, useCORS: true },
+                html2canvas: { scale: 2, logging: false, useCORS: true, windowWidth: 900 },
                 jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' },
                 pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
             };
 
             function cleanup() {
-                pdfContainer.style.display = 'none';
-                pdfContainer.removeAttribute('style');
-                pdfContainer.innerHTML = '';
-                // Move it back out of the temporary wrapper and remove the wrapper.
-                wrapper.parentNode.insertBefore(pdfContainer, wrapper);
-                wrapper.remove();
+                overlay.remove();
                 downloadBtn.disabled = false;
                 downloadBtn.innerHTML = '<i class="fa-solid fa-download"></i> Download PDF';
             }
 
+            // Two animation-frame ticks guarantee the overlay has actually
+            // painted on screen before html2canvas reads its pixels.
             requestAnimationFrame(function() {
                 requestAnimationFrame(function() {
                     html2pdf().set(opt).from(pdfContainer).save()
