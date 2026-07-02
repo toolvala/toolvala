@@ -385,27 +385,18 @@ card.style.display=card.innerText.toLowerCase().includes(value) ? "block" : "non
 }
 </script>
 
-<footer>
+<div id="footer"></div>
 
-<h3>ToolVala Fitness &amp; Health Tools</h3>
-
-<p>
-Access free online BMI, Body Fat Percentage, and BMR calculators to support your health and fitness goals.
-</p>
-
-<p>
-
-<a href="free-bmi-calculator-online.html">BMI Calculator</a> |
-<a href="body-fat-percentage-calculator.html">Body Fat Calculator</a> |
-<a href="free-bmr-calculator-online.html">BMR Calculator</a>
-
-</p>
-
-<p>&copy; 2026 ToolVala. All Rights Reserved.</p>
-
-</footer>
-
-</div>
-
+<script>
+fetch("/footer.html")
+  .then(response => response.text())
+  .then(data => {
+    document.getElementById("footer").innerHTML = data;
+    var yearSpan = document.getElementById("year");
+    if (yearSpan) {
+      yearSpan.textContent = new Date().getFullYear();
+    }
+  });
+</script>
 </body>
 </html>
