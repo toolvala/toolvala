@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heart Rate Zone Calculator - Free Online Tool | ToolVala.in</title>
+<meta name="description" content="Calculate your maximum heart rate and target training zones (fat burn, cardio, peak) instantly with ToolVala's free Heart Rate Zone Calculator for runners, gym-goers and cyclists.">
+<link rel="canonical" href="https://toolvala.in/heart-rate-zone-calculator.html">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8GTQC904G1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-8GTQC904G1');
+</script>
+
+<!-- AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4402681434316955" crossorigin="anonymous"></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Heart Rate Zone Calculator",
+  "url": "https://toolvala.in/heart-rate-zone-calculator.html",
+  "applicationCategory": "HealthApplication",
+  "operatingSystem": "Any",
+  "brand": { "@type": "Brand", "name": "ToolVala.in" },
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How is maximum heart rate calculated?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The most common estimate is 220 minus your age. ToolVala's calculator also offers the Tanaka formula (208 - 0.7 x age), which research suggests is slightly more accurate for older adults."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What are heart rate training zones?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Training zones are percentage ranges of your maximum heart rate, each linked to a different training effect: warm up, fat burn, cardio/aerobic, hard/anaerobic, and peak/max effort."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this tool a substitute for medical advice?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. This calculator gives general fitness estimates only. Anyone with a heart condition or on heart-rate-affecting medication should consult a doctor before using target heart rate zones for exercise."
+      }
+    }
+  ]
+}
+</script>
+
+<style>
+  :root{
+    --primary:#e63946;
+    --primary-dark:#c1121f;
+    --primary-light:#ff7a85;
+    --bg:#f7f8fa;
+    --card:#ffffff;
+    --text:#1d1d1f;
+    --muted:#6b7280;
+    --border:#e5e7eb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+  }
+  header.site-header{
+    position:sticky;
+    top:0;
+    z-index:100;
+    background:#fff;
+    border-bottom:1px solid var(--border);
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  header.site-header a.logo{
+    font-weight:800;
+    font-size:1.25rem;
+    color:var(--text);
+    text-decoration:none;
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  header.site-header a.logo span.brand-tool{ color:var(--primary); }
+  header.site-header a.logo span.brand-vala{ color:var(--text); }
+
+  .hero{
+    background:linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color:#fff;
+    padding:32px 16px 60px;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero .heart-icon{
+    font-size:2.5rem;
+    display:inline-block;
+    animation:beat 1.4s ease-in-out infinite;
+  }
+  @keyframes beat{
+    0%, 100% { transform:scale(1); }
+    15% { transform:scale(1.18); }
+    30% { transform:scale(1); }
+    45% { transform:scale(1.1); }
+    60% { transform:scale(1); }
+  }
+  .hero h1{
+    font-size:1.6rem;
+    margin:10px 0 6px;
+  }
+  .hero p{
+    color:rgba(255,255,255,0.9);
+    margin:0;
+    font-size:0.95rem;
+    max-width:480px;
+    margin:0 auto;
+  }
+
+  main{
+    max-width:720px;
+    margin:-36px auto 0;
+    padding:0 16px 40px;
+    position:relative;
+    z-index:2;
+  }
+
+  .card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:22px;
+    margin-bottom:20px;
+    box-shadow:0 8px 24px rgba(0,0,0,0.08);
+  }
+  .field{
+    margin-bottom:16px;
+  }
+  label{
+    display:block;
+    font-weight:600;
+    font-size:0.9rem;
+    margin-bottom:6px;
+  }
+  input[type=number]{
+    width:100%;
+    padding:13px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    font-size:1rem;
+  }
+  input[type=number]:focus{
+    outline:none;
+    border-color:var(--primary);
+    box-shadow:0 0 0 3px rgba(230,57,70,0.12);
+  }
+  .chip-row{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-bottom:18px;
+  }
+  .chip{
+    padding:8px 14px;
+    border-radius:999px;
+    border:1px solid var(--border);
+    background:#fff;
+    font-size:0.85rem;
+    cursor:pointer;
+    color:var(--text);
+    transition:all 0.15s ease;
+  }
+  .chip.active{
+    background:var(--primary);
+    color:#fff;
+    border-color:var(--primary);
+  }
+  button.calc-btn{
+    width:100%;
+    padding:15px;
+    background:linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color:#fff;
+    border:none;
+    border-radius:12px;
+    font-size:1.02rem;
+    font-weight:700;
+    cursor:pointer;
+    box-shadow:0 4px 14px rgba(230,57,70,0.35);
+    transition:transform 0.1s ease;
+  }
+  button.calc-btn:active{
+    transform:scale(0.98);
+  }
+  .results{
+    display:none;
+    margin-top:20px;
+  }
+  .results.show{
+    display:block;
+    animation:fadeUp 0.35s ease;
+  }
+  @keyframes fadeUp{
+    from{opacity:0; transform:translateY(8px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+  .max-hr-box{
+    text-align:center;
+    background:linear-gradient(135deg,#fff5f5,#ffe3e5);
+    border:1px solid #fecaca;
+    border-radius:14px;
+    padding:18px;
+    margin-bottom:16px;
+  }
+  .max-hr-box .num{
+    font-size:2.4rem;
+    font-weight:800;
+    color:var(--primary);
+  }
+  .max-hr-box .lbl{
+    color:var(--muted);
+    font-size:0.85rem;
+  }
+  .zone{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:13px 14px;
+    border-radius:12px;
+    margin-bottom:9px;
+    border:1px solid var(--border);
+  }
+  .zone .zname{
+    font-weight:700;
+    font-size:0.9rem;
+  }
+  .zone .zdesc{
+    font-size:0.75rem;
+    color:var(--muted);
+  }
+  .zone .zrange{
+    font-weight:800;
+    font-size:0.95rem;
+    white-space:nowrap;
+  }
+  .zone1{background:#eff6ff;border-color:#bfdbfe;}
+  .zone2{background:#ecfdf5;border-color:#a7f3d0;}
+  .zone3{background:#fffbeb;border-color:#fde68a;}
+  .zone4{background:#fff1f2;border-color:#fecdd3;}
+  .zone5{background:#fef2f2;border-color:#fca5a5;}
+  .copy-btn{
+    margin-top:10px;
+    width:100%;
+    padding:12px;
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:10px;
+    font-size:0.9rem;
+    font-weight:600;
+    cursor:pointer;
+  }
+  .copy-btn:active{ background:#f3f4f6; }
+
+  .disclaimer-box{
+    display:flex;
+    gap:12px;
+    align-items:flex-start;
+    font-size:0.85rem;
+    color:#7c2d12;
+    background:#fffbeb;
+    border:1px solid #fde68a;
+    border-radius:12px;
+    padding:14px 16px;
+    margin-top:18px;
+    line-height:1.55;
+  }
+  .disclaimer-box .icon{ font-size:1.3rem; line-height:1; }
+  .disclaimer-box strong{ display:block; margin-bottom:2px; color:#78350f; }
+
+  .ad-slot{
+    margin:20px 0;
+    min-height:90px;
+    text-align:center;
+  }
+
+  section.info{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:22px;
+  }
+  section.info h2{
+    font-size:1.1rem;
+    margin-top:22px;
+  }
+  section.info h2:first-child{ margin-top:0; }
+  section.info p{
+    color:#374151;
+    line-height:1.65;
+    font-size:0.94rem;
+  }
+
+  section.related-tools{
+    margin-top:20px;
+  }
+  section.related-tools h2{
+    font-size:1.1rem;
+    margin:0 0 12px 4px;
+  }
+  .related-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+  .related-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:14px 12px;
+    text-decoration:none;
+    color:var(--text);
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:8px;
+    font-size:0.85rem;
+    font-weight:600;
+    transition:border-color 0.15s ease, transform 0.1s ease;
+  }
+  .related-card:active{
+    transform:scale(0.97);
+  }
+  .related-card:hover{
+    border-color:var(--primary);
+  }
+  .related-card .ricon{
+    font-size:1.3rem;
+  }
+  @media (max-width:400px){
+    .related-grid{ grid-template-columns:1fr; }
+  }
+
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="logo" href="/"><span class="brand-tool">Tool</span><span class="brand-vala">Vala.in</span></a>
+</header>
+
+<div class="hero">
+  <span class="heart-icon">❤️</span>
+  <h1>Heart Rate Zone Calculator</h1>
+  <p>Find your maximum heart rate and personalized training zones — free, instant, and made for runners, lifters and cyclists.</p>
+</div>
+
+<main>
+  <div class="card">
+    <div class="field">
+      <label for="age">Your Age</label>
+      <input type="number" id="age" placeholder="e.g. 32" min="10" max="100">
+    </div>
+
+    <div class="field">
+      <label for="rhr">Resting Heart Rate (optional, bpm)</label>
+      <input type="number" id="rhr" placeholder="e.g. 68" min="30" max="120">
+    </div>
+
+    <label>Formula</label>
+    <div class="chip-row" id="formulaChips">
+      <div class="chip active" data-formula="standard">Standard (220 − age)</div>
+      <div class="chip" data-formula="tanaka">Tanaka (208 − 0.7 × age)</div>
+    </div>
+
+    <button class="calc-btn" onclick="calculateZones()">⚡ Calculate My Zones</button>
+
+    <div class="results" id="results">
+      <div class="max-hr-box">
+        <div class="num" id="maxHrValue">--</div>
+        <div class="lbl">Estimated Maximum Heart Rate (bpm)</div>
+      </div>
+
+      <div class="zone zone1">
+        <div><div class="zname">Zone 1 · Warm Up</div><div class="zdesc">50–60% · Very light</div></div>
+        <div class="zrange" id="z1">--</div>
+      </div>
+      <div class="zone zone2">
+        <div><div class="zname">Zone 2 · Fat Burn</div><div class="zdesc">60–70% · Light, sustainable</div></div>
+        <div class="zrange" id="z2">--</div>
+      </div>
+      <div class="zone zone3">
+        <div><div class="zname">Zone 3 · Cardio / Aerobic</div><div class="zdesc">70–80% · Moderate</div></div>
+        <div class="zrange" id="z3">--</div>
+      </div>
+      <div class="zone zone4">
+        <div><div class="zname">Zone 4 · Hard / Anaerobic</div><div class="zdesc">80–90% · Hard</div></div>
+        <div class="zrange" id="z4">--</div>
+      </div>
+      <div class="zone zone5">
+        <div><div class="zname">Zone 5 · Peak / Max Effort</div><div class="zdesc">90–100% · Maximum</div></div>
+        <div class="zrange" id="z5">--</div>
+      </div>
+
+      <button class="copy-btn" onclick="copyResults()">📋 Copy Results</button>
+    </div>
+
+    <div class="disclaimer-box">
+      <span class="icon">⚠️</span>
+      <div>
+        <strong>Not medical advice</strong>
+        This tool gives general fitness estimates only — it is not a diagnosis or treatment plan. If you have a heart condition, chest pain, dizziness during exercise, or take medication that affects heart rate, talk to a doctor before using these zones for training.
+      </div>
+    </div>
+  </div>
+
+  <div class="ad-slot">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-4402681434316955"
+         data-ad-slot=""
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+  <section class="info">
+    <h2>How This Calculator Works</h2>
+    <p>Your maximum heart rate (MHR) is estimated using either the classic formula (220 minus your age) or the Tanaka formula (208 − 0.7 × age), which some studies suggest fits older adults more closely. Training zones are then calculated as percentage ranges of that MHR, giving you target ranges for different exercise intensities.</p>
+
+    <h2>Why Track Heart Rate Zones?</h2>
+    <p>Training in the right zone helps you match effort to your goal — lower zones build endurance and burn fat efficiently, while higher zones improve speed and cardiovascular capacity. Most fitness watches and gym cardio machines use these same zone definitions.</p>
+
+    <h2>Important Safety Note</h2>
+    <p>Heart rate zones are a fitness planning tool, not a medical diagnostic. They cannot detect arrhythmias, blocked arteries, or other cardiac conditions. If you experience chest pain, shortness of breath, or irregular heartbeat during exercise, stop and seek medical attention immediately.</p>
+  </section>
+
+  <section class="related-tools">
+    <h2>Related Health &amp; Fitness Tools</h2>
+    <div class="related-grid">
+      <a href="/free-bmi-calculator-online.html" class="related-card">
+        <span class="ricon">⚖️</span>
+        <span class="rname">BMI Calculator</span>
+      </a>
+      <a href="/body-fat-percentage-calculator.html" class="related-card">
+        <span class="ricon">📏</span>
+        <span class="rname">Body Fat Percentage Calculator</span>
+      </a>
+      <a href="/free-bmr-calculator-online.html" class="related-card">
+        <span class="ricon">🔥</span>
+        <span class="rname">BMR Calculator</span>
+      </a>
+      <a href="/free-ffmi-calculator-online.html" class="related-card">
+        <span class="ricon">💪</span>
+        <span class="rname">FFMI Calculator</span>
+      </a>
+      <a href="/free-body-shape-calculator-online.html" class="related-card">
+        <span class="ricon">🧍</span>
+        <span class="rname">Body Shape Calculator</span>
+      </a>
+      <a href="/free-metabolic-age-calculator-online.html" class="related-card">
+        <span class="ricon">⏳</span>
+        <span class="rname">Metabolic Age Calculator</span>
+      </a>
+      <a href="/free-body-frame-size-calculator-online.html" class="related-card">
+        <span class="ricon">🦴</span>
+        <span class="rname">Body Frame Size Calculator</span>
+      </a>
+    </div>
+  </section>
+</main>
+
+<div id="footer"></div>
+
+<script>
+fetch("/footer.html")
+  .then(response => response.text())
+  .then(data => {
+    document.getElementById("footer").innerHTML = data;
+    var yearSpan = document.getElementById("year");
+    if (yearSpan) {
+      yearSpan.textContent = new Date().getFullYear();
+    }
+  });
+</script>
+
+<script>
+document.querySelectorAll('#formulaChips .chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    document.querySelectorAll('#formulaChips .chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    if(document.getElementById('results').classList.contains('show')){
+      calculateZones();
+    }
+  });
+});
+
+function calculateZones(){
+  const age = parseInt(document.getElementById('age').value);
+  if(!age || age < 10 || age > 100){
+    alert('Please enter a valid age between 10 and 100.');
+    return;
+  }
+
+  const formula = document.querySelector('#formulaChips .chip.active').dataset.formula;
+  let maxHr;
+  if(formula === 'tanaka'){
+    maxHr = Math.round(208 - (0.7 * age));
+  } else {
+    maxHr = 220 - age;
+  }
+
+  const zones = [
+    [0.50, 0.60],
+    [0.60, 0.70],
+    [0.70, 0.80],
+    [0.80, 0.90],
+    [0.90, 1.00]
+  ];
+
+  document.getElementById('maxHrValue').textContent = maxHr;
+  zones.forEach((z, i) => {
+    const low = Math.round(maxHr * z[0]);
+    const high = Math.round(maxHr * z[1]);
+    document.getElementById('z' + (i+1)).textContent = low + '–' + high + ' bpm';
+  });
+
+  document.getElementById('results').classList.add('show');
+
+  if(typeof gtag === 'function'){
+    gtag('event', 'calculate', { 'event_category': 'heart_rate_zone_calculator' });
+  }
+}
+
+function copyResults(){
+  const maxHr = document.getElementById('maxHrValue').textContent;
+  if(maxHr === '--'){ return; }
+  let text = 'My Heart Rate Zones (Max HR: ' + maxHr + ' bpm)\n';
+  const names = ['Warm Up','Fat Burn','Cardio','Hard','Peak'];
+  names.forEach((n, i) => {
+    text += n + ': ' + document.getElementById('z' + (i+1)).textContent + '\n';
+  });
+  text += '\nCalculated at toolvala.in/heart-rate-zone-calculator.html';
+
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    const original = btn.textContent;
+    btn.textContent = '✓ Copied!';
+    setTimeout(() => { btn.textContent = original; }, 1500);
+  });
+}
+</script>
+
+</body>
+</html>
