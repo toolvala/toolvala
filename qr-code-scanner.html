@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free QR Code Scanner Online - Scan with Camera or Upload | Toolvala.in</title>
+<meta name="description" content="Free online QR code scanner. Scan QR codes instantly using your camera or by uploading an image - no app install, 100% private, works in your browser.">
+<meta name="keywords" content="qr code scanner, scan qr code online, qr scanner camera, qr code reader, free qr scanner, toolvala qr scanner">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.toolvala.in/qr-code-scanner.html">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8GTQC904G1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-8GTQC904G1');
+</script>
+
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4402681434316955" crossorigin="anonymous"></script>
+
+<!-- JSON-LD Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Free QR Code Scanner",
+  "url": "https://www.toolvala.in/qr-code-scanner.html",
+  "description": "Scan QR codes instantly using your device camera or by uploading an image. Runs fully in the browser, no data leaves your device.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "All",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+
+<!-- QR decoding library (jsQR, MIT licensed) -->
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+
+<style>
+  :root{
+    --ink:#1b1f23;
+    --paper:#f7f5f0;
+    --accent:#3f7d5c;
+    --accent-dark:#2e5f45;
+    --line:#dedad0;
+    --danger:#a33;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Segoe UI',Roboto,Arial,sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+  }
+  a{color:var(--accent-dark);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+
+  header{
+    position:sticky;
+    top:0;
+    z-index:50;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:14px 20px;
+    background:var(--ink);
+    border-bottom:3px solid var(--accent);
+  }
+  .brand{
+    font-size:22px;
+    font-weight:800;
+    color:#fff;
+  }
+  .brand span{color:var(--accent);}
+  nav a{
+    color:#e6e6e6;
+    margin-left:18px;
+    font-size:14px;
+    font-weight:600;
+  }
+  nav a:hover{color:#fff;}
+
+  main{
+    max-width:920px;
+    margin:0 auto;
+    padding:28px 16px 60px;
+  }
+  h1{font-size:26px;margin:0 0 6px;}
+  .lead{color:#4a4a46;margin:0 0 24px;max-width:70ch;}
+
+  .ad-slot{margin:26px 0;text-align:center;}
+  .ad-label{font-size:11px;color:#8a877f;margin-bottom:4px;letter-spacing:0.5px;}
+
+  .scanner-card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:20px;
+    max-width:520px;
+    margin:0 auto 30px;
+    box-shadow:0 10px 24px rgba(0,0,0,0.06);
+  }
+
+  .mode-tabs{
+    display:flex;
+    gap:8px;
+    margin-bottom:16px;
+  }
+  .mode-tabs button{
+    flex:1;
+    padding:10px;
+    border:1px solid var(--line);
+    background:#f1efe9;
+    border-radius:9px;
+    font-weight:700;
+    font-size:14px;
+    cursor:pointer;
+    color:var(--ink);
+  }
+  .mode-tabs button.active{
+    background:var(--accent);
+    color:#fff;
+    border-color:var(--accent);
+  }
+
+  .video-wrap{
+    position:relative;
+    width:100%;
+    aspect-ratio:1/1;
+    background:#111;
+    border-radius:10px;
+    overflow:hidden;
+    display:none;
+  }
+  .video-wrap.active{display:block;}
+  #video{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+  }
+  .scan-frame{
+    position:absolute;
+    top:12%;left:12%;right:12%;bottom:12%;
+    border:3px solid rgba(63,125,92,0.85);
+    border-radius:14px;
+    pointer-events:none;
+    box-shadow:0 0 0 2000px rgba(0,0,0,0.35);
+  }
+  .cam-controls{
+    display:flex;
+    gap:8px;
+    margin-top:12px;
+  }
+  .cam-controls button{
+    flex:1;
+    padding:10px;
+    border:none;
+    border-radius:9px;
+    font-weight:700;
+    cursor:pointer;
+    font-size:14px;
+  }
+  .btn-start{background:var(--accent);color:#fff;}
+  .btn-start:active{background:var(--accent-dark);}
+  .btn-stop{background:#e4e0d6;color:var(--ink);}
+  .btn-stop:active{background:#d3cfc3;}
+
+  .upload-wrap{display:none;}
+  .upload-wrap.active{display:block;}
+  .drop-zone{
+    border:2px dashed var(--line);
+    border-radius:12px;
+    padding:34px 16px;
+    text-align:center;
+    color:#6b6b66;
+    font-size:14px;
+    cursor:pointer;
+    background:#fbfaf7;
+  }
+  .drop-zone:hover{border-color:var(--accent);}
+  .drop-zone input{display:none;}
+  #previewImg{
+    max-width:100%;
+    border-radius:10px;
+    margin-top:14px;
+    display:none;
+  }
+
+  .result-box{
+    margin-top:16px;
+    padding:14px;
+    border-radius:10px;
+    background:#eef4ee;
+    border:1px solid #cfe0cf;
+    display:none;
+    word-break:break-all;
+  }
+  .result-box.show{display:block;}
+  .result-label{
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+    color:#4a6b52;
+    margin-bottom:6px;
+    font-weight:700;
+  }
+  .result-text{
+    font-size:15px;
+    font-weight:600;
+    color:#1c2b20;
+    margin-bottom:10px;
+  }
+  .result-actions{display:flex;gap:8px;flex-wrap:wrap;}
+  .result-actions button, .result-actions a{
+    padding:8px 14px;
+    border-radius:8px;
+    border:none;
+    font-size:13px;
+    font-weight:700;
+    cursor:pointer;
+    background:var(--accent);
+    color:#fff;
+    display:inline-block;
+  }
+  .result-actions button.secondary{background:#e4e0d6;color:var(--ink);}
+
+  .status-msg{
+    margin-top:12px;
+    font-size:13px;
+    color:var(--danger);
+    display:none;
+  }
+  .status-msg.show{display:block;}
+
+  .info{margin:8px 0 32px;max-width:75ch;}
+  .info h2{font-size:20px;margin:0 0 10px;}
+  .info h3{font-size:16px;margin:22px 0 8px;}
+  .info p{color:#3a3a36;line-height:1.6;margin:0 0 10px;}
+  .info ul, .info ol{color:#3a3a36;line-height:1.7;padding-left:22px;margin:0 0 10px;}
+
+  .related{margin-top:10px;}
+  .related h2{font-size:18px;margin-bottom:12px;}
+  .related-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(190px,1fr));
+    gap:10px;
+  }
+  .related-grid a{
+    display:block;
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:9px;
+    padding:12px 14px;
+    color:var(--ink);
+    font-size:14px;
+    font-weight:600;
+  }
+  .related-grid a:hover{border-color:var(--accent);text-decoration:none;color:var(--accent-dark);}
+  .related-grid a small{display:block;font-weight:400;color:#6b6b66;font-size:12px;margin-top:3px;}
+
+  footer{border-top:1px solid var(--line);margin-top:40px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">Toolvala<span>.in</span></div>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/qr-code-scanner.html">QR Scanner</a>
+  </nav>
+</header>
+
+<main>
+  <h1>Free QR Code Scanner</h1>
+  <p class="lead">Scan any QR code instantly using your camera, or upload a photo/screenshot to decode it. Everything runs in your browser - nothing is uploaded to a server.</p>
+
+  <!-- AdSense ad unit -->
+  <div class="ad-slot">
+    <div class="ad-label">Advertisement</div>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-4402681434316955"
+         data-ad-slot="0000000000"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+  <div class="scanner-card">
+    <div class="mode-tabs">
+      <button type="button" id="tabCamera" class="active">Scan with Camera</button>
+      <button type="button" id="tabUpload">Upload Image</button>
+    </div>
+
+    <!-- Camera mode -->
+    <div class="video-wrap" id="videoWrap">
+      <video id="video" playsinline muted></video>
+      <div class="scan-frame"></div>
+    </div>
+    <div class="cam-controls" id="camControls" style="display:none;">
+      <button type="button" class="btn-start" id="startBtn">Start Camera</button>
+      <button type="button" class="btn-stop" id="stopBtn" style="display:none;">Stop Camera</button>
+    </div>
+
+    <!-- Upload mode -->
+    <div class="upload-wrap" id="uploadWrap">
+      <label class="drop-zone" id="dropZone">
+        Tap to choose an image, or drag and drop a QR code photo here
+        <input type="file" accept="image/*" id="fileInput">
+      </label>
+      <img id="previewImg" alt="Uploaded QR preview">
+    </div>
+
+    <div class="status-msg" id="statusMsg"></div>
+
+    <div class="result-box" id="resultBox">
+      <div class="result-label">Scanned Result</div>
+      <div class="result-text" id="resultText"></div>
+      <div class="result-actions">
+        <button type="button" id="copyBtn">Copy</button>
+        <a href="#" id="openLink" target="_blank" rel="noopener" style="display:none;">Open Link</a>
+        <button type="button" class="secondary" id="scanAgainBtn">Scan Again</button>
+      </div>
+    </div>
+  </div>
+
+  <canvas id="canvas" style="display:none;"></canvas>
+
+  <section class="info">
+    <h2>About the QR Code Scanner</h2>
+    <p>This tool decodes any standard QR code straight in your browser using your device's camera or an image file you already have. No app download, no account, and no data ever leaves your device - the decoding happens locally on your phone or computer.</p>
+
+    <h3>How to use it</h3>
+    <ol>
+      <li>Choose <strong>Scan with Camera</strong> and tap Start Camera - allow camera access when your browser asks.</li>
+      <li>Hold the QR code steady inside the green frame. It decodes automatically the moment it's recognized.</li>
+      <li>Don't have the code in front of you? Switch to <strong>Upload Image</strong> and pick a photo or screenshot instead.</li>
+      <li>Once scanned, tap <strong>Copy</strong> to copy the result, or <strong>Open Link</strong> if it's a URL.</li>
+    </ol>
+
+    <h3>What it can scan</h3>
+    <ul>
+      <li>Website URLs and links</li>
+      <li>Wi-Fi login QR codes</li>
+      <li>Plain text and messages</li>
+      <li>Contact card (vCard) QR codes</li>
+      <li>UPI payment QR codes and other text-encoded QR formats</li>
+    </ul>
+
+    <h3>Frequently asked questions</h3>
+    <p><strong>Is this QR scanner free?</strong><br>Yes, completely free with no limits or sign-up.</p>
+    <p><strong>Does it work without a camera?</strong><br>Yes - use the Upload Image tab to scan a QR code from any photo or screenshot.</p>
+    <p><strong>Is my scan data stored anywhere?</strong><br>No. Scanning happens entirely in your browser; nothing is sent to Toolvala's servers.</p>
+    <p><strong>Why isn't my camera starting?</strong><br>Your browser needs camera permission - check the site permissions in your browser settings and allow camera access, then tap Start Camera again.</p>
+  </section>
+
+  <section class="related">
+    <h2>Related tools on Toolvala.in</h2>
+    <div class="related-grid">
+      <a href="/qr-code-generator.html">QR Code Generator<small>Create your own custom QR codes</small></a>
+      <a href="/math-solver.html">Math Solver<small>Scientific calculator for quick math</small></a>
+      <a href="/percentage-calculator.html">Percentage Calculator<small>Find percentages, increases and discounts</small></a>
+      <a href="/unit-converter.html">Unit Converter<small>Length, weight, temperature and more</small></a>
+      <a href="/age-calculator.html">Age Calculator<small>Calculate exact age from date of birth</small></a>
+      <a href="/random-object-generator.html">Random Object Generator<small>Get a random object for games and prompts</small></a>
+    </div>
+  </section>
+</main>
+
+<div id="footer"></div>
+
+<script>
+fetch("/footer.html")
+  .then(response => response.text())
+  .then(data => {
+    document.getElementById("footer").innerHTML = data;
+    var yearSpan = document.getElementById("year");
+    if (yearSpan) {
+      yearSpan.textContent = new Date().getFullYear();
+    }
+  });
+</script>
+
+<script>
+(function(){
+  var tabCamera = document.getElementById('tabCamera');
+  var tabUpload = document.getElementById('tabUpload');
+  var videoWrap = document.getElementById('videoWrap');
+  var camControls = document.getElementById('camControls');
+  var uploadWrap = document.getElementById('uploadWrap');
+  var startBtn = document.getElementById('startBtn');
+  var stopBtn = document.getElementById('stopBtn');
+  var video = document.getElementById('video');
+  var canvas = document.getElementById('canvas');
+  var ctx = canvas.getContext('2d', { willReadFrequently: true });
+  var dropZone = document.getElementById('dropZone');
+  var fileInput = document.getElementById('fileInput');
+  var previewImg = document.getElementById('previewImg');
+  var resultBox = document.getElementById('resultBox');
+  var resultText = document.getElementById('resultText');
+  var openLink = document.getElementById('openLink');
+  var copyBtn = document.getElementById('copyBtn');
+  var scanAgainBtn = document.getElementById('scanAgainBtn');
+  var statusMsg = document.getElementById('statusMsg');
+
+  var stream = null;
+  var rafId = null;
+  var scanning = false;
+
+  function showStatus(msg){
+    statusMsg.textContent = msg;
+    statusMsg.classList.add('show');
+  }
+  function clearStatus(){
+    statusMsg.textContent = "";
+    statusMsg.classList.remove('show');
+  }
+
+  function showResult(text){
+    resultText.textContent = text;
+    resultBox.classList.add('show');
+    if(/^https?:\/\//i.test(text)){
+      openLink.href = text;
+      openLink.style.display = 'inline-block';
+    } else {
+      openLink.style.display = 'none';
+    }
+  }
+
+  function hideResult(){
+    resultBox.classList.remove('show');
+    resultText.textContent = "";
+  }
+
+  function switchTab(mode){
+    hideResult();
+    clearStatus();
+    if(mode === 'camera'){
+      tabCamera.classList.add('active');
+      tabUpload.classList.remove('active');
+      videoWrap.classList.add('active');
+      camControls.style.display = 'flex';
+      uploadWrap.classList.remove('active');
+      stopCamera();
+    } else {
+      tabUpload.classList.add('active');
+      tabCamera.classList.remove('active');
+      uploadWrap.classList.add('active');
+      videoWrap.classList.remove('active');
+      camControls.style.display = 'none';
+      stopCamera();
+    }
+  }
+  tabCamera.addEventListener('click', function(){ switchTab('camera'); });
+  tabUpload.addEventListener('click', function(){ switchTab('upload'); });
+
+  function startCamera(){
+    clearStatus();
+    hideResult();
+    if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+      showStatus("Camera access isn't supported in this browser.");
+      return;
+    }
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
+      .then(function(s){
+        stream = s;
+        video.srcObject = stream;
+        video.setAttribute('playsinline', true);
+        video.play();
+        startBtn.style.display = 'none';
+        stopBtn.style.display = 'block';
+        scanning = true;
+        requestAnimationFrame(tick);
+      })
+      .catch(function(err){
+        showStatus("Couldn't access the camera. Please allow camera permission and try again.");
+      });
+  }
+
+  function stopCamera(){
+    scanning = false;
+    if(rafId) cancelAnimationFrame(rafId);
+    if(stream){
+      stream.getTracks().forEach(function(t){ t.stop(); });
+      stream = null;
+    }
+    startBtn.style.display = 'block';
+    stopBtn.style.display = 'none';
+  }
+
+  startBtn.addEventListener('click', startCamera);
+  stopBtn.addEventListener('click', stopCamera);
+
+  function tick(){
+    if(!scanning) return;
+    if(video.readyState === video.HAVE_ENOUGH_DATA){
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      var code = window.jsQR(imageData.data, imageData.width, imageData.height, {
+        inversionAttempts: "dontInvert"
+      });
+      if(code && code.data){
+        showResult(code.data);
+        stopCamera();
+        return;
+      }
+    }
+    rafId = requestAnimationFrame(tick);
+  }
+
+  // Upload flow
+  dropZone.addEventListener('click', function(e){
+    if(e.target !== fileInput) fileInput.click();
+  });
+  fileInput.addEventListener('change', function(){
+    if(fileInput.files && fileInput.files[0]){
+      handleFile(fileInput.files[0]);
+    }
+  });
+  dropZone.addEventListener('dragover', function(e){
+    e.preventDefault();
+    dropZone.style.borderColor = "#3f7d5c";
+  });
+  dropZone.addEventListener('dragleave', function(){
+    dropZone.style.borderColor = "";
+  });
+  dropZone.addEventListener('drop', function(e){
+    e.preventDefault();
+    dropZone.style.borderColor = "";
+    if(e.dataTransfer.files && e.dataTransfer.files[0]){
+      handleFile(e.dataTransfer.files[0]);
+    }
+  });
+
+  function handleFile(file){
+    clearStatus();
+    hideResult();
+    if(!file.type.startsWith('image/')){
+      showStatus("Please choose an image file.");
+      return;
+    }
+    var reader = new FileReader();
+    reader.onload = function(e){
+      var img = new Image();
+      img.onload = function(){
+        previewImg.src = e.target.result;
+        previewImg.style.display = 'block';
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.drawImage(img, 0, 0, img.width, img.height);
+        var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        var code = window.jsQR(imageData.data, imageData.width, imageData.height);
+        if(code && code.data){
+          showResult(code.data);
+        } else {
+          showStatus("No QR code found in this image. Try a clearer photo.");
+        }
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  copyBtn.addEventListener('click', function(){
+    if(!resultText.textContent) return;
+    navigator.clipboard.writeText(resultText.textContent).then(function(){
+      copyBtn.textContent = "Copied!";
+      setTimeout(function(){ copyBtn.textContent = "Copy"; }, 1500);
+    }).catch(function(){
+      showStatus("Couldn't copy automatically - please copy the text manually.");
+    });
+  });
+
+  scanAgainBtn.addEventListener('click', function(){
+    hideResult();
+    clearStatus();
+    previewImg.style.display = 'none';
+    fileInput.value = "";
+    if(tabCamera.classList.contains('active')){
+      startCamera();
+    }
+  });
+
+})();
+</script>
+
+</body>
+</html>
