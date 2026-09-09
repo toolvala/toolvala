@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Baby Name Combiner Online - Blend Parents' Names Free | Toolvala.in</title>
+<meta name="description" content="Free online Baby Name Combiner. Blend two parents' names into unique baby name ideas instantly. See examples, a visual chart, and copy your favorite in one tap.">
+<meta name="keywords" content="baby name combiner, combine parents names for baby, baby name generator, blend names for baby, unique baby name ideas, newborn name generator, toolvala baby name combiner">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.toolvala.in/baby-name-combiner.html">
+
+<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<link rel="manifest" href="/site.webmanifest" />
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8GTQC904G1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-8GTQC904G1');
+</script>
+
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4402681434316955"
+     crossorigin="anonymous"></script>
+
+<!-- JSON-LD Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Baby Name Combiner",
+  "url": "https://www.toolvala.in/baby-name-combiner.html",
+  "description": "Blend two parents' names into unique baby name ideas instantly, with visual examples.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "All",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+  :root{
+    --ink:#1b1f23;
+    --paper:#f7f5f0;
+    --accent:#2f9e8f;
+    --accent-dark:#217a6e;
+    --line:#dcece7;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:'Segoe UI',Roboto,Arial,sans-serif;background:var(--paper);color:var(--ink);line-height:1.7;}
+  a{color:var(--accent-dark);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+
+  header{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:var(--ink);border-bottom:3px solid var(--accent);}
+  .brand{font-size:22px;font-weight:800;color:#fff;}
+  .brand span{color:var(--accent);}
+  nav a{color:#e6e6e6;margin-left:18px;font-size:14px;font-weight:600;}
+  nav a:hover{color:#fff;}
+
+  main{max-width:960px;margin:0 auto;padding:28px 16px 60px;}
+
+  .hero{display:flex;align-items:center;gap:24px;margin-bottom:20px;flex-wrap:wrap;}
+  .hero-text{flex:1;min-width:260px;}
+  h1{font-size:28px;margin:0 0 8px;}
+  .lead{color:#4a4a46;margin:0;max-width:60ch;}
+  .hero-graphic{width:150px;height:150px;flex-shrink:0;}
+
+  .ad-slot{margin:26px 0;text-align:center;}
+  .ad-label{font-size:11px;color:#8a877f;margin-bottom:4px;letter-spacing:0.5px;}
+
+  .tool-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:0 10px 26px rgba(0,0,0,0.06);margin-bottom:14px;}
+
+  .input-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px;}
+  .input-group{flex:1;min-width:180px;}
+  .input-group label{display:block;font-size:12px;font-weight:700;color:#6b6b66;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.4px;}
+  .input-group input{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:10px;font-size:16px;background:#fafdfc;color:var(--ink);}
+  .input-group input:focus{outline:2px solid var(--accent);border-color:var(--accent);}
+
+  .combine-btn{width:100%;padding:14px;border:none;border-radius:10px;background:var(--accent);color:#fff;font-weight:800;font-size:16px;cursor:pointer;}
+  .combine-btn:active{background:var(--accent-dark);}
+
+  .status-msg{margin-top:10px;font-size:13px;color:#a33;display:none;}
+  .status-msg.show{display:block;}
+
+  .results{margin-top:20px;display:none;}
+  .results.show{display:block;}
+  .results h3{font-size:15px;margin:0 0 12px;color:#3a3a36;}
+  .combo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;}
+  .combo-card{background:#eafaf5;border:1px solid #c7ebe0;border-radius:12px;padding:14px;text-align:center;}
+  .combo-name{font-size:18px;font-weight:800;color:var(--accent-dark);margin-bottom:6px;word-break:break-word;}
+  .combo-tag{font-size:11px;color:#5b8a7d;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:8px;}
+  .combo-card button{border:none;background:var(--accent);color:#fff;font-size:12px;padding:6px 12px;border-radius:16px;cursor:pointer;font-weight:700;}
+  .combo-card button:active{background:var(--accent-dark);}
+
+  .chart-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;margin-top:20px;}
+  .chart-card h3{font-size:15px;margin:0 0 12px;color:#3a3a36;}
+  .chart-wrap{max-width:100%;height:260px;}
+
+  .example-table{width:100%;border-collapse:collapse;margin:18px 0;font-size:14px;}
+  .example-table th, .example-table td{border:1px solid var(--line);padding:10px 12px;text-align:left;}
+  .example-table th{background:#eafaf5;font-weight:700;}
+  .example-table tr:nth-child(even){background:#fbfaf9;}
+
+  .info{margin:36px 0 32px;max-width:78ch;}
+  .info h2{font-size:22px;margin:36px 0 12px;color:#0f172a;}
+  .info h2:first-child{margin-top:0;}
+  .info h3{font-size:17px;margin:22px 0 8px;}
+  .info p{color:#3a3a36;margin:0 0 12px;}
+  .info ul, .info ol{color:#3a3a36;padding-left:22px;margin:0 0 14px;}
+  .info li{margin-bottom:8px;}
+
+  .faq-item{border-bottom:1px solid var(--line);padding:16px 0;}
+  .faq-q{font-weight:700;color:#0f172a;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-size:16px;}
+  .faq-a{color:#57574f;margin-top:10px;display:none;font-size:14.5px;}
+  .faq-a.show{display:block;}
+
+  .related h2{font-size:18px;margin-bottom:12px;}
+  .related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;}
+  .related-grid a{display:block;background:#fff;border:1px solid var(--line);border-radius:9px;padding:12px 14px;color:var(--ink);font-size:14px;font-weight:600;}
+  .related-grid a:hover{border-color:var(--accent);text-decoration:none;color:var(--accent-dark);}
+  .related-grid a small{display:block;font-weight:400;color:#6b6b66;font-size:12px;margin-top:3px;}
+
+  footer{border-top:1px solid var(--line);margin-top:40px;}
+
+  @media (max-width:600px){.hero-graphic{display:none;}h1{font-size:22px;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">Toolvala<span>.in</span></div>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/baby-name-combiner.html">Baby Name Combiner</a>
+  </nav>
+</header>
+
+<main>
+  <div class="hero">
+    <div class="hero-text">
+      <h1>Baby Name Combiner - Blend Parents' Names</h1>
+      <p class="lead">Blend both parents' names into unique baby name ideas that carry a piece of each - free, instant, and no signup needed.</p>
+    </div>
+    <svg class="hero-graphic" viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="55" cy="60" r="30" fill="#bfe9dc" opacity="0.9"/>
+      <circle cx="95" cy="60" r="30" fill="#8fd6c0" opacity="0.85"/>
+      <circle cx="75" cy="100" r="24" fill="#eab676" opacity="0.9"/>
+      <text x="75" y="66" font-size="20" font-weight="800" text-anchor="middle" fill="#1b1f23" font-family="Segoe UI, Arial, sans-serif">+</text>
+    </svg>
+  </div>
+
+  <!-- AdSense ad unit -->
+  <div class="ad-slot">
+    <div class="ad-label">Advertisement</div>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-4402681434316955"
+         data-ad-slot="3427864418"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+  <div class="tool-card">
+    <div class="input-row">
+      <div class="input-group">
+        <label for="name1">Parent 1's Name</label>
+        <input type="text" id="name1" placeholder="e.g. Daniel" maxlength="30">
+      </div>
+      <div class="input-group">
+        <label for="name2">Parent 2's Name</label>
+        <input type="text" id="name2" placeholder="e.g. Amara" maxlength="30">
+      </div>
+    </div>
+    <button type="button" class="combine-btn" id="combineBtn">Combine Names</button>
+    <div class="status-msg" id="statusMsg"></div>
+
+    <div class="results" id="results">
+      <h3>Your Baby Name Ideas</h3>
+      <div class="combo-grid" id="comboGrid"></div>
+    </div>
+  </div>
+
+  <div class="chart-card" id="chartCard" style="display:none;">
+    <h3>Baby Name Length Comparison (Example Chart)</h3>
+    <div class="chart-wrap"><canvas id="lengthChart"></canvas></div>
+  </div>
+
+  <section class="info">
+    <h2>1. What Is a Baby Name Combiner?</h2>
+    <p>A baby name combiner takes two names - most often both parents' first names - and blends them into a new name that carries a piece of each. The result is a portmanteau: a new word built from pieces of two existing ones, the same technique behind everyday words like "brunch" (breakfast + lunch). Applied to baby naming, it's a way to give a child a name that's genuinely unique while still meaningfully connected to both parents, or to two grandparents, or to any two family names a parent wants to honor.</p>
+    <p>Toolvala's Baby Name Combiner automates the blending step. Type in two names, tap Combine, and the tool instantly returns several blended options using different split patterns, so you can compare a full set of ideas side by side instead of sketching combinations out by hand.</p>
+
+    <h2>2. Why Parents Blend Names for a Baby</h2>
+    <ul>
+      <li><strong>Honoring both sides of the family:</strong> A blended name lets a child's first name literally carry a piece of both parents, rather than picking one parent's name over the other or defaulting to a middle name instead.</li>
+      <li><strong>A truly unique first name:</strong> Blended names are far less likely to be shared by classmates, since they're not drawn from a standard baby-name list.</li>
+      <li><strong>A meaningful story behind the name:</strong> A blended name gives parents a built-in, personal answer whenever someone asks "how did you choose that name?" - a nice thing to be able to tell the child later too.</li>
+      <li><strong>Blending grandparents' names:</strong> The same technique works for honoring a grandparent or family elder by blending their name with a parent's, rather than using it as-is.</li>
+      <li><strong>Multicultural families:</strong> For families blending two cultural naming traditions, a combined name can be a way to represent both heritages in a single name rather than choosing one.</li>
+    </ul>
+
+    <h2>3. How the Baby Name Combiner Works</h2>
+    <ol>
+      <li><strong>Clean the input:</strong> Extra spaces are trimmed, and each name is capitalized automatically.</li>
+      <li><strong>Split each name near its middle:</strong> Every name is broken into a "head" and a "tail," with the split point adjusted so it doesn't land on a single awkward letter.</li>
+      <li><strong>Recombine head and tail:</strong> The head of Name A joins the tail of Name B, and vice versa - the classic portmanteau technique.</li>
+      <li><strong>Try alternate split ratios:</strong> Because a fixed midpoint split doesn't always sound natural, the tool also tries a shorter head with a longer tail, and the reverse, producing more listenable variations.</li>
+      <li><strong>Full merge:</strong> One option simply appends the full second name onto the first, which sometimes works better for very short names.</li>
+      <li><strong>De-duplicate and display:</strong> Repeated or empty results are removed, and each option appears as a tappable card you can copy in one click.</li>
+    </ol>
+    <p>This is deterministic logic, not random generation - the same two names will always produce the same set of suggestions, which is useful if you want to revisit or share a specific result later in the pregnancy.</p>
+
+    <h2>4. Example: Blending Parents' Names</h2>
+    <p>Here's a sample table showing how a few example parent-name pairs blend together, using generic first names rather than any real or public individuals:</p>
+    <table class="example-table">
+      <tr><th>Parent 1</th><th>Parent 2</th><th>Blend Option 1</th><th>Blend Option 2</th></tr>
+      <tr><td>Daniel</td><td>Amara</td><td>Danara</td><td>Amaniel</td></tr>
+      <tr><td>Rohan</td><td>Sienna</td><td>Rohenna</td><td>Sierohan</td></tr>
+      <tr><td>Marcus</td><td>Priya</td><td>Marciya</td><td>Priarcus</td></tr>
+      <tr><td>Kabir</td><td>Elena</td><td>Kabena</td><td>Elabir</td></tr>
+    </table>
+    <p>Notice that some blends land much closer to sounding like an actual usable first name than others. This is exactly why the tool generates several options per pair rather than a single answer - scan the whole set, say each one aloud, and see which one genuinely sounds like a name rather than a name-shaped word.</p>
+
+    <h2>5. Making a Blended Name Sound Like a Real First Name</h2>
+    <p>A raw blend doesn't always sound ready to use as-is. A few practical adjustments that often help:</p>
+    <ul>
+      <li><strong>Trim an awkward ending.</strong> If a blend ends in an unusual letter combination, dropping the last letter or two can make it read more naturally (for example, "Danaral" trimmed to "Danara").</li>
+      <li><strong>Adjust the spelling, not the sound.</strong> Swapping a letter for one that sounds the same but reads more familiarly (like "ph" for "f", or adding a silent "e") can make an invented name feel more like a recognizable one.</li>
+      <li><strong>Try a nickname version of each parent's name first.</strong> Blending "Alex" and "Mia" instead of "Alexander" and "Amelia" often produces a cleaner, shorter result.</li>
+      <li><strong>Say it in a full sentence.</strong> Read the name aloud in context - "This is baby ___" - to check it flows naturally before shortlisting it.</li>
+    </ul>
+
+    <h2>6. Blended First Name vs Blended Middle Name</h2>
+    <h3>As the First Name</h3>
+    <p>Using the blended result as the actual first name is the boldest choice - it makes the meaning immediately visible every time the name is said or written, but it also means the name needs to work as a standalone, everyday name for life.</p>
+    <h3>As the Middle Name</h3>
+    <p>Many parents use a more conventional, easier-to-place name as the first name, and save the blended combination for the middle name instead. This keeps the sentimental connection to both parents while giving the child a more familiar-sounding name for daily use - a popular compromise for parents who love the idea but want to play it a little safer.</p>
+
+    <h2>7. Checking a Name Before You Commit</h2>
+    <p>Once you have a shortlist of blended options, it's worth running each one through a short practical check before finalizing:</p>
+    <ul>
+      <li><strong>Say the full name out loud</strong> - first, middle, and last name together - to check for awkward rhymes, repeated sounds, or accidental tongue-twisters.</li>
+      <li><strong>Check the initials.</strong> Write out the first letters of the full name to make sure they don't spell out an unfortunate acronym.</li>
+      <li><strong>Search the exact spelling online</strong> to rule out an unintended meaning in another language or an unrelated negative association.</li>
+      <li><strong>Consider how it shortens.</strong> Think about the nicknames people will naturally shorten it to, and make sure you're comfortable with those too.</li>
+      <li><strong>Check sibling name compatibility</strong> if you have other children, so the new name feels like it belongs with the existing family names in style and tone.</li>
+    </ul>
+
+    <h2>8. Gender-Neutral Blended Names</h2>
+    <p>Because the blending process works on sound and spelling rather than any inherent gender association, many results come out naturally gender-neutral, especially when both parent names contain a mix of soft and strong-sounding syllables. If a gender-neutral result matters to you, try blending nickname or shortened versions of both names, and favor results that end in a consonant or a neutral vowel sound rather than a traditionally feminine "-a" or "-ella" ending, which tends to read as more gendered regardless of the source names.</p>
+
+    <h2>9. Cultural Considerations When Blending Names</h2>
+    <p>If both parents come from different naming traditions, it's worth checking that a blended result doesn't accidentally clash with either culture's naming conventions - some traditions have specific rules about starting sounds, syllable counts, or auspicious letters tied to birth timing. A blended name can still work well in these cases; it just may need a small adjustment (like which parent's name contributes the head versus the tail) to align with a required starting sound. Involving both sides of the family in reviewing the shortlist, where relevant, can also help catch a meaning or association that isn't obvious to just the two parents.</p>
+
+    <h2>10. Common Mistakes to Avoid</h2>
+    <ul>
+      <li><strong>Choosing a blend that's hard to spell from hearing it.</strong> If people consistently need it spelled out, that's worth weighing against how much you love the sound.</li>
+      <li><strong>Not trying both name orders.</strong> Swapping which parent's name goes first produces a genuinely different set of results - always check both directions before deciding.</li>
+      <li><strong>Overlooking how it looks written down.</strong> A name that sounds fine can look unusual on paper - check both the sound and the spelling before shortlisting.</li>
+      <li><strong>Skipping the initials check.</strong> This is an easy step to forget in the excitement of finding a name you love - always double check.</li>
+      <li><strong>Settling on the very first result.</strong> The tool generates several options because the second or third one is often the more natural-sounding one - scan the whole set.</li>
+    </ul>
+
+    <h2>11. Step-by-Step: From Two Names to a Shortlist</h2>
+    <ol>
+      <li><strong>Decide which two names to blend</strong> - typically both parents' first names, though grandparents' names work too.</li>
+      <li><strong>Enter both names and tap Combine.</strong> You'll get up to eight blended options instantly.</li>
+      <li><strong>Scan the whole grid</strong> rather than stopping at the first result - the chart underneath helps you compare option lengths at a glance.</li>
+      <li><strong>Shortlist your top three</strong> and say each one out loud with your surname attached.</li>
+      <li><strong>Swap the name order and regenerate</strong> if nothing feels right - Parent 2 first and Parent 1 second produces a genuinely different set of results.</li>
+      <li><strong>Run your shortlist through the checks</strong> in section 7 above before making a final decision.</li>
+    </ol>
+
+    <h2>12. Privacy and How the Chart Works</h2>
+    <p>Every combination on this page is generated using plain JavaScript running directly in your browser tab. There is no server-side processing step and no analytics event tied to the specific names you enter - the page's analytics tracking only records that the Baby Name Combiner page was visited, the same as it would for any other page on Toolvala.in. Closing or refreshing the tab clears everything you typed; nothing persists between visits. The bar chart underneath your results plots the character length of each generated combination, which is a quick way to compare option lengths at a glance - a shorter, cleaner name is often easier to say, spell, and grow into. It's a lightweight, illustrative chart rather than a statistical analysis, and it updates automatically every time you generate a new set of combinations.</p>
+
+    <h2>13. Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <div class="faq-q" data-faq="0">Is the Baby Name Combiner free to use? <span>▼</span></div>
+      <div class="faq-a" id="faq-0">Yes, it's completely free with no sign-up, no usage limits, and no watermark on the results.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" data-faq="1">Can I use grandparents' names instead of parents' names? <span>▼</span></div>
+      <div class="faq-a" id="faq-1">Yes - the tool works the same way regardless of whose names you enter. Many parents use it to blend a grandparent's name with their own as a way of honoring family.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" data-faq="2">Are the results random? <span>▼</span></div>
+      <div class="faq-a" id="faq-2">No, the results are generated using a fixed set of blending patterns, so the same two names will always produce the same list of combinations.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" data-faq="3">Does it store the names I enter? <span>▼</span></div>
+      <div class="faq-a" id="faq-3">No. All blending happens locally in your browser using JavaScript - nothing you type is sent to or saved on Toolvala's servers.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" data-faq="4">Can I combine more than two names at once? <span>▼</span></div>
+      <div class="faq-a" id="faq-4">Currently the tool blends two names per run. For a three-way blend, combine the first two names, then run the result through the tool again with the third name.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" data-faq="5">Will the result definitely sound like a real name? <span>▼</span></div>
+      <div class="faq-a" id="faq-5">Not always - some blends sound more natural than others. That's why the tool generates several options at once, so you can pick whichever one sounds most like an actual name to your ear, and adjust the spelling slightly if needed.</div>
+    </div>
+
+    <h2>14. Final Thoughts</h2>
+    <p>A blended baby name starts from a simple, meaningful question: what do you get when you put both parents' names together? This tool exists to answer that question instantly, from as many reasonable angles as possible, so you're choosing from a full set of natural-sounding options rather than the one combination you happened to think of first. Try both name orders, read your favorites out loud with your surname attached, and run your shortlist through the initials and spelling checks before deciding. Since everything runs locally in your browser, you're free to experiment with as many name pairs as you like, for as long as you like, without ever creating an account.</p>
+  </section>
+
+  <section class="related">
+    <h2>Related tools on Toolvala.in</h2>
+    <div class="related-grid">
+      <a href="/couple-name-combiner.html">Couple Name Combiner<small>Blend your name with your partner's</small></a>
+      <a href="/family-name-combiner.html">Family Name Combiner<small>Blend names across the whole family</small></a>
+      <a href="/username-combiner.html">Username Combiner<small>Blend words into unique usernames</small></a>
+      <a href="/business-name-combiner.html">Business Name Combiner<small>Generate brandable business names</small></a>
+      <a href="/qr-code-scanner.html">QR Code Scanner<small>Scan QR codes with camera or upload</small></a>
+      <a href="/math-solver.html">Math Solver<small>Scientific calculator for quick math</small></a>
+    </div>
+  </section>
+</main>
+
+<div id="footer"></div>
+
+<script>
+fetch("/footer.html")
+  .then(response => response.text())
+  .then(data => {
+    document.getElementById("footer").innerHTML = data;
+    var yearSpan = document.getElementById("year");
+    if (yearSpan) { yearSpan.textContent = new Date().getFullYear(); }
+  });
+</script>
+
+<script>
+(function(){
+  var name1El = document.getElementById('name1');
+  var name2El = document.getElementById('name2');
+  var combineBtn = document.getElementById('combineBtn');
+  var statusMsg = document.getElementById('statusMsg');
+  var results = document.getElementById('results');
+  var comboGrid = document.getElementById('comboGrid');
+  var chartCard = document.getElementById('chartCard');
+  var chartInstance = null;
+
+  function cleanName(n){ return n.trim().replace(/\s+/g, ' '); }
+  function cap(s){ if(!s) return s; return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase(); }
+
+  function splitAt(word, ratio){
+    var idx = Math.max(1, Math.min(word.length - 1, Math.round(word.length * ratio)));
+    return { head: word.slice(0, idx), tail: word.slice(idx) };
+  }
+
+  function generateCombos(a, b){
+    a = cap(cleanName(a));
+    b = cap(cleanName(b));
+    if(!a || !b) return [];
+
+    var combos = [];
+    var ratios = [0.5, 0.4, 0.6];
+
+    ratios.forEach(function(r){
+      var sa = splitAt(a, r);
+      var sb = splitAt(b, r);
+      combos.push({ name: cap(sa.head + sb.tail.toLowerCase()), tag: "Blend A + B" });
+      combos.push({ name: cap(sb.head + sa.tail.toLowerCase()), tag: "Blend B + A" });
+    });
+
+    combos.push({ name: cap(a + b.toLowerCase()), tag: "Full Merge" });
+    combos.push({ name: cap(b + a.toLowerCase()), tag: "Full Merge (reverse)" });
+
+    var seen = {};
+    var unique = [];
+    combos.forEach(function(c){
+      var key = c.name.toLowerCase();
+      if(!seen[key] && c.name.length > 1){
+        seen[key] = true;
+        unique.push(c);
+      }
+    });
+    return unique.slice(0, 8);
+  }
+
+  function renderCombos(combos){
+    comboGrid.innerHTML = "";
+    combos.forEach(function(c){
+      var card = document.createElement('div');
+      card.className = 'combo-card';
+
+      var nameEl = document.createElement('div');
+      nameEl.className = 'combo-name';
+      nameEl.textContent = c.name;
+
+      var tagEl = document.createElement('div');
+      tagEl.className = 'combo-tag';
+      tagEl.textContent = c.tag;
+
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = 'Copy';
+      btn.addEventListener('click', function(){
+        navigator.clipboard.writeText(c.name).then(function(){
+          btn.textContent = 'Copied!';
+          setTimeout(function(){ btn.textContent = 'Copy'; }, 1200);
+        }).catch(function(){});
+      });
+
+      card.appendChild(nameEl);
+      card.appendChild(tagEl);
+      card.appendChild(btn);
+      comboGrid.appendChild(card);
+    });
+  }
+
+  function renderChart(combos){
+    chartCard.style.display = 'block';
+    var ctx = document.getElementById('lengthChart').getContext('2d');
+    var labels = combos.map(function(c){ return c.name; });
+    var data = combos.map(function(c){ return c.name.length; });
+
+    if(chartInstance) chartInstance.destroy();
+    chartInstance = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{ label: 'Character length', data: data, backgroundColor: '#2f9e8f', borderRadius: 6 }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
+      }
+    });
+  }
+
+  combineBtn.addEventListener('click', function(){
+    statusMsg.classList.remove('show');
+    var a = name1El.value;
+    var b = name2El.value;
+    if(!cleanName(a) || !cleanName(b)){
+      statusMsg.textContent = "Please enter both names to combine.";
+      statusMsg.classList.add('show');
+      results.classList.remove('show');
+      chartCard.style.display = 'none';
+      return;
+    }
+    var combos = generateCombos(a, b);
+    if(combos.length === 0){
+      statusMsg.textContent = "Couldn't generate combinations - try different names.";
+      statusMsg.classList.add('show');
+      return;
+    }
+    renderCombos(combos);
+    renderChart(combos);
+    results.classList.add('show');
+  });
+
+  document.querySelectorAll('.faq-q').forEach(function(q){
+    q.addEventListener('click', function(){
+      var id = q.getAttribute('data-faq');
+      var a = document.getElementById('faq-' + id);
+      a.classList.toggle('show');
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
