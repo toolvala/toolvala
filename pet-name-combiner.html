@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pet Name Combiner Online - Blend Names for Your Pet Free | Toolvala.in</title>
+<meta name="description" content="Free online Pet Name Combiner. Blend your name with a pet-themed word, or combine two name ideas, into a unique name for your dog, cat, or any pet. Copy your favorite in one tap.">
+<meta name="keywords" content="pet name combiner, dog name generator, cat name generator, combine names for pet, unique pet name ideas, puppy name generator, kitten name generator, toolvala pet name combiner">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.toolvala.in/pet-name-combiner.html">
+
+<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<link rel="manifest" href="/site.webmanifest" />
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8GTQC904G1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-8GTQC904G1');
+</script>
+
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4402681434316955"
+     crossorigin="anonymous"></script>
+
+<!-- JSON-LD Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Pet Name Combiner",
+  "url": "https://www.toolvala.in/pet-name-combiner.html",
+  "description": "Blend two words or names into unique pet name ideas instantly, with visual examples.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "All",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+  :root{
+    --ink:#1b1f23;
+    --paper:#f7f5f0;
+    --accent:#d17a2e;
+    --accent-dark:#a85e20;
+    --line:#f0e2d0;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:'Segoe UI',Roboto,Arial,sans-serif;background:var(--paper);color:var(--ink);line-height:1.7;}
+  a{color:var(--accent-dark);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+
+  header{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:var(--ink);border-bottom:3px solid var(--accent);}
+  .brand{font-size:22px;font-weight:800;color:#fff;}
+  .brand span{color:var(--accent);}
+  nav a{color:#e6e6e6;margin-left:18px;font-size:14px;font-weight:600;}
+  nav a:hover{color:#fff;}
+
+  main{max-width:960px;margin:0 auto;padding:28px 16px 60px;}
+
+  .hero{display:flex;align-items:center;gap:24px;margin-bottom:20px;flex-wrap:wrap;}
+  .hero-text{flex:1;min-width:260px;}
+  h1{font-size:28px;margin:0 0 8px;}
+  .lead{color:#4a4a46;margin:0;max-width:60ch;}
+  .hero-graphic{width:150px;height:150px;flex-shrink:0;}
+
+  .ad-slot{margin:26px 0;text-align:center;}
+  .ad-label{font-size:11px;color:#8a877f;margin-bottom:4px;letter-spacing:0.5px;}
+
+  .tool-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:0 10px 26px rgba(0,0,0,0.06);margin-bottom:14px;}
+
+  .input-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px;}
+  .input-group{flex:1;min-width:180px;}
+  .input-group label{display:block;font-size:12px;font-weight:700;color:#6b6b66;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.4px;}
+  .input-group input{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:10px;font-size:16px;background:#fefaf6;color:var(--ink);}
+  .input-group input:focus{outline:2px solid var(--accent);border-color:var(--accent);}
+
+  .combine-btn{width:100%;padding:14px;border:none;border-radius:10px;background:var(--accent);color:#fff;font-weight:800;font-size:16px;cursor:pointer;}
+  .combine-btn:active{background:var(--accent-dark);}
+
+  .status-msg{margin-top:10px;font-size:13px;color:#a33;display:none;}
+  .status-msg.show{display:block;}
+
+  .results{margin-top:20px;display:none;}
+  .results.show{display:block;}
+  .results h3{font-size:15px;margin:0 0 4px;color:#3a3a36;}
+  .results-sub{font-size:12px;color:#9a8168;margin-bottom:12px;}
+  .combo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;}
+  .combo-card{background:#fdf1e4;border:1px solid #f2d8b8;border-radius:12px;padding:14px;text-align:center;}
+  .combo-name{font-size:18px;font-weight:800;color:var(--accent-dark);margin-bottom:6px;word-break:break-word;}
+  .combo-tag{font-size:11px;color:#9a7c56;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:8px;}
+  .combo-card button{border:none;background:var(--accent);color:#fff;font-size:12px;padding:6px 12px;border-radius:16px;cursor:pointer;font-weight:700;}
+  .combo-card button:active{background:var(--accent-dark);}
+
+  .chart-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;margin-top:20px;}
+  .chart-card h3{font-size:15px;margin:0 0 12px;color:#3a3a36;}
+  .chart-wrap{max-width:100%;height:260px;}
+
+  .example-table{width:100%;border-collapse:collapse;margin:18px 0;font-size:14px;}
+  .example-table th, .example-table td{border:1px solid var(--line);padding:10px 12px;text-align:left;}
+  .example-table th{background:#fdf1e4;font-weight:700;}
+  .example-table tr:nth-child(even){background:#fbfaf9;}
+
+  .info{margin:36px 0 32px;max-width:78ch;}
+  .info h2{font-size:22px;margin:36px 0 12px;color:#0f172a;}
+  .info h2:first-child{margin-top:0;}
+  .info h3{font-size:17px;margin:22px 0 8px;}
+  .info p{color:#3a3a36;margin:0 0 12px;}
+  .info ul, .info ol{color:#3a3a36;padding-left:22px;margin:0 0 14px;}
+  .info li{margin-bottom:8px;}
+
+  .faq-item{border-bottom:1px solid var(--line);padding:16px 0;}
+  .faq-q{font-weight:700;color:#0f172a;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-size:16px;}
+  .faq-a{color:#57574f;margin-top:10px;display:none;font-size:14.5px;}
+  .faq-a.show{display:block;}
+
+  .related h2{font-size:18px;margin-bottom:12px;}
+  .related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;}
+  .related-grid a{display:block;background:#fff;border:1px solid var(--line);border-radius:9px;padding:12px 14px;color:var(--ink);font-size:14px;font-weight:600;}
+  .related-grid a:hover{border-color:var(--accent);text-decoration:none;color:var(--accent-dark);}
+  .related-grid a small{display:block;font-weight:400;color:#6b6b66;font-size:12px;margin-top:3px;}
+
+  footer{border-top:1px solid var(--line);margin-top:40px;}
+
+  @media (max-width:600px){.hero-graphic{display:none;}h1{font-size:22px;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">Toolvala<span>.in</span></div>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/pet-name-combiner.html">Pet Name Combiner</a>
+  </nav>
+</header>
+
+<main>
+  <div class="hero">
+    <div class="hero-text">
+      <h1>Pet Name Combiner - Blend Names for Your Pet</h1>
+      <p class="lead">Blend two name ideas - or your name with a favorite word - into a unique name for your dog, cat, or any new pet. Free, instant, no signup.</p>
+    </div>
+    <svg class="hero-graphic" viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="75" cy="85" r="34" fill="#f2c896" opacity="0.9"/>
+      <circle cx="52" cy="48" r="12" fill="#f2c896" opacity="0.85"/>
+      <circle cx="98" cy="48" r="12" fill="#f2c896" opacity="0.85"/>
+      <circle cx="35" cy="65" r="9" fill="#f2c896" opacity="0.8"/>
+      <circle cx="115" cy="65" r="9" fill="#f2c896" opacity="0.8"/>
+    </svg>
+  </div>
+
+  <!-- AdSense ad unit -->
+  <div class="ad-slot">
+    <div class="ad-label">Advertisement</div>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-4402681434316955"
+         data-ad-slot="3427864418"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+  <div class="tool-card">
+    <div class="input-row">
+      <div class="input-group">
+        <label for="word1">First Name or Word</label>
+        <input type="text" id="word1" placeholder="e.g. Luna" maxlength="30">
+      </div>
+      <div class="input-group">
+        <label for="word2">Second Name or Word</label>
+        <input type="text" id="word2" placeholder="e.g. Biscuit" maxlength="30">
+      </div>
+    </div>
+    <button type="button" class="combine-btn" id="combineBtn">Generate Pet Names</button>
+    <div class="status-msg" id="statusMsg"></div>
+
+    <div class="results" id="results">
+      <h3>Your Pet Name Ideas</h3>
+      <div class="results-sub">Tip: pets respond best to short, one-to-two syllable names ending in a strong vowel sound.</div>
+      <div class="combo-grid" id="comboGrid"></div>
+    </div>
+  </div>
+
+  <div class="chart-card" id="chartCard" style="display:none;">
+    <h3>Pet Name Length Comparison (Example Chart)</h3>
+    <div class="chart-wrap"><canvas id="lengthChart"></canvas></div>
+  </div>
+
+  <section class="info">
+    <h2>1. What Is a Pet Name Combiner?</h2>
+    <p>A pet name combiner takes two words or names and blends them into a new one - the same portmanteau technique behind everyday words like "brunch" (breakfast + lunch). For a pet, this could mean blending two name ideas you're torn between, combining your own name with a favorite word, or merging a physical trait word with a food or nature word for something playful and distinctive.</p>
+    <p>Toolvala's Pet Name Combiner automates the blending step. Type in two words, tap Generate, and the tool instantly returns several blended options using different split patterns, so you can compare a full set of ideas before you bring your new pet home.</p>
+
+    <h2>2. Why Blend a Name for Your Pet?</h2>
+    <ul>
+      <li><strong>You can't decide between two names.</strong> Rather than picking one and feeling like you're giving up the other, a blend can capture a piece of both.</li>
+      <li><strong>A name with a personal story.</strong> Blending your own name, a partner's name, or a place that matters to you with a pet-themed word gives the name real meaning behind it.</li>
+      <li><strong>Something distinctive at the dog park or vet's office.</strong> A blended name is far less likely to be shared by three other pets in the same waiting room.</li>
+      <li><strong>Matching pet siblings.</strong> If you already have one pet, blending its name with a new word can create a second name that feels like it belongs to the same "set."</li>
+    </ul>
+
+    <h2>3. How the Pet Name Combiner Works</h2>
+    <ol>
+      <li><strong>Clean the input:</strong> Extra spaces are trimmed and each word is capitalized automatically.</li>
+      <li><strong>Split each word near its middle:</strong> Every word is broken into a "head" and a "tail," with the split point adjusted so it doesn't land on a single awkward letter.</li>
+      <li><strong>Recombine head and tail:</strong> The head of Word A joins the tail of Word B, and vice versa - the classic portmanteau technique.</li>
+      <li><strong>Try alternate split ratios:</strong> The tool also tries a shorter head with a longer tail, and the reverse, to produce more natural-sounding variations.</li>
+      <li><strong>Full merge:</strong> One option simply appends the full second word onto the first, which sometimes works well for very short words.</li>
+      <li><strong>De-duplicate and display:</strong> Repeated or empty results are removed, and each option appears as a tappable card you can copy in one click.</li>
+    </ol>
+    <p>This is deterministic logic, not random generation - the same two words will always produce the same set of suggestions.</p>
+
+    <h2>4. Example: Blending Pet Name Ideas</h2>
+    <table class="example-table">
+      <tr><th>Word A</th><th>Word B</th><th>Blend Option 1</th><th>Blend Option 2</th></tr>
+      <tr><td>Luna</td><td>Biscuit</td><td>Luscuit</td><td>Bisluna</td></tr>
+      <tr><td>Coco</td><td>Maple</td><td>Coaple</td><td>Mapoco</td></tr>
+      <tr><td>Rusty</td><td>Willow</td><td>Rustow</td><td>Wilusty</td></tr>
+      <tr><td>Milo</td><td>Pepper</td><td>Milper</td><td>Pepmilo</td></tr>
+    </table>
+    <p>Notice how some blends land closer to a real, callable pet name than others - "Coaple" reads more naturally than "Mapoco," for example. This is exactly why the tool returns several options at once: scan the whole set and pick whichever one actually sounds good called across a yard.</p>
+
+    <h2>5. What Makes a Good Pet Name</h2>
+    <ul>
+      <li><strong>Keep it short.</strong> One or two syllables are easiest for a pet to learn and for you to call out consistently, especially during training.</li>
+      <li><strong>End in a strong vowel sound.</strong> Names ending in "-y," "-o," or "-a" tend to carry further and are easier for pets to distinguish from other everyday sounds.</li>
+      <li><strong>Avoid names that sound like commands.</strong> A name that rhymes with "sit," "no," "stay," or "down" can genuinely confuse a pet during training - double check your favorite blend against your usual command words.</li>
+      <li><strong>Say it in a high, upbeat tone.</strong> Read your shortlist aloud in the tone you'd actually use to call your pet - a name that sounds fine spoken normally can feel awkward said cheerfully, and vice versa.</li>
+    </ul>
+
+    <h2>6. Blending Ideas by Pet Type</h2>
+    <h3>Dogs</h3>
+    <p>Dog names benefit most from the "easy to call across a park" test - short, clear, and distinct from common commands. Blending an adjective describing your dog's look or personality (Rusty, Shadow, Biscuit) with a name you love works well here.</p>
+    <h3>Cats</h3>
+    <p>Cat names have a little more room to be soft or elegant, since cats are typically called from closer range. Blending a food or nature word (Maple, Willow, Clover) with a personal name often produces a name that fits a cat's more independent personality.</p>
+    <h3>Small Pets and Exotics</h3>
+    <p>For rabbits, guinea pigs, birds, or reptiles, a playful or whimsical blend often fits best, since these pets are rarely trained to recognize commands the way dogs are - meaning you have more freedom to prioritize a fun sound over practicality.</p>
+
+    <h2>7. Common Mistakes When Naming a Pet</h2>
+    <ul>
+      <li><strong>Picking a name that's hard to shout.</strong> Test your favorite blend by imagining calling it loudly from across a yard or park before committing.</li>
+      <li><strong>Choosing something too close to a family member's name.</strong> This can cause genuine daily confusion, especially with a pet that reacts to sound rather than context.</li>
+      <li><strong>Not trying both word orders.</strong> Swapping which word goes first produces a genuinely different set of results - always check both directions.</li>
+      <li><strong>Overlooking how it sounds with your last name or vet paperwork.</strong> Say the full "first and last" version out loud if your pet will have a formal name on records.</li>
+      <li><strong>Settling on the first result.</strong> The tool generates several options because the second or third one is often the more callable one - scan the whole set.</li>
+    </ul>
+
+    <h2>8. Formal Name vs Everyday Nickname</h2>
+    <p>Many pet owners register a longer, more elaborate name for official paperwork - a pedigree certificate, a show registration, or a vet record - while using a shorter, blended nickname day to day. If you want the best of both, try running two words through the combiner to get a distinctive, blended nickname, and keep a more traditional or elaborate name as the pet's registered "formal" name for documents.</p>
+
+    <h2>9. Step-by-Step: From Two Words to a Pet Name</h2>
+    <ol>
+      <li><strong>Pick two words</strong> - two name ideas you're deciding between, or a personal word plus a nature, food, or trait word.</li>
+      <li><strong>Enter both and tap Generate.</strong> You'll instantly get several blended options.</li>
+      <li><strong>Scan the whole grid</strong> and read each one aloud in an upbeat, calling-out tone - the chart underneath compares option lengths at a glance.</li>
+      <li><strong>Check it against your usual command words</strong> to avoid any accidental rhymes with "sit," "no," or "stay."</li>
+      <li><strong>Swap the word order and regenerate</strong> if nothing feels right yet.</li>
+      <li><strong>Tap Copy</strong> on your favorite and try it out loud with your new pet for a day or two before making it official.</li>
+    </ol>
+
+    <h2>10. Privacy and How the Chart Works</h2>
+    <p>Every name on this page is generated using plain JavaScript running directly in your browser tab. There is no server-side processing step and no analytics event tied to the specific words you enter - the page's analytics tracking only records that the Pet Name Combiner page was visited, the same as it would for any other page on Toolvala.in. Closing or refreshing the tab clears everything you typed; nothing persists between visits. The bar chart underneath your results plots the character length of each generated name, which is a quick way to spot the shortest, most callable options at a glance.</p>
+
+    <h2>11. Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <div class="faq-q" data-faq="0">Is the Pet Name Combiner free to use? <span>▼</span></div>
+      <div class="faq-a" id="faq-0">Yes, it's completely free with no sign-up, no usage limits, and no watermark on the results.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" data-faq="1">Does it work for any type of pet? <span>▼</span></div>
+      <div class="faq-a" id="faq-1">Yes - the blending logic is the same no matter what kind of pet you're naming. Just enter any two words or name ideas you're considering.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" data-faq="2">Are the results random? <span>▼</span></div>
+      <div class="faq-a" id="faq-2">No, the results are generated using a fixed set of blending patterns, so the same two words will always produce the same list of combinations.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" data-faq="3">Does it store the words I enter? <span>▼</span></div>
+      <div class="faq-a" id="faq-3">No. All blending happens locally in your browser using JavaScript - nothing you type is sent to or saved on Toolvala's servers.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" data-faq="4">Can I combine more than two words? <span>▼</span></div>
+      <div class="faq-a" id="faq-4">Currently the tool blends two words per run. For a three-way blend, combine the first two words, then run the result through the tool again with the third word.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" data-faq="5">Will my pet actually respond to a blended name? <span>▼</span></div>
+      <div class="faq-a" id="faq-5">Pets learn to respond to whatever name you consistently use, provided it's short, clear, and distinct from your usual command words - a blended name works just as well as any other, as long as it passes those basic checks.</div>
+    </div>
+
+    <h2>12. Final Thoughts</h2>
+    <p>A great pet name usually comes from combining two things that already mean something to you - two names you love, or a personal word paired with a playful trait or nature word. This tool exists to run that blending experiment instantly, so you're choosing from a full set of natural-sounding options rather than the one combination you thought of first. Try a few different word pairs, say your favorites out loud in an upbeat tone, and check the chart to compare lengths before you settle on one. Since everything runs locally in your browser, you're free to experiment with as many word pairs as you like, for as long as you like, without ever creating an account.</p>
+  </section>
+
+  <section class="related">
+    <h2>Related tools on Toolvala.in</h2>
+    <div class="related-grid">
+      <a href="/baby-name-combiner.html">Baby Name Combiner<small>Blend both parents' names</small></a>
+      <a href="/couple-name-combiner.html">Couple Name Combiner<small>Blend your name with your partner's</small></a>
+      <a href="/username-combiner.html">Username Combiner<small>Blend words into unique usernames</small></a>
+      <a href="/business-name-combiner.html">Business Name Combiner<small>Generate brandable business names</small></a>
+      <a href="/qr-code-scanner.html">QR Code Scanner<small>Scan QR codes with camera or upload</small></a>
+      <a href="/math-solver.html">Math Solver<small>Scientific calculator for quick math</small></a>
+    </div>
+  </section>
+</main>
+
+<div id="footer"></div>
+
+<script>
+fetch("/footer.html")
+  .then(response => response.text())
+  .then(data => {
+    document.getElementById("footer").innerHTML = data;
+    var yearSpan = document.getElementById("year");
+    if (yearSpan) { yearSpan.textContent = new Date().getFullYear(); }
+  });
+</script>
+
+<script>
+(function(){
+  var word1El = document.getElementById('word1');
+  var word2El = document.getElementById('word2');
+  var combineBtn = document.getElementById('combineBtn');
+  var statusMsg = document.getElementById('statusMsg');
+  var results = document.getElementById('results');
+  var comboGrid = document.getElementById('comboGrid');
+  var chartCard = document.getElementById('chartCard');
+  var chartInstance = null;
+
+  function cleanWord(n){ return n.trim().replace(/\s+/g, ' '); }
+  function cap(s){ if(!s) return s; return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase(); }
+
+  function splitAt(word, ratio){
+    var idx = Math.max(1, Math.min(word.length - 1, Math.round(word.length * ratio)));
+    return { head: word.slice(0, idx), tail: word.slice(idx) };
+  }
+
+  function generateCombos(a, b){
+    a = cap(cleanWord(a));
+    b = cap(cleanWord(b));
+    if(!a || !b) return [];
+
+    var combos = [];
+    var ratios = [0.5, 0.4, 0.6];
+
+    ratios.forEach(function(r){
+      var sa = splitAt(a, r);
+      var sb = splitAt(b, r);
+      combos.push({ name: cap(sa.head + sb.tail.toLowerCase()), tag: "Blend A + B" });
+      combos.push({ name: cap(sb.head + sa.tail.toLowerCase()), tag: "Blend B + A" });
+    });
+
+    combos.push({ name: cap(a + b.toLowerCase()), tag: "Full Merge" });
+    combos.push({ name: cap(b + a.toLowerCase()), tag: "Full Merge (reverse)" });
+
+    var seen = {};
+    var unique = [];
+    combos.forEach(function(c){
+      var key = c.name.toLowerCase();
+      if(!seen[key] && c.name.length > 1){
+        seen[key] = true;
+        unique.push(c);
+      }
+    });
+    return unique.slice(0, 8);
+  }
+
+  function renderCombos(combos){
+    comboGrid.innerHTML = "";
+    combos.forEach(function(c){
+      var card = document.createElement('div');
+      card.className = 'combo-card';
+
+      var nameEl = document.createElement('div');
+      nameEl.className = 'combo-name';
+      nameEl.textContent = c.name;
+
+      var tagEl = document.createElement('div');
+      tagEl.className = 'combo-tag';
+      tagEl.textContent = c.tag;
+
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = 'Copy';
+      btn.addEventListener('click', function(){
+        navigator.clipboard.writeText(c.name).then(function(){
+          btn.textContent = 'Copied!';
+          setTimeout(function(){ btn.textContent = 'Copy'; }, 1200);
+        }).catch(function(){});
+      });
+
+      card.appendChild(nameEl);
+      card.appendChild(tagEl);
+      card.appendChild(btn);
+      comboGrid.appendChild(card);
+    });
+  }
+
+  function renderChart(combos){
+    chartCard.style.display = 'block';
+    var ctx = document.getElementById('lengthChart').getContext('2d');
+    var labels = combos.map(function(c){ return c.name; });
+    var data = combos.map(function(c){ return c.name.length; });
+
+    if(chartInstance) chartInstance.destroy();
+    chartInstance = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{ label: 'Character length', data: data, backgroundColor: '#d17a2e', borderRadius: 6 }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
+      }
+    });
+  }
+
+  combineBtn.addEventListener('click', function(){
+    statusMsg.classList.remove('show');
+    var a = word1El.value;
+    var b = word2El.value;
+    if(!cleanWord(a) || !cleanWord(b)){
+      statusMsg.textContent = "Please enter both words to combine.";
+      statusMsg.classList.add('show');
+      results.classList.remove('show');
+      chartCard.style.display = 'none';
+      return;
+    }
+    var combos = generateCombos(a, b);
+    if(combos.length === 0){
+      statusMsg.textContent = "Couldn't generate combinations - try different words.";
+      statusMsg.classList.add('show');
+      return;
+    }
+    renderCombos(combos);
+    renderChart(combos);
+    results.classList.add('show');
+  });
+
+  document.querySelectorAll('.faq-q').forEach(function(q){
+    q.addEventListener('click', function(){
+      var id = q.getAttribute('data-faq');
+      var a = document.getElementById('faq-' + id);
+      a.classList.toggle('show');
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
