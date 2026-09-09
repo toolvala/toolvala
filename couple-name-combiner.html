@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Couple Name Combiner Online - Blend Two Names Free | Toolvala.in</title>
+<meta name="description" content="Free online Couple Name Combiner. Instantly blend your name with your partner's into a fun, unique couple nickname or ship name. See examples, a visual chart, and copy your favorite in one tap.">
+<meta name="keywords" content="couple name combiner, combine two names, couple name generator, ship name generator, love name generator, relationship nickname generator, toolvala couple name combiner">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.toolvala.in/couple-name-combiner.html">
+
+<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<link rel="manifest" href="/site.webmanifest" />
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8GTQC904G1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-8GTQC904G1');
+</script>
+
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4402681434316955"
+     crossorigin="anonymous"></script>
+
+<!-- JSON-LD Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Couple Name Combiner",
+  "url": "https://www.toolvala.in/couple-name-combiner.html",
+  "description": "Blend your name with your partner's into a unique couple nickname or ship name instantly, with visual examples.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "All",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+  :root{
+    --ink:#1b1f23;
+    --paper:#f7f5f0;
+    --accent:#c2477a;
+    --accent2:#3f7d5c;
+    --accent-dark:#9c355f;
+    --line:#e6e0d6;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Segoe UI',Roboto,Arial,sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.7;
+  }
+  a{color:var(--accent-dark);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+
+  header{
+    position:sticky;top:0;z-index:50;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px 20px;
+    background:var(--ink);
+    border-bottom:3px solid var(--accent);
+  }
+  .brand{font-size:22px;font-weight:800;color:#fff;}
+  .brand span{color:var(--accent);}
+  nav a{color:#e6e6e6;margin-left:18px;font-size:14px;font-weight:600;}
+  nav a:hover{color:#fff;}
+
+  main{max-width:960px;margin:0 auto;padding:28px 16px 60px;}
+
+  .hero{
+    display:flex;
+    align-items:center;
+    gap:24px;
+    margin-bottom:20px;
+    flex-wrap:wrap;
+  }
+  .hero-text{flex:1;min-width:260px;}
+  h1{font-size:28px;margin:0 0 8px;}
+  .lead{color:#4a4a46;margin:0;max-width:60ch;}
+  .hero-graphic{width:150px;height:150px;flex-shrink:0;}
+
+  .ad-slot{margin:26px 0;text-align:center;}
+  .ad-label{font-size:11px;color:#8a877f;margin-bottom:4px;letter-spacing:0.5px;}
+
+  .tool-card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:22px;
+    box-shadow:0 10px 26px rgba(0,0,0,0.06);
+    margin-bottom:14px;
+  }
+  .input-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px;}
+  .input-group{flex:1;min-width:180px;}
+  .input-group label{display:block;font-size:12px;font-weight:700;color:#6b6b66;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.4px;}
+  .input-group input{
+    width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:10px;
+    font-size:16px;background:#fbfaf7;color:var(--ink);
+  }
+  .input-group input:focus{outline:2px solid var(--accent);border-color:var(--accent);}
+
+  .combine-btn{
+    width:100%;padding:14px;border:none;border-radius:10px;
+    background:var(--accent);color:#fff;font-weight:800;font-size:16px;cursor:pointer;
+  }
+  .combine-btn:active{background:var(--accent-dark);}
+
+  .status-msg{margin-top:10px;font-size:13px;color:#a33;display:none;}
+  .status-msg.show{display:block;}
+
+  .results{margin-top:20px;display:none;}
+  .results.show{display:block;}
+  .results h3{font-size:15px;margin:0 0 12px;color:#3a3a36;}
+  .combo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;}
+  .combo-card{
+    background:#fdf4f8;border:1px solid #f1d6e4;border-radius:12px;
+    padding:14px;text-align:center;
+  }
+  .combo-name{font-size:18px;font-weight:800;color:var(--accent-dark);margin-bottom:6px;word-break:break-word;}
+  .combo-tag{font-size:11px;color:#8a7480;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:8px;}
+  .combo-card button{
+    border:none;background:var(--accent);color:#fff;font-size:12px;
+    padding:6px 12px;border-radius:16px;cursor:pointer;font-weight:700;
+  }
+  .combo-card button:active{background:var(--accent-dark);}
+
+  .chart-card{
+    background:#fff;border:1px solid var(--line);border-radius:16px;
+    padding:20px;margin-top:20px;
+  }
+  .chart-card h3{font-size:15px;margin:0 0 12px;color:#3a3a36;}
+  .chart-wrap{max-width:100%;height:260px;}
+
+  .example-table{width:100%;border-collapse:collapse;margin:18px 0;font-size:14px;}
+  .example-table th, .example-table td{
+    border:1px solid var(--line);padding:10px 12px;text-align:left;
+  }
+  .example-table th{background:#f1efe9;font-weight:700;}
+  .example-table tr:nth-child(even){background:#fbfaf7;}
+
+  .info{margin:36px 0 32px;max-width:78ch;}
+  .info h2{font-size:22px;margin:36px 0 12px;color:#0f172a;}
+  .info h2:first-child{margin-top:0;}
+  .info h3{font-size:17px;margin:22px 0 8px;}
+  .info p{color:#3a3a36;margin:0 0 12px;}
+  .info ul, .info ol{color:#3a3a36;padding-left:22px;margin:0 0 14px;}
+  .info li{margin-bottom:8px;}
+
+  .faq-item{border-bottom:1px solid var(--line);padding:16px 0;}
+  .faq-q{font-weight:700;color:#0f172a;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-size:16px;}
+  .faq-a{color:#57574f;margin-top:10px;display:none;font-size:14.5px;}
+  .faq-a.show{display:block;}
+
+  .related h2{font-size:18px;margin-bottom:12px;}
+  .related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;}
+  .related-grid a{
+    display:block;background:#fff;border:1px solid var(--line);border-radius:9px;
+    padding:12px 14px;color:var(--ink);font-size:14px;font-weight:600;
+  }
+  .related-grid a:hover{border-color:var(--accent);text-decoration:none;color:var(--accent-dark);}
+  .related-grid a small{display:block;font-weight:400;color:#6b6b66;font-size:12px;margin-top:3px;}
+
+  footer{border-top:1px solid var(--line);margin-top:40px;}
+
+  @media (max-width:600px){
+    .hero-graphic{display:none;}
+    h1{font-size:22px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">Toolvala<span>.in</span></div>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/couple-name-combiner.html">Couple Name Combiner</a>
+  </nav>
+</header>
+
+<main>
+  <div class="hero">
+    <div class="hero-text">
+      <h1>Couple Name Combiner - Blend Two Names Instantly</h1>
+      <p class="lead">Combine your name with your partner's into a fun, unique couple nickname or ship name in one tap - free, instant, and no signup needed.</p>
+    </div>
+    <svg class="hero-graphic" viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="58" cy="75" r="42" fill="#f3c6d8" opacity="0.9"/>
+      <circle cx="96" cy="75" r="42" fill="#bfe3cf" opacity="0.75"/>
+      <text x="75" y="82" font-size="28" font-weight="800" text-anchor="middle" fill="#1b1f23" font-family="Segoe UI, Arial, sans-serif">+</text>
+    </svg>
+  </div>
+
+  <!-- AdSense ad unit -->
+  <div class="ad-slot">
+    <div class="ad-label">Advertisement</div>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-4402681434316955"
+         data-ad-slot="3427864418"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+  <div class="tool-card">
+    <div class="input-row">
+      <div class="input-group">
+        <label for="name1">Your Name</label>
+        <input type="text" id="name1" placeholder="e.g. Aarav" maxlength="30">
+      </div>
+      <div class="input-group">
+        <label for="name2">Partner's Name</label>
+        <input type="text" id="name2" placeholder="e.g. Isha" maxlength="30">
+      </div>
+    </div>
+
+    <button type="button" class="combine-btn" id="combineBtn">Combine Names</button>
+    <div class="status-msg" id="statusMsg"></div>
+
+    <div class="results" id="results">
+      <h3>Your Couple Name Ideas</h3>
+      <div class="combo-grid" id="comboGrid"></div>
+    </div>
+  </div>
+
+  <div class="chart-card" id="chartCard" style="display:none;">
+    <h3>Couple Name Length Comparison (Example Chart)</h3>
+    <div class="chart-wrap">
+      <canvas id="lengthChart"></canvas>
+    </div>
+  </div>
+
+  <section class="info">
+    <h2>1. What Is a Couple Name Combiner?</h2>
+    <p>A couple name combiner is a small piece of text logic that takes two names - most often you and your partner's - and merges them into a brand-new word, usually by blending sounds, syllables, or letters from each. The result is often called a "ship name," a portmanteau couple name, or simply a "combo name." You've probably seen the idea before without realizing it had a name: celebrity couple nicknames are the most famous example, and the same technique works just as well for your own relationship.</p>
+    <p>Toolvala's Couple Name Combiner automates this process. Type in your name and your partner's, tap a button, and the tool instantly generates several blended options using different combination patterns. It works entirely in your browser - no signup, no app download, and no data sent anywhere.</p>
+
+    <h2>2. Why Couples Combine Their Names</h2>
+    <p>A shared couple name isn't just a novelty - it serves a few genuinely popular purposes, which is part of why the trend has stuck around for decades:</p>
+    <ul>
+      <li><strong>Social media bios and captions:</strong> A shared "ship name" is a lighthearted way for two people to mark their relationship publicly, often used in Instagram bios or anniversary posts.</li>
+      <li><strong>Wedding hashtags:</strong> Many couples turn their combined name into a personalized hashtag for guests to use throughout the wedding celebration.</li>
+      <li><strong>Nicknames between friends:</strong> The people around a couple often start using the blended name casually, since it's shorter and catchier than saying both full names every time.</li>
+      <li><strong>A fun way to mark a relationship milestone:</strong> Anniversaries, engagements, or moving in together are common moments people generate a couple name just for fun.</li>
+      <li><strong>Usernames and handles:</strong> A blended couple name can double as a unique, memorable shared account handle when a plain name is already taken.</li>
+    </ul>
+
+    <h2>3. How the Name Combiner Works</h2>
+    <p>Behind the scenes, the tool applies a handful of well-tested blending patterns to your two input names and returns the ones that sound the most natural. Here's a plain-language walkthrough of the logic:</p>
+    <ol>
+      <li><strong>Clean the input:</strong> Extra spaces are trimmed, and the first letter of each name is capitalized automatically.</li>
+      <li><strong>Split each name near its middle:</strong> Every name is broken into a "head" (the first portion) and a "tail" (the remaining portion), roughly around its midpoint, adjusted slightly so the split doesn't land awkwardly on a single letter.</li>
+      <li><strong>Recombine head and tail:</strong> The head of Name A is joined with the tail of Name B, and vice versa. This is the classic portmanteau technique - think of how "brunch" comes from "breakfast" + "lunch."</li>
+      <li><strong>Try alternate splits:</strong> Because a fixed 50/50 split doesn't always sound natural, the tool also tries a slightly shorter head from Name A with a slightly longer tail from Name B, and the reverse, to produce more listenable variations.</li>
+      <li><strong>Full merge:</strong> One option simply appends the full second name onto the first, which sometimes works better for very short names.</li>
+      <li><strong>Filter and rank:</strong> Duplicate or empty combinations are removed, and the results are displayed as tappable cards you can copy in one click.</li>
+    </ol>
+    <p>This is deterministic logic - not random generation - so the same two names will always produce the same set of suggestions, which is useful if you want to bookmark or share a specific result.</p>
+
+    <h2>4. Example: Combining Everyday Names</h2>
+    <p>To see the pattern in action, here's a sample table showing how a few example name pairs blend together using the head-and-tail method described above. These are illustrative examples using common first names, not references to any real or public individuals.</p>
+    <table class="example-table">
+      <tr><th>Name A</th><th>Name B</th><th>Blend Option 1</th><th>Blend Option 2</th></tr>
+      <tr><td>Rohan</td><td>Priya</td><td>Rohya</td><td>Prihan</td></tr>
+      <tr><td>Alex</td><td>Maria</td><td>Alaria</td><td>Marex</td></tr>
+      <tr><td>Kabir</td><td>Naina</td><td>Kaina</td><td>Nabir</td></tr>
+      <tr><td>Sam</td><td>Jordan</td><td>Samdan</td><td>Jorsam</td></tr>
+      <tr><td>Diya</td><td>Arjun</td><td>Diyarjun</td><td>Ardiya</td></tr>
+    </table>
+    <p>Notice how some blends flow more naturally than others - this is exactly why the tool generates multiple options per pair instead of just one. You can quickly scan the list and pick whichever sounds best to your ear, since "natural-sounding" is ultimately subjective.</p>
+
+    <h2>5. Different Ways Couples Use a Combined Name</h2>
+    <p>The same blended result can serve a few different purposes depending on where you plan to use it:</p>
+    <h3>As a Playful Nickname</h3>
+    <p>For everyday use between just the two of you or with close friends, playfulness matters more than pronounceability. A slightly quirky or funny-sounding blend is often preferred, since it's meant to be shared casually rather than used formally.</p>
+    <h3>As a Wedding Hashtag</h3>
+    <p>For a wedding hashtag, clarity matters more - guests need to be able to read, remember, and spell it correctly in a caption. Shorter, cleaner blends tend to work better here than longer or more unusual ones.</p>
+    <h3>As a Shared Social Handle</h3>
+    <p>For a joint social media account or username, uniqueness is the priority, since the handle needs to be available and easy to search for. Trying both name orders (Name A + Name B and Name B + Name A) often reveals one option that's both more available and more memorable.</p>
+
+    <h2>6. Tips for Choosing the Best Couple Name</h2>
+    <ul>
+      <li>Say each option out loud - names that look fine written down sometimes sound awkward spoken.</li>
+      <li>Try both input orders (swap which name goes first) since the tool's blends depend on word order.</li>
+      <li>Shorter names tend to blend more cleanly than very long ones - if a result feels clunky, try a nickname instead of a full name.</li>
+      <li>Check that the result doesn't accidentally spell out an unrelated word before using it publicly.</li>
+      <li>If you're using it as a hashtag, do a quick search to see whether another couple is already using the same combination.</li>
+    </ul>
+
+    <h2>7. The History of Name Blending</h2>
+    <p>Blending words together is far from a new idea. The linguistic term "portmanteau" was popularized by Lewis Carroll in the 19th century to describe words like "slithy" (slimy + lithe). Long before internet tools existed, this same wordplay shaped everyday vocabulary - "brunch," "smog," and "motel" are all portmanteaus that entered common language decades ago. Combining couples' names specifically became widespread with the rise of celebrity gossip culture and, later, social media, where a short, catchy identifier spreads faster than two full names ever could.</p>
+
+    <h2>8. More Examples of Couple Name Blends</h2>
+    <p>Couple names (sometimes called "ship names" or "portmanteau couple names") are usually meant to be shared casually - in a social media bio, a group chat nickname, or a wedding hashtag. Because they're informal, there's more room to experiment with unusual or funny-sounding blends. A few extra examples of the pattern:</p>
+    <table class="example-table">
+      <tr><th>Partner 1</th><th>Partner 2</th><th>Blend A + B</th><th>Blend B + A</th></tr>
+      <tr><td>Neha</td><td>Vikram</td><td>Nehram</td><td>Vikha</td></tr>
+      <tr><td>Chris</td><td>Taylor</td><td>Chrylor</td><td>Tayris</td></tr>
+      <tr><td>Farhan</td><td>Zoya</td><td>Farhoya</td><td>Zoyhan</td></tr>
+    </table>
+    <p>Friendship pairs work exactly the same way - many people use a combined nickname to represent a close friendship, similar to how sports fans coin a team-specific term for die-hard supporters.</p>
+
+    <h2>9. Common Mistakes to Avoid When Combining Names</h2>
+    <p>Name blending looks simple, but a few small oversights can make a result feel off. Keep these in mind while you experiment:</p>
+    <ul>
+      <li><strong>Ignoring pronunciation:</strong> A blend that reads fine on screen can be genuinely awkward to say out loud - always test it verbally before settling on one.</li>
+      <li><strong>Not trying both name orders:</strong> Because the head of the first name is joined to the tail of the second, swapping which name goes first almost always produces a very different result. Always check both directions.</li>
+      <li><strong>Overlooking unintended words:</strong> Occasionally a blend accidentally spells or sounds like an unrelated, unflattering word. A quick read-through before using it publicly avoids this.</li>
+      <li><strong>Using very long names without shortening them:</strong> Long names tend to produce long, clunky blends. Try a nickname or shortened version of one name (for example, "Alexandra" → "Alex") for a cleaner result.</li>
+      <li><strong>Settling on the first result:</strong> The tool generates up to eight options specifically because the second or third one is often more natural-sounding than the first - it's worth scanning the whole set.</li>
+    </ul>
+
+    <h2>10. Manual Blending vs Using This Tool</h2>
+    <p>You can absolutely combine two names by hand - it's just a matter of writing out both names and trying different letter splits until something clicks. The main reason to use an automated tool instead is speed and coverage: this Name Combiner tries multiple split ratios and both name orders in the time it takes to type the names once, producing up to eight distinct options in a single tap. Manually, most people only try one or two combinations before settling, simply because trying every reasonable split by hand is tedious. The tool doesn't replace your judgment about which result sounds best - it just removes the repetitive part of generating the raw candidates, so you can spend your time picking a favorite instead of constructing each option letter by letter.</p>
+
+    <h2>11. Cultural Variations in Couple Name Blending</h2>
+    <p>Couple name blending shows up differently across cultures. In Western pop culture, couple portmanteau names became especially popular through celebrity gossip media, where a two-person blend is simply faster to write and remember than two full names side by side. On social media more broadly, a shared couple handle or hashtag has become a common way to mark a relationship publicly - especially around engagements and weddings, where a memorable combined name helps friends and family find and follow along with photos and updates. None of this changes the underlying mechanic - splitting and rejoining two names - but it does explain why the "best" result often depends on where you plan to use it, not just on how it sounds in isolation.</p>
+
+    <h2>12. Step-by-Step: Getting the Best Couple Name in Under a Minute</h2>
+    <p>If you want to move quickly and still land on a result you'll actually want to use, follow this short process rather than just reading the first suggestion that appears:</p>
+    <ol>
+      <li><strong>Enter both names exactly as you'd normally say them.</strong> Use first names rather than full legal names for a cleaner blend - nicknames often work better than formal names.</li>
+      <li><strong>Tap Combine Names once.</strong> The tool immediately returns up to eight options, generated from three different split ratios in both name orders, plus two full-merge variations.</li>
+      <li><strong>Scan the whole grid before picking one.</strong> It's tempting to stop at the first result, but the second or third option is very often the more natural-sounding one - the tool intentionally shows several so you can compare them side by side.</li>
+      <li><strong>Say your top two or three choices out loud.</strong> This single step catches almost every awkward blend before it becomes your everyday couple nickname.</li>
+      <li><strong>Swap the name order and re-run it if nothing feels right.</strong> Entering Name B first and Name A second produces a genuinely different set of results, not just the same list reversed - it's worth the extra ten seconds.</li>
+      <li><strong>Tap Copy on your favorite.</strong> The result is copied straight to your clipboard, ready to paste into a text message, a bio, or a wedding hashtag graphic.</li>
+    </ol>
+    <p>The whole cycle - entering names, reviewing results, and copying a favorite - typically takes well under a minute, which is the entire point of automating what used to be a pen-and-paper exercise.</p>
+
+    <h2>13. Privacy, Accuracy, and Why the Chart Is Included</h2>
+    <p>Because a couple name can feel personal, it's worth being explicit about what this tool does and doesn't do with what you type. Every combination is generated using plain JavaScript running directly in your browser tab. There is no server-side processing step, no database write, and no analytics event tied to the specific names you enter - the page's analytics tracking only records that the Couple Name Combiner page was visited, the same as it would for any other page on Toolvala.in. Closing or refreshing the tab clears everything you typed; nothing persists between visits.</p>
+    <p>The bar chart shown underneath your results plots the character length of each generated combination, purely as a quick visual way to compare option lengths at a glance - a shorter bar generally means an easier-to-say, easier-to-type result, which is especially handy if you're picking a name for a hashtag or handle. It's a lightweight, illustrative chart rather than a statistical analysis, and it updates automatically every time you generate a new set of combinations.</p>
+
+    <h2>14. Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <div class="faq-q" data-faq="0">Is the Couple Name Combiner free to use? <span>▼</span></div>
+      <div class="faq-a" id="faq-0">Yes, it's completely free with no sign-up, no limits on how many times you use it, and no watermark on the results.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" data-faq="1">Can I combine more than two names at once? <span>▼</span></div>
+      <div class="faq-a" id="faq-1">Currently the tool blends two names per run. For a three-way blend, combine the first two names, then run the result through the tool again with the third name.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" data-faq="2">Are the results random? <span>▼</span></div>
+      <div class="faq-a" id="faq-2">No, the results are generated using a fixed set of blending patterns, so the same two names will always produce the same list of combinations.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" data-faq="3">Does it store the names I enter? <span>▼</span></div>
+      <div class="faq-a" id="faq-3">No. All blending happens locally in your browser using JavaScript - nothing you type is sent to or saved on Toolvala's servers.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" data-faq="4">Do you have a separate tool for baby names or business names? <span>▼</span></div>
+      <div class="faq-a" id="faq-4">Dedicated tools for baby names, business names, usernames, and more are coming soon to Toolvala.in - see the list below.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" data-faq="5">Can I use the combined name as a business name? <span>▼</span></div>
+      <div class="faq-a" id="faq-5">This tool is tuned for couple names, so results may not fit brand-naming needs like domain or trademark availability. A dedicated Business Name Combiner is planned for that purpose.</div>
+    </div>
+
+    <h2>15. Final Thoughts</h2>
+    <p>A great couple name starts from a simple question: what do you get when you put two names together? This tool exists to answer that question instantly, from as many reasonable angles as possible, so you're choosing from a full set of natural-sounding options rather than the one combination you happened to think of first. Try a few different name orders, read your favorites out loud, and use the chart to compare how long each option runs before you settle on one. And since everything runs locally in your browser, you're free to experiment with as many name pairs as you like, for as long as you like, without ever creating an account.</p>
+  </section>
+
+  <section class="related">
+    <h2>More Name Combiners Coming Soon</h2>
+    <p style="color:#57574f;font-size:14px;margin-bottom:14px;max-width:70ch;">This tool is dedicated to couple names. Purpose-built combiners for these use cases are on the way:</p>
+    <div class="related-grid">
+      <div style="padding:12px 14px;background:#fbfaf7;border:1px dashed var(--line);border-radius:9px;font-size:14px;font-weight:600;color:#6b6b66;">👶 Baby Name Combiner</div>
+      <div style="padding:12px 14px;background:#fbfaf7;border:1px dashed var(--line);border-radius:9px;font-size:14px;font-weight:600;color:#6b6b66;">🏷️ Business Name Combiner</div>
+      <div style="padding:12px 14px;background:#fbfaf7;border:1px dashed var(--line);border-radius:9px;font-size:14px;font-weight:600;color:#6b6b66;">🎮 Username Combiner</div>
+      <div style="padding:12px 14px;background:#fbfaf7;border:1px dashed var(--line);border-radius:9px;font-size:14px;font-weight:600;color:#6b6b66;">📱 Instagram Name Combiner</div>
+      <div style="padding:12px 14px;background:#fbfaf7;border:1px dashed var(--line);border-radius:9px;font-size:14px;font-weight:600;color:#6b6b66;">💍 Wedding Hashtag Generator</div>
+      <div style="padding:12px 14px;background:#fbfaf7;border:1px dashed var(--line);border-radius:9px;font-size:14px;font-weight:600;color:#6b6b66;">🐶 Pet Name Combiner</div>
+      <div style="padding:12px 14px;background:#fbfaf7;border:1px dashed var(--line);border-radius:9px;font-size:14px;font-weight:600;color:#6b6b66;">👨‍👩‍👧 Family Name Combiner</div>
+      <div style="padding:12px 14px;background:#fbfaf7;border:1px dashed var(--line);border-radius:9px;font-size:14px;font-weight:600;color:#6b6b66;">🎮 Gaming Name Combiner</div>
+      <div style="padding:12px 14px;background:#fbfaf7;border:1px dashed var(--line);border-radius:9px;font-size:14px;font-weight:600;color:#6b6b66;">💻 Brand Name Generator</div>
+    </div>
+  </section>
+
+  <section class="related">
+    <h2>Related tools on Toolvala.in</h2>
+    <div class="related-grid">
+      <a href="/qr-code-scanner.html">QR Code Scanner<small>Scan QR codes with camera or upload</small></a>
+      <a href="/math-solver.html">Math Solver<small>Scientific calculator for quick math</small></a>
+      <a href="/scientific-calculator.html">Scientific Calculator<small>Basic, scientific and graphing modes</small></a>
+      <a href="/percentage-calculator.html">Percentage Calculator<small>Find percentages, increases and discounts</small></a>
+      <a href="/age-calculator.html">Age Calculator<small>Calculate exact age from date of birth</small></a>
+      <a href="/random-object-generator.html">Random Object Generator<small>Get a random object for games and prompts</small></a>
+    </div>
+  </section>
+</main>
+
+<div id="footer"></div>
+
+<script>
+fetch("/footer.html")
+  .then(response => response.text())
+  .then(data => {
+    document.getElementById("footer").innerHTML = data;
+    var yearSpan = document.getElementById("year");
+    if (yearSpan) {
+      yearSpan.textContent = new Date().getFullYear();
+    }
+  });
+</script>
+
+<script>
+(function(){
+  var name1El = document.getElementById('name1');
+  var name2El = document.getElementById('name2');
+  var combineBtn = document.getElementById('combineBtn');
+  var statusMsg = document.getElementById('statusMsg');
+  var results = document.getElementById('results');
+  var comboGrid = document.getElementById('comboGrid');
+  var chartCard = document.getElementById('chartCard');
+  var chartInstance = null;
+
+  function cleanName(n){
+    return n.trim().replace(/\s+/g, ' ');
+  }
+
+  function cap(s){
+    if(!s) return s;
+    return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
+  }
+
+  function splitAt(word, ratio){
+    var idx = Math.max(1, Math.min(word.length - 1, Math.round(word.length * ratio)));
+    return { head: word.slice(0, idx), tail: word.slice(idx) };
+  }
+
+  function generateCombos(a, b){
+    a = cap(cleanName(a));
+    b = cap(cleanName(b));
+    if(!a || !b) return [];
+
+    var combos = [];
+    var ratios = [0.5, 0.4, 0.6];
+
+    ratios.forEach(function(r){
+      var sa = splitAt(a, r);
+      var sb = splitAt(b, r);
+      combos.push({ name: cap(sa.head + sb.tail.toLowerCase()), tag: "Blend A + B" });
+      combos.push({ name: cap(sb.head + sa.tail.toLowerCase()), tag: "Blend B + A" });
+    });
+
+    combos.push({ name: cap(a + b.toLowerCase()), tag: "Full Merge" });
+    combos.push({ name: cap(b + a.toLowerCase()), tag: "Full Merge (reverse)" });
+
+    // De-duplicate while preserving order
+    var seen = {};
+    var unique = [];
+    combos.forEach(function(c){
+      var key = c.name.toLowerCase();
+      if(!seen[key] && c.name.length > 1){
+        seen[key] = true;
+        unique.push(c);
+      }
+    });
+    return unique.slice(0, 8);
+  }
+
+  function renderCombos(combos){
+    comboGrid.innerHTML = "";
+    combos.forEach(function(c){
+      var card = document.createElement('div');
+      card.className = 'combo-card';
+
+      var nameEl = document.createElement('div');
+      nameEl.className = 'combo-name';
+      nameEl.textContent = c.name;
+
+      var tagEl = document.createElement('div');
+      tagEl.className = 'combo-tag';
+      tagEl.textContent = c.tag;
+
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = 'Copy';
+      btn.addEventListener('click', function(){
+        navigator.clipboard.writeText(c.name).then(function(){
+          btn.textContent = 'Copied!';
+          setTimeout(function(){ btn.textContent = 'Copy'; }, 1200);
+        }).catch(function(){});
+      });
+
+      card.appendChild(nameEl);
+      card.appendChild(tagEl);
+      card.appendChild(btn);
+      comboGrid.appendChild(card);
+    });
+  }
+
+  function renderChart(combos){
+    chartCard.style.display = 'block';
+    var ctx = document.getElementById('lengthChart').getContext('2d');
+    var labels = combos.map(function(c){ return c.name; });
+    var data = combos.map(function(c){ return c.name.length; });
+
+    if(chartInstance) chartInstance.destroy();
+    chartInstance = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Character length',
+          data: data,
+          backgroundColor: '#c2477a',
+          borderRadius: 6
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          y: { beginAtZero: true, ticks: { stepSize: 1 } }
+        }
+      }
+    });
+  }
+
+  combineBtn.addEventListener('click', function(){
+    statusMsg.classList.remove('show');
+    var a = name1El.value;
+    var b = name2El.value;
+    if(!cleanName(a) || !cleanName(b)){
+      statusMsg.textContent = "Please enter both names to combine.";
+      statusMsg.classList.add('show');
+      results.classList.remove('show');
+      chartCard.style.display = 'none';
+      return;
+    }
+    var combos = generateCombos(a, b);
+    if(combos.length === 0){
+      statusMsg.textContent = "Couldn't generate combinations - try different names.";
+      statusMsg.classList.add('show');
+      return;
+    }
+    renderCombos(combos);
+    renderChart(combos);
+    results.classList.add('show');
+  });
+
+  // FAQ toggle
+  document.querySelectorAll('.faq-q').forEach(function(q){
+    q.addEventListener('click', function(){
+      var id = q.getAttribute('data-faq');
+      var a = document.getElementById('faq-' + id);
+      a.classList.toggle('show');
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
