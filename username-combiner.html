@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Username Combiner Online - Generate Unique Usernames Free | Toolvala.in</title>
+<meta name="description" content="Free online Username Combiner. Blend two words or names into unique username ideas in lowercase, underscore, and camelCase styles instantly. Copy your favorite in one tap.">
+<meta name="keywords" content="username combiner, username generator, combine two names username, unique username ideas, gaming username generator, cool username generator, toolvala username combiner">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.toolvala.in/username-combiner.html">
+
+<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<link rel="manifest" href="/site.webmanifest" />
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8GTQC904G1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-8GTQC904G1');
+</script>
+
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4402681434316955"
+     crossorigin="anonymous"></script>
+
+<!-- JSON-LD Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Username Combiner",
+  "url": "https://www.toolvala.in/username-combiner.html",
+  "description": "Blend two words or names into unique username ideas in multiple styles instantly.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "All",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+  :root{
+    --ink:#1b1f23;
+    --paper:#f7f5f0;
+    --accent:#6d28d9;
+    --accent-dark:#521ea8;
+    --line:#e5e0f0;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:'Segoe UI',Roboto,Arial,sans-serif;background:var(--paper);color:var(--ink);line-height:1.7;}
+  a{color:var(--accent-dark);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+
+  header{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:var(--ink);border-bottom:3px solid var(--accent);}
+  .brand{font-size:22px;font-weight:800;color:#fff;}
+  .brand span{color:var(--accent);}
+  nav a{color:#e6e6e6;margin-left:18px;font-size:14px;font-weight:600;}
+  nav a:hover{color:#fff;}
+
+  main{max-width:960px;margin:0 auto;padding:28px 16px 60px;}
+
+  .hero{display:flex;align-items:center;gap:24px;margin-bottom:20px;flex-wrap:wrap;}
+  .hero-text{flex:1;min-width:260px;}
+  h1{font-size:28px;margin:0 0 8px;}
+  .lead{color:#4a4a46;margin:0;max-width:60ch;}
+  .hero-graphic{width:150px;height:150px;flex-shrink:0;}
+
+  .ad-slot{margin:26px 0;text-align:center;}
+  .ad-label{font-size:11px;color:#8a877f;margin-bottom:4px;letter-spacing:0.5px;}
+
+  .tool-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:0 10px 26px rgba(0,0,0,0.06);margin-bottom:14px;}
+
+  .input-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px;}
+  .input-group{flex:1;min-width:180px;}
+  .input-group label{display:block;font-size:12px;font-weight:700;color:#6b6b66;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.4px;}
+  .input-group input{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:10px;font-size:16px;background:#fbfaf9;color:var(--ink);}
+  .input-group input:focus{outline:2px solid var(--accent);border-color:var(--accent);}
+
+  .combine-btn{width:100%;padding:14px;border:none;border-radius:10px;background:var(--accent);color:#fff;font-weight:800;font-size:16px;cursor:pointer;}
+  .combine-btn:active{background:var(--accent-dark);}
+
+  .status-msg{margin-top:10px;font-size:13px;color:#a33;display:none;}
+  .status-msg.show{display:block;}
+
+  .results{margin-top:20px;display:none;}
+  .results.show{display:block;}
+  .results h3{font-size:15px;margin:0 0 4px;color:#3a3a36;}
+  .results-sub{font-size:12px;color:#8a8494;margin-bottom:12px;}
+  .combo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;}
+  .combo-card{background:#f4eefc;border:1px solid #ddccf3;border-radius:12px;padding:14px;text-align:center;}
+  .combo-name{font-size:16px;font-weight:800;color:var(--accent-dark);margin-bottom:6px;word-break:break-word;font-family:'Consolas',monospace;}
+  .combo-tag{font-size:11px;color:#7c6f92;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:8px;}
+  .combo-card button{border:none;background:var(--accent);color:#fff;font-size:12px;padding:6px 12px;border-radius:16px;cursor:pointer;font-weight:700;}
+  .combo-card button:active{background:var(--accent-dark);}
+
+  .chart-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;margin-top:20px;}
+  .chart-card h3{font-size:15px;margin:0 0 12px;color:#3a3a36;}
+  .chart-wrap{max-width:100%;height:260px;}
+
+  .example-table{width:100%;border-collapse:collapse;margin:18px 0;font-size:14px;}
+  .example-table th, .example-table td{border:1px solid var(--line);padding:10px 12px;text-align:left;}
+  .example-table th{background:#f4eefc;font-weight:700;}
+  .example-table tr:nth-child(even){background:#fbfaf9;}
+  .example-table code{background:#efe7fb;padding:2px 6px;border-radius:4px;font-size:13px;}
+
+  .info{margin:36px 0 32px;max-width:78ch;}
+  .info h2{font-size:22px;margin:36px 0 12px;color:#0f172a;}
+  .info h2:first-child{margin-top:0;}
+  .info h3{font-size:17px;margin:22px 0 8px;}
+  .info p{color:#3a3a36;margin:0 0 12px;}
+  .info ul, .info ol{color:#3a3a36;padding-left:22px;margin:0 0 14px;}
+  .info li{margin-bottom:8px;}
+
+  .faq-item{border-bottom:1px solid var(--line);padding:16px 0;}
+  .faq-q{font-weight:700;color:#0f172a;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-size:16px;}
+  .faq-a{color:#57574f;margin-top:10px;display:none;font-size:14.5px;}
+  .faq-a.show{display:block;}
+
+  .related h2{font-size:18px;margin-bottom:12px;}
+  .related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;}
+  .related-grid a{display:block;background:#fff;border:1px solid var(--line);border-radius:9px;padding:12px 14px;color:var(--ink);font-size:14px;font-weight:600;}
+  .related-grid a:hover{border-color:var(--accent);text-decoration:none;color:var(--accent-dark);}
+  .related-grid a small{display:block;font-weight:400;color:#6b6b66;font-size:12px;margin-top:3px;}
+
+  footer{border-top:1px solid var(--line);margin-top:40px;}
+
+  @media (max-width:600px){.hero-graphic{display:none;}h1{font-size:22px;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">Toolvala<span>.in</span></div>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/username-combiner.html">Username Combiner</a>
+  </nav>
+</header>
+
+<main>
+  <div class="hero">
+    <div class="hero-text">
+      <h1>Username Combiner - Generate Unique Usernames</h1>
+      <p class="lead">Blend two words or names into unique username ideas, shown instantly in lowercase, underscore_case and camelCase styles. Free, instant, no signup.</p>
+    </div>
+    <svg class="hero-graphic" viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg">
+      <rect x="25" y="35" width="100" height="30" rx="8" fill="#dcc9f7" opacity="0.9"/>
+      <rect x="25" y="70" width="100" height="30" rx="8" fill="#b79bea" opacity="0.85"/>
+      <text x="75" y="59" font-size="16" font-weight="700" text-anchor="middle" fill="#1b1f23" font-family="Consolas, monospace">@usr</text>
+      <text x="75" y="94" font-size="16" font-weight="700" text-anchor="middle" fill="#1b1f23" font-family="Consolas, monospace">_v2</text>
+    </svg>
+  </div>
+
+  <!-- AdSense ad unit -->
+  <div class="ad-slot">
+    <div class="ad-label">Advertisement</div>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-4402681434316955"
+         data-ad-slot="3427864418"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+  <div class="tool-card">
+    <div class="input-row">
+      <div class="input-group">
+        <label for="word1">First Word or Name</label>
+        <input type="text" id="word1" placeholder="e.g. Shadow" maxlength="30">
+      </div>
+      <div class="input-group">
+        <label for="word2">Second Word or Name</label>
+        <input type="text" id="word2" placeholder="e.g. Falcon" maxlength="30">
+      </div>
+    </div>
+    <button type="button" class="combine-btn" id="combineBtn">Generate Usernames</button>
+    <div class="status-msg" id="statusMsg"></div>
+
+    <div class="results" id="results">
+      <h3>Your Username Ideas</h3>
+      <div class="results-sub">Shown in lowercase, underscore_case and camelCase - tap Copy on whichever style you prefer.</div>
+      <div class="combo-grid" id="comboGrid"></div>
+    </div>
+  </div>
+
+  <div class="chart-card" id="chartCard" style="display:none;">
+    <h3>Username Length Comparison (Example Chart)</h3>
+    <div class="chart-wrap"><canvas id="lengthChart"></canvas></div>
+  </div>
+
+  <section class="info">
+    <h2>1. What Is a Username Combiner?</h2>
+    <p>A username combiner takes two words or names and blends them into a new, shorter word - the same portmanteau technique behind everyday words like "brunch" (breakfast + lunch). Applied to usernames, this produces handles that are unique enough to actually be available, while still meaning something to you personally, unlike a name followed by a string of random digits.</p>
+    <p>Toolvala's Username Combiner automates this blending step and then formats every result in three common username styles at once - plain lowercase, underscore_case, and camelCase - so you can immediately see which format fits the platform you're signing up for.</p>
+
+    <h2>2. Why a Blended Username Beats Random Numbers</h2>
+    <ul>
+      <li><strong>It's easier to remember:</strong> A blend built from two words you chose is far easier to recall than "yourname8827," which you'll likely forget within a week.</li>
+      <li><strong>It's more likely to be available:</strong> Popular single words are almost always taken on major platforms. A blended word is inherently less common.</li>
+      <li><strong>It says something about you:</strong> Combining a word tied to a hobby, a pet, or a favorite theme with your name produces a handle with actual personality, rather than an arbitrary string.</li>
+      <li><strong>It stays consistent across platforms:</strong> A blended word is short enough to reuse as-is (or with minor formatting changes) across gaming, social, and email platforms, which helps people find and recognize you consistently.</li>
+    </ul>
+
+    <h2>3. How the Username Combiner Works</h2>
+    <ol>
+      <li><strong>Clean the input:</strong> Extra spaces are trimmed from both words.</li>
+      <li><strong>Split each word near its middle:</strong> Every word is broken into a "head" and a "tail," with the split point adjusted so it doesn't land on a single awkward letter.</li>
+      <li><strong>Recombine head and tail:</strong> The head of Word A joins the tail of Word B, and vice versa.</li>
+      <li><strong>Try alternate split ratios:</strong> The tool also tries a shorter head with a longer tail, and the reverse, to produce more options.</li>
+      <li><strong>Full merge:</strong> One option simply appends the full second word onto the first.</li>
+      <li><strong>Format three ways:</strong> Every unique blend is then rendered in lowercase (<code>shadowcon</code>), underscore_case (<code>shadow_con</code> is not generated automatically, rather the blend itself split at the same point, e.g. <code>shad_owcon</code>), and camelCase (<code>ShadowCon</code>), so you have ready-to-use variants without retyping anything.</li>
+    </ol>
+    <p>This is deterministic logic, not random generation - the same two words will always produce the same set of usernames.</p>
+
+    <h2>4. Example: Turning Two Words Into a Username</h2>
+    <table class="example-table">
+      <tr><th>Word A</th><th>Word B</th><th>Lowercase</th><th>camelCase</th></tr>
+      <tr><td>Shadow</td><td>Falcon</td><td><code>shadowlcon</code></td><td><code>ShadowFalcon</code></td></tr>
+      <tr><td>Pixel</td><td>Storm</td><td><code>pixorm</code></td><td><code>PixelStorm</code></td></tr>
+      <tr><td>Nova</td><td>Byte</td><td><code>novyte</code></td><td><code>NovaByte</code></td></tr>
+      <tr><td>Echo</td><td>Ranger</td><td><code>echanger</code></td><td><code>EchoRanger</code></td></tr>
+    </table>
+    <p>Notice that the camelCase version is always the cleanest to read at a glance, since it preserves both source words in full - useful for display names - while the blended lowercase version is shorter and more unique, better suited for an actual handle where character count or availability matters more than readability.</p>
+
+    <h2>5. Choosing Words That Make a Good Username</h2>
+    <h3>Pull From Something Personal</h3>
+    <p>The strongest usernames usually combine something personal - a hobby, a favorite game genre, a pet's name, a color you like - with your own name or nickname. This keeps the result meaningful to you specifically, rather than a name that could belong to anyone.</p>
+    <h3>Keep Both Words Short</h3>
+    <p>Words under seven letters blend more cleanly and produce shorter final usernames, which matters on platforms with character limits or where shorter handles are simply easier to type when messaging or searching for someone.</p>
+    <h3>Think About Where You'll Use It</h3>
+    <p>A gaming username can be edgier and more stylized; a professional or portfolio username should stay clean and easy to say out loud in conversation. Decide the context before picking your favorite result.</p>
+
+    <h2>6. Username Styles Explained</h2>
+    <h3>Lowercase</h3>
+    <p>The most universal format, accepted almost everywhere - social platforms, email addresses, gaming services. When in doubt, lowercase is the safest default.</p>
+    <h3>underscore_case</h3>
+    <p>Common on platforms that don't support spaces but where readability matters, like Reddit, Discord, or email addresses. The underscore visually separates the two source words so the blend is easier to parse.</p>
+    <h3>CamelCase</h3>
+    <p>Popular for display names and gamer tags where capital letters help the two original words stand out clearly, even though the platform's actual stored username may still be lowercase underneath.</p>
+
+    <h2>7. Common Mistakes When Picking a Username</h2>
+    <ul>
+      <li><strong>Using a username tied to your birth year:</strong> A name plus your birth year is easy to guess and reveals your age - a blended word avoids this entirely.</li>
+      <li><strong>Making it too long:</strong> Many platforms cap username length, and even where they don't, a long handle is annoying for others to type when tagging or searching for you.</li>
+      <li><strong>Reusing a name across contexts you'd rather keep separate:</strong> If you want your gaming identity separate from your professional one, generate a distinct blend for each rather than reusing the same handle everywhere.</li>
+      <li><strong>Ignoring platform character rules:</strong> Some platforms only allow letters, numbers, periods, and underscores in a username - check before assuming a stylized result will be accepted as-is.</li>
+      <li><strong>Settling on the first result:</strong> The tool generates several options because the second or third one is often more natural-sounding - scan the whole set before picking.</li>
+    </ul>
+
+    <h2>8. Username Combiner vs Random Generators</h2>
+    <p>Many username generator tools work by appending random numbers or random adjectives to whatever you type in - which does produce something unique, but rarely something meaningful or memorable. This tool takes a different approach: instead of adding randomness, it recombines two words you already care about, using a fixed, repeatable blending pattern. That means the result is still deterministic and personal to your inputs, while automatically formatting it in three ready-to-use styles so you don't have to manually retype it as camelCase or underscore_case yourself.</p>
+
+    <h2>9. Username Ideas by Platform</h2>
+    <p>Different platforms favor slightly different username conventions, so it's worth tailoring the style you pick based on where you're actually signing up:</p>
+    <h3>Gaming Platforms (Steam, Xbox, PlayStation, Riot)</h3>
+    <p>Gaming handles tend to favor CamelCase or stylized lowercase blends that sound punchy when read aloud during a match. Character themes, weapon names, or elemental words (Shadow, Frost, Blaze) pair well with a personal word for a handle that feels distinctly yours.</p>
+    <h3>Discord and Reddit</h3>
+    <p>Both platforms commonly use underscore_case, since it keeps two-word blends readable without relying on capitalization, which can get lost depending on display settings.</p>
+    <h3>Professional Platforms (Email, LinkedIn-adjacent tools)</h3>
+    <p>For anything professional, plain lowercase - or a version closer to your real name - tends to read as more credible than a heavily stylized gaming-style handle. Save the more playful blends for platforms where personality matters more than professionalism.</p>
+    <h3>Aesthetic and Lifestyle Accounts</h3>
+    <p>Accounts built around a specific aesthetic (photography, art, journaling) often favor softer word pairs - nature words, color names, or mood words - blended in lowercase for a clean, minimal look.</p>
+
+    <h2>10. Username Theme Examples</h2>
+    <p>Here are a few more example word pairs grouped by common username themes, to help spark ideas beyond your own name:</p>
+    <table class="example-table">
+      <tr><th>Theme</th><th>Word A</th><th>Word B</th><th>Example Blend</th></tr>
+      <tr><td>Gaming</td><td>Rogue</td><td>Comet</td><td><code>roguemet</code></td></tr>
+      <tr><td>Nature / Aesthetic</td><td>Willow</td><td>Mist</td><td><code>willmist</code></td></tr>
+      <tr><td>Tech / Coding</td><td>Cipher</td><td>Byte</td><td><code>ciphyte</code></td></tr>
+      <tr><td>Music</td><td>Echo</td><td>Verse</td><td><code>echoverse</code></td></tr>
+      <tr><td>Anime / Fandom</td><td>Kitsune</td><td>Storm</td><td><code>kitsorm</code></td></tr>
+    </table>
+    <p>Swap in a word tied to your own interests - a favorite game genre, a color, an instrument, a character archetype - in place of Word A or Word B above to generate something more personally relevant.</p>
+
+    <h2>11. Should You Add Numbers or Symbols?</h2>
+    <p>If your favorite blended username is already taken, the usual fallback is tacking on a number - but a thoughtful number beats a random one. Consider using a number that means something to you (a favorite jersey number, a meaningful date's day or year, a lucky number) rather than a random digit string, since it's easier for you to remember and doesn't make the handle look like an auto-generated fallback. A short symbol like an underscore between the blended word and the number (for example, <code>echoverse_7</code>) usually reads more intentionally than the two mashed directly together.</p>
+
+
+    <h2>12. A Short History of the Username</h2>
+    <p>Usernames as we know them trace back to early multi-user computer systems in the 1960s and 70s, where a short login identifier was simply a practical necessity for telling one account apart from another. As bulletin board systems and early chat rooms grew through the 1980s and 90s, usernames took on a second role beyond login convenience - they became a chosen identity, often the very first piece of self-expression a person got to choose online. Gaming culture pushed this further in the 2000s, where a distinctive handle became part of a player's reputation within a community. Blended, portmanteau-style usernames grew popular for a simple reason: as more people joined more platforms, single common words became unavailable, and combining two personally meaningful words became one of the most reliable ways to land on something both unique and memorable.</p>
+
+    <h2>13. Cross-Platform Consistency: A Quick Checklist</h2>
+    <p>If you're setting up several new accounts at once - gaming, social, email - it's worth deciding your username strategy before you start signing up anywhere, rather than picking something different on each platform. A short checklist:</p>
+    <ul>
+      <li>Pick one core blended word from this tool that you're happy to use as your "anchor" identity.</li>
+      <li>Decide on a consistent style (lowercase, underscore_case, or camelCase) and stick with it across platforms where possible.</li>
+      <li>If the exact handle is taken somewhere, use the same fallback pattern everywhere (for example, always adding the same meaningful number) rather than a different workaround on each site.</li>
+      <li>Keep a private note of which exact variant you used where, especially if platform character rules forced small differences.</li>
+      <li>Avoid characters that look ambiguous in some fonts, like a lowercase "l" next to an uppercase "I" or the number "0" next to the letter "O," since these cause real confusion when someone tries to type your handle from memory.</li>
+    </ul>
+
+    <h2>14. Step-by-Step: From Two Words to a Ready Username</h2>
+    <ol>
+      <li><strong>Pick two words</strong> - your name plus a hobby or theme word works well, or two unrelated words you simply like the sound of together.</li>
+      <li><strong>Enter both and tap Generate.</strong> You'll instantly get several blended options, each shown in three formats.</li>
+      <li><strong>Scan the whole grid</strong> and pick a favorite blend - the chart underneath compares option lengths at a glance.</li>
+      <li><strong>Choose the style</strong> (lowercase, underscore_case, or camelCase) that matches the platform you're signing up for.</li>
+      <li><strong>Tap Copy</strong> and paste it straight into the signup form.</li>
+      <li><strong>If it's taken,</strong> swap the word order and regenerate - Word B first and Word A second produces a genuinely different set of results.</li>
+    </ol>
+
+    <h2>15. Privacy and How the Chart Works</h2>
+    <p>Every username on this page is generated using plain JavaScript running directly in your browser tab. There is no server-side processing step and no analytics event tied to the specific words you enter - the page's analytics tracking only records that the Username Combiner page was visited, the same as it would for any other page on Toolvala.in. Closing or refreshing the tab clears everything you typed; nothing persists between visits. The bar chart underneath your results plots the character length of each generated username, which is a quick way to spot the shortest options at a glance - handy for platforms with tight character limits.</p>
+
+    <h2>16. Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <div class="faq-q" data-faq="0">Is the Username Combiner free to use? <span>▼</span></div>
+      <div class="faq-a" id="faq-0">Yes, it's completely free with no sign-up, no usage limits, and no watermark on the results.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" data-faq="1">Does it check if a username is already taken? <span>▼</span></div>
+      <div class="faq-a" id="faq-1">No. The tool generates username ideas only - you'll need to check availability directly on whichever platform you're signing up for.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" data-faq="2">Can I combine more than two words? <span>▼</span></div>
+      <div class="faq-a" id="faq-2">Currently the tool blends two words per run. For a three-way blend, combine the first two words, then run the result through the tool again with the third word.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" data-faq="3">Are the results random? <span>▼</span></div>
+      <div class="faq-a" id="faq-3">No, results are generated using a fixed set of blending patterns, so the same two words always produce the same list of usernames.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" data-faq="4">Does it store the words I enter? <span>▼</span></div>
+      <div class="faq-a" id="faq-4">No. All blending happens locally in your browser using JavaScript - nothing you type is sent to or saved on Toolvala's servers.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" data-faq="5">Which style should I use - lowercase, underscore_case, or camelCase? <span>▼</span></div>
+      <div class="faq-a" id="faq-5">It depends on the platform. Lowercase works almost everywhere, underscore_case suits platforms like Discord or Reddit, and camelCase is popular for gamer tags and display names.</div>
+    </div>
+
+    <h2>17. Final Thoughts</h2>
+    <p>A good username usually comes from combining two things that already mean something to you, rather than bolting random numbers onto your name. This tool exists to run that blending experiment instantly, in three ready-to-use formats, so you're choosing from a full set of natural-sounding options rather than the first thing you typed. Try a few different word pairs, check the chart to compare lengths, and pick whichever style fits the platform you're signing up for. Since everything runs locally in your browser, you're free to experiment with as many word pairs as you like, for as long as you like, without ever creating an account.</p>
+  </section>
+
+  <section class="related">
+    <h2>Related tools on Toolvala.in</h2>
+    <div class="related-grid">
+      <a href="/instagram-name-combiner.html">Instagram Name Combiner<small>Blend names for your Instagram handle</small></a>
+      <a href="/business-name-combiner.html">Business Name Combiner<small>Generate brandable business names</small></a>
+      <a href="/couple-name-combiner.html">Couple Name Combiner<small>Blend your name with your partner's</small></a>
+      <a href="/qr-code-scanner.html">QR Code Scanner<small>Scan QR codes with camera or upload</small></a>
+      <a href="/math-solver.html">Math Solver<small>Scientific calculator for quick math</small></a>
+      <a href="/random-object-generator.html">Random Object Generator<small>Get a random object for games and prompts</small></a>
+    </div>
+  </section>
+</main>
+
+<div id="footer"></div>
+
+<script>
+fetch("/footer.html")
+  .then(response => response.text())
+  .then(data => {
+    document.getElementById("footer").innerHTML = data;
+    var yearSpan = document.getElementById("year");
+    if (yearSpan) { yearSpan.textContent = new Date().getFullYear(); }
+  });
+</script>
+
+<script>
+(function(){
+  var word1El = document.getElementById('word1');
+  var word2El = document.getElementById('word2');
+  var combineBtn = document.getElementById('combineBtn');
+  var statusMsg = document.getElementById('statusMsg');
+  var results = document.getElementById('results');
+  var comboGrid = document.getElementById('comboGrid');
+  var chartCard = document.getElementById('chartCard');
+  var chartInstance = null;
+
+  function cleanWord(n){ return n.trim().replace(/\s+/g, ''); }
+  function lower(s){ return s.toLowerCase(); }
+
+  function splitAt(word, ratio){
+    var idx = Math.max(1, Math.min(word.length - 1, Math.round(word.length * ratio)));
+    return { head: word.slice(0, idx), tail: word.slice(idx) };
+  }
+
+  function toCamel(a, b){
+    var capA = a.charAt(0).toUpperCase() + a.slice(1).toLowerCase();
+    var capB = b.charAt(0).toUpperCase() + b.slice(1).toLowerCase();
+    return capA + capB;
+  }
+
+  function toUnderscore(blend, splitIdx){
+    var idx = Math.max(1, Math.min(blend.length - 1, splitIdx));
+    return lower(blend.slice(0, idx)) + "_" + lower(blend.slice(idx));
+  }
+
+  function generateCombos(a, b){
+    a = cleanWord(a);
+    b = cleanWord(b);
+    if(!a || !b) return [];
+
+    var raw = [];
+    var ratios = [0.5, 0.4, 0.6];
+
+    ratios.forEach(function(r){
+      var sa = splitAt(a, r);
+      var sb = splitAt(b, r);
+      raw.push({ blend: sa.head + sb.tail, splitIdx: sa.head.length, wordA: a, wordB: b });
+      raw.push({ blend: sb.head + sa.tail, splitIdx: sb.head.length, wordA: b, wordB: a });
+    });
+    raw.push({ blend: a + b, splitIdx: a.length, wordA: a, wordB: b });
+    raw.push({ blend: b + a, splitIdx: b.length, wordA: b, wordB: a });
+
+    var seen = {};
+    var unique = [];
+    raw.forEach(function(r){
+      var key = lower(r.blend);
+      if(!seen[key] && r.blend.length > 1){
+        seen[key] = true;
+        unique.push({
+          lowercase: lower(r.blend),
+          underscore: toUnderscore(r.blend, r.splitIdx),
+          camel: toCamel(r.wordA, r.wordB)
+        });
+      }
+    });
+    return unique.slice(0, 8);
+  }
+
+  function renderCombos(combos){
+    comboGrid.innerHTML = "";
+    combos.forEach(function(c){
+      [
+        { text: c.lowercase, tag: "lowercase" },
+        { text: c.underscore, tag: "underscore_case" },
+        { text: c.camel, tag: "CamelCase" }
+      ].forEach(function(v){
+        var card = document.createElement('div');
+        card.className = 'combo-card';
+
+        var nameEl = document.createElement('div');
+        nameEl.className = 'combo-name';
+        nameEl.textContent = v.text;
+
+        var tagEl = document.createElement('div');
+        tagEl.className = 'combo-tag';
+        tagEl.textContent = v.tag;
+
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.textContent = 'Copy';
+        btn.addEventListener('click', function(){
+          navigator.clipboard.writeText(v.text).then(function(){
+            btn.textContent = 'Copied!';
+            setTimeout(function(){ btn.textContent = 'Copy'; }, 1200);
+          }).catch(function(){});
+        });
+
+        card.appendChild(nameEl);
+        card.appendChild(tagEl);
+        card.appendChild(btn);
+        comboGrid.appendChild(card);
+      });
+    });
+  }
+
+  function renderChart(combos){
+    chartCard.style.display = 'block';
+    var ctx = document.getElementById('lengthChart').getContext('2d');
+    var labels = combos.map(function(c){ return c.lowercase; });
+    var data = combos.map(function(c){ return c.lowercase.length; });
+
+    if(chartInstance) chartInstance.destroy();
+    chartInstance = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{ label: 'Character length', data: data, backgroundColor: '#6d28d9', borderRadius: 6 }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
+      }
+    });
+  }
+
+  combineBtn.addEventListener('click', function(){
+    statusMsg.classList.remove('show');
+    var a = word1El.value;
+    var b = word2El.value;
+    if(!cleanWord(a) || !cleanWord(b)){
+      statusMsg.textContent = "Please enter both words to combine.";
+      statusMsg.classList.add('show');
+      results.classList.remove('show');
+      chartCard.style.display = 'none';
+      return;
+    }
+    var combos = generateCombos(a, b);
+    if(combos.length === 0){
+      statusMsg.textContent = "Couldn't generate combinations - try different words.";
+      statusMsg.classList.add('show');
+      return;
+    }
+    renderCombos(combos);
+    renderChart(combos);
+    results.classList.add('show');
+  });
+
+  document.querySelectorAll('.faq-q').forEach(function(q){
+    q.addEventListener('click', function(){
+      var id = q.getAttribute('data-faq');
+      var a = document.getElementById('faq-' + id);
+      a.classList.toggle('show');
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
