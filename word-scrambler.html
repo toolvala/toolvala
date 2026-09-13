@@ -12,7 +12,7 @@
     <meta property="og:description" content="Instantly scramble text for puzzles or unscramble letters to find all combinations. Free online tool.">
     <meta property="og:type" content="website">
     <link rel="canonical" href="https://www.toolvala.in/word-scrambler.html">
-    
+
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-8GTQC904G1"></script>
     <script>
@@ -21,9 +21,12 @@
       gtag('js', new Date());
       gtag('config', 'G-8GTQC904G1');
     </script>
-    
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
+
     <!-- Schema Markup -->
     <script type="application/ld+json">
     {
@@ -33,211 +36,402 @@
         "description": "A tool to mix letters into random order or generate anagrams from a set of letters.",
         "url": "https://www.toolvala.in/word-scrambler.html",
         "applicationCategory": "EducationalApplication",
-        "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD"
-        }
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "Can I scramble whole sentences?",
+                "acceptedAnswer": { "@type": "Answer", "text": "Yes. The scrambler keeps words in the correct order but mixes up the letters inside each word, leaving punctuation and numbers in place." }
+            },
+            {
+                "@type": "Question",
+                "name": "Why is the Unscrambler limited to 7 letters?",
+                "acceptedAnswer": { "@type": "Answer", "text": "Generating permutations requires heavy computing power. Seven letters produce 5,040 combinations instantly; ten letters would slow most mobile browsers, so the tool caps input at seven characters." }
+            },
+            {
+                "@type": "Question",
+                "name": "Does this tool calculate Scrabble scores automatically?",
+                "acceptedAnswer": { "@type": "Answer", "text": "Not yet \u2014 but the letter-value reference chart on this page shows every tile's point value so you can total a word's score by hand." }
+            }
+        ]
     }
     </script>
 
     <style>
-        /* Base Styles */
+        :root {
+            --board: #24402C;
+            --board-edge: #16261A;
+            --tile: #F5EDD8;
+            --tile-shadow: #CBB68A;
+            --ink: #20241F;
+            --paper: #FBF7EE;
+            --accent: #A23B34;
+            --accent-dark: #7E2C27;
+            --muted: #5B6350;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #f9f9f9;
-            color: #333;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--paper);
+            color: var(--ink);
             line-height: 1.6;
         }
-        
-        .container { 
-            max-width: 1200px; 
-            margin: 0 auto; 
-            padding: 20px; 
-        }
-        
-        /* Header - Left Aligned */
-        header { background: #fff; border-bottom: 1px solid #e0e0e0; margin-bottom: 30px; }
-        .header-inner { 
-            max-width: 1200px; 
-            margin: 0 auto; 
-            padding: 20px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-        }
-        .header-brand { font-size: 1.3rem; font-weight: 700; color: #333; }
-        .header-brand a { text-decoration: none; color: #333; }
-        header h1 { font-size: 1.5rem; font-weight: 500; color: #333; }
 
-        /* Layout Grid */
-        .main-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; margin-bottom: 40px; }
-        
-        /* Cards */
-        .tool-card-main, .content-section, .related-tools-section, .faq-section {
-            background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 30px; margin-bottom: 30px;
+        h1, h2, h3, .tile { font-family: 'Fraunces', Georgia, serif; }
+
+        a { color: var(--accent); }
+
+        :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+
+        /* ===== HERO ===== */
+        .hero {
+            background: var(--board);
+            border-bottom: 6px solid var(--board-edge);
+            padding: 28px 20px 40px;
+        }
+        .hero-inner { max-width: 1200px; margin: 0 auto; }
+        .hero-brand { display: inline-block; color: var(--tile); text-decoration: none; font-weight: 600; font-size: 0.95rem; opacity: 0.85; margin-bottom: 22px; }
+        .hero-brand:hover { opacity: 1; }
+
+        .tile-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+        .tile {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 52px;
+            height: 52px;
+            background: var(--tile);
+            color: var(--ink);
+            font-weight: 900;
+            font-size: 1.7rem;
+            border-radius: 6px;
+            box-shadow: 0 3px 0 var(--tile-shadow);
+            transform: rotate(var(--r, 0deg));
+        }
+        .tile-row .tile:nth-child(1) { --r: -3deg; }
+        .tile-row .tile:nth-child(2) { --r: 2deg; }
+        .tile-row .tile:nth-child(3) { --r: -1deg; }
+        .tile-row .tile:nth-child(4) { --r: 4deg; }
+        .tile-row .tile:nth-child(5) { --r: -2deg; }
+        .tile-row .tile:nth-child(6) { --r: 3deg; }
+        .tile-row .tile:nth-child(7) { --r: -4deg; }
+        .tile-row .tile:nth-child(8) { --r: 1deg; }
+
+        @media (prefers-reduced-motion: no-preference) {
+            .tile-row .tile {
+                animation: drop-in 0.5s cubic-bezier(.2,.8,.3,1) both;
+            }
+            .tile-row .tile:nth-child(1) { animation-delay: 0.02s; }
+            .tile-row .tile:nth-child(2) { animation-delay: 0.07s; }
+            .tile-row .tile:nth-child(3) { animation-delay: 0.12s; }
+            .tile-row .tile:nth-child(4) { animation-delay: 0.17s; }
+            .tile-row .tile:nth-child(5) { animation-delay: 0.22s; }
+            .tile-row .tile:nth-child(6) { animation-delay: 0.27s; }
+            .tile-row .tile:nth-child(7) { animation-delay: 0.32s; }
+            .tile-row .tile:nth-child(8) { animation-delay: 0.37s; }
+        }
+        @keyframes drop-in {
+            from { opacity: 0; transform: translateY(-14px) rotate(0deg); }
+            to { opacity: 1; transform: translateY(0) rotate(var(--r, 0deg)); }
         }
 
-        h2 { color: #333; margin-bottom: 20px; font-size: 1.4rem; font-weight: 600; text-align: left; }
-        h3 { color: #333; margin: 25px 0 15px 0; font-size: 1.2rem; font-weight: 600; text-align: left; }
+        .hero h1 { color: var(--tile); font-size: clamp(1.6rem, 3.4vw, 2.2rem); font-weight: 600; margin-bottom: 8px; }
+        .hero p { color: var(--tile); opacity: 0.85; font-size: 1.05rem; max-width: 60ch; }
 
-        /* Tabs */
-        .tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid #ddd; }
+        /* ===== LAYOUT ===== */
+        .main-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; margin: 40px 0; }
+
+        h2 { color: var(--ink); margin-bottom: 18px; font-size: 1.5rem; font-weight: 600; }
+        h3 { color: var(--ink); margin: 28px 0 12px; font-size: 1.2rem; font-weight: 600; }
+
+        /* ===== TOOL BOARD ===== */
+        .tool-board {
+            background: var(--board);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        .tool-panel {
+            background: var(--tile);
+            border-radius: 6px;
+            padding: 26px;
+        }
+
+        .tabs { display: flex; gap: 6px; margin-bottom: 20px; }
         .tab-btn {
-            padding: 10px 20px;
-            background: none;
+            padding: 10px 18px;
+            background: transparent;
             border: none;
             border-bottom: 3px solid transparent;
             cursor: pointer;
-            font-size: 1rem;
-            font-weight: 500;
-            color: #666;
-            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--muted);
         }
-        .tab-btn:hover { color: #0066cc; }
-        .tab-btn.active { color: #0066cc; border-bottom-color: #0066cc; }
+        .tab-btn:hover { color: var(--ink); }
+        .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
 
         .tab-content { display: none; }
         .tab-content.active { display: block; }
 
-        /* Inputs */
-        label { display: block; margin-bottom: 8px; color: #333; font-weight: 500; }
-        
-        textarea {
-            width: 100%; height: 100px; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem; font-family: inherit; resize: vertical; margin-bottom: 15px;
-        }
-        textarea:focus { outline: none; border-color: #0066cc; box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.1); }
+        label { display: block; margin-bottom: 8px; color: var(--ink); font-weight: 600; font-size: 0.95rem; }
 
-        input[type="text"] {
-            width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem; margin-bottom: 15px;
+        textarea, input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--tile-shadow);
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            background: var(--paper);
+            color: var(--ink);
+            margin-bottom: 15px;
         }
+        textarea { height: 100px; resize: vertical; }
+        textarea:focus, input[type="text"]:focus { outline: none; border-color: var(--accent); }
 
-        /* Result Box */
         .result-area {
-            background: #f0f7ff;
-            border: 1px solid #cce5ff;
+            background: var(--paper);
+            border: 2px solid var(--tile-shadow);
             border-radius: 6px;
             padding: 20px;
             margin: 20px 0;
             min-height: 80px;
-            font-family: monospace;
-            font-size: 1.1rem;
+            font-family: 'Inter', monospace;
+            font-size: 1.05rem;
             white-space: pre-wrap;
             word-break: break-all;
-            color: #333;
-        }
-        
-        .perm-list {
-            display: flex; flex-wrap: wrap; gap: 10px;
-        }
-        .perm-tag {
-            background: #fff; border: 1px solid #ddd; padding: 5px 10px; border-radius: 4px; font-size: 0.9rem;
+            color: var(--ink);
         }
 
-        /* Buttons */
-        .btn-primary {
-            width: 100%; background: #0066cc; color: white; padding: 15px; border: none; border-radius: 6px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: background 0.2s;
+        .perm-list { display: flex; flex-wrap: wrap; gap: 8px; }
+        .perm-tag {
+            background: var(--tile);
+            border: 2px solid var(--tile-shadow);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: 600;
         }
-        .btn-primary:hover { background: #0052a3; }
-        
+
+        .btn-primary {
+            width: 100%;
+            background: var(--accent);
+            color: var(--tile);
+            padding: 14px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+        }
+        .btn-primary:hover { background: var(--accent-dark); }
+
         .action-row { display: flex; gap: 10px; margin-top: 10px; }
         .btn-secondary {
-            flex: 1; padding: 10px; background: #fff; border: 1px solid #ddd; color: #555; border-radius: 6px; cursor: pointer; font-weight: 500; transition: all 0.2s;
+            flex: 1;
+            padding: 10px;
+            background: var(--paper);
+            border: 2px solid var(--tile-shadow);
+            color: var(--ink);
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
         }
-        .btn-secondary:hover { background: #f5f5f5; border-color: #ccc; }
+        .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
 
-        /* Sidebar Tools */
-        .tools-grid { display: grid; grid-template-columns: 1fr; gap: 15px; margin-bottom: 20px; }
-        .tool-card {
-            background: #f9f9f9; padding: 15px; border-radius: 6px; text-decoration: none; color: #333; border: 1px solid #e0e0e0; transition: all 0.2s; display: flex; align-items: center; gap: 12px;
+        .warning-text { color: var(--accent-dark); font-size: 0.88rem; margin-top: 4px; display: block; }
+
+        /* ===== PAPER CARD (content) ===== */
+        .content-section {
+            background: var(--paper);
+            border-left: 6px solid var(--accent);
+            padding: 30px 30px 30px 26px;
+            margin-bottom: 30px;
         }
-        .tool-card:hover { border-color: #0066cc; background: #f0f7ff; }
-        .tool-card-icon { font-size: 1.5rem; min-width: 30px; text-align: center; }
-        .tool-card-text strong { color: #0066cc; display: block; margin-bottom: 3px; font-size: 0.95rem; }
-        .tool-card-text small { color: #999; font-size: 0.85rem; }
+        .content-section p { color: var(--muted); margin-bottom: 15px; }
+        .content-section ul, .content-section ol { margin: 0 0 20px 20px; color: var(--muted); }
+        .content-section li { margin-bottom: 8px; }
+        .content-section a { text-decoration: underline; }
+
+        .callout {
+            background: var(--tile);
+            border-radius: 6px;
+            padding: 18px 20px;
+            margin: 20px 0;
+        }
+        .callout strong { display: block; margin-bottom: 6px; color: var(--accent-dark); }
+        .callout p { color: var(--ink); margin-bottom: 0; }
+
+        figure { margin: 20px 0; }
+        figure canvas { max-width: 100%; }
+        figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 8px; }
+
+        /* Scrabble tile value grid */
+        .value-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(56px, 1fr));
+            gap: 8px;
+            margin: 20px 0;
+        }
+        .value-tile {
+            position: relative;
+            background: var(--tile);
+            border-radius: 6px;
+            box-shadow: 0 2px 0 var(--tile-shadow);
+            aspect-ratio: 1 / 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.3rem;
+            color: var(--ink);
+        }
+        .value-tile span {
+            position: absolute;
+            bottom: 3px;
+            right: 5px;
+            font-size: 0.6rem;
+            font-weight: 700;
+            color: var(--accent-dark);
+        }
+
+        /* FAQ as disclosure list */
+        .faq-section { margin-bottom: 40px; }
+        .faq-item { border-bottom: 1px solid var(--tile-shadow); padding: 14px 0; }
+        .faq-item summary { cursor: pointer; font-weight: 600; color: var(--ink); list-style: none; }
+        .faq-item summary::-webkit-details-marker { display: none; }
+        .faq-item summary::before { content: "+"; color: var(--accent); font-weight: 700; margin-right: 10px; }
+        .faq-item[open] summary::before { content: "\2212"; }
+        .faq-item p { color: var(--muted); margin-top: 10px; }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar-block { margin-bottom: 30px; }
+        .sidebar-block h2 { font-size: 1.1rem; }
+
+        .tool-list { display: flex; flex-direction: column; }
+        .tool-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 6px;
+            text-decoration: none;
+            color: var(--ink);
+            border-bottom: 1px solid var(--tile-shadow);
+        }
+        .tool-row:hover { background: var(--tile); }
+        .tool-row .swatch {
+            width: 28px; height: 28px; border-radius: 4px; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center; font-size: 1rem;
+        }
+        .tool-row .swatch.c1 { background: #DCE7DA; }
+        .tool-row .swatch.c2 { background: #F0E4C8; }
+        .tool-row .swatch.c3 { background: #E8D3D0; }
+        .tool-row strong { display: block; font-size: 0.92rem; }
+        .tool-row small { color: var(--muted); font-size: 0.8rem; }
 
         .category-links { display: flex; flex-wrap: wrap; gap: 8px; }
         .category-link {
-            padding: 8px 12px; background: #f9f9f9; border-radius: 4px; text-decoration: none; color: #0066cc; font-weight: 500; border: 1px solid #e0e0e0; font-size: 0.9rem;
+            padding: 7px 12px;
+            background: var(--paper);
+            border-radius: 4px;
+            text-decoration: none;
+            color: var(--ink);
+            font-weight: 600;
+            border: 2px solid var(--tile-shadow);
+            font-size: 0.85rem;
         }
-        .category-link:hover { background: #0066cc; color: #fff; }
+        .category-link:hover { border-color: var(--accent); color: var(--accent); }
 
-        /* Content Styling */
-        .content-section p { color: #666; margin-bottom: 15px; text-align: left; }
-        .content-section ul { margin-left: 20px; margin-bottom: 20px; color: #666; text-align: left; }
-        .content-section li { margin-bottom: 8px; }
-        .content-section a { color: #0066cc; text-decoration: none; }
-
-        .warning-text { color: #d9534f; font-size: 0.9rem; margin-top: 5px; display: block; }
-
-        /* Toast */
+        /* ===== TOAST ===== */
         .toast {
-            position: fixed; bottom: 20px; right: 20px; background: #333; color: white; padding: 12px 24px; border-radius: 4px; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+            position: fixed; bottom: 20px; right: 20px; background: var(--ink); color: var(--tile);
+            padding: 12px 24px; border-radius: 4px; opacity: 0; pointer-events: none; transition: opacity 0.3s;
         }
         .toast.show { opacity: 1; }
 
         @media (max-width: 768px) {
             .main-layout { grid-template-columns: 1fr; }
-            .header-inner { flex-direction: column; gap: 10px; align-items: flex-start; }
+            .tile { width: 42px; height: 42px; font-size: 1.4rem; }
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="header-inner">
-            <div class="header-brand"><a href="index.html">Toolvala.in</a></div>
+
+    <div class="hero">
+        <div class="hero-inner">
+            <a href="index.html" class="hero-brand">Toolvala.in</a>
+            <div class="tile-row" aria-hidden="true">
+                <span class="tile">S</span><span class="tile">C</span><span class="tile">R</span><span class="tile">A</span>
+                <span class="tile">M</span><span class="tile">B</span><span class="tile">L</span><span class="tile">E</span>
+            </div>
             <h1>Word Scrambler & Unscrambler</h1>
+            <p>Mix letters into puzzles, or turn a jumbled rack of tiles into every word-shaped combination it can make.</p>
         </div>
-    </header>
+    </div>
 
     <div class="container">
         <div class="main-layout">
-            
+
             <!-- LEFT COLUMN: TOOL & CONTENT -->
             <div class="left-column">
-                
-                <!-- TOOL CARD -->
-                <div class="tool-card-main">
-                    <div class="tabs">
-                        <button class="tab-btn active" onclick="switchTab('scramble')">Word Scrambler</button>
-                        <button class="tab-btn" onclick="switchTab('unscramble')">Unscrambler (Solver)</button>
-                    </div>
 
-                    <!-- TAB 1: SCRAMBLER -->
-                    <div id="tab-scramble" class="tab-content active">
-                        <label for="scrambleInput">Enter text to scramble:</label>
-                        <textarea id="scrambleInput" placeholder="Type words or sentences here... e.g., Hello World"></textarea>
-                        
-                        <button class="btn-primary" onclick="scrambleText()">
-                            <i class="fas fa-random"></i> Scramble Text
-                        </button>
-
-                        <div class="result-area" id="scrambleOutput"></div>
-                        
-                        <div class="action-row">
-                            <button class="btn-secondary" onclick="copyToClipboard('scrambleOutput')">Copy Result</button>
-                            <button class="btn-secondary" onclick="document.getElementById('scrambleInput').value=''; document.getElementById('scrambleOutput').innerText=''">Clear</button>
-                        </div>
-                    </div>
-
-                    <!-- TAB 2: UNSCRAMBLER -->
-                    <div id="tab-unscramble" class="tab-content">
-                        <label for="unscrambleInput">Enter letters (Max 7):</label>
-                        <input type="text" id="unscrambleInput" placeholder="e.g., rleow" maxlength="7">
-                        <span class="warning-text">Note: Generates all possible combinations. Limited to 7 chars to prevent lag.</span>
-
-                        <button class="btn-primary" onclick="unscrambleText()" style="margin-top: 15px;">
-                            <i class="fas fa-magic"></i> Find Combinations
-                        </button>
-
-                        <div class="result-area" id="unscrambleOutput">
-                            <div style="color:#999; font-size:0.9rem;">Combinations will appear here...</div>
+                <!-- TOOL -->
+                <div class="tool-board">
+                    <div class="tool-panel">
+                        <div class="tabs">
+                            <button type="button" class="tab-btn active" data-tab="scramble">Word Scrambler</button>
+                            <button type="button" class="tab-btn" data-tab="unscramble">Unscrambler (Solver)</button>
                         </div>
 
-                        <div class="action-row">
-                            <button class="btn-secondary" onclick="copyToClipboard('unscrambleOutput')">Copy Combinations</button>
-                            <button class="btn-secondary" onclick="document.getElementById('unscrambleInput').value=''; document.getElementById('unscrambleOutput').innerHTML=''">Clear</button>
+                        <!-- TAB 1: SCRAMBLER -->
+                        <div id="tab-scramble" class="tab-content active">
+                            <label for="scrambleInput">Enter text to scramble:</label>
+                            <textarea id="scrambleInput" placeholder="Type words or sentences here... e.g., Hello World"></textarea>
+
+                            <button type="button" class="btn-primary" id="scrambleBtn">
+                                <i class="fas fa-random"></i> Scramble Text
+                            </button>
+
+                            <div class="result-area" id="scrambleOutput"></div>
+
+                            <div class="action-row">
+                                <button type="button" class="btn-secondary" data-copy-target="scrambleOutput">Copy Result</button>
+                                <button type="button" class="btn-secondary" id="scrambleClearBtn">Clear</button>
+                            </div>
+                        </div>
+
+                        <!-- TAB 2: UNSCRAMBLER -->
+                        <div id="tab-unscramble" class="tab-content">
+                            <label for="unscrambleInput">Enter letters (Max 7):</label>
+                            <input type="text" id="unscrambleInput" placeholder="e.g., rleow" maxlength="7">
+                            <span class="warning-text">Note: Generates all possible combinations. Limited to 7 chars to prevent lag.</span>
+
+                            <button type="button" class="btn-primary" id="unscrambleBtn" style="margin-top: 15px;">
+                                <i class="fas fa-magic"></i> Find Combinations
+                            </button>
+
+                            <div class="result-area" id="unscrambleOutput">
+                                <div style="color:var(--muted); font-size:0.9rem;">Combinations will appear here...</div>
+                            </div>
+
+                            <div class="action-row">
+                                <button type="button" class="btn-secondary" data-copy-target="unscrambleOutput">Copy Combinations</button>
+                                <button type="button" class="btn-secondary" id="unscrambleClearBtn">Clear</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -259,18 +453,47 @@
                     <p>An unscrambler takes a jumbled set of letters and rearranges them to find all possible valid permutations. This is commonly referred to as an <strong>Anagram Solver</strong>. It is incredibly useful for games where you are given a rack of tiles and need to form a valid word.</p>
 
                     <h3>How to Use This Tool</h3>
-                    <p><strong>To Scramble:</strong> Simply type your word, phrase, or entire paragraph into the text box on the first tab. Click "Scramble Text," and the tool will shuffle the letters within each word while keeping the word order intact.</p>
+                    <p><strong>To Scramble:</strong> Simply type your word, phrase, or entire paragraph into the text box on the first tab. Click "Scramble Text," and the tool will shuffle the letters within each word while keeping punctuation and word order intact.</p>
                     <p><strong>To Unscramble:</strong> Switch to the second tab. Enter the letters you have available (e.g., "rleow"). Due to the mathematical complexity of permutations (factorials), we limit this to 7 characters to ensure your browser remains fast. The tool will list every possible combination of those letters.</p>
 
+                    <h3>Which Letters Are Most Common in English?</h3>
+                    <p>Knowing which letters show up most often helps when you're staring at a rack of tiles trying to spot a word. These are the most frequent letters across English text:</p>
+                    <figure>
+                        <canvas id="letterFreqChart" height="220" role="img" aria-label="Bar chart of the most common letters in English text, led by E, T, A, O and I"></canvas>
+                        <figcaption>Approximate frequency of each letter across general English text.</figcaption>
+                    </figure>
+
                     <h3>The Mathematics of Scrambling</h3>
-                    <p>The number of ways you can arrange a word is calculated using factorials ($n!$).</p>
+                    <p>The number of ways you can arrange a word is calculated using factorials ($n!$), and it grows far faster than most people expect:</p>
                     <ul>
                         <li>A 3-letter word has $3 \times 2 \times 1 = 6$ combinations.</li>
                         <li>A 5-letter word has $120$ combinations.</li>
                         <li>A 7-letter word has $5,040$ combinations.</li>
                         <li>A 10-letter word has over <strong>3.6 million</strong> combinations!</li>
                     </ul>
-                    <p>This is why simple anagram solvers are limited in length—the possibilities grow exponentially with every letter you add.</p>
+                    <figure>
+                        <canvas id="growthChart" height="220" role="img" aria-label="Line chart showing the number of possible letter arrangements growing steeply from 1 letter to 10 letters, reaching over 3.6 million at 10 letters"></canvas>
+                        <figcaption>Possible arrangements by word length (log scale) — this is why the Unscrambler caps at 7 letters.</figcaption>
+                    </figure>
+                    <p>This is why simple anagram solvers are limited in length — the possibilities grow exponentially with every letter you add.</p>
+
+                    <h3>Scrabble Letter Values: A Quick Reference</h3>
+                    <p>Once the Unscrambler hands you a list of combinations, you can tally a word's score by hand using the standard English-language tile values below:</p>
+                    <div class="value-grid" id="valueGrid" aria-label="Scrabble tile point values for every letter A to Z"></div>
+
+                    <h3>5 Tips to Unscramble Letters Faster</h3>
+                    <ol>
+                        <li><strong>Sort your letters</strong> alphabetically first — it makes repeated letters and familiar patterns easier to spot.</li>
+                        <li><strong>Look for vowel clusters</strong> — most English words need at least one vowel every two or three letters.</li>
+                        <li><strong>Try common endings</strong> like -ING, -ED, -TION, or -ER before guessing the middle of the word.</li>
+                        <li><strong>Set aside high-value letters</strong> (J, Q, X, Z) and build around the rest first — they combine into far fewer real words.</li>
+                        <li><strong>Scan the generated list in chunks</strong> rather than top to bottom — real words tend to cluster near recognizable prefixes.</li>
+                    </ol>
+
+                    <div class="callout">
+                        <strong>Fun fact: famous anagrams</strong>
+                        <p>"Listen" rearranges perfectly into "Silent," "Elvis" into "Lives," and "Dormitory" into "Dirty Room" — all genuine letter-for-letter anagrams, not just similar-sounding words.</p>
+                    </div>
 
                     <h3>Related Tools for Text & Documents</h3>
                     <p>If you are working with text and documents, you might also find our <a href="signature-generator.html">Signature Generator</a> useful for signing emails. For document management, check out our <a href="photo-compressor.html">Photo Compressor</a> and <a href="sign-pdf.html">Sign PDF Tool</a>.</p>
@@ -279,80 +502,65 @@
                 <!-- FAQ SECTION -->
                 <div class="faq-section">
                     <h2>Frequently Asked Questions</h2>
-                    
-                    <div class="faq-item" style="margin-bottom:15px;">
-                        <strong>Q: Can I scramble whole sentences?</strong>
-                        <p>Yes. The scrambler will keep the words in the correct order (Subject-Verb-Object) but will mix up the letters <em>inside</em> each word.</p>
-                    </div>
 
-                    <div class="faq-item" style="margin-bottom:15px;">
-                        <strong>Q: Why is the Unscrambler limited to 7 letters?</strong>
+                    <details class="faq-item" open>
+                        <summary>Can I scramble whole sentences?</summary>
+                        <p>Yes. The scrambler will keep the words in the correct order (Subject-Verb-Object) but will mix up the letters <em>inside</em> each word, leaving punctuation and numbers untouched.</p>
+                    </details>
+
+                    <details class="faq-item">
+                        <summary>Why is the Unscrambler limited to 7 letters?</summary>
                         <p>Generating permutations requires heavy computing power. 7 letters generate 5,040 combinations instantly. 10 letters would crash most mobile browsers. We limit it to keep the tool fast and responsive.</p>
-                    </div>
+                    </details>
 
-                    <div class="faq-item">
-                        <strong>Q: Is this tool free?</strong>
+                    <details class="faq-item">
+                        <summary>Does this tool calculate Scrabble scores automatically?</summary>
+                        <p>Not yet — but the letter-value reference above shows every tile's point value, so you can total a word's score by hand once the Unscrambler finds it.</p>
+                    </details>
+
+                    <details class="faq-item">
+                        <summary>Is this tool free?</summary>
                         <p>Yes, Toolvala provides this Word Scrambler 100% free with no usage limits.</p>
-                    </div>
+                    </details>
                 </div>
 
             </div>
 
             <!-- RIGHT COLUMN: SIDEBAR -->
             <div class="right-column">
-                
-                <!-- Related Tools -->
-                <div class="related-tools-section">
-                    <h2 style="font-size: 1.2rem;">Popular Tools</h2>
-                    <div class="tools-grid">
-                        <a href="random-number-picker.html" class="tool-card">
-                            <div class="tool-card-icon">🎲</div>
-                            <div class="tool-card-text">
-                                <strong>Random Number Picker</strong>
-                                <small>RNG Tool</small>
-                            </div>
+
+                <div class="sidebar-block">
+                    <h2>Popular Tools</h2>
+                    <div class="tool-list">
+                        <a href="random-number-picker.html" class="tool-row">
+                            <span class="swatch c1">🎲</span>
+                            <span><strong>Random Number Picker</strong><small>RNG Tool</small></span>
                         </a>
-                        <a href="age-difference-calculator.html" class="tool-card">
-                            <div class="tool-card-icon">📅</div>
-                            <div class="tool-card-text">
-                                <strong>Age Calculator</strong>
-                                <small>Find exact age gap</small>
-                            </div>
+                        <a href="age-difference-calculator.html" class="tool-row">
+                            <span class="swatch c2">📅</span>
+                            <span><strong>Age Calculator</strong><small>Find exact age gap</small></span>
                         </a>
-                        <a href="passport-photo-resizer.html" class="tool-card">
-                            <div class="tool-card-icon">📸</div>
-                            <div class="tool-card-text">
-                                <strong>Passport Photo Resizer</strong>
-                                <small>Resize for documents</small>
-                            </div>
+                        <a href="passport-photo-resizer.html" class="tool-row">
+                            <span class="swatch c3">📸</span>
+                            <span><strong>Passport Photo Resizer</strong><small>Resize for documents</small></span>
                         </a>
-                        <a href="ssc-photo-tool.html" class="tool-card">
-                            <div class="tool-card-icon">👮</div>
-                            <div class="tool-card-text">
-                                <strong>SSC Photo Tool</strong>
-                                <small>Format for SSC exams</small>
-                            </div>
+                        <a href="ssc-photo-tool.html" class="tool-row">
+                            <span class="swatch c1">👮</span>
+                            <span><strong>SSC Photo Tool</strong><small>Format for SSC exams</small></span>
                         </a>
-                        <a href="photo-compressor.html" class="tool-card">
-                            <div class="tool-card-icon">🗜️</div>
-                            <div class="tool-card-text">
-                                <strong>Photo Compressor</strong>
-                                <small>Reduce image size</small>
-                            </div>
+                        <a href="photo-compressor.html" class="tool-row">
+                            <span class="swatch c2">🗜️</span>
+                            <span><strong>Photo Compressor</strong><small>Reduce image size</small></span>
                         </a>
-                        <a href="signature-generator.html" class="tool-card">
-                            <div class="tool-card-icon">📧</div>
-                            <div class="tool-card-text">
-                                <strong>Signature Generator</strong>
-                                <small>Email signatures</small>
-                            </div>
+                        <a href="signature-generator.html" class="tool-row">
+                            <span class="swatch c3">📧</span>
+                            <span><strong>Signature Generator</strong><small>Email signatures</small></span>
                         </a>
                     </div>
                 </div>
 
-                <!-- Categories -->
-                <div class="related-tools-section">
-                    <h2 style="font-size: 1.2rem;">Categories</h2>
+                <div class="sidebar-block">
+                    <h2>Categories</h2>
                     <div class="category-links">
                         <a href="converters.html" class="category-link">Converters</a>
                         <a href="expiry-date-tools.html" class="category-link">Expiry Date Tools</a>
@@ -377,103 +585,241 @@
     <!-- Toast -->
     <div id="toast" class="toast">Copied to clipboard!</div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
     <script>
-        // Tab Switching Logic
-        function switchTab(tabName) {
-            // Hide all contents
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-            // Deactivate all buttons
-            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-            
-            // Activate selected
+    (function () {
+        'use strict';
+
+        var UNSCRAMBLE_PLACEHOLDER = '<div style="color:var(--muted); font-size:0.9rem;">Combinations will appear here...</div>';
+
+        var tabBtns = document.querySelectorAll('.tab-btn');
+        var scrambleInput = document.getElementById('scrambleInput');
+        var scrambleOutput = document.getElementById('scrambleOutput');
+        var scrambleBtn = document.getElementById('scrambleBtn');
+        var scrambleClearBtn = document.getElementById('scrambleClearBtn');
+        var unscrambleInput = document.getElementById('unscrambleInput');
+        var unscrambleOutput = document.getElementById('unscrambleOutput');
+        var unscrambleBtn = document.getElementById('unscrambleBtn');
+        var unscrambleClearBtn = document.getElementById('unscrambleClearBtn');
+        var copyBtns = document.querySelectorAll('[data-copy-target]');
+        var toast = document.getElementById('toast');
+
+        // --- Tab switching ---
+        function switchTab(tabName, btn) {
+            document.querySelectorAll('.tab-content').forEach(function (el) { el.classList.remove('active'); });
+            tabBtns.forEach(function (el) { el.classList.remove('active'); });
             document.getElementById('tab-' + tabName).classList.add('active');
-            event.target.classList.add('active');
+            btn.classList.add('active');
         }
 
-        // Scramble Function (Fisher-Yates Shuffle)
+        tabBtns.forEach(function (btn) {
+            btn.addEventListener('click', function () { switchTab(btn.dataset.tab, btn); });
+        });
+
+        // --- Scramble ---
+        // Shuffles only the letters within a word; digits, punctuation, and
+        // any other characters stay in their original position.
+        function scrambleWord(word) {
+            var letterPositions = [];
+            var letters = [];
+
+            for (var idx = 0; idx < word.length; idx++) {
+                if (/[a-zA-Z]/.test(word[idx])) {
+                    letterPositions.push(idx);
+                    letters.push(word[idx]);
+                }
+            }
+
+            for (var i = letters.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var tmp = letters[i];
+                letters[i] = letters[j];
+                letters[j] = tmp;
+            }
+
+            var resultChars = word.split('');
+            letterPositions.forEach(function (pos, k) { resultChars[pos] = letters[k]; });
+            return resultChars.join('');
+        }
+
         function scrambleText() {
-            const input = document.getElementById('scrambleInput').value;
-            if(!input.trim()) { alert("Please enter text first."); return; }
+            var input = scrambleInput.value;
+            if (!input.trim()) { alert('Please enter text first.'); return; }
 
-            // Split by words so we don't mix letters across different words (preserving sentence structure)
-            const words = input.split(' ');
-            
-            const scrambledWords = words.map(word => {
-                // Keep punctuation or special chars in place if possible, but for simple scrambling:
-                // We shuffle the letters of the word.
-                const letters = word.split('');
-                for (let i = letters.length - 1; i > 0; i--) {
-                    const j = Math.floor(Math.random() * (i + 1));
-                    [letters[i], letters[j]] = [letters[j], letters[i]];
-                }
-                return letters.join('');
-            });
+            var words = input.split(/\s+/).filter(Boolean);
+            var scrambledWords = words.map(scrambleWord);
 
-            document.getElementById('scrambleOutput').innerText = scrambledWords.join(' ');
+            scrambleOutput.innerText = scrambledWords.join(' ');
         }
 
-        // Unscramble Function (Permutation Generator)
-        function unscrambleText() {
-            const input = document.getElementById('unscrambleInput').value.trim();
-            if(!input) { alert("Please enter letters."); return; }
-            if(input.length > 7) { alert("Maximum 7 characters allowed for performance."); return; }
-
-            const outputDiv = document.getElementById('unscrambleOutput');
-            outputDiv.innerHTML = '<div style="color:#666;">Calculating...</div>';
-
-            // Use timeout to allow UI to update before heavy calculation
-            setTimeout(() => {
-                const results = getPermutations(input);
-                // Remove duplicates using Set
-                const uniqueResults = [...new Set(results)];
-                
-                if (uniqueResults.length === 0) {
-                     outputDiv.innerHTML = "No combinations found.";
-                } else {
-                    let html = `<div style="margin-bottom:10px; font-weight:bold;">Found ${uniqueResults.length} combinations:</div><div class="perm-list">`;
-                    uniqueResults.forEach(word => {
-                        html += `<span class="perm-tag">${word}</span>`;
-                    });
-                    html += `</div>`;
-                    outputDiv.innerHTML = html;
-                }
-            }, 50);
+        function clearScramble() {
+            scrambleInput.value = '';
+            scrambleOutput.innerText = '';
         }
 
-        // Permutation Logic (Recursive)
+        scrambleBtn.addEventListener('click', scrambleText);
+        scrambleClearBtn.addEventListener('click', clearScramble);
+
+        // --- Unscramble (permutations) ---
         function getPermutations(string) {
             if (string.length < 2) return [string];
 
-            let permutations = []; 
+            var permutations = [];
 
-            for (let i = 0; i < string.length; i++) {
-                let char = string[i];
+            for (var i = 0; i < string.length; i++) {
+                var char = string[i];
+                if (string.indexOf(char) !== i) continue;
 
-                // Skip if this char is same as previous char to avoid some duplicates early (if sorted), 
-                // but standard approach is safer for now.
-                if (string.indexOf(char) != i) continue;
-
-                let remainingString = string.slice(0, i) + string.slice(i + 1, string.length); 
-
-                for (let subPermutation of getPermutations(remainingString)) {
-                    permutations.push(char + subPermutation); 
+                var remainingString = string.slice(0, i) + string.slice(i + 1);
+                var subPermutations = getPermutations(remainingString);
+                for (var k = 0; k < subPermutations.length; k++) {
+                    permutations.push(char + subPermutations[k]);
                 }
             }
             return permutations;
         }
 
-        // Copy Helper
+        function unscrambleText() {
+            var input = unscrambleInput.value.trim();
+            if (!input) { alert('Please enter letters.'); return; }
+            if (input.length > 7) { alert('Maximum 7 characters allowed for performance.'); return; }
+
+            unscrambleOutput.innerHTML = '<div style="color:var(--muted);">Calculating...</div>';
+
+            setTimeout(function () {
+                var results = getPermutations(input);
+                var uniqueResults = results.filter(function (word, idx) { return results.indexOf(word) === idx; });
+
+                if (uniqueResults.length === 0) {
+                    unscrambleOutput.innerHTML = 'No combinations found.';
+                } else {
+                    var html = '<div style="margin-bottom:10px; font-weight:bold;">Found ' + uniqueResults.length + ' combinations:</div><div class="perm-list">';
+                    uniqueResults.forEach(function (word) {
+                        html += '<span class="perm-tag">' + word + '</span>';
+                    });
+                    html += '</div>';
+                    unscrambleOutput.innerHTML = html;
+                }
+            }, 50);
+        }
+
+        function clearUnscramble() {
+            unscrambleInput.value = '';
+            unscrambleOutput.innerHTML = UNSCRAMBLE_PLACEHOLDER;
+        }
+
+        unscrambleBtn.addEventListener('click', unscrambleText);
+        unscrambleClearBtn.addEventListener('click', clearUnscramble);
+
+        // --- Copy ---
+        function legacyCopy(text) {
+            var el = document.createElement('textarea');
+            el.value = text;
+            el.style.position = 'fixed';
+            el.style.opacity = '0';
+            document.body.appendChild(el);
+            el.select();
+            try { document.execCommand('copy'); } catch (e) { /* no-op */ }
+            document.body.removeChild(el);
+        }
+
+        function showToast() {
+            toast.classList.add('show');
+            setTimeout(function () { toast.classList.remove('show'); }, 3000);
+        }
+
         function copyToClipboard(elementId) {
-            const el = document.getElementById(elementId);
-            const text = el.innerText;
-            if(!text) return;
-            
-            navigator.clipboard.writeText(text).then(() => {
-                const toast = document.getElementById('toast');
-                toast.classList.add('show');
-                setTimeout(() => toast.classList.remove('show'), 3000);
+            var el = document.getElementById(elementId);
+            var text = el.innerText;
+            if (!text) return;
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(showToast).catch(function () {
+                    legacyCopy(text);
+                    showToast();
+                });
+            } else {
+                legacyCopy(text);
+                showToast();
+            }
+        }
+
+        copyBtns.forEach(function (btn) {
+            btn.addEventListener('click', function () { copyToClipboard(btn.dataset.copyTarget); });
+        });
+
+        // --- Scrabble letter value grid ---
+        var LETTER_VALUES = {
+            A:1,B:3,C:3,D:2,E:1,F:4,G:2,H:4,I:1,J:8,K:5,L:1,M:3,
+            N:1,O:1,P:3,Q:10,R:1,S:1,T:1,U:1,V:4,W:4,X:8,Y:4,Z:10
+        };
+        var valueGrid = document.getElementById('valueGrid');
+        Object.keys(LETTER_VALUES).forEach(function (letter) {
+            var el = document.createElement('div');
+            el.className = 'value-tile';
+            el.innerHTML = letter + '<span>' + LETTER_VALUES[letter] + '</span>';
+            valueGrid.appendChild(el);
+        });
+
+        // --- Charts ---
+        var inkColor = '#20241F';
+        var accentColor = '#A23B34';
+
+        var letterFreqCtx = document.getElementById('letterFreqChart');
+        if (letterFreqCtx && window.Chart) {
+            new Chart(letterFreqCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['E','T','A','O','I','N','S','H','R','D'],
+                    datasets: [{
+                        label: 'Frequency (%)',
+                        data: [12.7,9.1,8.2,7.5,7.0,6.7,6.3,6.1,6.0,4.3],
+                        backgroundColor: accentColor,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, ticks: { color: inkColor }, grid: { color: '#E4DAC0' } },
+                        x: { ticks: { color: inkColor }, grid: { display: false } }
+                    }
+                }
             });
         }
+
+        var growthCtx = document.getElementById('growthChart');
+        if (growthCtx && window.Chart) {
+            var lengths = [1,2,3,4,5,6,7,8,9,10];
+            var factorials = lengths.map(function (n) {
+                var f = 1;
+                for (var i = 2; i <= n; i++) f *= i;
+                return f;
+            });
+            new Chart(growthCtx, {
+                type: 'line',
+                data: {
+                    labels: lengths.map(function (n) { return n + ' letters'; }),
+                    datasets: [{
+                        label: 'Possible arrangements',
+                        data: factorials,
+                        borderColor: accentColor,
+                        backgroundColor: 'rgba(162,59,52,0.15)',
+                        fill: true,
+                        tension: 0.25,
+                        pointBackgroundColor: accentColor
+                    }]
+                },
+                options: {
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { type: 'logarithmic', ticks: { color: inkColor }, grid: { color: '#E4DAC0' } },
+                        x: { ticks: { color: inkColor }, grid: { display: false } }
+                    }
+                }
+            });
+        }
+    })();
     </script>
 
     <div id="footer"></div>
