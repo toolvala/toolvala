@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Online Height Comparison - Compare Heights with Avatars | Toolvala.in</title>
+<meta name="description" content="Free Online Height Comparison tool. Compare two or more people's heights visually with avatars, a dual-unit ruler chart, and instant stats - in cm or feet/inches.">
+<meta name="keywords" content="free online height comparison, height comparison tool, compare heights online, height difference calculator, height comparison chart, toolvala height comparison">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.toolvala.in/height-comparison-tool.html">
+
+<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<link rel="manifest" href="/site.webmanifest" />
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8GTQC904G1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-8GTQC904G1');
+</script>
+
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4402681434316955"
+     crossorigin="anonymous"></script>
+
+<!-- JSON-LD Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Free Online Height Comparison",
+  "url": "https://www.toolvala.in/height-comparison-tool.html",
+  "description": "Compare two or more people's heights visually with avatars, a dual-unit ruler chart, and instant stats.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "All",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+
+<style>
+  :root{
+    --ink:#1b1f23;
+    --paper:#f7f5f0;
+    --accent:#0284c7;
+    --accent-dark:#036592;
+    --line:#dbeafe;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:'Segoe UI',Roboto,Arial,sans-serif;background:var(--paper);color:var(--ink);line-height:1.7;}
+  a{color:var(--accent-dark);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+
+  header{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:var(--ink);border-bottom:3px solid var(--accent);}
+  .brand{font-size:22px;font-weight:800;color:#fff;}
+  .brand span{color:var(--accent);}
+  nav a{color:#e6e6e6;margin-left:18px;font-size:14px;font-weight:600;}
+  nav a:hover{color:#fff;}
+
+  main{max-width:1000px;margin:0 auto;padding:28px 16px 60px;}
+
+  .hero{display:flex;align-items:center;gap:24px;margin-bottom:20px;flex-wrap:wrap;}
+  .hero-text{flex:1;min-width:260px;}
+  h1{font-size:27px;margin:0 0 8px;}
+  .lead{color:#4a4a46;margin:0;max-width:60ch;}
+  .hero-graphic{width:120px;height:120px;flex-shrink:0;}
+
+  .ad-slot{margin:26px 0;text-align:center;}
+  .ad-label{font-size:11px;color:#8a877f;margin-bottom:4px;letter-spacing:0.5px;}
+
+  .tool-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:0 10px 26px rgba(0,0,0,0.06);margin-bottom:14px;}
+
+  .unit-row{display:flex;justify-content:flex-end;margin-bottom:16px;gap:6px;}
+  .unit-btn{padding:7px 14px;border:1px solid var(--line);background:#f1f5fb;border-radius:20px;font-weight:700;font-size:12.5px;cursor:pointer;color:var(--ink);}
+  .unit-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+
+  .person-row{
+    padding:14px;background:#f8fafc;border:1px solid var(--line);border-radius:12px;margin-bottom:12px;
+  }
+  .row-top{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;margin-bottom:10px;}
+  .field{flex:1;min-width:110px;}
+  .field label{display:block;font-size:11px;font-weight:700;color:#6b6b66;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.4px;}
+  .field input{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:9px;font-size:15px;background:#fff;color:var(--ink);}
+  .field input:focus{outline:2px solid var(--accent);border-color:var(--accent);}
+  .field.small{max-width:80px;}
+  .remove-btn{
+    border:none;background:#f3d6d6;color:#a33;font-weight:800;border-radius:9px;
+    width:38px;height:38px;cursor:pointer;font-size:15px;flex-shrink:0;
+  }
+  .remove-btn:disabled{opacity:0.35;cursor:not-allowed;}
+
+  .row-bottom{display:flex;gap:16px;flex-wrap:wrap;align-items:center;}
+  .gender-toggle{display:flex;gap:6px;}
+  .gender-btn{padding:7px 14px;border:1px solid var(--line);background:#fff;border-radius:8px;font-weight:700;font-size:12.5px;cursor:pointer;color:var(--ink);}
+  .gender-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .swatch-row{display:flex;gap:6px;align-items:center;}
+  .swatch-label{font-size:11px;font-weight:700;color:#6b6b66;text-transform:uppercase;letter-spacing:0.4px;margin-right:2px;}
+  .swatch{width:20px;height:20px;border-radius:50%;cursor:pointer;border:2px solid transparent;flex-shrink:0;}
+  .swatch.selected{border-color:var(--ink);}
+
+  .add-row-btn{
+    width:100%;padding:11px;border:1.5px dashed var(--line);background:#fbfdff;color:var(--accent-dark);
+    border-radius:10px;font-weight:700;font-size:13.5px;cursor:pointer;margin-bottom:16px;
+  }
+  .add-row-btn:hover{border-color:var(--accent);}
+
+  .combine-btn{width:100%;padding:14px;border:none;border-radius:10px;background:var(--accent);color:#fff;font-weight:800;font-size:16px;cursor:pointer;}
+  .combine-btn:active{background:var(--accent-dark);}
+
+  .status-msg{margin-top:10px;font-size:13px;color:#a33;display:none;}
+  .status-msg.show{display:block;}
+
+  .results{margin-top:22px;display:none;}
+  .results.show{display:block;}
+
+  .download-row{display:flex;justify-content:flex-end;margin-bottom:10px;}
+  .download-btn{
+    padding:8px 16px;border:1px solid var(--accent);background:#fff;color:var(--accent-dark);
+    border-radius:8px;font-weight:700;font-size:12.5px;cursor:pointer;
+  }
+  .download-btn:hover{background:var(--accent);color:#fff;}
+  .download-btn:disabled{opacity:0.5;cursor:wait;}
+
+  .chart-frame{
+    position:relative;background:#fff;border:1px solid var(--line);border-radius:12px;
+    padding:10px 54px 10px 46px;overflow-x:auto;
+  }
+  .ruler{position:absolute;left:0;top:10px;right:0;bottom:10px;pointer-events:none;}
+  .ruler-line{position:absolute;left:46px;right:54px;border-top:1px dashed #e2e8f0;}
+  .ruler-cm{position:absolute;left:0;width:42px;text-align:right;font-size:9.5px;color:#94a3b8;transform:translateY(-50%);}
+  .ruler-ft{position:absolute;right:0;width:50px;text-align:left;font-size:9.5px;color:#94a3b8;transform:translateY(-50%);}
+
+  .figures-row{position:relative;display:flex;align-items:flex-end;justify-content:center;gap:26px;min-width:280px;}
+  .viz-person{display:flex;flex-direction:column;align-items:center;flex-shrink:0;position:relative;z-index:1;}
+  .viz-tag{
+    font-size:11.5px;font-weight:800;color:var(--ink);margin-bottom:4px;white-space:nowrap;
+    background:#fff;padding:1px 6px;border-radius:5px;
+  }
+  .viz-tag small{display:block;font-weight:600;color:#6b6b66;font-size:10px;}
+  .viz-underline{height:2px;width:70%;margin-bottom:2px;}
+  .viz-name{margin-top:6px;font-size:12.5px;font-weight:700;color:#3a3a36;text-align:center;max-width:90px;word-break:break-word;}
+
+  .stats-bar{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:18px;
+    background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:14px 10px;
+  }
+  .stat-item{text-align:center;}
+  .stat-item .label{font-size:10.5px;color:#8a877f;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:4px;}
+  .stat-item .value{font-size:13.5px;font-weight:800;color:var(--ink);}
+  .stat-item .value.tall{color:#059669;}
+  .stat-item .value.short{color:#d97706;}
+  .stat-item .value.avg{color:#7c3aed;}
+
+  .summary-box{margin-top:14px;padding:16px;background:#eef7fc;border:1px solid #c9e6f5;border-radius:12px;font-size:14.5px;color:#0a4a66;}
+  .summary-box strong{color:#043a52;}
+
+  .example-table{width:100%;border-collapse:collapse;margin:18px 0;font-size:14px;}
+  .example-table th, .example-table td{border:1px solid var(--line);padding:10px 12px;text-align:left;}
+  .example-table th{background:#eef7fc;font-weight:700;}
+  .example-table tr:nth-child(even){background:#fbfaf7;}
+
+  .info{margin:36px 0 32px;max-width:78ch;}
+  .info h2{font-size:22px;margin:36px 0 12px;color:#0f172a;}
+  .info h2:first-child{margin-top:0;}
+  .info h3{font-size:17px;margin:22px 0 8px;}
+  .info p{color:#3a3a36;margin:0 0 12px;}
+  .info ul, .info ol{color:#3a3a36;padding-left:22px;margin:0 0 14px;}
+  .info li{margin-bottom:8px;}
+
+  .faq-item{border-bottom:1px solid var(--line);padding:16px 0;}
+  .faq-q{font-weight:700;color:#0f172a;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-size:16px;}
+  .faq-a{color:#57574f;margin-top:10px;display:none;font-size:14.5px;}
+  .faq-a.show{display:block;}
+
+  .related h2{font-size:18px;margin-bottom:12px;}
+  .related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;}
+  .related-grid a{display:block;background:#fff;border:1px solid var(--line);border-radius:9px;padding:12px 14px;color:var(--ink);font-size:14px;font-weight:600;}
+  .related-grid a:hover{border-color:var(--accent);text-decoration:none;color:var(--accent-dark);}
+  .related-grid a small{display:block;font-weight:400;color:#6b6b66;font-size:12px;margin-top:3px;}
+
+  footer{border-top:1px solid var(--line);margin-top:40px;}
+
+  @media (max-width:600px){
+    .hero-graphic{display:none;}
+    h1{font-size:21px;}
+    .stats-bar{grid-template-columns:repeat(2,1fr);}
+    .chart-frame{padding:10px 40px 10px 34px;}
+    .ruler-line{left:34px;right:40px;}
+    .ruler-cm{width:30px;font-size:8.5px;}
+    .ruler-ft{width:38px;font-size:8.5px;}
+  }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+
+<header>
+  <div class="brand">Toolvala<span>.in</span></div>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/general-calculators.html">General Calculators</a>
+    <a href="/height-comparison-tool.html">Height Comparison</a>
+  </nav>
+</header>
+
+<main>
+  <div class="hero">
+    <div class="hero-text">
+      <h1>Free Online Height Comparison</h1>
+      <p class="lead">Compare two or more people's heights with avatar figures, a dual-unit ruler chart, and instant stats - in cm or feet/inches. Free, instant, no signup.</p>
+    </div>
+    <svg class="hero-graphic" viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+      <rect x="20" y="40" width="26" height="80" rx="6" fill="#7dd3fc" opacity="0.9"/>
+      <rect x="58" y="20" width="26" height="100" rx="6" fill="#0284c7" opacity="0.9"/>
+      <rect x="96" y="55" width="26" height="65" rx="6" fill="#bae6fd" opacity="0.9"/>
+    </svg>
+  </div>
+
+  <!-- AdSense ad unit -->
+  <div class="ad-slot">
+    <div class="ad-label">Advertisement</div>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-4402681434316955"
+         data-ad-slot="3427864418"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+  <div class="tool-card">
+    <div class="unit-row">
+      <button type="button" class="unit-btn active" id="unitCm">cm</button>
+      <button type="button" class="unit-btn" id="unitFtIn">ft / in</button>
+    </div>
+
+    <div id="personRows"></div>
+
+    <button type="button" class="add-row-btn" id="addRowBtn">+ Add Another Person</button>
+    <button type="button" class="combine-btn" id="compareBtn">Compare Heights</button>
+    <div class="status-msg" id="statusMsg"></div>
+
+    <div class="results" id="results">
+      <div class="download-row">
+        <button type="button" class="download-btn" id="downloadBtn">⬇ Download as Image</button>
+      </div>
+      <div id="captureArea">
+        <div class="chart-frame">
+          <div class="ruler" id="ruler"></div>
+          <div class="figures-row" id="figuresRow"></div>
+        </div>
+
+        <div class="stats-bar" id="statsBar"></div>
+        <div class="summary-box" id="summaryBox"></div>
+      </div>
+    </div>
+  </div>
+
+  <section class="info">
+    <h2>1. What Is Free Online Height Comparison?</h2>
+    <p>Free Online Height Comparison takes two or more heights and shows them side by side - visually and numerically - so you can see exactly how much taller or shorter one person is compared to another. Instead of doing the subtraction and unit conversion in your head, the tool draws a proportional avatar for each person against a ruled scale, making the difference immediately obvious at a glance.</p>
+    <p>Toolvala's Free Online Height Comparison renders each person as a simple male or female avatar, scaled accurately against a dual-unit ruler (centimeters on one side, feet and inches on the other), and shows instant stats - tallest, shortest, average, and the exact difference between any two people.</p>
+
+    <h2>2. How to Use Free Online Height Comparison</h2>
+    <ol>
+      <li><strong>Pick your entry unit</strong> - tap "cm" or "ft / in" at the top, depending on which one you know your height in.</li>
+      <li><strong>Enter each person's name, height, and gender,</strong> and pick an avatar color if you'd like something other than the default. Two rows are shown by default; tap "+ Add Another Person" for up to five.</li>
+      <li><strong>Tap Compare Heights.</strong> The tool draws a scaled avatar for each person against the ruler, along with a stats bar and a written summary.</li>
+      <li><strong>Read the ruler</strong> on either side of the chart - centimeters on the left, feet and inches on the right - to see exactly where each person's height falls.</li>
+      <li><strong>Remove a row</strong> using the red button next to it if you want to compare a different group.</li>
+    </ol>
+
+    <h2>3. Centimeters vs Feet and Inches - Which Should You Use?</h2>
+    <p>Centimeters are the standard unit for height almost everywhere outside the United States, and they make comparison math simple since it's just one number. Feet and inches are more common in the US and are how many people instinctively think about their own height ("I'm 5'8""). The tool converts internally either way, and the ruler chart always shows both units side by side, so the comparison is easy to read regardless of which system you're more familiar with.</p>
+
+    <h2>4. Quick Reference: Feet/Inches to Centimeters</h2>
+    <p>Since 1 inch is exactly 2.54 cm, here's a quick lookup table for common heights, useful if you only know a height in one unit and want a rough sense of the other:</p>
+    <table class="example-table">
+      <tr><th>Feet/Inches</th><th>Centimeters</th></tr>
+      <tr><td>5'0"</td><td>152.4 cm</td></tr>
+      <tr><td>5'4"</td><td>162.6 cm</td></tr>
+      <tr><td>5'6"</td><td>167.6 cm</td></tr>
+      <tr><td>5'8"</td><td>172.7 cm</td></tr>
+      <tr><td>5'10"</td><td>177.8 cm</td></tr>
+      <tr><td>6'0"</td><td>182.9 cm</td></tr>
+      <tr><td>6'2"</td><td>188.0 cm</td></tr>
+      <tr><td>6'4"</td><td>193.0 cm</td></tr>
+    </table>
+
+    <h2>5. Why People Compare Heights</h2>
+    <ul>
+      <li><strong>Curiosity between friends or partners:</strong> A quick, fun way to settle "who's actually taller" once and for all, with an exact number instead of a guess.</li>
+      <li><strong>Character design for writers and game developers:</strong> Comparing character heights side by side, with a male or female avatar, helps keep proportions consistent across a cast.</li>
+      <li><strong>Tracking a child's growth against a sibling or parent:</strong> Parents often want to see how a child's height compares to another family member at a similar age.</li>
+      <li><strong>Sports and fitness contexts:</strong> Coaches and fans frequently compare athlete heights, especially in sports like basketball or volleyball where height is a common talking point.</li>
+      <li><strong>Costume, fashion, and furniture sizing:</strong> Comparing your height to a size chart's reference height helps judge fit before buying.</li>
+    </ul>
+
+    <h2>6. Reading the Stats Bar</h2>
+    <p>Once you tap Compare Heights, the stats bar shows four numbers at a glance: the total number of people in the comparison, the tallest person and their height, the shortest person and their height, and the average height across everyone entered. The written summary below it spells out the exact difference between the tallest and shortest - in both cm and inches, plus a percentage - so you don't have to read the chart to get the headline number.</p>
+
+    <h2>7. Tips for an Accurate Height Measurement</h2>
+    <ul>
+      <li><strong>Measure without shoes.</strong> Shoes can add anywhere from 1 to 4 cm depending on the sole, which throws off any comparison.</li>
+      <li><strong>Stand fully upright against a flat wall,</strong> heels together, looking straight ahead - slouching can shave off a surprising amount.</li>
+      <li><strong>Measure in the morning if precision matters.</strong> Most people are very slightly taller in the morning than at night, due to spinal compression over the course of a day.</li>
+      <li><strong>Use a flat object to mark the top of the head</strong> against the wall, then measure from the floor to that mark, rather than eyeballing it from a distance.</li>
+    </ul>
+
+    <h2>8. Common Mistakes When Comparing Heights</h2>
+    <ul>
+      <li><strong>Mixing units without converting.</strong> Comparing "5'6"" directly against "170" without specifying units leads to meaningless results.</li>
+      <li><strong>Rounding too early.</strong> Rounding each height to the nearest whole number before comparing can shift a close result - the tool keeps full precision until the final display.</li>
+      <li><strong>Comparing measurements taken at different times of day.</strong> As noted above, height can vary by up to a centimeter across a day.</li>
+      <li><strong>Forgetting shoes were on during one measurement but not the other.</strong> This is one of the most common sources of an inaccurate comparison.</li>
+    </ul>
+
+    <h2>9. Privacy and How This Tool Works</h2>
+    <p>Every calculation and every avatar on this page is generated using plain JavaScript and SVG running directly in your browser tab. There is no server-side processing step and no analytics event tied to the specific names, genders, or heights you enter - the page's analytics tracking only records that this page was visited, the same as it would for any other page on Toolvala.in. Closing or refreshing the tab clears everything you typed; nothing persists between visits.</p>
+
+    <h2>10. Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <div class="faq-q" data-faq="0">Is Free Online Height Comparison free to use? <span>▼</span></div>
+      <div class="faq-a" id="faq-0">Yes, it's completely free with no sign-up, no usage limits, and no watermark on the results.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" data-faq="1">Can I compare more than two people at once? <span>▼</span></div>
+      <div class="faq-a" id="faq-1">Yes - tap "+ Add Another Person" to add up to five people to the same comparison.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" data-faq="2">What does the ruler on the chart show? <span>▼</span></div>
+      <div class="faq-a" id="faq-2">The left side shows centimeters and the right side shows feet and inches, both scaled to the same chart, so you can read any avatar's height in either unit at a glance.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" data-faq="3">How is the percentage difference calculated? <span>▼</span></div>
+      <div class="faq-a" id="faq-3">It's the height difference between the tallest and shortest person divided by the shortest person's height, multiplied by 100.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" data-faq="4">Does this tool store the names or heights I enter? <span>▼</span></div>
+      <div class="faq-a" id="faq-4">No. All calculations happen locally in your browser using JavaScript - nothing you type is sent to or saved on Toolvala's servers.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" data-faq="5">Can I use this for comparing fictional or historical heights? <span>▼</span></div>
+      <div class="faq-a" id="faq-5">Yes - the tool works with any height you enter, whether it's a real person, a fictional character, or a historical figure, as long as you know the height in cm or feet/inches.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" data-faq="6">Can I save or share the comparison? <span>▼</span></div>
+      <div class="faq-a" id="faq-6">Yes - tap "Download as Image" above the chart once you've compared heights, and it saves the avatar chart, stats bar, and summary as a PNG image you can share or keep.</div>
+    </div>
+
+    <h2>11. Final Thoughts</h2>
+    <p>Whether you're settling a friendly debate, checking a child's growth against a sibling, or keeping fictional character heights consistent, Free Online Height Comparison turns two or more raw numbers into an instant, easy-to-read visual comparison - avatars, a dual-unit ruler, and a stats bar, all in one view, downloadable as an image to share. Since everything runs locally in your browser, you're free to compare as many heights as you like, for as long as you like, without ever creating an account.</p>
+  </section>
+
+  <section class="related">
+    <h2>Related tools on Toolvala.in</h2>
+    <div class="related-grid">
+      <a href="/general-calculators.html">General Calculators<small>Math, time and scientific tools</small></a>
+      <a href="/age-calculator.html">Age Calculator<small>Calculate exact age from date of birth</small></a>
+      <a href="/percentage-calculator.html">Percentage Calculator<small>Find percentages, increases and discounts</small></a>
+      <a href="/scientific-calculator.html">Scientific Calculator<small>Basic, scientific and graphing modes</small></a>
+      <a href="/converters.html">Unit Converters<small>Length, weight, temperature and more</small></a>
+      <a href="/name-combiners.html">Name Combiners<small>Ten free name-blending tools</small></a>
+    </div>
+  </section>
+</main>
+
+<div id="footer"></div>
+
+<script>
+fetch("/footer.html")
+  .then(response => response.text())
+  .then(data => {
+    document.getElementById("footer").innerHTML = data;
+    var yearSpan = document.getElementById("year");
+    if (yearSpan) { yearSpan.textContent = new Date().getFullYear(); }
+  });
+</script>
+
+<script>
+(function(){
+  var personRows = document.getElementById('personRows');
+  var addRowBtn = document.getElementById('addRowBtn');
+  var compareBtn = document.getElementById('compareBtn');
+  var statusMsg = document.getElementById('statusMsg');
+  var results = document.getElementById('results');
+  var ruler = document.getElementById('ruler');
+  var figuresRow = document.getElementById('figuresRow');
+  var statsBar = document.getElementById('statsBar');
+  var summaryBox = document.getElementById('summaryBox');
+  var downloadBtn = document.getElementById('downloadBtn');
+  var unitCmBtn = document.getElementById('unitCm');
+  var unitFtInBtn = document.getElementById('unitFtIn');
+
+  var MAX_PEOPLE = 5;
+  var MIN_PEOPLE = 2;
+  var currentUnit = 'cm';
+  var chartHeightPx = 260;
+
+  var COLORS = ['#f59e0b', '#ef4444', '#14b8a6', '#8b5cf6', '#ec4899', '#78350f', '#22d3ee'];
+
+  var MALE_SVG =
+    '<svg viewBox="0 0 120 320" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax meet">' +
+      '<circle cx="60" cy="28" r="24" fill="CUR"/>' +
+      '<rect x="50" y="50" width="20" height="12" fill="CUR"/>' +
+      '<polygon points="26,62 94,62 84,175 36,175" fill="CUR"/>' +
+      '<rect x="10" y="64" width="18" height="115" rx="9" fill="CUR"/>' +
+      '<rect x="92" y="64" width="18" height="115" rx="9" fill="CUR"/>' +
+      '<rect x="38" y="175" width="20" height="125" rx="9" fill="CUR"/>' +
+      '<rect x="62" y="175" width="20" height="125" rx="9" fill="CUR"/>' +
+      '<ellipse cx="48" cy="305" rx="14" ry="8" fill="CUR"/>' +
+      '<ellipse cx="72" cy="305" rx="14" ry="8" fill="CUR"/>' +
+    '</svg>';
+
+  var FEMALE_SVG =
+    '<svg viewBox="0 0 120 320" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax meet">' +
+      '<circle cx="60" cy="16" r="18" fill="CUR"/>' +
+      '<circle cx="38" cy="30" r="12" fill="CUR"/>' +
+      '<circle cx="82" cy="30" r="12" fill="CUR"/>' +
+      '<circle cx="60" cy="26" r="20" fill="CUR"/>' +
+      '<rect x="52" y="46" width="16" height="10" fill="CUR"/>' +
+      '<polygon points="40,56 80,56 74,128 46,128" fill="CUR"/>' +
+      '<rect x="26" y="58" width="13" height="92" rx="6" fill="CUR"/>' +
+      '<rect x="81" y="58" width="13" height="92" rx="6" fill="CUR"/>' +
+      '<polygon points="46,128 74,128 94,205 26,205" fill="CUR"/>' +
+      '<rect x="42" y="205" width="16" height="95" rx="8" fill="CUR"/>' +
+      '<rect x="62" y="205" width="16" height="95" rx="8" fill="CUR"/>' +
+      '<ellipse cx="50" cy="305" rx="12" ry="7" fill="CUR"/>' +
+      '<ellipse cx="70" cy="305" rx="12" ry="7" fill="CUR"/>' +
+    '</svg>';
+
+  function cmToFtIn(cm){
+    var totalInches = cm / 2.54;
+    var feet = Math.floor(totalInches / 12);
+    var inches = Math.round((totalInches - feet * 12) * 10) / 10;
+    if(inches >= 12){ feet += 1; inches -= 12; }
+    return { feet: feet, inches: inches };
+  }
+  function ftInToCm(feet, inches){
+    return Math.round(((feet * 12) + inches) * 2.54 * 10) / 10;
+  }
+  function formatCombined(cm){
+    var fi = cmToFtIn(cm);
+    return fi.feet + "'" + Math.round(fi.inches) + '" (' + cm.toFixed(1) + 'cm)';
+  }
+
+  function makeRow(index, defaultName){
+    var row = document.createElement('div');
+    row.className = 'person-row';
+    row.dataset.index = index;
+    row.dataset.gender = 'male';
+    row.dataset.color = COLORS[index % COLORS.length];
+
+    var top = document.createElement('div');
+    top.className = 'row-top';
+
+    var nameField = document.createElement('div');
+    nameField.className = 'field';
+    nameField.innerHTML = '<label>Name</label><input type="text" class="p-name" placeholder="' + defaultName + '" maxlength="20">';
+    top.appendChild(nameField);
+
+    var heightFieldWrap = document.createElement('div');
+    heightFieldWrap.className = 'height-fields';
+    heightFieldWrap.style.display = 'flex';
+    heightFieldWrap.style.gap = '8px';
+    heightFieldWrap.style.flex = '1';
+    heightFieldWrap.style.minWidth = '140px';
+    top.appendChild(heightFieldWrap);
+
+    var removeBtn = document.createElement('button');
+    removeBtn.type = 'button';
+    removeBtn.className = 'remove-btn';
+    removeBtn.textContent = '✕';
+    removeBtn.addEventListener('click', function(){
+      if(personRows.children.length > MIN_PEOPLE){
+        row.remove();
+        updateRemoveButtons();
+      }
+    });
+    top.appendChild(removeBtn);
+
+    row.appendChild(top);
+
+    var bottom = document.createElement('div');
+    bottom.className = 'row-bottom';
+
+    var genderWrap = document.createElement('div');
+    genderWrap.className = 'gender-toggle';
+    var maleBtn = document.createElement('button');
+    maleBtn.type = 'button'; maleBtn.className = 'gender-btn active'; maleBtn.textContent = 'Male';
+    var femaleBtn = document.createElement('button');
+    femaleBtn.type = 'button'; femaleBtn.className = 'gender-btn'; femaleBtn.textContent = 'Female';
+    maleBtn.addEventListener('click', function(){
+      row.dataset.gender = 'male';
+      maleBtn.classList.add('active'); femaleBtn.classList.remove('active');
+    });
+    femaleBtn.addEventListener('click', function(){
+      row.dataset.gender = 'female';
+      femaleBtn.classList.add('active'); maleBtn.classList.remove('active');
+    });
+    genderWrap.appendChild(maleBtn);
+    genderWrap.appendChild(femaleBtn);
+    bottom.appendChild(genderWrap);
+
+    var swatchWrap = document.createElement('div');
+    swatchWrap.className = 'swatch-row';
+    var swLabel = document.createElement('span');
+    swLabel.className = 'swatch-label';
+    swLabel.textContent = 'Color';
+    swatchWrap.appendChild(swLabel);
+    COLORS.forEach(function(c){
+      var sw = document.createElement('div');
+      sw.className = 'swatch' + (c === row.dataset.color ? ' selected' : '');
+      sw.style.background = c;
+      sw.addEventListener('click', function(){
+        row.dataset.color = c;
+        swatchWrap.querySelectorAll('.swatch').forEach(function(s){ s.classList.remove('selected'); });
+        sw.classList.add('selected');
+      });
+      swatchWrap.appendChild(sw);
+    });
+    bottom.appendChild(swatchWrap);
+
+    row.appendChild(bottom);
+
+    renderHeightFields(heightFieldWrap);
+    personRows.appendChild(row);
+    updateRemoveButtons();
+  }
+
+  function renderHeightFields(wrap){
+    wrap.innerHTML = '';
+    if(currentUnit === 'cm'){
+      var f = document.createElement('div');
+      f.className = 'field';
+      f.innerHTML = '<label>Height (cm)</label><input type="number" class="p-cm" min="30" max="260" step="0.1" placeholder="e.g. 170">';
+      wrap.appendChild(f);
+    } else {
+      var ff = document.createElement('div');
+      ff.className = 'field small';
+      ff.innerHTML = '<label>Feet</label><input type="number" class="p-feet" min="1" max="8" step="1" placeholder="5">';
+      var fi = document.createElement('div');
+      fi.className = 'field small';
+      fi.innerHTML = '<label>Inches</label><input type="number" class="p-inches" min="0" max="11.9" step="0.1" placeholder="8">';
+      wrap.appendChild(ff);
+      wrap.appendChild(fi);
+    }
+  }
+
+  function updateRemoveButtons(){
+    var rows = personRows.querySelectorAll('.person-row');
+    rows.forEach(function(r){
+      var btn = r.querySelector('.remove-btn');
+      btn.disabled = rows.length <= MIN_PEOPLE;
+    });
+    addRowBtn.style.display = rows.length >= MAX_PEOPLE ? 'none' : 'block';
+  }
+
+  function switchUnit(unit){
+    if(unit === currentUnit) return;
+    var rows = personRows.querySelectorAll('.person-row');
+    var cmValues = [];
+    rows.forEach(function(r){ cmValues.push(getRowCm(r)); });
+    currentUnit = unit;
+    unitCmBtn.classList.toggle('active', unit === 'cm');
+    unitFtInBtn.classList.toggle('active', unit === 'ftin');
+
+    rows.forEach(function(r, i){
+      var wrap = r.querySelector('.height-fields');
+      renderHeightFields(wrap);
+      var cm = cmValues[i];
+      if(cm !== null){
+        if(unit === 'cm'){
+          r.querySelector('.p-cm').value = cm;
+        } else {
+          var fi = cmToFtIn(cm);
+          r.querySelector('.p-feet').value = fi.feet;
+          r.querySelector('.p-inches').value = fi.inches;
+        }
+      }
+    });
+  }
+
+  function getRowCm(row){
+    if(currentUnit === 'cm'){
+      var el = row.querySelector('.p-cm');
+      var v = parseFloat(el.value);
+      return isNaN(v) ? null : v;
+    } else {
+      var fe = row.querySelector('.p-feet');
+      var ie = row.querySelector('.p-inches');
+      var fv = parseFloat(fe.value);
+      var iv = parseFloat(ie.value);
+      if(isNaN(fv) && isNaN(iv)) return null;
+      fv = isNaN(fv) ? 0 : fv;
+      iv = isNaN(iv) ? 0 : iv;
+      return ftInToCm(fv, iv);
+    }
+  }
+
+  unitCmBtn.addEventListener('click', function(){ switchUnit('cm'); });
+  unitFtInBtn.addEventListener('click', function(){ switchUnit('ftin'); });
+
+  addRowBtn.addEventListener('click', function(){
+    var rows = personRows.querySelectorAll('.person-row').length;
+    if(rows < MAX_PEOPLE){
+      makeRow(rows, 'Person ' + (rows + 1));
+    }
+  });
+
+  makeRow(0, 'Person 1');
+  makeRow(1, 'Person 2');
+
+  compareBtn.addEventListener('click', function(){
+    statusMsg.classList.remove('show');
+    var rows = personRows.querySelectorAll('.person-row');
+    var people = [];
+    var valid = true;
+
+    rows.forEach(function(r){
+      var nameEl = r.querySelector('.p-name');
+      var name = nameEl.value.trim() || nameEl.placeholder;
+      var cm = getRowCm(r);
+      if(cm === null || cm <= 0){ valid = false; }
+      people.push({ name: name, cm: cm, color: r.dataset.color, gender: r.dataset.gender });
+    });
+
+    if(!valid){
+      statusMsg.textContent = "Please enter a valid height for every person.";
+      statusMsg.classList.add('show');
+      results.classList.remove('show');
+      return;
+    }
+
+    renderResults(people);
+  });
+
+  function renderRuler(maxCm){
+    ruler.innerHTML = '';
+    var ticks = 10;
+    for(var i = 0; i <= ticks; i++){
+      var valueCm = (maxCm / ticks) * i;
+      var bottomPx = (valueCm / maxCm) * chartHeightPx;
+      var topPx = chartHeightPx - bottomPx;
+
+      var line = document.createElement('div');
+      line.className = 'ruler-line';
+      line.style.top = topPx + 'px';
+      ruler.appendChild(line);
+
+      var cmLabel = document.createElement('div');
+      cmLabel.className = 'ruler-cm';
+      cmLabel.style.top = topPx + 'px';
+      cmLabel.textContent = Math.round(valueCm) + 'cm';
+      ruler.appendChild(cmLabel);
+
+      var fi = cmToFtIn(valueCm);
+      var ftLabel = document.createElement('div');
+      ftLabel.className = 'ruler-ft';
+      ftLabel.style.top = topPx + 'px';
+      ftLabel.textContent = fi.feet + "'" + Math.round(fi.inches) + '"';
+      ruler.appendChild(ftLabel);
+    }
+  }
+
+  function renderResults(people){
+    var maxCmRaw = Math.max.apply(null, people.map(function(p){ return p.cm; }));
+    var maxCm = Math.ceil((maxCmRaw + 15) / 20) * 20;
+    if(maxCm < 100) maxCm = 100;
+
+    renderRuler(maxCm);
+
+    figuresRow.innerHTML = '';
+    figuresRow.style.height = chartHeightPx + 'px';
+
+    people.forEach(function(p){
+      var col = document.createElement('div');
+      col.className = 'viz-person';
+      col.style.alignSelf = 'flex-end';
+
+      var tag = document.createElement('div');
+      tag.className = 'viz-tag';
+      var fi = cmToFtIn(p.cm);
+      tag.innerHTML = p.name + '<small>' + fi.feet + "'" + Math.round(fi.inches) + '" (' + Math.round(p.cm) + 'cm)</small>';
+      col.appendChild(tag);
+
+      var underline = document.createElement('div');
+      underline.className = 'viz-underline';
+      underline.style.background = p.color;
+      col.appendChild(underline);
+
+      var figWrap = document.createElement('div');
+      var hPx = Math.max(40, Math.round((p.cm / maxCm) * chartHeightPx));
+      var wPx = Math.round(hPx * (120/320));
+      figWrap.style.height = hPx + 'px';
+      figWrap.style.width = wPx + 'px';
+      var svgMarkup = (p.gender === 'female' ? FEMALE_SVG : MALE_SVG).split('CUR').join(p.color);
+      figWrap.innerHTML = svgMarkup;
+      figWrap.querySelector('svg').setAttribute('width', wPx);
+      figWrap.querySelector('svg').setAttribute('height', hPx);
+      col.appendChild(figWrap);
+
+      var nameEl = document.createElement('div');
+      nameEl.className = 'viz-name';
+      nameEl.textContent = p.name;
+      col.appendChild(nameEl);
+
+      figuresRow.appendChild(col);
+    });
+
+    var sorted = people.slice().sort(function(a,b){ return b.cm - a.cm; });
+    var tallest = sorted[0];
+    var shortest = sorted[sorted.length - 1];
+    var avgCm = people.reduce(function(sum, p){ return sum + p.cm; }, 0) / people.length;
+    var diffCm = Math.round((tallest.cm - shortest.cm) * 10) / 10;
+    var diffInches = Math.round((diffCm / 2.54) * 10) / 10;
+    var pct = shortest.cm > 0 ? Math.round((diffCm / shortest.cm) * 1000) / 10 : 0;
+
+    statsBar.innerHTML =
+      '<div class="stat-item"><div class="label">Total Persons</div><div class="value">' + people.length + '</div></div>' +
+      '<div class="stat-item"><div class="label">Tallest Person</div><div class="value tall">' + tallest.name + '<br>' + formatCombined(tallest.cm) + '</div></div>' +
+      '<div class="stat-item"><div class="label">Shortest Person</div><div class="value short">' + shortest.name + '<br>' + formatCombined(shortest.cm) + '</div></div>' +
+      '<div class="stat-item"><div class="label">Average Height</div><div class="value avg">' + formatCombined(avgCm) + '</div></div>';
+
+    var summaryHtml;
+    if(diffCm === 0){
+      summaryHtml = 'All entered heights are exactly the same.';
+    } else if(people.length === 2){
+      summaryHtml = '<strong>' + tallest.name + '</strong> is taller than <strong>' + shortest.name + '</strong> by ' +
+        '<strong>' + diffCm.toFixed(1) + ' cm</strong> (' + diffInches.toFixed(1) + ' in) - about ' +
+        '<strong>' + pct + '%</strong> taller.';
+    } else {
+      summaryHtml = '<strong>' + tallest.name + '</strong> is the tallest and <strong>' + shortest.name + '</strong> is the shortest - a difference of ' +
+        '<strong>' + diffCm.toFixed(1) + ' cm</strong> (' + diffInches.toFixed(1) + ' in), or about ' +
+        '<strong>' + pct + '%</strong>.';
+    }
+    summaryBox.innerHTML = summaryHtml;
+
+    results.classList.add('show');
+  }
+
+  downloadBtn.addEventListener('click', function(){
+    var captureArea = document.getElementById('captureArea');
+    downloadBtn.disabled = true;
+    var originalText = downloadBtn.textContent;
+    downloadBtn.textContent = 'Preparing...';
+    html2canvas(captureArea, { backgroundColor: '#ffffff', scale: 2 }).then(function(canvas){
+      var link = document.createElement('a');
+      link.download = 'height-comparison.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+      downloadBtn.disabled = false;
+      downloadBtn.textContent = originalText;
+    }).catch(function(){
+      downloadBtn.disabled = false;
+      downloadBtn.textContent = originalText;
+      statusMsg.textContent = "Couldn't generate the image - please try again.";
+      statusMsg.classList.add('show');
+    });
+  });
+
+  document.querySelectorAll('.faq-q').forEach(function(q){
+    q.addEventListener('click', function(){
+      var id = q.getAttribute('data-faq');
+      var a = document.getElementById('faq-' + id);
+      a.classList.toggle('show');
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
