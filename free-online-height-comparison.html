@@ -7,7 +7,7 @@
 <meta name="description" content="Free Online Height Comparison tool. Compare two or more people's heights visually with avatars, a dual-unit ruler chart, and instant stats - in cm or feet/inches.">
 <meta name="keywords" content="free online height comparison, height comparison tool, compare heights online, height difference calculator, height comparison chart, toolvala height comparison">
 <meta name="robots" content="index, follow">
-<link rel="canonical" href="https://www.toolvala.in/height-comparison-tool.html">
+<link rel="canonical" href="https://www.toolvala.in/free-online-height-comparison.html">
 
 <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
 <link rel="shortcut icon" href="/favicon.ico" />
@@ -33,7 +33,7 @@
   "@context": "https://schema.org",
   "@type": "WebApplication",
   "name": "Free Online Height Comparison",
-  "url": "https://www.toolvala.in/height-comparison-tool.html",
+  "url": "https://www.toolvala.in/free-online-height-comparison.html",
   "description": "Compare two or more people's heights visually with avatars, a dual-unit ruler chart, and instant stats.",
   "applicationCategory": "UtilitiesApplication",
   "operatingSystem": "All",
@@ -126,14 +126,18 @@
 
   .chart-frame{
     position:relative;background:#fff;border:1px solid var(--line);border-radius:12px;
-    padding:10px 54px 10px 46px;overflow-x:auto;
+    padding:10px 54px 10px 46px;overflow:visible;
   }
-  .ruler{position:absolute;left:0;top:10px;right:0;bottom:10px;pointer-events:none;}
+  .figures-scroll{
+    overflow-x:auto;overflow-y:visible;
+    display:flex;align-items:flex-end;
+  }
+  .ruler{position:absolute;left:0;top:56px;right:0;bottom:10px;pointer-events:none;}
   .ruler-line{position:absolute;left:46px;right:54px;border-top:1px dashed #e2e8f0;}
   .ruler-cm{position:absolute;left:0;width:42px;text-align:right;font-size:9.5px;color:#94a3b8;transform:translateY(-50%);}
   .ruler-ft{position:absolute;right:0;width:50px;text-align:left;font-size:9.5px;color:#94a3b8;transform:translateY(-50%);}
 
-  .figures-row{position:relative;display:flex;align-items:flex-end;justify-content:center;gap:26px;min-width:280px;}
+  .figures-row{position:relative;display:flex;align-items:flex-end;justify-content:center;gap:26px;min-width:280px;width:100%;}
   .viz-person{display:flex;flex-direction:column;align-items:center;flex-shrink:0;position:relative;z-index:1;}
   .viz-tag{
     font-size:11.5px;font-weight:800;color:var(--ink);margin-bottom:4px;white-space:nowrap;
@@ -202,7 +206,7 @@
   <nav>
     <a href="/">Home</a>
     <a href="/general-calculators.html">General Calculators</a>
-    <a href="/height-comparison-tool.html">Height Comparison</a>
+    <a href="/free-online-height-comparison.html">Height Comparison</a>
   </nav>
 </header>
 
@@ -250,7 +254,9 @@
       <div id="captureArea">
         <div class="chart-frame">
           <div class="ruler" id="ruler"></div>
-          <div class="figures-row" id="figuresRow"></div>
+          <div class="figures-scroll" id="figuresScroll">
+            <div class="figures-row" id="figuresRow"></div>
+          </div>
         </div>
 
         <div class="stats-bar" id="statsBar"></div>
@@ -389,6 +395,7 @@ fetch("/footer.html")
   var results = document.getElementById('results');
   var ruler = document.getElementById('ruler');
   var figuresRow = document.getElementById('figuresRow');
+  var figuresScroll = document.getElementById('figuresScroll');
   var statsBar = document.getElementById('statsBar');
   var summaryBox = document.getElementById('summaryBox');
   var downloadBtn = document.getElementById('downloadBtn');
@@ -399,6 +406,7 @@ fetch("/footer.html")
   var MIN_PEOPLE = 2;
   var currentUnit = 'cm';
   var chartHeightPx = 260;
+  var TAG_SPACE = 46; // reserved headroom above the tallest figure for its name/height tag
 
   var COLORS = ['#f59e0b', '#ef4444', '#14b8a6', '#8b5cf6', '#ec4899', '#78350f', '#22d3ee'];
 
@@ -674,6 +682,7 @@ fetch("/footer.html")
     renderRuler(maxCm);
 
     figuresRow.innerHTML = '';
+    figuresScroll.style.height = (TAG_SPACE + chartHeightPx) + 'px';
     figuresRow.style.height = chartHeightPx + 'px';
 
     people.forEach(function(p){
@@ -747,13 +756,38 @@ fetch("/footer.html")
     downloadBtn.disabled = true;
     var originalText = downloadBtn.textContent;
     downloadBtn.textContent = 'Preparing...';
-    html2canvas(captureArea, { backgroundColor: '#ffffff', scale: 2 }).then(function(canvas){
+
+    function finishDownload(url, revoke){
       var link = document.createElement('a');
       link.download = 'height-comparison.png';
-      link.href = canvas.toDataURL('image/png');
+      link.href = url;
+      link.rel = 'noopener';
+      link.style.display = 'none';
+      document.body.appendChild(link);
       link.click();
+      document.body.removeChild(link);
+      if(revoke){
+        setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+      }
       downloadBtn.disabled = false;
       downloadBtn.textContent = originalText;
+    }
+
+    html2canvas(captureArea, { backgroundColor: '#ffffff', scale: 2, useCORS: true }).then(function(canvas){
+      // toBlob + object URL is far more reliable for triggering a real download
+      // on mobile browsers than a data: URI, which some mobile browsers only
+      // open inline instead of downloading.
+      if(canvas.toBlob){
+        canvas.toBlob(function(blob){
+          if(blob){
+            finishDownload(URL.createObjectURL(blob), true);
+          } else {
+            finishDownload(canvas.toDataURL('image/png'), false);
+          }
+        }, 'image/png');
+      } else {
+        finishDownload(canvas.toDataURL('image/png'), false);
+      }
     }).catch(function(){
       downloadBtn.disabled = false;
       downloadBtn.textContent = originalText;
