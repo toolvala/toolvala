@@ -139,6 +139,19 @@
 
   .figures-row{position:relative;display:flex;align-items:flex-end;justify-content:center;gap:26px;min-width:280px;width:100%;}
   .viz-person{display:flex;flex-direction:column;align-items:center;flex-shrink:0;position:relative;z-index:1;}
+  .fig-wrap{
+    overflow:visible;
+    transition:height 0.65s cubic-bezier(.34,1.56,.64,1), width 0.65s cubic-bezier(.34,1.56,.64,1);
+  }
+  .fig-wrap svg{display:block;width:100%;height:100%;}
+  .viz-delete{
+    position:absolute;top:-4px;right:-4px;width:20px;height:20px;border-radius:50%;
+    background:#ef4444;color:#fff;border:2px solid #fff;font-size:11px;font-weight:800;
+    display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:2;
+    box-shadow:0 2px 6px rgba(0,0,0,0.18);line-height:1;padding:0;
+  }
+  .viz-delete:hover{background:#dc2626;}
+  #captureArea.capturing .viz-delete{display:none;}
   .viz-tag{
     font-size:11.5px;font-weight:800;color:var(--ink);margin-bottom:4px;white-space:nowrap;
     background:#fff;padding:1px 6px;border-radius:5px;
@@ -407,37 +420,36 @@ fetch("/footer.html")
   var currentUnit = 'cm';
   var chartHeightPx = 260;
   var TAG_SPACE = 46; // reserved headroom above the tallest figure for its name/height tag
+  var currentPeople = [];
 
   var COLORS = ['#f59e0b', '#ef4444', '#14b8a6', '#8b5cf6', '#ec4899', '#78350f', '#22d3ee'];
 
   var MALE_SVG =
     '<svg viewBox="0 0 120 320" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax meet">' +
-      '<circle cx="60" cy="28" r="24" fill="CUR"/>' +
-      '<rect x="50" y="50" width="20" height="12" fill="CUR"/>' +
-      '<polygon points="26,62 94,62 84,175 36,175" fill="CUR"/>' +
-      '<rect x="10" y="64" width="18" height="115" rx="9" fill="CUR"/>' +
-      '<rect x="92" y="64" width="18" height="115" rx="9" fill="CUR"/>' +
-      '<rect x="38" y="175" width="20" height="125" rx="9" fill="CUR"/>' +
-      '<rect x="62" y="175" width="20" height="125" rx="9" fill="CUR"/>' +
-      '<ellipse cx="48" cy="305" rx="14" ry="8" fill="CUR"/>' +
-      '<ellipse cx="72" cy="305" rx="14" ry="8" fill="CUR"/>' +
+      '<path d="M60,52 C42,52 28,58 26,70 C24,90 28,120 34,150 L36,175 L84,175 L86,150 C92,120 96,90 94,70 C92,58 78,52 60,52 Z" fill="CUR"/>' +
+      '<rect x="50" y="44" width="20" height="12" rx="4" fill="CUR"/>' +
+      '<circle cx="60" cy="26" r="24" fill="CUR"/>' +
+      '<rect x="11" y="64" width="17" height="113" rx="8.5" fill="CUR"/>' +
+      '<rect x="92" y="64" width="17" height="113" rx="8.5" fill="CUR"/>' +
+      '<path d="M40,175 L58,175 L57,265 C57,283 53,299 49,299 C45,299 43,286 43,270 L41,215 Z" fill="CUR"/>' +
+      '<path d="M62,175 L80,175 L79,215 L77,270 C77,286 75,299 71,299 C67,299 63,283 63,265 Z" fill="CUR"/>' +
+      '<ellipse cx="47" cy="304" rx="13" ry="7.5" fill="CUR"/>' +
+      '<ellipse cx="73" cy="304" rx="13" ry="7.5" fill="CUR"/>' +
     '</svg>';
 
   var FEMALE_SVG =
     '<svg viewBox="0 0 120 320" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax meet">' +
-      '<circle cx="60" cy="16" r="18" fill="CUR"/>' +
-      '<circle cx="38" cy="30" r="12" fill="CUR"/>' +
-      '<circle cx="82" cy="30" r="12" fill="CUR"/>' +
+      '<path d="M60,10 C48,10 40,17 39,27 C38,33 41,39 46,42 L46,34 C46,28 52,22 60,22 C68,22 74,28 74,34 L74,42 C79,39 82,33 81,27 C80,17 72,10 60,10 Z" fill="CUR"/>' +
+      '<rect x="53" y="42" width="14" height="10" rx="4" fill="CUR"/>' +
       '<circle cx="60" cy="26" r="20" fill="CUR"/>' +
-      '<rect x="52" y="46" width="16" height="10" fill="CUR"/>' +
-      '<polygon points="40,56 80,56 74,128 46,128" fill="CUR"/>' +
-      '<rect x="26" y="58" width="13" height="92" rx="6" fill="CUR"/>' +
-      '<rect x="81" y="58" width="13" height="92" rx="6" fill="CUR"/>' +
-      '<polygon points="46,128 74,128 94,205 26,205" fill="CUR"/>' +
-      '<rect x="42" y="205" width="16" height="95" rx="8" fill="CUR"/>' +
-      '<rect x="62" y="205" width="16" height="95" rx="8" fill="CUR"/>' +
-      '<ellipse cx="50" cy="305" rx="12" ry="7" fill="CUR"/>' +
-      '<ellipse cx="70" cy="305" rx="12" ry="7" fill="CUR"/>' +
+      '<path d="M60,44 C47,44 37,48 35,58 C33,72 37,92 41,110 L41,124 L79,124 L79,110 C83,92 87,72 85,58 C83,48 73,44 60,44 Z" fill="CUR"/>' +
+      '<rect x="22" y="52" width="12.5" height="90" rx="6" fill="CUR"/>' +
+      '<rect x="85.5" y="52" width="12.5" height="90" rx="6" fill="CUR"/>' +
+      '<path d="M41,124 L79,124 C81,143 88,175 95,204 C96,210 92,213 86,213 L34,213 C28,213 24,210 25,204 C32,175 39,143 41,124 Z" fill="CUR"/>' +
+      '<path d="M44,213 L58,213 L57,272 C57,286 53,299 49,299 C46,299 43,289 43,277 L42,240 Z" fill="CUR"/>' +
+      '<path d="M62,213 L76,213 L78,240 L77,277 C77,289 74,299 71,299 C67,299 63,286 63,272 Z" fill="CUR"/>' +
+      '<ellipse cx="47" cy="304" rx="11" ry="7" fill="CUR"/>' +
+      '<ellipse cx="73" cy="304" rx="11" ry="7" fill="CUR"/>' +
     '</svg>';
 
   function cmToFtIn(cm){
@@ -675,6 +687,7 @@ fetch("/footer.html")
   }
 
   function renderResults(people){
+    currentPeople = people;
     var maxCmRaw = Math.max.apply(null, people.map(function(p){ return p.cm; }));
     var maxCm = Math.ceil((maxCmRaw + 15) / 20) * 20;
     if(maxCm < 100) maxCm = 100;
@@ -685,15 +698,33 @@ fetch("/footer.html")
     figuresScroll.style.height = (TAG_SPACE + chartHeightPx) + 'px';
     figuresRow.style.height = chartHeightPx + 'px';
 
-    people.forEach(function(p){
+    people.forEach(function(p, idx){
       var col = document.createElement('div');
       col.className = 'viz-person';
       col.style.alignSelf = 'flex-end';
+
+      var delBtn = document.createElement('button');
+      delBtn.type = 'button';
+      delBtn.className = 'viz-delete';
+      delBtn.setAttribute('aria-label', 'Remove ' + p.name + ' from comparison');
+      delBtn.textContent = '✕';
+      delBtn.addEventListener('click', function(){
+        var i = currentPeople.indexOf(p);
+        if(i > -1) currentPeople.splice(i, 1);
+        if(currentPeople.length === 0){
+          results.classList.remove('show');
+        } else {
+          renderResults(currentPeople.slice());
+        }
+      });
+      col.appendChild(delBtn);
 
       var tag = document.createElement('div');
       tag.className = 'viz-tag';
       var fi = cmToFtIn(p.cm);
       tag.innerHTML = p.name + '<small>' + fi.feet + "'" + Math.round(fi.inches) + '" (' + Math.round(p.cm) + 'cm)</small>';
+      tag.style.opacity = '0';
+      tag.style.transition = 'opacity 0.4s ease';
       col.appendChild(tag);
 
       var underline = document.createElement('div');
@@ -702,14 +733,15 @@ fetch("/footer.html")
       col.appendChild(underline);
 
       var figWrap = document.createElement('div');
+      figWrap.className = 'fig-wrap';
       var hPx = Math.max(40, Math.round((p.cm / maxCm) * chartHeightPx));
       var wPx = Math.round(hPx * (120/320));
-      figWrap.style.height = hPx + 'px';
+      // Start collapsed at the ground, then grow up to full size once in the DOM
+      // so the height/width transition above actually has something to animate.
+      figWrap.style.height = '0px';
       figWrap.style.width = wPx + 'px';
       var svgMarkup = (p.gender === 'female' ? FEMALE_SVG : MALE_SVG).split('CUR').join(p.color);
       figWrap.innerHTML = svgMarkup;
-      figWrap.querySelector('svg').setAttribute('width', wPx);
-      figWrap.querySelector('svg').setAttribute('height', hPx);
       col.appendChild(figWrap);
 
       var nameEl = document.createElement('div');
@@ -718,6 +750,17 @@ fetch("/footer.html")
       col.appendChild(nameEl);
 
       figuresRow.appendChild(col);
+
+      // Stagger each figure's rise slightly so they grow up one after another
+      // rather than all snapping into place at once.
+      (function(wrap, targetH, tagEl, delay){
+        setTimeout(function(){
+          requestAnimationFrame(function(){
+            wrap.style.height = targetH + 'px';
+            tagEl.style.opacity = '1';
+          });
+        }, 40 + delay);
+      })(figWrap, hPx, tag, idx * 130);
     });
 
     var sorted = people.slice().sort(function(a,b){ return b.cm - a.cm; });
@@ -756,6 +799,7 @@ fetch("/footer.html")
     downloadBtn.disabled = true;
     var originalText = downloadBtn.textContent;
     downloadBtn.textContent = 'Preparing...';
+    captureArea.classList.add('capturing');
 
     function finishDownload(url, revoke){
       var link = document.createElement('a');
@@ -769,6 +813,7 @@ fetch("/footer.html")
       if(revoke){
         setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
       }
+      captureArea.classList.remove('capturing');
       downloadBtn.disabled = false;
       downloadBtn.textContent = originalText;
     }
@@ -789,6 +834,7 @@ fetch("/footer.html")
         finishDownload(canvas.toDataURL('image/png'), false);
       }
     }).catch(function(){
+      captureArea.classList.remove('capturing');
       downloadBtn.disabled = false;
       downloadBtn.textContent = originalText;
       statusMsg.textContent = "Couldn't generate the image - please try again.";
