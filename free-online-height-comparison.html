@@ -41,6 +41,8 @@
 }
 </script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
 <style>
   :root{
     --ink:#1b1f23;
@@ -210,7 +212,6 @@
     .ruler-ft{width:38px;font-size:8.5px;}
   }
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
 
@@ -281,7 +282,7 @@
   <section class="info">
     <h2>1. What Is Free Online Height Comparison?</h2>
     <p>Free Online Height Comparison takes two or more heights and shows them side by side - visually and numerically - so you can see exactly how much taller or shorter one person is compared to another. Instead of doing the subtraction and unit conversion in your head, the tool draws a proportional avatar for each person against a ruled scale, making the difference immediately obvious at a glance.</p>
-    <p>Toolvala's Free Online Height Comparison renders each person as a simple male or female avatar, scaled accurately against a dual-unit ruler (centimeters on one side, feet and inches on the other), and shows instant stats - tallest, shortest, average, and the exact difference between any two people.</p>
+    <p>Toolvala's Free Online Height Comparison renders each person as a male or female avatar, scaled accurately against a dual-unit ruler (centimeters on one side, feet and inches on the other), and shows instant stats - tallest, shortest, average, and the exact difference between any two people.</p>
 
     <h2>2. How to Use Free Online Height Comparison</h2>
     <ol>
@@ -289,7 +290,7 @@
       <li><strong>Enter each person's name, height, and gender,</strong> and pick an avatar color if you'd like something other than the default. Two rows are shown by default; tap "+ Add Another Person" for up to five.</li>
       <li><strong>Tap Compare Heights.</strong> The tool draws a scaled avatar for each person against the ruler, along with a stats bar and a written summary.</li>
       <li><strong>Read the ruler</strong> on either side of the chart - centimeters on the left, feet and inches on the right - to see exactly where each person's height falls.</li>
-      <li><strong>Remove a row</strong> using the red button next to it if you want to compare a different group.</li>
+      <li><strong>Remove someone</strong> using the red ✕ badge on their avatar, or the red button next to their row in the form, if you want to compare a different group.</li>
     </ol>
 
     <h2>3. Centimeters vs Feet and Inches - Which Should You Use?</h2>
@@ -419,37 +420,43 @@ fetch("/footer.html")
   var MIN_PEOPLE = 2;
   var currentUnit = 'cm';
   var chartHeightPx = 260;
-  var TAG_SPACE = 46; // reserved headroom above the tallest figure for its name/height tag
+  var TAG_SPACE = 46;
   var currentPeople = [];
 
   var COLORS = ['#f59e0b', '#ef4444', '#14b8a6', '#8b5cf6', '#ec4899', '#78350f', '#22d3ee'];
 
+  /* Realistic-style silhouettes: thin tapered neck, sloped shoulders,
+     arms and legs drawn as separate tapered limbs (with a visible gap
+     from the torso, like a real standing figure) rather than blocky
+     attached rectangles. viewBox 0 0 120 320, feet near y=316. */
   var MALE_SVG =
     '<svg viewBox="0 0 120 320" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax meet">' +
-      '<path d="M60,52 C42,52 28,58 26,70 C24,90 28,120 34,150 L36,175 L84,175 L86,150 C92,120 96,90 94,70 C92,58 78,52 60,52 Z" fill="CUR"/>' +
-      '<rect x="50" y="44" width="20" height="12" rx="4" fill="CUR"/>' +
-      '<circle cx="60" cy="26" r="24" fill="CUR"/>' +
-      '<rect x="11" y="64" width="17" height="113" rx="8.5" fill="CUR"/>' +
-      '<rect x="92" y="64" width="17" height="113" rx="8.5" fill="CUR"/>' +
-      '<path d="M40,175 L58,175 L57,265 C57,283 53,299 49,299 C45,299 43,286 43,270 L41,215 Z" fill="CUR"/>' +
-      '<path d="M62,175 L80,175 L79,215 L77,270 C77,286 75,299 71,299 C67,299 63,283 63,265 Z" fill="CUR"/>' +
-      '<ellipse cx="47" cy="304" rx="13" ry="7.5" fill="CUR"/>' +
-      '<ellipse cx="73" cy="304" rx="13" ry="7.5" fill="CUR"/>' +
+      '<circle cx="60" cy="20" r="16" fill="CUR"/>' +
+      '<path d="M53,32 C53,40 54,45 55,48 L65,48 C66,45 67,40 67,32 C67,28 63,26 60,26 C57,26 53,28 53,32 Z" fill="CUR"/>' +
+      '<path d="M60,46 C46,46 38,52 37,62 C36,74 39,90 42,104 C43,110 42,116 44,122 L76,122 C78,116 77,110 78,104 C81,90 84,74 83,62 C82,52 74,46 60,46 Z" fill="CUR"/>' +
+      '<path d="M39,50 C32,52 27,58 25,68 L18,138 C17,144 21,149 26,149 C30,149 33,145 34,140 L42,74 C43,65 44,56 39,50 Z" fill="CUR"/>' +
+      '<path d="M81,50 C88,52 93,58 95,68 L102,138 C103,144 99,149 94,149 C90,149 87,145 86,140 L78,74 C77,65 76,56 81,50 Z" fill="CUR"/>' +
+      '<ellipse cx="25" cy="152" rx="8.5" ry="9.5" fill="CUR"/>' +
+      '<ellipse cx="95" cy="152" rx="8.5" ry="9.5" fill="CUR"/>' +
+      '<path d="M44,122 C41,150 40,182 41,212 C41,232 43,250 45,266 L42,300 C41,306 45,311 51,311 C56,311 59,307 59,302 L58,268 C58,238 59,205 59,178 L61,178 C61,205 62,238 62,268 L61,302 C61,307 64,311 69,311 C75,311 79,306 78,300 L75,266 C77,250 79,232 79,212 C80,182 79,150 76,122 Z" fill="CUR"/>' +
+      '<ellipse cx="49" cy="313" rx="13.5" ry="6" fill="CUR" transform="rotate(-9 49 313)"/>' +
+      '<ellipse cx="71" cy="313" rx="13.5" ry="6" fill="CUR" transform="rotate(9 71 313)"/>' +
     '</svg>';
 
   var FEMALE_SVG =
     '<svg viewBox="0 0 120 320" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax meet">' +
-      '<path d="M60,10 C48,10 40,17 39,27 C38,33 41,39 46,42 L46,34 C46,28 52,22 60,22 C68,22 74,28 74,34 L74,42 C79,39 82,33 81,27 C80,17 72,10 60,10 Z" fill="CUR"/>' +
-      '<rect x="53" y="42" width="14" height="10" rx="4" fill="CUR"/>' +
-      '<circle cx="60" cy="26" r="20" fill="CUR"/>' +
-      '<path d="M60,44 C47,44 37,48 35,58 C33,72 37,92 41,110 L41,124 L79,124 L79,110 C83,92 87,72 85,58 C83,48 73,44 60,44 Z" fill="CUR"/>' +
-      '<rect x="22" y="52" width="12.5" height="90" rx="6" fill="CUR"/>' +
-      '<rect x="85.5" y="52" width="12.5" height="90" rx="6" fill="CUR"/>' +
-      '<path d="M41,124 L79,124 C81,143 88,175 95,204 C96,210 92,213 86,213 L34,213 C28,213 24,210 25,204 C32,175 39,143 41,124 Z" fill="CUR"/>' +
-      '<path d="M44,213 L58,213 L57,272 C57,286 53,299 49,299 C46,299 43,289 43,277 L42,240 Z" fill="CUR"/>' +
-      '<path d="M62,213 L76,213 L78,240 L77,277 C77,289 74,299 71,299 C67,299 63,286 63,272 Z" fill="CUR"/>' +
-      '<ellipse cx="47" cy="304" rx="11" ry="7" fill="CUR"/>' +
-      '<ellipse cx="73" cy="304" rx="11" ry="7" fill="CUR"/>' +
+      '<path d="M60,18 C42,20 33,36 35,58 C36,72 38,88 34,104 C48,96 44,72 46,56 C58,60 66,60 76,54 C79,72 76,96 88,104 C86,86 88,68 86,54 C86,32 78,16 60,18 Z" fill="CUR"/>' +
+      '<circle cx="60" cy="22" r="15" fill="CUR"/>' +
+      '<path d="M54,33 C54,40 55,44 56,47 L64,47 C65,44 66,40 66,33 C66,29 63,27 60,27 C57,27 54,29 54,33 Z" fill="CUR"/>' +
+      '<path d="M60,45 C48,45 41,50 40,58 C39,68 42,80 45,92 C46,100 44,108 46,116 L74,116 C76,108 74,100 75,92 C78,80 81,68 80,58 C79,50 72,45 60,45 Z" fill="CUR"/>' +
+      '<path d="M41,49 C35,51 31,56 29,64 L24,128 C23,133 27,137 31,137 C35,137 37,134 38,129 L44,70 C45,62 46,54 41,49 Z" fill="CUR"/>' +
+      '<path d="M79,49 C85,51 89,56 91,64 L96,128 C97,133 93,137 89,137 C85,137 83,134 82,129 L76,70 C75,62 74,54 79,49 Z" fill="CUR"/>' +
+      '<ellipse cx="30" cy="140" rx="7" ry="8" fill="CUR"/>' +
+      '<ellipse cx="90" cy="140" rx="7" ry="8" fill="CUR"/>' +
+      '<path d="M46,116 C43,134 42,152 44,168 C56,172 64,172 76,168 C78,152 77,134 74,116 Z" fill="CUR"/>' +
+      '<path d="M44,168 C43,196 44,226 46,254 L43,298 C42,304 46,309 51,309 C56,309 59,305 59,300 L58,256 C58,232 59,200 60,178 L60,178 C61,200 62,232 62,256 L61,300 C61,305 64,309 69,309 C74,309 78,304 77,298 L74,254 C76,226 77,196 76,168 Z" fill="CUR"/>' +
+      '<ellipse cx="49" cy="312" rx="11.5" ry="5.5" fill="CUR" transform="rotate(-9 49 312)"/>' +
+      '<ellipse cx="71" cy="312" rx="11.5" ry="5.5" fill="CUR" transform="rotate(9 71 312)"/>' +
     '</svg>';
 
   function cmToFtIn(cm){
@@ -736,8 +743,6 @@ fetch("/footer.html")
       figWrap.className = 'fig-wrap';
       var hPx = Math.max(40, Math.round((p.cm / maxCm) * chartHeightPx));
       var wPx = Math.round(hPx * (120/320));
-      // Start collapsed at the ground, then grow up to full size once in the DOM
-      // so the height/width transition above actually has something to animate.
       figWrap.style.height = '0px';
       figWrap.style.width = wPx + 'px';
       var svgMarkup = (p.gender === 'female' ? FEMALE_SVG : MALE_SVG).split('CUR').join(p.color);
@@ -751,8 +756,6 @@ fetch("/footer.html")
 
       figuresRow.appendChild(col);
 
-      // Stagger each figure's rise slightly so they grow up one after another
-      // rather than all snapping into place at once.
       (function(wrap, targetH, tagEl, delay){
         setTimeout(function(){
           requestAnimationFrame(function(){
@@ -819,9 +822,6 @@ fetch("/footer.html")
     }
 
     html2canvas(captureArea, { backgroundColor: '#ffffff', scale: 2, useCORS: true }).then(function(canvas){
-      // toBlob + object URL is far more reliable for triggering a real download
-      // on mobile browsers than a data: URI, which some mobile browsers only
-      // open inline instead of downloading.
       if(canvas.toBlob){
         canvas.toBlob(function(blob){
           if(blob){
