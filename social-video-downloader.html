@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Social Video Downloader - YouTube, Instagram & X</title>
+<meta name="description" content="Social media video downloader interface for YouTube, Instagram and X.">
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f7fb;
+    color: #222;
+}
+
+.container {
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.card {
+    background: white;
+    padding: 30px;
+    border-radius: 18px;
+    box-shadow: 0 5px 25px rgba(0,0,0,.08);
+}
+
+h1 {
+    text-align: center;
+    margin-top: 0;
+}
+
+.subtitle {
+    text-align: center;
+    color: #666;
+    margin-bottom: 25px;
+}
+
+.platforms {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 25px;
+}
+
+.platform {
+    padding: 10px 16px;
+    border-radius: 30px;
+    background: #eef2f7;
+    font-weight: bold;
+}
+
+input {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 16px;
+    outline: none;
+}
+
+input:focus {
+    border-color: #4f46e5;
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    margin-top: 15px;
+    border: 0;
+    border-radius: 10px;
+    background: #4f46e5;
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: .9;
+}
+
+.result {
+    display: none;
+    margin-top: 25px;
+    padding: 20px;
+    border-radius: 12px;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+}
+
+.error {
+    display: none;
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 10px;
+    background: #fff1f2;
+    color: #be123c;
+}
+
+.notice {
+    margin-top: 25px;
+    padding: 15px;
+    background: #fff7ed;
+    border-radius: 10px;
+    color: #9a3412;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+footer {
+    text-align: center;
+    margin-top: 25px;
+    color: #777;
+    font-size: 13px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="card">
+
+<h1>Social Video Downloader</h1>
+
+<p class="subtitle">
+YouTube • Instagram • X (Twitter)
+</p>
+
+<div class="platforms">
+    <div class="platform">▶ YouTube</div>
+    <div class="platform">📷 Instagram</div>
+    <div class="platform">𝕏 X</div>
+</div>
+
+<input
+    type="url"
+    id="videoUrl"
+    placeholder="Paste video URL here..."
+>
+
+<button onclick="processVideo()">
+    Process Video
+</button>
+
+<div id="error" class="error"></div>
+
+<div id="result" class="result">
+
+    <h3>URL Detected</h3>
+
+    <p id="platformResult"></p>
+
+    <p>
+        <strong>URL:</strong>
+        <br>
+        <span id="displayUrl"></span>
+    </p>
+
+    <button onclick="openVideo()">
+        Open Video URL
+    </button>
+
+</div>
+
+<div class="notice">
+
+<strong>Important:</strong><br>
+Use this tool only with videos you are authorized to download or
+content that the platform and copyright owner permit you to download.
+This demo does not bypass private accounts, DRM, login restrictions,
+or other platform protections.
+
+</div>
+
+</div>
+
+<footer>
+© 2026 Toolvala.in
+</footer>
+
+</div>
+
+<script>
+
+let currentUrl = "";
+
+function detectPlatform(url) {
+
+    try {
+
+        const hostname = new URL(url).hostname.toLowerCase();
+
+        if (
+            hostname.includes("youtube.com") ||
+            hostname.includes("youtu.be")
+        ) {
+            return "YouTube";
+        }
+
+        if (
+            hostname.includes("instagram.com")
+        ) {
+            return "Instagram";
+        }
+
+        if (
+            hostname.includes("twitter.com") ||
+            hostname.includes("x.com")
+        ) {
+            return "X (Twitter)";
+        }
+
+        return null;
+
+    } catch (error) {
+
+        return null;
+
+    }
+}
+
+function processVideo() {
+
+    const input = document.getElementById("videoUrl");
+    const url = input.value.trim();
+
+    const error = document.getElementById("error");
+    const result = document.getElementById("result");
+
+    error.style.display = "none";
+    result.style.display = "none";
+
+    if (!url) {
+
+        showError("Please paste a video URL.");
+
+        return;
+    }
+
+    const platform = detectPlatform(url);
+
+    if (!platform) {
+
+        showError(
+            "Please enter a valid YouTube, Instagram or X URL."
+        );
+
+        return;
+    }
+
+    currentUrl = url;
+
+    document.getElementById("platformResult").innerHTML =
+        "<strong>Platform:</strong> " + platform;
+
+    document.getElementById("displayUrl").textContent = url;
+
+    result.style.display = "block";
+}
+
+function showError(message) {
+
+    const error = document.getElementById("error");
+
+    error.textContent = message;
+    error.style.display = "block";
+}
+
+function openVideo() {
+
+    if (currentUrl) {
+
+        window.open(
+            currentUrl,
+            "_blank",
+            "noopener,noreferrer"
+        );
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>
