@@ -127,7 +127,7 @@ button:disabled{opacity:.6;cursor:wait}
 .cf b{font-weight:700}
 .sig{margin-top:auto;display:flex;justify-content:space-between;align-items:flex-end;font-size:calc(13.5px*var(--k,1))}
 .seal{width:calc(88px*var(--k,1));height:calc(88px*var(--k,1));border:1.5px dashed #9aa3b5;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;color:#9aa3b5;text-align:center}
-.sg{text-align:center;min-width:210px}
+.sg{padding-top:calc(52px*var(--k,1));text-align:center;min-width:210px}
 .sg .ln{border-top:1.5px solid #222;margin-bottom:4px;padding-top:4px;font-weight:700}
 .fine{font-size:calc(10.5px*var(--k,1));color:#666;text-align:center;margin-top:calc(10px*var(--k,1))}
 .ph{color:#999}
@@ -415,7 +415,8 @@ function render(){
 }
 function fitContent(){
  const fr=$('cert').firstElementChild;if(!fr)return;let k=1;fr.style.setProperty('--k',k);
- while(fr.scrollHeight>fr.clientHeight+1&&k>0.66){k=Math.round((k-0.03)*100)/100;fr.style.setProperty('--k',k);}
+ const over=()=>{const l=fr.lastElementChild,pb=parseFloat(getComputedStyle(fr).paddingBottom)||0;return l.offsetTop+l.offsetHeight>fr.clientHeight-pb+1;};
+ while(over()&&k>0.6){k=Math.round((k-0.03)*100)/100;fr.style.setProperty('--k',k);}
 }
 function fit(){const b=$('previewBox'),s=Math.min(1,b.clientWidth/794);$('cert').style.transform='scale('+s+')';b.style.height=(1123*s)+'px';}
 window.addEventListener('resize',fit);
