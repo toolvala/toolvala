@@ -97,26 +97,28 @@ button:disabled{opacity:.6;cursor:wait}
 /* preview */
 #previewBox{width:100%;overflow:hidden;border-radius:6px;background:#dfe4ee;position:relative}
 #cert,.cert{width:794px;height:1123px;background:#fff;color:#111;transform-origin:top left;font-family:'Noto Serif','Noto Serif Devanagari',serif;padding:34px;position:absolute;left:0;top:0}
-.frame{height:100%;border:3px double var(--ink);padding:26px 38px 24px;display:flex;flex-direction:column;position:relative}
-.hd{display:flex;align-items:center;gap:16px;border-bottom:2px solid var(--ink);padding-bottom:14px}
-.hd img{width:84px;height:84px;object-fit:contain}
+.frame{height:100%;border:3px double var(--ink);padding:calc(26px*var(--k,1)) calc(38px*var(--k,1)) calc(24px*var(--k,1));display:flex;flex-direction:column;position:relative}
+.frame>*{flex-shrink:0}
+.hd{display:flex;align-items:center;gap:16px;border-bottom:2px solid var(--ink);padding-bottom:calc(14px*var(--k,1))}
+.hd img{width:calc(84px*var(--k,1));height:calc(84px*var(--k,1));object-fit:contain}
 .hd .t{flex:1;text-align:center}
-.hd .sn{font-size:25px;font-weight:700;color:var(--ink);line-height:1.25}
-.hd .sa{font-size:13.5px;margin-top:4px}
-.hd .sb{font-size:12.5px;color:#444;margin-top:2px}
-.ttl{text-align:center;margin:26px 0 6px;font-size:27px;font-weight:700;letter-spacing:2px;color:var(--ink);text-decoration:underline;text-underline-offset:7px;text-decoration-thickness:2px}
-.ref{display:flex;justify-content:space-between;font-size:14px;margin:18px 0 14px}
-.body p{font-size:16.5px;line-height:1.95;text-align:justify;margin:0 0 8px}
+.hd .inst{font-size:calc(13px*var(--k,1));font-weight:700;letter-spacing:.6px;color:#444;margin-bottom:calc(3px*var(--k,1))}
+.hd .sn{font-size:calc(25px*var(--k,1));font-weight:700;color:var(--ink);line-height:1.25}
+.hd .sa{font-size:calc(13.5px*var(--k,1));margin-top:calc(4px*var(--k,1))}
+.hd .sb{font-size:calc(12.5px*var(--k,1));color:#444;margin-top:calc(2px*var(--k,1))}
+.ttl{text-align:center;margin:calc(26px*var(--k,1)) 0 calc(6px*var(--k,1));font-size:calc(27px*var(--k,1));font-weight:700;letter-spacing:2px;color:var(--ink);text-decoration:underline;text-underline-offset:7px;text-decoration-thickness:2px}
+.ref{display:flex;justify-content:space-between;font-size:calc(14px*var(--k,1));margin:calc(18px*var(--k,1)) 0 calc(14px*var(--k,1))}
+.body p{font-size:calc(16.5px*var(--k,1));line-height:1.95;text-align:justify;margin:0 0 calc(8px*var(--k,1))}
 .body b{font-weight:700}
-.det{width:100%;border-collapse:collapse;margin:14px 0 0;font-size:14.5px}
-.det td{border:1px solid #8a93a6;padding:6px 10px;vertical-align:top}
+.det{width:100%;border-collapse:collapse;margin:calc(14px*var(--k,1)) 0 0;font-size:calc(14.5px*var(--k,1))}
+.det td{border:1px solid #8a93a6;padding:calc(6px*var(--k,1)) calc(10px*var(--k,1));vertical-align:top}
 .det td:first-child{width:42%;background:#f3f5fa;font-weight:700}
 .ph{color:#999}
-.sig{margin-top:auto;display:flex;justify-content:space-between;align-items:flex-end;font-size:14px}
-.seal{width:96px;height:96px;border:1.5px dashed #9aa3b5;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;color:#9aa3b5;text-align:center}
-.sg{text-align:center;min-width:220px}
+.sig{margin-top:auto;display:flex;justify-content:space-between;align-items:flex-end;font-size:calc(14px*var(--k,1))}
+.seal{width:calc(96px*var(--k,1));height:calc(96px*var(--k,1));border:1.5px dashed #9aa3b5;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;color:#9aa3b5;text-align:center}
+.sg{padding-top:calc(52px*var(--k,1));text-align:center;min-width:220px}
 .sg .ln{border-top:1.5px solid #222;margin-bottom:4px;padding-top:4px;font-weight:700}
-.fine{font-size:10.5px;color:#666;text-align:center;margin-top:12px}
+.fine{font-size:calc(10.5px*var(--k,1));color:#666;text-align:center;margin-top:calc(12px*var(--k,1))}
 .note{font-size:13px;color:var(--mut);margin-top:10px}
 .info{font-size:14px;color:var(--mut)}
 .info h2{margin:16px 0 6px;font-size:17px}
@@ -166,9 +168,20 @@ footer.fb a{color:#fff}
 
    <div class="card">
     <h2>2. School details</h2>
-    <div class="f"><label for="schoolName">School name</label><input id="schoolName" autocomplete="off" placeholder="e.g. Zilla Parishad Primary School, Khed"></div>
+    <div class="f"><label for="instName">Institute / trust name <small>(optional)</small></label><input id="instName" autocomplete="off" placeholder="e.g. management trust or society name"></div>
+    <div class="f"><label for="schoolName">School / college name</label><input id="schoolName" autocomplete="off" placeholder="e.g. Zilla Parishad Primary School, Khed"></div>
     <div class="f"><label for="schoolAddr">Address <small>(village, taluka, district)</small></label><input id="schoolAddr" autocomplete="off"></div>
-    <div class="f"><label for="board">Board / recognition <small>(optional)</small></label><input id="board" autocomplete="off" placeholder="e.g. Maharashtra State Board"></div>
+    <div class="grid2">
+     <div class="f"><label for="mobile">Mobile no. <small>(optional)</small></label><input id="mobile" type="tel" inputmode="numeric" maxlength="10" autocomplete="off" placeholder="10 digits"></div>
+     <div class="f"><label for="email">Email ID <small>(optional)</small></label><input id="email" type="email" autocomplete="off" placeholder="school@example.com"></div>
+    </div>
+    <div class="f"><label for="medium">Medium of instruction <small>(optional)</small></label><select id="medium"></select></div>
+    <div class="f"><label for="divBoard">Divisional board <small>(optional)</small></label><select id="divBoard"></select></div>
+    <div class="grid2">
+     <div class="f"><label for="recogNo">Recognition no. <small>(optional)</small></label><input id="recogNo" autocomplete="off" placeholder="School / college recognition no."></div>
+     <div class="f"><label for="boardIndex">Board index no. <small>(optional)</small></label><input id="boardIndex" autocomplete="off" placeholder="e.g. J.14.123"></div>
+    </div>
+    <div class="f"><label for="board">Other board / affiliation <small>(optional)</small></label><input id="board" autocomplete="off" placeholder="e.g. CBSE, ICSE"></div>
     <div class="grid2">
      <div class="f"><label for="hmName">Signatory name <small>(optional)</small></label><input id="hmName" autocomplete="off"></div>
      <div class="f"><label for="hmTitle">Designation <small>(optional)</small></label><input id="hmTitle" autocomplete="off" placeholder="Headmaster / Principal"></div>
@@ -190,8 +203,9 @@ footer.fb a{color:#fff}
     </div>
     <div class="grid2">
      <div class="f"><label for="cls">Class</label><select id="cls"></select></div>
-     <div class="f"><label for="acYear">Academic year</label><input id="acYear" autocomplete="off" placeholder="2026-27"></div>
+     <div class="f"><label for="division">Class division <small>(tukdi, optional)</small></label><select id="division"></select></div>
     </div>
+    <div class="f"><label for="acYear">Academic year</label><input id="acYear" autocomplete="off" placeholder="2026-27"></div>
     <div class="grid2">
      <div class="f"><label for="pen">PEN <small>(Permanent Education No.)</small></label><input id="pen" inputmode="numeric" maxlength="14" autocomplete="off"></div>
      <div class="f"><label for="aadhaar">Aadhaar number <small>(12 digits)</small></label><input id="aadhaar" inputmode="numeric" maxlength="14" autocomplete="off"></div>
@@ -255,11 +269,16 @@ footer.fb a{color:#fff}
 const $=id=>document.getElementById(id);
 const val=id=>$(id).value.trim();
 const CLS=[["Nursery","नर्सरी"],["Jr. KG","छोटा गट"],["Sr. KG","मोठा गट"],["1st","पहिली"],["2nd","दुसरी"],["3rd","तिसरी"],["4th","चौथी"],["5th","पाचवी"],["6th","सहावी"],["7th","सातवी"],["8th","आठवी"],["9th","नववी"],["10th","दहावी"],["11th","अकरावी"],["12th","बारावी"]];
-const SCHOOL_F=['schoolName','schoolAddr','board','hmName','hmTitle','place'];
-const STU_F=['stuName','gender','father','mother','dob','cls','acYear','pen','aadhaar'];
+const SCHOOL_F=['boardIndex','recogNo','divBoard','instName','mobile','email','medium','schoolName','schoolAddr','board','hmName','hmTitle','place'];
+const STU_F=['stuName','gender','father','mother','dob','cls','division','acYear','pen','aadhaar'];
 let logoData='',loadedSchool='',loadedStu='';
 
+const MED=[["English","इंग्रजी"],["Hindi","हिंदी"],["Marathi","मराठी"],["Gujarati","गुजराती"],["Kannada","कन्नड"],["Telugu","तेलुगु"],["Tamil","तमिळ"],["Malayalam","मल्याळम"],["Bengali","बंगाली"],["Odia","ओडिया"],["Punjabi","पंजाबी"],["Assamese","आसामी"],["Urdu","उर्दू"],["Sanskrit","संस्कृत"],["Konkani","कोकणी"],["Sindhi","सिंधी"],["Nepali","नेपाळी"],["Kashmiri","काश्मिरी"],["Manipuri (Meitei)","मणिपुरी"],["Bodo","बोडो"],["Dogri","डोगरी"],["Maithili","मैथिली"],["Santali","संथाली"],["Other","इतर"]];
+const DIVB=[["Pune","पुणे"],["Nagpur","नागपूर"],["Chhatrapati Sambhajinagar","छत्रपती संभाजीनगर"],["Mumbai","मुंबई"],["Kolhapur","कोल्हापूर"],["Amravati","अमरावती"],["Nashik","नाशिक"],["Latur","लातूर"],["Konkan","कोकण"]];
 /* ---------- setup ---------- */
+$('divBoard').innerHTML='<option value="">Not specified</option>'+DIVB.map((d,i)=>`<option value="${i}">Maharashtra State Board – ${d[0]} Divisional Board</option>`).join('');
+$('medium').innerHTML='<option value="">Not specified</option>'+MED.map((m,i)=>`<option value="${i}">${m[0]}</option>`).join('');
+$('division').innerHTML='<option value="">Not specified</option>'+'ABCDEFGHIJ'.split('').map(d=>`<option value="${d}">${d}</option>`).join('');
 $('cls').innerHTML='<option value="">Select class</option>'+CLS.map((c,i)=>`<option value="${i}">${c[0]}</option>`).join('');
 (function(){const d=new Date(),y=d.getFullYear(),s=d.getMonth()>=5?y:y-1;$('acYear').value=s+'-'+String(s+1).slice(2);
  $('issueDate').value=y+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');})();
@@ -278,6 +297,7 @@ const digits=id=>$(id).value.replace(/\D/g,'');
 
 /* ---------- certificate ---------- */
 function render(){
+ const dvl=val('division');
  const mr=$('lang').value==='mr',f=$('gender').value==='F';
  const name=val('stuName'),father=val('father'),mother=val('mother'),reg=val('reg'),year=val('acYear'),purpose=val('purpose');
  const ci=$('cls').value===''?null:CLS[+$('cls').value];
@@ -287,15 +307,20 @@ function render(){
  const cls=ci?(mr?ci[1]:ci[0]):'';
  const clsText=ci?esc(cls):'<span class="ph">____</span>';
  const title=mr?'बोनाफाईड प्रमाणपत्र':'BONAFIDE CERTIFICATE';
+ const LX=mr?{rc:'मान्यता क्र.',ix:'बोर्ड इंडेक्स क्र.',md:'माध्यम',mob:'मोबाईल',em:'ई-मेल',dv:'तुकडी'}:{rc:'Recognition No.',ix:'Board Index No.',md:'Medium',mob:'Mobile',em:'Email',dv:'Division'};
+ const medT=$('medium').value===''?'':MED[+$('medium').value][mr?1:0],mob=digits('mobile'),em=val('email');
+ const dbv=$('divBoard').value,divT=dbv===''?'':(mr?'महाराष्ट्र राज्य माध्यमिक व उच्च माध्यमिक शिक्षण मंडळ, '+DIVB[+dbv][1]+' विभागीय मंडळ':'Maharashtra State Board of Secondary and Higher Secondary Education, '+DIVB[+dbv][0]+' Divisional Board');
+ const bm=[val('board')?esc(val('board')):'',medT?LX.md+': '+esc(medT):''].filter(Boolean).join(' &nbsp;|&nbsp; ');
+ const contact=(mob||em)?`<div class="sb">${mob?LX.mob+': '+esc(mob):''}${mob&&em?' &nbsp;|&nbsp; ':''}${em?LX.em+': '+esc(em):''}</div>`:'';
  const hmT=val('hmTitle')||(mr?'मुख्याध्यापक':'Headmaster / Principal');
  let p1,p2,p3;
  if(mr){
   const g=f?['कु.','ही','ी','मुलगी','ती','विद्यार्थिनी','तिची']:['चि.','हा','ा','मुलगा','तो','विद्यार्थी','त्याची'];
-  p1=`प्रमाणित करण्यात येते की, <b>${g[0]} ${ph(name)}</b> ${g[1]} <b>श्री. ${ph(father)}</b>${mother?` व <b>श्रीमती ${esc(mother)}</b>`:''} यांच${g[2]} ${g[3]} असून ${g[4]} या शाळेच${g[2]} नियमित ${g[5]} आहे. ${g[4]} सन <b>${ph(year)}</b> मध्ये <b>इयत्ता ${clsText}</b> मध्ये शिकत आहे.`;
+  p1=`प्रमाणित करण्यात येते की, <b>${g[0]} ${ph(name)}</b> ${g[1]} <b>श्री. ${ph(father)}</b>${mother?` व <b>श्रीमती ${esc(mother)}</b>`:''} यांच${g[2]} ${g[3]} असून ${g[4]} या शाळेच${g[2]} नियमित ${g[5]} आहे. ${g[4]} सन <b>${ph(year)}</b> मध्ये <b>इयत्ता ${clsText}</b>${dvl?` (तुकडी <b>${esc(dvl)}</b>)`:''} मध्ये शिकत आहे.`;
   p2=`शाळेच्या प्रवेश-निर्गम नोंदवहीतील (जनरल रजिस्टर) क्र. <b>${ph(reg)}</b> नुसार ${g[6]} जन्मतारीख <b>${ph(dob)}</b> अशी नोंदलेली आहे.`;
   p3=`हे प्रमाणपत्र विद्यार्थी/पालकांच्या मागणीवरून ${purpose?'<b>'+esc(purpose)+'</b> या':'आवश्यक त्या'} कारणासाठी देण्यात येत आहे.`;
  }else{
-  p1=`This is to certify that <b>${f?'Miss':'Master'} ${ph(name)}</b>, ${f?'daughter':'son'} of <b>Shri ${ph(father)}</b>${mother?` and <b>Smt. ${esc(mother)}</b>`:''}, is a bonafide student of this school and is studying in <b>Class ${clsText}</b> during the academic year <b>${ph(year)}</b>.`;
+  p1=`This is to certify that <b>${f?'Miss':'Master'} ${ph(name)}</b>, ${f?'daughter':'son'} of <b>Shri ${ph(father)}</b>${mother?` and <b>Smt. ${esc(mother)}</b>`:''}, is a bonafide student of this school and is studying in <b>Class ${clsText}</b>${dvl?` (Division <b>${esc(dvl)}</b>)`:''} during the academic year <b>${ph(year)}</b>.`;
   p2=`As per the school's Admission/Withdrawal Register (Register No. <b>${ph(reg)}</b>), ${f?'her':'his'} date of birth is recorded as <b>${ph(dob)}</b>.`;
   p3=`This certificate is issued at the request of the student/parent for the purpose of <b>${purpose?esc(purpose):'whatever purpose it may serve'}</b>.`;
  }
@@ -304,14 +329,14 @@ function render(){
  const row=(a,b)=>`<tr><td>${a}</td><td>${b}</td></tr>`;
  let rows=row(L.n,ph(name))+row(L.fa,ph(father));
  if(mother)rows+=row(L.mo,esc(mother));
- rows+=row(L.dob,ph(dob))+row(L.cl+' / '+L.yr,clsText+' &nbsp;/&nbsp; '+ph(year))+row(L.rg,ph(reg));
+ rows+=row(L.dob,ph(dob))+row(L.cl+' / '+L.yr,clsText+(dvl?' – '+LX.dv+' '+esc(dvl):'')+' &nbsp;/&nbsp; '+ph(year))+row(L.rg,ph(reg));
  if(pen)rows+=row(L.pen,esc(pen));
  if(aad)rows+=row(L.aa,esc(aadShow));
  const logo=logoData?`<img src="${logoData}" alt="">`:'';
  $('cert').innerHTML=`<div class="frame">
-  <div class="hd">${logo}<div class="t"><div class="sn">${ph(val('schoolName'))}</div>
+  <div class="hd">${logo}<div class="t">${val('instName')?`<div class="inst">${esc(val('instName'))}</div>`:''}<div class="sn">${ph(val('schoolName'))}</div>
    ${val('schoolAddr')?`<div class="sa">${esc(val('schoolAddr'))}</div>`:''}
-   <div class="sb">${L.ud}: ${ph($('udise').value)}${val('board')?' &nbsp;|&nbsp; '+esc(val('board')):''}</div></div>${logoData?'<div style="width:84px"></div>':''}</div>
+   <div class="sb">${L.ud}: ${ph($('udise').value)}${val('recogNo')?' &nbsp;|&nbsp; '+LX.rc+': '+esc(val('recogNo')):''}${val('boardIndex')?' &nbsp;|&nbsp; '+LX.ix+': '+esc(val('boardIndex')):''}</div>${divT?`<div class="sb">${esc(divT)}</div>`:''}${bm?`<div class="sb">${bm}</div>`:''}${contact}</div>${logoData?'<div style="width:84px"></div>':''}</div>
   <div class="ttl">${title}</div>
   <div class="ref"><span>${L.no}: ${val('certNo')?esc(val('certNo')):'________'}</span><span>${L.dt}: ${esc(issue)}</span></div>
   <div class="body"><p>${p1}</p><p>${p2}</p><p>${p3}</p></div>
@@ -319,7 +344,12 @@ function render(){
   <div class="sig"><div>${val('place')?L.pl+': '+esc(val('place')):''}</div><div class="seal">${L.seal}</div>
    <div class="sg"><div class="ln">${esc(val('hmName'))||'&nbsp;'}</div>${esc(hmT)}<br>${esc(val('schoolName'))}</div></div>
   <div class="fine">${L.fine}</div></div>`;
- fit();
+ fitContent();fit();
+}
+function fitContent(){
+ const fr=$('cert').firstElementChild;if(!fr)return;let k=1;fr.style.setProperty('--k',k);
+ const over=()=>{const l=fr.lastElementChild,pb=parseFloat(getComputedStyle(fr).paddingBottom)||0;return l.offsetTop+l.offsetHeight>fr.clientHeight-pb+1;};
+ while(over()&&k>0.6){k=Math.round((k-0.03)*100)/100;fr.style.setProperty('--k',k);}
 }
 function fit(){const b=$('previewBox'),s=Math.min(1,b.clientWidth/794);$('cert').style.transform='scale('+s+')';b.style.height=(1123*s)+'px';}
 window.addEventListener('resize',fit);
@@ -357,6 +387,8 @@ function validate(){
  need('dob',!!$('dob').value,'Select the date of birth.');
  need('cls',$('cls').value!=='','Select the class.');
  need('acYear',!!val('acYear'),'Enter the academic year.');
+ const mb=digits('mobile');if(mb)need('mobile',/^[6-9]\d{9}$/.test(mb),'Mobile number must be 10 digits and start with 6, 7, 8 or 9.');
+ const eml=val('email');if(eml)need('email',/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(eml),'Email address looks invalid.');
  const a=digits('aadhaar');
  if(a)need('aadhaar',/^[2-9]\d{11}$/.test(a),'Aadhaar number must be 12 digits and cannot start with 0 or 1.');
  if(errs.length){bad.forEach(id=>$(id).classList.add('bad'));msg('err','Please fix:<ul>'+errs.map(e=>'<li>'+e+'</li>').join('')+'</ul>');$(bad[0]).scrollIntoView({block:'center'});return false;}
@@ -412,7 +444,7 @@ $('logo').onchange=function(e){
 $('rmLogo').onclick=function(){logoData='';$('logo').value='';render();};
 
 /* ---------- events ---------- */
-['udise','pen','aadhaar'].forEach(id=>$(id).addEventListener('input',function(){const d=this.value.replace(/\D/g,'');this.value=id==='aadhaar'?grp(d.slice(0,12)):d;}));
+['udise','mobile','pen','aadhaar'].forEach(id=>$(id).addEventListener('input',function(){const d=this.value.replace(/\D/g,'');this.value=id==='aadhaar'?grp(d.slice(0,12)):d;}));
 document.querySelectorAll('input,select').forEach(el=>{
  if(el.type==='file'||el.type==='checkbox'&&el.id==='remember')return;
  el.addEventListener('input',()=>{el.classList.remove('bad');if(el.id==='udise'||el.id==='reg')tryLoad();render();});
@@ -431,6 +463,7 @@ fetch("/footer.html")
   });
 
 render();
+if(document.fonts)document.fonts.ready.then(()=>{fitContent();});
 })();
 </script>
 </body>
