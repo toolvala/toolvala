@@ -110,6 +110,7 @@ button:disabled{opacity:.6;cursor:wait}
 .hd{display:flex;align-items:center;gap:16px;border-bottom:2px solid var(--ink);padding-bottom:12px}
 .hd img{width:80px;height:80px;object-fit:contain}
 .hd .t{flex:1;text-align:center}
+.hd .inst{font-size:13px;font-weight:700;letter-spacing:.6px;color:#444;margin-bottom:3px}
 .hd .sn{font-size:24px;font-weight:700;color:var(--ink);line-height:1.25}
 .hd .sa{font-size:13px;margin-top:3px}
 .hd .sb{font-size:12px;color:#444;margin-top:2px}
@@ -178,9 +179,19 @@ footer.fb a{color:#fff}
 
    <div class="card">
     <h2>2. School details</h2>
-    <div class="f"><label for="schoolName">School name</label><input id="schoolName" autocomplete="off" placeholder="e.g. Zilla Parishad Primary School, Khed"></div>
+    <div class="f"><label for="instName">Institute / trust name <small>(optional)</small></label><input id="instName" autocomplete="off" placeholder="e.g. management trust or society name"></div>
+    <div class="f"><label for="schoolName">School / college name</label><input id="schoolName" autocomplete="off" placeholder="e.g. Zilla Parishad Primary School, Khed"></div>
     <div class="f"><label for="schoolAddr">Address <small>(village, taluka, district)</small></label><input id="schoolAddr" autocomplete="off"></div>
-    <div class="f"><label for="board">Board / recognition <small>(optional)</small></label><input id="board" autocomplete="off" placeholder="e.g. Maharashtra State Board"></div>
+    <div class="grid2">
+     <div class="f"><label for="mobile">Mobile no. <small>(optional)</small></label><input id="mobile" type="tel" inputmode="numeric" maxlength="10" autocomplete="off" placeholder="10 digits"></div>
+     <div class="f"><label for="email">Email ID <small>(optional)</small></label><input id="email" type="email" autocomplete="off" placeholder="school@example.com"></div>
+    </div>
+    <div class="f"><label for="medium">Medium of instruction <small>(optional)</small></label><select id="medium"></select></div>
+    <div class="f"><label for="divBoard">Divisional board <small>(optional)</small></label><select id="divBoard"></select></div>
+    <div class="grid2">
+     <div class="f"><label for="recogNo">Recognition no. <small>(optional)</small></label><input id="recogNo" autocomplete="off" placeholder="School / college recognition no."></div>
+     <div class="f"><label for="board">Other board / affiliation <small>(optional)</small></label><input id="board" autocomplete="off" placeholder="e.g. CBSE, ICSE"></div>
+    </div>
     <div class="grid2">
      <div class="f"><label for="hmName">Signatory name <small>(optional)</small></label><input id="hmName" autocomplete="off"></div>
      <div class="f"><label for="hmTitle">Designation <small>(optional)</small></label><input id="hmTitle" autocomplete="off" placeholder="Headmaster / Principal"></div>
@@ -228,8 +239,9 @@ footer.fb a{color:#fff}
     </div>
     <div class="grid2">
      <div class="f"><label for="curClass">Class studying in</label><select id="curClass"></select></div>
-     <div class="f"><label for="curSince">Studying since <small>(optional)</small></label><input id="curSince" autocomplete="off" placeholder="e.g. June 2025"></div>
+     <div class="f"><label for="division">Class division <small>(tukdi, optional)</small></label><select id="division"></select></div>
     </div>
+    <div class="f"><label for="curSince">Studying since <small>(optional)</small></label><input id="curSince" autocomplete="off" placeholder="e.g. June 2025"></div>
     <div class="grid2">
      <div class="f"><label for="leavingDate">Date of leaving school</label><input type="date" id="leavingDate"></div>
      <div class="f"><label for="reason">Reason for leaving</label><select id="reason"></select></div>
@@ -298,11 +310,16 @@ const CLS=[["Nursery","नर्सरी"],["Jr. KG","छोटा गट"],["S
 const PROG=[["Excellent","उत्कृष्ट"],["Very Good","अतिशय चांगली"],["Good","चांगली"],["Satisfactory","समाधानकारक"],["Average","सर्वसाधारण"]];
 const COND=[["Very Good","अतिशय चांगले"],["Good","चांगले"],["Satisfactory","समाधानकारक"]];
 const REASON=[["Parent's request / admission to another school","पालकांच्या विनंतीवरून दुसऱ्या शाळेत प्रवेशासाठी"],["Completed the course of this school","या शाळेचा अभ्यासक्रम पूर्ण केला"],["Change of residence / parent's transfer","निवासस्थान बदलले / पालकांची बदली"],["Other (type it)","इतर"]];
-const SCHOOL_F=['schoolName','schoolAddr','board','hmName','hmTitle','place'];
-const STU_F=['stuName','father','mother','dob','dobWords','nationality','motherTongue','religion','caste','birthPlace','pen','aadhaar','lastSchool','admDate','admClass','progress','conduct','curClass','curSince','reason','reasonOther','remarks'];
+const SCHOOL_F=['recogNo','divBoard','instName','mobile','email','medium','schoolName','schoolAddr','board','hmName','hmTitle','place'];
+const STU_F=['stuName','father','mother','dob','dobWords','nationality','motherTongue','religion','caste','birthPlace','pen','aadhaar','lastSchool','admDate','admClass','progress','conduct','curClass','division','curSince','reason','reasonOther','remarks'];
 let logoData='',loadedSchool='',loadedStu='',lastAuto='';
 
+const MED=[["English","इंग्रजी"],["Hindi","हिंदी"],["Marathi","मराठी"],["Gujarati","गुजराती"],["Kannada","कन्नड"],["Telugu","तेलुगु"],["Tamil","तमिळ"],["Malayalam","मल्याळम"],["Bengali","बंगाली"],["Odia","ओडिया"],["Punjabi","पंजाबी"],["Assamese","आसामी"],["Urdu","उर्दू"],["Sanskrit","संस्कृत"],["Konkani","कोकणी"],["Sindhi","सिंधी"],["Nepali","नेपाळी"],["Kashmiri","काश्मिरी"],["Manipuri (Meitei)","मणिपुरी"],["Bodo","बोडो"],["Dogri","डोगरी"],["Maithili","मैथिली"],["Santali","संथाली"],["Other","इतर"]];
+const DIVB=[["Pune","पुणे"],["Nagpur","नागपूर"],["Chhatrapati Sambhajinagar","छत्रपती संभाजीनगर"],["Mumbai","मुंबई"],["Kolhapur","कोल्हापूर"],["Amravati","अमरावती"],["Nashik","नाशिक"],["Latur","लातूर"],["Konkan","कोकण"]];
 /* ---------- setup ---------- */
+$('divBoard').innerHTML='<option value="">Not specified</option>'+DIVB.map((d,i)=>`<option value="${i}">Maharashtra State Board – ${d[0]} Divisional Board</option>`).join('');
+$('medium').innerHTML='<option value="">Not specified</option>'+MED.map((m,i)=>`<option value="${i}">${m[0]}</option>`).join('');
+$('division').innerHTML='<option value="">Not specified</option>'+'ABCDEFGHIJ'.split('').map(d=>`<option value="${d}">${d}</option>`).join('');
 const clsOpts='<option value="">Select class</option>'+CLS.map((c,i)=>`<option value="${i}">${c[0]}</option>`).join('');
 $('admClass').innerHTML=clsOpts;$('curClass').innerHTML=clsOpts;
 $('progress').innerHTML=PROG.map((c,i)=>`<option value="${i}"${i===2?' selected':''}>${c[0]}</option>`).join('');
@@ -348,6 +365,7 @@ function dobToWords(iso,lang){
 
 /* ---------- certificate ---------- */
 function render(){
+ const dvl=val('division');
  const mr=$('lang').value==='mr',i=mr?1:0;
  const cur=$('dobWords').value,words=dobToWords($('dob').value,$('lang').value);
  if(cur===lastAuto&&(cur!==''||document.activeElement!==$('dobWords'))||(cur===''&&document.activeElement!==$('dobWords'))){$('dobWords').value=words;lastAuto=words;}
@@ -366,20 +384,25 @@ function render(){
   r:["Student's Full Name","Mother's Name","Father's / Guardian's Name",'Nationality','Mother Tongue','Religion','Caste / Sub-caste','Place of Birth','Date of Birth (in figures and words)','PEN (Permanent Education No.)','Aadhaar No.','Last School Attended','Date of Admission and Class','Progress','Conduct','Date of Leaving School','Class Studying in and Since When','Reason for Leaving School','Remarks'],
   cf:`Certified that the above information is correct as per the School's General Register (Admission/Withdrawal Register No. <b>${ph(val('reg'))}</b>).`,
   fine:'This certificate is not valid without the signature of the Headmaster/Principal and the school seal.',since:s=>' (since '+s+')',cl:'Class '};
+ const LX=mr?{rc:'मान्यता क्र.',md:'माध्यम',mob:'मोबाईल',em:'ई-मेल',dv:'तुकडी'}:{rc:'Recognition No.',md:'Medium',mob:'Mobile',em:'Email',dv:'Division'};
+ const medT=$('medium').value===''?'':MED[+$('medium').value][mr?1:0],mob=digits('mobile'),em=val('email');
+ const dbv=$('divBoard').value,divT=dbv===''?'':(mr?'महाराष्ट्र राज्य माध्यमिक व उच्च माध्यमिक शिक्षण मंडळ, '+DIVB[+dbv][1]+' विभागीय मंडळ':'Maharashtra State Board of Secondary and Higher Secondary Education, '+DIVB[+dbv][0]+' Divisional Board');
+ const bm=[val('board')?esc(val('board')):'',medT?LX.md+': '+esc(medT):''].filter(Boolean).join(' &nbsp;|&nbsp; ');
+ const contact=(mob||em)?`<div class="sb">${mob?LX.mob+': '+esc(mob):''}${mob&&em?' &nbsp;|&nbsp; ':''}${em?LX.em+': '+esc(em):''}</div>`:'';
  const hmT=val('hmTitle')||(mr?'मुख्याध्यापक':'Headmaster / Principal');
  const vals=[ph(val('stuName')),nz(val('mother')),nz(val('father')),nz(natT),nz(val('motherTongue')),nz(val('religion')),nz(val('caste')),nz(val('birthPlace')),
   dob?esc(dob)+(dw?' ('+esc(dw)+')':''):ph(''),pen?esc(pen):null,aad?esc(aadShow):null,nz(val('lastSchool')),
   ($('admDate').value||admC)?esc(fmt($('admDate').value))+(admC?' — '+L.cl+esc(admC):''):'—',
   esc(PROG[+$('progress').value][i]),esc(COND[+$('conduct').value][i]),
   $('leavingDate').value?esc(fmt($('leavingDate').value)):ph(''),
-  curC?L.cl+esc(curC)+(since?esc(L.since(since)):''):ph(''),nz(reasonT),nz(val('remarks'))];
+  curC?L.cl+esc(curC)+(dvl?' – '+LX.dv+' '+esc(dvl):'')+(since?esc(L.since(since)):''):ph(''),nz(reasonT),nz(val('remarks'))];
  let n=0,rows='';
  vals.forEach((v,k)=>{if(v===null)return;n++;rows+=`<tr><td class="n">${n}</td><td class="l">${L.r[k]}</td><td>${v}</td></tr>`;});
  const logo=logoData?`<img src="${logoData}" alt="">`:'';
  $('cert').innerHTML=`<div class="frame">
-  <div class="hd">${logo}<div class="t"><div class="sn">${ph(val('schoolName'))}</div>
+  <div class="hd">${logo}<div class="t">${val('instName')?`<div class="inst">${esc(val('instName'))}</div>`:''}<div class="sn">${ph(val('schoolName'))}</div>
    ${val('schoolAddr')?`<div class="sa">${esc(val('schoolAddr'))}</div>`:''}
-   <div class="sb">${L.ud}: ${ph($('udise').value)}${val('board')?' &nbsp;|&nbsp; '+esc(val('board')):''}</div></div>${logoData?'<div style="width:80px"></div>':''}</div>
+   <div class="sb">${L.ud}: ${ph($('udise').value)}${val('recogNo')?' &nbsp;|&nbsp; '+LX.rc+': '+esc(val('recogNo')):''}</div>${divT?`<div class="sb">${esc(divT)}</div>`:''}${bm?`<div class="sb">${bm}</div>`:''}${contact}</div>${logoData?'<div style="width:80px"></div>':''}</div>
   <div class="ttl">${L.t}</div><div class="sub">${L.sub}</div>
   <div class="ref"><span>${L.no}: ${val('tcNo')?esc(val('tcNo')):'________'} &nbsp;|&nbsp; ${L.rg}: ${ph(val('reg'))}</span><span>${$('dup').checked?`<span class="dup">${L.dup}</span> &nbsp;`:''}${L.dt}: ${esc(fmt($('issueDate').value))}</span></div>
   <table class="det">${rows}</table>
@@ -426,6 +449,8 @@ function validate(){
  need('curClass',$('curClass').value!=='','Select the class the student is studying in.');
  need('leavingDate',!!$('leavingDate').value,'Select the date of leaving school.');
  if(+$('reason').value===REASON.length-1)need('reasonOther',!!val('reasonOther'),'Type the reason for leaving.');
+ const mb=digits('mobile');if(mb)need('mobile',/^[6-9]\d{9}$/.test(mb),'Mobile number must be 10 digits and start with 6, 7, 8 or 9.');
+ const eml=val('email');if(eml)need('email',/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(eml),'Email address looks invalid.');
  const a=digits('aadhaar');
  if(a)need('aadhaar',/^[2-9]\d{11}$/.test(a),'Aadhaar number must be 12 digits and cannot start with 0 or 1.');
  if(errs.length){bad.forEach(id=>$(id).classList.add('bad'));msg('err','Please fix:<ul>'+errs.map(e=>'<li>'+e+'</li>').join('')+'</ul>');$(bad[0]).scrollIntoView({block:'center'});return false;}
@@ -480,7 +505,7 @@ $('logo').onchange=function(e){
 $('rmLogo').onclick=function(){logoData='';$('logo').value='';render();};
 
 /* ---------- events ---------- */
-['udise','pen','aadhaar'].forEach(id=>$(id).addEventListener('input',function(){const d=this.value.replace(/\D/g,'');this.value=id==='aadhaar'?grp(d.slice(0,12)):d;}));
+['udise','mobile','pen','aadhaar'].forEach(id=>$(id).addEventListener('input',function(){const d=this.value.replace(/\D/g,'');this.value=id==='aadhaar'?grp(d.slice(0,12)):d;}));
 document.querySelectorAll('input,select').forEach(el=>{
  if(el.type==='file'||el.type==='checkbox'&&el.id==='remember')return;
  el.addEventListener('input',()=>{el.classList.remove('bad');if(el.id==='udise'||el.id==='reg')tryLoad();if(el.id==='reason')syncReason();render();});
