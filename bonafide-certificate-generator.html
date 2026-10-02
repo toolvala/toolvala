@@ -96,7 +96,7 @@ button:disabled{opacity:.6;cursor:wait}
 .logo-row input{flex:1}
 /* preview */
 #previewBox{width:100%;overflow:hidden;border-radius:6px;background:#dfe4ee;position:relative}
-#cert{width:794px;height:1123px;background:#fff;color:#111;transform-origin:top left;font-family:'Noto Serif','Noto Serif Devanagari',serif;padding:34px;position:absolute;left:0;top:0}
+#cert,.cert{width:794px;height:1123px;background:#fff;color:#111;transform-origin:top left;font-family:'Noto Serif','Noto Serif Devanagari',serif;padding:34px;position:absolute;left:0;top:0}
 .frame{height:100%;border:3px double var(--ink);padding:26px 38px 24px;display:flex;flex-direction:column;position:relative}
 .hd{display:flex;align-items:center;gap:16px;border-bottom:2px solid var(--ink);padding-bottom:14px}
 .hd img{width:84px;height:84px;object-fit:contain}
@@ -130,7 +130,7 @@ footer.fb a{color:#fff}
  .no-print{display:none!important}
  .wrap,.layout,.prev{display:block!important;padding:0!important;margin:0!important;max-width:none!important;position:static!important}
  #previewBox{height:1123px!important;width:794px!important;overflow:visible;background:#fff;border-radius:0}
- #cert{transform:none!important}
+ #cert,.cert{transform:none!important}
 }
 </style>
 </head>
@@ -225,7 +225,7 @@ footer.fb a{color:#fff}
      <button type="button" class="b3" id="pngBtn">Download image</button>
      <button type="button" class="b3" id="printBtn">Print</button>
     </div>
-    <div id="previewBox"><div id="cert"></div></div>
+    <div id="previewBox"><div id="cert" class="cert"></div></div>
     <p class="note no-print">Live preview. The certificate becomes valid only after the Headmaster/Principal signs it and the school seal is applied.</p>
    </div>
   </div>
@@ -368,11 +368,14 @@ function validate(){
 
 /* ---------- export ---------- */
 async function canvas(){
+ const box=document.createElement('div');
+ box.style.cssText='position:fixed;left:0;top:0;width:794px;height:1123px;z-index:-1;pointer-events:none;background:#fff';
  const c=$('cert').cloneNode(true);c.removeAttribute('id');
- Object.assign(c.style,{position:'fixed',left:'-10000px',top:'0',transform:'none',margin:'0'});
- document.body.appendChild(c);
- try{if(document.fonts)await document.fonts.ready;return await html2canvas(c,{scale:2,backgroundColor:'#ffffff',useCORS:true});}
- finally{c.remove();}
+ c.style.cssText='transform:none;position:absolute;left:0;top:0;margin:0;width:794px;height:1123px';
+ box.appendChild(c);document.body.appendChild(box);
+ try{if(document.fonts)await document.fonts.ready;
+  return await html2canvas(c,{scale:2,backgroundColor:'#ffffff',useCORS:true,width:794,height:1123,windowWidth:794,windowHeight:1123,scrollX:0,scrollY:0});}
+ finally{box.remove();}
 }
 function fname(ext){return 'Bonafide_'+(val('stuName')||'Certificate').replace(/[^\p{L}\p{N}]+/gu,'_')+'.'+ext;}
 async function run(btn,fn){
