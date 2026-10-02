@@ -355,11 +355,14 @@ function validate(){
  need('cls',$('cls').value!=='','Select the class.');
  need('acYear',!!val('acYear'),'Enter the academic year.');
  const a=digits('aadhaar');
- if(a)need('aadhaar',aadhaarOk(a),'Aadhaar number looks wrong. It must be 12 digits and pass the checksum — please re-check it.');
+ if(a)need('aadhaar',/^[2-9]\d{11}$/.test(a),'Aadhaar number must be 12 digits and cannot start with 0 or 1.');
  if(errs.length){bad.forEach(id=>$(id).classList.add('bad'));msg('err','Please fix:<ul>'+errs.map(e=>'<li>'+e+'</li>').join('')+'</ul>');$(bad[0]).scrollIntoView({block:'center'});return false;}
  const pen=digits('pen');
  save();
- msg('ok','Certificate ready.'+(pen&&pen.length!==11?' Note: PEN is usually 11 digits — check yours.':''));
+ let warn='';
+ if(pen&&pen.length!==11)warn+=' PEN is usually 11 digits — check yours.';
+ if(a&&!aadhaarOk(a)){warn+=' The Aadhaar number does not pass the standard checksum — please re-check it against the Aadhaar card.';$('aadhaar').classList.add('bad');}
+ msg('ok','Certificate ready.'+warn);
  return true;
 }
 
