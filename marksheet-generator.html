@@ -148,6 +148,34 @@ button:disabled{opacity:.6;cursor:wait}
 .sg .ln{border-top:1.5px solid #222;padding-top:3px;font-weight:700}
 .sg .nm{font-size:calc(12px*var(--k,1));color:#333;min-height:1em}
 .fine{font-size:calc(10.5px*var(--k,1));color:#666;text-align:center;margin-top:auto;padding-top:calc(10px*var(--k,1))}
+/* ---- design styles (classic = default, rules above) ---- */
+.cert[data-sty="modern"]{--ink:#0b4f8a}
+.cert[data-sty="modern"] .frame{border:2px solid var(--ink)}
+.cert[data-sty="modern"] .hd{background:var(--ink);border:0;border-radius:6px;padding:calc(10px*var(--k,1)) 14px}
+.cert[data-sty="modern"] .hd .sn,.cert[data-sty="modern"] .hd .inst,.cert[data-sty="modern"] .hd .sa,.cert[data-sty="modern"] .hd .sb{color:#fff}
+.cert[data-sty="modern"] .hd img{background:#fff;border-radius:50%;padding:2px}
+.cert[data-sty="modern"] .ex{color:var(--ink)}
+.cert[data-sty="modern"] .ttl{text-decoration:none;background:#e8f1fa;border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);padding:calc(5px*var(--k,1)) 0;letter-spacing:3px}
+.cert[data-sty="modern"] .mt th{background:var(--ink);color:#fff;border-color:var(--ink)}
+.cert[data-sty="modern"] .mt tr:nth-child(even) td{background:#f4f8fc}
+.cert[data-sty="modern"] .mt tr.tot td{background:#dcebf8}
+.cert[data-sty="elegant"]{--ink:#6b1d2a}
+.cert[data-sty="elegant"]{padding:26px}
+.cert[data-sty="elegant"] .frame{border:6px double #b8892e;outline:1.5px solid var(--ink);outline-offset:3px}
+.cert[data-sty="elegant"] .hd{border-bottom:3px double #b8892e}
+.cert[data-sty="elegant"] .hd .sn{letter-spacing:.8px}
+.cert[data-sty="elegant"] .ex{color:var(--ink);font-style:italic}
+.cert[data-sty="elegant"] .ttl{text-decoration:none;border:2px solid #b8892e;border-radius:30px;width:78%;margin-left:auto;margin-right:auto;padding:calc(4px*var(--k,1)) 0;color:var(--ink)}
+.cert[data-sty="elegant"] .mt th,.cert[data-sty="elegant"] .mt td{border-color:#8a6a2a}
+.cert[data-sty="elegant"] .mt th{background:#f6ecd5;color:var(--ink)}
+.cert[data-sty="elegant"] .mt tr.tot td{background:#faf3e2}
+.cert[data-sty="minimal"]{--ink:#222}
+.cert[data-sty="minimal"] .frame{border:1px solid #999}
+.cert[data-sty="minimal"] .hd{border-bottom:1px solid #999}
+.cert[data-sty="minimal"] .ttl{text-decoration:none;letter-spacing:4px;font-weight:600}
+.cert[data-sty="minimal"] .mt th,.cert[data-sty="minimal"] .mt td{border:0;border-bottom:1px solid #bbb}
+.cert[data-sty="minimal"] .mt th{background:#fff;border-top:1.5px solid #222;border-bottom:1.5px solid #222}
+.cert[data-sty="minimal"] .mt tr.tot td{background:#fff;border-top:1.5px solid #222;border-bottom:1.5px solid #222}
 .ph{color:#999}
 .note{font-size:13px;color:var(--mut);margin-top:10px}
 .info{font-size:14px;color:var(--mut)}
@@ -289,6 +317,7 @@ footer.fb a{color:#fff}
      <div class="f"><label for="place">Place <small>(optional)</small></label><input id="place" autocomplete="off"></div>
      <div class="f"><label for="issueDate">Date</label><input type="date" id="issueDate"></div>
     </div>
+    <div class="f"><label for="sty">Design style</label><select id="sty"><option value="classic">Classic (current)</option><option value="modern">Modern blue</option><option value="elegant">Elegant maroon &amp; gold</option><option value="minimal">Minimal (print-friendly)</option></select></div>
     <div class="f"><label for="lang">Language</label><select id="lang"><option value="en">English</option><option value="mr">मराठी (Marathi)</option></select></div>
     <label class="chk"><input type="checkbox" id="remember" checked> Remember these details on this device</label>
     <div class="btns" style="margin-top:12px">
@@ -313,7 +342,7 @@ footer.fb a{color:#fff}
   </div>
  </div>
 
- <section class="related no-print"><h2>Related tools</h2><a href="/bonafide-certificate-generator.html">Bonafide Certificate Generator</a><a href="/transfer-certificate-generator.html">Transfer Certificate Generator</a><div class="hint">Need a bonafide or leaving certificate for the same student? Use the school details you already saved.</div></section>
+ <section class="related no-print"><h2>Related tools</h2><a href="/bonafide-certificate-generator.html">Bonafide Certificate Generator</a><a href="/transfer-certificate-generator.html">Transfer Certificate Generator</a><a href="/statement-generator.html">Statement of Marks Generator</a><div class="hint">Need a bonafide or leaving certificate for the same student? Use the school details you already saved.</div></section>
 
  <section class="info no-print">
   <h2>About this mark sheet generator</h2>
@@ -352,7 +381,7 @@ const PRE={
  science:[['English','m'],['Physics','m'],['Chemistry','m'],['Mathematics','m'],['Biology','m'],['Information Technology','m'],['Environment Education','g'],['Health & Physical Education','g']],
  commerce:[['English','m'],['Marathi','m'],['Book Keeping & Accountancy','m'],['Organisation of Commerce & Management','m'],['Economics','m'],['Secretarial Practice','m'],['Environment Education','g'],['Health & Physical Education','g']]};
 const SUBJ_MR={"marathi":"मराठी","science & technology":"विज्ञान व तंत्रज्ञान","history & political science":"इतिहास व राज्यशास्त्र","art education":"कला शिक्षण","social science":"सामाजिक शास्त्रे","work experience":"कार्यानुभव","english":"इंग्रजी","hindi":"हिंदी","sanskrit":"संस्कृत","urdu":"उर्दू","economics":"अर्थशास्त्र","political science":"राज्यशास्त्र","sociology":"समाजशास्त्र","history":"इतिहास","geography":"भूगोल","psychology":"मानसशास्त्र","logic":"तर्कशास्त्र","defence studies":"संरक्षणशास्त्र","physics":"भौतिकशास्त्र","chemistry":"रसायनशास्त्र","mathematics":"गणित","biology":"जीवशास्त्र","information technology":"माहिती तंत्रज्ञान","electronics":"इलेक्ट्रॉनिक्स","computer science":"संगणकशास्त्र","book keeping & accountancy":"book-keeping व लेखाकर्म","organisation of commerce & management":"वाणिज्य संघटन व व्यवस्थापन","secretarial practice":"चिटणीसाची कार्यपद्धती","mathematics & statistics":"गणित व संख्याशास्त्र","environment education":"पर्यावरण शिक्षण","health & physical education":"आरोग्य व शारीरिक शिक्षण"};
-const SCHOOL_F=['instName','schoolName','schoolAddr','mobile','email','medium','divBoard','recogNo','boardIndex','board','hmName','exName','place'];
+const SCHOOL_F=['instName','schoolName','schoolAddr','mobile','email','medium','divBoard','recogNo','boardIndex','board','hmName','exName','place','sty'];
 const STU_F=['prefix','stuName','classSel','stream','division','pen','attPresent','attTotal','docTitle','examSel','examOther','acYear','passPct','split','showClass','truncPct','resultSel','rank','reopen','remarks','ctName'];
 const makeRows=s=>PRE[s].map(p=>({n:p[0],t:p[1],max:p[1]==='m'?'100':'',ob:'',th:'',pr:'',g:''}));
 let rows=makeRows('arts'),prevStream='arts',logoData='',loadedSchool='',loadedStu='';
@@ -446,6 +475,7 @@ function render(){
  const head=`<tr><th style="width:7%">${L.sr}</th><th>${L.sj}</th><th style="width:11%">${L.mx}</th>${split?`<th style="width:10%">${L.th}</th><th style="width:11%">${L.pr}</th>`:''}<th style="width:11%">${L.ob}</th><th style="width:${split?'25':'30'}%">${L.rm}</th></tr>`;
  const att=(val('attPresent')||val('attTotal'))?`<span>${L.att} :- <b>${esc(val('attPresent'))||'__'}/${esc(val('attTotal'))||'__'}</b></span>`:'<span></span>';
  const logo=logoData?`<img src="${logoData}" alt="">`:'';
+ $('cert').setAttribute('data-sty',$('sty').value||'classic');
  $('cert').innerHTML=`<div class="frame">
   <div class="hd">${logo}<div class="t">${val('instName')?`<div class="inst">${esc(val('instName'))}</div>`:''}<div class="sn">${ph(val('schoolName'))}</div>
    ${val('schoolAddr')?`<div class="sa">${esc(val('schoolAddr'))}</div>`:''}
