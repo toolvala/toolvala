@@ -207,7 +207,7 @@ footer.fb a{color:#fff}
    <div class="card">
     <h2>2. School / college details</h2>
     <div class="f"><label for="instName">Institute / trust name <small>(optional)</small></label><input id="instName" autocomplete="off" placeholder="e.g. management trust or society name"></div>
-    <div class="f"><label for="schoolName">School / college name</label><input id="schoolName" autocomplete="off" placeholder="e.g. Sant Manavdayal Junior College"></div>
+    <div class="f"><label for="schoolName">School / college name</label><input id="schoolName" autocomplete="off" placeholder="e.g. Shri Shivaji Junior College, Nagpur"></div>
     <div class="f"><label for="schoolAddr">Address <small>(village, taluka, district)</small></label><input id="schoolAddr" autocomplete="off"></div>
     <div class="grid2">
      <div class="f"><label for="mobile">Mobile no. <small>(optional)</small></label><input id="mobile" type="tel" inputmode="numeric" maxlength="10" autocomplete="off" placeholder="10 digits"></div>
@@ -233,13 +233,15 @@ footer.fb a{color:#fff}
     <div class="f" id="examOtherBox" hidden><label for="examOther">Examination name <small>(type it)</small></label><input id="examOther" autocomplete="off"></div>
     <div class="grid2">
      <div class="f"><label for="classSel">Class</label><select id="classSel"></select></div>
-     <div class="f"><label for="stream">Stream <small>(optional)</small></label><select id="stream"><option value="">Not applicable</option><option value="arts">Arts</option><option value="science">Science</option><option value="commerce">Commerce</option></select></div>
+     <div class="f" id="streamBox"><label for="stream">Stream <small>(11th / 12th)</small></label><select id="stream"><option value="">All streams</option><option value="arts">Arts</option><option value="science">Science</option><option value="commerce">Commerce</option></select></div>
     </div>
+    <div class="f" id="classOtherBox" hidden><label for="classOther">Class name <small>(type it)</small></label><input id="classOther" autocomplete="off" placeholder="e.g. Nursery, B.A. First Year"></div>
     <div class="grid2">
      <div class="f"><label for="division">Class division <small>(tukdi, optional)</small></label><select id="division"></select></div>
      <div class="f"><label for="acYear">Academic year</label><input id="acYear" autocomplete="off" placeholder="2025-2026"></div>
     </div>
-    <div class="f"><label for="subject">Subject</label><input id="subject" list="subjList" autocomplete="off" placeholder="e.g. Marathi"><datalist id="subjList"></datalist></div>
+    <div class="f"><label for="subject">Subject</label><select id="subject"></select></div>
+    <div class="f" id="subjectOtherBox" hidden><label for="subjectOther">Subject name <small>(type it)</small></label><input id="subjectOther" autocomplete="off" placeholder="e.g. Drawing"></div>
     <div class="grid2">
      <div class="f"><label for="totalMarks">Total marks</label><input id="totalMarks" inputmode="decimal" value="25"></div>
      <div class="f"><label for="passPct">Pass mark <small>(% of total)</small></label><input id="passPct" inputmode="decimal" value="35"></div>
@@ -318,15 +320,24 @@ const $=id=>document.getElementById(id);
 const val=id=>$(id).value.trim();
 
 /* ---------- data ---------- */
-const CLASSES=[["1st","पहिली"],["2nd","दुसरी"],["3rd","तिसरी"],["4th","चौथी"],["5th","पाचवी"],["6th","सहावी"],["7th","सातवी"],["8th","आठवी"],["9th","नववी"],["10th","दहावी"],["11th","अकरावी"],["12th","बारावी"]];
+const CLASSES=[["1st","पहिली"],["2nd","दुसरी"],["3rd","तिसरी"],["4th","चौथी"],["5th","पाचवी"],["6th","सहावी"],["7th","सातवी"],["8th","आठवी"],["9th","नववी"],["10th","दहावी"],["11th","अकरावी"],["12th","बारावी"],["Nursery","नर्सरी"],["Jr. KG","छोटा गट"],["Sr. KG","मोठा गट"],["Custom (type it)","इतर"]];
+const CUSTOM_CLASS=15,CLASS_ORDER=[12,13,14,0,1,2,3,4,5,6,7,8,9,10,11,15];
 const STREAMS={arts:["Arts","कला"],science:["Science","विज्ञान"],commerce:["Commerce","वाणिज्य"]};
 const MED=[["English","इंग्रजी"],["Hindi","हिंदी"],["Marathi","मराठी"],["Gujarati","गुजराती"],["Kannada","कन्नड"],["Telugu","तेलुगु"],["Tamil","तमिळ"],["Malayalam","मल्याळम"],["Bengali","बंगाली"],["Odia","ओडिया"],["Punjabi","पंजाबी"],["Assamese","आसामी"],["Urdu","उर्दू"],["Sanskrit","संस्कृत"],["Konkani","कोकणी"],["Sindhi","सिंधी"],["Nepali","नेपाळी"],["Kashmiri","काश्मिरी"],["Manipuri (Meitei)","मणिपुरी"],["Bodo","बोडो"],["Dogri","डोगरी"],["Maithili","मैथिली"],["Santali","संथाली"],["Other","इतर"]];
 const DIVB=[["Pune","पुणे"],["Nagpur","नागपूर"],["Chhatrapati Sambhajinagar","छत्रपती संभाजीनगर"],["Mumbai","मुंबई"],["Kolhapur","कोल्हापूर"],["Amravati","अमरावती"],["Nashik","नाशिक"],["Latur","लातूर"],["Konkan","कोकण"]];
 const DOCS=[["STATEMENT OF MARKS","गुणतक्ता"],["MARK LIST","गुणयादी"],["RESULT STATEMENT","निकाल पत्रक"]];
-const EXAMS=[["First Unit Test","प्रथम घटक चाचणी"],["Second Unit Test","द्वितीय घटक चाचणी"],["First Terminal Examination","प्रथम सत्र परीक्षा"],["Second Terminal Examination","द्वितीय सत्र परीक्षा"],["Annual Examination","वार्षिक परीक्षा"],["Preliminary Examination","पूर्व परीक्षा (प्रिलिम)"],["Practice Test","सराव परीक्षा"],["Other (type it)","इतर"]];
-const SUBJ_MR={"marathi":"मराठी","english":"इंग्रजी","hindi":"हिंदी","sanskrit":"संस्कृत","urdu":"उर्दू","mathematics":"गणित","science":"विज्ञान","science & technology":"विज्ञान व तंत्रज्ञान","social science":"सामाजिक शास्त्रे","history":"इतिहास","geography":"भूगोल","civics":"नागरिकशास्त्र","history & political science":"इतिहास व राज्यशास्त्र","economics":"अर्थशास्त्र","political science":"राज्यशास्त्र","sociology":"समाजशास्त्र","psychology":"मानसशास्त्र","logic":"तर्कशास्त्र","physics":"भौतिकशास्त्र","chemistry":"रसायनशास्त्र","biology":"जीवशास्त्र","information technology":"माहिती तंत्रज्ञान","computer science":"संगणकशास्त्र","electronics":"इलेक्ट्रॉनिक्स","book keeping & accountancy":"book-keeping व लेखाकर्म","organisation of commerce & management":"वाणिज्य संघटन व व्यवस्थापन","secretarial practice":"चिटणीसाची कार्यपद्धती","mathematics & statistics":"गणित व संख्याशास्त्र","environment education":"पर्यावरण शिक्षण","health & physical education":"आरोग्य व शारीरिक शिक्षण","art education":"कला शिक्षण","drawing":"चित्रकला","general knowledge":"सामान्य ज्ञान"};
+const EXAMS=[["First Unit Test","प्रथम घटक चाचणी"],["Second Unit Test","द्वितीय घटक चाचणी"],["First Semester Examination","प्रथम सत्र परीक्षा"],["Second Semester Examination","द्वितीय सत्र परीक्षा"],["Annual Examination","वार्षिक परीक्षा"],["Preliminary Examination","पूर्व परीक्षा (प्रिलिम)"],["Practice Exam","सराव परीक्षा"],["Custom (type it)","इतर"]];
+const SUBJ_MR={"marathi":"मराठी","english":"इंग्रजी","hindi":"हिंदी","sanskrit":"संस्कृत","urdu":"उर्दू","mathematics":"गणित","science":"विज्ञान","science & technology":"विज्ञान व तंत्रज्ञान","social science":"सामाजिक शास्त्रे","history":"इतिहास","geography":"भूगोल","civics":"नागरिकशास्त्र","history & political science":"इतिहास व राज्यशास्त्र","economics":"अर्थशास्त्र","political science":"राज्यशास्त्र","sociology":"समाजशास्त्र","psychology":"मानसशास्त्र","logic":"तर्कशास्त्र","physics":"भौतिकशास्त्र","chemistry":"रसायनशास्त्र","biology":"जीवशास्त्र","information technology":"माहिती तंत्रज्ञान","computer science":"संगणकशास्त्र","electronics":"इलेक्ट्रॉनिक्स","book keeping & accountancy":"book-keeping व लेखाकर्म","organisation of commerce & management":"वाणिज्य संघटन व व्यवस्थापन","secretarial practice":"चिटणीसाची कार्यपद्धती","mathematics & statistics":"गणित व संख्याशास्त्र","environment education":"पर्यावरण शिक्षण","health & physical education":"आरोग्य व शारीरिक शिक्षण","art education":"कला शिक्षण","drawing":"चित्रकला","general knowledge":"सामान्य ज्ञान","environmental studies":"परिसर अभ्यास","algebra":"बीजगणित","geometry":"भूमिती","mathematics part 1 (algebra)":"गणित भाग १ (बीजगणित)","mathematics part 2 (geometry)":"गणित भाग २ (भूमिती)","physical education":"शारीरिक शिक्षण","work experience":"कार्यानुभव","computer":"संगणक","rhymes":"बडबडगीते"};
+const SUBJ={
+ kg:['Marathi','English','Mathematics','Drawing','General Knowledge','Rhymes'],
+ primary:['Marathi','Hindi','English','Mathematics','Environmental Studies','General Knowledge','Drawing','Computer','Physical Education'],
+ middle:['Marathi','Hindi','English','Mathematics','Science','History','Civics','Geography','Sanskrit','General Knowledge','Drawing','Computer','Physical Education','Work Experience'],
+ secondary:['Marathi','Hindi','English','Mathematics','Mathematics Part 1 (Algebra)','Mathematics Part 2 (Geometry)','Science & Technology','History & Political Science','Geography','Sanskrit','Computer','Drawing','Health & Physical Education','Work Experience'],
+ arts:['Marathi','English','Hindi','Economics','Political Science','Sociology','History','Geography','Psychology','Logic','Defence Studies','Sanskrit','Urdu','Environment Education','Health & Physical Education'],
+ science:['English','Marathi','Hindi','Physics','Chemistry','Mathematics','Biology','Information Technology','Computer Science','Electronics','Geography','Environment Education','Health & Physical Education'],
+ commerce:['English','Marathi','Hindi','Book Keeping & Accountancy','Organisation of Commerce & Management','Economics','Secretarial Practice','Mathematics & Statistics','Information Technology','Environment Education','Health & Physical Education']};
 const SCHOOL_F=['instName','schoolName','schoolAddr','mobile','email','medium','divBoard','recogNo','boardIndex','board','hmName','place'];
-const STM_F=['docTitle','examSel','examOther','classSel','stream','division','acYear','subject','totalMarks','passPct','perPage','showNames','showRemarks','showSummary','bw','rolls','subjTeacher','ctName'];
+const STM_F=['docTitle','examSel','examOther','classSel','classOther','stream','division','acYear','subject','subjectOther','totalMarks','passPct','perPage','showNames','showRemarks','showSummary','bw','rolls','subjTeacher','ctName'];
 let rows=[],logoData='',loadedSchool='';
 
 /* ---------- setup ---------- */
@@ -335,8 +346,7 @@ $('divBoard').innerHTML='<option value="">Not specified</option>'+DIVB.map((d,i)
 $('division').innerHTML='<option value="">Not specified</option>'+'ABCDEFGHIJ'.split('').map(d=>`<option value="${d}">${d}</option>`).join('');
 $('docTitle').innerHTML=DOCS.map((d,i)=>`<option value="${i}">${d[0]}</option>`).join('');
 $('examSel').innerHTML=EXAMS.map((d,i)=>`<option value="${i}">${d[0]}</option>`).join('');
-$('classSel').innerHTML=CLASSES.map((c,i)=>`<option value="${i}"${i===11?' selected':''}>${c[0]}</option>`).join('');
-$('subjList').innerHTML=Object.keys(SUBJ_MR).map(k=>`<option value="${k.replace(/(^|[\s&-])([a-z])/g,(m,a,b)=>a+b.toUpperCase())}">`).join('');
+$('classSel').innerHTML=CLASS_ORDER.map(i=>`<option value="${i}"${i===11?' selected':''}>${CLASSES[i][0]}</option>`).join('');
 (function(){const d=new Date(),y=d.getFullYear(),s=d.getMonth()>=5?y:y-1;$('acYear').value=s+'-'+(s+1);
  $('issueDate').value=y+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');})();
 
@@ -350,6 +360,27 @@ function getF(id){const e=$(id);return e.type==='checkbox'?e.checked:e.value;}
 function setF(id,v){const e=$(id);if(e.type==='checkbox')e.checked=!!v;else e.value=v;}
 function pv(v){v=String(v==null?'':v).trim();if(v==='')return{n:null,ab:false};if(/^(ab|absent)$/i.test(v))return{n:null,ab:true};const n=parseFloat(v);return isNaN(n)||n<0?{n:null,ab:false,bad:true}:{n:n,ab:false};}
 function fn(n){return Number.isInteger(n)?String(n):String(Math.round(n*100)/100);}
+function subjText(){return $('subject').value==='__c'?val('subjectOther'):$('subject').value;}
+function clsName(c,i){return +c===CUSTOM_CLASS?val('classOther'):CLASSES[+c][i];}
+function uniq(a){return a.filter((x,i)=>a.indexOf(x)===i);}
+function subjectList(){
+ const c=+$('classSel').value,st=$('stream').value;
+ if(c>=12&&c<=14)return SUBJ.kg;if(c<=4)return SUBJ.primary;if(c<=7)return SUBJ.middle;if(c<=9)return SUBJ.secondary;
+ if(c===10||c===11)return st&&SUBJ[st]?SUBJ[st]:uniq(SUBJ.arts.concat(SUBJ.science,SUBJ.commerce));
+ return SUBJ.middle;
+}
+function syncSubject(){$('subjectOtherBox').hidden=($('subject').value!=='__c');}
+function buildSubjects(){
+ const cur=$('subject').value;
+ $('subject').innerHTML='<option value="">Select subject</option>'+subjectList().map(n=>`<option value="${esc(n)}">${esc(n)}</option>`).join('')+'<option value="__c">Custom (type it)</option>';
+ $('subject').value=Array.from($('subject').options).some(o=>o.value===cur)?cur:'';
+ syncSubject();
+}
+function syncClass(){
+ const c=+$('classSel').value,senior=(c===10||c===11);
+ $('classOtherBox').hidden=(c!==CUSTOM_CLASS);$('streamBox').hidden=!senior;if(!senior)$('stream').value='';
+ buildSubjects();
+}
 function subjName(n,mr){const t=(n||'').trim();return mr&&SUBJ_MR[t.toLowerCase()]?SUBJ_MR[t.toLowerCase()]:t;}
 
 /* ---------- roll list ---------- */
@@ -393,13 +424,13 @@ function render(){
  const contact=(mob||em)?`<div class="sb">${mob?L.mob+': '+esc(mob):''}${mob&&em?' &nbsp;|&nbsp; ':''}${em?L.em+': '+esc(em):''}</div>`:'';
  const es=+$('examSel').value,exT=es===EXAMS.length-1?val('examOther'):EXAMS[es][i];
  const cv=+$('classSel').value,sm=$('stream').value,dv=val('division');
- const clsT=esc(CLASSES[cv][i])+(sm?' ('+esc(STREAMS[sm][i])+')':'')+(dv?' &nbsp;'+L.dv+' : '+esc(dv):'');
+ const clsT=esc(clsName(cv,i))+(sm?' ('+esc(STREAMS[sm][i])+')':'')+(dv?' &nbsp;'+L.dv+' : '+esc(dv):'');
  const logo=logoData?`<img src="${logoData}" alt="">`:'';
  const header=`<div class="hd">${logo}<div class="t">${val('instName')?`<div class="inst">${esc(val('instName'))}</div>`:''}<div class="sn">${ph(val('schoolName'))}</div>
   ${val('schoolAddr')?`<div class="sa">${esc(val('schoolAddr'))}</div>`:''}
   <div class="sb">${L.ud}: ${ph($('udise').value)}${val('recogNo')?' &nbsp;|&nbsp; '+L.rc+': '+esc(val('recogNo')):''}${val('boardIndex')?' &nbsp;|&nbsp; '+L.ix+': '+esc(val('boardIndex')):''}</div>${divT?`<div class="sb">${esc(divT)}</div>`:''}${bm?`<div class="sb">${bm}</div>`:''}${contact}</div>${logoData?'<div style="width:70px"></div>':''}</div>
   <div class="band"><div class="b1">${DOCS[+$('docTitle').value][i]}</div><div class="b2">${esc(exT)} <small>( ${L.tm} : ${st.total?fn(st.total):'__'} )</small></div></div>
-  <div class="chips"><span><b>${L.cl}</b> : ${clsT}</span><span><b>${L.sj}</b> : ${ph(subjName(val('subject'),mr))}</span><span><b>${L.yr}</b> : ${ph(val('acYear'))}</span></div>`;
+  <div class="chips"><span><b>${L.cl}</b> : ${clsT}</span><span><b>${L.sj}</b> : ${ph(subjName(subjText(),mr))}</span><span><b>${L.yr}</b> : ${ph(val('acYear'))}</span></div>`;
  const cols=['30px','54px'].concat(names?['1fr']:[],['44px'],[(names||remk)?'60px':'1fr'],remk?['1fr']:[]).join(' ');
  const resT={P:L.pass,F:L.fail,A:L.abs},resC={P:'rp',F:'rf',A:'ra'};
  function block(list,start){
@@ -421,7 +452,7 @@ function render(){
    <div class="tw">${block(sl.slice(0,half),p*per)}${block(sl.slice(half),p*per+half)}</div>
    ${last?sumHtml+`<div class="pd"><span>${val('place')?L.pl+' : '+esc(val('place')):''}</span><span>${L.dt} : ${esc(fmt($('issueDate').value))}</span></div>
    <div class="sigs"><div class="sg"><div class="nm2">${esc(val('subjTeacher'))}</div><div class="ln">${L.st}</div></div><div class="sg"><div class="nm2">${esc(val('ctName'))}</div><div class="ln">${L.ct}</div></div><div class="sg"><div class="nm2">${esc(val('hmName'))}</div><div class="ln">${L.pri}</div></div></div>`:''}
-   <div class="pgf"><span>${esc(exT)} · ${esc(subjName(val('subject'),mr))} · ${esc(CLASSES[cv][i])}</span><span>${L.pg} ${p+1} ${L.of} ${pages}</span></div>
+   <div class="pgf"><span>${esc(exT)} · ${esc(subjName(subjText(),mr))} · ${esc(clsName(cv,i))}</span><span>${L.pg} ${p+1} ${L.of} ${pages}</span></div>
   </div></div></div>`;
  }
  $('pages').innerHTML=html;
@@ -465,7 +496,7 @@ $('clrMarks').onclick=()=>{rows.forEach(r=>r.marks='');drawRows();render();msg('
 
 /* ---------- save / load ---------- */
 function syncExam(){$('examOtherBox').hidden=(+$('examSel').value!==EXAMS.length-1);}
-function stmtKey(){const u=$('udise').value;return 'tv_st_s_'+u+'_'+encodeURIComponent([$('examSel').value,$('examOther').value.trim().toLowerCase(),$('classSel').value,$('stream').value,$('division').value,$('subject').value.trim().toLowerCase(),$('acYear').value.trim()].join('|'));}
+function stmtKey(){const u=$('udise').value;return 'tv_st_s_'+u+'_'+encodeURIComponent([$('examSel').value,$('examOther').value.trim().toLowerCase(),$('classSel').value+$('classOther').value.trim().toLowerCase(),$('stream').value,$('division').value,subjText().toLowerCase(),$('acYear').value.trim()].join('|'));}
 function refreshSaved(sel){
  const u=$('udise').value,box=$('savedSel');let opts='';
  if(/^\d{11}$/.test(u)){try{Object.keys(localStorage).filter(k=>k.indexOf('tv_st_s_'+u+'_')===0).forEach(k=>{const d=load(k);if(d&&d.label)opts+=`<option value="${esc(k)}">${esc(d.label)}</option>`;});}catch(e){}}
@@ -485,12 +516,19 @@ function save(){
  const u=$('udise').value,s={logo:logoData},t={rows:rows};
  SCHOOL_F.forEach(k=>s[k]=getF(k));STM_F.forEach(k=>t[k]=getF(k));
  const es=+$('examSel').value;
- t.label=(es===EXAMS.length-1?val('examOther'):EXAMS[es][0])+' · '+CLASSES[+$('classSel').value][0]+' · '+(val('subject')||'—')+' · '+val('acYear');
+ t.label=(es===EXAMS.length-1?val('examOther'):EXAMS[es][0])+' · '+clsName($('classSel').value,0)+' · '+(subjText()||'—')+' · '+val('acYear');
  store('tv_st_school_'+u,s);const k=stmtKey();store(k,t);refreshSaved(k);
+}
+function applyStatement(t){
+ STM_F.forEach(f=>{if(t[f]!=null&&f!=='subject')setF(f,t[f]);});
+ syncClass();
+ const want=String(t.subject||''),opt=Array.from($('subject').options).find(o=>o.value&&o.value.toLowerCase()===want.toLowerCase());
+ if(opt)$('subject').value=opt.value;else if(want){$('subject').value='__c';if(!t.subjectOther)$('subjectOther').value=want;}
+ syncSubject();rows=Array.isArray(t.rows)?t.rows:[];syncExam();drawRows();render();
 }
 $('loadSaved').onclick=()=>{
  const k=$('savedSel').value,t=k&&load(k);if(!t){msg('err','Nothing saved to load for this UDISE number yet.');return;}
- STM_F.forEach(f=>{if(t[f]!=null)setF(f,t[f]);});rows=Array.isArray(t.rows)?t.rows:[];syncExam();drawRows();render();msg('ok','Saved statement loaded.');
+ applyStatement(t);msg('ok','Saved statement loaded.');
 };
 $('delSaved').onclick=()=>{const k=$('savedSel').value;if(!k)return;try{localStorage.removeItem(k);}catch(e){}refreshSaved();msg('ok','Saved statement deleted.');};
 
@@ -501,7 +539,8 @@ function validate(){
  const errs=[],bad=[];const need=(sel,ok,t)=>{if(!ok){errs.push(t);bad.push(sel);}};
  need('#udise',/^\d{11}$/.test($('udise').value),'UDISE number must be exactly 11 digits.');
  need('#schoolName',!!val('schoolName'),'Enter the school / college name.');
- need('#subject',!!val('subject'),'Enter the subject.');
+ need($('subject').value==='__c'?'#subjectOther':'#subject',!!subjText(),'Select the subject (or type a custom one).');
+ if(+$('classSel').value===CUSTOM_CLASS)need('#classOther',!!val('classOther'),'Type the class name.');
  need('#acYear',!!val('acYear'),'Enter the academic year.');
  if(+$('examSel').value===EXAMS.length-1)need('#examOther',!!val('examOther'),'Type the examination name.');
  const tm=parseFloat($('totalMarks').value);need('#totalMarks',tm>0,'Enter the total marks.');
@@ -530,7 +569,7 @@ async function canvasOf(el){
   return await html2canvas(c,{scale:2,backgroundColor:'#ffffff',useCORS:true,width:794,height:1123,windowWidth:794,windowHeight:1123,scrollX:0,scrollY:0});}
  finally{box.remove();}
 }
-function fname(ext,suffix){return 'Statement_'+((val('subject')||'Marks')+'_'+CLASSES[+$('classSel').value][0]).replace(/[^\p{L}\p{N}]+/gu,'_')+(suffix||'')+'.'+ext;}
+function fname(ext,suffix){return 'Statement_'+((subjText()||'Marks')+'_'+clsName($('classSel').value,0)).replace(/[^\p{L}\p{N}]+/gu,'_')+(suffix||'')+'.'+ext;}
 async function run(btn,fn){
  if(!validate())return;
  if(typeof html2canvas==='undefined'){msg('err','Still loading the export library. Wait a moment and try again.');return;}
@@ -564,6 +603,9 @@ $('logo').onchange=function(e){
 $('rmLogo').onclick=function(){logoData='';$('logo').value='';render();};
 
 /* ---------- events ---------- */
+$('classSel').addEventListener('change',syncClass);
+$('stream').addEventListener('change',buildSubjects);
+$('subject').addEventListener('change',syncSubject);
 ['udise','mobile'].forEach(id=>$(id).addEventListener('input',function(){this.value=this.value.replace(/\D/g,'');}));
 document.querySelectorAll('.card input,.card select,.card textarea').forEach(el=>{
  if(el.closest('#rowsBox')||el.type==='file'||el.id==='remember'||el.id==='savedSel'||el.id==='rolls')return;
@@ -582,7 +624,7 @@ fetch("/footer.html")
     }
   });
 
-drawRows();render();
+syncClass();drawRows();render();
 if(document.fonts)document.fonts.ready.then(()=>{fitContent();});
 })();
 </script>
