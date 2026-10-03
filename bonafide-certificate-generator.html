@@ -113,6 +113,27 @@ button:disabled{opacity:.6;cursor:wait}
 .det{width:100%;border-collapse:collapse;margin:calc(14px*var(--k,1)) 0 0;font-size:calc(14.5px*var(--k,1))}
 .det td{border:1px solid #8a93a6;padding:calc(6px*var(--k,1)) calc(10px*var(--k,1));vertical-align:top}
 .det td:first-child{width:42%;background:#f3f5fa;font-weight:700}
+/* ---- design styles (classic = default, rules above) ---- */
+.cert[data-sty="modern"]{--ink:#0b4f8a}
+.cert[data-sty="modern"] .frame{border:2px solid var(--ink)}
+.cert[data-sty="modern"] .hd{background:var(--ink);border:0;border-radius:6px;padding:calc(10px*var(--k,1)) 14px}
+.cert[data-sty="modern"] .hd .sn,.cert[data-sty="modern"] .hd .inst,.cert[data-sty="modern"] .hd .sa,.cert[data-sty="modern"] .hd .sb{color:#fff}
+.cert[data-sty="modern"] .hd img{background:#fff;border-radius:50%;padding:2px}
+.cert[data-sty="modern"] .ttl{text-decoration:none;background:#e8f1fa;border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);padding:calc(5px*var(--k,1)) 0;letter-spacing:3px}
+.cert[data-sty="modern"] .det td.n,.cert[data-sty="modern"] .det td.l{background:#e8f1fa}
+.cert[data-sty="modern"] .det td{border-color:#7f9bb8}
+.cert[data-sty="elegant"]{--ink:#6b1d2a;padding:26px}
+.cert[data-sty="elegant"] .frame{border:6px double #b8892e;outline:1.5px solid var(--ink);outline-offset:3px}
+.cert[data-sty="elegant"] .hd{border-bottom:3px double #b8892e}
+.cert[data-sty="elegant"] .ttl{text-decoration:none;border:2px solid #b8892e;border-radius:30px;width:78%;margin-left:auto;margin-right:auto;padding:calc(4px*var(--k,1)) 0}
+.cert[data-sty="elegant"] .det td{border-color:#8a6a2a}
+.cert[data-sty="elegant"] .det td.n,.cert[data-sty="elegant"] .det td.l{background:#f6ecd5}
+.cert[data-sty="minimal"]{--ink:#222}
+.cert[data-sty="minimal"] .frame{border:1px solid #999}
+.cert[data-sty="minimal"] .hd{border-bottom:1px solid #999}
+.cert[data-sty="minimal"] .ttl{text-decoration:none;letter-spacing:4px;font-weight:600}
+.cert[data-sty="minimal"] .det td{border:0;border-bottom:1px solid #bbb}
+.cert[data-sty="minimal"] .det td.n,.cert[data-sty="minimal"] .det td.l{background:#fff}
 .ph{color:#999}
 .sig{margin-top:auto;display:flex;justify-content:space-between;align-items:flex-end;font-size:calc(14px*var(--k,1))}
 .seal{width:calc(96px*var(--k,1));height:calc(96px*var(--k,1));border:1.5px dashed #9aa3b5;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;color:#9aa3b5;text-align:center}
@@ -215,6 +236,7 @@ footer.fb a{color:#fff}
    <div class="card">
     <h2>4. Certificate options</h2>
     <div class="grid2">
+     <div class="f"><label for="sty">Design style</label><select id="sty"><option value="classic">Classic (current)</option><option value="modern">Modern blue</option><option value="elegant">Elegant maroon &amp; gold</option><option value="minimal">Minimal (print-friendly)</option></select></div>
      <div class="f"><label for="lang">Certificate language</label><select id="lang"><option value="en">English</option><option value="mr">मराठी (Marathi)</option></select></div>
      <div class="f"><label for="purpose">Purpose <small>(optional)</small></label><input id="purpose" autocomplete="off" placeholder="e.g. scholarship, bank account"></div>
     </div>
@@ -269,7 +291,7 @@ footer.fb a{color:#fff}
 const $=id=>document.getElementById(id);
 const val=id=>$(id).value.trim();
 const CLS=[["Nursery","नर्सरी"],["Jr. KG","छोटा गट"],["Sr. KG","मोठा गट"],["1st","पहिली"],["2nd","दुसरी"],["3rd","तिसरी"],["4th","चौथी"],["5th","पाचवी"],["6th","सहावी"],["7th","सातवी"],["8th","आठवी"],["9th","नववी"],["10th","दहावी"],["11th","अकरावी"],["12th","बारावी"]];
-const SCHOOL_F=['boardIndex','recogNo','divBoard','instName','mobile','email','medium','schoolName','schoolAddr','board','hmName','hmTitle','place'];
+const SCHOOL_F=['boardIndex','recogNo','divBoard','instName','mobile','email','medium','schoolName','schoolAddr','board','hmName','hmTitle','place','sty'];
 const STU_F=['stuName','gender','father','mother','dob','cls','division','acYear','pen','aadhaar'];
 let logoData='',loadedSchool='',loadedStu='';
 
@@ -333,6 +355,7 @@ function render(){
  if(pen)rows+=row(L.pen,esc(pen));
  if(aad)rows+=row(L.aa,esc(aadShow));
  const logo=logoData?`<img src="${logoData}" alt="">`:'';
+ $('cert').setAttribute('data-sty',$('sty').value||'classic');
  $('cert').innerHTML=`<div class="frame">
   <div class="hd">${logo}<div class="t">${val('instName')?`<div class="inst">${esc(val('instName'))}</div>`:''}<div class="sn">${ph(val('schoolName'))}</div>
    ${val('schoolAddr')?`<div class="sa">${esc(val('schoolAddr'))}</div>`:''}
