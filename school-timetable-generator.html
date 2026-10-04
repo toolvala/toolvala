@@ -189,6 +189,7 @@ footer.fb{background:var(--ink);color:#c8d2ea;text-align:center;padding:20px 16p
     <div class="f"><label for="b1m">Break minutes</label><input id="b1m" inputmode="numeric" value="10"></div></div>
     <div class="grid2"><div class="f"><label for="b2a">Lunch break after period <small>(0 = none)</small></label><input id="b2a" inputmode="numeric" value="0"></div>
     <div class="f"><label for="b2m">Lunch minutes</label><input id="b2m" inputmode="numeric" value="30"></div></div>
+    <label class="chk"><input type="checkbox" id="showTime" checked> Show period times on the timetable <small>(untick to print only the periods, subjects and names)</small></label>
     <div class="hint" id="tmHint"></div>
    </div>
    <div class="card"><h2>4. Subjects</h2>
@@ -240,7 +241,7 @@ function subjFor(g){const u=a=>Array.from(new Set(a));
  if(g==='school')return u(SG.school.concat(SG.other));
  if(g==='all')return u([].concat(SG.common,SG.science,SG.arts,SG.commerce,SG.school,SG.other));
  return u(SG.common.concat(SG[g],SG.other));}
-const SCH=['udise','schoolName','schoolAddr','acYear','lang','titleTxt','sty','days','np','t0','pm','b1a','b1m','b2a','b2m'];
+const SCH=['showTime','udise','schoolName','schoolAddr','acYear','lang','titleTxt','sty','days','np','t0','pm','b1a','b1m','b2a','b2m'];
 const CLF=['classSel','classOther','faculty','facultyOther','div','teacher'];
 const FEN={arts:'Arts',science:'Science',commerce:'Commerce'},FMR={arts:'कला',science:'विज्ञान',commerce:'वाणिज्य'};
 function facTxt(r,mr){if(!r.faculty)return '';return r.faculty==='custom'?(r.facultyOther||'').trim():(mr?FMR:FEN)[r.faculty]||'';}
@@ -303,7 +304,8 @@ function pageHTML(r,S){
  const L=mr?{per:'तास',br:'मधली सुट्टी',lu:'जेवणाची सुट्टी',day:'वार',ct:'वर्गशिक्षक',stl:'विषय शिक्षक',pr:'मुख्याध्यापक',cls:'वर्ग',yr:'शैक्षणिक वर्ष',ttl:'वर्ग वेळापत्रक'}:{per:'Period',br:'BREAK',lu:'LUNCH',day:'Day',ct:'Class Teacher',stl:'Subject teachers',pr:'Principal',cls:'Class',yr:'Academic Year',ttl:'CLASS TIME TABLE'};
  const dn=mr?DMR:DEN;
  const cols='calc(112px*var(--k,1)) '+sl.map(s=>s.t=='p'?'1fr':'calc(54px*var(--k,1))').join(' ');
- let g='<div class="th">'+L.day+'</div>'+sl.map(s=>s.t=='p'?`<div class="th">${L.per} ${s.n}<span class="tm">${s.time}</span></div>`:`<div class="th bk">${s.t=='b1'?L.br:L.lu}<span class="tm">${s.time}</span></div>`).join('');
+ const tm=s=>S.showTime?`<span class="tm">${s.time}</span>`:'';
+ let g='<div class="th">'+L.day+'</div>'+sl.map(s=>s.t=='p'?`<div class="th">${L.per} ${s.n}${tm(s)}</div>`:`<div class="th bk">${s.t=='b1'?L.br:L.lu}${tm(s)}</div>`).join('');
  DL.forEach((d,di)=>{g+='<div class="dh">'+dn[d]+'</div>';
   sl.forEach((s,ci)=>{if(s.t=='p'){const sv=(r.grid[d+'_'+s.n]||'').trim(),tn=sv&&r.showT&&r.teachers?(r.teachers[nk(sv)]||'').trim():'';g+='<div>'+esc(sv)+(tn?'<small>'+esc(tn)+'</small>':'')+'</div>';}else if(di==0)g+=`<div class="bk" style="grid-row:2 / span ${D};grid-column:${ci+2}"><span class="vt">${s.t=='b1'?L.br:L.lu}</span></div>`;})});
  return `<div class="frame"><div class="hd"><div class="sn">${esc(S.schoolName)}</div>${S.schoolAddr?`<div class="sa">${esc(S.schoolAddr)}</div>`:''}${S.udise?`<div class="sa">UDISE No.: ${esc(S.udise)}</div>`:''}</div>
@@ -312,7 +314,7 @@ function pageHTML(r,S){
  <div class="tbw"><div class="tt" style="grid-template-columns:${cols};grid-template-rows:auto repeat(${D},1fr)">${g}</div></div>
  ${legend(r,L)}
  <div class="sg"><div>${r.teacher&&r.teacher.trim()?'<b>'+esc(r.teacher.trim())+'</b><br>':'<br>'}<span class="ln">${L.ct}</span></div><div><br><span class="ln">${L.pr}</span></div></div></div>`;}
-function schoolState(){return{lang:$('lang').value,sl:0,slots:slots(),days:dayList(),np:nP(),schoolName:$('schoolName').value.trim(),schoolAddr:$('schoolAddr').value.trim(),udise:$('udise').value.trim(),acYear:$('acYear').value.trim(),title:$('titleTxt').value.trim(),sty:$('sty').value};}
+function schoolState(){return{showTime:$('showTime').checked,lang:$('lang').value,sl:0,slots:slots(),days:dayList(),np:nP(),schoolName:$('schoolName').value.trim(),schoolAddr:$('schoolAddr').value.trim(),udise:$('udise').value.trim(),acYear:$('acYear').value.trim(),title:$('titleTxt').value.trim(),sty:$('sty').value};}
 function savedRecs(){const u=$('udise').value.trim(),pre='tv_tt_c_'+(u||'local')+'_',o=[];
  try{Object.keys(localStorage).filter(k=>k.indexOf(pre)===0).sort().forEach(k=>{try{o.push({key:k,rec:JSON.parse(localStorage.getItem(k))});}catch(e){}});}catch(e){}return o;}
 function recKey(r){const u=$('udise').value.trim();return 'tv_tt_c_'+(u||'local')+'_'+((r.classSel===''?'x':r.classSel)+'_'+(r.classOther||'')+'_'+(r.faculty||'')+'_'+(r.facultyOther||'')+'_'+(r.div||'')).replace(/[^\p{L}\p{N}]+/gu,'-');}
@@ -340,9 +342,9 @@ function validate(){document.querySelectorAll('.bad').forEach(e=>e.classList.rem
 function refreshSaved(){const recs=savedRecs();$('savedSel').innerHTML=recs.length?recs.map(x=>`<option value="${esc(x.key)}">${esc(label(x.rec))}</option>`).join(''):'<option value="">(none saved yet)</option>';}
 function label(r){const c=(+r.classSel===CUSTOM?r.classOther:CEN[+r.classSel])||'Class',f=facTxt(r,false);return c+(f?' '+f:'')+(r.div?' – '+r.div:'');}
 function schoolKey(){const u=$('udise').value.trim();return u?'tv_tt_s_'+u:'';}
-function saveSchool(){const k=schoolKey();if(!k)return;const o={};SCH.forEach(f=>o[f]=$(f).value);try{localStorage.setItem(k,JSON.stringify(o));}catch(e){}}
+function saveSchool(){const k=schoolKey();if(!k)return;const o={};SCH.forEach(f=>o[f]=$(f).type==='checkbox'?$(f).checked:$(f).value);try{localStorage.setItem(k,JSON.stringify(o));}catch(e){}}
 function loadSchool(){const k=schoolKey();if(!k)return;let o;try{o=JSON.parse(localStorage.getItem(k));}catch(e){}if(!o)return;
- SCH.forEach(f=>{if(f!=='udise'&&o[f]!=null)$(f).value=o[f];});if(!$('days').value)$('days').value='6';drawGrid();$('udHint').textContent='Saved school details filled in.';}
+ SCH.forEach(f=>{if(f!=='udise'&&o[f]!=null){if($(f).type==='checkbox')$(f).checked=!!o[f];else $(f).value=o[f];}});if(!$('days').value)$('days').value='6';drawGrid();$('udHint').textContent='Saved school details filled in.';}
 function applyRec(r){CLF.forEach(f=>{$(f).value=r[f]==null?'':r[f];});grid=Object.assign({},r.grid||{});teachers=Object.assign({},r.teachers||{});$('showT').checked=!!r.showT;$('showL').checked=!!r.showL;syncCls();drawGrid();}
 $('udise').addEventListener('input',function(){this.value=this.value.replace(/\D/g,'');if(this.value.length===11&&this.value!==loadedSchool){loadedSchool=this.value;loadSchool();}refreshSaved();});
 $('saveBtn').onclick=()=>{if(!validate())return;const r=cur();try{localStorage.setItem(recKey(r),JSON.stringify(r));saveSchool();refreshSaved();$('savedSel').value=recKey(r);msg('ok','Saved on this device: '+label(r));}catch(e){msg('err','Could not save in this browser.');}};
@@ -364,7 +366,7 @@ $('pngBtn').onclick=function(){run(this,async()=>{const els=Array.from(document.
  for(let i=0;i<els.length;i++){const c=await canvasOf(els[i]);await new Promise(res=>c.toBlob(b=>{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=fname('png',els.length>1?'_page'+(i+1):'');document.body.appendChild(a);a.click();a.remove();setTimeout(()=>{URL.revokeObjectURL(a.href);res();},600);},'image/png'));}});};
 $('printBtn').onclick=function(){if(validate()){render();window.print();}};
 $('genBtn').onclick=function(){if(validate()){render();$('preview').scrollIntoView({behavior:'smooth',block:'start'});}};
-['lang','sty','titleTxt','schoolName','schoolAddr','acYear','allCls'].forEach(id=>$(id).addEventListener('change',()=>{if($('pages').children.length)render();}));
+['lang','sty','titleTxt','schoolName','schoolAddr','acYear','allCls','showTime'].forEach(id=>$(id).addEventListener('change',()=>{if($('pages').children.length)render();}));
 drawGrid();refreshSaved();
 if(document.fonts)document.fonts.ready.then(()=>{fitContent();});
 fetch("/footer.html").then(r=>r.text()).then(d=>{$('footer').innerHTML=d;const y=$('year');if(y)y.textContent=new Date().getFullYear();}).catch(()=>{});
