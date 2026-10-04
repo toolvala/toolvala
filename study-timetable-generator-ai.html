@@ -1,1987 +1,289 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>Study Timetable Generator (AI) | Free Exam Prep Scheduler | Toolvala.in</title>
-    <link rel="canonical" href="https://www.toolvala.in/study-timetable-generator-ai.html">
-
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8GTQC904G1"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-8GTQC904G1');
-    </script>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-    <meta name="description" content="Free AI-powered study timetable generator. Create personalized exam preparation schedules with intelligent subject distribution, real Pomodoro-cycle breaks, and daily auto-rotation. Perfect for CBSE, JEE, NEET, competitive exams.">
-    <meta name="keywords" content="study timetable generator, exam schedule maker, study planner AI, timetable creator, exam preparation schedule, study hours planner, weak subject focus, Pomodoro timer, study routine, academic planner">
-    <meta name="author" content="Toolvala.in">
-    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-    <meta name="language" content="English">
-    <meta name="revisit-after" content="7 days">
-    <meta name="theme-color" content="#6366f1">
-
-    <meta property="og:title" content="AI Study Timetable Generator - Free Exam Scheduler | Toolvala.in">
-    <meta property="og:description" content="Create intelligent study schedules with AI. Real Pomodoro-cycle breaks, focus mode, and daily auto-rotation.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.toolvala.in/study-timetable-generator-ai.html">
-    <meta property="og:site_name" content="Toolvala.in">
-
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="AI Study Timetable Generator | Free Exam Prep Scheduler">
-    <meta name="twitter:description" content="Generate personalized study schedules with AI-powered intelligence">
-
-    <!-- AdSense library (loaded once; ad units are placed in the body) -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4402681434316955" crossorigin="anonymous"></script>
-
-    <!-- Schema Markup -->
-    <script type="application/ld+json">
-    {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.toolvala.in"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://www.toolvala.in/all-tools.html"},{"@type":"ListItem","position":3,"name":"Study Timetable Generator AI","item":"https://www.toolvala.in/study-timetable-generator-ai.html"}]}
-    </script>
-
-    <script type="application/ld+json">
-    {"@context":"https://schema.org","@type":"WebApplication","name":"Study Timetable Generator (AI)","description":"AI-powered study timetable generator for intelligent exam preparation scheduling with focus mode, auto-rotation, and real Pomodoro-cycle breaks.","applicationCategory":"EducationalApplication","operatingSystem":["Windows","macOS","Linux","Android","iOS"],"url":"https://www.toolvala.in/study-timetable-generator-ai.html","author":{"@type":"Organization","name":"Toolvala.in"},"publisher":{"@type":"Organization","name":"Toolvala.in"},"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"aggregateRating":{"@type":"AggregateRating","ratingValue":"4.9","ratingCount":"4200"}}
-    </script>
-
-    <script type="application/ld+json">
-    {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How does the AI study timetable generator work?","acceptedAnswer":{"@type":"Answer","text":"The generator analyzes your subjects, exam date, daily study hours, and difficulty levels, then allocates a percentage of each day to weak, medium, and strong subjects. It chops the day into real 25-minute Pomodoro study cycles with 5-minute breaks, and a 15-minute break every 4th cycle, rotating subjects daily to prevent monotony."}},{"@type":"Question","name":"Can I focus more time on my weak subjects?","acceptedAnswer":{"@type":"Answer","text":"Yes. The generator has a Focus Mode that prioritizes weak subjects. When enabled, weak subjects receive 50% of study time, medium subjects 35%, and strong subjects only 15%."}},{"@type":"Question","name":"How does the Pomodoro break system work?","acceptedAnswer":{"@type":"Answer","text":"Study time is broken into 25-minute focused cycles followed by 5-minute breaks. After every 4th cycle, a 15-minute longer break is scheduled automatically. This is built directly into the generated timetable, not just a tip in the article."}},{"@type":"Question","name":"Can I download my study timetable as PDF?","acceptedAnswer":{"@type":"Answer","text":"Yes. The generator creates a downloadable PDF version of your timetable including the complete schedule, subject distribution, break times, and exam countdown."}},{"@type":"Question","name":"Does the generator prevent subject repetition boredom?","acceptedAnswer":{"@type":"Answer","text":"Yes. Subjects are interleaved across the day in proportion to their difficulty weighting and rotated to a different starting subject each day, so the same subject rarely repeats back-to-back."}},{"@type":"Question","name":"What if my exam date is very soon?","acceptedAnswer":{"@type":"Answer","text":"The generator simply scales to however many days remain — set Focus Mode to Intense for the best results when your exam is within a couple of weeks."}},{"@type":"Question","name":"Can I adjust the study schedule after generating it?","acceptedAnswer":{"@type":"Answer","text":"Yes, the timetable is fully customizable. Modify subject names, study hours, difficulty levels, or focus mode and regenerate as many times as you like."}},{"@type":"Question","name":"Is the Study Timetable Generator free to use?","acceptedAnswer":{"@type":"Answer","text":"Yes, Toolvala.in's Study Timetable Generator is completely free with no registration. All scheduling happens locally in your browser."}}]}
-    </script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --secondary: #2c3e50;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            --dark: #1a1a1a;
-            --light: #f8f9fa;
-            --gray: #666666;
-            --border: #e0e0e0;
-            --white: #ffffff;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            line-height: 1.6;
-            color: var(--dark);
-            background: #fafafa;
-            padding-bottom: 80px;
-        }
-
-        :focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; }
-
-        @media (prefers-reduced-motion: reduce) {
-            * { transition: none !important; animation: none !important; }
-        }
-
-        /* Header */
-        header {
-            background: white;
-            border-bottom: 2px solid var(--border);
-            padding: 1.2rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
-
-        .header-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-        }
-
-        .brand {
-            font-size: 2rem;
-            font-weight: 800;
-            letter-spacing: -1px;
-            text-align: left;
-        }
-
-        .brand span {
-            color: var(--primary);
-        }
-
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
-            padding: 3rem 1rem;
-            text-align: center;
-        }
-
-        .hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            font-weight: 700;
-        }
-
-        .hero p {
-            font-size: 1.1rem;
-            opacity: 0.95;
-            max-width: 720px;
-            margin: 0 auto;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1rem;
-        }
-
-        main {
-            padding: 2rem 0;
-        }
-
-        /* Generator Card */
-        .generator-card {
-            background: white;
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-            margin-bottom: 2rem;
-        }
-
-        .generator-title {
-            color: var(--primary);
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-
-        /* Form Styles */
-        .form-section {
-            background: #f8f9fa;
-            padding: 1.5rem;
-            border-radius: 10px;
-            margin-bottom: 1.5rem;
-        }
-
-        .form-section-title {
-            color: var(--primary);
-            font-weight: 700;
-            margin-bottom: 1rem;
-            font-size: 1.1rem;
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form-label {
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: var(--secondary);
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .form-input, .form-select {
-            padding: 1rem;
-            border: 2px solid var(--border);
-            border-radius: 8px;
-            font-size: 16px;
-            transition: all 0.3s;
-            font-family: inherit;
-        }
-
-        .form-input:focus, .form-select:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(99,102,241,0.1);
-        }
-
-        .field-hint { font-size: 0.78rem; color: var(--gray); margin-top: 6px; }
-
-        /* Subject Input */
-        .subject-input-section {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 10px;
-            border: 2px solid var(--primary);
-        }
-
-        .subject-input-title {
-            color: var(--primary);
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-
-        .subject-item {
-            background: var(--light);
-            padding: 1.2rem;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            border-left: 4px solid var(--primary);
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr auto;
-            gap: 1rem;
-            align-items: end;
-        }
-
-        .subject-name-input {
-            padding: 0.8rem;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            font-size: 0.95rem;
-            font-family: inherit;
-        }
-
-        .difficulty-select {
-            padding: 0.8rem;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            font-family: inherit;
-        }
-
-        .btn-remove-subject {
-            background: var(--danger);
-            color: white;
-            border: none;
-            padding: 0.6rem 1rem;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .btn-remove-subject:hover {
-            background: #dc2626;
-        }
-
-        /* Buttons */
-        .button-group {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 1rem 1.5rem;
-            border: none;
-            border-radius: 8px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            font-size: 1rem;
-            font-family: inherit;
-        }
-
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-            flex: 1;
-            min-width: 150px;
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(99,102,241,0.3);
-        }
-
-        .btn-primary:disabled { opacity: 0.7; cursor: wait; transform: none; }
-
-        .btn-secondary {
-            background: #ecf0f1;
-            color: var(--primary);
-            border: 2px solid var(--primary);
-        }
-
-        .btn-secondary:hover {
-            background: var(--primary);
-            color: white;
-        }
-
-        .btn-success {
-            background: var(--success);
-            color: white;
-        }
-
-        .btn-success:hover {
-            background: #059669;
-        }
-
-        .btn-success:disabled { opacity: 0.7; cursor: wait; }
-
-        /* Timetable Display */
-        .timetable-section {
-            background: white;
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-            margin-bottom: 2rem;
-            display: none;
-        }
-
-        .timetable-section.active {
-            display: block;
-        }
-
-        .timetable-header {
-            text-align: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 3px solid var(--primary);
-        }
-
-        .timetable-title {
-            color: var(--primary);
-            font-size: 1.8rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .countdown {
-            font-size: 1.1rem;
-            color: var(--warning);
-            font-weight: 700;
-        }
-
-        .timetable-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .timetable-note {
-            text-align: center;
-            color: var(--gray);
-            font-size: 0.9rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .day-card {
-            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
-            border-radius: 10px;
-            padding: 1.5rem;
-            border-left: 4px solid var(--primary);
-        }
-
-        .day-title {
-            color: var(--primary);
-            font-weight: 700;
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
-        }
-
-        .day-slots {
-            max-height: 420px;
-            overflow-y: auto;
-            padding-right: 6px;
-        }
-
-        .time-slot {
-            background: white;
-            padding: 0.7rem 0.9rem;
-            border-radius: 8px;
-            margin-bottom: 0.5rem;
-            border-left: 3px solid var(--primary);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 0.6rem;
-            flex-wrap: wrap;
-        }
-
-        .time-slot .time {
-            font-size: 0.8rem;
-            color: var(--gray);
-            font-weight: 600;
-            white-space: nowrap;
-        }
-
-        .time-slot .subject {
-            font-weight: 700;
-            color: var(--dark);
-            flex: 1;
-            min-width: 90px;
-        }
-
-        .time-slot .duration {
-            font-size: 0.82rem;
-            color: var(--primary);
-            font-weight: 600;
-            white-space: nowrap;
-        }
-
-        .break-slot {
-            background: #fef3c7;
-            border-left-color: var(--warning) !important;
-        }
-
-        .longbreak-slot {
-            background: #ffedd5;
-            border-left-color: #ea580c !important;
-        }
-
-        /* Stats Summary */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .stat-card {
-            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
-            padding: 1.5rem;
-            border-radius: 10px;
-            text-align: center;
-            border-left: 4px solid var(--primary);
-        }
-
-        .stat-label {
-            font-size: 0.85rem;
-            color: var(--gray);
-            font-weight: 700;
-            text-transform: uppercase;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-value {
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--primary);
-        }
-
-        /* Ad slots */
-        .ad-slot { margin: 30px auto; text-align: center; max-width: 1200px; padding: 0 1rem; }
-        .ad-label { display: block; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #94a3b8; margin-bottom: 8px; }
-
-        /* Article Section */
-        .article-section {
-            background: white;
-            border-radius: 12px;
-            padding: 3rem;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-            margin-bottom: 2rem;
-        }
-
-        .article-section h2 {
-            color: var(--primary);
-            margin: 2.5rem 0 1.5rem 0;
-            padding-bottom: 1rem;
-            border-bottom: 3px solid var(--primary);
-            font-size: 2rem;
-            scroll-margin-top: 100px;
-        }
-
-        .article-section h3 {
-            color: var(--secondary);
-            margin: 2rem 0 1rem 0;
-            font-size: 1.4rem;
-            scroll-margin-top: 100px;
-        }
-
-        .article-section p {
-            margin-bottom: 1.2rem;
-            color: var(--gray);
-            line-height: 1.8;
-        }
-
-        .article-section ul, .article-section ol {
-            margin: 1.5rem 0 1.5rem 2rem;
-            color: var(--gray);
-        }
-
-        .article-section li {
-            margin-bottom: 0.8rem;
-            line-height: 1.7;
-        }
-
-        .article-section a {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .article-section a:hover {
-            text-decoration: underline;
-        }
-
-        /* Flowchart */
-        .flow-diagram {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            margin: 2rem 0;
-        }
-
-        .flow-box {
-            background: white;
-            border: 2px solid var(--primary);
-            border-radius: 10px;
-            padding: 0.9rem 1.1rem;
-            min-width: 130px;
-            max-width: 160px;
-            text-align: center;
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--secondary);
-            box-shadow: 0 2px 8px rgba(99,102,241,0.1);
-        }
-
-        .flow-box .flow-icon { font-size: 1.6rem; display: block; margin-bottom: 0.3rem; }
-
-        .flow-arrow {
-            color: var(--primary);
-            font-size: 1.3rem;
-            flex-shrink: 0;
-        }
-
-        @media (max-width: 700px) {
-            .flow-diagram { flex-direction: column; }
-            .flow-arrow { transform: rotate(90deg); }
-        }
-
-        /* Related Tools */
-        .related-tools {
-            background: linear-gradient(135deg, #ecf0f1 0%, #e8f1f5 100%);
-            padding: 2.5rem;
-            border-radius: 12px;
-            margin: 3rem 0;
-            border: 2px solid var(--primary);
-        }
-
-        .related-tools h4 {
-            color: var(--primary);
-            margin-bottom: 1.5rem;
-            font-size: 1.4rem;
-            font-weight: 700;
-        }
-
-        .tools-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .tool-card {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 10px;
-            border-left: 5px solid var(--primary);
-            text-decoration: none;
-            color: var(--dark);
-            transition: all 0.3s;
-            border: 1px solid var(--border);
-        }
-
-        .tool-card:hover {
-            box-shadow: 0 6px 20px rgba(99,102,241,0.15);
-            transform: translateY(-3px);
-        }
-
-        .tool-card h5 {
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-            font-size: 1.05rem;
-            font-weight: 700;
-        }
-
-        .tool-card p {
-            font-size: 0.9rem;
-            color: var(--gray);
-            margin-bottom: 0;
-            line-height: 1.6;
-        }
-
-        /* Infographics */
-        .infographic {
-            background: linear-gradient(135deg, #ecf0f1 0%, #e8f1f5 100%);
-            border-radius: 12px;
-            padding: 2rem;
-            margin: 2rem 0;
-            text-align: center;
-            border: 2px solid var(--primary);
-        }
-
-        .infographic-title {
-            color: var(--primary);
-            font-size: 1.4rem;
-            margin-bottom: 1.5rem;
-            font-weight: 700;
-        }
-
-        .graphic-items {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .graphic-item {
-            background: white;
-            padding: 1.2rem;
-            border-radius: 10px;
-            border-left: 4px solid var(--primary);
-        }
-
-        .graphic-icon {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .graphic-value {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: var(--primary);
-            margin-bottom: 0.3rem;
-        }
-
-        .graphic-label {
-            font-size: 0.85rem;
-            color: var(--gray);
-            font-weight: 600;
-        }
-
-        /* FAQ Section */
-        .faq-section {
-            background: white;
-            border-radius: 12px;
-            padding: 3rem;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-            margin-bottom: 2rem;
-        }
-
-        .faq-section h2 {
-            color: var(--primary);
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 3px solid var(--primary);
-            font-size: 2rem;
-        }
-
-        .faq-item {
-            background: var(--light);
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            border: 1px solid var(--border);
-            overflow: hidden;
-        }
-
-        .faq-question {
-            padding: 1.5rem;
-            font-weight: 700;
-            color: var(--dark);
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.3s;
-        }
-
-        .faq-question:hover {
-            background: #e8f0ff;
-        }
-
-        .faq-question.active {
-            background: var(--primary);
-            color: white;
-        }
-
-        .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: all 0.3s;
-        }
-
-        .faq-answer.active {
-            max-height: 1000px;
-            padding: 1.5rem;
-            background: white;
-            border-top: 1px solid var(--border);
-        }
-
-        .expand-icon {
-            transition: transform 0.3s;
-        }
-
-        .faq-question.active .expand-icon {
-            transform: rotate(180deg);
-        }
-
-        /* Bottom Navigation */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: white;
-            border-top: 1px solid var(--border);
-            display: flex;
-            justify-content: space-around;
-            padding: 0.5rem 0;
-            z-index: 1000;
-            box-shadow: 0 -2px 8px rgba(0,0,0,0.08);
-        }
-
-        .nav-item {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 0.8rem 0;
-            cursor: pointer;
-            text-decoration: none;
-            color: var(--gray);
-            font-size: 11px;
-            font-weight: 700;
-            transition: all 0.3s;
-            background: transparent;
-            border: none;
-            font-family: inherit;
-        }
-
-        .nav-item.active {
-            color: var(--primary);
-        }
-
-        .nav-icon {
-            font-size: 1.8rem;
-            margin-bottom: 2px;
-        }
-
-        /* Print & PDF Styles */
-        @media print {
-            body, main, .timetable-section {
-                background: white;
-                margin: 0;
-                padding: 0;
-            }
-
-            .bottom-nav, .button-group, .subject-input-section, .form-section, .generator-card, .article-section, .faq-section, .ad-slot {
-                display: none !important;
-            }
-
-            .timetable-section {
-                box-shadow: none;
-                border: none;
-                padding: 20px;
-                page-break-inside: avoid;
-            }
-
-            .day-card {
-                page-break-inside: avoid;
-                margin-bottom: 20px;
-            }
-
-            .timetable-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .pdf-container {
-            background: white;
-            padding: 20px;
-            display: none;
-            border-radius: 12px;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .generator-card, .article-section {
-                padding: 1.5rem;
-            }
-
-            .hero h1 {
-                font-size: 1.8rem;
-            }
-
-            .subject-item {
-                grid-template-columns: 1fr;
-            }
-
-            .button-group {
-                flex-direction: column;
-            }
-
-            .btn {
-                width: 100%;
-            }
-
-            .timetable-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .tools-list {
-                grid-template-columns: 1fr;
-            }
-
-            .graphic-items {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 480px) {
-            .brand {
-                font-size: 1.5rem;
-            }
-
-            .generator-title {
-                font-size: 1.4rem;
-            }
-
-            .article-section h2 {
-                font-size: 1.4rem;
-            }
-
-            .graphic-items {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>Smart Study Timetable Generator | Free Exam Study Planner with Pomodoro Breaks | Toolvala.in</title>
+<link rel="canonical" href="https://www.toolvala.in/study-timetable-generator-ai.html">
+<meta name="description" content="Free study timetable generator for exams. Enter your subjects, difficulty, chapters and daily study hours to get a day-by-day plan with 25-minute Pomodoro sessions, breaks and daily subject rotation. Download as PDF.">
+<meta name="keywords" content="study timetable generator, exam study planner, study schedule maker, Pomodoro timetable, exam preparation schedule, study routine, weak subject focus">
+<meta name="author" content="Toolvala.in">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<meta name="theme-color" content="#6366f1">
+<meta property="og:title" content="Smart Study Timetable Generator - Free Exam Study Planner">
+<meta property="og:description" content="Day-by-day exam study plan with Pomodoro sessions, breaks and subject rotation. Free PDF download.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.toolvala.in/study-timetable-generator-ai.html">
+<meta property="og:site_name" content="Toolvala.in">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Smart Study Timetable Generator | Free Exam Study Planner">
+<meta name="twitter:description" content="Build an exam study timetable with Pomodoro breaks and subject rotation.">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8GTQC904G1"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-8GTQC904G1');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4402681434316955" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.toolvala.in"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://www.toolvala.in/all-tools.html"},{"@type":"ListItem","position":3,"name":"Study Timetable Generator","item":"https://www.toolvala.in/study-timetable-generator-ai.html"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Smart Study Timetable Generator","description":"Free exam study timetable generator with Pomodoro sessions, breaks, weak-subject focus and daily subject rotation.","applicationCategory":"EducationalApplication","operatingSystem":"Any","url":"https://www.toolvala.in/study-timetable-generator-ai.html","author":{"@type":"Organization","name":"Toolvala.in"},"offers":{"@type":"Offer","price":"0","priceCurrency":"INR"}}</script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--p:#6366f1;--pd:#4f46e5;--sec:#2c3e50;--ok:#10b981;--warn:#f59e0b;--bad:#ef4444;--gray:#666;--bd:#e0e0e0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.6;color:#1a1a1a;background:#fafafa;padding-bottom:80px}
+:focus-visible{outline:3px solid var(--p);outline-offset:2px}
+header{background:#fff;border-bottom:2px solid var(--bd);padding:1rem 0;position:sticky;top:0;z-index:100}
+.hc,.container{max-width:1200px;margin:0 auto;padding:0 1rem}
+.brand{font-size:2rem;font-weight:800;letter-spacing:-1px;color:inherit;text-decoration:none}.brand span{color:var(--p)}
+.hero{background:linear-gradient(135deg,var(--p),var(--pd));color:#fff;padding:2.5rem 1rem;text-align:center}
+.hero h1{font-size:2.3rem;margin-bottom:.8rem}.hero p{max-width:720px;margin:0 auto;opacity:.95}
+main{padding:2rem 0}
+.card{background:#fff;border-radius:12px;padding:2rem;box-shadow:0 2px 12px rgba(0,0,0,.08);margin-bottom:2rem}
+.card h2{color:var(--p);font-size:1.6rem;margin-bottom:1.2rem}
+.fs{background:#f8f9fa;padding:1.3rem;border-radius:10px;margin-bottom:1.3rem}
+.fst{color:var(--p);font-weight:700;margin-bottom:.8rem}
+.fg{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem}
+.f{display:flex;flex-direction:column}
+.fl{font-weight:700;margin-bottom:.4rem;color:var(--sec);font-size:.85rem;text-transform:uppercase;letter-spacing:.5px}
+.in,.sel{padding:.9rem;border:2px solid var(--bd);border-radius:8px;font-size:16px;font-family:inherit;width:100%}
+.in:focus,.sel:focus{outline:none;border-color:var(--p)}
+.hint{font-size:.78rem;color:var(--gray);margin-top:5px}
+.subs{border:2px solid var(--p);border-radius:10px;padding:1.3rem;background:#fff}
+.si{background:#f8f9fa;padding:1rem;border-radius:8px;margin-bottom:.8rem;border-left:4px solid var(--p);display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:.8rem;align-items:end}
+.si label{font-size:.72rem;font-weight:700;color:var(--gray);text-transform:uppercase;display:block;margin-bottom:3px}
+.si .in,.si .sel{padding:.7rem}
+.rm{background:var(--bad);color:#fff;border:0;padding:.7rem 1rem;border-radius:6px;cursor:pointer;font-weight:700}
+.bg{display:flex;gap:1rem;margin:1.5rem 0;flex-wrap:wrap}
+.btn{padding:1rem 1.5rem;border:0;border-radius:8px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.5rem;font-size:1rem;font-family:inherit}
+.b1{background:var(--p);color:#fff;flex:1;min-width:150px}.b1:hover{background:var(--pd)}
+.b2{background:#ecf0f1;color:var(--p);border:2px solid var(--p)}
+.b3{background:var(--ok);color:#fff}
+.btn:disabled{opacity:.7;cursor:wait}
+#tt{display:none}#tt.on{display:block}
+.th{text-align:center;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:3px solid var(--p)}
+.tt-title{color:var(--p);font-size:1.7rem}.cd{color:var(--warn);font-weight:700}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1rem;margin-bottom:1.5rem}
+.stat{background:#f3f4f6;padding:1rem;border-radius:10px;text-align:center;border-left:4px solid var(--p)}
+.stat b{display:block;font-size:1.7rem;color:var(--p)}.stat span{font-size:.75rem;color:var(--gray);font-weight:700;text-transform:uppercase}
+.note{background:#fef3c7;border-left:4px solid var(--warn);padding:.8rem 1rem;border-radius:8px;margin-bottom:1rem;font-size:.9rem;color:#78350f}
+.tg{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.2rem}
+.dc{background:#f3f4f6;border-radius:10px;padding:1.2rem;border-left:4px solid var(--p)}
+.dt{color:var(--p);font-weight:700;margin-bottom:.8rem}
+.ds{max-height:420px;overflow-y:auto;padding-right:6px}
+.ts{background:#fff;padding:.6rem .8rem;border-radius:8px;margin-bottom:.45rem;border-left:3px solid var(--p);display:flex;justify-content:space-between;align-items:center;gap:.5rem;flex-wrap:wrap}
+.ts .t{font-size:.8rem;color:var(--gray);font-weight:600;white-space:nowrap}.ts .s{font-weight:700;flex:1;min-width:90px}.ts .d{font-size:.8rem;color:var(--p);font-weight:600}
+.bk{background:#fef3c7;border-left-color:var(--warn)}.lb{background:#ffedd5;border-left-color:#ea580c}
+.x{display:none}
+.ad{margin:25px auto;text-align:center;max-width:1200px;padding:0 1rem}
+.adl{display:block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#94a3b8;margin-bottom:6px}
+.art h2{color:var(--p);margin:2rem 0 1rem;padding-bottom:.6rem;border-bottom:3px solid var(--p);font-size:1.7rem}
+.art h2:first-child{margin-top:0}
+.art h3{color:var(--sec);margin:1.6rem 0 .6rem;font-size:1.25rem}
+.art p,.art li{color:var(--gray);line-height:1.8;margin-bottom:.8rem}
+.art ul,.art ol{margin:0 0 1rem 1.6rem}
+.art a{color:var(--p);font-weight:600}
+table.dist{width:100%;border-collapse:collapse;margin:1rem 0}
+.dist th,.dist td{border:1px solid var(--bd);padding:.5rem;text-align:center;font-size:.9rem}.dist th{background:#eef2ff;color:var(--p)}
+.rel{background:#eef2ff;border:2px solid var(--p);border-radius:12px;padding:1.5rem;margin:2rem 0}
+.rel h4{color:var(--p);margin-bottom:1rem}
+.rl{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
+.rl a{background:#fff;padding:1rem;border-radius:10px;border:1px solid var(--bd);border-left:5px solid var(--p);text-decoration:none;color:#1a1a1a;font-weight:600}
+.rl a small{display:block;font-weight:400;color:var(--gray);margin-top:3px}
+details{background:#f8f9fa;border:1px solid var(--bd);border-radius:8px;margin-bottom:.8rem}
+summary{padding:1rem 1.2rem;font-weight:700;cursor:pointer}
+details p{padding:0 1.2rem 1rem;margin:0}
+.bn{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--bd);display:flex;z-index:1000}
+.bn button{flex:1;border:0;background:none;padding:.6rem 0;font-size:11px;font-weight:700;color:var(--gray);cursor:pointer;font-family:inherit}
+.bn button span{display:block;font-size:1.5rem}
+@media(max-width:768px){.card{padding:1.2rem}.hero h1{font-size:1.7rem}.si{grid-template-columns:1fr}.bg{flex-direction:column}.btn{width:100%}.tg{grid-template-columns:1fr}.fg{grid-template-columns:1fr}}
+@media print{
+header,.hero,.gen,.ad,.art,.faq,.bn,#footer,.rel,.tt-actions{display:none!important}
+body,main{background:#fff;padding:0}.container{padding:0;max-width:none}
+#tt{display:block!important;box-shadow:none;padding:10px}
+.x{display:block!important}.ds{max-height:none;overflow:visible}
+.tg{grid-template-columns:1fr 1fr}.dc{break-inside:avoid}
+}
+</style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="header-content">
-            <a href="https://www.toolvala.in" style="text-decoration: none; color: inherit;">
-                <div class="brand">Toolvala<span>.in</span></div>
-            </a>
-        </div>
-    </header>
-
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <h1>🧠 Study Timetable Generator (AI)</h1>
-            <p>Create intelligent, personalized exam preparation schedules. Real 25-minute Pomodoro study cycles, automatic breaks, weak-subject focus, and daily auto-rotation — built right into the schedule, not just described in an article.</p>
-        </div>
-    </section>
-
-    <!-- Main Content -->
-    <main class="container">
-        <!-- Generator Section -->
-        <div class="generator-card">
-            <h2 class="generator-title">📅 AI Study Timetable Creator</h2>
-
-            <!-- Exam Details Section -->
-            <div class="form-section">
-                <div class="form-section-title">📍 Exam Details</div>
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label class="form-label" for="examName">Exam Name</label>
-                        <input type="text" class="form-input" id="examName" placeholder="e.g., Final Exams, JEE, NEET" value="Final Exams">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="examDate">Exam Date</label>
-                        <input type="date" class="form-input" id="examDate">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="studyHours">Daily Study Hours</label>
-                        <input type="number" class="form-input" id="studyHours" placeholder="8" value="8" min="2" max="16">
-                        <span class="field-hint">Between 2 and 16 hours</span>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="focusMode">Focus Mode</label>
-                        <select class="form-select" id="focusMode">
-                            <option value="balanced">Balanced (40-35-25%)</option>
-                            <option value="intense">Intense Focus (50-35-15%)</option>
-                            <option value="equal">Equal Distribution (33-33-34%)</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Subjects Section -->
-            <div class="subject-input-section">
-                <div class="subject-input-title">📚 Add Subjects</div>
-                <div id="subjectsList">
-                    <div class="subject-item">
-                        <input type="text" placeholder="Subject name" class="subject-name-input" value="Mathematics" aria-label="Subject name">
-                        <select class="difficulty-select" aria-label="Difficulty">
-                            <option value="weak">Weak</option>
-                            <option value="medium">Medium</option>
-                            <option value="strong" selected>Strong</option>
-                        </select>
-                        <input type="number" placeholder="Chapters" class="form-input" value="15" min="1" aria-label="Chapters">
-                        <button class="btn-remove-subject" type="button" onclick="removeSubject(this)" aria-label="Remove subject">×</button>
-                    </div>
-                    <div class="subject-item">
-                        <input type="text" placeholder="Subject name" class="subject-name-input" value="Physics" aria-label="Subject name">
-                        <select class="difficulty-select" aria-label="Difficulty">
-                            <option value="weak" selected>Weak</option>
-                            <option value="medium">Medium</option>
-                            <option value="strong">Strong</option>
-                        </select>
-                        <input type="number" placeholder="Chapters" class="form-input" value="20" min="1" aria-label="Chapters">
-                        <button class="btn-remove-subject" type="button" onclick="removeSubject(this)" aria-label="Remove subject">×</button>
-                    </div>
-                    <div class="subject-item">
-                        <input type="text" placeholder="Subject name" class="subject-name-input" value="Chemistry" aria-label="Subject name">
-                        <select class="difficulty-select" aria-label="Difficulty">
-                            <option value="weak">Weak</option>
-                            <option value="medium" selected>Medium</option>
-                            <option value="strong">Strong</option>
-                        </select>
-                        <input type="number" placeholder="Chapters" class="form-input" value="18" min="1" aria-label="Chapters">
-                        <button class="btn-remove-subject" type="button" onclick="removeSubject(this)" aria-label="Remove subject">×</button>
-                    </div>
-                </div>
-                <button class="btn btn-secondary" type="button" onclick="addSubject()" style="margin-top: 1rem;">
-                    <i class="fa-solid fa-plus"></i> Add Another Subject
-                </button>
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="button-group">
-                <button class="btn btn-primary" type="button" id="generateBtn" onclick="generateTimetable()">
-                    <i class="fa-solid fa-wand-magic-sparkles"></i> Generate AI Timetable
-                </button>
-                <button class="btn btn-success" type="button" id="downloadBtn" onclick="downloadPDF()" style="display: none;">
-                    <i class="fa-solid fa-download"></i> Download PDF
-                </button>
-            </div>
-
-            <!-- Timetable Display -->
-            <div class="timetable-section" id="timetableSection">
-                <div class="timetable-header">
-                    <div class="timetable-title" id="timetableTitle">Your Study Timetable</div>
-                    <div class="countdown" id="countdown"></div>
-                </div>
-
-                <!-- Stats Summary -->
-                <div class="stats-grid" id="statsGrid"></div>
-
-                <p class="timetable-note">Each day card scrolls if the full Pomodoro breakdown runs long — showing up to 14 days here. Download the PDF for the complete schedule.</p>
-
-                <!-- Timetable Grid -->
-                <div class="timetable-grid" id="timetableGrid"></div>
-            </div>
-        </div>
-
-        <!-- Display Ad -->
-        <section class="ad-slot">
-            <span class="ad-label">Advertisement</span>
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-4402681434316955"
-                 data-ad-slot="8432779087"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-        </section>
-
-        <!-- PDF export content is built and attached dynamically in downloadPDF() -->
-
-        <!-- Article Section -->
-        <article class="article-section">
-            <h2>Complete Guide to Study Timetable Planning: Master Exam Preparation with AI-Powered Scheduling</h2>
-
-            <p><strong>Introduction:</strong> Effective study planning is the cornerstone of academic success. A well-organized study timetable transforms vague exam preparation into a structured, achievable goal. Toolvala.in's AI-powered <strong>study timetable generator</strong> distributes study time based on subject difficulty, breaks the day into real Pomodoro study cycles with automatic breaks, and rotates subjects daily to prevent monotony.</p>
-
-            <h3>Why Is a Structured Study Timetable Essential?</h3>
-
-            <p>Students often struggle with exam preparation due to poor planning. Without a clear schedule, students either:</p>
-
-            <ul>
-                <li><strong>Study inefficiently:</strong> Spending equal time on weak and strong subjects</li>
-                <li><strong>Burn out quickly:</strong> Studying for excessive hours without breaks</li>
-                <li><strong>Procrastinate:</strong> Not knowing where to start or what to prioritize</li>
-                <li><strong>Forget material:</strong> No spaced repetition or proper subject rotation</li>
-                <li><strong>Feel overwhelmed:</strong> No clear roadmap or progress tracking</li>
-            </ul>
-
-            <!-- Study Problems Infographic -->
-            <div class="infographic">
-                <div class="infographic-title">📊 How AI Scheduling Transforms Study Efficiency</div>
-                <div class="graphic-items">
-                    <div class="graphic-item">
-                        <div class="graphic-icon">📈</div>
-                        <div class="graphic-value">45%</div>
-                        <div class="graphic-label">Higher Retention</div>
-                    </div>
-                    <div class="graphic-item">
-                        <div class="graphic-icon">⏱️</div>
-                        <div class="graphic-value">60%</div>
-                        <div class="graphic-label">Less Wasted Time</div>
-                    </div>
-                    <div class="graphic-item">
-                        <div class="graphic-icon">😊</div>
-                        <div class="graphic-value">80%</div>
-                        <div class="graphic-label">Better Focus</div>
-                    </div>
-                    <div class="graphic-item">
-                        <div class="graphic-icon">📊</div>
-                        <div class="graphic-value">70%</div>
-                        <div class="graphic-label">Improved Scores</div>
-                    </div>
-                </div>
-            </div>
-
-            <h3>How the AI Timetable Generator Works</h3>
-
-            <p>The <strong>study timetable generator AI</strong> uses an algorithm that analyzes your exam details and builds an optimized, minute-by-minute schedule:</p>
-
-            <div class="flow-diagram" role="img" aria-label="Flowchart: subjects and exam date go in, the algorithm tags difficulty, allocates time by focus mode, chunks the day into Pomodoro cycles, rotates subjects daily, and outputs your timetable and PDF">
-                <div class="flow-box"><span class="flow-icon">📝</span>Subjects &amp; Exam Date</div>
-                <span class="flow-arrow"><i class="fa-solid fa-arrow-right"></i></span>
-                <div class="flow-box"><span class="flow-icon">🎯</span>Difficulty Tagging</div>
-                <span class="flow-arrow"><i class="fa-solid fa-arrow-right"></i></span>
-                <div class="flow-box"><span class="flow-icon">⚖️</span>Time Allocation by Focus Mode</div>
-                <span class="flow-arrow"><i class="fa-solid fa-arrow-right"></i></span>
-                <div class="flow-box"><span class="flow-icon">⏱️</span>25/5/15-min Pomodoro Chunking</div>
-                <span class="flow-arrow"><i class="fa-solid fa-arrow-right"></i></span>
-                <div class="flow-box"><span class="flow-icon">🔄</span>Daily Auto-Rotation</div>
-                <span class="flow-arrow"><i class="fa-solid fa-arrow-right"></i></span>
-                <div class="flow-box"><span class="flow-icon">📋</span>Timetable + PDF</div>
-            </div>
-
-            <ol>
-                <li><strong>Input Analysis:</strong> Reads exam date, daily study hours, and subject list</li>
-                <li><strong>Difficulty Assessment:</strong> Reads your difficulty ratings (weak, medium, strong)</li>
-                <li><strong>Time Allocation:</strong> Works out how many 25-minute study cycles fit in your day, then splits that count across subjects by difficulty weighting</li>
-                <li><strong>Rotation Algorithm:</strong> Interleaves subjects across the day so the same subject rarely repeats back-to-back, and shifts the starting subject every day</li>
-                <li><strong>Break Management:</strong> Inserts a 5-minute break after every Pomodoro cycle, and a 15-minute break after every 4th cycle</li>
-                <li><strong>Timetable Generation:</strong> Produces a detailed, time-stamped daily schedule ready to download</li>
-            </ol>
-
-            <p><em>Pro Tip: Use the <a href="https://www.toolvala.in/study-hours-planner.html">study hours planner</a> to further customize daily schedules if you need more granular control.</em></p>
-
-            <h3>Understanding Subject Time Distribution</h3>
-
-            <p>The generator uses these time allocation percentages:</p>
-
-            <ul>
-                <li><strong>Weak Subjects: 40-50%</strong> — Areas where you struggle most get the most Pomodoro cycles, to maximize score improvement.</li>
-                <li><strong>Medium Subjects: 35-40%</strong> — Subjects where you're average get moderate attention.</li>
-                <li><strong>Strong Subjects: 15-25%</strong> — Already-strong subjects get lighter, maintenance-level cycles.</li>
-            </ul>
-
-            <p>Adjust these percentages with the Focus Mode option: Balanced (default), Intense Focus (maximize weak subjects), or Equal Distribution.</p>
-
-            <!-- Time Distribution Infographic -->
-            <div class="infographic">
-                <div class="infographic-title">⏰ AI Study Time Distribution Models</div>
-                <div style="background: white; padding: 1.5rem; border-radius: 10px; margin-top: 1rem;">
-                    <h4 style="color: var(--primary); margin-bottom: 1rem;">1️⃣ Balanced Mode (40-35-25)</h4>
-                    <p style="text-align: left; margin-bottom: 1rem;">Weak: <strong>40%</strong> | Medium: <strong>35%</strong> | Strong: <strong>25%</strong></p>
-                    <p style="text-align: left; margin-bottom: 1.5rem; color: var(--gray);">Recommended for students with 30+ days until exam</p>
-
-                    <h4 style="color: var(--primary); margin-bottom: 1rem;">2️⃣ Intense Focus Mode (50-35-15)</h4>
-                    <p style="text-align: left; margin-bottom: 1rem;">Weak: <strong>50%</strong> | Medium: <strong>35%</strong> | Strong: <strong>15%</strong></p>
-                    <p style="text-align: left; margin-bottom: 1.5rem; color: var(--gray);">Ideal for students with 7-30 days until exam</p>
-
-                    <h4 style="color: var(--primary); margin-bottom: 1rem;">3️⃣ Equal Distribution (33-33-34)</h4>
-                    <p style="text-align: left; margin-bottom: 1rem;">Weak: <strong>33%</strong> | Medium: <strong>33%</strong> | Strong: <strong>34%</strong></p>
-                    <p style="text-align: left; color: var(--gray);">For students wanting uniform coverage across all subjects</p>
-                </div>
-            </div>
-
-            <!-- Related Tools Section 1 -->
-            <div class="related-tools">
-                <h4>🎯 Academic Performance & Analysis Tools</h4>
-                <p>Track your exam preparation progress and analyze scores with these essential academic tools:</p>
-                <div class="tools-list">
-                    <a href="https://www.toolvala.in/score-percentage-calculator.html" class="tool-card">
-                        <h5>📊 Score Percentage Calculator</h5>
-                        <p>Convert exam scores to percentages instantly to track academic performance and improve weak areas</p>
-                    </a>
-                    <a href="https://www.toolvala.in/marks-percentage-calculator.html" class="tool-card">
-                        <h5>✅ Marks Percentage Calculator</h5>
-                        <p>Calculate subject-wise percentage scores to identify which subjects need more focused study time</p>
-                    </a>
-                    <a href="https://www.toolvala.in/exam-rank-predictor.html" class="tool-card">
-                        <h5>🏆 Exam Rank Predictor</h5>
-                        <p>Predict your exam rank based on current scores to stay motivated and set realistic study goals</p>
-                    </a>
-                </div>
-            </div>
-
-            <!-- In-article Ad -->
-            <div class="ad-slot" style="padding:0;">
-                <span class="ad-label">Advertisement</span>
-                <ins class="adsbygoogle"
-                     style="display:block; text-align:center;"
-                     data-ad-layout="in-article"
-                     data-ad-format="fluid"
-                     data-ad-client="ca-pub-4402681434316955"
-                     data-ad-slot="4581163987"></ins>
-                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-            </div>
-
-            <h3>The Pomodoro Technique: Breaking Study Into Focused Intervals</h3>
-
-            <p>The timetable builds in the scientifically-proven Pomodoro Technique:</p>
-
-            <ul>
-                <li><strong>25-minute focus periods:</strong> Study intensely with complete concentration</li>
-                <li><strong>5-minute short breaks:</strong> Rest briefly between focus sessions</li>
-                <li><strong>15-minute long break:</strong> After completing 4 Pomodoro cycles (100 minutes of study)</li>
-                <li><strong>Repeating cycles:</strong> Continue the pattern throughout your study day</li>
-            </ul>
-
-            <p>Research suggests the Pomodoro technique increases focus and reduces mental fatigue compared to marathon study sessions. Every generated timetable shows you exactly how many Pomodoro cycles fit in your day, and schedules every break for you.</p>
-
-            <h3>Auto-Rotation: Preventing Study Monotony</h3>
-
-            <p>One major challenge in exam prep is monotony — studying the same subject for hours becomes inefficient. The generator's rotation feature:</p>
-
-            <ul>
-                <li><strong>Interleaves subjects:</strong> Pomodoro cycles for different subjects are mixed across the day rather than stacked into one giant block</li>
-                <li><strong>Strategic subject mixing:</strong> Weak subjects are interspersed with medium and strong subjects</li>
-                <li><strong>Mental freshness:</strong> Switching contexts refreshes focus and prevents boredom</li>
-                <li><strong>Daily variety:</strong> A different subject leads the rotation each day, so no single subject is always scheduled last</li>
-            </ul>
-
-            <!-- Related Tools Section 2 -->
-            <div class="related-tools">
-                <h4>📈 Study Planning & Progress Tracking Tools</h4>
-                <p>Plan your study schedule and monitor academic progress with these powerful planning tools:</p>
-                <div class="tools-list">
-                    <a href="https://www.toolvala.in/study-hours-planner.html" class="tool-card">
-                        <h5>⏰ Study Hours Planner</h5>
-                        <p>Create detailed daily study schedules by allocating hours to specific topics and chapters</p>
-                    </a>
-                    <a href="https://www.toolvala.in/attendance-percentage-calculator.html" class="tool-card">
-                        <h5>👥 Attendance Percentage Calculator</h5>
-                        <p>Calculate attendance required for exam eligibility and ensure you meet institutional requirements</p>
-                    </a>
-                    <a href="https://www.toolvala.in/marks-needed-to-pass-calculator.html" class="tool-card">
-                        <h5>🎯 Marks Needed to Pass Calculator</h5>
-                        <p>Determine minimum marks required in each subject to achieve your target overall score</p>
-                    </a>
-                </div>
-            </div>
-
-            <h3>Advanced Features: Focus Mode & Difficulty-Based Distribution</h3>
-
-            <p>The timetable includes advanced customization options:</p>
-
-            <ul>
-                <li><strong>Focus Mode:</strong> Choose between Balanced, Intense Focus, or Equal Distribution based on your timeline</li>
-                <li><strong>Difficulty Assessment:</strong> Accurately rate each subject as weak, medium, or strong</li>
-                <li><strong>Subject Rotation:</strong> Every day's order shifts so no subject is permanently first or last</li>
-                <li><strong>Daily Goals:</strong> Each day shows a clear, time-stamped breakdown for every subject covered</li>
-            </ul>
-
-            <h3>Step-by-Step: Using the AI Study Timetable Generator</h3>
-
-            <ol>
-                <li><strong>Enter Exam Details:</strong> Input exam name, date, and daily study hours</li>
-                <li><strong>Add Subjects:</strong> List all subjects and rate each as weak, medium, or strong</li>
-                <li><strong>Select Focus Mode:</strong> Choose how to prioritize subjects (Balanced/Intense/Equal)</li>
-                <li><strong>Generate Timetable:</strong> Click "Generate AI Timetable" to create your schedule</li>
-                <li><strong>Review Schedule:</strong> Check the generated timetable for daily breakdown</li>
-                <li><strong>Adjust if Needed:</strong> Modify subjects or settings and regenerate</li>
-                <li><strong>Download PDF:</strong> Save your timetable as PDF for printing or sharing</li>
-                <li><strong>Follow Consistently:</strong> Stick to the schedule for maximum results</li>
-            </ol>
-
-            <!-- Related Tools Section 3 -->
-            <div class="related-tools">
-                <h4>💼 Career & Performance Analysis Tools</h4>
-                <p>Complement your exam preparation with salary and career planning calculators:</p>
-                <div class="tools-list">
-                    <a href="https://www.toolvala.in/ctc-to-in-hand-calculator.html" class="tool-card">
-                        <h5>💰 CTC to In-Hand Calculator</h5>
-                        <p>Understand salary components and in-hand income after exam success and job placement</p>
-                    </a>
-                    <a href="https://www.toolvala.in/image-compressor-by-kb.html" class="tool-card">
-                        <h5>🖼️ Image Compressor by KB</h5>
-                        <p>Compress study notes and screenshots for efficient digital note storage and organization</p>
-                    </a>
-                    <a href="https://www.toolvala.in/all-tools.html" class="tool-card">
-                        <h5>🧰 All Tools Directory</h5>
-                        <p>Explore Toolvala's complete suite of 50+ educational and planning calculators and generators</p>
-                    </a>
-                </div>
-            </div>
-
-            <h3>Exam Preparation Best Practices with Your AI Timetable</h3>
-
-            <p>Maximize the effectiveness of your generated timetable:</p>
-
-            <ul>
-                <li><strong>Follow Religiously:</strong> Stick to the schedule as closely as possible for best results</li>
-                <li><strong>Track Progress:</strong> Mark completed topics and measure against your timetable goals</li>
-                <li><strong>Take Prescribed Breaks:</strong> Honor the Pomodoro breaks to maintain focus capacity</li>
-                <li><strong>Adjust Weak Subjects:</strong> If a weak subject remains difficult, switch Focus Mode to Intense and regenerate</li>
-                <li><strong>Maintain Health:</strong> Combine timetable studying with sleep, nutrition, and exercise</li>
-                <li><strong>Weekly Reviews:</strong> Assess your progress weekly and adjust the timetable as needed</li>
-                <li><strong>Practice Tests:</strong> Alternate timetabled topics with regular practice tests to measure improvement</li>
-                <li><strong>Stay Motivated:</strong> Celebrate small milestones to maintain consistency through the exam prep journey</li>
-            </ul>
-
-            <h3>Common Study Planning Mistakes to Avoid</h3>
-
-            <p>Don't sabotage your exam prep with these common errors:</p>
-
-            <ul>
-                <li><strong>❌ Ignoring Weak Subjects:</strong> Spending minimal time on difficult topics hoping they'll be easier later</li>
-                <li><strong>❌ Marathon Study Sessions:</strong> Studying for hours without breaks reduces efficiency dramatically</li>
-                <li><strong>❌ No Subject Rotation:</strong> Studying one subject for entire days causes burnout and monotony</li>
-                <li><strong>❌ Unrealistic Schedules:</strong> Creating timetables that demand unsustainable hours</li>
-                <li><strong>❌ Ignoring Exam Date:</strong> Not adjusting focus intensity based on time remaining</li>
-                <li><strong>❌ No Flexibility:</strong> Rigidly following timetables without accommodation for illness or unexpected events</li>
-                <li><strong>❌ Skipping Reviews:</strong> Not revisiting weak subjects throughout prep period</li>
-            </ul>
-
-            <h3>Conclusion: Transform Your Exam Preparation with AI</h3>
-
-            <p>Toolvala.in's <strong>AI study timetable generator</strong> turns exam preparation from overwhelming chaos into a clear, manageable plan — distributing study time by difficulty, scheduling real Pomodoro breaks, and rotating subjects daily to keep you engaged.</p>
-
-            <p>Combined with complementary tools like the <strong>study hours planner</strong>, <strong>exam rank predictor</strong>, and <strong>marks percentage calculator</strong>, you have a complete ecosystem for comprehensive exam preparation. Start using the AI timetable generator today.</p>
-        </article>
-
-        <!-- FAQ Section -->
-        <section class="faq-section">
-            <h2>❓ Frequently Asked Questions About Study Timetable Generation</h2>
-
-            <div class="faq-item">
-                <div class="faq-question" tabindex="0" role="button" aria-expanded="false">
-                    <span>How does the AI study timetable generator work?</span>
-                    <span class="expand-icon">▼</span>
-                </div>
-                <div class="faq-answer">
-                    <p>The generator analyzes your exam date, daily study hours, and subject difficulty ratings, allocating a percentage of each day's Pomodoro cycles to weak, medium, and strong subjects. It chops the day into real 25-minute focus cycles with 5-minute breaks (and a 15-minute break every 4th cycle), rotating subjects so the same one rarely repeats back-to-back. You can customize this using Focus Mode (Balanced/Intense/Equal distribution).</p>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question" tabindex="0" role="button" aria-expanded="false">
-                    <span>Can I focus more time on my weak subjects?</span>
-                    <span class="expand-icon">▼</span>
-                </div>
-                <div class="faq-answer">
-                    <p>Yes! The generator includes a Focus Mode feature. When set to "Intense Focus," weak subjects receive 50% of study cycles, medium subjects 35%, and strong subjects only 15%. This mode is recommended for students with less than 30 days until exam.</p>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question" tabindex="0" role="button" aria-expanded="false">
-                    <span>How does the Pomodoro break system work?</span>
-                    <span class="expand-icon">▼</span>
-                </div>
-                <div class="faq-answer">
-                    <p>Study time is broken into 25-minute focused cycles followed by 5-minute breaks. After completing 4 cycles (100 minutes of study), you get a 15-minute longer break. This is built directly into the generated schedule — every time slot you see is an actual Pomodoro cycle or break, not an approximation.</p>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question" tabindex="0" role="button" aria-expanded="false">
-                    <span>Can I download my study timetable as PDF?</span>
-                    <span class="expand-icon">▼</span>
-                </div>
-                <div class="faq-answer">
-                    <p>Yes! After generating your timetable, click the "Download PDF" button to save it as a file. The PDF includes your complete schedule with daily subject breakdown, time slots, Pomodoro breaks, and exam countdown. You can print it and paste on your study room wall or share with study partners.</p>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question" tabindex="0" role="button" aria-expanded="false">
-                    <span>Does the generator prevent subject repetition boredom?</span>
-                    <span class="expand-icon">▼</span>
-                </div>
-                <div class="faq-answer">
-                    <p>Yes. Subjects are interleaved across the day's Pomodoro cycles in proportion to their difficulty weighting, and a different subject leads the rotation each day, so the same subject is rarely scheduled back-to-back.</p>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question" tabindex="0" role="button" aria-expanded="false">
-                    <span>What if my exam date is very soon?</span>
-                    <span class="expand-icon">▼</span>
-                </div>
-                <div class="faq-answer">
-                    <p>The generator simply scales to however many days remain until your exam date. For exams within a couple of weeks, switch Focus Mode to "Intense Focus" so weak subjects get the most Pomodoro cycles.</p>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question" tabindex="0" role="button" aria-expanded="false">
-                    <span>Can I adjust the study schedule after generating it?</span>
-                    <span class="expand-icon">▼</span>
-                </div>
-                <div class="faq-answer">
-                    <p>Yes, the timetable is fully customizable. You can modify subject names, difficulty ratings, study hours, exam date, and focus mode, then click "Generate AI Timetable" again. You can regenerate as many times as needed until you're satisfied with the schedule.</p>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question" tabindex="0" role="button" aria-expanded="false">
-                    <span>Is the Study Timetable Generator free to use?</span>
-                    <span class="expand-icon">▼</span>
-                </div>
-                <div class="faq-answer">
-                    <p>Yes, Toolvala.in's Study Timetable Generator is completely free with no registration or hidden charges. All scheduling happens locally in your browser with no data collection or storage.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Footer Display Ad -->
-        <section class="ad-slot">
-            <span class="ad-label">Advertisement</span>
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-4402681434316955"
-                 data-ad-slot="5569753964"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-        </section>
-    </main>
-
-    <!-- Bottom Navigation -->
-    <nav class="bottom-nav">
-        <button class="nav-item active" type="button" onclick="scrollToTop()">
-            <div class="nav-icon">🧠</div>
-            <span>Generator</span>
-        </button>
-        <button class="nav-item" type="button" onclick="scrollToArticle()">
-            <div class="nav-icon">📖</div>
-            <span>Guide</span>
-        </button>
-        <button class="nav-item" type="button" onclick="scrollToFAQ()">
-            <div class="nav-icon">❓</div>
-            <span>FAQ</span>
-        </button>
-    </nav>
-
-    <div id="footer"></div>
-
-    <script>
-        /* ───────────────────────── Date helpers (timezone-safe) ───────────────────────── */
-        function toDateInputValue(d) {
-            const y = d.getFullYear();
-            const m = String(d.getMonth() + 1).padStart(2, '0');
-            const day = String(d.getDate()).padStart(2, '0');
-            return `${y}-${m}-${day}`;
-        }
-        function parseDateInputValue(str) {
-            const [y, m, d] = str.split('-').map(Number);
-            return new Date(y, m - 1, d);
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const dateInput = document.getElementById('examDate');
-            const today = new Date();
-            const examDateDefault = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 30);
-            dateInput.value = toDateInputValue(examDateDefault);
-
-            // FAQ Toggle (mouse + keyboard)
-            document.querySelectorAll('.faq-question').forEach(question => {
-                function toggle() {
-                    const isOpen = question.classList.toggle('active');
-                    question.nextElementSibling.classList.toggle('active');
-                    question.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-                }
-                question.addEventListener('click', toggle);
-                question.addEventListener('keydown', function(e) {
-                    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
-                });
-            });
-        });
-
-        function addSubject() {
-            const list = document.getElementById('subjectsList');
-            const div = document.createElement('div');
-            div.className = 'subject-item';
-            div.innerHTML = `
-                <input type="text" placeholder="Subject name" class="subject-name-input" value="New Subject" aria-label="Subject name">
-                <select class="difficulty-select" aria-label="Difficulty">
-                    <option value="weak">Weak</option>
-                    <option value="medium" selected>Medium</option>
-                    <option value="strong">Strong</option>
-                </select>
-                <input type="number" placeholder="Chapters" class="form-input" value="10" min="1" aria-label="Chapters">
-                <button class="btn-remove-subject" type="button" onclick="removeSubject(this)" aria-label="Remove subject">×</button>
-            `;
-            list.appendChild(div);
-        }
-
-        function removeSubject(btn) {
-            btn.parentElement.remove();
-        }
-
-        /* ───────────────────────── Pomodoro day template ─────────────────────────
-           Builds the SAME slot pattern for every day with a given daily-minutes
-           budget: 25-min study cycles, a 5-min break after each, and a 15-min
-           break after every 4th cycle — trimmed so the day doesn't end on a break. */
-        function buildDayTemplate(minutesPerDay) {
-            const POMODORO = 25, SHORT_BREAK = 5, LONG_BREAK = 15;
-            const template = [];
-            let remaining = minutesPerDay;
-            let cycle = 0;
-
-            while (remaining >= POMODORO) {
-                template.push({ type: 'study', duration: POMODORO });
-                remaining -= POMODORO;
-                cycle++;
-
-                const isLong = cycle % 4 === 0;
-                const breakLen = isLong ? LONG_BREAK : SHORT_BREAK;
-
-                if (remaining >= breakLen) {
-                    template.push({ type: isLong ? 'longbreak' : 'break', duration: breakLen });
-                    remaining -= breakLen;
-                } else {
-                    break;
-                }
-            }
-
-            // Don't end the day on a break with nothing after it.
-            if (template.length && template[template.length - 1].type !== 'study') {
-                template.pop();
-            }
-
-            return template;
-        }
-
-        /* Largest-remainder rounding so weak+medium+strong slot counts sum exactly
-           to totalSlots, instead of independently-rounded percentages drifting off. */
-        function allocateSlots(totalSlots, distribution) {
-            const raw = {
-                weak: totalSlots * distribution.weak,
-                medium: totalSlots * distribution.medium,
-                strong: totalSlots * distribution.strong
-            };
-            const floors = {};
-            let used = 0;
-            Object.keys(raw).forEach(k => { floors[k] = Math.floor(raw[k]); used += floors[k]; });
-            let remainder = totalSlots - used;
-            const order = Object.keys(raw).sort((a, b) => (raw[b] - floors[b]) - (raw[a] - floors[a]));
-            for (let i = 0; i < remainder; i++) floors[order[i % order.length]]++;
-            return floors;
-        }
-
-        function splitEvenly(list, total) {
-            if (list.length === 0) return [];
-            const base = Math.floor(total / list.length);
-            const extra = total - base * list.length;
-            return list.map((s, i) => ({ subject: s, count: base + (i < extra ? 1 : 0) }));
-        }
-
-        // Round-robins across all given {subject,count} pairs so no single subject
-        // dominates a long unbroken run, regardless of tier.
-        function roundRobinFill(subjectCounts) {
-            const queues = subjectCounts.map(sc => ({ subject: sc.subject, remaining: sc.count }));
-            const result = [];
-            let active = queues.filter(q => q.remaining > 0);
-            while (active.length) {
-                for (const q of active) {
-                    if (q.remaining > 0) {
-                        result.push(q.subject);
-                        q.remaining--;
-                    }
-                }
-                active = active.filter(q => q.remaining > 0);
-            }
-            return result;
-        }
-
-        function formatTime(hour, minute) {
-            const h = String(hour).padStart(2, '0');
-            const m = String(Math.round(minute)).padStart(2, '0');
-            return `${h}:${m}`;
-        }
-
-        function createTimetable(subjects, daysUntilExam, dailyHours, distribution) {
-            const minutesPerDay = dailyHours * 60;
-            const dayTemplate = buildDayTemplate(minutesPerDay);
-            const totalStudySlots = dayTemplate.filter(s => s.type === 'study').length;
-
-            const weakSubjects = subjects.filter(s => s.difficulty === 'weak');
-            const mediumSubjects = subjects.filter(s => s.difficulty === 'medium');
-            const strongSubjects = subjects.filter(s => s.difficulty === 'strong');
-
-            const tierSlots = allocateSlots(totalStudySlots, distribution);
-
-            const subjectCounts = [
-                ...splitEvenly(weakSubjects, tierSlots.weak),
-                ...splitEvenly(mediumSubjects, tierSlots.medium),
-                ...splitEvenly(strongSubjects, tierSlots.strong)
-            ];
-
-            const baseSequence = roundRobinFill(subjectCounts);
-
-            const timetable = [];
-            for (let day = 1; day <= daysUntilExam; day++) {
-                const rotation = baseSequence.length ? (day - 1) % baseSequence.length : 0;
-                const daySequence = baseSequence.length
-                    ? [...baseSequence.slice(rotation), ...baseSequence.slice(0, rotation)]
-                    : [];
-
-                let slotPointer = 0;
-                let currentTime = 360; // 6:00 AM
-                const daySchedule = [];
-
-                dayTemplate.forEach(slot => {
-                    const startH = Math.floor(currentTime / 60), startM = currentTime % 60;
-                    const endTime = currentTime + slot.duration;
-                    const endH = Math.floor(endTime / 60), endM = endTime % 60;
-
-                    if (slot.type === 'study') {
-                        const subject = daySequence.length ? daySequence[slotPointer % daySequence.length] : subjects[0];
-                        slotPointer++;
-                        daySchedule.push({
-                            type: 'study',
-                            subject: subject.name,
-                            difficulty: subject.difficulty,
-                            startTime: formatTime(startH, startM),
-                            endTime: formatTime(endH, endM),
-                            duration: slot.duration
-                        });
-                    } else {
-                        daySchedule.push({
-                            type: slot.type,
-                            startTime: formatTime(startH, startM),
-                            endTime: formatTime(endH, endM),
-                            duration: slot.duration
-                        });
-                    }
-                    currentTime = endTime;
-                });
-
-                timetable.push({
-                    day: day,
-                    date: new Date(today0().getFullYear(), today0().getMonth(), today0().getDate() + (day - 1)),
-                    schedule: daySchedule
-                });
-            }
-
-            return { timetable, pomodorosPerDay: totalStudySlots };
-        }
-
-        function today0() {
-            const t = new Date();
-            t.setHours(0, 0, 0, 0);
-            return t;
-        }
-
-        function getTimeDistribution(mode) {
-            if (mode === 'balanced') return { weak: 0.40, medium: 0.35, strong: 0.25 };
-            if (mode === 'intense') return { weak: 0.50, medium: 0.35, strong: 0.15 };
-            return { weak: 0.33, medium: 0.33, strong: 0.34 };
-        }
-
-        function generateTimetable() {
-            const examName = (document.getElementById('examName').value || '').trim() || 'My Exam';
-            const examDateStr = document.getElementById('examDate').value;
-            const studyHours = parseInt(document.getElementById('studyHours').value, 10);
-            const focusMode = document.getElementById('focusMode').value;
-
-            if (!examDateStr) { alert('Please select an exam date!'); return; }
-            if (!studyHours || isNaN(studyHours) || studyHours < 2 || studyHours > 16) {
-                alert('Please enter daily study hours between 2 and 16.');
-                return;
-            }
-
-            const examDate = parseDateInputValue(examDateStr);
-            const daysUntilExam = Math.round((examDate - today0()) / 86400000);
-
-            if (isNaN(daysUntilExam) || daysUntilExam <= 0) {
-                alert('Please select a future exam date!');
-                return;
-            }
-
-            const subjectItems = document.querySelectorAll('.subject-item');
-            const subjects = [];
-            subjectItems.forEach(item => {
-                const name = item.querySelector('.subject-name-input').value.trim();
-                const difficulty = item.querySelector('.difficulty-select').value;
-                if (name) subjects.push({ name, difficulty });
-            });
-
-            if (subjects.length === 0) {
-                alert('Please add at least one subject!');
-                return;
-            }
-
-            const generateBtn = document.getElementById('generateBtn');
-            generateBtn.disabled = true;
-            generateBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Generating...';
-
-            setTimeout(function() {
-                try {
-                    const distribution = getTimeDistribution(focusMode);
-                    const result = createTimetable(subjects, daysUntilExam, studyHours, distribution);
-
-                    displayTimetable(result.timetable, examName, daysUntilExam, subjects, result.pomodorosPerDay);
-
-                    document.getElementById('downloadBtn').style.display = 'flex';
-
-                    setTimeout(() => {
-                        document.getElementById('timetableSection').scrollIntoView({ behavior: 'smooth' });
-                    }, 50);
-                } finally {
-                    generateBtn.disabled = false;
-                    generateBtn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> Generate AI Timetable';
-                }
-            }, 10);
-        }
-
-        function slotLabel(slot) {
-            if (slot.type === 'longbreak') return { cls: 'longbreak-slot', text: '🛋️ Long Break' };
-            if (slot.type === 'break') return { cls: 'break-slot', text: '☕ Short Break' };
-            return null;
-        }
-
-        function displayTimetable(timetable, examName, daysUntilExam, subjects, pomodorosPerDay) {
-            const section = document.getElementById('timetableSection');
-            const grid = document.getElementById('timetableGrid');
-            const statsGrid = document.getElementById('statsGrid');
-
-            document.getElementById('timetableTitle').textContent = `${examName} - Study Timetable`;
-            document.getElementById('countdown').textContent = `⏰ ${daysUntilExam} days until exam`;
-
-            const weakCount = subjects.filter(s => s.difficulty === 'weak').length;
-            const mediumCount = subjects.filter(s => s.difficulty === 'medium').length;
-            const strongCount = subjects.filter(s => s.difficulty === 'strong').length;
-
-            statsGrid.innerHTML = `
-                <div class="stat-card">
-                    <div class="stat-label">Total Subjects</div>
-                    <div class="stat-value">${subjects.length}</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Weak Subjects</div>
-                    <div class="stat-value" style="color: var(--danger);">${weakCount}</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Medium Subjects</div>
-                    <div class="stat-value" style="color: var(--warning);">${mediumCount}</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Strong Subjects</div>
-                    <div class="stat-value" style="color: var(--success);">${strongCount}</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Pomodoros / Day</div>
-                    <div class="stat-value">${pomodorosPerDay}</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Days Available</div>
-                    <div class="stat-value">${daysUntilExam}</div>
-                </div>
-            `;
-
-            grid.innerHTML = '';
-            timetable.slice(0, Math.min(14, timetable.length)).forEach(dayData => {
-                const card = document.createElement('div');
-                card.className = 'day-card';
-                const dayDate = dayData.date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
-
-                const slotsHTML = dayData.schedule.map(slot => {
-                    const lbl = slotLabel(slot);
-                    if (lbl) {
-                        return `
-                            <div class="time-slot ${lbl.cls}">
-                                <span class="time">${slot.startTime}–${slot.endTime}</span>
-                                <span class="subject">${lbl.text}</span>
-                                <span class="duration">${slot.duration} min</span>
-                            </div>
-                        `;
-                    }
-                    const colorClass = slot.difficulty === 'weak' ? 'color:var(--danger)' : slot.difficulty === 'medium' ? 'color:var(--warning)' : 'color:var(--success)';
-                    return `
-                        <div class="time-slot">
-                            <span class="time">${slot.startTime}–${slot.endTime}</span>
-                            <span class="subject" style="${colorClass}">${slot.subject}</span>
-                            <span class="duration">${slot.duration} min</span>
-                        </div>
-                    `;
-                }).join('');
-
-                card.innerHTML = `
-                    <div class="day-title">Day ${dayData.day} - ${dayDate}</div>
-                    <div class="day-slots">${slotsHTML}</div>
-                `;
-                grid.appendChild(card);
-            });
-
-            if (timetable.length > 14) {
-                const card = document.createElement('div');
-                card.className = 'day-card';
-                card.style.gridColumn = 'span 2';
-                card.innerHTML = `<div class="day-title" style="text-align:center;">... and ${timetable.length - 14} more days — download the PDF for the full schedule ...</div>`;
-                grid.appendChild(card);
-            }
-
-            section.classList.add('active');
-            window.currentTimetable = timetable;
-            window.examName = examName;
-            window.pomodorosPerDay = pomodorosPerDay;
-        }
-
-        /* ───────────────────────── PDF export ─────────────────────────
-           Renders the PDF as pure vector text/shapes via jsPDF directly —
-           no html2canvas screenshot step. The previous screenshot-based
-           approach produced blank or distorted pages on mobile browsers
-           (a 900px-wide container getting squashed by max-width:100% on a
-           narrow screen, while html2canvas was told to assume 900px,
-           produced mostly-blank captures). Drawing text directly with
-           jsPDF sidesteps that whole category of bug and also produces a
-           smaller, sharper, selectable-text PDF. */
-        function downloadPDF() {
-            const examName = window.examName || 'Study-Timetable';
-            const timetable = window.currentTimetable || [];
-            const pomodorosPerDay = window.pomodorosPerDay || 0;
-
-            if (!timetable.length) {
-                alert('Please generate a timetable first!');
-                return;
-            }
-
-            const downloadBtn = document.getElementById('downloadBtn');
-            downloadBtn.disabled = true;
-            downloadBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Preparing PDF...';
-
-            try {
-                const jsPDFCtor =
-                    (window.jspdf && window.jspdf.jsPDF) ||
-                    window.jsPDF ||
-                    (window.jspdf && window.jspdf.default && window.jspdf.default.jsPDF);
-                if (typeof jsPDFCtor !== 'function') {
-                    throw new Error('jsPDF library did not load (window.jspdf.jsPDF is unavailable). Check your internet connection and try again.');
-                }
-
-                const MAX_PDF_DAYS = 30;
-                const exportDays = timetable.slice(0, MAX_PDF_DAYS);
-                const truncated = timetable.length > MAX_PDF_DAYS;
-
-                const pdf = new jsPDFCtor({ unit: 'mm', format: 'a4', orientation: 'portrait' });
-                const pageW = 210, pageH = 297, marginX = 14;
-                const contentW = pageW - marginX * 2;
-                const footerY = pageH - 10;
-                let y = 0;
-
-                function newPage() {
-                    pdf.addPage();
-                    y = 16;
-                }
-
-                function ensureSpace(needed) {
-                    if (y + needed > footerY) newPage();
-                }
-
-                function colorFor(slot) {
-                    if (slot.type === 'longbreak') return { bg: [255, 237, 213], text: [194, 65, 12] };
-                    if (slot.type === 'break') return { bg: [254, 243, 199], text: [217, 119, 6] };
-                    if (slot.difficulty === 'weak') return { bg: [254, 226, 226], text: [220, 38, 38] };
-                    if (slot.difficulty === 'medium') return { bg: [254, 240, 138], text: [202, 138, 4] };
-                    return { bg: [220, 252, 231], text: [22, 163, 74] };
-                }
-
-                // ---- Title block ----
-                y = 20;
-                pdf.setFont('helvetica', 'bold');
-                pdf.setFontSize(20);
-                pdf.setTextColor(99, 102, 241);
-                pdf.text('Study Timetable', pageW / 2, y, { align: 'center' });
-                y += 9;
-
-                pdf.setFont('helvetica', 'normal');
-                pdf.setFontSize(10);
-                pdf.setTextColor(90, 90, 90);
-                const infoLines = [
-                    `Exam: ${examName}`,
-                    `Generated: ${new Date().toLocaleDateString()}`,
-                    `Pomodoro cycles per day: ${pomodorosPerDay}`,
-                    `Total days: ${timetable.length}${truncated ? ` (showing first ${MAX_PDF_DAYS})` : ''}`
-                ];
-                infoLines.forEach(line => {
-                    pdf.text(line, pageW / 2, y, { align: 'center' });
-                    y += 5;
-                });
-                y += 2;
-                pdf.setDrawColor(99, 102, 241);
-                pdf.setLineWidth(0.6);
-                pdf.line(marginX, y, pageW - marginX, y);
-                y += 10;
-
-                // ---- Column layout ----
-                const colTime = marginX;
-                const colTimeW = 32;
-                const colSubject = colTime + colTimeW;
-                const colSubjectW = contentW - colTimeW - 26 - 30;
-                const colDuration = colSubject + colSubjectW;
-                const colDurationW = 26;
-                const colType = colDuration + colDurationW;
-                const colTypeW = 30;
-                const rowH = 7;
-
-                exportDays.forEach(dayData => {
-                    const dayDate = dayData.date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
-
-                    ensureSpace(16);
-
-                    // Day heading bar
-                    pdf.setFillColor(99, 102, 241);
-                    pdf.rect(marginX, y, contentW, 8, 'F');
-                    pdf.setFont('helvetica', 'bold');
-                    pdf.setFontSize(11);
-                    pdf.setTextColor(255, 255, 255);
-                    pdf.text(`Day ${dayData.day} - ${dayDate}`, marginX + 3, y + 5.6);
-                    y += 11;
-
-                    // Table header row
-                    pdf.setFont('helvetica', 'bold');
-                    pdf.setFontSize(8.5);
-                    pdf.setTextColor(80, 80, 80);
-                    pdf.text('TIME', colTime, y);
-                    pdf.text('SUBJECT', colSubject, y);
-                    pdf.text('DURATION', colDuration, y);
-                    pdf.text('TYPE', colType, y);
-                    y += 1.5;
-                    pdf.setDrawColor(220, 220, 220);
-                    pdf.setLineWidth(0.2);
-                    pdf.line(marginX, y, marginX + contentW, y);
-                    y += 4;
-
-                    dayData.schedule.forEach(slot => {
-                        ensureSpace(rowH + 2);
-
-                        const c = colorFor(slot);
-                        const label = slot.type === 'longbreak' ? 'Long Break'
-                            : slot.type === 'break' ? 'Short Break'
-                            : slot.subject;
-                        const typeLabel = slot.type === 'longbreak' ? 'Long Break'
-                            : slot.type === 'break' ? 'Short Break'
-                            : slot.difficulty;
-
-                        // Row background tint
-                        pdf.setFillColor(c.bg[0], c.bg[1], c.bg[2]);
-                        pdf.rect(marginX, y - rowH + 2.3, contentW, rowH, 'F');
-
-                        pdf.setFont('helvetica', 'normal');
-                        pdf.setFontSize(9);
-                        pdf.setTextColor(40, 40, 40);
-                        pdf.text(`${slot.startTime}-${slot.endTime}`, colTime + 1, y);
-
-                        pdf.setFont('helvetica', 'bold');
-                        pdf.setTextColor(c.text[0], c.text[1], c.text[2]);
-                        const subjectText = pdf.splitTextToSize(label, colSubjectW - 2)[0] || label;
-                        pdf.text(subjectText, colSubject + 1, y);
-
-                        pdf.setFont('helvetica', 'normal');
-                        pdf.setTextColor(80, 80, 80);
-                        pdf.text(`${slot.duration} min`, colDuration + 1, y);
-
-                        pdf.setFontSize(7.5);
-                        pdf.setTextColor(c.text[0], c.text[1], c.text[2]);
-                        pdf.text(typeLabel, colType + 1, y);
-
-                        y += rowH;
-                    });
-
-                    y += 4;
-                });
-
-                // ---- Tips footer page ----
-                ensureSpace(60);
-                y += 2;
-                pdf.setFillColor(249, 250, 251);
-                pdf.rect(marginX, y, contentW, 48, 'F');
-                pdf.setDrawColor(16, 185, 129);
-                pdf.setLineWidth(1);
-                pdf.line(marginX, y, marginX, y + 48);
-
-                pdf.setFont('helvetica', 'bold');
-                pdf.setFontSize(11);
-                pdf.setTextColor(16, 185, 129);
-                pdf.text('Tips for Effective Study', marginX + 5, y + 8);
-
-                const tips = [
-                    'Follow the schedule consistently for best results',
-                    "Take every Pomodoro break - they're scheduled for a reason",
-                    'Track completed topics and measure progress',
-                    'Switch Focus Mode to Intense if a weak subject needs more time, then regenerate',
-                    'Combine studying with proper sleep and nutrition',
-                    'Practice tests to measure improvement regularly'
-                ];
-                pdf.setFont('helvetica', 'normal');
-                pdf.setFontSize(9);
-                pdf.setTextColor(70, 70, 70);
-                let tipY = y + 15;
-                tips.forEach(tip => {
-                    const wrapped = pdf.splitTextToSize('- ' + tip, contentW - 10);
-                    pdf.text(wrapped, marginX + 5, tipY);
-                    tipY += 5.2 * wrapped.length;
-                });
-
-                // ---- Page numbers ----
-                const totalPages = pdf.internal.getNumberOfPages();
-                for (let p = 1; p <= totalPages; p++) {
-                    pdf.setPage(p);
-                    pdf.setFont('helvetica', 'normal');
-                    pdf.setFontSize(8);
-                    pdf.setTextColor(150, 150, 150);
-                    pdf.text(`Page ${p} of ${totalPages}`, pageW / 2, pageH - 6, { align: 'center' });
-                }
-
-                pdf.save(`${examName.replace(/\s+/g, '-')}-Timetable.pdf`);
-            } catch (err) {
-                console.error('PDF generation error:', err);
-                alert('Could not generate the PDF: ' + (err && err.message ? err.message : 'unknown error') + '\n\nYou can also use your browser\'s Print option (Ctrl/Cmd+P) as a fallback.');
-            } finally {
-                downloadBtn.disabled = false;
-                downloadBtn.innerHTML = '<i class="fa-solid fa-download"></i> Download PDF';
-            }
-        }
-
-        // Scroll functions
-        function scrollToTop() {
-            document.querySelector('.generator-card').scrollIntoView({ behavior: 'smooth' });
-        }
-        function scrollToArticle() {
-            document.querySelector('.article-section').scrollIntoView({ behavior: 'smooth' });
-        }
-        function scrollToFAQ() {
-            document.querySelector('.faq-section').scrollIntoView({ behavior: 'smooth' });
-        }
-    </script>
-
-    <script>
-    fetch("/footer.html")
-      .then(function(r){ return r.ok ? r.text() : ""; })
-      .then(function(data){
-        if (!data) return;
-        document.getElementById("footer").innerHTML = data;
-        var yearSpan = document.getElementById("year");
-        if (yearSpan) yearSpan.textContent = new Date().getFullYear();
-      })
-      .catch(function(){});
-    </script>
+<header><div class="hc"><a class="brand" href="https://www.toolvala.in">Toolvala<span>.in</span></a></div></header>
+<section class="hero"><h1>🧠 Smart Study Timetable Generator</h1><p>Build a day-by-day exam study plan. Pick your subjects, difficulty and daily hours, and get 25-minute Pomodoro sessions, built-in breaks, extra time for weak subjects and daily subject rotation. Free, with PDF download.</p></section>
+<main class="container">
+<div class="card gen" id="generator">
+<h2>📅 Create Your Study Timetable</h2>
+<div class="fs"><div class="fst">📍 Exam details</div>
+<div class="fg">
+<div class="f"><label class="fl" for="examName">Exam name</label><input class="in" id="examName" value="Final Exams" placeholder="e.g. Final Exams, JEE, NEET"></div>
+<div class="f"><label class="fl" for="examDate">Exam date</label><input class="in" type="date" id="examDate"></div>
+<div class="f"><label class="fl" for="hours">Daily study hours</label><input class="in" type="number" id="hours" value="8" min="2" max="16"><span class="hint">Between 2 and 16 hours</span></div>
+<div class="f"><label class="fl" for="start">Start time</label><input class="in" type="time" id="start" value="06:00"></div>
+<div class="f"><label class="fl" for="mode">Focus mode</label><select class="sel" id="mode"><option value="balanced">Balanced (40-35-25%)</option><option value="intense">Intense focus (50-35-15%)</option><option value="equal">Equal (33-33-34%)</option></select><span class="hint">Weak – medium – strong share of study time</span></div>
+</div></div>
+<div class="subs"><div class="fst">📚 Subjects</div>
+<div id="list"></div>
+<button class="btn b2" type="button" id="addBtn" style="margin-top:.8rem"><i class="fa-solid fa-plus"></i> Add another subject</button>
+<div class="hint">Chapters: a subject with more chapters gets a bigger share of the time within its difficulty group.</div></div>
+<div class="bg"><button class="btn b1" type="button" id="genBtn"><i class="fa-solid fa-wand-magic-sparkles"></i> Generate timetable</button></div>
+</div>
+
+<div class="card" id="tt">
+<div class="th"><div class="tt-title" id="ttTitle"></div><div class="cd" id="cd"></div></div>
+<div class="stats" id="stats"></div>
+<div id="warn"></div>
+<div class="tt-actions bg"><button class="btn b3" type="button" id="pdfBtn"><i class="fa-solid fa-download"></i> Download PDF</button><button class="btn b2" type="button" id="prBtn"><i class="fa-solid fa-print"></i> Print</button></div>
+<p class="hint" style="margin-bottom:1rem">The first 14 days are shown here. The PDF and print include the first 30 days.</p>
+<div class="tg" id="grid"></div>
+</div>
+
+<section class="ad"><span class="adl">Advertisement</span><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-4402681434316955" data-ad-slot="8432779087" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></section>
+
+<article class="card art" id="guide">
+<h2>How the Study Timetable Generator Works</h2>
+<p>This tool uses a fixed set of rules, not artificial intelligence. It turns your daily study hours into 25-minute study sessions, shares those sessions between your subjects according to difficulty, and writes out a time-stamped plan for every day until your exam.</p>
+<ol>
+<li><strong>Study sessions:</strong> your daily hours are cut into 25-minute Pomodoro sessions.</li>
+<li><strong>Breaks:</strong> a 5-minute break follows each session, and a 15-minute break follows every 4th session. The day never ends on a break.</li>
+<li><strong>Time share:</strong> sessions are split between weak, medium and strong subjects using the focus mode you pick. If one group is empty, its share is passed to the other groups.</li>
+<li><strong>Chapters:</strong> inside a group, subjects with more chapters get more sessions.</li>
+<li><strong>Rotation:</strong> sessions are mixed so the same subject rarely comes twice in a row, and the starting subject changes every day.</li>
+</ol>
+<h3>Focus modes</h3>
+<div style="overflow-x:auto"><table class="dist"><tr><th>Mode</th><th>Weak</th><th>Medium</th><th>Strong</th><th>Good for</th></tr><tr><td>Balanced</td><td>40%</td><td>35%</td><td>25%</td><td>30 or more days left</td></tr><tr><td>Intense</td><td>50%</td><td>35%</td><td>15%</td><td>Last few weeks</td></tr><tr><td>Equal</td><td>33%</td><td>33%</td><td>34%</td><td>Even revision</td></tr></table></div>
+<p>With many subjects and few study hours, some subjects may get no session in a day. The tool warns you when this happens. Increase your daily hours or remove a subject to fix it.</p>
+<h3>Tips for using your timetable</h3>
+<ul><li>Follow the breaks. They are part of the plan.</li><li>Take a practice test every week and re-rate your weak subjects.</li><li>Keep time for sleep and meals. Regenerate the plan whenever your exam date or subjects change.</li><li>Your subject names and settings stay in your browser and are not uploaded.</li></ul>
+<div class="rel"><h4>📈 Related study and marks tools</h4><div class="rl">
+<a href="https://www.toolvala.in/study-hours-planner.html">⏰ Study Hours Planner<small>Plan daily hours by topic</small></a>
+<a href="https://www.toolvala.in/marks-percentage-calculator.html">✅ Marks Percentage Calculator<small>Find your subject-wise percentage</small></a>
+<a href="https://www.toolvala.in/marks-needed-to-pass-calculator.html">🎯 Marks Needed to Pass<small>See what you need to score</small></a>
+<a href="https://www.toolvala.in/school-timetable-generator.html">🏫 School Timetable Generator<small>Class timetable for teachers and schools</small></a>
+</div></div>
+<div class="ad" style="padding:0"><span class="adl">Advertisement</span><ins class="adsbygoogle" style="display:block;text-align:center" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-4402681434316955" data-ad-slot="4581163987"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></div>
+</article>
+
+<section class="card faq" id="faq"><h2>❓ Frequently Asked Questions</h2>
+<details><summary>How does the study timetable generator work?</summary><p>It uses your exam date, daily study hours and subject difficulty to build 25-minute study sessions with breaks, then shares the sessions between subjects by difficulty and rotates the order each day.</p></details>
+<details><summary>Can I give more time to my weak subjects?</summary><p>Yes. Mark a subject as weak. In Intense focus mode, weak subjects get about 50% of study time, medium 35% and strong 15%.</p></details>
+<details><summary>How do the breaks work?</summary><p>Each 25-minute session is followed by a 5-minute break. After every 4th session you get a 15-minute break. These are written into the timetable.</p></details>
+<details><summary>Can I download the timetable as a PDF?</summary><p>Yes. Use Download PDF for the first 30 days. The PDF supports English letters only. If your subject names use another script, such as Marathi or Hindi, the tool opens the Print option instead so you can choose Save as PDF.</p></details>
+<details><summary>What if my exam is very soon?</summary><p>The plan covers however many days remain. Choose Intense focus so weak subjects get the most sessions.</p></details>
+<details><summary>Is it free, and is my data stored?</summary><p>It is free with no sign-up. The timetable is built in your browser and your inputs are not uploaded. Like most websites, this page uses Google Analytics and ads, which may set their own cookies.</p></details>
+</section>
+
+<section class="ad"><span class="adl">Advertisement</span><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-4402681434316955" data-ad-slot="5569753964" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></section>
+</main>
+<nav class="bn"><button type="button" data-go="generator"><span>🧠</span>Generator</button><button type="button" data-go="guide"><span>📖</span>Guide</button><button type="button" data-go="faq"><span>❓</span>FAQ</button></nav>
+<div id="footer"></div>
+<script>
+(function(){
+'use strict';
+var $=function(i){return document.getElementById(i);};
+var esc=function(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});};
+function dv(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function today0(){var t=new Date();t.setHours(0,0,0,0);return t;}
+var MAXDAYS=30,SHOW=14,T=null;
+/* default exam date */
+var t0=today0();$('examDate').value=dv(new Date(t0.getFullYear(),t0.getMonth(),t0.getDate()+30));
+$('examDate').min=dv(new Date(t0.getFullYear(),t0.getMonth(),t0.getDate()+1));
+/* subjects */
+function row(n,d,c){var e=document.createElement('div');e.className='si';
+e.innerHTML='<div><label>Subject</label><input type="text" class="in nm" value="'+esc(n)+'" placeholder="Subject name"></div><div><label>Difficulty</label><select class="sel df"><option value="weak">Weak</option><option value="medium">Medium</option><option value="strong">Strong</option></select></div><div><label>Chapters</label><input type="number" class="in ch" value="'+c+'" min="1" max="200"></div><button type="button" class="rm" aria-label="Remove subject">×</button>';
+e.querySelector('.df').value=d;e.querySelector('.rm').onclick=function(){e.remove();};$('list').appendChild(e);}
+row('Mathematics','strong',15);row('Physics','weak',20);row('Chemistry','medium',18);
+$('addBtn').onclick=function(){row('New Subject','medium',10);};
+/* scheduling */
+function template(min){var out=[],rem=min,c=0;
+while(rem>=25){out.push({type:'study',d:25});rem-=25;c++;var lg=c%4===0,b=lg?15:5;if(rem>=b){out.push({type:lg?'long':'short',d:b});rem-=b;}else break;}
+while(out.length&&out[out.length-1].type!=='study')out.pop();return out;}
+function weights(mode,present){var base={balanced:{weak:.4,medium:.35,strong:.25},intense:{weak:.5,medium:.35,strong:.15},equal:{weak:.33,medium:.33,strong:.34}}[mode],sum=0,w={};
+['weak','medium','strong'].forEach(function(k){if(present[k]){sum+=base[k];}});
+['weak','medium','strong'].forEach(function(k){w[k]=present[k]?base[k]/sum:0;});return w;}
+function lr(total,raw){/* largest remainder: raw is array of non-negative numbers */
+var s=raw.reduce(function(a,b){return a+b;},0);if(!s)return raw.map(function(){return 0;});
+var q=raw.map(function(x){return x/s*total;}),f=q.map(Math.floor),u=f.reduce(function(a,b){return a+b;},0),
+o=q.map(function(x,i){return i;}).sort(function(a,b){return (q[b]-f[b])-(q[a]-f[a]);});
+for(var i=0;i<total-u;i++)f[o[i%o.length]]++;return f;}
+function split(list,total){/* every subject gets 1 if possible, rest by chapters */
+var n=list.length;if(!n||total<=0)return list.map(function(s){return {s:s,n:0};});
+if(total<n){var idx=list.map(function(s,i){return i;}).sort(function(a,b){return list[b].ch-list[a].ch;}),keep={};idx.slice(0,total).forEach(function(i){keep[i]=1;});return list.map(function(s,i){return {s:s,n:keep[i]?1:0};});}
+var extra=lr(total-n,list.map(function(s){return s.ch;}));return list.map(function(s,i){return {s:s,n:1+extra[i]};});}
+function rr(items){var q=items.map(function(x){return {s:x.s,r:x.n};}),res=[];
+while(q.some(function(x){return x.r>0;})){q.forEach(function(x){if(x.r>0){res.push(x.s);x.r--;}});}return res;}
+function fmt(m){m=((m%1440)+1440)%1440;return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0');}
+function build(subs,days,hours,startMin,mode){
+var tpl=template(hours*60),slots=tpl.filter(function(x){return x.type==='study';}).length;
+var by={weak:[],medium:[],strong:[]};subs.forEach(function(s){by[s.df].push(s);});
+var present={weak:by.weak.length>0,medium:by.medium.length>0,strong:by.strong.length>0},w=weights(mode,present);
+var tiers=['weak','medium','strong'],tc=lr(slots,tiers.map(function(k){return w[k];})),items=[];
+tiers.forEach(function(k,i){items=items.concat(split(by[k],tc[i]));});
+var seq=rr(items),missed=items.filter(function(x){return x.n===0;}).map(function(x){return x.s.name;});
+var tt=[];
+for(var d=1;d<=days;d++){var rot=seq.length?(d-1)%seq.length:0,ds=seq.length?seq.slice(rot).concat(seq.slice(0,rot)):[],p=0,cur=startMin,sch=[];
+tpl.forEach(function(sl){var a=cur,b=cur+sl.d,o={type:sl.type,a:fmt(a),b:fmt(b),d:sl.d};
+if(sl.type==='study'){var s=ds.length?ds[p%ds.length]:subs[0];p++;o.name=s.name;o.df=s.df;}sch.push(o);cur=b;});
+tt.push({day:d,date:new Date(t0.getFullYear(),t0.getMonth(),t0.getDate()+d-1),sch:sch});}
+return {tt:tt,slots:slots,missed:missed,mixed:!(present.weak&&present.medium&&present.strong)};}
+/* generate */
+$('genBtn').onclick=function(){
+var name=($('examName').value||'').trim()||'My Exam',ds=$('examDate').value,hours=parseInt($('hours').value,10),mode=$('mode').value,st=$('start').value||'06:00';
+if(!ds){alert('Please select an exam date.');return;}
+if(!hours||hours<2||hours>16){alert('Enter daily study hours between 2 and 16.');return;}
+var p=ds.split('-').map(Number),days=Math.round((new Date(p[0],p[1]-1,p[2])-t0)/864e5);
+if(isNaN(days)||days<=0){alert('Please select a future exam date.');return;}
+var startMin=parseInt(st.split(':')[0],10)*60+parseInt(st.split(':')[1],10);
+if(startMin+hours*60>1440+300&&!confirm('This plan runs past midnight. Continue?'))return;
+var subs=[];document.querySelectorAll('.si').forEach(function(e){var n=e.querySelector('.nm').value.trim();if(n)subs.push({name:n,df:e.querySelector('.df').value,ch:Math.max(1,parseInt(e.querySelector('.ch').value,10)||1)});});
+if(!subs.length){alert('Add at least one subject.');return;}
+var r=build(subs,Math.min(days,MAXDAYS),hours,startMin,mode);
+T={tt:r.tt,name:name,days:days,slots:r.slots,subs:subs};show(r,name,days,subs);};
+function show(r,name,days,subs){
+$('ttTitle').textContent=name+' - Study Timetable';$('cd').textContent='⏰ '+days+' day'+(days>1?'s':'')+' until exam';
+var c={weak:0,medium:0,strong:0};subs.forEach(function(s){c[s.df]++;});
+$('stats').innerHTML=[['Subjects',subs.length],['Weak',c.weak],['Medium',c.medium],['Strong',c.strong],['Pomodoros / day',r.slots],['Days left',days]].map(function(x){return '<div class="stat"><b>'+x[1]+'</b><span>'+x[0]+'</span></div>';}).join('');
+var w='';
+if(r.missed.length)w+='<div class="note">⚠️ These subjects get no study session in a day: <b>'+r.missed.map(esc).join(', ')+'</b>. Increase your daily hours or remove a subject.</div>';
+if(r.mixed)w+='<div class="note">ℹ️ Some difficulty groups are empty, so their share of time was passed to the other groups.</div>';
+$('warn').innerHTML=w;
+$('grid').innerHTML=r.tt.map(function(d,i){var dd=d.date.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
+return '<div class="dc'+(i>=SHOW?' x':'')+'"><div class="dt">Day '+d.day+' - '+dd+'</div><div class="ds">'+d.sch.map(function(s){
+if(s.type!=='study')return '<div class="ts '+(s.type==='long'?'lb':'bk')+'"><span class="t">'+s.a+'–'+s.b+'</span><span class="s">'+(s.type==='long'?'🛋️ Long break':'☕ Short break')+'</span><span class="d">'+s.d+' min</span></div>';
+var col=s.df==='weak'?'var(--bad)':s.df==='medium'?'var(--warn)':'var(--ok)';
+return '<div class="ts"><span class="t">'+s.a+'–'+s.b+'</span><span class="s" style="color:'+col+'">'+esc(s.name)+'</span><span class="d">'+s.d+' min</span></div>';}).join('')+'</div></div>';}).join('');
+$('tt').classList.add('on');$('tt').scrollIntoView({behavior:'smooth'});}
+/* print + pdf */
+$('prBtn').onclick=function(){window.print();};
+$('pdfBtn').onclick=function(){
+if(!T){alert('Generate a timetable first.');return;}
+var nonLatin=/[^\u0000-\u00FF]/.test(T.name+T.subs.map(function(s){return s.name;}).join(''));
+if(nonLatin){if(confirm('The PDF download supports English letters only. Open the Print option instead? Choose "Save as PDF" there.'))window.print();return;}
+var J=window.jspdf&&window.jspdf.jsPDF;if(!J){alert('The PDF library has not loaded yet. Check your connection and try again, or use Print.');return;}
+var btn=$('pdfBtn');btn.disabled=true;
+try{
+var pdf=new J({unit:'mm',format:'a4'}),W=210,H=297,mx=14,cw=W-28,y=20;
+var np=function(){pdf.addPage();y=16;},need=function(n){if(y+n>H-12)np();};
+var col=function(s){if(s.type==='long')return {b:[255,237,213],t:[194,65,12]};if(s.type==='short')return {b:[254,243,199],t:[217,119,6]};if(s.df==='weak')return {b:[254,226,226],t:[220,38,38]};if(s.df==='medium')return {b:[254,249,195],t:[161,98,7]};return {b:[220,252,231],t:[22,163,74]};};
+pdf.setFont('helvetica','bold');pdf.setFontSize(20);pdf.setTextColor(99,102,241);pdf.text('Study Timetable',W/2,y,{align:'center'});y+=9;
+pdf.setFont('helvetica','normal');pdf.setFontSize(10);pdf.setTextColor(90,90,90);
+['Exam: '+T.name,'Days until exam: '+T.days,'Pomodoro sessions per day: '+T.slots,'Generated: '+new Date().toLocaleDateString()+(T.days>MAXDAYS?'  (first '+MAXDAYS+' days shown)':'')].forEach(function(l){pdf.text(l,W/2,y,{align:'center'});y+=5;});
+y+=3;pdf.setDrawColor(99,102,241);pdf.setLineWidth(.6);pdf.line(mx,y,W-mx,y);y+=9;
+T.tt.forEach(function(d){need(20);
+pdf.setFillColor(99,102,241);pdf.rect(mx,y,cw,8,'F');pdf.setFont('helvetica','bold');pdf.setFontSize(11);pdf.setTextColor(255,255,255);
+pdf.text('Day '+d.day+' - '+d.date.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'}),mx+3,y+5.6);y+=12;
+d.sch.forEach(function(s){need(9);var c=col(s),label=s.type==='long'?'Long break':s.type==='short'?'Short break':s.name;
+pdf.setFillColor(c.b[0],c.b[1],c.b[2]);pdf.rect(mx,y-4.7,cw,7,'F');
+pdf.setFont('helvetica','normal');pdf.setFontSize(9);pdf.setTextColor(40,40,40);pdf.text(s.a+'-'+s.b,mx+1,y);
+pdf.setFont('helvetica','bold');pdf.setTextColor(c.t[0],c.t[1],c.t[2]);pdf.text(pdf.splitTextToSize(label,95)[0],mx+34,y);
+pdf.setFont('helvetica','normal');pdf.setTextColor(80,80,80);pdf.text(s.d+' min',mx+cw-1,y,{align:'right'});y+=7;});
+y+=4;});
+var n=pdf.internal.getNumberOfPages();for(var i=1;i<=n;i++){pdf.setPage(i);pdf.setFont('helvetica','normal');pdf.setFontSize(8);pdf.setTextColor(150,150,150);pdf.text('Page '+i+' of '+n+'  |  toolvala.in',W/2,H-6,{align:'center'});}
+pdf.save(T.name.replace(/[^\w]+/g,'-')+'-Timetable.pdf');
+}catch(e){alert('Could not create the PDF. Please use the Print option instead.');}
+btn.disabled=false;};
+/* nav */
+document.querySelectorAll('[data-go]').forEach(function(b){b.onclick=function(){$(b.dataset.go).scrollIntoView({behavior:'smooth'});};});
+/* FAQ schema built from the visible FAQ so the two always match */
+(function(){var q=[];document.querySelectorAll('#faq details').forEach(function(d){q.push({"@type":"Question","name":d.querySelector('summary').textContent.trim(),"acceptedAnswer":{"@type":"Answer","text":d.querySelector('p').textContent.trim()}});});
+var s=document.createElement('script');s.type='application/ld+json';s.textContent=JSON.stringify({"@context":"https://schema.org","@type":"FAQPage","mainEntity":q});document.head.appendChild(s);})();
+fetch('/footer.html').then(function(r){return r.ok?r.text():'';}).then(function(d){if(!d)return;$('footer').innerHTML=d;var y=$('year');if(y)y.textContent=new Date().getFullYear();}).catch(function(){});
+})();
+</script>
 </body>
 </html>
