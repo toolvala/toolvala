@@ -21,7 +21,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Lato:wght@400;700&family=Noto+Serif:wght@400;700&family=Noto+Serif+Devanagari:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Lato:wght@400;700&family=Noto+Sans+Devanagari:wght@400;700&family=Noto+Serif:wght@400;700&family=Noto+Serif+Devanagari:wght@400;700&display=swap" rel="stylesheet">
 
 <!-- Google Analytics (GA4) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-8GTQC904G1"></script>
@@ -52,12 +52,12 @@
 :root{--ink:#16233f;--ink2:#2c3e6b;--accent:#d9822b;--bg:#eef1f6;--card:#fff;--line:#d5dbe6;--mut:#5b6678;--ok:#1d7a4d;--err:#b3261e}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;font-family:'Lato',system-ui,sans-serif;background:var(--bg);color:#1c2433;line-height:1.55}
-h1,h2,h3{font-family:'Sora',sans-serif;color:var(--ink);line-height:1.25;margin:0}
+body{margin:0;font-family:'Lato','Noto Sans Devanagari',system-ui,sans-serif;background:var(--bg);color:#1c2433;line-height:1.55}
+h1,h2,h3{font-family:'Sora','Noto Sans Devanagari',sans-serif;color:var(--ink);line-height:1.25;margin:0}
 a{color:var(--ink2)}
 .top{position:sticky;top:0;z-index:20;background:var(--ink);color:#fff}
 .top .in{max-width:1180px;margin:auto;padding:12px 16px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
-.brand{font:700 20px 'Sora',sans-serif;color:#fff;text-decoration:none;margin-right:auto}
+.brand{font:700 20px 'Sora','Noto Sans Devanagari',sans-serif;color:#fff;text-decoration:none;margin-right:auto}
 .brand span{color:var(--accent)}
 .top nav a{color:#dbe3f5;text-decoration:none;font-size:14px;margin-left:14px}
 .top nav a:hover{color:#fff}
@@ -78,7 +78,7 @@ a{color:var(--ink2)}
 @media(max-width:520px){.grid2{grid-template-columns:1fr}}
 label{display:block;font-size:13px;font-weight:700;color:var(--ink);margin-bottom:4px}
 label small{font-weight:400;color:var(--mut)}
-input,select,textarea{width:100%;font:16px 'Lato',sans-serif;padding:10px 11px;border:1.5px solid var(--line);border-radius:8px;background:#fff;color:#111}
+input,select,textarea{width:100%;font:16px 'Lato','Noto Sans Devanagari',sans-serif;padding:10px 11px;border:1.5px solid var(--line);border-radius:8px;background:#fff;color:#111}
 textarea{resize:vertical;min-height:70px}
 input:focus,select:focus,textarea:focus,button:focus-visible{outline:3px solid #f2c48d;border-color:var(--accent)}
 input.bad,select.bad,textarea.bad{border-color:var(--err);background:#fff6f5}
@@ -87,7 +87,7 @@ input.bad,select.bad,textarea.bad{border-color:var(--err);background:#fff6f5}
 .chk{display:flex;gap:8px;align-items:flex-start;font-weight:400;font-size:14px;margin:6px 0}
 .chk input{width:auto;margin-top:4px}
 .btns{display:flex;gap:10px;flex-wrap:wrap}
-button{font:700 15px 'Lato',sans-serif;padding:12px 16px;border-radius:9px;border:0;cursor:pointer}
+button{font:700 15px 'Lato','Noto Sans Devanagari',sans-serif;padding:12px 16px;border-radius:9px;border:0;cursor:pointer}
 .b1{background:var(--accent);color:#fff;flex:1 1 100%;font-size:16px}
 .b2{background:var(--ink);color:#fff;flex:1}
 .b3{background:#fff;color:var(--ink);border:1.5px solid var(--ink);flex:1}
@@ -185,7 +185,9 @@ footer.fb{background:var(--ink);color:#c8d2ea;text-align:center;padding:20px 16p
     <div class="grid2"><div class="f"><label for="days">Days</label><select id="days"><option value="5">Monday to Friday</option><option value="6" selected>Monday to Saturday</option><option value="sat">Only Saturday</option></select></div>
     <div class="f"><label for="np">Periods per day</label><select id="np"></select></div></div>
     <div class="grid2"><div class="f"><label for="t0">First period starts</label><input type="time" id="t0" value="07:30"></div>
-    <div class="f"><label for="pm">Minutes per period</label><input id="pm" inputmode="numeric" value="40"></div></div>
+    <div class="f"><label for="pm">Minutes per period <small>(default)</small></label><input id="pm" inputmode="numeric" value="40"></div></div>
+    <label class="chk"><input type="checkbox" id="custT"> Periods have different lengths – set each period's time</label>
+    <div id="plBox" hidden style="margin:6px 0 12px"></div>
     <div class="grid2"><div class="f"><label for="b1a">Short break after period <small>(0 = none)</small></label><input id="b1a" inputmode="numeric" value="3"></div>
     <div class="f"><label for="b1m">Break minutes</label><input id="b1m" inputmode="numeric" value="10"></div></div>
     <div class="grid2"><div class="f"><label for="b2a">Lunch break after period <small>(0 = none)</small></label><input id="b2a" inputmode="numeric" value="0"></div>
@@ -211,7 +213,7 @@ footer.fb{background:var(--ink);color:#c8d2ea;text-align:center;padding:20px 16p
   </div>
   <div class="prev" id="preview"><div class="card"><h2 class="no-print">Preview</h2><div id="pages"></div></div></div>
  </div>
- <section class="disc no-print"><h2>Disclaimer</h2><p>This free tool only helps authorised school / college staff format a timetable from information they already hold. It is not an official document service and is not connected to any government body, board or university.</p><ul><li>You are responsible for the accuracy of every detail you enter.</li><li>Use it only for your own institution and only with proper authority.</li><li>Everything is processed in your browser. Nothing you type is sent to our server; saved timetables stay on this device only.</li></ul><p class="mr">हे मोफत साधन फक्त अधिकृत शाळा / महाविद्यालयीन कर्मचाऱ्यांना त्यांच्याकडील माहितीवरून वेळापत्रक तयार करण्यास मदत करते. माहितीच्या अचूकतेची जबाबदारी वापरकर्त्याची आहे. सर्व माहिती तुमच्या ब्राउझरमध्येच राहते.</p></section>
+ <section class="disc no-print"><h2>Disclaimer</h2><p>This free tool only helps authorised school / college staff format a timetable from information they already hold. It is not an official document service and is not connected to any government body, board or university.</p><ul><li>You are responsible for the accuracy of every detail you enter.</li><li>Use it only for your own institution and only with proper authority.</li><li>Everything is processed in your browser. Nothing you type is sent to our server; saved timetables stay on this device only.</li></ul><p class="mr" lang="mr">हे मोफत साधन फक्त अधिकृत शाळा / महाविद्यालयीन कर्मचाऱ्यांना त्यांच्याकडील माहितीवरून वेळापत्रक तयार करण्यास मदत करते. माहितीच्या अचूकतेची जबाबदारी वापरकर्त्याची आहे. सर्व माहिती तुमच्या ब्राउझरमध्येच राहते.</p></section>
  <section class="related no-print"><h2>Related tools</h2><a href="/marksheet-generator.html">Student Marksheet Template Generator</a><a href="/statement-generator.html">Statement of Marks Template Generator</a><a href="/bonafide-certificate-generator.html">Bonafide Certificate Template Generator</a><a href="/transfer-certificate-generator.html">Transfer Certificate Template Generator</a></section>
  <section class="info no-print"><h2>About the school timetable template generator</h2><p>A school timetable shows which subject is taught in each period on every working day. This tool builds a clean landscape A4 timetable for any class, with period timings and breaks worked out automatically from your start time.</p>
  <h2 id="howto">How to use the school timetable generator</h2>
@@ -229,6 +231,7 @@ footer.fb{background:var(--ink);color:#c8d2ea;text-align:center;padding:20px 16p
   <li><strong>Custom class:</strong> in the Class list choose "Custom (type it)" and type the name, for example "B.A. First Year" or "Diploma 2nd Year".</li>
   <li><strong>Faculty:</strong> for 11th, 12th and custom classes, choose Arts, Science or Commerce so it prints on the timetable. Choose "Custom (type it)" for others such as Vocational. For 11th and 12th a faculty is required. It also narrows the subject suggestions.</li>
   <li><strong>Custom break:</strong> tap "+ Add custom break", type a name (for example Prayer or Games), the period number it comes after (for example 6) and its minutes. Add as many as you need. The times of the following periods move automatically.</li>
+  <li><strong>Different period lengths:</strong> if not every period is the same length, tick "Periods have different lengths" and type the minutes for each period, for example 30 for the first period and 40 for the rest. Empty boxes use the default minutes, and all later times move automatically. It works on both English and Marathi timetables. (सर्व तासांचा कालावधी सारखा नसल्यास हा पर्याय टिक करा आणि प्रत्येक तासाचे मिनिटे लिहा.)</li>
   <li><strong>Custom subject:</strong> the suggestions are only a help. Type any subject name you like.</li>
   <li><strong>Heading:</strong> type your own heading to replace "CLASS TIME TABLE", for example "Second Semester Time Table".</li>
   <li><strong>Show period times:</strong> untick it if you want only the periods, subjects and names on the sheet, without times.</li>
@@ -265,11 +268,11 @@ function subjFor(g){const u=a=>Array.from(new Set(a));
  if(g==='school')return u(SG.school.concat(SG.other));
  if(g==='all')return u([].concat(SG.common,SG.science,SG.arts,SG.commerce,SG.school,SG.other));
  return u(SG.common.concat(SG[g],SG.other));}
-const SCH=['showTime','udise','schoolName','schoolAddr','acYear','lang','titleTxt','sty','days','np','t0','pm','b1a','b1m','b2a','b2m'];
+const SCH=['custT','showTime','udise','schoolName','schoolAddr','acYear','lang','titleTxt','sty','days','np','t0','pm','b1a','b1m','b2a','b2m'];
 const CLF=['classSel','classOther','faculty','facultyOther','div','teacher'];
 const FEN={arts:'Arts',science:'Science',commerce:'Commerce'},FMR={arts:'कला',science:'विज्ञान',commerce:'वाणिज्य'};
 function facTxt(r,mr){if(!r.faculty)return '';return r.faculty==='custom'?(r.facultyOther||'').trim():(mr?FMR:FEN)[r.faculty]||'';}
-let grid={},loadedSchool='',cbreaks=[];
+let grid={},loadedSchool='',cbreaks=[],plens={};
 $('classSel').innerHTML='<option value="">Select class</option>'+CEN.map((c,i)=>`<option value="${i}">${c}</option>`).join('')+`<option value="${CUSTOM}">Custom (type it)</option>`;
 $('np').innerHTML=[3,4,5,6,7,8,9,10].map(n=>`<option value="${n}"${n==7?' selected':''}>${n}</option>`).join('');
 function fillSubj(){const f=$('faculty').value;$('subjList').innerHTML=subjFor(f==='arts'||f==='science'||f==='commerce'?f:'all').map(s=>`<option value="${esc(s)}">`).join('');}
@@ -279,14 +282,20 @@ function num(id,d){const v=parseInt($(id).value,10);return isNaN(v)||v<0?d:v;}
 const dayList=()=>{const v=$('days').value;return v==='sat'?[5]:v==='5'?[0,1,2,3,4]:[0,1,2,3,4,5];},nP=()=>num('np',7);
 function fmt(m){m=((m%1440)+1440)%1440;let h=Math.floor(m/60),mm=m%60,ap=h>=12?'PM':'AM';h=h%12||12;return h+':'+(mm<10?'0':'')+mm;}
 function slots(){ // columns: {t:'p',n,time} or {t:'b1'|'b2',time}
- const [h,m]=($('t0').value||'07:30').split(':').map(Number);let cur=h*60+m;const pm=num('pm',40)||40,P=nP(),b1=num('b1a',0),b2=num('b2a',0),out=[];
- for(let i=1;i<=P;i++){out.push({t:'p',n:i,time:fmt(cur)+'–'+fmt(cur+pm)});cur+=pm;
+ const [h,m]=($('t0').value||'07:30').split(':').map(Number);let cur=h*60+m;const pm0=num('pm',40)||40,P=nP(),b1=num('b1a',0),b2=num('b2a',0),out=[];
+ for(let i=1;i<=P;i++){const pm=($('custT').checked&&parseInt(plens[i],10)>0)?Math.min(240,parseInt(plens[i],10)):pm0;out.push({t:'p',n:i,time:fmt(cur)+'–'+fmt(cur+pm)});cur+=pm;
   if(b1&&i==b1&&i<P){const l=num('b1m',10);out.push({t:'b1',time:fmt(cur)+'–'+fmt(cur+l)});cur+=l;}
   if(b2&&i==b2&&i<P){const l=num('b2m',30);out.push({t:'b2',time:fmt(cur)+'–'+fmt(cur+l)});cur+=l;}
   if(i<P)cbreaks.forEach(c=>{if((parseInt(c.after,10)||0)===i){const l=Math.max(1,parseInt(c.min,10)||10);out.push({t:'c',label:(c.label||'').trim()||'BREAK',time:fmt(cur)+'–'+fmt(cur+l)});cur+=l;}});}
  return out;}
 function className(lang){const v=$('classSel').value;if(v==='')return '';if(+v===CUSTOM)return $('classOther').value.trim();return (lang==='mr'?CMR:CEN)[+v];}
 function classFull(lang){const c=className(lang),d=$('div').value.trim(),f=facTxt({faculty:$('faculty').value,facultyOther:$('facultyOther').value},lang==='mr');return c+(d?' ('+d+')':'')+(f?' – '+f:'');}
+/* ---------- custom period lengths ---------- */
+function drawPl(){const box=$('plBox'),on=$('custT').checked;box.hidden=!on;box.style.display=on?'block':'none';if(!on)return;
+ const P=nP(),d=num('pm',40)||40;let h='<div class="grid2">';for(let i=1;i<=P;i++)h+=`<div><label>Period ${i} – minutes</label><input class="pl" data-n="${i}" inputmode="numeric" value="${esc(plens[i]||'')}" placeholder="${d}" autocomplete="off"></div>`;
+ box.innerHTML=h+'</div><div class="hint">Leave a box empty to use the default minutes. The start time of every later period and break moves automatically.</div>';}
+$('plBox').addEventListener('input',e=>{if(!e.target.classList.contains('pl'))return;e.target.value=e.target.value.replace(/\D/g,'');plens[e.target.dataset.n]=e.target.value;drawGrid();if($('pages').children.length)render();});
+$('custT').addEventListener('change',()=>{drawPl();drawGrid();if($('pages').children.length)render();});
 /* ---------- custom breaks ---------- */
 function drawCb(){$('cbBox').innerHTML=cbreaks.map((c,i)=>`<div class="cbr" data-i="${i}"><label>Break name</label><input class="cl" value="${esc(c.label||'')}" placeholder="e.g. Prayer, Games, Tiffin" autocomplete="off"><div class="grid2"><div><label>After period no.</label><input class="ca" inputmode="numeric" value="${esc(c.after||'')}" placeholder="6"></div><div><label>Minutes</label><input class="cm" inputmode="numeric" value="${esc(c.min||'')}" placeholder="10"></div><button type="button" class="rm" aria-label="Remove break">×</button></div></div>`).join('');}
 function cbChanged(){drawGrid();if($('pages').children.length)render();}
@@ -314,8 +323,8 @@ function drawGrid(){
 }
 $('gridBox').addEventListener('change',e=>{if(e.target.classList.contains('cell'))drawTeachers();});
 $('gridBox').addEventListener('input',e=>{if(e.target.classList.contains('cell'))grid[e.target.dataset.d+'_'+e.target.dataset.p]=e.target.value;});
-['days','np'].forEach(id=>$(id).addEventListener('change',drawGrid));
-['t0','pm','b1a','b1m','b2a','b2m'].forEach(id=>$(id).addEventListener('input',drawGrid));
+['days','np'].forEach(id=>$(id).addEventListener('change',()=>{drawPl();drawGrid();}));
+['t0','pm','b1a','b1m','b2a','b2m'].forEach(id=>$(id).addEventListener('input',()=>{if(id==='pm')drawPl();drawGrid();}));
 $('cpyBtn').onclick=()=>{const dl=dayList(),f=dl[0];for(let i=1;i<dl.length;i++)for(let p=1;p<=nP();p++)grid[dl[i]+'_'+p]=grid[f+'_'+p]||'';drawGrid();msg('ok',DEN[f]+' copied to all days.');};
 $('clrBtn').onclick=()=>{grid={};drawGrid();};
 function syncCls(){const v=$('classSel').value,cu=v!==''&&+v===CUSTOM,fa=v!==''&&(+v===13||+v===14||cu);
@@ -375,9 +384,9 @@ function validate(){document.querySelectorAll('.bad').forEach(e=>e.classList.rem
 function refreshSaved(){const recs=savedRecs();$('savedSel').innerHTML=recs.length?recs.map(x=>`<option value="${esc(x.key)}">${esc(label(x.rec))}</option>`).join(''):'<option value="">(none saved yet)</option>';}
 function label(r){const c=(+r.classSel===CUSTOM?r.classOther:CEN[+r.classSel])||'Class',f=facTxt(r,false);return c+(f?' '+f:'')+(r.div?' – '+r.div:'');}
 function schoolKey(){const u=$('udise').value.trim();return u?'tv_tt_s_'+u:'';}
-function saveSchool(){const k=schoolKey();if(!k)return;const o={};SCH.forEach(f=>o[f]=$(f).type==='checkbox'?$(f).checked:$(f).value);o.cbreaks=cbreaks;try{localStorage.setItem(k,JSON.stringify(o));}catch(e){}}
+function saveSchool(){const k=schoolKey();if(!k)return;const o={};SCH.forEach(f=>o[f]=$(f).type==='checkbox'?$(f).checked:$(f).value);o.cbreaks=cbreaks;o.plens=plens;try{localStorage.setItem(k,JSON.stringify(o));}catch(e){}}
 function loadSchool(){const k=schoolKey();if(!k)return;let o;try{o=JSON.parse(localStorage.getItem(k));}catch(e){}if(!o)return;
- SCH.forEach(f=>{if(f!=='udise'&&o[f]!=null){if($(f).type==='checkbox')$(f).checked=!!o[f];else $(f).value=o[f];}});if(!$('days').value)$('days').value='6';cbreaks=Array.isArray(o.cbreaks)?o.cbreaks:[];drawCb();drawGrid();$('udHint').textContent='Saved school details filled in.';}
+ SCH.forEach(f=>{if(f!=='udise'&&o[f]!=null){if($(f).type==='checkbox')$(f).checked=!!o[f];else $(f).value=o[f];}});if(!$('days').value)$('days').value='6';cbreaks=Array.isArray(o.cbreaks)?o.cbreaks:[];plens=(o.plens&&typeof o.plens==='object')?o.plens:{};drawCb();drawPl();drawGrid();$('udHint').textContent='Saved school details filled in.';}
 function applyRec(r){CLF.forEach(f=>{$(f).value=r[f]==null?'':r[f];});grid=Object.assign({},r.grid||{});teachers=Object.assign({},r.teachers||{});$('showT').checked=!!r.showT;$('showL').checked=!!r.showL;syncCls();drawGrid();}
 $('udise').addEventListener('input',function(){this.value=this.value.replace(/\D/g,'');if(this.value.length===11&&this.value!==loadedSchool){loadedSchool=this.value;loadSchool();}refreshSaved();});
 $('saveBtn').onclick=()=>{if(!validate())return;const r=cur();try{localStorage.setItem(recKey(r),JSON.stringify(r));saveSchool();refreshSaved();$('savedSel').value=recKey(r);msg('ok','Saved on this device: '+label(r));}catch(e){msg('err','Could not save in this browser.');}};
@@ -400,7 +409,7 @@ $('pngBtn').onclick=function(){run(this,async()=>{const els=Array.from(document.
 $('printBtn').onclick=function(){if(validate()){render();window.print();}};
 $('genBtn').onclick=function(){if(validate()){render();$('preview').scrollIntoView({behavior:'smooth',block:'start'});}};
 ['lang','sty','titleTxt','schoolName','schoolAddr','acYear','allCls','showTime'].forEach(id=>$(id).addEventListener('change',()=>{if($('pages').children.length)render();}));
-drawCb();drawGrid();refreshSaved();
+drawCb();drawPl();drawGrid();refreshSaved();
 if(document.fonts)document.fonts.ready.then(()=>{fitContent();});
 fetch("/footer.html").then(r=>r.text()).then(d=>{$('footer').innerHTML=d;const y=$('year');if(y)y.textContent=new Date().getFullYear();}).catch(()=>{});
 })();
