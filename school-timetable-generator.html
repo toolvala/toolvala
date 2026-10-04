@@ -67,6 +67,8 @@ a{color:var(--ink2)}
 .hero h1{font-size:clamp(24px,5vw,34px)}
 .hero p{max-width:720px;color:var(--mut);margin:8px 0 18px}
 .layout{display:grid;gap:18px}
+.layout>*{min-width:0}
+.pw{position:relative}
 @media(min-width:980px){.layout{grid-template-columns:480px 1fr;align-items:start}.prev{position:sticky;top:70px;max-height:calc(100vh - 84px);overflow:auto}}
 .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
 .card+.card{margin-top:14px}
@@ -104,6 +106,7 @@ button:disabled{opacity:.6;cursor:wait}
 .related h2{font-size:16px;margin:0 0 8px}
 .related a{display:inline-block;margin:0 14px 4px 0;font-weight:700}
 footer.fb{background:var(--ink);color:#c8d2ea;text-align:center;padding:20px 16px;font-size:13px}
+.cert .tt>div small{display:block;font-size:.7em;font-weight:400;color:#444;margin-top:1px}.cert .tl{font-size:calc(12.5px*var(--k,1));margin-top:calc(6px*var(--k,1));line-height:1.45}
 .dayb{margin-bottom:12px;padding:10px;border:1px solid var(--line);border-radius:10px;background:#fafbfd}
 .dayb h3{font-size:14px;margin-bottom:8px}.dayb .grid2{gap:8px}.dayb label{font-size:12px;margin-bottom:2px}
 .pw{width:100%;overflow:hidden;background:#fff;border:1px solid var(--line);border-radius:6px;margin-bottom:12px}
@@ -194,6 +197,11 @@ footer.fb{background:var(--ink);color:#c8d2ea;text-align:center;padding:20px 16p
     <div class="hint">Leave a box empty to print a blank period. Type any subject or pick a suggestion.</div>
     <datalist id="subjList"></datalist>
    </div>
+   <div class="card"><h2>5. Subject teachers <small style="font-weight:400;color:var(--mut)">(optional)</small></h2>
+    <label class="chk"><input type="checkbox" id="showT"> Show the teacher's name under each subject in the timetable</label>
+    <label class="chk"><input type="checkbox" id="showL"> Add a subject – teacher list at the bottom</label>
+    <div id="tchBox" style="margin-top:10px"></div>
+    <div class="hint">The subjects you type in section 4 appear here. Enter the teacher for each subject once.</div></div>
    <div class="card"><div class="btns"><button type="button" class="b1" id="genBtn">Generate timetable</button><button type="button" class="b2" id="pdfBtn">Download PDF</button><button type="button" class="b2" id="pngBtn">Download PNG</button><button type="button" class="b3" id="printBtn">Print</button><button type="button" class="b4" id="clearBtn">Erase all saved details</button></div><div id="msg" role="status"></div></div>
   </div>
   <div class="prev" id="preview"><div class="card"><h2 class="no-print">Preview</h2><div id="pages"></div></div></div>
@@ -254,11 +262,24 @@ function slots(){ // columns: {t:'p',n,time} or {t:'b1'|'b2',time}
 function className(lang){const v=$('classSel').value;if(v==='')return '';if(+v===CUSTOM)return $('classOther').value.trim();return (lang==='mr'?CMR:CEN)[+v];}
 function classFull(lang){const c=className(lang),d=$('div').value.trim(),f=facTxt({faculty:$('faculty').value,facultyOther:$('facultyOther').value},lang==='mr');return c+(d?' ('+d+')':'')+(f?' – '+f:'');}
 /* ---------- grid editor ---------- */
+let teachers={};
+const nk=t=>String(t||'').trim().toLowerCase().replace(/\s+/g,' ');
+function usedSubjects(){const m=new Map(),P=nP();dayList().forEach(d=>{for(let p=1;p<=P;p++){const v=(grid[d+'_'+p]||'').trim();if(v&&!m.has(nk(v)))m.set(nk(v),v);}});return Array.from(m);}
+function drawTeachers(){const u=usedSubjects(),box=$('tchBox'),keep=new Set(u.map(x=>x[0]));
+ Array.from(box.querySelectorAll('.f')).forEach(f=>{if(!keep.has(f.dataset.k))f.remove();});
+ const h=box.querySelector('.hint');if(h)h.remove();
+ u.forEach(([k,v],i)=>{let f=Array.from(box.querySelectorAll('.f')).find(x=>x.dataset.k===k);
+  if(!f){f=document.createElement('div');f.className='f';f.dataset.k=k;f.innerHTML='<label></label><input class="tch" placeholder="Teacher name" autocomplete="off">';f.querySelector('input').dataset.k=k;f.querySelector('input').value=teachers[k]||'';}
+  f.querySelector('label').textContent=v;if(box.children[i]!==f)box.insertBefore(f,box.children[i]||null);});
+ if(!u.length)box.innerHTML='<div class="hint">No subjects entered yet.</div>';}
+$('tchBox').addEventListener('input',e=>{if(e.target.classList.contains('tch'))teachers[e.target.dataset.k]=e.target.value;});
 function drawGrid(){
  const sl=slots().filter(s=>s.t=='p');
  $('gridBox').innerHTML=dayList().map(d=>`<div class="dayb"><h3>${DEN[d]}</h3><div class="grid2">${sl.map(s=>`<div><label>P${s.n} <small>${s.time}</small></label><input class="cell" list="subjList" data-d="${d}" data-p="${s.n}" value="${esc(grid[d+'_'+s.n]||'')}" autocomplete="off" placeholder="Subject"></div>`).join('')}</div></div>`).join('');
+ drawTeachers();
  $('tmHint').textContent=slots().map(s=>s.t=='p'?'P'+s.n+' '+s.time:(s.t=='b1'?'Break':'Lunch')+' '+s.time).join('  •  ');
 }
+$('gridBox').addEventListener('change',e=>{if(e.target.classList.contains('cell'))drawTeachers();});
 $('gridBox').addEventListener('input',e=>{if(e.target.classList.contains('cell'))grid[e.target.dataset.d+'_'+e.target.dataset.p]=e.target.value;});
 ['days','np'].forEach(id=>$(id).addEventListener('change',drawGrid));
 ['t0','pm','b1a','b1m','b2a','b2m'].forEach(id=>$(id).addEventListener('input',drawGrid));
@@ -272,20 +293,24 @@ function syncCls(){const v=$('classSel').value,cu=v!==''&&+v===CUSTOM,fa=v!==''&
 ['change','input','blur'].forEach(ev=>{$('classSel').addEventListener(ev,syncCls);$('faculty').addEventListener(ev,syncCls);});
 syncCls();
 /* ---------- render ---------- */
-function cur(){const o={grid:Object.assign({},grid)};CLF.forEach(k=>o[k]=$(k).value);return o;}
+function cur(){const o={grid:Object.assign({},grid),teachers:Object.assign({},teachers),showT:$('showT').checked,showL:$('showL').checked};CLF.forEach(k=>o[k]=$(k).value);return o;}
+function legend(r,L){if(!r.showL||!r.teachers)return '';const seen=new Set(),items=[];
+ for(let d=0;d<6;d++)for(let p=1;p<=10;p++){const v=((r.grid||{})[d+'_'+p]||'').trim(),n=nk(v);if(v&&!seen.has(n)){seen.add(n);const t=(r.teachers[n]||'').trim();if(t)items.push(esc(v)+' – <b>'+esc(t)+'</b>');}}
+ return items.length?'<div class="tl"><b>'+L.stl+' :</b> '+items.join(' &nbsp;|&nbsp; ')+'</div>':'';}
 function pageHTML(r,S){
  const lang=S.lang,mr=lang==='mr',sl=S.slots,DL=S.days,D=DL.length,P=S.np;
  const cn=(+r.classSel===CUSTOM?(r.classOther||'').trim():((mr?CMR:CEN)[+r.classSel]||'')),fc=facTxt(r,mr),cf=cn+(r.div&&r.div.trim()?' ('+r.div.trim()+')':'')+(fc?' – '+fc:'');
- const L=mr?{per:'तास',br:'मधली सुट्टी',lu:'जेवणाची सुट्टी',day:'वार',ct:'वर्गशिक्षक',pr:'मुख्याध्यापक',cls:'वर्ग',yr:'शैक्षणिक वर्ष',ttl:'वर्ग वेळापत्रक'}:{per:'Period',br:'BREAK',lu:'LUNCH',day:'Day',ct:'Class Teacher',pr:'Principal',cls:'Class',yr:'Academic Year',ttl:'CLASS TIME TABLE'};
+ const L=mr?{per:'तास',br:'मधली सुट्टी',lu:'जेवणाची सुट्टी',day:'वार',ct:'वर्गशिक्षक',stl:'विषय शिक्षक',pr:'मुख्याध्यापक',cls:'वर्ग',yr:'शैक्षणिक वर्ष',ttl:'वर्ग वेळापत्रक'}:{per:'Period',br:'BREAK',lu:'LUNCH',day:'Day',ct:'Class Teacher',stl:'Subject teachers',pr:'Principal',cls:'Class',yr:'Academic Year',ttl:'CLASS TIME TABLE'};
  const dn=mr?DMR:DEN;
  const cols='calc(112px*var(--k,1)) '+sl.map(s=>s.t=='p'?'1fr':'calc(54px*var(--k,1))').join(' ');
  let g='<div class="th">'+L.day+'</div>'+sl.map(s=>s.t=='p'?`<div class="th">${L.per} ${s.n}<span class="tm">${s.time}</span></div>`:`<div class="th bk">${s.t=='b1'?L.br:L.lu}<span class="tm">${s.time}</span></div>`).join('');
  DL.forEach((d,di)=>{g+='<div class="dh">'+dn[d]+'</div>';
-  sl.forEach((s,ci)=>{if(s.t=='p')g+='<div>'+esc((r.grid[d+'_'+s.n]||'').trim())+'</div>';else if(di==0)g+=`<div class="bk" style="grid-row:2 / span ${D};grid-column:${ci+2}"><span class="vt">${s.t=='b1'?L.br:L.lu}</span></div>`;})});
+  sl.forEach((s,ci)=>{if(s.t=='p'){const sv=(r.grid[d+'_'+s.n]||'').trim(),tn=sv&&r.showT&&r.teachers?(r.teachers[nk(sv)]||'').trim():'';g+='<div>'+esc(sv)+(tn?'<small>'+esc(tn)+'</small>':'')+'</div>';}else if(di==0)g+=`<div class="bk" style="grid-row:2 / span ${D};grid-column:${ci+2}"><span class="vt">${s.t=='b1'?L.br:L.lu}</span></div>`;})});
  return `<div class="frame"><div class="hd"><div class="sn">${esc(S.schoolName)}</div>${S.schoolAddr?`<div class="sa">${esc(S.schoolAddr)}</div>`:''}${S.udise?`<div class="sa">UDISE No.: ${esc(S.udise)}</div>`:''}</div>
  <div class="ttl">${esc(S.title||L.ttl)}</div>
  <div class="mt"><span>${L.cls} :- <b>${esc(cf)}</b></span><span>${L.yr} :- <b>${esc(S.acYear)}</b></span></div>
  <div class="tbw"><div class="tt" style="grid-template-columns:${cols};grid-template-rows:auto repeat(${D},1fr)">${g}</div></div>
+ ${legend(r,L)}
  <div class="sg"><div>${r.teacher&&r.teacher.trim()?'<b>'+esc(r.teacher.trim())+'</b><br>':'<br>'}<span class="ln">${L.ct}</span></div><div><br><span class="ln">${L.pr}</span></div></div></div>`;}
 function schoolState(){return{lang:$('lang').value,sl:0,slots:slots(),days:dayList(),np:nP(),schoolName:$('schoolName').value.trim(),schoolAddr:$('schoolAddr').value.trim(),udise:$('udise').value.trim(),acYear:$('acYear').value.trim(),title:$('titleTxt').value.trim(),sty:$('sty').value};}
 function savedRecs(){const u=$('udise').value.trim(),pre='tv_tt_c_'+(u||'local')+'_',o=[];
@@ -318,12 +343,12 @@ function schoolKey(){const u=$('udise').value.trim();return u?'tv_tt_s_'+u:'';}
 function saveSchool(){const k=schoolKey();if(!k)return;const o={};SCH.forEach(f=>o[f]=$(f).value);try{localStorage.setItem(k,JSON.stringify(o));}catch(e){}}
 function loadSchool(){const k=schoolKey();if(!k)return;let o;try{o=JSON.parse(localStorage.getItem(k));}catch(e){}if(!o)return;
  SCH.forEach(f=>{if(f!=='udise'&&o[f]!=null)$(f).value=o[f];});if(!$('days').value)$('days').value='6';drawGrid();$('udHint').textContent='Saved school details filled in.';}
-function applyRec(r){CLF.forEach(f=>{$(f).value=r[f]==null?'':r[f];});grid=Object.assign({},r.grid||{});syncCls();drawGrid();}
+function applyRec(r){CLF.forEach(f=>{$(f).value=r[f]==null?'':r[f];});grid=Object.assign({},r.grid||{});teachers=Object.assign({},r.teachers||{});$('showT').checked=!!r.showT;$('showL').checked=!!r.showL;syncCls();drawGrid();}
 $('udise').addEventListener('input',function(){this.value=this.value.replace(/\D/g,'');if(this.value.length===11&&this.value!==loadedSchool){loadedSchool=this.value;loadSchool();}refreshSaved();});
 $('saveBtn').onclick=()=>{if(!validate())return;const r=cur();try{localStorage.setItem(recKey(r),JSON.stringify(r));saveSchool();refreshSaved();$('savedSel').value=recKey(r);msg('ok','Saved on this device: '+label(r));}catch(e){msg('err','Could not save in this browser.');}};
 $('loadBtn').onclick=()=>{const k=$('savedSel').value;if(!k)return;try{applyRec(JSON.parse(localStorage.getItem(k)));msg('ok','Timetable loaded.');}catch(e){}};
 $('delBtn').onclick=()=>{const k=$('savedSel').value;if(!k)return;if(confirm('Delete this saved timetable?')){try{localStorage.removeItem(k);}catch(e){}refreshSaved();}};
-$('newBtn').onclick=()=>{CLF.forEach(f=>$(f).value='');grid={};syncCls();drawGrid();msg('ok','Ready for a new class. School and timing settings are kept.');};
+$('newBtn').onclick=()=>{CLF.forEach(f=>$(f).value='');grid={};teachers={};syncCls();drawGrid();msg('ok','Ready for a new class. School and timing settings are kept.');};
 $('clearBtn').onclick=()=>{try{Object.keys(localStorage).filter(k=>k.indexOf('tv_tt_')===0).forEach(k=>localStorage.removeItem(k));}catch(e){}loadedSchool='';refreshSaved();msg('ok','All saved details were erased from this device.');};
 
 /* ---------- export ---------- */
