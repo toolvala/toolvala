@@ -114,7 +114,7 @@ footer{max-width:860px;margin:0 auto;padding:0 14px 30px;color:var(--mut);font-s
 <h2 class="noprint" style="font:700 20px Sora,sans-serif;margin:4px 0 4px">Affidavit Preview</h2>
 <p class="noprint lead" style="margin-bottom:10px">Your affidavit updates here live as you type. Placeholders (________) show missing details.</p>
 <div class="row noprint" style="margin:0 0 12px">
-<button class="btn" id="print">Print / Save as PDF</button><button class="btn alt" id="word">Download Word</button><button class="btn alt" id="copy">Copy text</button>
+<button class="btn acc" id="pdf">Download PDF</button><button class="btn" id="print">Print</button><button class="btn alt" id="word">Download Word</button><button class="btn alt" id="copy">Copy text</button>
 </div>
 <div class="note noprint" style="margin-bottom:12px">Review every line before signing. Sign in front of the Notary / Oath Commissioner if the office asks for a sworn affidavit. Stamp paper rules differ by state and office.</div>
 <div class="doc" id="doc"></div>
@@ -238,6 +238,35 @@ document.addEventListener('change',e=>{if(generated&&e.target.dataset&&e.target.
 $('#gen').onclick=()=>{if(!validate())return;build();saveH();$('#resultSec').scrollIntoView();toast('Draft saved on this device');gtag('event','generate_affidavit',{type:$('#tpl').value})};
 $('#reset').onclick=()=>{document.querySelectorAll('[data-k]').forEach(e=>{if(e.type==='checkbox')e.checked=true;else if(e.tagName==='SELECT')e.selectedIndex=0;else e.value=''});$('#date').value=today();$('#err').style.display='none';build()};
 $('#print').onclick=()=>{build();window.print()};
+function loadS(src){return new Promise((ok,no)=>{const s=document.createElement('script');s.src=src;s.onload=ok;s.onerror=no;document.head.appendChild(s)})}
+async function libs(){
+ if(!window.html2canvas)await loadS('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
+ if(!window.jspdf)await loadS('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
+}
+$('#pdf').onclick=async()=>{
+ const btn=$('#pdf'),old=btn.textContent;btn.disabled=true;btn.textContent='Preparing PDF…';
+ try{
+  build();await libs();if(document.fonts&&document.fonts.ready)await document.fonts.ready;
+  const c=$('#doc').cloneNode(true);
+  Object.assign(c.style,{position:'fixed',left:'-10000px',top:'0',width:'794px',border:'0',padding:'0 56px',boxSizing:'border-box',background:'#fff',fontSize:'16px'});
+  document.body.appendChild(c);
+  const cv=await html2canvas(c,{scale:2,backgroundColor:'#ffffff',useCORS:true});
+  c.remove();
+  const pdf=new window.jspdf.jsPDF({unit:'pt',format:'a4'});
+  const W=pdf.internal.pageSize.getWidth(),H=pdf.internal.pageSize.getHeight(),M=48;
+  const sh=Math.floor((H-2*M)*cv.width/W);
+  for(let y=0,i=0;y<cv.height;y+=sh,i++){
+   const h=Math.min(sh,cv.height-y),p=document.createElement('canvas');
+   p.width=cv.width;p.height=h;
+   const g=p.getContext('2d');g.fillStyle='#fff';g.fillRect(0,0,p.width,h);g.drawImage(cv,0,y,cv.width,h,0,0,cv.width,h);
+   if(i)pdf.addPage();
+   pdf.addImage(p.toDataURL('image/jpeg',0.95),'JPEG',0,M,W,h*W/cv.width);
+  }
+  pdf.save('affidavit-'+(vals().name||'draft').toLowerCase().replace(/[^a-z0-9]+/g,'-')+'.pdf');
+  toast('PDF downloaded');gtag('event','download_pdf',{type:$('#tpl').value});
+ }catch(e){document.querySelectorAll('body > div[style*="-10000px"]').forEach(x=>x.remove());toast('PDF failed. Use Print and choose Save as PDF')}
+ btn.disabled=false;btn.textContent=old;
+};
 $('#word').onclick=()=>{build();const h='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"><title>Affidavit</title><style>body{font-family:"Times New Roman","Mangal",serif;font-size:12pt;line-height:1.7}h2{text-align:center}.sub{text-align:center;font-weight:bold}.sign{margin-top:30pt}</style></head><body>'+$('#doc').innerHTML+'</body></html>';
  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff',h],{type:'application/msword'}));a.download='affidavit-'+(vals().name||'draft').toLowerCase().replace(/[^a-z0-9]+/g,'-')+'.doc';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500);toast('Word file downloaded')};
 $('#copy').onclick=async()=>{const t=$('#doc').innerText;try{await navigator.clipboard.writeText(t)}catch(e){const x=document.createElement('textarea');x.value=t;document.body.appendChild(x);x.select();document.execCommand('copy');x.remove()}toast('Affidavit text copied')};
