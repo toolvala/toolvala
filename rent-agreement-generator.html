@@ -60,7 +60,7 @@ footer{max-width:860px;margin:0 auto;padding:0 14px 30px;color:var(--mut);font-s
 .doc{padding:20px 16px;font-size:15px;line-height:1.7;text-align:left}.doc h2{font-size:18px}
 .doc .sign{flex-direction:column;align-items:stretch}.doc .sign>div{flex:none;width:100%}
 .row .btn{flex:1 1 calc(50% - 10px);padding:12px 10px}}
-@media print{@page{size:A4;margin:18mm}body{background:#fff}.noprint{display:none!important}main{padding:0;max-width:none}.doc{border:0;padding:0;font-size:12.5pt}.cl,.sign{break-inside:avoid}}
+@media print{@page{size:A4;margin:18mm}body{background:#fff}.noprint{display:none!important}main{padding:0;max-width:none}.doc{border:0;padding:0;font-size:12.5pt}.cl,.sign,.end{break-inside:avoid}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
 </head>
@@ -74,10 +74,10 @@ footer{max-width:860px;margin:0 auto;padding:0 14px 30px;color:var(--mut);font-s
 <div class="card"><h2>1. Landlord and tenant</h2><div class="grid">
 <div class="full"><label for="type">Agreement type</label><select id="type" data-k="type"><option value="rent">Rent agreement (Landlord / Tenant)</option><option value="ll">Leave and licence (Licensor / Licensee)</option></select></div>
 <div><label for="ll">Landlord / Licensor name *</label><input id="ll" data-k="ll" placeholder="e.g. Mr. Suresh Patil"></div>
-<div><label for="llid">Landlord ID details (optional)</label><input id="llid" data-k="llid" placeholder="e.g. PAN / Aadhaar"></div>
+<div><label for="llid">Landlord ID details (optional)</label><input id="llid" data-k="llid" placeholder="e.g. PAN, or last 4 digits of Aadhaar"></div>
 <div class="full"><label for="lla">Landlord address *</label><input id="lla" data-k="lla" placeholder="e.g. Flat 3B, Kothrud, Pune"></div>
 <div><label for="tn">Tenant / Licensee name *</label><input id="tn" data-k="tn" placeholder="e.g. Mr. Anil Verma"></div>
-<div><label for="tnid">Tenant ID details (optional)</label><input id="tnid" data-k="tnid" placeholder="e.g. PAN / Aadhaar"></div>
+<div><label for="tnid">Tenant ID details (optional)</label><input id="tnid" data-k="tnid" placeholder="e.g. PAN, or last 4 digits of Aadhaar"></div>
 <div class="full"><label for="tna">Tenant permanent address *</label><input id="tna" data-k="tna" placeholder="e.g. Nagpur, Maharashtra"></div>
 </div></div>
 
@@ -155,7 +155,7 @@ function build(){
  const v=vals(),ls=v.type==='ll',LL=ls?'Licensor':'Landlord',TN=ls?'Licensee':'Tenant',R=ls?'licence fee':'rent';
  const mon=Math.max(1,parseInt(v.mon)||11),lock=parseInt(v.lock)||0,inc=parseFloat(v.inc)||0,nt=parseInt(v.notice);
  const notice=isNaN(nt)?1:nt,due=parseInt(v.due)||5;
- let end='________';const s=pd(v.start);if(s){const e=new Date(s);e.setMonth(e.getMonth()+mon);e.setDate(e.getDate()-1);end=fdl(e)}
+ let end='________';const s=pd(v.start);if(s){const y=s.getFullYear(),m=s.getMonth()+mon,d=s.getDate();let e=new Date(y,m,d);if(e.getMonth()!==((m%12)+12)%12)e=new Date(y,m+1,0);else e.setDate(e.getDate()-1);end=fdl(e)}
  const mt={tn:`Society maintenance charges, if any, shall be paid by the ${TN}.`,ll:`Society maintenance charges, if any, shall be paid by the ${LL}.`,inc:`Society maintenance charges are included in the ${R} and shall be paid by the ${LL}.`}[v.maint];
  const sd={tn:`the ${TN}`,ll:`the ${LL}`,eq:`both parties in equal shares`}[v.stamp];
  const C=[];
@@ -179,13 +179,13 @@ function build(){
  const W=n=>`<div><div class="line">Witness ${n}${v['w'+n]?': '+esc(v['w'+n]):''}</div></div>`;
  $('#doc').innerHTML=`<h2>${ls?'LEAVE AND LICENCE AGREEMENT':'RENT AGREEMENT'}</h2>
  <p>This ${ls?'Leave and Licence Agreement':'Rent Agreement'} is made at ${b(v.city)} on <b>${dt(v.date)}</b> between:</p>
- <p>1. ${b(v.ll)}${v.llid?' ('+esc(v.llid)+')':''}, residing at ${esc(v.lla)||'________'} (hereinafter called the <b>"${LL}"</b>);<br>AND</p>
- <p>2. ${b(v.tn)}${v.tnid?' ('+esc(v.tnid)+')':''}, permanently residing at ${esc(v.tna)||'________'} (hereinafter called the <b>"${TN}"</b>).</p>
+ <p>(1) ${b(v.ll)}${v.llid?' ('+esc(v.llid)+')':''}, residing at ${esc(v.lla)||'________'} (hereinafter called the <b>"${LL}"</b>);<br>AND</p>
+ <p>(2) ${b(v.tn)}${v.tnid?' ('+esc(v.tnid)+')':''}, permanently residing at ${esc(v.tna)||'________'} (hereinafter called the <b>"${TN}"</b>).</p>
  <p><b>WHEREAS</b> the ${LL} is the owner of the premises at ${esc(v.prop)||'________'} (the <b>"Premises"</b>) and has agreed to give the same to the ${TN} on the following terms:</p>
  ${C.map((c,i)=>`<p class="cl">${i+1}. ${c}</p>`).join('')}
- <p class="cl"><b>IN WITNESS WHEREOF</b> the parties have signed this agreement on the date first written above.</p>
+ <div class="end"><p class="cl"><b>IN WITNESS WHEREOF</b> the parties have signed this agreement on the date first written above.</p>
  <div class="sign"><div><div class="line"><b>${LL}</b><br>${esc(v.ll)||'________'}</div></div><div><div class="line"><b>${TN}</b><br>${esc(v.tn)||'________'}</div></div></div>
- <div class="sign">${W(1)}${W(2)}</div>`;
+ <div class="sign">${W(1)}${W(2)}</div></div>`;
 }
 function toast(t){const e=$('#toast');e.textContent=t;e.style.display='block';clearTimeout(toast.h);toast.h=setTimeout(()=>e.style.display='none',2200)}
 function validate(){const v=vals(),req=[['ll','landlord name'],['lla','landlord address'],['tn','tenant name'],['tna','tenant address'],['prop','property address'],['rent','monthly rent'],['dep','security deposit'],['start','start date'],['city','city']],miss=req.filter(r=>!v[r[0]]).map(r=>r[1]);
@@ -215,7 +215,7 @@ $('#pdf').onclick=async()=>{
   c.querySelectorAll('.sign>div').forEach(d=>{d.style.width='auto';d.style.flex='1 1 150px'});
   document.body.appendChild(c);
   const top=c.getBoundingClientRect().top,S=2;
-  const marks=[...c.querySelectorAll('h2,p,.sign')].map(e=>(e.getBoundingClientRect().bottom-top)*S);
+  const marks=[...c.children].map(e=>(e.getBoundingClientRect().bottom-top)*S);
   const cv=await html2canvas(c,{scale:S,backgroundColor:'#ffffff',useCORS:true});
   c.remove();
   const pdf=new window.jspdf.jsPDF({unit:'pt',format:'a4'});
