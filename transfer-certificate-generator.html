@@ -218,7 +218,7 @@ footer.fb a{color:#fff}
     <div class="f"><label for="board">Other board / affiliation <small>(optional)</small></label><input id="board" autocomplete="off" placeholder="e.g. CBSE, ICSE"></div>
     <div class="grid2">
      <div class="f"><label for="hmName">Signatory name <small>(optional)</small></label><input id="hmName" autocomplete="off"></div>
-     <div class="f"><label for="hmTitle">Designation <small>(optional)</small></label><input id="hmTitle" autocomplete="off" placeholder="Headmaster / Principal"></div>
+     <div class="f"><label for="hmTitle">Designation <small>(optional)</small></label><input id="hmTitle" autocomplete="off" placeholder="Headmaster / Principal (Marathi: मुख्याध्यापक / प्राचार्य)"></div>
     </div>
     <div class="f"><label for="logo">School logo <small>(optional)</small></label>
      <div class="logo-row"><input type="file" id="logo" accept="image/*"><button type="button" class="b4" id="rmLogo">Remove</button></div></div>
@@ -405,7 +405,7 @@ function render(){
  const L=mr?{t:'शाळा सोडल्याचा दाखला',sub:'(स्थानांतर प्रमाणपत्र)',ud:'युडायस क्र.',no:'दाखला क्र.',rg:'जनरल रजिस्टर क्र.',dt:'दिनांक',pl:'ठिकाण',seal:'शाळेचा<br>शिक्का',dup:'दुय्यम प्रत',
   r:['विद्यार्थ्याचे पूर्ण नाव','आईचे नाव','वडिलांचे / पालकांचे नाव','राष्ट्रीयत्व','मातृभाषा','धर्म','जात / पोटजात','जन्मस्थान','जन्मतारीख (अंकी व अक्षरी)','PEN (कायमस्वरूपी शैक्षणिक क्रमांक)','आधार क्रमांक','यापूर्वी शिकत असलेली शाळा','शाळेत दाखल झाल्याची तारीख व इयत्ता','प्रगती','वर्तणूक','शाळा सोडल्याची तारीख','शिकत असलेली इयत्ता व केव्हापासून','शाळा सोडण्याचे कारण','शेरा'],
   cf:`प्रमाणित करण्यात येते की, वरील माहिती शाळेच्या जनरल रजिस्टर (प्रवेश-निर्गम नोंदवही) क्र. <b>${ph(val('reg'))}</b> नुसार बरोबर आहे.`,
-  fine:'हा दाखला मुख्याध्यापकांच्या सही व शाळेच्या शिक्क्याशिवाय अवैध आहे.',since:s=>' ('+s+' पासून)',cl:'इयत्ता '}
+  fine:'हा दाखला मुख्याध्यापक / प्राचार्य यांच्या सही व शाळेच्या शिक्क्याशिवाय अवैध आहे.',since:s=>' ('+s+' पासून)',cl:'इयत्ता '}
  :{t:'TRANSFER CERTIFICATE',sub:'(School Leaving Certificate)',ud:'UDISE No.',no:'TC No.',rg:'General Register No.',dt:'Date',pl:'Place',seal:'School<br>Seal',dup:'DUPLICATE COPY',
   r:["Student's Full Name","Mother's Name","Father's / Guardian's Name",'Nationality','Mother Tongue','Religion','Caste / Sub-caste','Place of Birth','Date of Birth (in figures and words)','PEN (Permanent Education No.)','Aadhaar No.','Last School Attended','Date of Admission and Class','Progress','Conduct','Date of Leaving School','Class Studying in and Since When','Reason for Leaving School','Remarks'],
   cf:`Certified that the above information is correct as per the School's General Register (Admission/Withdrawal Register No. <b>${ph(val('reg'))}</b>).`,
@@ -415,7 +415,7 @@ function render(){
  const dbv=$('divBoard').value,divT=dbv===''?'':(mr?'महाराष्ट्र राज्य माध्यमिक व उच्च माध्यमिक शिक्षण मंडळ, '+DIVB[+dbv][1]+' विभागीय मंडळ':'Maharashtra State Board of Secondary and Higher Secondary Education, '+DIVB[+dbv][0]+' Divisional Board');
  const bm=[val('board')?esc(val('board')):'',medT?LX.md+': '+esc(medT):''].filter(Boolean).join(' &nbsp;|&nbsp; ');
  const contact=(mob||em)?`<div class="sb">${mob?LX.mob+': '+esc(mob):''}${mob&&em?' &nbsp;|&nbsp; ':''}${em?LX.em+': '+esc(em):''}</div>`:'';
- const hmT=val('hmTitle')||(mr?'मुख्याध्यापक':'Headmaster / Principal');
+ const hmT=val('hmTitle')||(mr?'मुख्याध्यापक / प्राचार्य':'Headmaster / Principal');
  const vals=[ph(val('stuName')),nz(val('mother')),nz(val('father')),nz(natT),nz(val('motherTongue')),nz(val('religion')),nz(val('caste')),nz(val('birthPlace')),
   dob?esc(dob)+(dw?' ('+esc(dw)+')':''):ph(''),pen?esc(pen):null,aad?esc(aadShow):null,nz(val('lastSchool')),
   ($('admDate').value||admC)?esc(fmt($('admDate').value))+(admC?' — '+L.cl+esc(admC):''):'—',
