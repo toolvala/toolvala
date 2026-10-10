@@ -18,7 +18,7 @@
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4402681434316955" crossorigin="anonymous"></script>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[
 {"@type":"WebApplication","name":"Affidavit Generator – Self Declaration India","url":"https://www.toolvala.in/affidavit-generator.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"INR"},"inLanguage":["en","mr"]},
-{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.toolvala.in/"},{"@type":"ListItem","position":2,"name":"Affidavit Generator","item":"https://www.toolvala.in/affidavit-generator.html"}]},
+{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.toolvala.in/"},{"@type":"ListItem","position":2,"name":"Documents & Letters","item":"https://www.toolvala.in/documents-letters.html"},{"@type":"ListItem","position":3,"name":"Affidavit Generator","item":"https://www.toolvala.in/affidavit-generator.html"}]},
 {"@type":"FAQPage","mainEntity":[
 {"@type":"Question","name":"Is a self declaration the same as an affidavit?","acceptedAnswer":{"@type":"Answer","text":"No. A self declaration is a signed statement by you. An affidavit is a statement sworn before a Notary, Oath Commissioner or Magistrate, which is what many offices ask for."}},
 {"@type":"Question","name":"Do I need stamp paper?","acceptedAnswer":{"@type":"Answer","text":"It depends on the state and the office. Some accept plain paper or a low-value stamp paper, others ask for a specific amount. Confirm with the office where you will submit it."}},
@@ -70,16 +70,18 @@ main{padding:14px 10px 32px}.card{padding:14px}
 .hist button{background:none;border:0;color:var(--pri);font-weight:700;cursor:pointer}
 .rel a{display:inline-block;margin:4px 8px 4px 0;color:var(--pri);font-weight:700}
 details{margin-bottom:8px}summary{cursor:pointer;font-weight:700}
-footer{max-width:860px;margin:0 auto;padding:0 14px 30px;color:var(--mut);font-size:14px}
 #toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 18px;border-radius:8px;display:none;z-index:30}
 @media print{@page{size:A4;margin:18mm}body{background:#fff}.noprint{display:none!important}main{padding:0;max-width:none}.doc{border:0;padding:0;font-size:12.5pt}#resultSec{display:block!important}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+@media print{#footer{display:none!important}}
+.crumbs{font-size:13px;color:var(--mut);margin:0 0 4px}.crumbs a{color:var(--pri)}
 </style>
 </head>
 <body>
-<header class="noprint"><a class="logo" href="/" aria-label="Toolvala.in home">Toolvala<span>.in</span></a><nav><a href="/all-tools.html">All Tools</a></nav></header>
+<header class="noprint"><a class="logo" href="/" aria-label="Toolvala.in home">Toolvala<span>.in</span></a><nav><a href="/documents-letters.html">Documents</a><a href="/all-tools.html">All Tools</a></nav></header>
 <main>
 <div class="noprint">
+<p class="crumbs"><a href="/">Home</a> › <a href="/documents-letters.html">Documents &amp; Letters</a> › Affidavit Generator</p>
 <h1>Affidavit Generator – Self Declaration (India)</h1>
 <p class="lead">Fill in your details, pick a format and get a ready affidavit in English or Marathi. Print it, save it as PDF or download it as a Word file.</p>
 
@@ -168,10 +170,22 @@ footer{max-width:860px;margin:0 auto;padding:0 14px 30px;color:var(--mut);font-s
 <details><summary>Do I need stamp paper?</summary><p>It varies by state, office and purpose. Some accept plain paper or a low-value stamp paper and some ask for a fixed amount. Ask the office before you print.</p></details>
 <details><summary>Is the generated draft legally valid?</summary><p>It is a draft prepared from the facts you enter. It becomes valid only after you sign it and get it notarised or attested as required. This tool is not legal advice. Your data stays in your browser.</p></details>
 </div>
-<div class="card rel"><h2>Related tools</h2><a href="/bonafide-certificate-generator.html">Bonafide Certificate Generator</a><a href="/transfer-certificate-generator.html">Transfer Certificate Generator</a><a href="/all-tools.html">All Tools</a></div>
+<div class="card rel"><h2>Related tools</h2><a href="/noc-letter-generator.html">NOC Letter Generator</a><a href="/gap-certificate-generator.html">Gap Certificate Generator</a><a href="/rent-agreement-generator.html">Rent Agreement Generator</a><a href="/character-certificate-generator.html">Character Certificate Generator</a><a href="/documents-letters.html">All Documents &amp; Letters tools →</a></div>
 </div>
 </main>
-<div id="site-footer"></div>
+<div id="footer"></div>
+
+<script>
+fetch("/footer.html")
+  .then(response => response.text())
+  .then(data => {
+    document.getElementById("footer").innerHTML = data;
+    var yearSpan = document.getElementById("year");
+    if (yearSpan) {
+      yearSpan.textContent = new Date().getFullYear();
+    }
+  });
+</script>
 <div id="toast"></div>
 
 <script>
@@ -288,7 +302,6 @@ $('#copy').onclick=async()=>{const t=$('#doc').innerText;try{await navigator.cli
 function today(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
 $('#date').value=today();renderExtra();renderH();generated=true;build();
 /* site footer (house style) */
-fetch('/footer.html').then(r=>r.ok?r.text():Promise.reject()).then(h=>$('#site-footer').innerHTML=h).catch(()=>{$('#site-footer').innerHTML='<footer class="noprint">&copy; '+new Date().getFullYear()+' Toolvala.in – Free online tools for India. This tool does not provide legal advice.</footer>'});
 </script>
 </body>
 </html>
