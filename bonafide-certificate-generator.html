@@ -206,7 +206,7 @@ footer.fb a{color:#fff}
     <div class="f"><label for="board">Other board / affiliation <small>(optional)</small></label><input id="board" autocomplete="off" placeholder="e.g. CBSE, ICSE"></div>
     <div class="grid2">
      <div class="f"><label for="hmName">Signatory name <small>(optional)</small></label><input id="hmName" autocomplete="off"></div>
-     <div class="f"><label for="hmTitle">Designation <small>(optional)</small></label><input id="hmTitle" autocomplete="off" placeholder="Headmaster / Principal"></div>
+     <div class="f"><label for="hmTitle">Designation <small>(optional)</small></label><input id="hmTitle" autocomplete="off" placeholder="Headmaster / Principal (Marathi: मुख्याध्यापक / प्राचार्य)"></div>
     </div>
     <div class="f"><label for="logo">School logo <small>(optional)</small></label>
      <div class="logo-row"><input type="file" id="logo" accept="image/*"><button type="button" class="b4" id="rmLogo">Remove</button></div></div>
@@ -336,7 +336,7 @@ function render(){
  const dbv=$('divBoard').value,divT=dbv===''?'':(mr?'महाराष्ट्र राज्य माध्यमिक व उच्च माध्यमिक शिक्षण मंडळ, '+DIVB[+dbv][1]+' विभागीय मंडळ':'Maharashtra State Board of Secondary and Higher Secondary Education, '+DIVB[+dbv][0]+' Divisional Board');
  const bm=[val('board')?esc(val('board')):'',medT?LX.md+': '+esc(medT):''].filter(Boolean).join(' &nbsp;|&nbsp; ');
  const contact=(mob||em)?`<div class="sb">${mob?LX.mob+': '+esc(mob):''}${mob&&em?' &nbsp;|&nbsp; ':''}${em?LX.em+': '+esc(em):''}</div>`:'';
- const hmT=val('hmTitle')||(mr?'मुख्याध्यापक':'Headmaster / Principal');
+ const hmT=val('hmTitle')||(mr?'मुख्याध्यापक / प्राचार्य':'Headmaster / Principal');
  let p1,p2,p3;
  if(mr){
   const g=f?['कु.','ही','ी','मुलगी','ती','विद्यार्थिनी','तिची']:['चि.','हा','ा','मुलगा','तो','विद्यार्थी','त्याची'];
@@ -348,7 +348,7 @@ function render(){
   p2=`As per the school's Admission/Withdrawal Register (Register No. <b>${ph(reg)}</b>), ${f?'her':'his'} date of birth is recorded as <b>${ph(dob)}</b>.`;
   p3=`This certificate is issued at the request of the student/parent for the purpose of <b>${purpose?esc(purpose):'whatever purpose it may serve'}</b>.`;
  }
- const L=mr?{n:'विद्यार्थ्याचे नाव',fa:'वडिलांचे / पालकांचे नाव',mo:'आईचे नाव',dob:'जन्मतारीख',cl:'इयत्ता',yr:'शैक्षणिक वर्ष',rg:'प्रवेश-निर्गम नोंदवही क्र.',pen:'PEN (कायमस्वरूपी शैक्षणिक क्रमांक)',aa:'आधार क्रमांक',ud:'युडायस क्र.',no:'प्रमाणपत्र क्र.',dt:'दिनांक',pl:'ठिकाण',seal:'शाळेचा<br>शिक्का',fine:'हे प्रमाणपत्र मुख्याध्यापकांच्या सही व शाळेच्या शिक्क्याशिवाय अवैध आहे.'}
+ const L=mr?{n:'विद्यार्थ्याचे नाव',fa:'वडिलांचे / पालकांचे नाव',mo:'आईचे नाव',dob:'जन्मतारीख',cl:'इयत्ता',yr:'शैक्षणिक वर्ष',rg:'प्रवेश-निर्गम नोंदवही क्र.',pen:'PEN (कायमस्वरूपी शैक्षणिक क्रमांक)',aa:'आधार क्रमांक',ud:'युडायस क्र.',no:'प्रमाणपत्र क्र.',dt:'दिनांक',pl:'ठिकाण',seal:'शाळेचा<br>शिक्का',fine:'हे प्रमाणपत्र मुख्याध्यापक / प्राचार्य यांच्या सही व शाळेच्या शिक्क्याशिवाय अवैध आहे.'}
  :{n:"Student's Name",fa:"Father's / Guardian's Name",mo:"Mother's Name",dob:'Date of Birth',cl:'Class',yr:'Academic Year',rg:'Admission/Withdrawal Reg. No.',pen:'PEN (Permanent Education No.)',aa:'Aadhaar No.',ud:'UDISE No.',no:'Certificate No.',dt:'Date',pl:'Place',seal:'School<br>Seal',fine:'This certificate is not valid without the signature of the Headmaster/Principal and the school seal.'};
  const row=(a,b)=>`<tr><td>${a}</td><td>${b}</td></tr>`;
  let rows=row(L.n,ph(name))+row(L.fa,ph(father));
