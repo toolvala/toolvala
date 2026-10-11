@@ -148,6 +148,14 @@ footer.fb{background:var(--ink);color:#c8d2ea;text-align:center;padding:20px 16p
 .cert.ws .tbw{align-items:flex-start}.cert.ws .tt{flex:1;height:100%}
 .cert.ws .tt .th{font-size:calc(var(--hs,13px)*var(--k,1))}.cert.ws .tt .th .tm{font-size:calc(var(--hs,13px)*.8*var(--k,1))}
 .cert.ws .tt .dh{font-size:calc(var(--fs,14px)*1.05*var(--k,1))}
+.cert.wk .tt>div{font-size:calc(var(--fs,12px)*var(--k,1));padding:1px 3px}
+.cert.wk .tt .th{font-size:calc(var(--hs,11px)*var(--k,1))}.cert.wk .tt .th small,.cert.wk .tt .dh small{display:block;font-weight:400;font-size:.8em}
+.cert.wk .tt .dh{font-size:calc(var(--hs,11px)*var(--k,1))}
+.cert.wk .tt .dy{background:#eef1f7;font-weight:700;font-size:calc(var(--fs,12px)*1.1*var(--k,1))}.cert.wk .tt .dy span{writing-mode:vertical-rl;transform:rotate(180deg);letter-spacing:1px}
+.cert.wk .tt .bk{font-weight:700;letter-spacing:2px;font-size:calc(var(--hs,11px)*var(--k,1))}.cert.wk .tt .bk span{font-weight:400;letter-spacing:0;margin-left:8px}
+.cert.wk .tt .ds{box-shadow:inset 0 2.5px 0 var(--ink)}.cert.wk .tt .dsl{box-shadow:inset 2.5px 0 0 var(--ink)}.cert.wk .tbw{align-items:flex-start}.cert.wk .tt{flex:1;height:100%}
+.cert[data-sty="modern"].wk .tt .dy,.cert[data-sty="modern"].wk .tt .dh{background:#dcebf8}.cert[data-sty="modern"].wk .tt .bk{background:#fff3e0}
+.cert[data-sty="minimal"].wk .tt .dy{background:#fff}
 .cert .tt .th.bk{word-break:normal;overflow-wrap:normal;font-size:calc(11px*var(--k,1))}
 .cert.ws .tt .vt{font-size:calc(var(--hs,13px)*var(--k,1))}.cert .tt .dh small{display:block;font-weight:400;font-size:.78em}
 .cbr .rm{background:#fdecea;color:var(--err);padding:10px 14px;align-self:end}
@@ -190,7 +198,8 @@ footer.fb{background:var(--ink);color:#c8d2ea;text-align:center;padding:20px 16p
     <div id="gridBox"></div><datalist id="subjList"></datalist>
     <div class="hint">Leave a box empty for a blank period. Fill one day, then copy it to all days and change only the days that differ.</div>
    </div>
-   <div class="card"><div class="f"><label for="outDay">Print / download</label><select id="outDay"></select></div>
+   <div class="card"><div class="f"><label for="layout">Layout</label><select id="layout"><option value="week">All days on one page (classes across, periods down)</option><option value="day">One page per day (classes down, periods across)</option></select></div>
+    <div class="f" id="outDayBox" hidden><label for="outDay">Which day(s)</label><select id="outDay"></select></div>
     <div class="btns"><button type="button" class="b1" id="genBtn">Generate timetable</button><button type="button" class="b2" id="pdfBtn">Download PDF</button><button type="button" class="b2" id="pngBtn">Download PNG</button><button type="button" class="b3" id="printBtn">Print</button><button type="button" class="b3" id="saveBtn">Save on this device</button><button type="button" class="b4" id="clearBtn">Erase all saved details</button></div><div id="msg" role="status"></div></div>
   </div>
   <div class="prev" id="preview"><div class="card"><h2 class="no-print">Preview</h2><div id="pages"></div></div></div>
@@ -202,7 +211,7 @@ footer.fb{background:var(--ink);color:#c8d2ea;text-align:center;padding:20px 16p
  <li><strong>Days, periods and timings:</strong> choose the working days, periods per day, first period start time and default minutes. Set the short break, lunch break and any custom breaks. Tick "Periods have different lengths" if the periods are not all the same.</li>
  <li><strong>Classes:</strong> use "Quick add" to add a range such as 5th to 12th in one tap. With the Arts, Science and Commerce box ticked, 11th and 12th are added once for each faculty. Use "Add one class" for a custom class such as B.A. First Year.</li>
  <li><strong>Subjects:</strong> pick a day, then fill the subject of every class in every period. Copy that day to all days and change only what differs.</li>
- <li><strong>Print:</strong> choose one day or all days (one page per day), then tap Generate and download the PDF or PNG, or print. Tap Save to keep everything on this device.</li></ol>
+ <li><strong>Print:</strong> choose the layout: all days on one page, or one page per day. Then tap Generate and download the PDF or PNG, or print. Tap Save to keep everything on this device.</li></ol>
  <h2>How to use the custom fields</h2>
  <ul><li><strong>Custom class:</strong> add a class, choose "Custom (type it)" and type its name.</li><li><strong>Faculty:</strong> for 11th, 12th and custom classes, choose Arts, Science, Commerce or a custom faculty. It prints after the class name.</li><li><strong>Custom break:</strong> add a name, the period it comes after and its minutes. The later periods move automatically.</li><li><strong>Class teacher:</strong> optional. It prints in small text under the class name.</li></ul>
  <h2>Frequently asked questions</h2>
@@ -223,7 +232,7 @@ const CMR=['नर्सरी','ज्युनियर केजी','सि�
 const CUSTOM=15,DEN=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],DMR=['सोमवार','मंगळवार','बुधवार','गुरुवार','शुक्रवार','शनिवार'];
 const FEN={arts:'Arts',science:'Science',commerce:'Commerce'},FMR={arts:'कला',science:'विज्ञान',commerce:'वाणिज्य'},FORD={arts:1,science:2,commerce:3,custom:4};
 const SUBJ=['English','Marathi','Hindi','Sanskrit','Urdu','Mathematics','Science','Science & Technology','EVS','Social Science','History','Geography','Civics','General Knowledge','Computer','Drawing','Work Education','Moral Science','Health & Physical Education','Music','Physics','Chemistry','Biology','Mathematics & Statistics','Electronics','Economics','Political Science','Sociology','Psychology','Philosophy','Home Science','Book-keeping & Accountancy','Organisation of Commerce & Management (OCM)','Secretarial Practice (SP)','Business Studies','Information Technology','Environmental Education','Practical','Assembly','Library','Games','Yoga','Tutorial','Revision','Test'];
-const SCH=['custT','showTime','udise','schoolName','schoolAddr','acYear','lang','titleTxt','sty','days','np','t0','pm','b1a','b1m','b2a','b2m'];
+const SCH=['layout','custT','showTime','udise','schoolName','schoolAddr','acYear','lang','titleTxt','sty','days','np','t0','pm','b1a','b1m','b2a','b2m'];
 let classes=[],grid={},uid=1,cbreaks=[],plens={},loadedSchool='';
 const clsOpts='<option value="">Select class</option>'+CEN.map((c,i)=>`<option value="${i}">${c}</option>`).join('')+`<option value="${CUSTOM}">Custom (type it)</option>`;
 const rngOpts=CEN.map((c,i)=>`<option value="${i}">${c}</option>`).join('');
@@ -280,7 +289,7 @@ $('cpyBtn').onclick=()=>{const dl=dayList(),f=$('editDay').value;classes.forEach
 function changed(){drawSubj();if($('pages').children.length)render();}
 ['days','np'].forEach(id=>$(id).addEventListener('change',()=>{drawPl();drawEditDay();changed();}));
 ['t0','pm','b1a','b1m','b2a','b2m'].forEach(id=>$(id).addEventListener('input',()=>{if(id==='pm')drawPl();changed();}));
-['lang','sty','titleTxt','schoolName','schoolAddr','acYear','outDay','showTime'].forEach(id=>$(id).addEventListener('change',()=>{if($('pages').children.length)render();if(id==='showTime')drawSubj();}));
+['lang','sty','titleTxt','schoolName','schoolAddr','acYear','outDay','showTime','layout'].forEach(id=>$(id).addEventListener('change',()=>{if($('pages').children.length)render();if(id==='showTime')drawSubj();}));
 /* render */
 function pageHTML(S,d,list){const mr=S.lang==='mr',sl=S.slots,N=list.length;
  const L=mr?{br:'मधली सुट्टी',lu:'जेवणाची सुट्टी',cls:'वर्ग',per:'तास',day:'वार',yr:'शैक्षणिक वर्ष',ttl:'संपूर्ण शाळा वेळापत्रक',tic:'वेळापत्रक प्रमुख',pr:'मुख्याध्यापक / प्राचार्य'}:{br:'BREAK',lu:'LUNCH',cls:'Class',per:'Period',day:'Day',yr:'Academic Year',ttl:'WHOLE SCHOOL TIME TABLE',tic:'Time Table In-charge',pr:'Principal'};
@@ -294,9 +303,38 @@ function pageHTML(S,d,list){const mr=S.lang==='mr',sl=S.slots,N=list.length;
  <div class="ttl">${esc(S.title||L.ttl)}</div><div class="mt"><span>${L.day} :- <b>${(mr?DMR:DEN)[d]}</b></span><span>${L.yr} :- <b>${esc(S.acYear)}</b></span></div>
  <div class="tbw"><div class="tt" style="--fs:${fs}px;--hs:${hs}px;max-height:calc((64px + ${N*rm}px)*var(--k,1));grid-template-columns:${cols};grid-template-rows:auto repeat(${N},minmax(0,1fr))">${g}</div></div>
  <div class="sg"><div><br><span class="ln">${L.tic}</span></div><div><br><span class="ln">${L.pr}</span></div></div></div>`;}
-const state=()=>({lang:$('lang').value,slots:slots(),showTime:$('showTime').checked,schoolName:$('schoolName').value.trim(),schoolAddr:$('schoolAddr').value.trim(),udise:$('udise').value.trim(),acYear:$('acYear').value.trim(),title:$('titleTxt').value.trim(),sty:$('sty').value});
-function render(){const S=state(),v=$('outDay').value,days=v==='all'?dayList():[+v],list=sorted();
- $('pages').innerHTML=days.map(d=>`<div class="pw"><div class="cert ws" data-sty="${S.sty}">${pageHTML(S,d,list)}</div></div>`).join('');fitContent();fit();}
+function weekHTML(S,list){const mr=S.lang==='mr',sl=S.slots,dl=S.days,C=list.length,R=dl.length*sl.length;
+ const L=mr?{br:'मधली सुट्टी',lu:'जेवणाची सुट्टी',per:'तास',day:'वार',yr:'शैक्षणिक वर्ष',ttl:'संपूर्ण शाळा वेळापत्रक',tic:'वेळापत्रक प्रमुख',pr:'मुख्याध्यापक / प्राचार्य',wk:'दिवस'}:{br:'BREAK',lu:'LUNCH',per:'Period',day:'Day',yr:'Academic Year',ttl:'WHOLE SCHOOL TIME TABLE',tic:'Time Table In-charge',pr:'Principal',wk:'Days'};
+ const bl=x=>x.t=='b1'?L.br:x.t=='b2'?L.lu:esc(x.label),dn=mr?DMR:DEN;
+ if(C&&C*dl.length<=18){const D=dl.length,SN=sl.length,fsA=C*D<=8?18:C*D<=12?15:13,hsA=fsA-2,showT=C*D<=12;
+  let g=`<div class="th" style="grid-row:1 / span 2;grid-column:1">${L.per}</div>`;
+  dl.forEach((d,di)=>{g+=`<div class="th" style="grid-row:1;grid-column:${2+di*C} / span ${C};font-size:calc(${hsA+2}px*var(--k,1))">${dn[d]}</div>`;
+   list.forEach((c,ci)=>{g+=`<div class="th${ci==0?' dsl':''}" style="grid-row:2;grid-column:${2+di*C+ci}">${esc(lbl(c,mr))}${showT&&c.teacher&&c.teacher.trim()?'<small>'+esc(c.teacher.trim())+'</small>':''}</div>`;});});
+  sl.forEach((x,si)=>{const r=3+si;
+   if(x.t=='p'){g+=`<div class="dh" style="grid-row:${r};grid-column:1">${L.per} ${x.n}${S.showTime?'<small>'+x.time+'</small>':''}</div>`;
+    dl.forEach((d,di)=>{list.forEach((c,ci)=>{g+=`<div class="${ci==0?'dsl':''}" style="grid-row:${r};grid-column:${2+di*C+ci}">${esc((grid[c.id+'|'+d+'|'+x.n]||'').trim())}</div>`;});});}
+   else g+=`<div class="bk" style="grid-row:${r};grid-column:1 / -1">${bl(x)}${S.showTime?'<span>'+x.time+'</span>':''}</div>`;});
+  return `<div class="frame"><div class="hd"><div class="sn">${esc(S.schoolName)}</div>${S.schoolAddr?`<div class="sa">${esc(S.schoolAddr)}</div>`:''}${S.udise?`<div class="sa">UDISE No.: ${esc(S.udise)}</div>`:''}</div>
+ <div class="ttl">${esc(S.title||L.ttl)}</div><div class="mt"><span>${L.wk} :- <b>${dn[dl[0]]}${D>1?' – '+dn[dl[D-1]]:''}</b></span><span>${L.yr} :- <b>${esc(S.acYear)}</b></span></div>
+ <div class="tbw"><div class="tt" style="--fs:${fsA}px;--hs:${hsA}px;max-height:calc((90px + ${SN*84}px)*var(--k,1));grid-template-columns:calc(100px*var(--k,1)) repeat(${D*C},minmax(0,1fr));grid-template-rows:auto auto repeat(${SN},minmax(0,1fr))">${g}</div></div>
+ <div class="sg"><div><br><span class="ln">${L.tic}</span></div><div><br><span class="ln">${L.pr}</span></div></div></div>`;}
+ const fs=R<=8?18:R<=16?15:R<=26?12.5:R<=40?10.5:9,hs=Math.max(8,fs-1),rm=R<=8?80:R<=16?52:R<=26?36:R<=40?26:20;
+ let g=`<div class="th" style="grid-row:1;grid-column:1">${L.day}</div><div class="th" style="grid-row:1;grid-column:2">${L.per}</div>`+list.map((c,ci)=>`<div class="th" style="grid-row:1;grid-column:${3+ci}">${esc(lbl(c,mr))}${c.teacher&&c.teacher.trim()?'<small>'+esc(c.teacher.trim())+'</small>':''}</div>`).join('');
+ dl.forEach((d,di)=>{const r0=2+di*sl.length;g+=`<div class="dy ds" style="grid-row:${r0} / span ${sl.length};grid-column:1"><span>${dn[d]}</span></div>`;
+  sl.forEach((x,si)=>{const r=r0+si,ds=si==0?' ds':'';
+   if(x.t=='p'){g+=`<div class="dh${ds}" style="grid-row:${r};grid-column:2">${L.per} ${x.n}${S.showTime?'<small>'+x.time+'</small>':''}</div>`;list.forEach((c,ci)=>{g+=`<div class="${ds.trim()}" style="grid-row:${r};grid-column:${3+ci}">${esc((grid[c.id+'|'+d+'|'+x.n]||'').trim())}</div>`;});}
+   else g+=`<div class="bk${ds}" style="grid-row:${r};grid-column:2 / -1">${bl(x)}${S.showTime?'<span>'+x.time+'</span>':''}</div>`;});});
+ const cols='calc(40px*var(--k,1)) calc(96px*var(--k,1)) '+(C?`repeat(${C},minmax(0,1fr))`:'1fr');
+ return `<div class="frame"><div class="hd"><div class="sn">${esc(S.schoolName)}</div>${S.schoolAddr?`<div class="sa">${esc(S.schoolAddr)}</div>`:''}${S.udise?`<div class="sa">UDISE No.: ${esc(S.udise)}</div>`:''}</div>
+ <div class="ttl">${esc(S.title||L.ttl)}</div><div class="mt"><span>${L.wk} :- <b>${dn[dl[0]]}${dl.length>1?' – '+dn[dl[dl.length-1]]:''}</b></span><span>${L.yr} :- <b>${esc(S.acYear)}</b></span></div>
+ <div class="tbw"><div class="tt" style="--fs:${fs}px;--hs:${hs}px;max-height:calc((46px + ${R*rm}px)*var(--k,1));grid-template-columns:${cols};grid-template-rows:auto repeat(${R},minmax(0,1fr))">${g}</div></div>
+ <div class="sg"><div><br><span class="ln">${L.tic}</span></div><div><br><span class="ln">${L.pr}</span></div></div></div>`;}
+const state=()=>({lang:$('lang').value,slots:slots(),days:dayList(),showTime:$('showTime').checked,schoolName:$('schoolName').value.trim(),schoolAddr:$('schoolAddr').value.trim(),udise:$('udise').value.trim(),acYear:$('acYear').value.trim(),title:$('titleTxt').value.trim(),sty:$('sty').value});
+function render(){const S=state(),list=sorted(),wk=$('layout').value==='week';
+ $('outDayBox').hidden=wk;
+ if(wk){$('pages').innerHTML=`<div class="pw"><div class="cert ws wk" data-sty="${S.sty}">${weekHTML(S,list)}</div></div>`;}
+ else{const v=$('outDay').value,days=v==='all'?dayList():[+v];$('pages').innerHTML=days.map(d=>`<div class="pw"><div class="cert ws" data-sty="${S.sty}">${pageHTML(S,d,list)}</div></div>`).join('');}
+ fitContent();fit();}
 function fitContent(){document.querySelectorAll('#pages .cert').forEach(c=>{let k=1;c.style.setProperty('--k',1);const f=c.firstElementChild;while(k>0.35&&(f.scrollHeight>f.clientHeight+1||f.scrollWidth>f.clientWidth+1)){k-=0.04;c.style.setProperty('--k',k.toFixed(2));}});}
 function fit(){document.querySelectorAll('#pages .pw').forEach(w=>{const s=Math.min(1,w.clientWidth/1123);w.firstElementChild.style.transform='scale('+s+')';w.style.height=(794*s)+'px';});}
 window.addEventListener('resize',fit);
@@ -312,7 +350,7 @@ function save(){const k=skey();if(!k){msg('err','Enter the 11-digit UDISE number
 function load(){const k=skey();if(!k)return;let o;try{o=JSON.parse(localStorage.getItem(k));}catch(e){}if(!o)return;
  SCH.forEach(f=>{if(f!=='udise'&&o[f]!=null){if($(f).type==='checkbox')$(f).checked=!!o[f];else $(f).value=o[f];}});if(!$('days').value)$('days').value='6';
  cbreaks=Array.isArray(o.cbreaks)?o.cbreaks:[];plens=o.plens||{};classes=Array.isArray(o.classes)?o.classes:[];grid=o.grid||{};uid=o.uid||classes.reduce((m,c)=>Math.max(m,c.id+1),1);
- drawCb();drawPl();drawEditDay();drawClasses();drawSubj();$('udHint').textContent='Saved details filled in.';}
+ drawCb();drawPl();drawEditDay();drawClasses();drawSubj();$('outDayBox').hidden=$('layout').value==='week';$('udHint').textContent='Saved details filled in.';}
 $('udise').addEventListener('input',function(){this.value=this.value.replace(/\D/g,'');if(this.value.length===11&&this.value!==loadedSchool){loadedSchool=this.value;load();}});
 $('saveBtn').onclick=()=>{if(validate())save();};
 $('clearBtn').onclick=()=>{try{Object.keys(localStorage).filter(k=>k.indexOf('tv_ws_')===0).forEach(k=>localStorage.removeItem(k));}catch(e){}loadedSchool='';msg('ok','All saved details were erased from this device.');};
@@ -325,7 +363,7 @@ $('pdfBtn').onclick=function(){run(this,async()=>{const els=Array.from(document.
 $('pngBtn').onclick=function(){run(this,async()=>{const els=Array.from(document.querySelectorAll('#pages .cert'));for(let i=0;i<els.length;i++){const c=await canvasOf(els[i]);await new Promise(res=>c.toBlob(b=>{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=fname('png',els.length>1?'_page'+(i+1):'');document.body.appendChild(a);a.click();a.remove();setTimeout(()=>{URL.revokeObjectURL(a.href);res();},600);},'image/png'));}});};
 $('printBtn').onclick=()=>{if(validate()){render();window.print();}};
 $('genBtn').onclick=()=>{if(validate()){render();$('preview').scrollIntoView({behavior:'smooth',block:'start'});}};
-drawCb();drawPl();drawEditDay();drawClasses();drawSubj();
+drawCb();drawPl();drawEditDay();drawClasses();drawSubj();$('layout').addEventListener('change',()=>{$('outDayBox').hidden=$('layout').value==='week';});
 if(document.fonts)document.fonts.ready.then(fitContent);
 fetch("/footer.html").then(r=>r.text()).then(d=>{$('footer').innerHTML=d;const y=$('year');if(y)y.textContent=new Date().getFullYear();}).catch(()=>{});
 })();
