@@ -152,7 +152,9 @@ footer.fb{background:var(--ink);color:#c8d2ea;text-align:center;padding:20px 16p
 .cert.wk .tt .th{font-size:calc(var(--hs,11px)*var(--k,1))}.cert.wk .tt .th small,.cert.wk .tt .dh small{display:block;font-weight:400;font-size:.8em}
 .cert.wk .tt .dh{font-size:calc(var(--hs,11px)*var(--k,1))}
 .cert.wk .tt .dy{background:#eef1f7;font-weight:700;font-size:calc(var(--fs,12px)*1.1*var(--k,1))}.cert.wk .tt .dy span{writing-mode:vertical-rl;transform:rotate(180deg);letter-spacing:1px}
-.cert.wk .tt .bk{font-weight:700;letter-spacing:2px;font-size:calc(var(--hs,11px)*var(--k,1))}.cert.wk .tt .bk span{font-weight:400;letter-spacing:0;margin-left:8px}
+.cert.wk .tt .bk{font-weight:700;letter-spacing:2px;font-size:calc(var(--hs,11px)*.85*var(--k,1))}.cert.wk .tt .bk span{font-weight:400;letter-spacing:0;margin-left:8px}
+.cert .tt>div small.tn{display:block;font-size:.72em;font-weight:400;color:#444;margin-top:1px;line-height:1.15}
+.cert.wk .tt .bk{flex-direction:row;gap:8px;padding-top:0;padding-bottom:0}.cert.wk .tt .bk span{margin-left:0}
 .cert.wk .tt .ds{box-shadow:inset 0 2.5px 0 var(--ink)}.cert.wk .tt .dsl{box-shadow:inset 2.5px 0 0 var(--ink)}.cert.wk .tbw{align-items:flex-start}.cert.wk .tt{flex:1;height:100%}
 .cert[data-sty="modern"].wk .tt .dy,.cert[data-sty="modern"].wk .tt .dh{background:#dcebf8}.cert[data-sty="modern"].wk .tt .bk{background:#fff3e0}
 .cert[data-sty="minimal"].wk .tt .dy{background:#fff}
@@ -198,6 +200,10 @@ footer.fb{background:var(--ink);color:#c8d2ea;text-align:center;padding:20px 16p
     <div id="gridBox"></div><datalist id="subjList"></datalist>
     <div class="hint">Leave a box empty for a blank period. Fill one day, then copy it to all days and change only the days that differ.</div>
    </div>
+   <div class="card"><h2>5. Subject teachers <small style="font-weight:400;color:var(--mut)">(optional)</small></h2>
+    <label class="chk"><input type="checkbox" id="showT"> Show the subject teacher's name under each subject</label>
+    <div id="tchBox" style="margin-top:10px"></div>
+    <div class="hint">The subjects you fill in for each class appear here. Enter the teacher of each subject for that class.</div></div>
    <div class="card"><div class="f"><label for="layout">Layout</label><select id="layout"><option value="week">All days on one page (classes across, periods down)</option><option value="day">One page per day (classes down, periods across)</option></select></div>
     <div class="f" id="outDayBox" hidden><label for="outDay">Which day(s)</label><select id="outDay"></select></div>
     <div class="btns"><button type="button" class="b1" id="genBtn">Generate timetable</button><button type="button" class="b2" id="pdfBtn">Download PDF</button><button type="button" class="b2" id="pngBtn">Download PNG</button><button type="button" class="b3" id="printBtn">Print</button><button type="button" class="b3" id="saveBtn">Save on this device</button><button type="button" class="b4" id="clearBtn">Erase all saved details</button></div><div id="msg" role="status"></div></div>
@@ -232,8 +238,8 @@ const CMR=['नर्सरी','ज्युनियर केजी','सि�
 const CUSTOM=15,DEN=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],DMR=['सोमवार','मंगळवार','बुधवार','गुरुवार','शुक्रवार','शनिवार'];
 const FEN={arts:'Arts',science:'Science',commerce:'Commerce'},FMR={arts:'कला',science:'विज्ञान',commerce:'वाणिज्य'},FORD={arts:1,science:2,commerce:3,custom:4};
 const SUBJ=['English','Marathi','Hindi','Sanskrit','Urdu','Mathematics','Science','Science & Technology','EVS','Social Science','History','Geography','Civics','General Knowledge','Computer','Drawing','Work Education','Moral Science','Health & Physical Education','Music','Physics','Chemistry','Biology','Mathematics & Statistics','Electronics','Economics','Political Science','Sociology','Psychology','Philosophy','Home Science','Book-keeping & Accountancy','Organisation of Commerce & Management (OCM)','Secretarial Practice (SP)','Business Studies','Information Technology','Environmental Education','Practical','Assembly','Library','Games','Yoga','Tutorial','Revision','Test'];
-const SCH=['layout','custT','showTime','udise','schoolName','schoolAddr','acYear','lang','titleTxt','sty','days','np','t0','pm','b1a','b1m','b2a','b2m'];
-let classes=[],grid={},uid=1,cbreaks=[],plens={},loadedSchool='';
+const SCH=['showT','layout','custT','showTime','udise','schoolName','schoolAddr','acYear','lang','titleTxt','sty','days','np','t0','pm','b1a','b1m','b2a','b2m'];
+let classes=[],grid={},uid=1,cbreaks=[],plens={},teachers={},loadedSchool='';
 const clsOpts='<option value="">Select class</option>'+CEN.map((c,i)=>`<option value="${i}">${c}</option>`).join('')+`<option value="${CUSTOM}">Custom (type it)</option>`;
 const rngOpts=CEN.map((c,i)=>`<option value="${i}">${c}</option>`).join('');
 $('qFrom').innerHTML=rngOpts;$('qTo').innerHTML=rngOpts;$('qFrom').value='7';$('qTo').value='14';
@@ -274,15 +280,37 @@ $('qAdd').onclick=()=>{let a=+$('qFrom').value,b=+$('qTo').value;if(a>b){const t
  const has=(s,f)=>classes.some(c=>c.classSel==String(s)&&c.faculty===f&&!c.div);
  for(let i=a;i<=b;i++){if((i===13||i===14)&&$('qFac').checked){['arts','science','commerce'].forEach(f=>{if(!has(i,f)){classes.push(newClass({classSel:String(i),faculty:f}));n++;}});}else if(!has(i,'')){classes.push(newClass({classSel:String(i)}));n++;}}
  drawClasses();drawSubj();msg('ok',n+' class'+(n==1?'':'es')+' added. Add divisions by editing a row, or add the same class again with a division.');};
+const nk=t=>String(t||'').trim().toLowerCase().replace(/\s+/g,' ');
+function cv(c,d,n){const v=(grid[c.id+'|'+d+'|'+n]||'').trim(),t=v&&$('showT').checked?(teachers[c.id+'|'+nk(v)]||'').trim():'';return esc(v)+(t?'<small class="tn">'+esc(t)+'</small>':'');}
 const ck=c=>c.classSel===''||+c.classSel===CUSTOM?99:+c.classSel;
 const sorted=()=>classes.map((c,i)=>[c,i]).sort((a,b)=>ck(a[0])-ck(b[0])||(FORD[a[0].faculty]||0)-(FORD[b[0].faculty]||0)||(a[0].div||'').localeCompare(b[0].div||'')||a[1]-b[1]).map(x=>x[0]);
 function lbl(c,mr){const cn=+c.classSel===CUSTOM?(c.classOther||'').trim():c.classSel===''?'':(mr?CMR:CEN)[+c.classSel],f=c.faculty==='custom'?(c.facultyOther||'').trim():(c.faculty?(mr?FMR:FEN)[c.faculty]:'');return cn+(c.div&&c.div.trim()?' ('+c.div.trim()+')':'')+(f?' – '+f:'');}
+/* subject teachers */
+function usedFor(c){const m=new Map(),P=nP();dayList().forEach(d=>{for(let p=1;p<=P;p++){const v=(grid[c.id+'|'+d+'|'+p]||'').trim();if(v&&!m.has(nk(v)))m.set(nk(v),v);}});return Array.from(m);}
+function drawTeachers(){const box=$('tchBox'),cl=sorted(),want=new Set(cl.map(c=>String(c.id)));
+ Array.from(box.querySelectorAll('.tcl')).forEach(b=>{if(!want.has(b.dataset.id))b.remove();});
+ const h=box.querySelector('.hint');if(h)h.remove();let n=0;
+ cl.forEach(c=>{const u=usedFor(c);let b=box.querySelector('.tcl[data-id="'+c.id+'"]');
+  if(!u.length){if(b)b.remove();return;}
+  if(!b){b=document.createElement('div');b.className='tcl dayb';b.dataset.id=c.id;b.innerHTML='<h3></h3><div class="rows"></div>';}
+  b.querySelector('h3').textContent=lbl(c,false)||'Class';
+  const rows=b.querySelector('.rows'),keep=new Set(u.map(x=>x[0]));
+  Array.from(rows.children).forEach(r=>{if(!keep.has(r.dataset.k))r.remove();});
+  u.forEach(([k,v],j)=>{let r=Array.from(rows.children).find(x=>x.dataset.k===k);
+   if(!r){r=document.createElement('div');r.className='f';r.dataset.k=k;r.innerHTML='<label></label><input class="tch" placeholder="Teacher name" autocomplete="off">';const i=r.querySelector('input');i.dataset.id=c.id;i.dataset.k=k;i.value=teachers[c.id+'|'+k]||'';}
+   r.querySelector('label').textContent=v;if(rows.children[j]!==r)rows.insertBefore(r,rows.children[j]||null);});
+  if(box.children[n]!==b)box.insertBefore(b,box.children[n]||null);n++;});
+ if(!n)box.innerHTML='<div class="hint">Fill in subjects in section 4 first.</div>';}
+$('tchBox').addEventListener('input',e=>{if(!e.target.classList.contains('tch'))return;teachers[e.target.dataset.id+'|'+e.target.dataset.k]=e.target.value;if($('showT').checked&&$('pages').children.length)render();});
+$('showT').addEventListener('change',()=>{if($('pages').children.length)render();});
 /* subjects grid */
 function drawEditDay(){const dl=dayList(),keep=$('editDay').value;$('editDay').innerHTML=dl.map(d=>`<option value="${d}">${DEN[d]}</option>`).join('');$('editDay').value=dl.map(String).indexOf(keep)>-1?keep:String(dl[0]);
  $('outDay').innerHTML=(dl.length>1?'<option value="all">All days (one page per day)</option>':'')+dl.map(d=>`<option value="${d}">${DEN[d]} only</option>`).join('');}
 function drawSubj(){const sl=slots().filter(s=>s.t=='p'),d=$('editDay').value;
  $('gridBox').innerHTML=classes.length?sorted().map(c=>`<div class="dayb"><h3>${esc(lbl(c,false)||'New class')}</h3><div class="grid2">${sl.map(s=>`<div><label>P${s.n} <small>${$('showTime').checked?s.time:''}</small></label><input class="cell" list="subjList" data-id="${c.id}" data-p="${s.n}" value="${esc(grid[c.id+'|'+d+'|'+s.n]||'')}" autocomplete="off" placeholder="Subject"></div>`).join('')}</div></div>`).join(''):'<div class="hint">Add classes in section 3 first.</div>';
+ drawTeachers();
  $('tmHint').textContent=slots().map(s=>s.t=='p'?'P'+s.n+' '+s.time:(s.t=='b1'?'Break':s.t=='b2'?'Lunch':s.label)+' '+s.time).join('  •  ');}
+$('gridBox').addEventListener('change',e=>{if(e.target.classList.contains('cell'))drawTeachers();});
 $('gridBox').addEventListener('input',e=>{if(e.target.classList.contains('cell'))grid[e.target.dataset.id+'|'+$('editDay').value+'|'+e.target.dataset.p]=e.target.value;});
 $('editDay').addEventListener('change',drawSubj);
 $('cpyBtn').onclick=()=>{const dl=dayList(),f=$('editDay').value;classes.forEach(c=>{for(let p=1;p<=nP();p++){const v=grid[c.id+'|'+f+'|'+p]||'';dl.forEach(d=>{if(String(d)!==f)grid[c.id+'|'+d+'|'+p]=v;});}});msg('ok',DEN[f]+' copied to all days.');};
@@ -298,7 +326,7 @@ function pageHTML(S,d,list){const mr=S.lang==='mr',sl=S.slots,N=list.length;
  const fs=N<=3?24:N<=6?20:N<=10?16:N<=15?14:12,hs=N<=6?16:N<=10?14:13,rm=N<=3?120:N<=6?96:N<=10?72:N<=15?58:44;
  let g='<div class="th">'+L.cls+'</div>'+sl.map(s=>s.t=='p'?`<div class="th">${L.per} ${s.n}${tm(s)}</div>`:`<div class="th bk">${bl(s)}${tm(s)}</div>`).join('');
  list.forEach((c,ri)=>{g+=`<div class="dh">${esc(lbl(c,mr))}${c.teacher&&c.teacher.trim()?'<small>'+esc(c.teacher.trim())+'</small>':''}</div>`;
-  sl.forEach((s,ci)=>{if(s.t=='p')g+='<div>'+esc((grid[c.id+'|'+d+'|'+s.n]||'').trim())+'</div>';else if(ri==0)g+=`<div class="bk" style="grid-row:2 / span ${N};grid-column:${ci+2}"><span class="vt">${bl(s)}</span></div>`;});});
+  sl.forEach((s,ci)=>{if(s.t=='p')g+='<div>'+cv(c,d,s.n)+'</div>';else if(ri==0)g+=`<div class="bk" style="grid-row:2 / span ${N};grid-column:${ci+2}"><span class="vt">${bl(s)}</span></div>`;});});
  return `<div class="frame"><div class="hd"><div class="sn">${esc(S.schoolName)}</div>${S.schoolAddr?`<div class="sa">${esc(S.schoolAddr)}</div>`:''}${S.udise?`<div class="sa">UDISE No.: ${esc(S.udise)}</div>`:''}</div>
  <div class="ttl">${esc(S.title||L.ttl)}</div><div class="mt"><span>${L.day} :- <b>${(mr?DMR:DEN)[d]}</b></span><span>${L.yr} :- <b>${esc(S.acYear)}</b></span></div>
  <div class="tbw"><div class="tt" style="--fs:${fs}px;--hs:${hs}px;max-height:calc((64px + ${N*rm}px)*var(--k,1));grid-template-columns:${cols};grid-template-rows:auto repeat(${N},minmax(0,1fr))">${g}</div></div>
@@ -312,22 +340,22 @@ function weekHTML(S,list){const mr=S.lang==='mr',sl=S.slots,dl=S.days,C=list.len
    list.forEach((c,ci)=>{g+=`<div class="th${ci==0?' dsl':''}" style="grid-row:2;grid-column:${2+di*C+ci}">${esc(lbl(c,mr))}${showT&&c.teacher&&c.teacher.trim()?'<small>'+esc(c.teacher.trim())+'</small>':''}</div>`;});});
   sl.forEach((x,si)=>{const r=3+si;
    if(x.t=='p'){g+=`<div class="dh" style="grid-row:${r};grid-column:1">${L.per} ${x.n}${S.showTime?'<small>'+x.time+'</small>':''}</div>`;
-    dl.forEach((d,di)=>{list.forEach((c,ci)=>{g+=`<div class="${ci==0?'dsl':''}" style="grid-row:${r};grid-column:${2+di*C+ci}">${esc((grid[c.id+'|'+d+'|'+x.n]||'').trim())}</div>`;});});}
+    dl.forEach((d,di)=>{list.forEach((c,ci)=>{g+=`<div class="${ci==0?'dsl':''}" style="grid-row:${r};grid-column:${2+di*C+ci}">${cv(c,d,x.n)}</div>`;});});}
    else g+=`<div class="bk" style="grid-row:${r};grid-column:1 / -1">${bl(x)}${S.showTime?'<span>'+x.time+'</span>':''}</div>`;});
   return `<div class="frame"><div class="hd"><div class="sn">${esc(S.schoolName)}</div>${S.schoolAddr?`<div class="sa">${esc(S.schoolAddr)}</div>`:''}${S.udise?`<div class="sa">UDISE No.: ${esc(S.udise)}</div>`:''}</div>
  <div class="ttl">${esc(S.title||L.ttl)}</div><div class="mt"><span>${L.wk} :- <b>${dn[dl[0]]}${D>1?' – '+dn[dl[D-1]]:''}</b></span><span>${L.yr} :- <b>${esc(S.acYear)}</b></span></div>
- <div class="tbw"><div class="tt" style="--fs:${fsA}px;--hs:${hsA}px;max-height:calc((90px + ${SN*84}px)*var(--k,1));grid-template-columns:calc(100px*var(--k,1)) repeat(${D*C},minmax(0,1fr));grid-template-rows:auto auto repeat(${SN},minmax(0,1fr))">${g}</div></div>
+ <div class="tbw"><div class="tt" style="--fs:${fsA}px;--hs:${hsA}px;max-height:calc((90px + ${sl.filter(x=>x.t=='p').length*84+sl.filter(x=>x.t!='p').length*22}px)*var(--k,1));grid-template-columns:calc(100px*var(--k,1)) repeat(${D*C},minmax(0,1fr));grid-template-rows:auto auto ${sl.map(x=>x.t=='p'?'minmax(0,1fr)':'calc(22px*var(--k,1))').join(' ')}">${g}</div></div>
  <div class="sg"><div><br><span class="ln">${L.tic}</span></div><div><br><span class="ln">${L.pr}</span></div></div></div>`;}
  const fs=R<=8?18:R<=16?15:R<=26?12.5:R<=40?10.5:9,hs=Math.max(8,fs-1),rm=R<=8?80:R<=16?52:R<=26?36:R<=40?26:20;
  let g=`<div class="th" style="grid-row:1;grid-column:1">${L.day}</div><div class="th" style="grid-row:1;grid-column:2">${L.per}</div>`+list.map((c,ci)=>`<div class="th" style="grid-row:1;grid-column:${3+ci}">${esc(lbl(c,mr))}${c.teacher&&c.teacher.trim()?'<small>'+esc(c.teacher.trim())+'</small>':''}</div>`).join('');
  dl.forEach((d,di)=>{const r0=2+di*sl.length;g+=`<div class="dy ds" style="grid-row:${r0} / span ${sl.length};grid-column:1"><span>${dn[d]}</span></div>`;
   sl.forEach((x,si)=>{const r=r0+si,ds=si==0?' ds':'';
-   if(x.t=='p'){g+=`<div class="dh${ds}" style="grid-row:${r};grid-column:2">${L.per} ${x.n}${S.showTime?'<small>'+x.time+'</small>':''}</div>`;list.forEach((c,ci)=>{g+=`<div class="${ds.trim()}" style="grid-row:${r};grid-column:${3+ci}">${esc((grid[c.id+'|'+d+'|'+x.n]||'').trim())}</div>`;});}
+   if(x.t=='p'){g+=`<div class="dh${ds}" style="grid-row:${r};grid-column:2">${L.per} ${x.n}${S.showTime?'<small>'+x.time+'</small>':''}</div>`;list.forEach((c,ci)=>{g+=`<div class="${ds.trim()}" style="grid-row:${r};grid-column:${3+ci}">${cv(c,d,x.n)}</div>`;});}
    else g+=`<div class="bk${ds}" style="grid-row:${r};grid-column:2 / -1">${bl(x)}${S.showTime?'<span>'+x.time+'</span>':''}</div>`;});});
  const cols='calc(40px*var(--k,1)) calc(96px*var(--k,1)) '+(C?`repeat(${C},minmax(0,1fr))`:'1fr');
  return `<div class="frame"><div class="hd"><div class="sn">${esc(S.schoolName)}</div>${S.schoolAddr?`<div class="sa">${esc(S.schoolAddr)}</div>`:''}${S.udise?`<div class="sa">UDISE No.: ${esc(S.udise)}</div>`:''}</div>
  <div class="ttl">${esc(S.title||L.ttl)}</div><div class="mt"><span>${L.wk} :- <b>${dn[dl[0]]}${dl.length>1?' – '+dn[dl[dl.length-1]]:''}</b></span><span>${L.yr} :- <b>${esc(S.acYear)}</b></span></div>
- <div class="tbw"><div class="tt" style="--fs:${fs}px;--hs:${hs}px;max-height:calc((46px + ${R*rm}px)*var(--k,1));grid-template-columns:${cols};grid-template-rows:auto repeat(${R},minmax(0,1fr))">${g}</div></div>
+ <div class="tbw"><div class="tt" style="--fs:${fs}px;--hs:${hs}px;max-height:calc((46px + ${R*rm}px)*var(--k,1));grid-template-columns:${cols};grid-template-rows:auto ${dl.map(()=>sl.map(x=>x.t=='p'?'minmax(0,1fr)':'calc(14px*var(--k,1))').join(' ')).join(' ')}">${g}</div></div>
  <div class="sg"><div><br><span class="ln">${L.tic}</span></div><div><br><span class="ln">${L.pr}</span></div></div></div>`;}
 const state=()=>({lang:$('lang').value,slots:slots(),days:dayList(),showTime:$('showTime').checked,schoolName:$('schoolName').value.trim(),schoolAddr:$('schoolAddr').value.trim(),udise:$('udise').value.trim(),acYear:$('acYear').value.trim(),title:$('titleTxt').value.trim(),sty:$('sty').value});
 function render(){const S=state(),list=sorted(),wk=$('layout').value==='week';
@@ -346,10 +374,10 @@ function validate(){document.querySelectorAll('.bad').forEach(e=>e.classList.rem
  msg('ok','');return true;}
 /* save */
 const skey=()=>{const u=$('udise').value.trim();return u?'tv_ws_'+u:'';};
-function save(){const k=skey();if(!k){msg('err','Enter the 11-digit UDISE number to save on this device.');return;}const o={};SCH.forEach(f=>o[f]=$(f).type==='checkbox'?$(f).checked:$(f).value);Object.assign(o,{cbreaks,plens,classes,grid,uid});try{localStorage.setItem(k,JSON.stringify(o));msg('ok','Saved on this device.');}catch(e){msg('err','Could not save in this browser.');}}
+function save(){const k=skey();if(!k){msg('err','Enter the 11-digit UDISE number to save on this device.');return;}const o={};SCH.forEach(f=>o[f]=$(f).type==='checkbox'?$(f).checked:$(f).value);Object.assign(o,{cbreaks,plens,classes,grid,uid,teachers});try{localStorage.setItem(k,JSON.stringify(o));msg('ok','Saved on this device.');}catch(e){msg('err','Could not save in this browser.');}}
 function load(){const k=skey();if(!k)return;let o;try{o=JSON.parse(localStorage.getItem(k));}catch(e){}if(!o)return;
  SCH.forEach(f=>{if(f!=='udise'&&o[f]!=null){if($(f).type==='checkbox')$(f).checked=!!o[f];else $(f).value=o[f];}});if(!$('days').value)$('days').value='6';
- cbreaks=Array.isArray(o.cbreaks)?o.cbreaks:[];plens=o.plens||{};classes=Array.isArray(o.classes)?o.classes:[];grid=o.grid||{};uid=o.uid||classes.reduce((m,c)=>Math.max(m,c.id+1),1);
+ cbreaks=Array.isArray(o.cbreaks)?o.cbreaks:[];plens=o.plens||{};classes=Array.isArray(o.classes)?o.classes:[];grid=o.grid||{};teachers=o.teachers||{};uid=o.uid||classes.reduce((m,c)=>Math.max(m,c.id+1),1);
  drawCb();drawPl();drawEditDay();drawClasses();drawSubj();$('outDayBox').hidden=$('layout').value==='week';$('udHint').textContent='Saved details filled in.';}
 $('udise').addEventListener('input',function(){this.value=this.value.replace(/\D/g,'');if(this.value.length===11&&this.value!==loadedSchool){loadedSchool=this.value;load();}});
 $('saveBtn').onclick=()=>{if(validate())save();};
