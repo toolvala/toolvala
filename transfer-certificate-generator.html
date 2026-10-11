@@ -50,6 +50,7 @@
 {"@type":"Question","name":"Does the tool fetch school details from the UDISE number automatically?","acceptedAnswer":{"@type":"Answer","text":"No public UDISE API exists for automatic lookup. Enter the school details once; the tool remembers them on your device against the UDISE number."}},
 {"@type":"Question","name":"Is my student data uploaded anywhere?","acceptedAnswer":{"@type":"Answer","text":"No. Everything runs in your browser. Saved details stay in your own device storage and can be erased with one tap."}},
 {"@type":"Question","name":"Can I make the Transfer Certificate in Marathi?","acceptedAnswer":{"@type":"Answer","text":"Yes. Choose Marathi in the certificate language option; the date of birth in words is also written in Marathi."}},
+{"@type":"Question","name":"What is the Student ID or Saral ID field?","acceptedAnswer":{"@type":"Answer","text":"It is an optional field for the ID your school or state portal gave the student, such as the Saral ID. If you fill it in, it is printed as a row on the certificate."}},
 {"@type":"Question","name":"Is the certificate valid without a signature?","acceptedAnswer":{"@type":"Answer","text":"No. After printing, the certificate must be signed by the Headmaster or Principal and stamped with the school seal."}}]}
 ]}
 </script>
@@ -248,6 +249,10 @@ footer.fb a{color:#fff}
      <div class="f"><label for="pen">PEN <small>(Permanent Education No.)</small></label><input id="pen" inputmode="numeric" maxlength="14" autocomplete="off"></div>
      <div class="f"><label for="aadhaar">Aadhaar number <small>(12 digits)</small></label><input id="aadhaar" inputmode="numeric" maxlength="14" autocomplete="off"></div>
     </div>
+    <div class="grid2">
+     <div class="f"><label for="sidType">Student ID type <small>(optional)</small></label><select id="sidType"><option value="0">Saral ID</option><option value="1">Student ID</option><option value="2">Student Portal ID</option></select></div>
+     <div class="f"><label for="studentId">Student ID number <small>(optional)</small></label><input id="studentId" inputmode="text" maxlength="20" autocomplete="off" placeholder="e.g. 2712080900212345"></div>
+    </div>
    </div>
 
    <div class="card">
@@ -320,6 +325,7 @@ footer.fb a{color:#fff}
   <details><summary>Is student data uploaded anywhere?</summary><p>No. The certificate is built entirely in your browser. Saved details stay in your device's storage, and the erase button removes them.</p></details>
   <details><summary>Can I get the certificate in Marathi?</summary><p>Yes. Pick Marathi under certificate language and the whole certificate, including the date of birth in words, switches to Marathi.</p></details>
   <details><summary>Is the Aadhaar number checked?</summary><p>The tool checks that it has 12 digits and shows a warning if it fails the standard Aadhaar checksum, which catches most typing mistakes. It cannot confirm that the number belongs to the student.</p></details>
+  <details><summary>What is the Student ID or Saral ID field?</summary><p>It is an optional field for the ID your school or state portal gave the student, such as the Saral ID. If you fill it in, it is printed as a row on the certificate. Leave it empty and the row is left out.</p></details>
   <details><summary>Is the certificate valid without a signature?</summary><p>No. Print it, then have it signed by the Headmaster or Principal and stamped with the school seal.</p></details>
  </section>
 </main>
@@ -337,7 +343,7 @@ const PROG=[["Excellent","उत्कृष्ट"],["Very Good","अतिश�
 const COND=[["Very Good","अतिशय चांगले"],["Good","चांगले"],["Satisfactory","समाधानकारक"]];
 const REASON=[["Parent's request / admission to another school","पालकांच्या विनंतीवरून दुसऱ्या शाळेत प्रवेशासाठी"],["Completed the course of this school","या शाळेचा अभ्यासक्रम पूर्ण केला"],["Change of residence / parent's transfer","निवासस्थान बदलले / पालकांची बदली"],["Other (type it)","इतर"]];
 const SCHOOL_F=['boardIndex','recogNo','divBoard','instName','mobile','email','medium','schoolName','schoolAddr','board','hmName','hmTitle','place','sty'];
-const STU_F=['stuName','father','mother','dob','dobWords','nationality','motherTongue','religion','caste','birthPlace','pen','aadhaar','lastSchool','admDate','admClass','progress','conduct','curClass','division','curSince','reason','reasonOther','remarks'];
+const STU_F=['stuName','father','mother','dob','dobWords','nationality','motherTongue','religion','caste','birthPlace','pen','aadhaar','sidType','studentId','lastSchool','admDate','admClass','progress','conduct','curClass','division','curSince','reason','reasonOther','remarks'];
 let logoData='',loadedSchool='',loadedStu='',lastAuto='';
 
 const MED=[["English","इंग्रजी"],["Hindi","हिंदी"],["Marathi","मराठी"],["Gujarati","गुजराती"],["Kannada","कन्नड"],["Telugu","तेलुगु"],["Tamil","तमिळ"],["Malayalam","मल्याळम"],["Bengali","बंगाली"],["Odia","ओडिया"],["Punjabi","पंजाबी"],["Assamese","आसामी"],["Urdu","उर्दू"],["Sanskrit","संस्कृत"],["Konkani","कोकणी"],["Sindhi","सिंधी"],["Nepali","नेपाळी"],["Kashmiri","काश्मिरी"],["Manipuri (Meitei)","मणिपुरी"],["Bodo","बोडो"],["Dogri","डोगरी"],["Maithili","मैथिली"],["Santali","संथाली"],["Other","इतर"]];
@@ -422,6 +428,8 @@ function render(){
   esc(PROG[+$('progress').value][i]),esc(COND[+$('conduct').value][i]),
   $('leavingDate').value?esc(fmt($('leavingDate').value)):ph(''),
   curC?L.cl+esc(curC)+(dvl?' – '+LX.dv+' '+esc(dvl):'')+(since?esc(L.since(since)):''):ph(''),nz(reasonT),nz(val('remarks'))];
+ const SIDL=[['Saral ID','सरल आयडी'],['Student ID','विद्यार्थी आयडी'],['Student Portal ID','स्टुडंट पोर्टल आयडी']],sid=val('studentId');
+ L.r.splice(11,0,SIDL[+$('sidType').value||0][i]);vals.splice(11,0,sid?esc(sid):null);
  let n=0,rows='';
  vals.forEach((v,k)=>{if(v===null)return;n++;rows+=`<tr><td class="n">${n}</td><td class="l">${L.r[k]}</td><td>${v}</td></tr>`;});
  const logo=logoData?`<img src="${logoData}" alt="">`:'';
@@ -483,6 +491,7 @@ function validate(){
  if(+$('reason').value===REASON.length-1)need('reasonOther',!!val('reasonOther'),'Type the reason for leaving.');
  const mb=digits('mobile');if(mb)need('mobile',/^[6-9]\d{9}$/.test(mb),'Mobile number must be 10 digits and start with 6, 7, 8 or 9.');
  const eml=val('email');if(eml)need('email',/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(eml),'Email address looks invalid.');
+ const sidv=val('studentId');if(sidv)need('studentId',/^[A-Za-z0-9\-\/]{4,20}$/.test(sidv),'Student ID must be 4 to 20 letters or digits.');
  const a=digits('aadhaar');
  if(a)need('aadhaar',/^[2-9]\d{11}$/.test(a),'Aadhaar number must be 12 digits and cannot start with 0 or 1.');
  if(errs.length){bad.forEach(id=>$(id).classList.add('bad'));msg('err','Please fix:<ul>'+errs.map(e=>'<li>'+e+'</li>').join('')+'</ul>');$(bad[0]).scrollIntoView({block:'center'});return false;}
@@ -537,6 +546,7 @@ $('logo').onchange=function(e){
 $('rmLogo').onclick=function(){logoData='';$('logo').value='';render();};
 
 /* ---------- events ---------- */
+$('studentId').addEventListener('input',function(){this.value=this.value.replace(/[^A-Za-z0-9\-\/]/g,'').toUpperCase();});
 ['udise','mobile','pen','aadhaar'].forEach(id=>$(id).addEventListener('input',function(){const d=this.value.replace(/\D/g,'');this.value=id==='aadhaar'?grp(d.slice(0,12)):d;}));
 document.querySelectorAll('input,select').forEach(el=>{
  if(el.type==='file'||el.type==='checkbox'&&el.id==='remember')return;
