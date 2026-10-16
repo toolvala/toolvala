@@ -19,16 +19,6 @@
     <title>PDF Compressor Online Free – Reduce PDF Size Without Quality Loss | Toolvala.in</title>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4402681434316955"
      crossorigin="anonymous"></script>
-<!-- Display -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-4402681434316955"
-     data-ad-slot="8432779087"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
     <meta name="description" content="Compress PDF files online for free in seconds. Reduce PDF size to 100KB, 200KB or 500KB without blurry output. No upload to server, no watermarks, no signup. Works on mobile & desktop.">
     <meta name="keywords" content="pdf compressor, compress pdf online free, reduce pdf size, shrink pdf file size, compress pdf to 200kb, compress pdf to 100kb, compress pdf without losing quality, online pdf compressor, free pdf compressor no watermark">
     <meta name="author" content="Toolvala.in">
@@ -46,7 +36,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/downloadjs/1.4.8/download.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-
     <style>
         :root {
             --ink: #0a0e1a;
@@ -940,11 +929,11 @@
                 <div class="tool-link-icon"><i class="fa fa-align-left"></i></div>
                 <div><div class="tool-link-name">Normalize Text</div><div class="tool-link-sub">Clean &amp; reformat messy text</div></div>
             </a>
+            <p style="margin-top:16px">Need to reduce a photo or signature image for the same form? Try <a href="https://imagereducer.net/" target="_blank" rel="noopener">ImageReducer.net</a>, our free image compressor.</p>
         </div>
     </div>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4402681434316955"
-     crossorigin="anonymous"></script>
-<!-- Display -->
+
+<!-- AdSense Display Ad -->
 <ins class="adsbygoogle"
      style="display:block"
      data-ad-client="ca-pub-4402681434316955"
@@ -965,222 +954,129 @@ fetch("/footer.html")
     var el = document.getElementById("year");
     if (el) el.textContent = new Date().getFullYear();
   })
-  .catch(() => {}); // fail silently if no footer
+  .catch(() => {});
 </script>
 
 <script>
-// ═══════════════════════════════════════════════════════════
-//  PDF COMPRESSOR — FIXED & REBUILT
-//  Key fixes:
-//  1. Worker URL set ONCE at script load (not inside a function)
-//  2. Preset scales all >= 1.0 to avoid downscaling pages
-//  3. ArrayBuffer re-read from File object each use (avoids stale buffer)
-//  4. All event listeners attached via addEventListener (no inline handlers)
-//  5. Vector warning uses CSS class toggle, not style.display juggling
-//  6. No reference to non-existent DOM elements at init
-// ═══════════════════════════════════════════════════════════
-
-// ── Worker URL (must be set before any getDocument call) ──
+// PDF COMPRESSOR ENGINE v2 (fixes: buffer detach, original page size, huge-page memory clamp, password message)
 pdfjsLib.GlobalWorkerOptions.workerSrc =
     'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
 
-// ── PRESETS ──────────────────────────────────────────────
-// Scale >= 1.0 so pages are never downscaled (which would make output larger)
 const PRESETS = {
-    eco:      { scale: 1.0, quality: 0.35 },  // max compression, legible text
-    balanced: { scale: 1.2, quality: 0.55 },  // best all-rounder (DEFAULT)
-    hd:       { scale: 1.5, quality: 0.78 },  // high clarity
-    ultrahd:  { scale: 2.0, quality: 0.92 }   // near-lossless archival
+    eco:      { scale: 1.0, quality: 0.35 },
+    balanced: { scale: 1.2, quality: 0.55 },
+    hd:       { scale: 1.5, quality: 0.78 },
+    ultrahd:  { scale: 2.0, quality: 0.92 }
 };
+const MAX_PIXELS = 12000000; // protects phones from canvas memory limits
 
-// ── STATE ────────────────────────────────────────────────
-let currentFile    = null;
-let compressedBlob = null;
-let selectedPreset = 'balanced';
-let useGrayscale   = false;
-let useManual      = false;
+let currentFile = null, compressedBlob = null, selectedPreset = 'balanced', useGrayscale = false, useManual = false;
 
-// ── DOM REFS ─────────────────────────────────────────────
-const fileInput      = document.getElementById('fileInput');
-const dropZone       = document.getElementById('dropZone');
-const fileInfoBar    = document.getElementById('fileInfoBar');
-const fileName       = document.getElementById('fileName');
-const fileMeta       = document.getElementById('fileMeta');
-const removeBtn      = document.getElementById('removeBtn');
-const vectorWarning  = document.getElementById('vectorWarning');
-const controls       = document.getElementById('controls');
-const toggleGray     = document.getElementById('toggleGrayscale');
-const toggleManEl    = document.getElementById('toggleManual');
-const manualQualDiv  = document.getElementById('manualQuality');
-const qualityRange   = document.getElementById('qualityRange');
-const sliderVal      = document.getElementById('sliderVal');
-const compressBtn    = document.getElementById('compressBtn');
-const progressWrap   = document.getElementById('progressWrap');
-const progressStage  = document.getElementById('progressStage');
-const progressPct    = document.getElementById('progressPct');
-const progressFill   = document.getElementById('progressFill');
-const pageTiles      = document.getElementById('pageTiles');
-const resultCard     = document.getElementById('resultCard');
-const resultTitle    = document.getElementById('resultTitle');
-const origSizeEl     = document.getElementById('origSize');
-const newSizeEl      = document.getElementById('newSize');
-const savedPctEl     = document.getElementById('savedPct');
-const savedChip      = document.getElementById('savedChip');
-const sizeWarning    = document.getElementById('sizeWarning');
-const sizeWarningTxt = document.getElementById('sizeWarningText');
-const downloadBtn    = document.getElementById('downloadBtn');
-const compressAgain  = document.getElementById('compressAgainBtn');
+const $ = id => document.getElementById(id);
+const fileInput = $('fileInput'), dropZone = $('dropZone'), fileInfoBar = $('fileInfoBar'),
+      fileName = $('fileName'), fileMeta = $('fileMeta'), removeBtn = $('removeBtn'),
+      vectorWarning = $('vectorWarning'), controls = $('controls'), toggleGray = $('toggleGrayscale'),
+      toggleManEl = $('toggleManual'), manualQualDiv = $('manualQuality'), qualityRange = $('qualityRange'),
+      sliderVal = $('sliderVal'), compressBtn = $('compressBtn'), progressWrap = $('progressWrap'),
+      progressStage = $('progressStage'), progressPct = $('progressPct'), progressFill = $('progressFill'),
+      pageTiles = $('pageTiles'), resultCard = $('resultCard'), resultTitle = $('resultTitle'),
+      origSizeEl = $('origSize'), newSizeEl = $('newSize'), savedPctEl = $('savedPct'), savedChip = $('savedChip'),
+      sizeWarning = $('sizeWarning'), sizeWarningTxt = $('sizeWarningText'), downloadBtn = $('downloadBtn'),
+      compressAgain = $('compressAgainBtn');
 
-// ── FILE SELECTION EVENTS ────────────────────────────────
-// Drop zone click → trigger file input
 dropZone.addEventListener('click', () => fileInput.click());
-
-// Drag & drop
-dropZone.addEventListener('dragover', e => {
-    e.preventDefault();
-    dropZone.classList.add('drag-over');
-});
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
 dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
 dropZone.addEventListener('drop', e => {
     e.preventDefault();
     dropZone.classList.remove('drag-over');
     const f = e.dataTransfer.files[0];
-    if (f && f.type === 'application/pdf') {
-        loadFile(f);
-    } else {
-        alert('Please drop a valid PDF file.');
-    }
+    if (f && (f.type === 'application/pdf' || /\.pdf$/i.test(f.name))) loadFile(f);
+    else alert('Please drop a valid PDF file.');
 });
-
-// File input change
-fileInput.addEventListener('change', e => {
-    if (e.target.files[0]) loadFile(e.target.files[0]);
-});
-
-// Remove file
+fileInput.addEventListener('change', e => { if (e.target.files[0]) loadFile(e.target.files[0]); });
 removeBtn.addEventListener('click', resetTool);
-
-// Compress button
 compressBtn.addEventListener('click', processPDF);
-
-// Start over button
 compressAgain.addEventListener('click', resetTool);
-
-// Preset buttons
-document.querySelectorAll('.preset-btn').forEach(btn => {
-    btn.addEventListener('click', () => selectPreset(btn.dataset.preset));
-});
-
-// Toggles
-toggleGray.addEventListener('click', () => {
-    useGrayscale = !useGrayscale;
-    toggleGray.classList.toggle('active', useGrayscale);
-});
+document.querySelectorAll('.preset-btn').forEach(btn => btn.addEventListener('click', () => selectPreset(btn.dataset.preset)));
+toggleGray.addEventListener('click', () => { useGrayscale = !useGrayscale; toggleGray.classList.toggle('active', useGrayscale); });
 toggleManEl.addEventListener('click', () => {
     useManual = !useManual;
     toggleManEl.classList.toggle('active', useManual);
     manualQualDiv.classList.toggle('show', useManual);
 });
+qualityRange.addEventListener('input', () => { sliderVal.textContent = parseFloat(qualityRange.value).toFixed(2); });
 
-// Slider
-qualityRange.addEventListener('input', () => {
-    sliderVal.textContent = parseFloat(qualityRange.value).toFixed(2);
-});
+function readError(err) {
+    if (err && (err.name === 'PasswordException' || /password/i.test(err.message || '')))
+        return 'This PDF is password-protected. Remove the password first, then try again.';
+    return 'Could not process this PDF. It may be corrupted.\n\n' + ((err && err.message) || '');
+}
 
-// ── LOAD FILE ────────────────────────────────────────────
 async function loadFile(file) {
-    currentFile    = file;
+    currentFile = file;
     compressedBlob = null;
-
     try {
-        // Read file to detect page count and type
-        const buf    = await file.arrayBuffer();
-        const pdfDoc = await pdfjsLib.getDocument({ data: buf }).promise;
+        const data = new Uint8Array(await file.arrayBuffer()); // pdf.js takes ownership of this buffer
+        const pdfDoc = await pdfjsLib.getDocument({ data }).promise;
         const numPages = pdfDoc.numPages;
-
-        // Heuristic: < 40KB/page → likely a digital/vector PDF (not scanned)
         const kbPerPage = (file.size / 1024) / numPages;
-        if (kbPerPage < 40) {
-            vectorWarning.classList.add('show');
-            selectPreset('eco'); // auto-switch to eco for vector PDFs
-        } else {
-            vectorWarning.classList.remove('show');
-        }
-
+        if (kbPerPage < 40) { vectorWarning.classList.add('show'); selectPreset('eco'); }
+        else vectorWarning.classList.remove('show');
         fileName.textContent = file.name;
         fileMeta.textContent = `${numPages} page${numPages > 1 ? 's' : ''} · ${(file.size / 1024 / 1024).toFixed(2)} MB · ~${Math.round(kbPerPage)} KB/page`;
-
         fileInfoBar.classList.add('show');
         controls.style.display = 'block';
         resultCard.classList.remove('show');
         progressWrap.classList.remove('show');
-
-        // Destroy pdfDoc after detection to free memory
         pdfDoc.destroy();
-
     } catch (err) {
         console.error('loadFile error:', err);
-        alert('Could not read this PDF. It may be password-protected or corrupted.');
+        currentFile = null;
+        alert(readError(err));
     }
 }
 
-// ── SELECT PRESET ────────────────────────────────────────
 function selectPreset(name) {
     selectedPreset = name;
     document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
-    const target = document.querySelector(`[data-preset="${name}"]`);
-    if (target) target.classList.add('active');
+    const t = document.querySelector(`[data-preset="${name}"]`);
+    if (t) t.classList.add('active');
 }
 
-// ── RESET ────────────────────────────────────────────────
 function resetTool() {
-    currentFile    = null;
-    compressedBlob = null;
-    fileInput.value = '';
-
+    currentFile = null; compressedBlob = null; fileInput.value = '';
     fileInfoBar.classList.remove('show');
     controls.style.display = 'none';
     resultCard.classList.remove('show');
     progressWrap.classList.remove('show');
     vectorWarning.classList.remove('show');
     sizeWarning.classList.remove('show');
-
-    // Reset toggles
-    useGrayscale = false;
-    useManual    = false;
-    toggleGray.classList.remove('active');
-    toggleManEl.classList.remove('active');
-    manualQualDiv.classList.remove('show');
-
-    // Reset to balanced preset
+    useGrayscale = false; useManual = false;
+    toggleGray.classList.remove('active'); toggleManEl.classList.remove('active'); manualQualDiv.classList.remove('show');
     selectPreset('balanced');
 }
 
-// ── HELPERS ──────────────────────────────────────────────
 function setProgress(text, pct) {
-    progressStage.textContent   = text;
-    progressPct.textContent     = Math.round(pct) + '%';
-    progressFill.style.width    = Math.round(pct) + '%';
+    progressStage.textContent = text;
+    progressPct.textContent = Math.round(pct) + '%';
+    progressFill.style.width = Math.round(pct) + '%';
 }
-
 function markTile(n, state) {
     const el = document.getElementById(`tile-${n}`);
     if (!el) return;
     el.classList.remove('done', 'current');
     el.classList.add(state);
 }
-
 function fmtSize(bytes) {
     const kb = bytes / 1024;
     return kb >= 1024 ? (kb / 1024).toFixed(1) + ' MB' : Math.round(kb) + ' KB';
 }
 
-// ── MAIN COMPRESSION ─────────────────────────────────────
 async function processPDF() {
     if (!currentFile) return;
-
-    const cfg     = PRESETS[selectedPreset];
-    const scale   = cfg.scale;
+    const cfg = PRESETS[selectedPreset];
+    const scale = cfg.scale;
     const quality = useManual ? parseFloat(qualityRange.value) : cfg.quality;
 
     compressBtn.disabled = true;
@@ -1189,182 +1085,117 @@ async function processPDF() {
     setProgress('Loading PDF…', 2);
 
     try {
-        // Re-read the file fresh each compression run
-        const buf    = await currentFile.arrayBuffer();
-        const pdfDoc = await pdfjsLib.getDocument({ data: buf }).promise;
-        const total  = pdfDoc.numPages;
+        const data = new Uint8Array(await currentFile.arrayBuffer()); // fresh copy every run
+        const pdfDoc = await pdfjsLib.getDocument({ data }).promise;
+        const total = pdfDoc.numPages;
 
-        // Build page progress tiles (max 60 shown)
         pageTiles.innerHTML = '';
         const maxTiles = Math.min(total, 60);
         for (let i = 1; i <= maxTiles; i++) {
             const t = document.createElement('div');
-            t.className = 'page-tile';
-            t.id = `tile-${i}`;
-            t.textContent = i;
+            t.className = 'page-tile'; t.id = `tile-${i}`; t.textContent = i;
             pageTiles.appendChild(t);
         }
         if (total > maxTiles) {
             const more = document.createElement('div');
-            more.className = 'page-tile';
-            more.textContent = `+${total - maxTiles}`;
+            more.className = 'page-tile'; more.textContent = `+${total - maxTiles}`;
             pageTiles.appendChild(more);
         }
 
-        // Create output PDF document
         const outPdf = await PDFLib.PDFDocument.create();
 
         for (let i = 1; i <= total; i++) {
-            const pct = 5 + (i / total) * 88;
-            setProgress(`Compressing page ${i} of ${total}…`, pct);
-
-            // Mark tiles
+            setProgress(`Compressing page ${i} of ${total}…`, 5 + (i / total) * 88);
             if (i > 1 && (i - 1) <= maxTiles) markTile(i - 1, 'done');
             if (i <= maxTiles) markTile(i, 'current');
 
-            // Render page to canvas
-            const page     = await pdfDoc.getPage(i);
-            const viewport = page.getViewport({ scale });
+            const page = await pdfDoc.getPage(i);
+            const base = page.getViewport({ scale: 1 });          // original page size in PDF points
+            let viewport = page.getViewport({ scale });
+            const px = viewport.width * viewport.height;
+            if (px > MAX_PIXELS) viewport = page.getViewport({ scale: scale * Math.sqrt(MAX_PIXELS / px) });
 
-            const canvas   = document.createElement('canvas');
-            canvas.width   = Math.round(viewport.width);
-            canvas.height  = Math.round(viewport.height);
-            const ctx      = canvas.getContext('2d');
-
-            // White background (prevents transparent → black in JPEG)
+            const canvas = document.createElement('canvas');
+            canvas.width = Math.round(viewport.width);
+            canvas.height = Math.round(viewport.height);
+            const ctx = canvas.getContext('2d');
             ctx.fillStyle = '#ffffff';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-
             await page.render({ canvasContext: ctx, viewport }).promise;
-            page.cleanup(); // free page resources
+            page.cleanup();
 
-            // Optional: convert to grayscale
             if (useGrayscale) {
-                const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                const d = imgData.data;
+                const img = ctx.getImageData(0, 0, canvas.width, canvas.height), d = img.data;
                 for (let p = 0; p < d.length; p += 4) {
                     const g = Math.round(0.299 * d[p] + 0.587 * d[p + 1] + 0.114 * d[p + 2]);
                     d[p] = d[p + 1] = d[p + 2] = g;
-                    // d[p+3] stays the same (alpha)
                 }
-                ctx.putImageData(imgData, 0, 0);
+                ctx.putImageData(img, 0, 0);
             }
 
-            // Encode to JPEG
-            const dataUrl  = canvas.toDataURL('image/jpeg', quality);
-            const b64      = dataUrl.split(',')[1];
-            const binStr   = atob(b64);
-            const imgBytes = new Uint8Array(binStr.length);
-            for (let b = 0; b < binStr.length; b++) {
-                imgBytes[b] = binStr.charCodeAt(b);
-            }
+            const b64 = canvas.toDataURL('image/jpeg', quality).split(',')[1];
+            const bin = atob(b64);
+            const imgBytes = new Uint8Array(bin.length);
+            for (let b = 0; b < bin.length; b++) imgBytes[b] = bin.charCodeAt(b);
 
-            // Embed into output PDF
             const embedded = await outPdf.embedJpg(imgBytes);
-            const newPage  = outPdf.addPage([canvas.width, canvas.height]);
-            newPage.drawImage(embedded, {
-                x: 0, y: 0,
-                width: canvas.width,
-                height: canvas.height
-            });
+            const newPage = outPdf.addPage([base.width, base.height]);   // same page size as the original
+            newPage.drawImage(embedded, { x: 0, y: 0, width: base.width, height: base.height });
 
-            // Explicitly free canvas memory
-            canvas.width  = 1;
-            canvas.height = 1;
+            canvas.width = 1; canvas.height = 1;
         }
 
-        // Mark last tile done
         if (total <= maxTiles) markTile(total, 'done');
         setProgress('Finalizing…', 97);
+        pdfDoc.destroy();
 
-        pdfDoc.destroy(); // free source PDF memory
-
-        const finalBytes    = await outPdf.save();
+        const finalBytes = await outPdf.save();
         const candidateBlob = new Blob([finalBytes], { type: 'application/pdf' });
-
         setProgress('Done ✅', 100);
 
-        // Smart fallback: if compressed is >= original size, serve original unchanged
         const alreadyOptimal = candidateBlob.size >= currentFile.size;
-        compressedBlob = alreadyOptimal
-            ? new Blob([buf], { type: 'application/pdf' })
-            : candidateBlob;
-
+        compressedBlob = alreadyOptimal ? currentFile : candidateBlob;  // File is a Blob; no stale buffer
         showResult(alreadyOptimal);
-
     } catch (err) {
         console.error('Compression error:', err);
-        alert('Error processing this PDF. The file may be password-protected or corrupted.\n\n' + err.message);
+        progressWrap.classList.remove('show');
+        alert(readError(err));
     } finally {
         compressBtn.disabled = false;
     }
 }
 
-// ── SHOW RESULT ──────────────────────────────────────────
 function showResult(alreadyOptimal) {
     const savedPc = Math.round((1 - compressedBlob.size / currentFile.size) * 100);
-
     origSizeEl.textContent = fmtSize(currentFile.size);
-    newSizeEl.textContent  = fmtSize(compressedBlob.size);
-
+    newSizeEl.textContent = fmtSize(compressedBlob.size);
     if (alreadyOptimal) {
-        savedPctEl.textContent      = '0%';
-        savedChip.style.borderColor = '#fde68a';
-        savedChip.style.background  = '#fffbeb';
-        savedPctEl.style.color      = '#b45309';
-
+        savedPctEl.textContent = '0%';
+        savedChip.style.borderColor = '#fde68a'; savedChip.style.background = '#fffbeb'; savedPctEl.style.color = '#b45309';
         sizeWarningTxt.innerHTML =
             '<strong>This PDF is already fully optimised!</strong><br>' +
             'It appears to be a digital/vector document (created from Word, Google Docs, etc.) ' +
             'rather than a scanned image — rasterization would only increase its size. ' +
             'We are giving you back the <strong>original file unchanged</strong>.';
         sizeWarning.classList.add('show');
-
-        resultTitle.textContent      = '✅ Already Optimal!';
-        downloadBtn.innerHTML        = '<i class="fa fa-download"></i> Download Original (Unchanged)';
+        resultTitle.textContent = '✅ Already Optimal!';
+        downloadBtn.innerHTML = '<i class="fa fa-download"></i> Download Original (Unchanged)';
         downloadBtn.style.background = '#f59e0b';
     } else {
-        savedPctEl.textContent      = savedPc + '%';
-        savedChip.style.borderColor = '#a7f3d0';
-        savedChip.style.background  = 'white';
-        savedPctEl.style.color      = 'var(--success)';
-
+        savedPctEl.textContent = savedPc + '%';
+        savedChip.style.borderColor = '#a7f3d0'; savedChip.style.background = 'white'; savedPctEl.style.color = 'var(--success)';
         sizeWarning.classList.remove('show');
-        resultTitle.textContent      = '✅ Compression Complete!';
-        downloadBtn.innerHTML        = '<i class="fa fa-download"></i> Download Compressed PDF';
+        resultTitle.textContent = '✅ Compression Complete!';
+        downloadBtn.innerHTML = '<i class="fa fa-download"></i> Download Compressed PDF';
         downloadBtn.style.background = 'var(--success)';
     }
-
     resultCard.classList.add('show');
-
-    // Wire up download
     const safeName = currentFile.name.replace(/\.pdf$/i, '');
-    const prefix   = alreadyOptimal ? 'Original' : `Toolvala_${selectedPreset}`;
-    downloadBtn.onclick = () => {
-        download(compressedBlob, `${prefix}_${safeName}.pdf`, 'application/pdf');
-    };
+    const prefix = alreadyOptimal ? 'Original' : `Toolvala_${selectedPreset}`;
+    downloadBtn.onclick = () => download(compressedBlob, `${prefix}_${safeName}.pdf`, 'application/pdf');
 }
 
-// ── FAQ ACCORDION ─────────────────────────────────────────
-document.querySelectorAll('[data-faq]').forEach(el => {
-    el.addEventListener('click', () => {
-        el.closest('.faq-item').classList.toggle('open');
-    });
-});
-</script>
-
-<div id="footer"></div>
-
-<script>
-fetch("/footer.html")
-  .then(response => response.text())
-  .then(data => {
-    document.getElementById("footer").innerHTML = data;
-    var yearSpan = document.getElementById("year");
-    if (yearSpan) {
-      yearSpan.textContent = new Date().getFullYear();
-    }
-  });
+document.querySelectorAll('[data-faq]').forEach(el => el.addEventListener('click', () => el.closest('.faq-item').classList.toggle('open')));
 </script>
 </body>
 </html>
