@@ -229,6 +229,15 @@ details.fi[open] summary::after{content:"\2212"}
   .hbg{display:block}
 }
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+/* Homepage: show only the first 2 tools per category (all stay in the page for search; "View All" opens the full category) */
+#nc .tg:not(.p){grid-template-columns:repeat(2,minmax(0,1fr))}
+#nc .tg:not(.p) .tc:nth-child(n+3){display:none}
+@media (min-width:900px){
+  #nc{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:24px;align-items:start}
+  #nc>*{grid-column:1/-1}
+  #nc>section[data-cat]{grid-column:auto}
+}
 </style>
 </head>
 <body>
