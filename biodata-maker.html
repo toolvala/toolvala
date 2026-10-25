@@ -3,6 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google Analytics (GA4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8GTQC904G1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-8GTQC904G1');
+    </script>
+
     <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
@@ -612,7 +623,10 @@
         var holder = document.createElement('div');
         holder.style.cssText = 'position:absolute;left:0;top:0;width:800px;z-index:-9999;pointer-events:none;';
         var clone = paper.cloneNode(true); clone.removeAttribute('id');
-        clone.style.cssText = 'position:relative;transform:none;box-shadow:none;width:800px;min-height:0;'; clone.style.setProperty('--accent', S.accent);
+        /* FIX: the clone has no id, so the #paper CSS (padding, background, font) no longer applies.
+           Set those styles inline so the PDF keeps the same side margins as the preview. */
+        clone.style.cssText = 'position:relative;transform:none;box-shadow:none;width:800px;min-height:0;box-sizing:border-box;padding:46px 50px;background:#fff;color:#222;font-family:"Inter","Noto Sans Devanagari",sans-serif;';
+        clone.style.setProperty('--accent', S.accent);
         holder.appendChild(clone); document.body.appendChild(holder);
         var name = fileBase() + '.pdf';
         try {
