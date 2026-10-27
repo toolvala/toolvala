@@ -20,7 +20,7 @@
 
     <title>UPSC Photo Maker Online | Resize Photo, Add Name &amp; Date, Reduce KB</title>
     <meta name="description" content="Free UPSC photo maker: resize your passport photo to 350 x 350 px, add name and date of photo (DOP), crop and zoom, and compress to your KB limit. Private, works in your browser.">
-    <meta name="keywords" content="upsc photo maker, upsc passport size photo, upsc photo with date, upsc photo tool, civil services photo size, upsc photo resize, upsc photo 350x350, nda cds photo">
+    <meta name="keywords" content="upsc photo maker, upsc passport size photo, upsc photo with date, upsc photo tool, civil services photo size, upsc photo resize, upsc photo 350x350, nda cds photo, upsc photo background remover">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://www.toolvala.in/upsc-photo-maker.html">
 
@@ -52,7 +52,7 @@
           "mainEntity": [
             { "@type": "Question", "name": "What size should a UPSC photo be?", "acceptedAnswer": { "@type": "Answer", "text": "Many UPSC application guides list a 350 x 350 pixel JPG photo, but KB limits and rules can change each year. Always check the current official notification before uploading." } },
             { "@type": "Question", "name": "Do I need to write my name and date on the UPSC photo?", "acceptedAnswer": { "@type": "Answer", "text": "It depends on the exam and year. Some notifications ask for name and date of photo, and some do not. Check your notification and use the name and date option only if it is required." } },
-            { "@type": "Question", "name": "Does this tool change the photo background?", "acceptedAnswer": { "@type": "Answer", "text": "No. It crops, resizes, adds text and compresses. Take your photo against a plain white or light wall, because the tool cannot replace a coloured background." } },
+            { "@type": "Question", "name": "Can this tool remove the photo background?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, if the original background is a fairly plain wall. Turn on Remove background, then adjust sensitivity or tap the background to choose its colour. It cannot remove busy or patterned backgrounds, so a plain wall is still the best choice." } },
             { "@type": "Question", "name": "Is my photo uploaded to a server?", "acceptedAnswer": { "@type": "Answer", "text": "No. Everything runs in your browser, so your photo never leaves your device." } }
           ]
         }
@@ -138,6 +138,8 @@
         .chip:hover { background: #dbeafe; }
         .chip:active { transform: scale(.94); }
         .chip.active { background: var(--primary); border-color: var(--primary); color: #fff; animation: pop .35s ease; }
+        .refrow { display: flex; align-items: center; gap: 10px; height: 46px; }
+        .refsw { width: 36px; height: 36px; border-radius: 10px; border: 2px solid var(--border); background: #fff; display: inline-block; }
         .name-wrap { display: flex; align-items: center; gap: 6px; }
         .name-wrap .field { flex: 1; min-width: 0; }
         .name-wrap b { color: var(--muted); }
@@ -205,7 +207,7 @@
             <span class="emoji" aria-hidden="true">🇮🇳</span><br>
             <span class="pill">Civil Services &bull; NDA &bull; CDS &bull; CAPF</span>
             <h1>UPSC Photo Maker</h1>
-            <p>Crop and resize your photo to 350 &times; 350 px, add name and date of photo, and fit it under your KB limit. Free and private.</p>
+            <p>Crop and resize your photo to 350 &times; 350 px, make the background plain, add name and date of photo, and fit it under your KB limit. Free and private.</p>
         </div>
     </header>
 
@@ -271,6 +273,24 @@
                 <div class="fg"><label for="offX">Move left / right</label><div class="slider"><input type="range" id="offX" min="-50" max="50" step="1" value="0"><b id="offXVal">0</b></div></div>
                 <div class="fg"><label for="offY">Move up / down</label><div class="slider"><input type="range" id="offY" min="-50" max="50" step="1" value="0"><b id="offYVal">0</b></div>
                     <div class="hint">Use zoom and the move sliders until your face is centred and fills most of the frame.</div></div>
+
+                <div class="sub">Background</div>
+                <label class="chk"><input type="checkbox" id="bgOn"> Remove background and make it plain</label>
+                <div id="bgFields" style="display:none;">
+                    <div class="grid2">
+                        <div class="fg"><label for="bgFill">Fill colour</label><input type="color" id="bgFill" class="field" value="#ffffff" style="height:46px;padding:3px;"></div>
+                        <div class="fg"><label>Old background found</label>
+                            <div class="refrow"><span class="refsw" id="refSw"></span><button type="button" class="chip" id="refReset">Auto</button></div>
+                        </div>
+                    </div>
+                    <div class="fg"><label for="bgTol">Sensitivity</label><div class="slider"><input type="range" id="bgTol" min="8" max="90" step="1" value="30"><b id="bgTolVal">30</b></div>
+                        <div class="hint">Raise it if bits of the old background are left. Lower it if part of your face, hair or clothes disappears.</div></div>
+                    <div class="grid2">
+                        <div class="fg"><label for="bgEdge">Edge cleanup</label><div class="slider"><input type="range" id="bgEdge" min="0" max="3" step="1" value="1"><b id="bgEdgeVal">1</b></div></div>
+                        <div class="fg"><label for="bgSoft">Edge softness</label><div class="slider"><input type="range" id="bgSoft" min="0" max="3" step="1" value="1"><b id="bgSoftVal">1</b></div></div>
+                    </div>
+                    <div class="hint" style="margin-bottom:14px;">Works best when the original background is a fairly plain wall. Tap the preview on the background to choose its colour yourself. It cannot remove busy or patterned backgrounds.</div>
+                </div>
 
                 <div class="sub">File size and name</div>
                 <div class="fg"><label for="kbLimit">Max file size (KB)</label>
@@ -353,6 +373,7 @@
                 <li>Turn name and date on or off, depending on what your notification asks for.</li>
                 <li>Choose the photo size (350 &times; 350 px is the default).</li>
                 <li>Use <strong>Zoom</strong> and the <strong>Move</strong> sliders until your face is centred.</li>
+                <li>If the background is not white, turn on <strong>Remove background</strong> and adjust the sensitivity until it looks clean.</li>
                 <li>Set the maximum KB from your notification. The preview shows the final file size.</li>
                 <li>Type a file name and tap <strong>Download Photo</strong>.</li>
             </ol>
@@ -362,7 +383,7 @@
 
             <div class="section-title"><h2>Tips for a Photo That Is Accepted</h2></div>
             <ul>
-                <li>Stand in front of a plain white or light wall with soft light on your face. This tool cannot change a coloured or patterned background.</li>
+                <li>Stand in front of a plain white or light wall with soft, even light on your face. The background remover works best on a plain wall and cannot handle busy or patterned backgrounds.</li>
                 <li>Look straight at the camera with a neutral face and both ears visible.</li>
                 <li>Avoid filters, selfies from a very close distance, caps and sunglasses.</li>
                 <li>Use a recent photograph, since many notices ask for one taken within the last few months.</li>
@@ -372,7 +393,8 @@
             <div class="section-title"><h2>Frequently Asked Questions</h2></div>
             <details class="faq"><summary>What size should a UPSC photo be?</summary><p>Many guides list a 350 &times; 350 pixel JPG, but KB limits and rules can change each year. Check the current official notification and set the size and KB limit in this tool to match.</p></details>
             <details class="faq"><summary>Do I need to write my name and date on the photo?</summary><p>It depends on the exam and year. Some notifications ask for the name and date of photo, and some do not. Use the option only if your notification asks for it.</p></details>
-            <details class="faq"><summary>Does this tool change the photo background?</summary><p>No. It crops, resizes, adds text and compresses. Take your photo against a plain white or light wall, because the tool cannot replace a coloured background.</p></details>
+            <details class="faq"><summary>Can this tool remove the photo background?</summary><p>Yes, when the original background is a fairly plain wall. Turn on <strong>Remove background</strong>, then adjust the sensitivity or tap the preview on the background to choose its colour. It cannot cleanly remove busy or patterned backgrounds, so for best results take the photo against a plain light wall.</p></details>
+            <details class="faq"><summary>Why are bits of the old background still showing?</summary><p>Raise the <strong>Sensitivity</strong> slider, or tap the preview on the background so the tool knows its exact colour. Small gaps (for example between your arm and body) are not removed because they are not connected to the outer edge of the photo.</p></details>
             <details class="faq"><summary>Why does the tool say it could not reach my KB limit?</summary><p>At the smallest quality the photo is still larger than your limit. Try a higher limit, a smaller pixel size if your form allows one, or a sharper source photo with less detail in the background.</p></details>
             <details class="faq"><summary>Is my photo uploaded to a server?</summary><p>No. Everything runs in your browser, so your photo stays on your device.</p></details>
 
@@ -416,6 +438,8 @@
             placeholder = $('placeholder'), sizeInfo = $('sizeInfo'), metaInfo = $('metaInfo');
 
         var img = null, faceBox = null, result = null, timer = null, runId = 0, lastKB = 0, statusTimer = null;
+        var bgOn = $('bgOn'), bgFields = $('bgFields'), bgTol = $('bgTol'), bgEdge = $('bgEdge'), bgSoft = $('bgSoft'), bgFill = $('bgFill'), refReset = $('refReset');
+        var refColor = null, rawPix = null, rawW = 0, rawH = 0, bgFrac = -1;
 
         /* today's date as default */
         (function () {
@@ -472,6 +496,68 @@
             return { sx: sx, sy: sy, sw: sw, sh: sh };
         }
 
+        /* ---------- background remover (edge flood fill, runs in the browser) ---------- */
+        function hexToRgb(h) {
+            var m = /^#?([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec(h || '');
+            return m ? [parseInt(m[1], 16), parseInt(m[2], 16), parseInt(m[3], 16)] : [255, 255, 255];
+        }
+        function autoRef(d, w, h) {
+            var R = [], G = [], B = [], lim = Math.max(1, Math.floor(h * 0.6)), x, y;
+            function add(px, py) { var p = (py * w + px) * 4; R.push(d[p]); G.push(d[p + 1]); B.push(d[p + 2]); }
+            function med(a) { a.sort(function (p, q) { return p - q; }); return a[a.length >> 1]; }
+            for (x = 0; x < w; x++) add(x, 0);
+            for (y = 0; y < lim; y++) { add(0, y); add(w - 1, y); }
+            return [med(R), med(G), med(B)];
+        }
+        function boxBlur(a, w, h, r) {
+            var t = new Float32Array(a.length), out = new Float32Array(a.length), x, y, k, s, c, q;
+            for (y = 0; y < h; y++) for (x = 0; x < w; x++) {
+                s = 0; c = 0;
+                for (k = -r; k <= r; k++) { q = x + k; if (q >= 0 && q < w) { s += a[y * w + q]; c++; } }
+                t[y * w + x] = s / c;
+            }
+            for (y = 0; y < h; y++) for (x = 0; x < w; x++) {
+                s = 0; c = 0;
+                for (k = -r; k <= r; k++) { q = y + k; if (q >= 0 && q < h) { s += t[q * w + x]; c++; } }
+                out[y * w + x] = s / c;
+            }
+            return out;
+        }
+        function removeBg(id, w, h, o) {
+            var d = id.data, n = w * h, ref = o.ref || autoRef(d, w, h), fc = o.fill, thr = o.tol * o.tol * 3;
+            var bg = new Uint8Array(n), stack = new Int32Array(n), sp = 0, i, x, y, k;
+            function match(j) { var p = j * 4, a = d[p] - ref[0], b = d[p + 1] - ref[1], c = d[p + 2] - ref[2]; return a * a + b * b + c * c <= thr; }
+            function seed(j) { if (!bg[j] && match(j)) { bg[j] = 1; stack[sp++] = j; } }
+            for (x = 0; x < w; x++) { seed(x); seed((h - 1) * w + x); }
+            for (y = 0; y < h; y++) { seed(y * w); seed(y * w + w - 1); }
+            while (sp) {
+                i = stack[--sp]; x = i % w; y = (i / w) | 0;
+                if (x > 0) seed(i - 1);
+                if (x < w - 1) seed(i + 1);
+                if (y > 0) seed(i - w);
+                if (y < h - 1) seed(i + w);
+            }
+            var cnt = 0; for (i = 0; i < n; i++) cnt += bg[i];
+            for (k = 0; k < o.edge; k++) {
+                var nb = new Uint8Array(bg);
+                for (y = 0; y < h; y++) for (x = 0; x < w; x++) {
+                    i = y * w + x; if (bg[i]) continue;
+                    if ((x > 0 && bg[i - 1]) || (x < w - 1 && bg[i + 1]) || (y > 0 && bg[i - w]) || (y < h - 1 && bg[i + w])) nb[i] = 1;
+                }
+                bg = nb;
+            }
+            var a = new Float32Array(n); for (i = 0; i < n; i++) a[i] = bg[i];
+            if (o.soft > 0) a = boxBlur(a, w, h, o.soft);
+            for (i = 0; i < n; i++) {
+                var al = a[i]; if (al <= 0) continue;
+                var p = i * 4;
+                d[p] = d[p] + (fc[0] - d[p]) * al;
+                d[p + 1] = d[p + 1] + (fc[1] - d[p + 1]) * al;
+                d[p + 2] = d[p + 2] + (fc[2] - d[p + 2]) * al;
+            }
+            return { frac: cnt / n, ref: ref };
+        }
+
         function draw() {
             var fr = frame(), w = fr.w, h = fr.h;
             canvas.width = w; canvas.height = h;
@@ -490,6 +576,15 @@
 
             var c = cropRect(w, ph);
             ctx.drawImage(img, c.sx, c.sy, c.sw, c.sh, 0, 0, w, ph);
+
+            if (bgOn.checked) {
+                var idata = ctx.getImageData(0, 0, w, ph);
+                rawPix = new Uint8ClampedArray(idata.data); rawW = w; rawH = ph;
+                var st = removeBg(idata, w, ph, { tol: parseFloat(bgTol.value) || 30, edge: parseInt(bgEdge.value, 10) || 0, soft: parseInt(bgSoft.value, 10) || 0, fill: hexToRgb(bgFill.value), ref: refColor });
+                ctx.putImageData(idata, 0, 0);
+                bgFrac = st.frac; $('refSw').style.background = 'rgb(' + st.ref.join(',') + ')';
+                canvas.style.cursor = 'crosshair';
+            } else { rawPix = null; bgFrac = -1; canvas.style.cursor = 'default'; }
 
             if (strip) {
                 var top = h - strip;
@@ -543,6 +638,8 @@
                 else msg = ' – under ' + result.maxKB + ' KB';
             }
             if (cls !== 'bad' && kb < 20) { cls = 'warn'; msg += ' (below 20 KB: some portals need a higher minimum)'; }
+            if (bgFrac > 0.85) { cls = 'warn'; msg += ' | Most of the photo was treated as background. Lower the sensitivity.'; }
+            else if (bgFrac >= 0 && bgFrac < 0.03) { cls = 'warn'; msg += ' | Very little background found. Raise the sensitivity or tap the preview on the background.'; }
             sizeInfo.className = '';
             sizeInfo.innerHTML = 'File size: <span class="' + cls + '"><span class="num">' + kb + '</span> KB</span><span class="' + cls + '">' + msg + '</span>';
             lastKB = kb;
@@ -625,6 +722,24 @@
             if (result.met) setStatus('Downloaded ' + cleanName() + '.jpg – ' + kb + ' KB', 'good');
             else setStatus('Downloaded at ' + kb + ' KB, but not under ' + result.maxKB + ' KB.', 'bad');
             if (typeof gtag === 'function') gtag('event', 'upsc_photo_download', { kb: Math.round(result.blob.size / 1024), size: result.w + 'x' + result.h });
+        });
+
+        /* background remover controls */
+        bgOn.addEventListener('change', function () { bgFields.style.display = bgOn.checked ? '' : 'none'; schedule(); });
+        [[bgTol, 'bgTolVal'], [bgEdge, 'bgEdgeVal'], [bgSoft, 'bgSoftVal']].forEach(function (pair) {
+            pair[0].addEventListener('input', function () { $(pair[1]).textContent = pair[0].value; schedule(); });
+        });
+        bgFill.addEventListener('input', schedule);
+        refReset.addEventListener('click', function () { refColor = null; schedule(); });
+        canvas.addEventListener('click', function (e) {
+            if (!rawPix || !bgOn.checked) return;
+            var r = canvas.getBoundingClientRect();
+            var x = Math.floor((e.clientX - r.left) * canvas.width / r.width), y = Math.floor((e.clientY - r.top) * canvas.height / r.height);
+            if (x < 0 || y < 0 || x >= rawW || y >= rawH) return;
+            var q = (y * rawW + x) * 4;
+            refColor = [rawPix[q], rawPix[q + 1], rawPix[q + 2]];
+            setStatus('Background colour set from the point you tapped.', 'good');
+            schedule();
         });
 
         syncSliders(); syncChips();
