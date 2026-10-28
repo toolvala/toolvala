@@ -40,17 +40,18 @@
 
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
-{"@type":"WebApplication","name":"Transfer Certificate Template Generator","url":"https://www.toolvala.in/transfer-certificate-generator.html","applicationCategory":"EducationalApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"INR"},"description":"Generate a school Transfer Certificate (School Leaving Certificate) with UDISE number, Admission/Withdrawal Register number, PEN and Aadhaar, and download it as PDF or image."},
+{"@type":"WebApplication","name":"Transfer Certificate Template Generator","url":"https://www.toolvala.in/transfer-certificate-generator.html","applicationCategory":"EducationalApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"INR"},"description":"Generate a school Transfer Certificate (School Leaving Certificate) with UDISE number, Admission/Withdrawal Register number, PEN and Aadhaar, in a table format or a school-register format, and download it as PDF or image."},
 {"@type":"BreadcrumbList","itemListElement":[
 {"@type":"ListItem","position":1,"name":"Home","item":"https://www.toolvala.in/"},
 {"@type":"ListItem","position":2,"name":"Education Tools","item":"https://www.toolvala.in/education-tools.html"},
 {"@type":"ListItem","position":3,"name":"Transfer Certificate Template Generator","item":"https://www.toolvala.in/transfer-certificate-generator.html"}]},
 {"@type":"FAQPage","mainEntity":[
 {"@type":"Question","name":"What is a Transfer Certificate?","acceptedAnswer":{"@type":"Answer","text":"A Transfer Certificate (TC), also called a School Leaving Certificate, is issued by a school when a student leaves it. The new school asks for it at admission."}},
+{"@type":"Question","name":"Can I add the PEN number to the Transfer Certificate?","acceptedAnswer":{"@type":"Answer","text":"Yes. In the table format, fill in the PEN box. In the school-register format, tick Add PEN number and type it. If you tick it but leave the box empty, a blank line is printed to fill by hand."}},
 {"@type":"Question","name":"Does the tool fetch school details from the UDISE number automatically?","acceptedAnswer":{"@type":"Answer","text":"No public UDISE API exists for automatic lookup. Enter the school details once; the tool remembers them on your device against the UDISE number."}},
 {"@type":"Question","name":"Is my student data uploaded anywhere?","acceptedAnswer":{"@type":"Answer","text":"No. Everything runs in your browser. Saved details stay in your own device storage and can be erased with one tap."}},
 {"@type":"Question","name":"Can I make the Transfer Certificate in Marathi?","acceptedAnswer":{"@type":"Answer","text":"Yes. Choose Marathi in the certificate language option; the date of birth in words is also written in Marathi."}},
-{"@type":"Question","name":"What is the Student ID or Saral ID field?","acceptedAnswer":{"@type":"Answer","text":"It is an optional field for the ID your school or state portal gave the student, such as the Saral ID. If you fill it in, it is printed as a row on the certificate."}},
+{"@type":"Question","name":"What is the Student ID or Saral ID field?","acceptedAnswer":{"@type":"Answer","text":"It is an optional field for the ID your school or state portal gave the student, such as the Saral ID. If you fill it in, it is printed on the certificate."}},
 {"@type":"Question","name":"Is the certificate valid without a signature?","acceptedAnswer":{"@type":"Answer","text":"No. After printing, the certificate must be signed by the Headmaster or Principal and stamped with the school seal."}}]}
 ]}
 </script>
@@ -153,6 +154,62 @@ button:disabled{opacity:.6;cursor:wait}
 .cert[data-sty="minimal"] .det td{border:0;border-bottom:1px solid #bbb}
 .cert[data-sty="minimal"] .det td.n,.cert[data-sty="minimal"] .det td.l{background:#fff}
 .ph{color:#999}
+.tabs{display:flex;gap:10px;margin:0 0 16px;flex-wrap:wrap}
+.tabbtn{flex:1 1 220px;max-width:380px;padding:12px 16px;border-radius:10px;border:2px solid var(--ink);background:#fff;color:var(--ink);font:700 15px 'Lato','Noto Sans Devanagari',sans-serif;cursor:pointer;text-align:left}
+.tabbtn small{display:block;font-weight:400;font-size:12px;opacity:.85}
+.tabbtn.on{background:var(--ink);color:#fff}
+/* ---- school-register format (second tab) ---- */
+#rMsg{margin-top:12px;font-size:14px;border-radius:8px;padding:0}
+#rMsg.show{padding:10px 12px}
+#rMsg.err{background:#fdecea;color:var(--err)}
+#rMsg.ok{background:#e6f4ec;color:var(--ok)}
+#rPreviewBox{width:100%;overflow:hidden;border-radius:6px;background:#dfe4ee;position:relative}
+#rCert,.rcert{--t1:#16396b;--t2:#c9a227;--tint:#f2f6fc;width:794px;height:1123px;background:#fff;color:#1d232f;transform-origin:top left;position:absolute;left:0;top:0;font-family:'Noto Serif','Noto Serif Devanagari',serif;padding:22px}
+.rcert[data-theme="maroon"]{--t1:#6b1d2a;--t2:#b8892e;--tint:#fbf3e6}
+.rcert[data-theme="green"]{--t1:#14532d;--t2:#b08d1f;--tint:#f1f8f3}
+.rfr{position:relative;width:100%;height:100%;border:5px double var(--t1);background:#fff;overflow:hidden}
+.rin{position:absolute;left:9px;top:9px;right:9px;bottom:9px;border:1px solid var(--t2)}
+.rc{position:absolute;width:14px;height:14px;background:var(--t2);transform:rotate(45deg)}
+.rc.a{left:2px;top:2px}.rc.b{right:2px;top:2px}.rc.c{left:2px;bottom:2px}.rc.d{right:2px;bottom:2px}
+.rbody{position:absolute;left:0;right:0;top:0;bottom:0;padding:calc(30px*var(--k,1)) 46px calc(24px*var(--k,1));display:flex;flex-direction:column}
+.rbody>*{flex-shrink:0}
+.rhd{display:flex;align-items:center;gap:14px;border-bottom:2px solid var(--t1);padding-bottom:calc(9px*var(--k,1))}
+.rhd img{width:calc(78px*var(--k,1));height:calc(78px*var(--k,1));object-fit:contain}
+.rht{flex:1;text-align:center}
+.rtr{font-size:calc(12px*var(--k,1));font-weight:700;letter-spacing:1px;color:#555;text-transform:uppercase}
+.rsn{font-size:calc(24px*var(--k,1));font-weight:700;color:var(--t1);line-height:1.25;letter-spacing:.4px}
+.rsa{font-size:calc(12.5px*var(--k,1));margin-top:calc(2px*var(--k,1))}
+.rsb{font-size:calc(11px*var(--k,1));color:#444;margin-top:calc(1px*var(--k,1));line-height:1.45}
+.rttl{text-align:center;margin:calc(12px*var(--k,1)) 0 0;font-family:'Sora','Noto Sans Devanagari',sans-serif;font-weight:700;font-size:calc(25px*var(--k,1));line-height:1.2;letter-spacing:2px;color:var(--t1)}
+.rdiv{display:flex;align-items:center;gap:12px;margin:calc(6px*var(--k,1)) auto calc(10px*var(--k,1));width:50%}
+.rdiv i{flex:1;height:2px;background:linear-gradient(90deg,#ffffff,var(--t2))}
+.rdiv i+b+i{background:linear-gradient(270deg,#ffffff,var(--t2))}
+.rdiv b{width:9px;height:9px;background:var(--t2);transform:rotate(45deg)}
+.rtop{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:calc(4px*var(--k,1))}
+.rtopl{flex:1}
+.rdis{border:1.5px solid var(--t2);background:var(--tint);padding:calc(6px*var(--k,1)) 14px;text-align:center;min-width:130px;font-size:calc(12px*var(--k,1))}
+.rdis b{display:block;font-size:calc(17px*var(--k,1));color:var(--t1);letter-spacing:.5px}
+.rdup{display:inline-block;margin-top:calc(6px*var(--k,1));border:1.5px solid #b3261e;color:#b3261e;font-weight:700;padding:0 8px;letter-spacing:1px;font-size:calc(11px*var(--k,1))}
+.rrow{display:flex;gap:16px;padding:calc(3px*var(--k,1)) 0;border-bottom:1px dotted #c3c9d6;font-size:calc(13.2px*var(--k,1));line-height:1.4}
+.rrow>.rl{flex:0 0 36%}
+.rh{flex:1;display:flex;gap:8px;min-width:0}
+.rh .rl{flex:0 0 auto}
+.rl{color:#555}
+.rv{flex:1;font-weight:700;color:var(--t1);min-width:0}
+.rn3{display:flex;gap:10px}
+.rn3>div{flex:1;min-width:0}
+.rn3 small{display:block;font-weight:400;color:#777;font-size:calc(10px*var(--k,1));line-height:1.2}
+.rbk{display:inline-block;min-width:110px;border-bottom:1.5px solid #333;text-align:center;color:#000}
+.rcf{font-size:calc(13px*var(--k,1));margin:calc(8px*var(--k,1)) 0 0;line-height:1.6}
+.rcf b{color:var(--t1)}
+.rdt{display:flex;justify-content:space-between;font-size:calc(13px*var(--k,1));margin-top:calc(4px*var(--k,1))}
+.rsig{margin-top:auto;display:flex;align-items:flex-end;justify-content:space-between;gap:12px;font-size:calc(12.5px*var(--k,1))}
+.rsg{text-align:center;padding-top:calc(40px*var(--k,1));flex:1;min-width:0}
+.rsg.hm{flex:1.7}
+.rline{border-top:1.5px solid #222;margin:0 8px calc(3px*var(--k,1))}
+.rsg .des{font-weight:700;color:var(--t1);letter-spacing:.5px}
+.rseal{width:calc(80px*var(--k,1));height:calc(80px*var(--k,1));border:1.5px dashed #9aa3b5;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;color:#9aa3b5;text-align:center;flex:0 0 auto}
+.rfine{font-size:calc(10px*var(--k,1));color:#777;text-align:center;margin-top:calc(8px*var(--k,1))}
 .note{font-size:13px;color:var(--mut);margin-top:10px}
 .info{font-size:14px;color:var(--mut)}
 .info h2{margin:16px 0 6px;font-size:17px}
@@ -168,6 +225,8 @@ footer.fb a{color:#fff}
  .wrap,.layout,.prev{display:block!important;padding:0!important;margin:0!important;max-width:none!important;position:static!important}
  #previewBox{height:1123px!important;width:794px!important;overflow:visible;background:#fff;border-radius:0}
  #cert,.cert{transform:none!important}
+ #rPreviewBox{height:1123px!important;width:794px!important;overflow:visible;background:#fff;border-radius:0}
+ #rCert,.rcert{transform:none!important}
 }
 .disc{margin:18px 0 0;padding:14px 16px;background:#fff8e8;border:1px solid #ecd9a6;border-left:4px solid #c98a12;border-radius:10px;font-size:13.5px;color:#4a3b14;line-height:1.55}.disc h2{font-size:16px;margin:0 0 6px;color:#4a3b14}.disc p{margin:0 0 6px}.disc ul{margin:4px 0 6px;padding-left:20px}.disc .mr{margin-top:8px;padding-top:8px;border-top:1px dashed #e3cf95}
 </style>
@@ -185,9 +244,16 @@ footer.fb a{color:#fff}
  <div class="crumbs no-print"><a href="/">Home</a> › <a href="/education-tools.html">Education Tools</a> › Transfer Certificate Template Generator</div>
  <section class="hero no-print">
   <h1>Transfer Certificate Template Generator</h1>
-  <p>Enter the school's UDISE number and the Admission/Withdrawal Register number, fill in the details once, and download a print-ready A4 Transfer (School Leaving) Certificate with school name, PEN and Aadhaar number.</p>
+  <p>Create a print-ready A4 Transfer (School Leaving) Certificate in two formats: a <strong>table format</strong> with UDISE, register number, PEN and Aadhaar, or the common <strong>school-register format</strong> with Admission and Discharge numbers and an optional PEN number. English and Marathi.</p>
  </section>
 
+ <div class="tabs no-print" role="tablist" aria-label="Certificate format">
+  <button type="button" class="tabbtn on" id="tbD" role="tab" aria-selected="true" aria-controls="tabDetailed">Table format<small>Numbered table with full student details</small></button>
+  <button type="button" class="tabbtn" id="tbR" role="tab" aria-selected="false" aria-controls="tabRegister">School-register format<small>Admission and Discharge no., optional PEN, Aadhaar, Student ID</small></button>
+ </div>
+
+ <!-- ================= TAB 1: TABLE FORMAT (existing tool) ================= -->
+ <div id="tabDetailed" role="tabpanel">
  <div class="layout">
   <div class="no-print">
    <div class="card key">
@@ -313,19 +379,152 @@ footer.fb a{color:#fff}
    </div>
   </div>
  </div>
+ </div>
+
+ <!-- ================= TAB 2: SCHOOL-REGISTER FORMAT ================= -->
+ <div id="tabRegister" role="tabpanel" style="display:none">
+ <div class="layout">
+  <div class="no-print">
+   <div class="card key">
+    <h2>1. School</h2>
+    <div class="f"><label for="r_trust">Trust / society name <small>(optional)</small></label><input id="r_trust" autocomplete="off" placeholder="Shown in small capitals above the school name"></div>
+    <div class="f"><label for="r_school">School name</label><input id="r_school" autocomplete="off"></div>
+    <div class="f"><label for="r_addr">Address</label><input id="r_addr" autocomplete="off" placeholder="Village, taluka, district, state"></div>
+    <div class="grid2">
+     <div class="f"><label for="r_phone">Phone <small>(optional)</small></label><input id="r_phone" type="tel" inputmode="numeric" maxlength="12" autocomplete="off"></div>
+     <div class="f"><label for="r_email">Email <small>(optional)</small></label><input id="r_email" type="email" autocomplete="off"></div>
+    </div>
+    <div class="grid2">
+     <div class="f"><label for="r_recog">School recognition no. <small>(optional)</small></label><input id="r_recog" autocomplete="off"></div>
+     <div class="f"><label for="r_index">Board index no. <small>(optional)</small></label><input id="r_index" autocomplete="off"></div>
+    </div>
+    <div class="grid2">
+     <div class="f"><label for="r_udise">UDISE no. <small>(optional)</small></label><input id="r_udise" inputmode="numeric" maxlength="11" autocomplete="off"></div>
+     <div class="f"><label for="r_medium">Medium <small>(optional)</small></label><select id="r_medium"></select></div>
+    </div>
+    <div class="f"><label for="r_board">Divisional board <small>(optional)</small></label><select id="r_board"></select></div>
+    <div class="f"><label for="r_logo">School logo <small>(optional)</small></label>
+     <div class="logo-row"><input type="file" id="r_logo" accept="image/*"><button type="button" class="b4" id="r_rmLogo">Remove</button></div></div>
+   </div>
+
+   <div class="card">
+    <h2>2. Admission details</h2>
+    <p class="hint" style="margin:-6px 0 12px">Leave any box empty to keep a blank line that you can fill in by hand after printing.</p>
+    <div class="grid2">
+     <div class="f"><label for="r_adm">Admission no.</label><input id="r_adm" autocomplete="off"></div>
+     <div class="f"><label for="r_admDate">Admission date</label><input type="date" id="r_admDate"></div>
+    </div>
+    <div class="f"><label for="r_dis">Discharge / TC no. <small>(shown in the box at the top right)</small></label><input id="r_dis" autocomplete="off"></div>
+    <label class="chk"><input type="checkbox" id="r_sidOn"> Add Student ID / Saral ID</label>
+    <div id="r_sidBox" style="display:none" class="grid2">
+     <div class="f"><select id="r_sidType" aria-label="Student ID type"><option value="0">Student ID</option><option value="1">Saral ID</option><option value="2">Student Portal ID</option></select></div>
+     <div class="f"><input id="r_sid" inputmode="text" maxlength="22" autocomplete="off" placeholder="ID number" aria-label="Student ID number"></div>
+    </div>
+    <label class="chk"><input type="checkbox" id="r_aadOn"> Add Aadhaar (UID) number</label>
+    <div id="r_aadBox" style="display:none">
+     <div class="f"><input id="r_aadhaar" inputmode="numeric" maxlength="14" autocomplete="off" placeholder="12 digits" aria-label="Aadhaar number"></div>
+     <label class="chk"><input type="checkbox" id="r_mask"> Hide the first 8 digits on the certificate</label>
+    </div>
+    <label class="chk"><input type="checkbox" id="r_penOn"> <span><strong>Add PEN number</strong> (Permanent Education No.)</span></label>
+    <div id="r_penBox" style="display:none"><div class="f"><input id="r_pen" inputmode="numeric" maxlength="14" autocomplete="off" placeholder="PEN, usually 11 digits" aria-label="PEN"></div></div>
+   </div>
+
+   <div class="card">
+    <h2>3. Student</h2>
+    <div class="grid2">
+     <div class="f"><label for="r_gender">Student is</label><select id="r_gender"><option value="">Not specified (no prefix)</option><option value="M">Male (Master)</option><option value="F">Female (Ku.)</option></select></div>
+     <div class="f"><label for="r_first">Student's name</label><input id="r_first" autocomplete="off"></div>
+    </div>
+    <div class="grid2">
+     <div class="f"><label for="r_father">Father's name</label><input id="r_father" autocomplete="off"></div>
+     <div class="f"><label for="r_surname">Surname</label><input id="r_surname" autocomplete="off"></div>
+    </div>
+    <div class="f"><label for="r_mother">Mother's name</label><input id="r_mother" autocomplete="off"></div>
+    <div class="grid2">
+     <div class="f"><label for="r_nat">Nationality</label><input id="r_nat" autocomplete="off" value="Indian"></div>
+     <div class="f"><label for="r_tongue">Mother tongue</label><input id="r_tongue" autocomplete="off"></div>
+    </div>
+    <div class="grid2">
+     <div class="f"><label for="r_religion">Religion</label><input id="r_religion" autocomplete="off"></div>
+     <div class="f"><label for="r_caste">Caste</label><input id="r_caste" autocomplete="off"></div>
+    </div>
+    <div class="f"><label for="r_sub">Sub-caste <small>(optional)</small></label><input id="r_sub" autocomplete="off"></div>
+    <div class="f"><label for="r_birth">Place of birth <small>(village, taluka, district)</small></label><input id="r_birth" autocomplete="off"></div>
+    <div class="grid2">
+     <div class="f"><label for="r_state">State</label><input id="r_state" autocomplete="off" value="Maharashtra"></div>
+     <div class="f"><label for="r_country">Country</label><input id="r_country" autocomplete="off" value="India"></div>
+    </div>
+    <div class="f"><label for="r_dob">Date of birth</label><input type="date" id="r_dob"></div>
+    <div class="f"><label for="r_dobw">Date of birth in words <small>(optional)</small></label><input id="r_dobw" autocomplete="off"><div class="hint">Filled in automatically. Type your own wording to replace it.</div></div>
+   </div>
+
+   <div class="card">
+    <h2>4. School record</h2>
+    <div class="f"><label for="r_last">Last school attended and class <small>(optional)</small></label><input id="r_last" autocomplete="off"></div>
+    <div class="grid2">
+     <div class="f"><label for="r_prog">Progress in the study</label><select id="r_prog"></select></div>
+     <div class="f"><label for="r_cond">Conduct</label><select id="r_cond"></select></div>
+    </div>
+    <div class="f"><label for="r_leave">Date of leaving school</label><input type="date" id="r_leave"></div>
+    <div class="f"><label for="r_from">From which class and when</label><input id="r_from" autocomplete="off" placeholder="e.g. 10th Pass 2025-2026"></div>
+    <div class="f"><label for="r_fromW">Same in words <small>(optional)</small></label><input id="r_fromW" autocomplete="off" placeholder="e.g. Tenth Pass 2025-2026"></div>
+    <div class="f"><label for="r_reason">Reason for leaving school</label><input id="r_reason" list="r_reasons" autocomplete="off" placeholder="Choose or type"><datalist id="r_reasons"><option value="On own request"><option value="Passed the final class of this school"><option value="Parent's transfer / change of residence"><option value="Admission to another school"></datalist></div>
+    <div class="f"><label for="r_remarks">Remarks <small>(optional)</small></label><input id="r_remarks" autocomplete="off"></div>
+    <div class="f"><label for="r_reg">General register no. <small>(used in the certifying line)</small></label><input id="r_reg" autocomplete="off"></div>
+   </div>
+
+   <div class="card">
+    <h2>5. Certificate options</h2>
+    <div class="grid2">
+     <div class="f"><label for="r_lang">Certificate language</label><select id="r_lang"><option value="en">English</option><option value="mr">मराठी (Marathi)</option></select></div>
+     <div class="f"><label for="r_theme">Colour theme</label><select id="r_theme"><option value="royal">Royal blue &amp; gold</option><option value="maroon">Maroon &amp; gold</option><option value="green">Forest green &amp; gold</option></select></div>
+    </div>
+    <div class="grid2">
+     <div class="f"><label for="r_date">Date of issue</label><input type="date" id="r_date"></div>
+     <div class="f"><label for="r_place">Place <small>(optional)</small></label><input id="r_place" autocomplete="off"></div>
+    </div>
+    <div class="grid2">
+     <div class="f"><label for="r_signer">Signatory designation</label><input id="r_signer" autocomplete="off" value="Headmaster"></div>
+     <div class="f"><label for="r_signerName">Signatory name <small>(optional)</small></label><input id="r_signerName" autocomplete="off"></div>
+    </div>
+    <div class="f"><label for="r_under">Name and place shown under the signature</label><input id="r_under" autocomplete="off" placeholder="School name and place, as it should appear under the signature"></div>
+    <label class="chk"><input type="checkbox" id="r_teacher" checked> Show Class Teacher signature</label>
+    <label class="chk"><input type="checkbox" id="r_writer" checked> Show Writer signature</label>
+    <label class="chk"><input type="checkbox" id="r_dup"> Mark as DUPLICATE copy</label>
+    <label class="chk"><input type="checkbox" id="r_cap" checked> Capitalise the first letter of each word in names and places</label>
+    <label class="chk"><input type="checkbox" id="r_remember" checked> Remember the school details on this device</label>
+    <div id="rMsg" role="status" aria-live="polite"></div>
+   </div>
+  </div>
+
+  <div class="prev">
+   <div class="card" style="padding:12px">
+    <div class="btns no-print" style="margin-bottom:12px">
+     <button type="button" class="b2" id="rPdf">Download PDF</button>
+     <button type="button" class="b3" id="rPng">Download image</button>
+     <button type="button" class="b3" id="rPrint">Print</button>
+    </div>
+    <div id="rPreviewBox"><div id="rCert" class="rcert"></div></div>
+    <p class="note no-print">A4 portrait. The certificate becomes valid only after the Headmaster/Principal signs it and the school seal is applied.</p>
+   </div>
+  </div>
+ </div>
+ </div>
 
  <section class="disc no-print"><h2>Disclaimer</h2><p>This free tool only helps authorised school / college staff format a certificate from information they already hold. It is not an official document service and is not connected to any government body, board or university.</p><ul><li>You are responsible for the accuracy of every detail you enter.</li><li>Use it only for your own institution and only with proper authority. Making or using a false document is a punishable offence under Indian law.</li><li>The printed document is valid only after the signature and seal of the authorised signatory.</li><li>Everything is processed in your browser. Nothing you type is sent to our server; saved records stay on this device only.</li></ul><p class="mr">हे मोफत साधन फक्त अधिकृत शाळा / महाविद्यालयीन कर्मचाऱ्यांना त्यांच्याकडील माहितीवरून दस्तऐवज तयार करण्यास मदत करते. माहितीच्या अचूकतेची जबाबदारी वापरकर्त्याची आहे. बनावट कागदपत्र तयार करणे किंवा वापरणे हा गुन्हा आहे. संबंधित अधिकाऱ्याच्या सही व शिक्क्यानंतरच दस्तऐवज वैध ठरतो.</p></section>
  <section class="related no-print"><h2>Related tools</h2><a href="/bonafide-certificate-generator.html">Bonafide Certificate Template Generator</a><a href="/marksheet-generator.html">Student Marksheet Template Generator</a><a href="/statement-generator.html">Statement of Marks Template Generator</a><a href="/school-timetable-generator.html">School Timetable Template Generator</a><a href="/school-tools.html">All School Tools</a><div class="hint">Need a bonafide certificate for a student who is still studying in your school? Create one with UDISE, PEN and Aadhaar details.</div></section>
 
  <section class="info no-print">
   <h2>About this Transfer Certificate maker</h2>
-  <p>A Transfer Certificate (TC), also called a School Leaving Certificate, records a student's details and school history when they leave a school. The next school asks for it at admission. This tool builds it from your school's own records: the UDISE number identifies the school, and the Admission/Withdrawal (General) Register number ties the certificate to the student's register entry.</p>
+  <p>A Transfer Certificate (TC), also called a School Leaving Certificate, records a student's details and school history when they leave a school. The next school asks for it at admission. This tool builds it from your school's own records. The <strong>table format</strong> identifies the school by its UDISE number and ties the certificate to the student's register entry. The <strong>school-register format</strong> follows the common school-office layout, with the Admission number, Admission date and Discharge number at the top, and optional Student ID, Aadhaar and PEN lines.</p>
   <h2>Frequently asked questions</h2>
+  <details><summary>Which format should I use?</summary><p>Use the <strong>table format</strong> for a numbered, table-style certificate. Use the <strong>school-register format</strong> if your office uses the label-and-value layout with Admission and Discharge numbers and Class Teacher, Writer and Headmaster signatures. If you are not sure, ask the school that will receive the certificate.</p></details>
+  <details><summary>Can I add the PEN number to the Transfer Certificate?</summary><p>Yes. In the table format, fill in the PEN box. In the school-register format, tick <strong>Add PEN number</strong> and type it. If you tick it but leave the box empty, a blank line is printed for you to fill by hand.</p></details>
   <details><summary>Does it fetch school details from the UDISE number?</summary><p>There is no public UDISE lookup that a website can call, so the school name and address are typed once. They are then remembered on your device against that UDISE number and filled in automatically next time.</p></details>
   <details><summary>Is student data uploaded anywhere?</summary><p>No. The certificate is built entirely in your browser. Saved details stay in your device's storage, and the erase button removes them.</p></details>
   <details><summary>Can I get the certificate in Marathi?</summary><p>Yes. Pick Marathi under certificate language and the whole certificate, including the date of birth in words, switches to Marathi.</p></details>
   <details><summary>Is the Aadhaar number checked?</summary><p>The tool checks that it has 12 digits and shows a warning if it fails the standard Aadhaar checksum, which catches most typing mistakes. It cannot confirm that the number belongs to the student.</p></details>
-  <details><summary>What is the Student ID or Saral ID field?</summary><p>It is an optional field for the ID your school or state portal gave the student, such as the Saral ID. If you fill it in, it is printed as a row on the certificate. Leave it empty and the row is left out.</p></details>
+  <details><summary>What is the Student ID or Saral ID field?</summary><p>It is an optional field for the ID your school or state portal gave the student, such as the Saral ID. If you fill it in, it is printed on the certificate. Leave it empty and it is left out.</p></details>
   <details><summary>Is the certificate valid without a signature?</summary><p>No. Print it, then have it signed by the Headmaster or Principal and stamped with the school seal.</p></details>
  </section>
 </main>
@@ -453,9 +652,6 @@ function fitContent(){
  while(over()&&k>0.6){k=Math.round((k-0.03)*100)/100;fr.style.setProperty('--k',k);}
 }
 function fit(){const b=$('previewBox'),s=Math.min(1,b.clientWidth/794);$('cert').style.transform='scale('+s+')';b.style.height=(1123*s)+'px';}
-window.addEventListener('resize',fit);
-window.addEventListener('beforeprint',()=>{$('cert').style.transform='none';});
-window.addEventListener('afterprint',fit);
 
 /* ---------- save / load ---------- */
 function tryLoad(){
@@ -479,7 +675,7 @@ function syncReason(){$('reasonOtherBox').hidden=(+$('reason').value!==REASON.le
 /* ---------- validation ---------- */
 function msg(type,html){const m=$('msg');m.className='show '+type;m.innerHTML=html;}
 function validate(){
- document.querySelectorAll('.bad').forEach(e=>e.classList.remove('bad'));
+ document.querySelectorAll('#tabDetailed .bad').forEach(e=>e.classList.remove('bad'));
  const errs=[],bad=[];const need=(id,ok,t)=>{if(!ok){errs.push(t);bad.push(id);}};
  need('udise',/^\d{11}$/.test($('udise').value),'UDISE number must be exactly 11 digits.');
  need('reg',!!val('reg'),'Enter the Admission/Withdrawal Register number.');
@@ -504,16 +700,17 @@ function validate(){
 }
 
 /* ---------- export ---------- */
-async function canvas(){
+async function snap(srcId,w,h){
  const box=document.createElement('div');
- box.style.cssText='position:fixed;left:0;top:0;width:794px;height:1123px;z-index:-1;pointer-events:none;background:#fff';
- const c=$('cert').cloneNode(true);c.removeAttribute('id');
- c.style.cssText='transform:none;position:absolute;left:0;top:0;margin:0;width:794px;height:1123px';
+ box.style.cssText='position:fixed;left:0;top:0;width:'+w+'px;height:'+h+'px;z-index:-1;pointer-events:none;background:#fff';
+ const c=$(srcId).cloneNode(true);c.removeAttribute('id');
+ c.style.cssText='transform:none;position:absolute;left:0;top:0;margin:0;width:'+w+'px;height:'+h+'px';
  box.appendChild(c);document.body.appendChild(box);
  try{if(document.fonts)await document.fonts.ready;
-  return await html2canvas(c,{scale:2,backgroundColor:'#ffffff',useCORS:true,width:794,height:1123,windowWidth:794,windowHeight:1123,scrollX:0,scrollY:0});}
+  return await html2canvas(c,{scale:2,backgroundColor:'#ffffff',useCORS:true,width:w,height:h,windowWidth:w,windowHeight:h,scrollX:0,scrollY:0});}
  finally{box.remove();}
 }
+function canvas(){return snap('cert',794,1123);}
 function fname(ext){return 'TC_'+(val('stuName')||'Certificate').replace(/[^\p{L}\p{N}]+/gu,'_')+'.'+ext;}
 async function run(btn,fn){
  if(!validate())return;
@@ -545,28 +742,250 @@ $('logo').onchange=function(e){
 };
 $('rmLogo').onclick=function(){logoData='';$('logo').value='';render();};
 
-/* ---------- events ---------- */
+/* ---------- events (table format tab) ---------- */
 $('studentId').addEventListener('input',function(){this.value=this.value.replace(/[^A-Za-z0-9\-\/]/g,'').toUpperCase();});
 ['udise','mobile','pen','aadhaar'].forEach(id=>$(id).addEventListener('input',function(){const d=this.value.replace(/\D/g,'');this.value=id==='aadhaar'?grp(d.slice(0,12)):d;}));
-document.querySelectorAll('input,select').forEach(el=>{
+document.querySelectorAll('#tabDetailed input,#tabDetailed select').forEach(el=>{
  if(el.type==='file'||el.type==='checkbox'&&el.id==='remember')return;
  el.addEventListener('input',()=>{el.classList.remove('bad');if(el.id==='udise'||el.id==='reg')tryLoad();if(el.id==='reason')syncReason();render();});
  el.addEventListener('change',()=>{if(el.id==='reason')syncReason();if(el.id!=='logo')render();});
 });
 
+/* =====================================================================
+   SCHOOL-REGISTER FORMAT TAB (Admission / Discharge no., optional Student
+   ID, Aadhaar and PEN, Class Teacher / Writer / Headmaster signatures)
+   ===================================================================== */
+const RK='tv_tc_reg_school';
+const rv=id=>$(id).value.trim();
+const R_TOUCH=['r_trust','r_school','r_addr','r_phone','r_email','r_recog','r_index','r_udise','r_medium','r_board','r_signer','r_signerName','r_under','r_reg'];
+const R_SAVE=['r_trust','r_school','r_addr','r_phone','r_email','r_recog','r_index','r_udise','r_medium','r_board','r_signer','r_signerName','r_under','r_place','r_lang','r_theme'];
+let rLogo='';
+$('r_medium').innerHTML='<option value="">Not specified</option>'+MED.map((m,i)=>`<option value="${i}">${m[0]}</option>`).join('');
+$('r_board').innerHTML='<option value="">Not specified</option>'+DIVB.map((d,i)=>`<option value="${i}">Maharashtra State Board – ${d[0]} Divisional Board</option>`).join('');
+$('r_prog').innerHTML=PROG.map((c,i)=>`<option value="${i}"${i===2?' selected':''}>${c[0]}</option>`).join('');
+$('r_cond').innerHTML=COND.map((c,i)=>`<option value="${i}"${i===1?' selected':''}>${c[0]}</option>`).join('');
+(function(){const d=new Date(),t=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+ $('r_date').value=t;$('r_leave').value=t;})();
+
+const LOWER_WORDS=/^(of|and|the|in|at|for|on|to|by)$/;
+function capWords(str){
+ return str.split(/(\s+)/).map((w,i)=>(i>0&&LOWER_WORDS.test(w))?w:(/^[a-z]/.test(w)?w.charAt(0).toUpperCase()+w.slice(1):w)).join('');
+}
+const rc=id=>{const t=rv(id);return $('r_cap').checked?capWords(t):t;};
+const rbk=(t,min)=>t?esc(t):'<span class="rbk" style="min-width:'+(min||110)+'px">&nbsp;</span>';
+
+function rDict(mr){
+ return mr?{
+  t:'शाळा सोडल्याचा दाखला',adm:'प्रवेश क्र.',admD:'प्रवेश दिनांक',sidL:['विद्यार्थी आयडी','सरल आयडी','स्टुडंट पोर्टल आयडी'],uid:'आधार क्र. (UID)',pen:'PEN क्र.',dis:'निर्गम क्र.',
+  nm:'विद्यार्थ्याचे नाव',cap:['(नाव)','(वडिलांचे नाव)','(आडनाव)'],mo:'आईचे नाव',nat:'राष्ट्रीयत्व',tg:'मातृभाषा',rel:'धर्म',cs:'जात',sc:'पोटजात',
+  pb:'जन्मस्थान',st:'राज्य',co:'देश',dob:'जन्मतारीख (ख्रिस्ती सन)',dw:'अक्षरी',ls:'यापूर्वीची शाळा व इयत्ता',pg:'अभ्यासातील प्रगती',cd:'वर्तणूक',
+  lv:'शाळा सोडल्याचा दिनांक',fr:'कोणत्या इयत्तेतून व केव्हा',frw:'अक्षरी',rs:'शाळा सोडण्याचे कारण',rm:'शेरा',
+  cf:'प्रमाणित करण्यात येते की, वरील माहिती शाळेच्या जनरल रजिस्टर क्र.',dt:'दिनांक',pl:'ठिकाण',teacher:'वर्गशिक्षक',writer:'लेखनिक',seal:'शाळेचा<br>शिक्का',
+  dup:'दुय्यम प्रत',ph:'दूरध्वनी',em:'ई-मेल',rc:'शाळा मान्यता क्र.',md:'माध्यम',ud:'युडायस क्र.',ix:'बोर्ड इंडेक्स क्र.',
+  fine:'हा दाखला मुख्याध्यापक यांच्या सही व शाळेच्या शिक्क्याशिवाय अवैध आहे.',defSigner:'मुख्याध्यापक'}
+ :{
+  t:'SCHOOL LEAVING CERTIFICATE',adm:'Admission No.',admD:'Admission Date',sidL:['Student ID','Saral ID','Student Portal ID'],uid:'UID No. (Aadhaar No.)',pen:'PEN No.',dis:'Discharge No.',
+  nm:'Name of the Student',cap:['(Name)',"(Father's Name)",'(Surname)'],mo:"Mother's Name",nat:'Nationality',tg:'Mother Tongue',rel:'Religion',cs:'Caste',sc:'Sub-Caste',
+  pb:'Place of Birth',st:'State',co:'Country',dob:'Date of Birth (Christian Era)',dw:'In words',ls:'Last School Attended and Class',pg:'Progress in the study',cd:'Conduct',
+  lv:'Date of leaving school',fr:'From which class & when (date)',frw:'in words',rs:'Reason of leaving school',rm:'Remarks',
+  cf:'This is to certify that the above given information is true according to the school general register No.',dt:'Date',pl:'Place',teacher:'Class Teacher',writer:'Writer',seal:'School<br>Seal',
+  dup:'DUPLICATE COPY',ph:'Phone No.',em:'Email',rc:'School Recognition No.',md:'Medium',ud:'U-DISE No.',ix:'Board Index No.',
+  fine:'This certificate is not valid without the signature of the Headmaster and the school seal.',defSigner:'Headmaster'};
+}
+
+function rRender(){
+ const mr=$('r_lang').value==='mr',i=mr?1:0,g=$('r_gender').value,L=rDict(mr);
+ const title=g?(mr?(g==='F'?'कु.':'चि.'):(g==='F'?'Ku.':'Master')):'';
+ const first=rc('r_first'),fa=rc('r_father'),sur=rc('r_surname'),mo=rc('r_mother');
+ const trust=rc('r_trust'),school=rc('r_school'),addr=rc('r_addr'),under=rc('r_under')||school;
+ const adm=rv('r_adm'),dis=rv('r_dis'),reg=rv('r_reg');
+ const nat=rv('r_nat'),natT=mr&&/^indian$/i.test(nat)?'भारतीय':nat;
+ const dobIso=$('r_dob').value,auto=dobToWords(dobIso,$('r_lang').value);
+ $('r_dobw').placeholder=auto||'Filled in automatically from the date of birth';
+ const words=rv('r_dobw')||auto;
+ const sidOn=$('r_sidOn').checked,aadOn=$('r_aadOn').checked,penOn=$('r_penOn').checked;
+ const sid=rv('r_sid'),aad=digits('r_aadhaar'),pen=digits('r_pen');
+ const aadShow=aad?($('r_mask').checked&&aad.length===12?'XXXX XXXX '+aad.slice(-4):grp(aad)):'';
+ const signer=(mr&&(!rv('r_signer')||rv('r_signer').toLowerCase()==='headmaster'))?L.defSigner:(rv('r_signer')||L.defSigner);
+ const row=(l,v)=>'<div class="rrow"><span class="rl">'+l+'</span><span class="rv">'+v+'</span></div>';
+ const row2=(l1,v1,l2,v2)=>'<div class="rrow"><div class="rh"><span class="rl">'+l1+'</span><span class="rv">'+v1+'</span></div><div class="rh"><span class="rl">'+l2+'</span><span class="rv">'+v2+'</span></div></div>';
+
+ /* header */
+ const mob=digits('r_phone'),em=rv('r_email');
+ const mdT=$('r_medium').value===''?'':MED[+$('r_medium').value][i];
+ const bd=$('r_board').value,bdT=bd===''?'':(mr?'महाराष्ट्र राज्य माध्यमिक व उच्च माध्यमिक शिक्षण मंडळ, '+DIVB[+bd][1]+' विभागीय मंडळ':'Maharashtra State Board of Secondary and Higher Secondary Education, '+DIVB[+bd][0]+' Divisional Board');
+ const j=a=>a.filter(Boolean).join(' &nbsp;|&nbsp; ');
+ const l1=j([mob?L.ph+': '+esc(mob):'',em?L.em+': '+esc(em):'']);
+ const l2=j([rv('r_recog')?L.rc+': '+esc(rv('r_recog')):'',mdT?L.md+': '+esc(mdT):'']);
+ const l3=j([rv('r_udise')?L.ud+': '+esc(rv('r_udise')):'',rv('r_index')?L.ix+': '+esc(rv('r_index')):'']);
+ const hdLines=[l1,l2,l3,bdT?esc(bdT):''].filter(Boolean).map(x=>'<div class="rsb">'+x+'</div>').join('');
+ const logo=rLogo?'<img src="'+rLogo+'" alt="">':'';
+
+ /* top block */
+ const top=[row(L.adm,rbk(adm,90)),row(L.admD,rbk(fmt($('r_admDate').value),110))];
+ if(sidOn)top.push(row(L.sidL[+$('r_sidType').value||0],rbk(sid,220)));
+ if(aadOn)top.push(row(L.uid,rbk(aadShow,170)));
+ if(penOn)top.push(row(L.pen,rbk(pen,150)));
+ const disBox='<div class="rdis">'+L.dis+'<b>'+rbk(dis,70)+'</b>'+($('r_dup').checked?'<span class="rdup">'+L.dup+'</span>':'')+'</div>';
+
+ /* body rows */
+ const part=(t,cap,pre)=>'<div>'+(pre||'')+rbk(t,70)+'<small>'+cap+'</small></div>';
+ const nameRow='<div class="rrow"><span class="rl">'+L.nm+'</span><div class="rv rn3">'+part(first,L.cap[0],title?esc(title)+' ':'')+part(fa,L.cap[1])+part(sur,L.cap[2])+'</div></div>';
+ const state=rc('r_state'),country=rc('r_country'),birth=rc('r_birth');
+ const pbHtml=rbk(birth,200)+(state?', '+L.st+': '+esc(state):'')+(country?', '+L.co+': '+esc(country):'');
+ const sub=rc('r_sub');
+ const fromW=rv('r_fromW');
+ const rows=[
+  nameRow,
+  row(L.mo,rbk(mo,200)),
+  row2(L.nat,rbk(natT,70),L.tg,rbk(rc('r_tongue'),70)),
+  row2(L.rel,rbk(rc('r_religion'),70),L.cs,rbk(rc('r_caste'),70)+(sub?' &nbsp; <span class="rl">'+L.sc+':</span> '+esc(sub):'')),
+  row(L.pb,pbHtml),
+  row(L.dob,rbk(fmt(dobIso),110)),
+  row(L.dw,rbk(words,260)),
+  row(L.ls,rbk(rc('r_last'),220)),
+  row2(L.pg,esc(PROG[+$('r_prog').value][i]),L.cd,esc(COND[+$('r_cond').value][i])),
+  row(L.lv,rbk(fmt($('r_leave').value),110)),
+  row(L.fr,rbk(rv('r_from'),200)+(fromW?' ('+L.frw+') '+esc(fromW):'')),
+  row(L.rs,rbk(rv('r_reason'),220)),
+  row(L.rm,rbk(rv('r_remarks'),220))
+ ].join('');
+
+ /* footer */
+ const place=rc('r_place'),issue=fmt($('r_date').value);
+ const dt='<div class="rdt"><span>'+L.dt+': <b class="rv">'+esc(issue)+'</b></span>'+(place?'<span>'+L.pl+': <b class="rv">'+esc(place)+'</b></span>':'')+'</div>';
+ const sg=(label)=>'<div class="rsg"><div class="rline"></div>'+label+'</div>';
+ const sigRow='<div class="rsig">'+($('r_teacher').checked?sg(L.teacher):'')+($('r_writer').checked?sg(L.writer):'')+'<div class="rseal">'+L.seal+'</div>'
+  +'<div class="rsg hm"><div class="rline"></div><div class="des">'+esc(signer.toUpperCase())+'</div>'+(rv('r_signerName')?'<div>'+esc(rv('r_signerName'))+'</div>':'')+(under?'<div>'+esc(under)+'</div>':'')+'</div></div>';
+
+ $('rCert').setAttribute('data-theme',$('r_theme').value||'royal');
+ $('rCert').innerHTML='<div class="rfr"><div class="rin"></div><i class="rc a"></i><i class="rc b"></i><i class="rc c"></i><i class="rc d"></i>'
+  +'<div class="rbody"><div class="rhd">'+logo+'<div class="rht">'+(trust?'<div class="rtr">'+esc(trust)+'</div>':'')+'<div class="rsn">'+(school?esc(school):'&nbsp;')+'</div>'+(addr?'<div class="rsa">'+esc(addr)+'</div>':'')+hdLines+'</div>'+(rLogo?'<div style="width:78px"></div>':'')+'</div>'
+  +'<div class="rttl">'+L.t+'</div><div class="rdiv"><i></i><b></b><i></i></div>'
+  +'<div class="rtop"><div class="rtopl">'+top.join('')+'</div>'+disBox+'</div>'
+  +rows
+  +'<div class="rcf">'+L.cf+' <b>'+rbk(reg,60)+'</b>.</div>'+dt+sigRow
+  +'<div class="rfine">'+L.fine+'</div></div></div>';
+ rFitContent();rFit();
+}
+function rFitContent(){
+ const fr=$('rCert').firstElementChild;if(!fr)return;
+ const b=fr.querySelector('.rbody');if(!b)return;let k=1.15;fr.style.setProperty('--k',k);
+ const over=()=>{const l=b.lastElementChild,pb=parseFloat(getComputedStyle(b).paddingBottom)||0;return l.offsetTop+l.offsetHeight>b.clientHeight-pb+1;};
+ while(over()&&k>0.5){k=Math.round((k-0.03)*100)/100;fr.style.setProperty('--k',k);}
+}
+function rFit(){const b=$('rPreviewBox'),s=Math.min(1,b.clientWidth/794);$('rCert').style.transform='scale('+s+')';b.style.height=(1123*s)+'px';}
+
+/* remember school details, sync with the table-format tab */
+function rSave(){
+ try{
+  if($('r_remember').checked){const o={logo:rLogo};R_SAVE.forEach(id=>o[id]=$(id).value);store(RK,o);}
+  else localStorage.removeItem(RK);
+ }catch(e){}
+}
+(function(){
+ const s=load(RK);
+ if(s){
+  R_SAVE.forEach(id=>{if(s[id]!=null&&s[id]!==''){$(id).value=s[id];if(R_TOUCH.indexOf(id)>-1)$(id).dataset.touched='1';}});
+  if(s.logo)rLogo=s.logo;
+ }
+})();
+function syncRegister(){
+ const map=[['r_trust','instName'],['r_school','schoolName'],['r_addr','schoolAddr'],['r_phone','mobile'],['r_email','email'],['r_recog','recogNo'],['r_index','boardIndex'],['r_udise','udise'],['r_signer','hmTitle'],['r_signerName','hmName'],['r_reg','reg'],['r_medium','medium'],['r_board','divBoard']];
+ map.forEach(p=>{const el=$(p[0]);if(el.dataset.touched!=='1'&&$(p[1]).value)el.value=$(p[1]).value;});
+ const u=$('r_under');if(u.dataset.touched!=='1'&&$('schoolName').value)u.value=$('schoolName').value+($('schoolAddr').value?', '+$('schoolAddr').value:'');
+}
+function rIdUi(){
+ $('r_sidBox').style.display=$('r_sidOn').checked?'':'none';
+ $('r_aadBox').style.display=$('r_aadOn').checked?'':'none';
+ $('r_penBox').style.display=$('r_penOn').checked?'':'none';
+}
+$('r_aadhaar').addEventListener('input',function(){this.classList.remove('bad');this.value=grp(this.value.replace(/\D/g,'').slice(0,12));});
+$('r_pen').addEventListener('input',function(){this.value=this.value.replace(/\D/g,'').slice(0,14);});
+$('r_udise').addEventListener('input',function(){this.value=this.value.replace(/\D/g,'').slice(0,11);});
+$('r_phone').addEventListener('input',function(){this.value=this.value.replace(/\D/g,'').slice(0,12);});
+$('r_sid').addEventListener('input',function(){this.value=this.value.replace(/[^A-Za-z0-9\-\/]/g,'').toUpperCase();});
+['r_sidOn','r_aadOn','r_penOn'].forEach(id=>$(id).addEventListener('change',rIdUi));
+document.querySelectorAll('#tabRegister input,#tabRegister select').forEach(el=>{
+ if(el.type==='file')return;
+ const h=()=>{if(R_TOUCH.indexOf(el.id)>-1)el.dataset.touched='1';rRender();rSave();};
+ el.addEventListener('input',h);el.addEventListener('change',h);
+});
+$('r_logo').onchange=function(e){
+ const f=e.target.files[0];if(!f)return;const img=new Image(),url=URL.createObjectURL(f);
+ img.onload=()=>{const s=Math.min(1,200/Math.max(img.width,img.height)),c=document.createElement('canvas');
+  c.width=Math.round(img.width*s);c.height=Math.round(img.height*s);c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+  rLogo=c.toDataURL('image/png');URL.revokeObjectURL(url);rRender();rSave();};
+ img.src=url;
+};
+$('r_rmLogo').onclick=function(){rLogo='';$('r_logo').value='';rRender();rSave();};
+rIdUi();
+
+/* validation and export */
+let rWarn='';
+function rMsg(type,t){const m=$('rMsg');m.className='show '+type;m.textContent=t;}
+function rValidate(){
+ rWarn='';$('r_aadhaar').classList.remove('bad');
+ if($('r_aadOn').checked){
+  const a=digits('r_aadhaar');
+  if(a){
+   if(!/^[2-9]\d{11}$/.test(a)){$('r_aadhaar').classList.add('bad');rMsg('err','Aadhaar number must be 12 digits and cannot start with 0 or 1.');$('r_aadhaar').scrollIntoView({block:'center'});return false;}
+   if(!aadhaarOk(a))rWarn+=' Note: the Aadhaar number does not pass the standard checksum, so please re-check it against the Aadhaar card.';
+  }
+ }
+ if($('r_penOn').checked){const pn=digits('r_pen');if(pn&&pn.length!==11)rWarn+=' Note: PEN is usually 11 digits, so please check yours.';}
+ return true;
+}
+function rName(ext){return 'SLC_'+([rv('r_first'),rv('r_surname')].filter(Boolean).join(' ')||'Certificate').replace(/[^\p{L}\p{N}]+/gu,'_')+'.'+ext;}
+async function rrun(btn,fn){
+ if(!rValidate())return;
+ if(typeof html2canvas==='undefined'||!window.jspdf){rMsg('err','Still loading the export library. Wait a moment and try again.');return;}
+ const t=btn.textContent;btn.disabled=true;btn.textContent='Preparing…';
+ try{await fn();if(typeof gtag==='function')gtag('event','tc_register_download',{type:btn.id});}
+ catch(e){rMsg('err','Could not create the file. Try the Print button and choose “Save as PDF”.');}
+ btn.disabled=false;btn.textContent=t;
+}
+$('rPdf').onclick=function(){rrun(this,async()=>{
+ const c=await snap('rCert',794,1123),pdf=new window.jspdf.jsPDF({unit:'mm',format:'a4',orientation:'portrait'});
+ pdf.addImage(c.toDataURL('image/jpeg',0.95),'JPEG',0,0,210,297);pdf.save(rName('pdf'));rMsg('ok','PDF downloaded.'+rWarn);});};
+$('rPng').onclick=function(){rrun(this,async()=>{
+ const c=await snap('rCert',794,1123);
+ await new Promise(res=>c.toBlob(b=>{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=rName('png');document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000);res();},'image/png'));
+ rMsg('ok','Image downloaded.'+rWarn);});};
+$('rPrint').onclick=function(){if(!rValidate())return;rRender();if(rWarn)rMsg('ok','Printing.'+rWarn);window.print();};
+
+/* ---------- tabs and printing ---------- */
+let tab='detailed';
+function switchTab(t){
+ tab=t;
+ $('tabDetailed').style.display=t==='detailed'?'':'none';
+ $('tabRegister').style.display=t==='register'?'':'none';
+ $('tbD').classList.toggle('on',t==='detailed');$('tbR').classList.toggle('on',t==='register');
+ $('tbD').setAttribute('aria-selected',t==='detailed');$('tbR').setAttribute('aria-selected',t==='register');
+ if(t==='register'){syncRegister();rRender();}else render();
+ try{history.replaceState(null,'',t==='register'?'#register':location.pathname+location.search);}catch(e){}
+}
+$('tbD').onclick=()=>switchTab('detailed');
+$('tbR').onclick=()=>switchTab('register');
+const refit=()=>{if(tab==='register')rFit();else fit();};
+window.addEventListener('resize',refit);
+window.addEventListener('beforeprint',()=>{$('cert').style.transform='none';$('rCert').style.transform='none';});
+window.addEventListener('afterprint',refit);
+
 /* ---------- footer ---------- */
 fetch("/footer.html")
-  .then(response => response.text())
-  .then(data => {
-    document.getElementById("footer").innerHTML = data;
-    var yearSpan = document.getElementById("year");
-    if (yearSpan) {
-      yearSpan.textContent = new Date().getFullYear();
-    }
-  });
+  .then(function(r){return r.ok?r.text():"";})
+  .then(function(d){
+    if(!d)return;
+    document.getElementById("footer").innerHTML=d;
+    var y=document.getElementById("year");
+    if(y)y.textContent=new Date().getFullYear();
+  })
+  .catch(function(){});
 
 render();
-if(document.fonts)document.fonts.ready.then(()=>{fitContent();});
+if(location.hash==='#register')switchTab('register');
+if(document.fonts)document.fonts.ready.then(()=>{if(tab==='register')rRender();else fitContent();});
 })();
 </script>
 </body>
