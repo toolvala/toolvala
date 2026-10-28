@@ -210,7 +210,7 @@ button:disabled{opacity:.6;cursor:wait}
 .lid b{color:var(--t1);letter-spacing:.6px}
 .lbot{margin-top:auto;display:flex;justify-content:space-between;align-items:flex-end;gap:20px;font-size:calc(16px*var(--k,1));line-height:1.7}
 .lseal{width:calc(92px*var(--k,1));height:calc(92px*var(--k,1));border:1.5px dashed #9aa3b5;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;color:#9aa3b5;text-align:center}
-.lsg{text-align:center;min-width:270px;padding-top:calc(54px*var(--k,1))}
+.lsg{text-align:center;flex:0 0 250px;min-width:0;padding-top:calc(54px*var(--k,1))}
 .lline{border-top:1.5px solid #222;margin-bottom:6px}
 .lsg .des{font-weight:700;color:var(--t1);letter-spacing:1px}
 .lfine{font-size:calc(10.5px*var(--k,1));color:#777;text-align:center;margin-top:calc(14px*var(--k,1))}
@@ -477,6 +477,7 @@ footer.fb a{color:#fff}
      <div class="f"><label for="l_dispDate">Dispatch date</label><input type="date" id="l_dispDate"></div>
     </div>
     <div class="f"><label for="l_date">Date of issue</label><input type="date" id="l_date"></div>
+    <label class="chk"><input type="checkbox" id="l_cap" checked> Capitalise the first letter of each word in names and places</label>
     <label class="chk"><input type="checkbox" id="l_remember" checked> Remember the school details on this device</label>
     <div id="lMsg" role="status" aria-live="polite"></div>
    </div>
@@ -847,6 +848,11 @@ function dobWords(iso){
  if(!y||!m||!d||m>12||d>31)return '';
  return ORD[d]+' '+MON[m-1]+' '+yearWords(y);
 }
+const LOWER_WORDS=/^(of|and|the|in|at|for|on|to|by)$/;
+function capWords(str){
+ return str.split(/(\s+)/).map((w,i)=>(i>0&&LOWER_WORDS.test(w))?w:(/^[a-z]/.test(w)?w.charAt(0).toUpperCase()+w.slice(1):w)).join('');
+}
+function lc(id){const t=lv(id);return $('l_cap').checked?capWords(t):t;}
 function lval(t,min){return t?'<b class="v">'+esc(t)+'</b>':'<b class="v bk" style="min-width:'+(min||110)+'px">&nbsp;</b>';}
 function lcls(ci,mr){
  if(!ci)return lval('',60);
@@ -856,8 +862,8 @@ function lcls(ci,mr){
 
 function lRender(){
  const mr=$('l_lang').value==='mr',g=$('l_gender').value;
- const name=lv('l_name'),inst=lv('l_inst'),tal=lv('l_taluka'),dist=lv('l_dist'),year=lv('l_year'),adm=lv('l_adm'),
-       caste=lv('l_caste'),place=lv('l_place'),signer=(mr&&(!lv('l_signer')||lv('l_signer').toLowerCase()==='principal'))?'मुख्याध्यापक':(lv('l_signer')||'Principal'),disp=lv('l_disp');
+ const name=lc('l_name'),inst=lc('l_inst'),tal=lc('l_taluka'),dist=lc('l_dist'),year=lv('l_year'),adm=lv('l_adm'),
+       caste=lv('l_caste'),place=lc('l_place'),signer=(mr&&(!lv('l_signer')||lv('l_signer').toLowerCase()==='principal'))?'मुख्याध्यापक':(lv('l_signer')||'Principal'),disp=lv('l_disp');
  const ci=$('l_cls').value===''?null:CLS[+$('l_cls').value];
  const dobIso=$('l_dob').value,dob=fmt(dobIso),auto=dobWords(dobIso);
  $('l_dobw').placeholder=auto||'Filled in automatically from the date of birth';
@@ -865,7 +871,7 @@ function lRender(){
  const aad=digits('l_aadhaar'),sid=digits('l_sid'),pen=digits('l_pen');
  const aadShow=aad?($('l_mask').checked&&aad.length===12?'XXXX XXXX '+aad.slice(-4):grp(aad)):'';
  const dd=fmt($('l_dispDate').value),issue=fmt($('l_date').value);
- const sub=lv('l_sub')||inst;
+ const sub=lc('l_sub')||inst;
  const paras=[];
  let title,L;
  if(mr){
@@ -897,14 +903,14 @@ function lRender(){
   +'<div class="lttl">'+title+'</div><div class="ldiv"><i></i><b></b><i></i></div>'
   +paras.map((x,i)=>'<p class="lp'+(i===0?' f':'')+'">'+x+'</p>').join('')
   +idBlock
-  +'<div class="lbot"><div>'+L.dt+': <b class="v">'+esc(issue)+'</b><br>'+L.pl+': '+lval(place,150)+'</div><div class="lseal">'+L.seal+'</div>'
+  +'<div class="lbot"><div style="flex:1;min-width:0">'+L.dt+': <b class="v">'+esc(issue)+'</b><br>'+L.pl+': '+lval(place,150)+'</div><div class="lseal">'+L.seal+'</div>'
   +'<div class="lsg"><div class="lline"></div><div class="des">'+esc(signer.toUpperCase())+'</div>'+(sub?'<div>'+esc(sub)+'</div>':'')+'</div></div>'
   +'<div class="lfine">'+L.fine+'</div></div></div>';
  lFitContent();lFit();
 }
 function lFitContent(){
  const fr=$('lCert').firstElementChild;if(!fr)return;
- const b=fr.querySelector('.lbody');if(!b)return;let k=1;fr.style.setProperty('--k',k);
+ const b=fr.querySelector('.lbody');if(!b)return;let k=1.3;fr.style.setProperty('--k',k);
  const over=()=>{const l=b.lastElementChild,pb=parseFloat(getComputedStyle(b).paddingBottom)||0;return l.offsetTop+l.offsetHeight>b.clientHeight-pb+1;};
  while(over()&&k>0.55){k=Math.round((k-0.03)*100)/100;fr.style.setProperty('--k',k);}
 }
