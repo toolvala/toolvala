@@ -483,7 +483,7 @@ footer.fb a{color:#fff}
     <div class="f"><label for="r_date">Date of issue</label><input type="date" id="r_date"></div>
     <div class="f"><label for="r_place">Place <small>(optional)</small></label><input id="r_place" autocomplete="off"></div>
     <div class="grid2">
-     <div class="f"><label for="r_signer">Signatory designation</label><input id="r_signer" autocomplete="off" value="Headmaster"></div>
+     <div class="f"><label for="r_signer">Signatory designation</label><input id="r_signer" autocomplete="off" value="Headmaster / Principal"></div>
      <div class="f"><label for="r_signerName">Signatory name <small>(optional)</small></label><input id="r_signerName" autocomplete="off"></div>
     </div>
     <div class="f"><label for="r_under">Name and place shown under the signature</label><input id="r_under" autocomplete="off" placeholder="School name and place, as it should appear under the signature"></div>
@@ -492,6 +492,7 @@ footer.fb a{color:#fff}
     <label class="chk"><input type="checkbox" id="r_dup"> Mark as DUPLICATE copy</label>
     <label class="chk"><input type="checkbox" id="r_cap" checked> Capitalise the first letter of each word in names and places</label>
     <label class="chk"><input type="checkbox" id="r_remember" checked> Remember the school details on this device</label>
+    <button type="button" class="b4" id="rClear">Erase all saved details from this device</button>
     <div id="rMsg" role="status" aria-live="polite"></div>
    </div>
   </div>
@@ -570,6 +571,14 @@ const D=[[0,1,2,3,4,5,6,7,8,9],[1,2,3,4,0,6,7,8,9,5],[2,3,4,0,1,7,8,9,5,6],[3,4,
 const P=[[0,1,2,3,4,5,6,7,8,9],[1,5,7,6,2,8,3,0,9,4],[5,8,0,3,7,9,6,1,4,2],[8,9,1,6,0,4,3,5,2,7],[9,4,5,3,1,2,6,8,7,0],[4,2,8,6,5,7,3,9,0,1],[2,7,9,3,8,0,6,4,1,5],[7,0,4,6,9,1,3,2,5,8]];
 function aadhaarOk(n){if(!/^[2-9]\d{11}$/.test(n))return false;let c=0;n.split('').reverse().forEach((x,i)=>{c=D[c][P[i%8][+x]];});return c===0;}
 const digits=id=>$(id).value.replace(/\D/g,'');
+const DES_MR={'principal':'प्राचार्य','headmaster':'मुख्याध्यापक','head master':'मुख्याध्यापक','headmistress':'मुख्याध्यापिका','head mistress':'मुख्याध्यापिका','vice principal':'उपप्राचार्य','vice-principal':'उपप्राचार्य','assistant headmaster':'सहायक मुख्याध्यापक','in-charge principal':'प्रभारी प्राचार्य','incharge principal':'प्रभारी प्राचार्य','in-charge headmaster':'प्रभारी मुख्याध्यापक','incharge headmaster':'प्रभारी मुख्याध्यापक'};
+/* the signatory designation as typed; in Marathi, known English titles are translated */
+function desig(raw,mr){
+ const t=(raw||'').trim();
+ if(!t)return mr?'मुख्याध्यापक / प्राचार्य':'Headmaster / Principal';
+ const parts=t.split(/\s*[\/,&]\s*|\s+and\s+/i).map(x=>x.trim()).filter(Boolean);
+ return mr?parts.map(x=>DES_MR[x.toLowerCase()]||x).join(' / '):parts.map(x=>x.charAt(0).toUpperCase()+x.slice(1)).join(' / ');
+}
 
 /* ---------- date of birth in words ---------- */
 const EN1=['','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen','Seventeen','Eighteen','Nineteen'];
@@ -619,7 +628,7 @@ function render(){
  const dbv=$('divBoard').value,divT=dbv===''?'':(mr?'महाराष्ट्र राज्य माध्यमिक व उच्च माध्यमिक शिक्षण मंडळ, '+DIVB[+dbv][1]+' विभागीय मंडळ':'Maharashtra State Board of Secondary and Higher Secondary Education, '+DIVB[+dbv][0]+' Divisional Board');
  const bm=[val('board')?esc(val('board')):'',medT?LX.md+': '+esc(medT):''].filter(Boolean).join(' &nbsp;|&nbsp; ');
  const contact=(mob||em)?`<div class="sb">${mob?LX.mob+': '+esc(mob):''}${mob&&em?' &nbsp;|&nbsp; ':''}${em?LX.em+': '+esc(em):''}</div>`:'';
- const hmT=val('hmTitle')||(mr?'मुख्याध्यापक / प्राचार्य':'Headmaster / Principal');
+ const hmT=desig(val('hmTitle'),mr);
  const vals=[ph(val('stuName')),nz(val('mother')),nz(val('father')),nz(natT),nz(val('motherTongue')),nz(val('religion')),nz(val('caste')),nz(val('birthPlace')),
   dob?esc(dob)+(dw?' ('+esc(dw)+')':''):ph(''),pen?esc(pen):null,aad?esc(aadShow):null,nz(val('lastSchool')),
   ($('admDate').value||admC)?esc(fmt($('admDate').value))+(admC?' — '+L.cl+esc(admC):''):'—',
@@ -781,7 +790,7 @@ function rDict(mr){
   lv:'शाळा सोडल्याचा दिनांक',fr:'कोणत्या इयत्तेतून व केव्हा',frw:'अक्षरी',rs:'शाळा सोडण्याचे कारण',rm:'शेरा',
   cf:'प्रमाणित करण्यात येते की, वरील माहिती शाळेच्या जनरल रजिस्टर क्र.',dt:'दिनांक',pl:'ठिकाण',teacher:'वर्गशिक्षक',writer:'लेखनिक',seal:'शाळेचा<br>शिक्का',
   dup:'दुय्यम प्रत',ph:'दूरध्वनी',em:'ई-मेल',rc:'शाळा मान्यता क्र.',md:'माध्यम',ud:'युडायस क्र.',ix:'बोर्ड इंडेक्स क्र.',
-  fine:'हा दाखला मुख्याध्यापक यांच्या सही व शाळेच्या शिक्क्याशिवाय अवैध आहे.',defSigner:'मुख्याध्यापक'}
+  fine:d=>'हा दाखला '+d+' यांच्या सही व शाळेच्या शिक्क्याशिवाय अवैध आहे.',defSigner:'मुख्याध्यापक'}
  :{
   t:'SCHOOL LEAVING CERTIFICATE',adm:'Admission No.',admD:'Admission Date',sidL:['Student ID','Saral ID','Student Portal ID'],uid:'UID No. (Aadhaar No.)',pen:'PEN No.',dis:'Discharge No.',
   nm:'Name of the Student',cap:['(Name)',"(Father's Name)",'(Surname)'],mo:"Mother's Name",nat:'Nationality',tg:'Mother Tongue',rel:'Religion',cs:'Caste',sc:'Sub-Caste',
@@ -789,7 +798,7 @@ function rDict(mr){
   lv:'Date of leaving school',fr:'From which class & when (date)',frw:'in words',rs:'Reason of leaving school',rm:'Remarks',
   cf:'This is to certify that the above given information is true according to the school general register No.',dt:'Date',pl:'Place',teacher:'Class Teacher',writer:'Writer',seal:'School<br>Seal',
   dup:'DUPLICATE COPY',ph:'Phone No.',em:'Email',rc:'School Recognition No.',md:'Medium',ud:'U-DISE No.',ix:'Board Index No.',
-  fine:'This certificate is not valid without the signature of the Headmaster and the school seal.',defSigner:'Headmaster'};
+  fine:d=>'This certificate is not valid without the signature of the '+d+' and the school seal.',defSigner:'Headmaster'};
 }
 
 function rRender(){
@@ -805,7 +814,7 @@ function rRender(){
  const sidOn=$('r_sidOn').checked,aadOn=$('r_aadOn').checked,penOn=$('r_penOn').checked;
  const sid=rv('r_sid'),aad=digits('r_aadhaar'),pen=digits('r_pen');
  const aadShow=aad?($('r_mask').checked&&aad.length===12?'XXXX XXXX '+aad.slice(-4):grp(aad)):'';
- const signer=(mr&&(!rv('r_signer')||rv('r_signer').toLowerCase()==='headmaster'))?L.defSigner:(rv('r_signer')||L.defSigner);
+ const signer=desig(rv('r_signer'),mr);
  const row=(l,v)=>'<div class="rrow"><span class="rl">'+l+'</span><span class="rv">'+v+'</span></div>';
  const row2=(l1,v1,l2,v2)=>'<div class="rrow"><div class="rh"><span class="rl">'+l1+'</span><span class="rv">'+v1+'</span></div><div class="rh"><span class="rl">'+l2+'</span><span class="rv">'+v2+'</span></div></div>';
 
@@ -830,7 +839,8 @@ function rRender(){
  /* body rows */
  const part=(t,cap,pre)=>'<div>'+(pre||'')+rbk(t,70)+'<small>'+cap+'</small></div>';
  const nameRow='<div class="rrow"><span class="rl">'+L.nm+'</span><div class="rv rn3">'+part(first,L.cap[0],title?esc(title)+' ':'')+part(fa,L.cap[1])+part(sur,L.cap[2])+'</div></div>';
- const state=rc('r_state'),country=rc('r_country'),birth=rc('r_birth');
+ const state0=rc('r_state'),country0=rc('r_country'),birth=rc('r_birth');
+ const state=mr&&/^maharashtra$/i.test(state0)?'महाराष्ट्र':state0,country=mr&&/^india$/i.test(country0)?'भारत':country0;
  const pbHtml=rbk(birth,200)+(state?', '+L.st+': '+esc(state):'')+(country?', '+L.co+': '+esc(country):'');
  const sub=rc('r_sub');
  const fromW=rv('r_fromW');
@@ -864,7 +874,7 @@ function rRender(){
   +'<div class="rtop"><div class="rtopl">'+top.join('')+'</div>'+disBox+'</div>'
   +rows
   +'<div class="rcf">'+L.cf+' <b>'+rbk(reg,60)+'</b>.</div>'+dt+sigRow
-  +'<div class="rfine">'+L.fine+'</div></div></div>';
+  +'<div class="rfine">'+L.fine(esc(signer))+'</div></div></div>';
  rFitContent();rFit();
 }
 function rFitContent(){
@@ -919,6 +929,12 @@ $('r_logo').onchange=function(e){
 };
 $('r_rmLogo').onclick=function(){rLogo='';$('r_logo').value='';rRender();rSave();};
 rIdUi();
+$('rClear').onclick=function(){
+ try{Object.keys(localStorage).filter(k=>k.indexOf('tv_tc_')===0).forEach(k=>localStorage.removeItem(k));}catch(e){}
+ R_SAVE.forEach(id=>{const el=$(id);delete el.dataset.touched;if(id==='r_lang')el.value='en';else if(id==='r_theme')el.value='royal';else if(id==='r_signer')el.value='Headmaster / Principal';else if(el.tagName==='SELECT')el.selectedIndex=0;else el.value='';});
+ rLogo='';$('r_logo').value='';loadedSchool=loadedStu='';
+ rRender();rMsg('ok','All saved details were erased from this device and the school boxes were cleared.');
+};
 
 /* validation and export */
 let rWarn='';
