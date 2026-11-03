@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#2563eb">
 
     <!-- Google tag (gtag.js) -->
@@ -81,8 +81,9 @@
             --line: #e2e8f0; --bg: #f1f5f9; --ok: #16a34a; --bad: #dc2626; --grey: #cbd5e1; --amber: #d97706;
         }
         * { box-sizing: border-box; }
+        [hidden] { display: none !important; }
         html { scroll-behavior: smooth; }
-        body { margin: 0; font-family: 'Inter', 'Noto Sans Devanagari', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+        body { margin: 0; overflow-x: clip; font-family: 'Inter', 'Noto Sans Devanagari', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
         :focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
         a { color: var(--blue); }
 
@@ -239,7 +240,7 @@
         details.faq[open] summary::after { transform: rotate(180deg); }
         details.faq p { margin: 10px 0 0; animation: slide .3s ease; }
 
-        .related { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin: 14px 0 0; }
+        .related { display: grid; grid-template-columns: 1fr; gap: 16px; margin: 14px 0 0; max-width: 480px; }
         .tool-card { display: flex; align-items: flex-start; gap: 16px; text-decoration: none; color: inherit; background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 18px; transition: transform .25s, border-color .25s, box-shadow .25s; }
         .tool-card:hover { transform: translateY(-5px); border-color: var(--blue); box-shadow: 0 12px 24px rgba(37,99,235,.13); }
         .tool-card:active { transform: translateY(-2px); }
@@ -251,6 +252,50 @@
 
         .toast { position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 30px); background: #0f172a; color: #fff; padding: 11px 18px; border-radius: 10px; font-weight: 600; font-size: .9rem; opacity: 0; pointer-events: none; transition: opacity .3s, transform .3s; z-index: 999; }
         .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+
+        /* ---- Mobile fixes: stop grid items from being stretched wider than the screen ---- */
+        .hero > *, .tool > *, .grid2 > *, .article-wrap > *, .score-top > *, .row2 > *, .related > * { min-width: 0; }
+        .ig, .field { min-width: 0; }
+        .row2 { align-items: end; }
+        select.field { text-overflow: ellipsis; }
+        .tbl-wrap { max-width: 100%; -webkit-overflow-scrolling: touch; }
+        article.seo { min-width: 0; overflow-wrap: break-word; }
+        .seg-label { margin-bottom: 6px; }
+        .row2.neg-row { grid-template-columns: 1.5fr 1fr; }
+
+        /* Floating result bar (phones) */
+        .mbar { display: none; position: fixed; left: 0; right: 0; bottom: 0; z-index: 90; background: #0f172a; color: #fff; padding: 10px 14px calc(10px + env(safe-area-inset-bottom, 0px)); align-items: center; gap: 12px; box-shadow: 0 -6px 20px rgba(0,0,0,.2); transform: translateY(110%); transition: transform .3s ease; }
+        .mbar.show { transform: none; }
+        .mbar .m-main { flex: 1; min-width: 0; line-height: 1.25; }
+        .mbar small { display: block; opacity: .75; font-size: .7rem; text-transform: uppercase; letter-spacing: .05em; }
+        .mbar strong { font-size: 1.15rem; }
+        .mbar .m-acc { display: block; font-size: .78rem; opacity: .85; }
+        .mbar button { background: var(--blue); color: #fff; border: none; border-radius: 10px; padding: 10px 14px; font: inherit; font-weight: 700; cursor: pointer; white-space: nowrap; }
+
+        @media (max-width: 980px) {
+            .mbar { display: flex; }
+            body { padding-bottom: 72px; }
+            .toast { bottom: 88px; }
+            .hero { padding-top: 20px; gap: 18px; }
+            .tool, .grid2 { gap: 16px; }
+            /* table of contents becomes a swipeable chip row */
+            .toc { display: flex; gap: 8px; overflow-x: auto; padding: 10px 12px; border-radius: 14px; -webkit-overflow-scrolling: touch; }
+            .toc b { display: none; }
+            .toc a { flex: none; white-space: nowrap; border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; background: #f8fafc; }
+            .toc a:hover { border-color: var(--blue); }
+        }
+        @media (max-width: 520px) {
+            .wrap { padding: 0 14px; }
+            .ev-txt { font-size: 15px; }
+            table.t { min-width: 540px; }
+            .stat strong { font-size: 1.15rem; }
+            .stat.big strong { font-size: 2rem; }
+            .btn { padding: 11px 16px; }
+            .btns .btn:first-child { flex: 1 1 100%; justify-content: center; }
+            .quick button { font-size: .78rem; }
+            .seg button { font-size: .78rem; padding: 9px 4px; }
+        }
 
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after { animation: none !important; transition: none !important; }
@@ -278,7 +323,7 @@
 <nav class="nav">
     <div class="nav-in">
         <a href="index.html" class="logo">Toolvala<span>.in</span></a>
-        <a href="index.html" class="back"><i class="fa-solid fa-grid-2"></i> All Tools</a>
+        <a href="index.html" class="back"><i class="fa-solid fa-table-cells-large"></i> All Tools</a>
     </div>
 </nav>
 
@@ -344,31 +389,32 @@
 
             <div class="row2">
                 <div class="ig"><label class="lb" for="totalQ">Total Questions</label><input id="totalQ" class="field" type="number" inputmode="numeric" min="1" step="1" value="100"></div>
-                <div class="ig"><label class="lb" for="marks">Marks per Correct Answer</label><input id="marks" class="field" type="number" inputmode="decimal" min="0" step="any" value="2"></div>
+                <div class="ig"><label class="lb" for="marks">Marks per Correct</label><input id="marks" class="field" type="number" inputmode="decimal" min="0" step="any" value="2"></div>
             </div>
 
-            <div class="row2">
+            <div class="row2 neg-row">
                 <div class="ig">
                     <label class="lb" for="negType">Negative Marking</label>
                     <select id="negType" class="field">
-                        <option value="q">1/4 of marks (0.25 for 1 mark)</option>
+                        <option value="q">1/4 of marks</option>
                         <option value="t">1/3 of marks</option>
                         <option value="h">1/2 of marks</option>
-                        <option value="f">Equal to marks (full)</option>
-                        <option value="z">No negative marking</option>
-                        <option value="c">Custom marks per wrong</option>
+                        <option value="f">Equal to marks</option>
+                        <option value="z">No negative</option>
+                        <option value="c">Custom marks</option>
                     </select>
                 </div>
                 <div class="ig" id="customWrap" hidden>
-                    <label class="lb" for="customNeg">Marks Deducted per Wrong</label>
+                    <label class="lb" for="customNeg">Deduction (marks)</label>
                     <input id="customNeg" class="field" type="number" inputmode="decimal" min="0" step="any" value="0.5">
                 </div>
-                <div class="ig" id="negShow"><label class="lb">Deduction per Wrong</label><div class="field" id="negVal" style="background:#f8fafc;font-weight:700;">0.5</div></div>
+                <div class="ig" id="negShow"><label class="lb">Deduction</label><div class="field" id="negVal" style="background:#f8fafc;font-weight:700;">0.5</div></div>
             </div>
 
+            <label class="lb seg-label">Enter your answers as</label>
             <div class="seg" role="tablist" aria-label="Input type">
-                <button type="button" class="on" data-mode="cw">I know Correct &amp; Wrong</button>
-                <button type="button" data-mode="ac">I know Attempted &amp; Correct</button>
+                <button type="button" class="on" data-mode="cw">Correct + Wrong</button>
+                <button type="button" data-mode="ac">Attempted + Correct</button>
             </div>
 
             <div class="row2" id="wrapCW">
@@ -640,49 +686,14 @@
             <details class="faq"><summary>11. Can I use it for school or college tests?</summary><p>Yes. Choose Custom, enter the total questions, marks and penalty, and use it for any objective test.</p></details>
             <details class="faq"><summary>12. How do I find my accuracy?</summary><p>Divide the number of correct answers by the number of questions you attempted and multiply by 100. The calculator shows this automatically.</p></details>
 
-            <h2>More Useful Tools on Toolvala.in</h2>
-            <p>Preparing for an exam also means getting your documents ready. These free tools help with photos and signatures for online forms.</p>
+            <h2>Another Useful Tool on Toolvala.in</h2>
+            <p>Preparing for a teaching exam? Check your eligibility before you apply.</p>
             <div class="related">
-                <a href="ssc-photo-tool.html" class="tool-card">
-                    <div class="icon-box"><i class="fa-solid fa-user-tie"></i></div>
+                <a href="tet-eligibility-checker.html" class="tool-card">
+                    <div class="icon-box"><i class="fa-solid fa-user-check"></i></div>
                     <div class="tool-info">
-                        <h3>SSC Photo Tool</h3>
-                        <p>Resize and prepare your photo for SSC online application forms.</p>
-                    </div>
-                </a>
-                <a href="upsc-photo-maker.html" class="tool-card">
-                    <div class="icon-box"><i class="fa-solid fa-landmark"></i></div>
-                    <div class="tool-info">
-                        <h3>UPSC Photo Maker</h3>
-                        <p>Get your photo ready for UPSC applications in the correct size.</p>
-                    </div>
-                </a>
-                <a href="signature-resizer.html" class="tool-card">
-                    <div class="icon-box"><i class="fa-solid fa-pen-nib"></i></div>
-                    <div class="tool-info">
-                        <h3>Signature Resizer</h3>
-                        <p>Resize and compress your signature to 20KB, 50KB or 100KB.</p>
-                    </div>
-                </a>
-                <a href="passport-photo-resizer.html" class="tool-card">
-                    <div class="icon-box"><i class="fa-solid fa-id-badge"></i></div>
-                    <div class="tool-info">
-                        <h3>Passport Photo Resizer</h3>
-                        <p>Resize photos to 3.5 x 4.5 cm and reduce the file size in KB.</p>
-                    </div>
-                </a>
-                <a href="image-compressor-by-kb.html" class="tool-card">
-                    <div class="icon-box"><i class="fa-solid fa-file-image"></i></div>
-                    <div class="tool-info">
-                        <h3>Compress Image by KB</h3>
-                        <p>Reduce image size to the exact KB limit your form needs.</p>
-                    </div>
-                </a>
-                <a href="resume-maker.html" class="tool-card">
-                    <div class="icon-box"><i class="fa-solid fa-file-lines"></i></div>
-                    <div class="tool-info">
-                        <h3>Resume Maker</h3>
-                        <p>Build an ATS-friendly resume and download it as a PDF.</p>
+                        <h3>TET Eligibility Checker</h3>
+                        <p>Check if you are eligible for CTET, UPTET, or REET based on qualifications.</p>
                     </div>
                 </a>
             </div>
@@ -692,6 +703,7 @@
 
 <div id="footer"></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="mbar" id="mbar" aria-hidden="true"><div class="m-main"><small>Net score</small><strong id="mNet">0</strong><span class="m-acc" id="mAcc"></span></div><button type="button" id="mView">View result</button></div>
 
 <script>
 (function () {
@@ -703,7 +715,7 @@
         mpsc: { q: 100, m: 2, n: 'q' }, neet: { q: 180, m: 4, n: 'q' }, jee: { q: 60, m: 4, n: 'q' }
     };
     var RATIO = { q: 0.25, t: 1 / 3, h: 0.5, f: 1, z: 0 };
-    var mode = 'cw', cur = null, evKey = '', toastT;
+    var mode = 'cw', cur = null, evKey = '', toastT, resVisible = false;
 
     function num(id) { var v = parseFloat($(id).value); return isNaN(v) ? NaN : v; }
     function r2(n) { return Math.round(n * 100) / 100; }
@@ -754,11 +766,17 @@
         el.setAttribute('stroke-dashoffset', (-offsetFrac * C).toFixed(2));
     }
 
+    function updateBar() {
+        var bar = $('mbar'), show = !!cur && !resVisible;
+        if (cur) { $('mNet').textContent = fmt(r2(cur.net)) + ' / ' + fmt(r2(cur.max)); $('mAcc').textContent = 'Accuracy ' + fmt(r2(cur.acc), 1) + '%'; }
+        bar.classList.toggle('show', show); bar.setAttribute('aria-hidden', show ? 'false' : 'true');
+    }
+
     function calc(replay) {
         var d = read(), err = validate(d);
         $('negVal').textContent = isNaN(d.neg) ? '-' : fmt(r2(d.neg), 4);
         var box = $('errBox'), res = $('results');
-        if (err) { box.textContent = err; box.hidden = false; res.classList.add('dim'); cur = null; plan(); drawEV(); return; }
+        if (err) { box.textContent = err; box.hidden = false; res.classList.add('dim'); cur = null; plan(); drawEV(); updateBar(); return; }
         box.hidden = true; res.classList.remove('dim');
 
         var max = d.q * d.m, gross = d.c * d.m, pen = d.w * d.neg, net = gross - pen;
@@ -796,7 +814,7 @@
         } else { msg = 'Your accuracy of ' + fmt(r2(acc), 1) + '% is below the break-even level of ' + fmt(r2(be), 1) + '%. On average your attempts are lowering your score. Attempt only the questions you are fairly sure about.'; v.className = 'verdict warn'; }
         v.textContent = msg;
 
-        drawEV(); plan();
+        drawEV(); plan(); updateBar();
     }
 
     /* ---------- Guess chart ---------- */
@@ -931,6 +949,11 @@
         Array.prototype.forEach.call(rev, function (el) { io.observe(el); });
     } else {
         Array.prototype.forEach.call(rev, function (el) { el.classList.add('in'); Array.prototype.forEach.call(el.querySelectorAll('.fill[data-w]'), function (f) { f.style.width = f.dataset.w + '%'; }); });
+    }
+
+    $('mView').addEventListener('click', function () { $('results').scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+    if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (es) { resVisible = es[0].isIntersecting; updateBar(); }, { threshold: 0.15 }).observe($('results'));
     }
 
     syncNegUI(); calc(true);
