@@ -854,7 +854,7 @@
 
     function calc(replay) {
         var d = read(), err = validate(d);
-        $('negVal').textContent = isNaN(d.neg) ? '-' : fmt(r2(d.neg), 4);
+        $('negVal').textContent = isNaN(d.neg) ? '-' : fmt(d.neg, 4);
         var box = $('errBox'), res = $('results');
         if (err) { box.textContent = err; box.hidden = false; res.classList.add('dim'); cur = null; plan(); drawEV(); updateBar(); return; }
         box.hidden = true; res.classList.remove('dim');
@@ -932,7 +932,7 @@
         $('evDot').style.transform = 'translate(' + xp(p) + 'px,' + yv(ev) + 'px)';
         $('evDotC').setAttribute('stroke', ev > 0.0005 ? '#16a34a' : ev < -0.0005 ? '#dc2626' : '#64748b');
         $('probVal').textContent = Math.round(p * 100);
-        var txt = 'At ' + Math.round(p * 100) + '% confidence, one attempt is worth ' + (ev >= 0 ? '+' : '') + fmt(r2(ev), 3) + ' marks on average. ';
+        var txt = 'At ' + Math.round(p * 100) + '% confidence, one attempt is worth ' + (ev >= 0 ? '+' : '') + fmt(ev, 4) + ' marks on average. ';
         txt += ev > 0.0005 ? 'Attempting adds marks on average.' : ev < -0.0005 ? 'Attempting loses marks on average. Better to skip.' : 'This is exactly break-even.';
         $('evText').textContent = txt;
     }
@@ -1001,7 +1001,7 @@
     $('copyBtn').addEventListener('click', function () {
         if (!cur) { toast('Fix the highlighted error first'); return; }
         var t = 'Negative Marking Calculator (toolvala.in)\n' +
-            'Total questions: ' + cur.q + ' | Marks per correct: ' + fmt(r2(cur.m)) + ' | Negative per wrong: ' + fmt(r2(cur.neg), 4) + '\n' +
+            'Total questions: ' + cur.q + ' | Marks per correct: ' + fmt(r2(cur.m)) + ' | Negative per wrong: ' + fmt(cur.neg, 4) + '\n' +
             'Correct: ' + cur.c + ' | Wrong: ' + cur.w + ' | Unattempted: ' + cur.un + '\n' +
             'Net score: ' + fmt(r2(cur.net)) + ' / ' + fmt(r2(cur.max)) + ' (' + fmt(r2(cur.pct)) + '%)\n' +
             'Accuracy: ' + fmt(r2(cur.acc)) + '% | Marks lost to negative marking: ' + fmt(r2(cur.pen));
