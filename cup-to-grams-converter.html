@@ -7,8 +7,8 @@
 <link rel="shortcut icon" href="/favicon.ico">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
-<title>Cup to Grams Converter – Flour, Sugar, Butter &amp; 30+ Ingredients | Toolvala.in</title>
-<meta name="description" content="Free cup to grams converter for baking. Convert cups to grams, ounces, ml and tablespoons for flour, sugar, butter, rice, honey and 30+ ingredients, with visual cups and conversion charts.">
+<title>Cup to Grams Converter – Flour, Sugar, Butter &amp; 30 Ingredients | Toolvala.in</title>
+<meta name="description" content="Free cup to grams converter for baking. Convert cups to grams, ounces, ml and tablespoons for flour, sugar, butter, rice, honey and 30 ingredients, with visual cups and conversion charts.">
 <meta name="keywords" content="cup to grams converter, cups to grams, grams to cups, 1 cup flour in grams, 1 cup sugar in grams, baking conversion chart, cup to gram calculator, ingredient weight converter">
 <meta name="author" content="Toolvala.in">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
@@ -16,12 +16,12 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Toolvala.in">
 <meta property="og:title" content="Cup to Grams Converter for Baking | Toolvala.in">
-<meta property="og:description" content="Convert cups to grams for flour, sugar, butter and 30+ ingredients, with visual cups and charts. Free.">
+<meta property="og:description" content="Convert cups to grams for flour, sugar, butter and 30 ingredients, with visual cups and charts. Free.">
 <meta property="og:url" content="https://www.toolvala.in/cup-to-grams-converter.html">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Cup to Grams Converter | Toolvala.in">
-<meta name="twitter:description" content="Cups to grams and grams to cups for 30+ baking ingredients. Free.">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Cup to Grams Converter","url":"https://www.toolvala.in/cup-to-grams-converter.html","description":"Free converter between cups, grams, ounces, millilitres and tablespoons for 30+ cooking and baking ingredients.","applicationCategory":"UtilitiesApplication","operatingSystem":"All","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"INR"},"publisher":{"@type":"Organization","name":"Toolvala.in","url":"https://www.toolvala.in"}}</script>
+<meta name="twitter:description" content="Cups to grams and grams to cups for 30 baking ingredients. Free.">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Cup to Grams Converter","url":"https://www.toolvala.in/cup-to-grams-converter.html","description":"Free converter between cups, grams, ounces, millilitres and tablespoons for 30 cooking and baking ingredients.","applicationCategory":"UtilitiesApplication","operatingSystem":"All","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"INR"},"publisher":{"@type":"Organization","name":"Toolvala.in","url":"https://www.toolvala.in"}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How many grams are in 1 cup of flour?","acceptedAnswer":{"@type":"Answer","text":"One US cup of all-purpose flour is about 125 grams. Scooping straight from the bag can pack it to 140-150 g, so spoon and level for accuracy."}},{"@type":"Question","name":"How many grams are in 1 cup of sugar?","acceptedAnswer":{"@type":"Answer","text":"One cup of granulated sugar is about 200 g, packed brown sugar about 213 g and powdered sugar about 120 g."}},{"@type":"Question","name":"Why does a cup of different ingredients weigh differently?","acceptedAnswer":{"@type":"Answer","text":"A cup measures volume, grams measure weight. Dense ingredients such as honey weigh far more per cup than light ones such as cocoa powder."}},{"@type":"Question","name":"Is a cup the same size everywhere?","acceptedAnswer":{"@type":"Answer","text":"No. A US cup is 236.6 ml, a metric cup is 250 ml, an imperial cup is 284 ml and a Japanese cup is 200 ml. Choose your cup size in the converter."}},{"@type":"Question","name":"How many grams are in 1 cup of butter?","acceptedAnswer":{"@type":"Answer","text":"One US cup of butter is about 227 g, which equals two sticks or 16 tablespoons."}}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.toolvala.in/"},{"@type":"ListItem","position":2,"name":"Cup to Grams Converter","item":"https://www.toolvala.in/cup-to-grams-converter.html"}]}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -80,7 +80,7 @@ details p{margin:8px 0 0}
 <header><div class="brand">Toolvala<b>.in</b></div><span>Kitchen Tools</span></header>
 <section class="hero">
   <h1>Cup to Grams <em>Converter</em></h1>
-  <p>Convert cups to grams, ounces, ml and tablespoons for 30+ ingredients, or go from grams back to cups, with visual cups and charts.</p>
+  <p>Convert cups to grams, ounces, ml and tablespoons for 30 ingredients, or go from grams back to cups, with visual cups and charts.</p>
 </section>
 
 <main>
@@ -225,7 +225,8 @@ function cupTxt(c){
  if(best[0]===1){w++;best=FR[0]}
  return (w||'')+(w&&best[1]?' ':'')+best[1]||'0';
 }
-function setAmt(v){if(mode==='g')setMode('c');$('amt').value=Math.round(v*1000)/1000;upd()}
+function setAmt(v){if(mode==='g')setMode('c');$('amt').value=Math.round(v*1e6)/1e6;upd()}
+function isExact(c){const f=c-Math.floor(c+1e-9);return FR.some(x=>Math.abs(x[0]-f)<0.004)}
 function setMode(m){
  mode=m;$('mC').classList.toggle('on',m==='c');$('mG').classList.toggle('on',m==='g');
  $('amtL').textContent=m==='c'?'Cups':'Grams';
@@ -253,9 +254,10 @@ function upd(){
  let v=parseFloat($('amt').value);if(isNaN(v)||v<0)v=0;
  const cups=mode==='c'?v:v/per,g=mode==='c'?v*per:v;
  const cm=ml();
- $('outLbl').textContent=mode==='c'?cupTxt(cups)+' cup'+(cups>1?'s':'')+' of '+it.n.toLowerCase()+' ='
+ const pl=Math.round(cups*1000)/1000>1?'s':'',ap=isExact(cups)?'':'≈ ';
+ $('outLbl').textContent=mode==='c'?ap+cupTxt(cups)+' cup'+pl+' of '+it.n.toLowerCase()+' ='
   :r1(g)+' g of '+it.n.toLowerCase()+' =';
- $('outBig').textContent=mode==='c'?r1(g)+' g':cupTxt(cups)+' cup'+(cups>1?'s':'');
+ $('outBig').textContent=mode==='c'?r1(g)+' g':ap+cupTxt(cups)+' cup'+pl;
  $('chips').innerHTML=
   (mode==='c'?'':'<div><b>'+r1(cups)+'</b>cups (decimal)</div>')+
   '<div><b>'+r1(g/28.3495)+' oz</b>ounces</div>'+
