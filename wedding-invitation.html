@@ -11,6 +11,8 @@
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@500;700&family=Noto+Serif+Devanagari:wght@500;700&family=Noto+Serif+Telugu:wght@500;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8GTQC904G1"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-8GTQC904G1');</script>
 <style>
 :root{--m:#7a1230;--r:#b3123a;--g:#d4a017;--c:#fff8ec;--tx:#3a1020;--mu:#8a6a5a;--f:'Poppins','Noto Serif Devanagari','Noto Serif Telugu',sans-serif;--h:'Playfair Display','Noto Serif Devanagari','Noto Serif Telugu',serif;--s:'Great Vibes','Noto Serif Devanagari','Noto Serif Telugu',cursive}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -162,12 +164,17 @@ mr:{t:'या मोफत लग्न पत्रिका टूलबद्
  q:'प्रश्न',qa:[['हे खरंच मोफत आहे का?','होय. कोणताही खर्च नाही आणि अकाउंट नाही.'],['माझी माहिती कुठे साठवली जाते?','कोणत्याही सर्व्हरवर नाही. नावे, ठिकाण आणि कार्यक्रम तुम्ही कॉपी केलेल्या लिंकमध्येच असतात.'],['पाहुणे RSVP कसे करतात?','RSVP फॉर्म WhatsApp उघडून तयार संदेश तुम्ही दिलेल्या नंबरवर पाठवतो. वेगळा डेटाबेस नाही.'],['मराठी नावे वापरता येतात का?','होय. नावे, कुटुंब आणि ठिकाण मराठी किंवा इंग्रजीत टाका.'],['लिंक खूप मोठी असेल का?','सुमारे 900 अक्षरे. WhatsApp वर चालते, हवे असल्यास कोणत्याही लिंक शॉर्टनरने लहान करा.']],
  c:'✎ माझी पत्रिका बनवा',rt:'संबंधित टूल्स'}};
 const RT=[['invitation-tools.html','All Invitation Tools'],['birthday-invitation.html','Birthday Invitation'],['housewarming-invitation.html','Housewarming (Griha Pravesh)'],['naming-ceremony-invitation.html','Naming Ceremony (Namkaran)'],['anniversary-invitation.html','Anniversary Invitation'],['wedding-hashtag-generator.html','Wedding Hashtag Generator'],['couple-name-combiner.html','Couple Name Combiner'],['baby-name-combiner.html','Baby Name Combiner']];
+function loadAds(){
+ if(!window._ad){window._ad=1;const s=document.createElement('script');s.async=true;s.crossOrigin='anonymous';s.src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4402681434316955';document.head.appendChild(s)}
+ try{(window.adsbygoogle=window.adsbygoogle||[]).push({})}catch(e){}
+}
 function info(){
  if(q.get('d')&&!q.has('edit'))return '';
  const i=I[lang]||I.en;
  return '<section class="info"><div class="sec"><h2>'+i.t+'</h2><p class="sub">'+i.sub+'</p>'+
  '<h3>'+i.h+'</h3><ol class="how">'+i.st.map(x=>'<li>'+x+'</li>').join('')+'</ol>'+
  '<div class="row" style="margin-top:18px"><button class="btn b1" onclick="openEd()">'+i.c+'</button></div>'+
+ '<ins class="adsbygoogle" style="display:block;margin-top:22px" data-ad-client="ca-pub-4402681434316955" data-ad-slot="8432779087" data-ad-format="auto" data-full-width-responsive="true"></ins>'+
  '<h3>'+i.f+'</h3><div class="fg">'+i.fl.map(x=>'<div><b>'+x[0]+'</b>'+x[1]+'</div>').join('')+'</div>'+
  '<h3>'+i.tp+'</h3><ol class="how">'+i.tl.map(x=>'<li>'+x+'</li>').join('')+'</ol>'+
  '<h3>'+i.q+'</h3>'+i.qa.map(x=>'<details><summary>'+x[0]+'</summary><p>'+x[1]+'</p></details>').join('')+
@@ -207,6 +214,7 @@ function render(){
 
  '<section class="sec rv"><h2>'+t.dl+'</h2><div class="row"><button class="btn b1" onclick="dlPdf()">📄 '+t.pdf+'</button><button class="btn b2" onclick="dlImg()">🖼️ '+t.img+'</button></div></section>'+info()+'<footer class="foot"><b>'+esc(cfg.groom)+' &amp; '+esc(cfg.bride)+'</b>'+t.foot+' ♥</footer>';
  tick();document.querySelectorAll('.rv').forEach(e=>io.observe(e));
+ if(document.querySelector('.adsbygoogle'))loadAds();
 }
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.12});
 
