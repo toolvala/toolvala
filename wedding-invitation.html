@@ -10,9 +10,9 @@
 <meta property="og:description" content="Join us in celebrating. Tap to see dates, venue and RSVP.">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@500;700&family=Noto+Serif+Devanagari:wght@500;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@500;700&family=Noto+Serif+Devanagari:wght@500;700&family=Noto+Serif+Telugu:wght@500;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--m:#7a1230;--r:#b3123a;--g:#d4a017;--c:#fff8ec;--tx:#3a1020;--mu:#8a6a5a;--f:'Poppins','Noto Serif Devanagari',sans-serif;--h:'Playfair Display','Noto Serif Devanagari',serif;--s:'Great Vibes','Noto Serif Devanagari',cursive}
+:root{--m:#7a1230;--r:#b3123a;--g:#d4a017;--c:#fff8ec;--tx:#3a1020;--mu:#8a6a5a;--f:'Poppins','Noto Serif Devanagari','Noto Serif Telugu',sans-serif;--h:'Playfair Display','Noto Serif Devanagari','Noto Serif Telugu',serif;--s:'Great Vibes','Noto Serif Devanagari','Noto Serif Telugu',cursive}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{font-family:var(--f);background:var(--c);color:var(--tx);line-height:1.65;overflow-x:hidden}
@@ -20,6 +20,8 @@ body{font-family:var(--f);background:var(--c);color:var(--tx);line-height:1.65;o
 .top button{border:1.5px solid var(--g);background:none;color:#fff;font:600 13px var(--f);padding:6px 14px;border-radius:99px;cursor:pointer}
 .top button.on{background:var(--g);color:var(--m)}
 .top div{display:flex;gap:8px}
+.top select{border:1.5px solid var(--g);background:var(--m);color:#fff;font:600 13px var(--f);padding:6px 12px;border-radius:99px}
+
 .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:90px 20px 60px;color:#fff;position:relative;overflow:hidden;background:radial-gradient(circle at 50% 0,rgba(212,160,23,.3),transparent 55%),linear-gradient(160deg,#5a0c24,#9b1840 55%,#7a1230)}
 .hero::before,.hero::after{content:'';position:absolute;inset:14px;border:2px solid rgba(212,160,23,.55);border-radius:22px;pointer-events:none}
 .hero::after{inset:22px;border-width:1px;opacity:.6}
@@ -75,12 +77,14 @@ input:focus,select:focus,textarea:focus{outline:0;border-color:var(--r)}
 .info h3{font:700 22px var(--h);color:var(--m);margin:26px 0 12px;text-align:center}
 .info{background:#fff3df;border-top:1px solid #efd9b0}
 @media(max-width:520px){.fg{grid-template-columns:1fr}}
+.fmg{display:grid;grid-template-columns:1fr 1fr;gap:12px}.fmg div{background:#fff;border:1px solid var(--ln,#efd9b0);border-radius:14px;padding:12px;text-align:center}.fmg b{display:block;font:700 16px var(--h);color:var(--r)}.fmg span{font-size:12.5px;color:var(--mu)}
+@media(max-width:340px){.fmg{grid-template-columns:1fr}}
 @media(max-width:520px){.two,.fam{grid-template-columns:1fr}.cd div{min-width:60px}.ev::before{left:-36px}}
 </style>
 </head>
 <body>
 <div class="top">
-  <div><button id="bEn" onclick="setLang('en')">English</button><button id="bMr" onclick="setLang('mr')">मराठी</button></div>
+  <select id="lg" onchange="setLang(this.value)" aria-label="Language"><option value="en">English</option><option value="mr">मराठी</option><option value="hi">हिन्दी</option><option value="te">తెలుగు</option></select>
   <button id="bEd" onclick="openEd()" style="display:none">✎ Customize</button>
 </div>
 <div id="app"></div>
@@ -109,6 +113,7 @@ fetch("/footer.html")
   <div><label>Venue name</label><input id="e_venue"></div>
   <div><label>Venue address</label><input id="e_addr"></div>
   <div><label>Events (one per line: Title | YYYY-MM-DDTHH:MM | Place)</label><textarea id="e_ev" rows="5"></textarea></div>
+  <div><label>Family members (one per line: Name | Relation)</label><textarea id="e_fam" rows="4"></textarea></div>
   <div><label>Welcome message (optional)</label><input id="e_msg"></div>
   <div><label>Guest name for personal link (optional)</label><input id="e_guest" placeholder="e.g. Sharma Family"></div>
   <div class="row"><button class="btn b1" onclick="applyEd()">Preview</button><button class="btn b3" onclick="copyLink()">Copy invitation link</button><button class="btn b2" onclick="closeEd()">Close</button></div>
@@ -117,27 +122,27 @@ fetch("/footer.html")
 
 <script>
 const D={groom:'Rahul',bride:'Priya',dt:'2027-02-14T11:00',venue:'Shubh Mangal Karyalay',addr:'Station Road, Pune, Maharashtra',wa:'',
-f1:'Son of Mr. & Mrs. Sharma',f2:'Daughter of Mr. & Mrs. Patil',msg:'',
+f1:'Son of Mr. & Mrs. Sharma',f2:'Daughter of Mr. & Mrs. Patil',msg:'',fam:'Shri Suresh Sharma | Father of the groom\nSmt. Sunita Sharma | Mother of the groom\nShri Mahesh Patil | Father of the bride\nSmt. Meena Patil | Mother of the bride\nAnita Sharma | Sister of the groom',
 ev:'Mehendi | 2027-02-12T16:00 | Bride’s residence\nHaldi | 2027-02-13T10:00 | Groom’s residence\nSangeet | 2027-02-13T19:00 | Shubh Mangal Karyalay\nWedding (Lagna) | 2027-02-14T11:00 | Shubh Mangal Karyalay\nReception | 2027-02-14T19:00 | Shubh Mangal Karyalay'};
 const T={
-en:{top:'Together with their families',inv:'request the pleasure of your company at the wedding celebration of',d:'Days',h:'Hours',m:'Mins',s:'Secs',
+en:{dl:'Save the invitation card',pdf:'Download PDF',img:'Download image (JPG)',fm:'With best compliments from',top:'Together with their families',inv:'request the pleasure of your company at the wedding celebration of',d:'Days',h:'Hours',m:'Mins',s:'Secs',
  fam:'Families',ev:'Wedding Events',evs:'Join us for every celebration',ven:'Venue',map:'Open in Google Maps',rsvp:'RSVP',rs:'Let us know if you can make it',
  nm:'Your name',gs:'Guests',yes:'Joyfully accepts',no:'Regretfully declines',ms:'Your blessings (optional)',send:'Send RSVP on WhatsApp',
  cal:'Add to Calendar',gc:'Google Calendar',share:'Share on WhatsApp',dear:'Dear',wel:'You are warmly invited',done:'Married! Thank you for your blessings.',
  foot:'With love and blessings',wait:'Add the WhatsApp number in Customize to receive RSVPs.',cp:'Link copied! Share it on WhatsApp.',one:'1 guest',many:' guests',pm:'Preview map here',dir:'Get directions',nomap:'Map preview is blocked here. Please use Open in Google Maps.'},
-mr:{top:'आपल्या सर्व कुटुंबीयांसह',inv:'यांच्या शुभविवाह सोहळ्यास आपण सहकुटुंब उपस्थित राहून वधू-वरांना आशीर्वाद द्यावेत ही नम्र विनंती',d:'दिवस',h:'तास',m:'मिनिटे',s:'सेकंद',
+mr:{dl:'आमंत्रण पत्रिका सेव्ह करा',pdf:'PDF डाउनलोड करा',img:'इमेज (JPG) डाउनलोड करा',fm:'सप्रेम निमंत्रक',top:'आपल्या सर्व कुटुंबीयांसह',inv:'यांच्या शुभविवाह सोहळ्यास आपण सहकुटुंब उपस्थित राहून वधू-वरांना आशीर्वाद द्यावेत ही नम्र विनंती',d:'दिवस',h:'तास',m:'मिनिटे',s:'सेकंद',
  fam:'कुटुंबीय',ev:'विवाह कार्यक्रम',evs:'प्रत्येक समारंभात आपले स्वागत आहे',ven:'ठिकाण',map:'Google Maps वर उघडा',rsvp:'उपस्थिती कळवा',rs:'आपण येणार का, कृपया कळवा',
  nm:'तुमचे नाव',gs:'व्यक्ती',yes:'आनंदाने येणार',no:'येऊ शकत नाही',ms:'शुभेच्छा संदेश (ऐच्छिक)',send:'WhatsApp वर कळवा',
  cal:'कॅलेंडरमध्ये जोडा',gc:'Google Calendar',share:'WhatsApp वर शेअर करा',dear:'प्रिय',wel:'आपले हार्दिक स्वागत',done:'विवाह संपन्न झाला! आपल्या आशीर्वादाबद्दल धन्यवाद.',
- foot:'प्रेम आणि आशीर्वादांसह',wait:'RSVP साठी Customize मध्ये WhatsApp नंबर टाका.',cp:'लिंक कॉपी झाली! WhatsApp वर शेअर करा.',one:'१ व्यक्ती',many:' व्यक्ती',pm:'नकाशा येथे पहा',dir:'मार्ग दाखवा',nomap:'येथे नकाशा दिसत नाही. कृपया Google Maps वर उघडा.'}};
+ foot:'प्रेम आणि आशीर्वादांसह',wait:'RSVP साठी Customize मध्ये WhatsApp नंबर टाका.',cp:'लिंक कॉपी झाली! WhatsApp वर शेअर करा.',one:'१ व्यक्ती',many:' व्यक्ती',pm:'नकाशा येथे पहा',dir:'मार्ग दाखवा',nomap:'येथे नकाशा दिसत नाही. कृपया Google Maps वर उघडा.'},hi:{"dl":"निमंत्रण कार्ड सहेजें","pdf":"PDF डाउनलोड करें","img":"इमेज (JPG) डाउनलोड करें","fm":"सप्रेम आमंत्रक","prog": "कार्यक्रम", "progSub": "हर पल में आपका स्वागत है", "ven": "स्थान", "map": "Google Maps में खोलें", "dir": "रास्ता देखें", "pm": "नक्शा यहीं देखें", "nomap": "यहाँ नक्शा नहीं दिख रहा। कृपया Google Maps में खोलें।", "d": "दिन", "h": "घंटे", "m": "मिनट", "s": "सेकंड", "rsvp": "उपस्थिति बताएं", "rs": "कृपया बताएं कि आप आ पाएंगे या नहीं", "nm": "आपका नाम", "gs": "व्यक्ति", "yes": "खुशी से आएंगे", "no": "नहीं आ पाएंगे", "ms": "आपकी शुभकामनाएं (वैकल्पिक)", "send": "WhatsApp पर भेजें", "cal": "कैलेंडर में जोड़ें", "gc": "Google Calendar", "share": "WhatsApp पर शेयर करें", "dear": "प्रिय", "wel": "आपका हार्दिक स्वागत है", "done": "विवाह संपन्न हुआ! आपके आशीर्वाद के लिए धन्यवाद।", "foot": "प्रेम और आशीर्वाद सहित", "wait": "RSVP पाने के लिए Customize में WhatsApp नंबर डालें।", "cp": "लिंक कॉपी हो गया! WhatsApp पर शेयर करें।", "hostp": "आयोजक", "ev": "विवाह कार्यक्रम", "top": "अपने परिवारजनों सहित", "inv": "इनके शुभ विवाह समारोह में आप सपरिवार पधारकर वर-वधू को आशीर्वाद दें, यही विनम्र निवेदन है", "fam": "परिवार", "evs": "हर समारोह में आपका स्वागत है"},te:{"dl":"ఆహ్వాన పత్రిక సేవ్ చేయండి","pdf":"PDF డౌన్‌లోడ్","img":"ఇమేజ్ (JPG) డౌన్‌లోడ్","fm":"ప్రేమతో ఆహ్వానించువారు","prog": "కార్యక్రమం", "progSub": "ప్రతి క్షణంలో మీకు స్వాగతం", "ven": "వేదిక", "map": "Google Maps లో తెరవండి", "dir": "దారి చూడండి", "pm": "మ్యాప్ ఇక్కడే చూడండి", "nomap": "ఇక్కడ మ్యాప్ కనిపించడం లేదు. దయచేసి Google Maps లో తెరవండి.", "d": "రోజులు", "h": "గంటలు", "m": "నిమిషాలు", "s": "సెకన్లు", "rsvp": "హాజరు తెలపండి", "rs": "మీరు రాగలరో లేదో దయచేసి తెలపండి", "nm": "మీ పేరు", "gs": "వ్యక్తులు", "yes": "సంతోషంగా వస్తాము", "no": "రాలేము", "ms": "మీ శుభాకాంక్షలు (ఐచ్ఛికం)", "send": "WhatsApp లో పంపండి", "cal": "క్యాలెండర్‌లో జోడించండి", "gc": "Google Calendar", "share": "WhatsApp లో షేర్ చేయండి", "dear": "ప్రియమైన", "wel": "మీకు హృదయపూర్వక స్వాగతం", "done": "వివాహం జరిగింది! మీ ఆశీస్సులకు ధన్యవాదాలు.", "foot": "ప్రేమ, ఆశీస్సులతో", "wait": "RSVP కోసం Customize లో WhatsApp నంబర్ ఇవ్వండి.", "cp": "లింక్ కాపీ అయింది! WhatsApp లో షేర్ చేయండి.", "hostp": "ఆతిథ్యం", "ev": "వివాహ కార్యక్రమాలు", "top": "తమ కుటుంబ సభ్యులతో కలిసి", "inv": "ఈ శుభ వివాహ వేడుకకు మీరు కుటుంబ సమేతంగా విచ్చేసి వధూవరులను ఆశీర్వదించవలసినదిగా మనవి", "fam": "కుటుంబాలు", "evs": "ప్రతి వేడుకలో మీకు స్వాగతం"}};
 let cfg=Object.assign({},D),lang='en';
 const q=new URLSearchParams(location.search),guest=q.get('guest')||'';
-try{const d=q.get('d');if(d)Object.assign(cfg,JSON.parse(decodeURIComponent(escape(atob(d.replace(/-/g,'+').replace(/_/g,'/'))))))}catch(e){}
-if(q.get('lang')==='mr')lang='mr';
+try{const d=q.get('d');if(d){const o=JSON.parse(decodeURIComponent(escape(atob(d.replace(/-/g,'+').replace(/_/g,'/')))));if(!('fam' in o))o.fam='';Object.assign(cfg,o)}}catch(e){}
+if(['mr','hi','te'].indexOf(q.get('lang'))>-1)lang=q.get('lang');
 const $=id=>document.getElementById(id);
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const p2=n=>('0'+n).slice(-2);
-const loc=()=>lang==='mr'?'mr-IN':'en-IN';
+const p2=n=>n<10?'0'+n:''+n;
+const loc=()=>({mr:'mr-IN',hi:'hi-IN',te:'te-IN'}[lang]||'en-IN');
 const fmt=(s,o)=>{const x=new Date(s);return isNaN(x)?esc(s):x.toLocaleString(loc(),o)};
 const DO={weekday:'long',day:'numeric',month:'long',year:'numeric'},TO={hour:'numeric',minute:'2-digit'};
 const mapQ=()=>encodeURIComponent(cfg.venue+' '+cfg.addr);
@@ -157,7 +162,7 @@ mr:{t:'या मोफत लग्न पत्रिका टूलबद्
  c:'✎ माझी पत्रिका बनवा'}};
 function info(){
  if(q.get('d')&&!q.has('edit'))return '';
- const i=I[lang];
+ const i=I[lang]||I.en;
  return '<section class="info"><div class="sec"><h2>'+i.t+'</h2><p class="sub">'+i.sub+'</p>'+
  '<h3>'+i.h+'</h3><ol class="how">'+i.st.map(x=>'<li>'+x+'</li>').join('')+'</ol>'+
  '<div class="row" style="margin-top:18px"><button class="btn b1" onclick="openEd()">'+i.c+'</button></div>'+
@@ -169,7 +174,7 @@ function info(){
 function render(){
  const t=T[lang],ev=cfg.ev.split('\n').map(l=>l.split('|').map(x=>x.trim())).filter(a=>a[0]);
  document.documentElement.lang=lang;document.title=cfg.groom+' & '+cfg.bride+' – Wedding Invitation';
- $('bEn').className=lang==='en'?'on':'';$('bMr').className=lang==='mr'?'on':'';
+ $('lg').value=lang;
  let pet='';for(let i=0;i<14;i++)pet+='<span class="pet" style="left:'+(Math.random()*100)+'%;font-size:'+(12+Math.random()*14)+'px;animation-duration:'+(8+Math.random()*10)+'s;animation-delay:-'+(Math.random()*12)+'s">✿</span>';
  $('app').innerHTML=
  '<section class="hero">'+pet+
@@ -184,7 +189,7 @@ function render(){
 
  '<section class="sec rv"><h2>'+t.fam+'</h2><div class="fam"><div><b>'+esc(cfg.groom)+'</b><span>'+esc(cfg.f1)+'</span></div><div><b>'+esc(cfg.bride)+'</b><span>'+esc(cfg.f2)+'</span></div></div></section>'+
 
- '<section class="sec rv" id="events"><h2>'+t.ev+'</h2><p class="sub">'+t.evs+'</p><div class="tl">'+
+ famH(t)+'<section class="sec rv" id="events"><h2>'+t.ev+'</h2><p class="sub">'+t.evs+'</p><div class="tl">'+
  ev.map(a=>'<div class="ev"><h3>'+esc(a[0])+'</h3><p class="t">'+fmt(a[1],DO)+' · '+fmt(a[1],TO)+'</p><p>'+esc(a[2]||'')+'</p></div>').join('')+'</div></section>'+
 
  '<section class="sec rv" id="venue"><h2>'+t.ven+'</h2><div class="vc"><h3>'+esc(cfg.venue)+'</h3><p>'+esc(cfg.addr)+'</p><div class="row" style="margin-top:14px"><a class="btn b1" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query='+mapQ()+'">📍 '+t.map+'</a><a class="btn b2" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination='+mapQ()+'">🧭 '+t.dir+'</a></div></div>'+
@@ -198,7 +203,7 @@ function render(){
  '<button class="btn b3" type="submit">'+t.send+'</button></form>'+
  '<div class="row" style="margin-top:18px"><button class="btn b2" onclick="shareWA()">'+t.share+'</button></div></section>'+
 
- info()+'<footer class="foot"><b>'+esc(cfg.groom)+' &amp; '+esc(cfg.bride)+'</b>'+t.foot+' ♥</footer>';
+ '<section class="sec rv"><h2>'+t.dl+'</h2><div class="row"><button class="btn b1" onclick="dlPdf()">📄 '+t.pdf+'</button><button class="btn b2" onclick="dlImg()">🖼️ '+t.img+'</button></div></section>'+info()+'<footer class="foot"><b>'+esc(cfg.groom)+' &amp; '+esc(cfg.bride)+'</b>'+t.foot+' ♥</footer>';
  tick();document.querySelectorAll('.rv').forEach(e=>io.observe(e));
 }
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.12});
@@ -240,21 +245,78 @@ function rsvp(e){
 function shareWA(){window.open('https://wa.me/?text='+encodeURIComponent(cfg.groom+' & '+cfg.bride+' – Wedding Invitation\n'+location.href),'_blank')}
 
 // editor
-const F=['groom','bride','f1','f2','dt','wa','venue','addr','ev','msg'];
+const F=['groom','bride','f1','f2','dt','wa','venue','addr','ev','msg','fam'];
 function openEd(){F.forEach(k=>$('e_'+k).value=cfg[k]||'');$('e_guest').value=guest;$('ed').classList.add('show')}
 function closeEd(){$('ed').classList.remove('show')}
-function applyEd(){F.forEach(k=>{const v=$('e_'+k).value.trim();if(v||k==='msg'||k==='wa')cfg[k]=v});render();closeEd();window.scrollTo(0,0)}
+function applyEd(){F.forEach(k=>{const v=$('e_'+k).value.trim();if(v||k==='msg'||k==='wa'||k==='fam')cfg[k]=v});render();closeEd();window.scrollTo(0,0)}
 function link(){
- F.forEach(k=>{const v=$('e_'+k).value.trim();if(v||k==='msg'||k==='wa')cfg[k]=v});
+ F.forEach(k=>{const v=$('e_'+k).value.trim();if(v||k==='msg'||k==='wa'||k==='fam')cfg[k]=v});
  const b=btoa(unescape(encodeURIComponent(JSON.stringify(cfg)))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
  const g=$('e_guest').value.trim();
- return location.origin.replace('null','')+location.pathname+'?d='+b+(g?'&guest='+encodeURIComponent(g):'')+(lang==='mr'?'&lang=mr':'');
+ return location.origin.replace('null','')+location.pathname+'?d='+b+(g?'&guest='+encodeURIComponent(g):'')+(lang!=='en'?'&lang='+lang:'');
 }
 function copyLink(){
  const u=link(),t=T[lang];
  (navigator.clipboard?navigator.clipboard.writeText(u):Promise.reject()).then(()=>alert(t.cp)).catch(()=>prompt('Copy this link:',u));
 }
 if(!q.get('d')||q.has('edit'))$('bEd').style.display='';
+// ===== family members + card download (PDF / JPG) =====
+const FS="'Playfair Display','Noto Serif Devanagari','Noto Serif Telugu',serif",FSC="'Great Vibes','Noto Serif Devanagari','Noto Serif Telugu',cursive",FP="'Poppins','Noto Serif Devanagari','Noto Serif Telugu',sans-serif";
+const LOCALE=()=>({mr:'mr-IN',hi:'hi-IN',te:'te-IN'}[lang]||'en-IN');
+const fr=(s,o)=>{const x=new Date(s);return isNaN(x)?String(s):x.toLocaleString(LOCALE(),o)};
+const famList=()=>(cfg.fam||'').split('\n').map(l=>l.split('|').map(x=>x.trim())).filter(a=>a[0]);
+function famH(t){const f=famList();return f.length?'<section class="sec rv"><h2>'+t.fm+'</h2><div class="fmg">'+f.map(a=>'<div><b>'+esc(a[0])+'</b>'+(a[1]?'<span>'+esc(a[1])+'</span>':'')+'</div>').join('')+'</div></section>':''}
+function wrapT(ctx,t,mw){const out=[];String(t).split('\n').forEach(par=>{let line='';par.split(' ').forEach(w=>{const tt=line?line+' '+w:w;if(ctx.measureText(tt).width>mw&&line){out.push(line);line=w}else line=tt});out.push(line)});return out}
+function rr(c,x,y,w,h,r){c.beginPath();c.moveTo(x+r,y);c.arcTo(x+w,y,x+w,y+h,r);c.arcTo(x+w,y+h,x,y+h,r);c.arcTo(x,y+h,x,y,r);c.arcTo(x,y,x+w,y,r);c.closePath()}
+async function cardCanvas(){
+ try{await Promise.all(['700 40px "Playfair Display"','400 40px "Great Vibes"','500 40px "Noto Serif Devanagari"','500 40px "Noto Serif Telugu"','400 30px Poppins'].map(f=>document.fonts.load(f,'Aaआఅ')))}catch(e){}
+ const W=1080,P=96,mw=W-2*P-40,cs=getComputedStyle(document.documentElement),col=n=>cs.getPropertyValue('--'+n).trim();
+ const items=cardItems(),cv=document.createElement('canvas'),ctx=cv.getContext('2d'),font=i=>i.w+' '+i.s+'px '+i.fam;
+ items.forEach(i=>{i.s0=i.s;if(i.fit){ctx.font=font(i);while(i.s>48&&wrapT(ctx,i.t,mw).some(l=>ctx.measureText(l).width>mw)){i.s-=4;ctx.font=font(i)}}});
+ const pass=draw=>{let y=P+70;items.forEach(i=>{ctx.font=font(i);ctx.fillStyle=i.c;ctx.textAlign='center';ctx.textBaseline='alphabetic';const lh=i.lh*i.s/i.s0;wrapT(ctx,i.t,mw).forEach(l=>{y+=lh;if(draw)ctx.fillText(l,W/2,y-lh*.22)});y+=i.gap});return y+P};
+ const H=Math.max(1528,Math.round(pass(false)));cv.width=W;cv.height=H;
+ const gr=ctx.createLinearGradient(0,0,W*.3,H);gr.addColorStop(0,col('m')||'#7a1230');gr.addColorStop(1,col('r')||'#b3123a');ctx.fillStyle=gr;ctx.fillRect(0,0,W,H);
+ ctx.strokeStyle=col('g')||'#d4a017';ctx.lineWidth=6;rr(ctx,36,36,W-72,H-72,44);ctx.stroke();ctx.lineWidth=2;ctx.globalAlpha=.6;rr(ctx,56,56,W-112,H-112,32);ctx.stroke();ctx.globalAlpha=1;
+ pass(true);return cv;
+}
+function pdfFromJpeg(dataUrl,w,h){
+ const bin=atob(dataUrl.split(',')[1]),img=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)img[i]=bin.charCodeAt(i);
+ const PW=420,PH=Math.round(420*h/w),enc=new TextEncoder(),parts=[],offs=[];let len=0;
+ const push=u=>{parts.push(u);len+=u.length},str=s=>push(enc.encode(s)),obj=(n,b)=>{offs[n]=len;str(n+' 0 obj\n'+b+'\nendobj\n')};
+ str('%PDF-1.4\n');
+ obj(1,'<</Type/Catalog/Pages 2 0 R>>');obj(2,'<</Type/Pages/Kids[3 0 R]/Count 1>>');
+ obj(3,'<</Type/Page/Parent 2 0 R/MediaBox[0 0 '+PW+' '+PH+']/Resources<</XObject<</Im0 4 0 R>>>>/Contents 5 0 R>>');
+ offs[4]=len;str('4 0 obj\n<</Type/XObject/Subtype/Image/Width '+w+'/Height '+h+'/ColorSpace/DeviceRGB/BitsPerComponent 8/Filter/DCTDecode/Length '+img.length+'>>\nstream\n');push(img);str('\nendstream\nendobj\n');
+ const c='q '+PW+' 0 0 '+PH+' 0 0 cm /Im0 Do Q';obj(5,'<</Length '+c.length+'>>\nstream\n'+c+'\nendstream');
+ const x=len;str('xref\n0 6\n0000000000 65535 f \n');for(let n=1;n<=5;n++)str(String(offs[n]).padStart(10,'0')+' 00000 n \n');
+ str('trailer\n<</Size 6/Root 1 0 R>>\nstartxref\n'+x+'\n%%EOF');
+ return new Blob(parts,{type:'application/pdf'});
+}
+function save(href,name){const a=document.createElement('a');a.href=href;a.download=name;document.body.appendChild(a);a.click();a.remove()}
+async function dlImg(){const cv=await cardCanvas();save(cv.toDataURL('image/jpeg',.92),'invitation-card.jpg')}
+async function dlPdf(){const cv=await cardCanvas();save(URL.createObjectURL(pdfFromJpeg(cv.toDataURL('image/jpeg',.92),cv.width,cv.height)),'invitation-card.pdf')}
+function famItems(it,t,g,w){const f=famList().slice(0,10);if(f.length){it.push({t:t.fm,s:32,w:700,fam:FS,c:g,lh:50,gap:4});f.forEach(a=>it.push({t:a[0]+(a[1]?' ('+a[1]+')':''),s:27,w:500,fam:FP,c:w,lh:40,gap:2}));it[it.length-1].gap=22}}
+function cardItems(){
+ const t=T[lang],g='#ffe9b0',w='#ffffff',it=[],ev=(cfg.ev||'').split('\n').map(l=>l.split('|').map(x=>x.trim())).filter(a=>a[0]).slice(0,6);
+ it.push({t:'|| श्री गणेशाय नमः ||',s:34,w:700,fam:FS,c:g,lh:50,gap:20});
+ it.push({t:t.top,s:30,w:500,fam:FS,c:w,lh:44,gap:4});
+ it.push({t:t.inv,s:30,w:500,fam:FS,c:w,lh:44,gap:18});
+ it.push({t:cfg.groom,s:120,w:400,fam:FSC,c:g,lh:140,gap:0,fit:1});
+ it.push({t:'&',s:46,w:700,fam:FS,c:g,lh:60,gap:0});
+ it.push({t:cfg.bride,s:120,w:400,fam:FSC,c:g,lh:140,gap:10,fit:1});
+ if(cfg.f1)it.push({t:cfg.groom+': '+cfg.f1,s:26,w:500,fam:FP,c:w,lh:38,gap:2});
+ if(cfg.f2)it.push({t:cfg.bride+': '+cfg.f2,s:26,w:500,fam:FP,c:w,lh:38,gap:18});
+ it.push({t:'❀',s:40,w:400,fam:FS,c:g,lh:70,gap:6});
+ it.push({t:fr(cfg.dt,DO),s:44,w:700,fam:FS,c:g,lh:60,gap:0});
+ it.push({t:fr(cfg.dt,TO),s:36,w:500,fam:FS,c:w,lh:52,gap:22});
+ it.push({t:cfg.venue,s:40,w:700,fam:FS,c:w,lh:56,gap:0});
+ it.push({t:cfg.addr,s:28,w:400,fam:FP,c:w,lh:42,gap:24});
+ if(ev.length){it.push({t:t.ev,s:34,w:700,fam:FS,c:g,lh:52,gap:4});ev.forEach(a=>it.push({t:a[0]+' · '+fr(a[1],{day:'numeric',month:'short'})+', '+fr(a[1],TO)+(a[2]?' · '+a[2]:''),s:26,w:500,fam:FP,c:w,lh:38,gap:2}));it[it.length-1].gap=22}
+ famItems(it,t,g,w);
+ if(cfg.msg)it.push({t:cfg.msg,s:28,w:500,fam:FS,c:w,lh:42,gap:18});
+ it.push({t:'Made with Toolvala.in',s:22,w:400,fam:FP,c:'rgba(255,255,255,.65)',lh:34,gap:0});
+ return it;
+}
 render();
 </script>
 </body>
